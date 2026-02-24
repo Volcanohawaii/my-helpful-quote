@@ -8,6 +8,7 @@
     <style>
         :root {
             --pink: #FF9A9E; --lavender: #D8B4FE; --lemon: #FFF7AD; --text: #4A3B52;
+            --gold: #FFD700;
         }
 
         body {
@@ -17,13 +18,20 @@
             background-attachment: fixed;
         }
 
-        /* 배경 장식 */
+        /* 배경 장식 (비눗방울 & 반짝이) */
         .bg-deco { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; }
         .bubble { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.4); animation: float 10s infinite ease-in-out; filter: blur(8px); }
         @keyframes float { 0%, 100% { transform: translateY(0) translateX(0); } 50% { transform: translateY(-100px) translateX(50px); } }
+        
+        body::after {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(circle, #fff 10%, transparent 10%), radial-gradient(circle, #fff 10%, transparent 10%);
+            background-size: 80px 80px, 120px 120px; background-position: 0 0, 40px 40px; z-index: -1; opacity: 0.3; animation: sparkle 3s infinite alternate;
+        }
+        @keyframes sparkle { from { opacity: 0.1; } to { opacity: 0.4; } }
 
         .card {
-            width: 88%; max-width: 400px; background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(15px);
+            width: 88%; max-width: 420px; background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(15px);
             padding: 40px 20px; border-radius: 50px; text-align: center;
             box-shadow: 0 20px 60px rgba(115, 103, 240, 0.3); border: 5px solid rgba(255, 255, 255, 0.8);
             position: relative; margin: 20px 0;
@@ -47,37 +55,50 @@
         }
         .btn-main:hover { transform: translateY(-5px); filter: brightness(1.1); }
 
+        /* 로딩창 스타일 */
+        #loadingOverlay { display: none; margin-top: 30px; text-align: center; }
+        .magic-loader { font-size: 3.5rem; animation: rotateMagic 2s infinite linear; display: inline-block; filter: drop-shadow(0 0 10px var(--lavender)); }
+        @keyframes rotateMagic { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .loading-text { font-family: 'Gaegu', cursive; font-size: 1.3rem; color: #FF007A; margin-top: 15px; }
+
         /* 결과창 스타일 */
         #result { margin-top: 30px; display: none; animation: bounceIn 0.8s ease; }
         @keyframes bounceIn { 0% { opacity: 0; transform: scale(0.5); } 100% { opacity: 1; transform: scale(1); } }
 
         .prescription-block {
-            background: white; border-radius: 25px; padding: 20px; margin-bottom: 20px;
-            border: 2px solid #F3E5F5; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            background: white; border-radius: 25px; padding: 20px; margin-bottom: 25px;
+            border: 2px solid #F3E5F5; box-shadow: 0 8px 20px rgba(0,0,0,0.05);
         }
-        .block-title { font-family: 'Gaegu', cursive; font-size: 1.3rem; color: #FF007A; margin-bottom: 10px; font-weight: bold; }
+        .block-title { font-family: 'Gaegu', cursive; font-size: 1.4rem; color: #FF007A; margin-bottom: 10px; font-weight: bold; }
 
-        /* 타로 카드 스타일 */
+        /* 타로 카드 스타일 (가시성 대폭 강화) */
         .tarot-card {
-            width: 80px; height: 120px; background: linear-gradient(135deg, #6e48aa, #9d50bb);
-            margin: 10px auto; border-radius: 10px; border: 3px solid #fff;
-            display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 0.8rem; font-weight: bold; flex-direction: column;
-            box-shadow: 0 5px 15px rgba(110, 72, 170, 0.4);
-            animation: flip 0.6s ease;
+            width: 110px; height: 165px; margin: 15px auto; border-radius: 12px;
+            border: 4px solid var(--gold); display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 0.9rem; font-weight: bold; flex-direction: column;
+            box-shadow: 0 12px 25px rgba(0,0,0,0.2); position: relative; overflow: hidden;
+            animation: flipCard 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        @keyframes flip { from { transform: rotateY(180deg); } to { transform: rotateY(0); } }
-        .tarot-name { font-size: 0.7rem; margin-top: 5px; opacity: 0.9; }
+        @keyframes flipCard { 0% { transform: rotateY(180deg) scale(0.5); opacity: 0; } 100% { transform: rotateY(0) scale(1); opacity: 1; } }
+        
+        .tarot-main-icon { font-size: 3rem; margin-bottom: 10px; filter: drop-shadow(0 0 8px rgba(255,255,255,0.6)); }
+        .tarot-name { font-size: 0.8rem; background: rgba(0,0,0,0.2); padding: 2px 8px; border-radius: 5px; }
 
-        .content-text { font-family: 'Gaegu', cursive; font-size: 1.4rem; line-height: 1.4; color: #2D3436; margin: 10px 0; }
-        .author-text { font-size: 0.9rem; color: #9D50BB; font-weight: bold; }
+        .content-text { font-family: 'Gaegu', cursive; font-size: 1.6rem; line-height: 1.4; color: #2D3436; margin: 10px 0; word-break: keep-all; }
+        .author-text { font-size: 1rem; color: #9D50BB; font-weight: bold; margin-bottom: 10px; }
+        
+        .interpretation-box {
+            font-size: 0.85rem; background: #FFF9FA; padding: 12px; border-radius: 15px; color: #666;
+            border: 1px dashed var(--pink); margin-top: 10px; line-height: 1.5;
+        }
 
         .btn-share {
-            background: #F3E5F5; color: #9D50BB; border: none; padding: 12px 25px; border-radius: 25px;
-            font-size: 0.95rem; cursor: pointer; font-family: 'Gaegu', cursive; transition: 0.3s;
+            background: #F3E5F5; color: #9D50BB; border: none; padding: 15px 30px; border-radius: 30px;
+            font-size: 1.1rem; cursor: pointer; font-family: 'Gaegu', cursive; transition: 0.3s; width: 100%;
         }
+        .btn-share:hover { background: var(--lavender); color: #fff; }
 
-        footer { font-size: 0.8rem; color: #FFF; font-family: 'Gaegu', cursive; margin-top: 20px; }
+        footer { font-size: 0.85rem; color: #FFF; font-family: 'Gaegu', cursive; margin-top: 20px; opacity: 0.9; }
     </style>
 </head>
 <body>
@@ -85,6 +106,7 @@
 <div class="bg-deco">
     <div class="bubble" style="width: 80px; height: 80px; left: 10%; top: 20%;"></div>
     <div class="bubble" style="width: 120px; height: 120px; left: 80%; top: 10%;"></div>
+    <div class="bubble" style="width: 60px; height: 60px; left: 40%; top: 80%;"></div>
 </div>
 
 <div class="card">
@@ -92,28 +114,42 @@
     <p class="desc">타로카드로 랜덤 처방을 내려드립니다.</p>
     
     <input type="text" id="worryInput" maxlength="15" placeholder="고민을 살포시 적어보세요">
-    <div style="font-size: 0.85rem; color: #9D50BB; margin-top: 10px; font-family: 'Gaegu', cursive;">🍭 카드가 당신의 운명을 읽고 있어요!</div>
     
     <button class="btn-main" onclick="getAdvice()">처방전 열어보기 💌</button>
+
+    <div id="loadingOverlay">
+        <div class="magic-loader">🔮</div>
+        <div class="loading-text" id="loadingMessage">운명의 기운을 읽는 중...</div>
+    </div>
 
     <div id="result">
         <div class="prescription-block">
             <div class="block-title">✨ 명언처방 ✨</div>
-            <div id="tarot1" class="tarot-card">🃏<div class="tarot-name"></div></div>
+            <div id="tarot1" class="tarot-card">
+                <div class="tarot-main-icon">🔮</div>
+                <div class="tarot-name"></div>
+            </div>
             <div class="content-text" id="quoteText"></div>
             <div class="author-text" id="authorText"></div>
         </div>
 
         <div class="prescription-block">
             <div class="block-title">🏃 행동처방 🏃</div>
-            <div id="tarot2" class="tarot-card">🃏<div class="tarot-name"></div></div>
-            <div class="content-text" style="font-size: 1.2rem; font-weight: bold;" id="actionText"></div>
+            <div id="tarot2" class="tarot-card">
+                <div class="tarot-main-icon">🔮</div>
+                <div class="tarot-name"></div>
+            </div>
+            <div class="content-text" style="font-weight: bold;" id="actionText"></div>
         </div>
 
         <div class="prescription-block" style="border-color: #FFB7B2;">
             <div class="block-title" style="color: #FF5252;">⚠️ 부작용주의 ⚠️</div>
-            <div id="tarot3" class="tarot-card" style="background: linear-gradient(135deg, #ff5252, #ffb7b2);">🃏<div class="tarot-name"></div></div>
-            <div class="content-text" style="font-size: 1.1rem; color: #FF5252;" id="sideEffectText"></div>
+            <div id="tarot3" class="tarot-card">
+                <div class="tarot-main-icon">🔮</div>
+                <div class="tarot-name"></div>
+            </div>
+            <div class="content-text" id="sideEffectText"></div>
+            <div class="interpretation-box" id="tarotInterpretation"></div>
         </div>
 
         <button class="btn-share" onclick="shareResult()">이 처방을 공유하기 🎁</button>
@@ -124,86 +160,104 @@
 
 <script src="quotes.js"></script>
 <script>
-    const tarotCards = [
-        "The Fool", "The Magician", "The High Priestess", "The Empress", "The Emperor", 
-        "The Hierophant", "The Lovers", "The Chariot", "Strength", "The Hermit", 
-        "Wheel of Fortune", "Justice", "The Hanged Man", "Death", "Temperance", 
-        "The Devil", "The Tower", "The Star", "The Moon", "The Sun", "Judgement", "The World"
+    // 파스텔 그라데이션 팔레트
+    const pastelGradients = [
+        "linear-gradient(135deg, #FFB7B2, #FFDAC1)", 
+        "linear-gradient(135deg, #B2CEFE, #E2F0CB)", 
+        "linear-gradient(135deg, #D8B4FE, #FBC7D4)", 
+        "linear-gradient(135deg, #FFF7AD, #FFD1FF)", 
+        "linear-gradient(135deg, #A0E7E5, #B4F8C8)"
     ];
 
-    const recommendations = [
-        "지나가는 비둘기와 눈싸움하기 🐦", "거울 속의 나와 하이파이브 하기 ✋", "모든 대답에 '기분 탓인가?' 붙이기 🤔",
-        "냉장고 문 열고 내 미래 묻기 🧊", "무중력 상태인 척 걷기 👨‍🚀", "양치하며 윙크 발사하기 😉",
-        "고양이에게 전생 이야기하기 🐱", "일어나자마자 '호우!' 외치기 ⚽", "가장 화려한 껌 사기 🍬",
-        "엉덩이로 본인 이름 쓰기 🍑", "무반주 아기상어 춤추기 🦈", "침대에서 수영 연습하기 🏊",
-        "벽이랑 가위바위보 해서 이기기 ✌️", "오늘만 스스로를 '전하'라고 부르기 👑", "양말 한 짝만 신고 돌아다니기 🧦"
-    ]; // (더 많이 추가 가능)
-
-    const sideEffects = [
-        "갑자기 떡볶이가 미치게 먹고 싶어짐 🍢", "말끝마다 '용~'을 붙이게 됨 🐉", "전생에 돌덩이였다는 확신이 듦 🪨",
-        "왼쪽 콧구멍만 살짝 간지러울 수 있음 👃", "꿈에 박명수 님이 나와 호통칠 수 있음 🎤", "3초간 숨 쉬는 법을 까먹음 💨",
-        "거울 속 내가 너무 눈부셔 선글라스 찾게 됨 😎", "양말 한 짝이 세탁기 속으로 영원히 실종됨 🧦", "갑자기 전생에 나라를 구한 기분이 듦 ⚔️",
-        "모든 노래 가사가 내 이야기처럼 들림 🎧", "갑자기 윙크가 멈추지 않을 수 있음 😉", "길 가다 낯선 사람에게 인사하고 싶어짐 👋",
-        "머리카락 한 가닥이 안테나처럼 솟아오름 📡", "갑자기 본인이 천재라는 착각에 빠짐 🎓", "냉장고 조명 아래서 셀카 찍고 싶어짐 📸",
-        "갑자기 엉덩이가 실룩거리는 현상 발생 🍑", "지나가는 강아지가 나에게 말을 거는 환청 🐶", "오늘 밤 베개가 평소보다 3도 높게 느껴짐 🛌",
-        "갑자기 '무궁화 꽃이 피었습니다'를 하고 싶어짐 🌸", "자신도 모르게 '나는 참 멋져'라고 중얼거림 🗣️",
-        "이 처방전을 읽고 갑자기 춤추고 싶어짐 💃", "지갑 속 만 원짜리가 세종대왕님 윙크로 보임 😉", "갑자기 우주인과 통신을 시도하게 됨 👽",
-        "내일 아침 알람 소리가 감미롭게 들림 ⏰", "갑자기 횡단보도를 모델처럼 걷게 됨 👠", "손가락 하트가 자동으로 발사됨 🫰",
-        "세상 모든 고양이들이 나를 따르는 착각 🐈", "갑자기 탕수육 '찍먹'에서 '부먹'으로 바뀜 🥢", "오늘 하루만 모든 음식이 0칼로리로 느껴짐 🍕",
-        "갑자기 비눗방울을 불고 싶어 미칠 것 같음 🫧", "꿈에서 유재석 님과 메뚜기 춤을 춤 🦗", "갑자기 핸드폰 배경화면을 치킨으로 바꿈 🍗",
-        "머릿속에서 계속 동요 '산토끼'가 반복 재생됨 🐰", "갑자기 양손으로 턱괴고 예쁜 척하게 됨 😊", "길 가다 떨어진 나뭇잎에게 말을 검 🍂",
-        "갑자기 윈드밀을 돌 수 있을 것 같은 자신감 🤸", "오늘따라 밥알 개수를 세고 싶어짐 🍚", "갑자기 '뿡' 소리가 음악처럼 들림 💨",
-        "자신이 마법사라는 사실을 깨닫게 됨 🧙", "갑자기 양치를 10분 동안 하고 싶어짐 🪥", "모든 사람이 나를 쳐다보는 스타병 발생 🌟",
-        "갑자기 펭귄처럼 걷고 싶어짐 🐧", "내일 점심 메뉴가 꿈에 선명하게 보임 🍱", "갑자기 귓속말로 '비밀이야'라고 하고 싶어짐 🤫",
-        "손바닥에 눈을 그리고 대화하고 싶어짐 ✋", "갑자기 본인이 전생에 고양이였다고 믿게 됨 🐱", "오늘따라 공기밥 추가를 외치고 싶어짐 🍚",
-        "갑자기 윙크하며 '나 예뻐?'라고 묻게 됨 ✨", "내 운명이 라벤더색으로 보이기 시작함 💜", "지금 바로 친구에게 사랑한다고 말하게 됨 💌"
+    const loadingMessages = [
+        "운명의 기운을 읽는 중...",
+        "카드를 정성껏 섞고 있어요...",
+        "당신의 고민에서 주파수를 찾는 중...",
+        "우주의 지혜를 빌려오는 중입니다...",
+        "잠시만요, 카드가 당신에게 속삭이고 있어요..."
     ];
 
     function getAdvice() {
-        const input = document.getElementById('worryInput').value;
+        const inputField = document.getElementById('worryInput');
+        const inputRaw = inputField.value;
+        const input = inputRaw.replace(/[^가-힣a-zA-Z0-9]/g, ""); 
+        
         if (!input) { alert("운명을 읽을 고민을 적어주세요! 💖"); return; }
 
-        const resultDiv = document.getElementById('result');
-        resultDiv.style.display = "block";
-
-        // 1. 카테고리 판별
-        let category = "기본";
-        for (let key in keywords) {
-            if (keywords[key].some(word => input.includes(word))) { category = key; break; }
-        }
-
-        // 2. 랜덤 요소 선택 (타로 3장 포함)
-        const selectedQuote = (quoteData[category] || quoteData["기본"])[Math.floor(Math.random() * (quoteData[category] || quoteData["기본"]).length)];
-        const randomAction = recommendations[Math.floor(Math.random() * recommendations.length)];
-        const randomSideEffect = sideEffects[Math.floor(Math.random() * sideEffects.length)];
+        // 화면 초기화
+        document.getElementById('result').style.display = "none";
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingText = document.getElementById('loadingMessage');
         
-        const card1 = tarotCards[Math.floor(Math.random() * tarotCards.length)];
-        const card2 = tarotCards[Math.floor(Math.random() * tarotCards.length)];
-        const card3 = tarotCards[Math.floor(Math.random() * tarotCards.length)];
+        loadingOverlay.style.display = "block";
+        loadingText.innerText = loadingMessages[Math.floor(Math.random() * loadingMessages.length)];
 
-        // 3. 화면 업데이트
-        // 명언처방
-        document.querySelector("#tarot1 .tarot-name").innerText = card1;
-        document.getElementById('quoteText').innerText = `"${selectedQuote.text}"`;
-        document.getElementById('authorText').innerText = `- ${selectedQuote.author} -`;
+        // [용함 포인트] 씨앗 생성 (동일 입력 = 동일 결과)
+        const seed = input.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
 
-        // 행동처방
-        document.querySelector("#tarot2 .tarot-name").innerText = card2;
-        document.getElementById('actionText').innerText = randomAction;
+        setTimeout(() => {
+            loadingOverlay.style.display = "none";
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = "block";
 
-        // 부작용주의
-        document.querySelector("#tarot3 .tarot-name").innerText = card3;
-        document.getElementById('sideEffectText').innerText = randomSideEffect;
+            // 카테고리 판별 (quotes.js의 keywords 사용)
+            let category = "기본";
+            for (let key in keywords) {
+                if (keywords[key].some(word => input.includes(word))) { category = key; break; }
+            }
 
-        setTimeout(() => { resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
+            // 데이터 선택 (seed 활용)
+            const quotes = quoteData[category] || quoteData["기본"];
+            const selectedQuote = quotes[seed % quotes.length];
+            const selectedAction = recommendations[seed % recommendations.length];
+            const selectedSideEffect = sideEffects[seed % sideEffects.length];
+            
+            // 타로 카드 3장 선택
+            const card1 = tarotCards[seed % 22];
+            const card2 = tarotCards[(seed + 7) % 22];
+            const card3 = tarotCards[(seed + 13) % 22];
+
+            // 색상 랜덤 섞기
+            const shuffledColors = [...pastelGradients].sort(() => (seed % 10 > 5 ? 1 : -1));
+
+            // 화면 업데이트 함수
+            function updateCard(id, name, color, icon) {
+                const cardElem = document.getElementById(id);
+                cardElem.style.background = color;
+                cardElem.querySelector(".tarot-name").innerText = name;
+                cardElem.querySelector(".tarot-main-icon").innerText = icon;
+            }
+
+            // 타로 아이콘 매핑 (quotes.js에 정의된 경우 사용 가능)
+            const getIcon = (name) => (typeof tarotIcons !== 'undefined' ? tarotIcons[name] : "🔮");
+
+            updateCard("tarot1", card1, shuffledColors[0], getIcon(card1));
+            document.getElementById('quoteText').innerHTML = `"${selectedQuote.text}"<br><small style="font-size:0.9rem; color:#9D50BB;">(당신의 ${category} 기운이 느껴집니다!)</small>`;
+            document.getElementById('authorText').innerText = `- ${selectedQuote.author} -`;
+
+            updateCard("tarot2", card2, shuffledColors[1], getIcon(card2));
+            document.getElementById('actionText').innerText = selectedAction;
+
+            updateCard("tarot3", card3, shuffledColors[2], getIcon(card3));
+            document.getElementById('sideEffectText').innerText = selectedSideEffect;
+            
+            // 타로 해석 추가
+            const interpretation = (typeof tarotInterpretations !== 'undefined') ? tarotInterpretations[card3] : "이 카드는 당신의 현재 상태를 조용히 비추고 있습니다.";
+            document.getElementById('tarotInterpretation').innerHTML = `🔮 <b>타로의 속삭임:</b><br>${interpretation}`;
+
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 2000);
     }
 
     function shareResult() {
-        const shareText = `[운명의 처방전] 오늘 나의 타로 처방:\n✨명언: ${document.getElementById('quoteText').innerText}\n🏃행동: ${document.getElementById('actionText').innerText}\n⚠️부작용: ${document.getElementById('sideEffectText').innerText}\n\n너의 운명도 확인해봐! 🔮\n${window.location.href}`;
+        const quote = document.getElementById('quoteText').innerText;
+        const action = document.getElementById('actionText').innerText;
+        const shareText = `[운명의 처방전] 나의 타로 결과:\n${quote}\n🏃행동: ${action}\n\n너의 운명도 확인해봐! 🔮\n${window.location.href}`;
         if (navigator.share) {
             navigator.share({ title: '운명의 처방전', text: shareText, url: window.location.href });
         } else {
-            alert("처방전이 복사되었습니다! 친구에게 보내보세요. 🎁");
+            const t = document.createElement("textarea"); document.body.appendChild(t); t.value = shareText; t.select(); document.execCommand("copy"); document.body.removeChild(t);
+            alert("처방전 내용이 복사되었습니다! 🎁");
         }
     }
 </script>
