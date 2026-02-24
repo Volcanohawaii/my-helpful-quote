@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>당신의 운명 처방전 💜 신비로운 보랏빛 조언</title>
+    <title>당신의 운명 처방전 💖 빛나는 마법 조언</title>
     <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gowun+Dodum&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* 연보라와 라벤더 중심의 배색 */
-            --lavender: #E0B0FF;
-            --deep-purple: #9D50BB;
-            --soft-violet: #E6E6FA;
-            --gold: #FFD700;
-            --text: #4A3B52;
+            --pink: #FF9A9E;
+            --hot-pink: #FF007A;
+            --orange: #FFC3A0;
+            --lemon: #FFF7AD;
+            --text: #5D4037;
         }
 
         body {
@@ -24,188 +23,115 @@
             min-height: 100vh;
             color: var(--text);
             overflow-x: hidden;
-            /* 신비로운 연보라 그라데이션 */
-            background: linear-gradient(135deg, #CE9FFC 0%, #7367F0 100%);
+            /* 1. 요청하신 핑크-오렌지-레몬 그라데이션 배경 */
+            background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 25%, #FFC3A0 60%, #FFF7AD 100%);
             background-attachment: fixed;
         }
 
-        /* 반짝이는 별가루 애니메이션 */
-        body::before {
-            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: radial-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.1) 1px, transparent 3px);
-            background-size: 60px 60px; z-index: -1; animation: twinkle 4s infinite alternate;
+        /* 2. 배경을 화려하게 만드는 둥둥 떠다니는 비눗방울(Bokeh) 효과 */
+        .bg-deco {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; overflow: hidden;
         }
-        @keyframes twinkle { from { opacity: 0.2; } to { opacity: 0.7; } }
+        .bubble {
+            position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.4);
+            animation: float 10s infinite ease-in-out; filter: blur(8px);
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-100px) translateX(50px); }
+        }
+
+        /* 3. 더 화려해진 반짝이 효과 */
+        body::after {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(circle, #fff 10%, transparent 10%),
+                radial-gradient(circle, #fff 10%, transparent 10%);
+            background-size: 80px 80px, 120px 120px;
+            background-position: 0 0, 40px 40px;
+            z-index: -1; opacity: 0.3; animation: sparkle 3s infinite alternate;
+        }
+        @keyframes sparkle { from { opacity: 0.1; } to { opacity: 0.4; } }
 
         .card {
-            width: 88%;
-            max-width: 380px;
-            background: rgba(255, 255, 255, 0.94);
-            backdrop-filter: blur(12px);
-            padding: 45px 25px;
-            border-radius: 50px;
-            text-align: center;
-            box-shadow: 0 25px 60px rgba(115, 103, 240, 0.4);
-            border: 4px solid #fff;
+            width: 88%; max-width: 380px;
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(15px);
+            padding: 45px 25px; border-radius: 50px; text-align: center;
+            box-shadow: 0 20px 60px rgba(255, 154, 158, 0.5);
+            border: 5px solid rgba(255, 255, 255, 0.8);
             position: relative;
         }
 
         h1 {
-            font-family: 'Gaegu', cursive;
-            font-size: 2.5rem;
-            margin: 0 0 10px 0;
-            /* 제목에 보랏빛 그라데이션 */
-            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 5px rgba(115, 103, 240, 0.2));
+            font-family: 'Gaegu', cursive; font-size: 2.6rem; margin: 0 0 10px 0;
+            /* 화려한 핑크-레몬 그라데이션 제목 */
+            background: linear-gradient(to right, #FF007A, #FF7D00);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(2px 2px 5px rgba(255, 0, 122, 0.2));
         }
 
-        .desc {
-            font-size: 1rem;
-            color: #7B68EE;
-            margin-bottom: 35px;
-            font-weight: bold;
-        }
+        .desc { font-size: 1rem; color: #FF6B6B; margin-bottom: 35px; font-weight: bold; }
 
         input {
-            width: 100%;
-            padding: 20px;
-            box-sizing: border-box;
-            border: 2px solid var(--soft-violet);
-            border-radius: 30px;
-            font-size: 1.1rem;
-            background: #F8F4FF;
-            transition: 0.3s;
-            outline: none;
-            text-align: center;
-            font-family: 'Gowun Dodum', sans-serif;
+            width: 100%; padding: 20px; box-sizing: border-box;
+            border: 3px solid #FFE0E0; border-radius: 30px;
+            font-size: 1.1rem; background: #FFF9F9; outline: none;
+            text-align: center; font-family: 'Gowun Dodum', sans-serif;
         }
+        input:focus { border-color: var(--pink); background: #fff; box-shadow: 0 0 20px rgba(255, 154, 158, 0.3); }
 
-        input:focus {
-            border-color: var(--lavender);
-            background: #fff;
-            box-shadow: 0 0 15px rgba(224, 176, 255, 0.4);
-        }
-
-        .spell-tip {
-            font-size: 0.85rem;
-            color: var(--deep-purple);
-            margin: 15px 0 30px 0;
-            font-family: 'Gaegu', cursive;
-            letter-spacing: 0.5px;
-        }
+        .spell-tip { font-size: 0.9rem; color: #FF8E53; margin: 15px 0 30px 0; font-family: 'Gaegu', cursive; font-weight: bold; }
 
         .btn-main {
-            width: 100%;
-            padding: 20px;
-            border: none;
-            border-radius: 30px;
-            /* 보라-블루 그라데이션 버튼 */
-            background: linear-gradient(45deg, #9D50BB, #6E48AA);
-            color: white;
-            font-size: 1.3rem;
-            font-family: 'Gaegu', cursive;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 10px 25px rgba(157, 80, 187, 0.4);
+            width: 100%; padding: 20px; border: none; border-radius: 30px;
+            /* 핑크-오렌지 그라데이션 버튼 */
+            background: linear-gradient(45deg, #FF9A9E, #FFC3A0);
+            color: white; font-size: 1.4rem; font-family: 'Gaegu', cursive; font-weight: 700;
+            cursor: pointer; transition: 0.4s; box-shadow: 0 10px 25px rgba(255, 154, 158, 0.4);
         }
-
-        .btn-main:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(157, 80, 187, 0.6);
-        }
+        .btn-main:hover { transform: translateY(-5px) rotate(-1deg); filter: brightness(1.1); }
 
         #result {
-            margin-top: 40px;
-            padding: 35px 20px;
-            background: #FFFEFD;
-            border-radius: 35px;
-            display: none;
-            border: 2px solid #F3E5F5;
-            position: relative;
-            box-shadow: inset 0 0 20px rgba(157, 80, 187, 0.05);
-            animation: magicShow 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-top: 40px; padding: 35px 20px; background: white; border-radius: 35px;
+            display: none; border: 3px dashed var(--pink); position: relative;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
+        @keyframes bounceIn { 0% { opacity: 0; transform: scale(0.3); } 100% { opacity: 1; transform: scale(1); } }
 
-        @keyframes magicShow {
-            0% { opacity: 0; transform: translateY(30px) scale(0.9); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        .category-icon {
-            font-size: 4.5rem;
-            margin-bottom: 15px;
-            display: block;
-            filter: drop-shadow(0 0 10px rgba(224, 176, 255, 0.5));
-        }
-
-        .category-tag {
-            display: inline-block;
-            padding: 6px 15px;
-            background: var(--soft-violet);
-            color: var(--deep-purple);
-            border-radius: 20px;
-            font-size: 0.95rem;
-            font-family: 'Gaegu', cursive;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .quote {
-            font-family: 'Gaegu', cursive;
-            font-size: 1.7rem;
-            line-height: 1.5;
-            color: #333;
-            margin-bottom: 25px;
-            word-break: keep-all;
-        }
-
-        .author {
-            font-size: 1rem;
-            color: #8A2BE2;
-            font-weight: bold;
-            margin-bottom: 30px;
-        }
+        .category-icon { font-size: 4.8rem; margin-bottom: 15px; display: block; filter: drop-shadow(0 5px 10px rgba(255, 154, 158, 0.3)); }
+        .category-tag { display: inline-block; padding: 6px 15px; background: var(--lemon); color: #B18D00; border-radius: 20px; font-size: 0.95rem; font-family: 'Gaegu', cursive; font-weight: bold; margin-bottom: 20px; }
+        .quote { font-family: 'Gaegu', cursive; font-size: 1.7rem; line-height: 1.5; color: #4A3B52; margin-bottom: 25px; word-break: keep-all; }
+        .author { font-size: 1rem; color: var(--pink); font-weight: bold; margin-bottom: 30px; }
 
         .btn-share {
-            background: #F3E5F5;
-            color: #9D50BB;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            font-family: 'Gaegu', cursive;
-            transition: 0.3s;
+            background: #FFF0F0; color: #FF9A9E; border: none; padding: 12px 25px; border-radius: 25px;
+            font-size: 0.95rem; cursor: pointer; font-family: 'Gaegu', cursive; transition: 0.3s;
         }
+        .btn-share:hover { background: var(--pink); color: #fff; }
 
-        .btn-share:hover {
-            background: var(--deep-purple);
-            color: #fff;
-        }
-
-        footer {
-            margin-top: 30px;
-            font-size: 0.8rem;
-            color: #fff;
-            font-family: 'Gaegu', cursive;
-            opacity: 0.9;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-        }
+        footer { position: relative; margin-top: 40px; font-size: 0.9rem; color: #FFF; font-family: 'Gaegu', cursive; text-shadow: 1px 1px 3px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
 
+<div class="bg-deco">
+    <div class="bubble" style="width: 80px; height: 80px; left: 10%; top: 20%; animation-delay: 0s;"></div>
+    <div class="bubble" style="width: 120px; height: 120px; left: 80%; top: 10%; animation-delay: 2s;"></div>
+    <div class="bubble" style="width: 60px; height: 60px; left: 70%; top: 80%; animation-delay: 4s;"></div>
+    <div class="bubble" style="width: 100px; height: 100px; left: 20%; top: 70%; animation-delay: 1s;"></div>
+</div>
+
 <div class="card">
     <h1>✨ 당신의 운명 처방전 ✨</h1>
-    <p class="desc">보랏빛 별빛이 당신의 길을 비춰줄 거예요.</p>
+    <p class="desc">따스한 햇살이 당신의 오늘을 축복해요.</p>
     
-    <input type="text" id="worryInput" maxlength="15" placeholder="무엇을 고민하고 있나요?">
-    <div class="spell-tip">🔮 맞춤법을 지키면 운명의 목소리가 더 선명해져요.</div>
+    <input type="text" id="worryInput" maxlength="15" placeholder="고민을 살포시 적어보세요">
+    <div class="spell-tip">🍭 예쁜 말로 적으면 운명이 더 달콤하게 보여요!</div>
     
-    <button class="btn-main" onclick="getAdvice()">운명 확인하기 💌</button>
+    <button class="btn-main" onclick="getAdvice()">운명 열어보기 💌</button>
 
     <div id="result">
         <span class="category-icon" id="categoryIcon"></span>
@@ -221,35 +147,11 @@
 <script src="quotes.js"></script>
 <script>
     const categoryIcons = {
-        "의료": "🩺", 
-        "여행": "✈️", 
-        "독서": "📚", 
-        "쇼핑": "🛍️", 
-        "기기": "📱", 
-        "소통": "💬",
-        "집수리": "🛠️", 
-        "음식": "🍰", 
-        "게으름": "🛌", 
-        "졸음": "😴", 
-        "돈": "💰", 
-        "공부": "📝",
-        "직장": "💼", 
-        "인간관계": "🤝", 
-        "연애": "💖", 
-        "이별": "💔", // 비 대신 직관적인 하트로 변경!
-        "자존감": "💎", 
-        "실패": "🌱",
-        "성공": "🏆", 
-        "행복": "✨", // 해 대신 반짝이로 '샤~하게' 변경!
-        "불안": "🌊", 
-        "용기": "🦁", 
-        "인생": "🌈", 
-        "가족": "🏡", 
-        "이사": "🏠", 
-        "금주/절제": "🚫🧘", // 술/담배/도박을 참아내는 명상 느낌!
-        "육아": "👶", 
-        "영양제": "💊", 
-        "기본": "✨"
+        "의료": "🩺", "여행": "✈️", "독서": "📚", "쇼핑": "🛍️", "기기": "📱", "소통": "💬",
+        "집수리": "🛠️", "음식": "🍰", "게으름": "🛌", "졸음": "😴", "돈": "💰", "공부": "📝",
+        "직장": "💼", "인간관계": "🤝", "연애": "💖", "이별": "💔", "자존감": "💎", "실패": "🌱",
+        "성공": "🏆", "행복": "🌸", "불안": "🎈", "용기": "🦁", "인생": "🌈", "가족": "🏡", 
+        "이사": "🏠", "금주/절제": "🚫✨", "육아": "👶", "영양제": "💊", "기본": "✨"
     };
 
     function getAdvice() {
@@ -257,7 +159,7 @@
         const input = rawInput.replace(/[^가-힣a-zA-Z0-9]/g, ""); 
         const resultDiv = document.getElementById('result');
         
-        if (!input) { alert("운명을 읽을 고민을 적어주세요! 💜"); return; }
+        if (!input) { alert("운명을 읽을 고민을 적어주세요! 💖"); return; }
 
         let category = "기본";
         for (let key in keywords) {
@@ -274,10 +176,7 @@
         document.getElementById('authorText').innerText = `- ${selected.author} -`;
         
         resultDiv.style.display = "block";
-        
-        setTimeout(() => {
-            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 100);
+        setTimeout(() => { resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
     }
 
     function shareResult() {
@@ -291,7 +190,7 @@
             const tempElem = document.createElement('textarea');
             tempElem.value = shareText; document.body.appendChild(tempElem);
             tempElem.select(); document.execCommand('copy'); document.body.removeChild(tempElem);
-            alert("운명 처방전이 복사되었습니다! 친구에게 보내보세요. 🔮");
+            alert("운명 처방전이 복사되었습니다! 친구에게 보내보세요. 🎁");
         }
     }
 </script>
