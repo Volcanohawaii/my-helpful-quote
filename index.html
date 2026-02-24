@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>당신의 운명 처방전 💖 빛나는 마법 조언</title>
+    <title>운명의 처방전 💖 빛나는 마법 조언</title>
     <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gowun+Dodum&display=swap" rel="stylesheet">
     <style>
         :root {
             --pink: #FF9A9E;
             --hot-pink: #FF007A;
-            --orange: #FFC3A0;
+            --lavender: #D8B4FE;
             --lemon: #FFF7AD;
-            --text: #5D4037;
+            --text: #4A3B52;
         }
 
         body {
@@ -23,12 +23,10 @@
             min-height: 100vh;
             color: var(--text);
             overflow-x: hidden;
-            /* 1. 요청하신 핑크-오렌지-레몬 그라데이션 배경 */
-            background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 25%, #FFC3A0 60%, #FFF7AD 100%);
+            background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 25%, #D8B4FE 60%, #FFF7AD 100%);
             background-attachment: fixed;
         }
 
-        /* 2. 배경을 화려하게 만드는 둥둥 떠다니는 비눗방울(Bokeh) 효과 */
         .bg-deco {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1; overflow: hidden;
@@ -42,7 +40,6 @@
             50% { transform: translateY(-100px) translateX(50px); }
         }
 
-        /* 3. 더 화려해진 반짝이 효과 */
         body::after {
             content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
@@ -59,60 +56,66 @@
             background: rgba(255, 255, 255, 0.88);
             backdrop-filter: blur(15px);
             padding: 45px 25px; border-radius: 50px; text-align: center;
-            box-shadow: 0 20px 60px rgba(255, 154, 158, 0.5);
+            box-shadow: 0 20px 60px rgba(115, 103, 240, 0.3);
             border: 5px solid rgba(255, 255, 255, 0.8);
-            position: relative;
+            position: relative; margin: 20px 0;
         }
 
         h1 {
             font-family: 'Gaegu', cursive; font-size: 2.6rem; margin: 0 0 10px 0;
-            /* 화려한 핑크-레몬 그라데이션 제목 */
-            background: linear-gradient(to right, #FF007A, #FF7D00);
+            background: linear-gradient(to right, #FF007A, #A78BFA);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(2px 2px 5px rgba(255, 0, 122, 0.2));
+            filter: drop-shadow(2px 2px 5px rgba(167, 139, 250, 0.3));
         }
 
-        .desc { font-size: 1rem; color: #FF6B6B; margin-bottom: 35px; font-weight: bold; }
+        .desc { font-size: 1rem; color: #9D50BB; margin-bottom: 35px; font-weight: bold; }
 
         input {
             width: 100%; padding: 20px; box-sizing: border-box;
-            border: 3px solid #FFE0E0; border-radius: 30px;
-            font-size: 1.1rem; background: #FFF9F9; outline: none;
+            border: 3px solid #E6E6FA; border-radius: 30px;
+            font-size: 1.1rem; background: #F8F4FF; outline: none;
             text-align: center; font-family: 'Gowun Dodum', sans-serif;
         }
-        input:focus { border-color: var(--pink); background: #fff; box-shadow: 0 0 20px rgba(255, 154, 158, 0.3); }
+        input:focus { border-color: var(--lavender); background: #fff; box-shadow: 0 0 20px rgba(216, 180, 254, 0.4); }
 
-        .spell-tip { font-size: 0.9rem; color: #FF8E53; margin: 15px 0 30px 0; font-family: 'Gaegu', cursive; font-weight: bold; }
+        .spell-tip { font-size: 0.9rem; color: #9D50BB; margin: 15px 0 30px 0; font-family: 'Gaegu', cursive; font-weight: bold; }
 
         .btn-main {
             width: 100%; padding: 20px; border: none; border-radius: 30px;
-            /* 핑크-오렌지 그라데이션 버튼 */
-            background: linear-gradient(45deg, #FF9A9E, #FFC3A0);
+            background: linear-gradient(45deg, #FF9A9E, #D8B4FE);
             color: white; font-size: 1.4rem; font-family: 'Gaegu', cursive; font-weight: 700;
-            cursor: pointer; transition: 0.4s; box-shadow: 0 10px 25px rgba(255, 154, 158, 0.4);
+            cursor: pointer; transition: 0.4s; box-shadow: 0 10px 25px rgba(157, 80, 187, 0.3);
         }
         .btn-main:hover { transform: translateY(-5px) rotate(-1deg); filter: brightness(1.1); }
 
         #result {
             margin-top: 40px; padding: 35px 20px; background: white; border-radius: 35px;
-            display: none; border: 3px dashed var(--pink); position: relative;
+            display: none; border: 3px dashed var(--lavender); position: relative;
             box-shadow: 0 15px 35px rgba(0,0,0,0.05);
             animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
         @keyframes bounceIn { 0% { opacity: 0; transform: scale(0.3); } 100% { opacity: 1; transform: scale(1); } }
 
-        .category-icon { font-size: 4.8rem; margin-bottom: 15px; display: block; filter: drop-shadow(0 5px 10px rgba(255, 154, 158, 0.3)); }
-        .category-tag { display: inline-block; padding: 6px 15px; background: var(--lemon); color: #B18D00; border-radius: 20px; font-size: 0.95rem; font-family: 'Gaegu', cursive; font-weight: bold; margin-bottom: 20px; }
-        .quote { font-family: 'Gaegu', cursive; font-size: 1.7rem; line-height: 1.5; color: #4A3B52; margin-bottom: 25px; word-break: keep-all; }
-        .author { font-size: 1rem; color: var(--pink); font-weight: bold; margin-bottom: 30px; }
+        .category-icon { font-size: 4.8rem; margin-bottom: 15px; display: block; }
+        .category-tag { display: inline-block; padding: 6px 15px; background: var(--lemon); color: #B18D00; border-radius: 20px; font-size: 1.1rem; font-family: 'Gaegu', cursive; font-weight: bold; margin-bottom: 20px; }
+        .quote { font-family: 'Gaegu', cursive; font-size: 1.7rem; line-height: 1.5; color: #2D3436; margin-bottom: 20px; word-break: keep-all; }
+        .author { font-size: 1rem; color: #9D50BB; font-weight: bold; margin-bottom: 25px; }
+
+        /* 함께 하면 좋은 것 스타일 */
+        .extra-section {
+            background: #FDF4FF; border-radius: 20px; padding: 20px; margin-bottom: 25px;
+            border: 2px solid #F3E5F5;
+        }
+        .extra-title { font-family: 'Gaegu', cursive; font-size: 1.2rem; color: #FF007A; margin-bottom: 8px; font-weight: bold; }
+        .extra-action { font-size: 1.1rem; color: #4A3B52; font-weight: bold; }
 
         .btn-share {
-            background: #FFF0F0; color: #FF9A9E; border: none; padding: 12px 25px; border-radius: 25px;
+            background: #F3E5F5; color: #9D50BB; border: none; padding: 12px 25px; border-radius: 25px;
             font-size: 0.95rem; cursor: pointer; font-family: 'Gaegu', cursive; transition: 0.3s;
         }
-        .btn-share:hover { background: var(--pink); color: #fff; }
+        .btn-share:hover { background: var(--lavender); color: #fff; }
 
-        footer { position: relative; margin-top: 40px; font-size: 0.9rem; color: #FFF; font-family: 'Gaegu', cursive; text-shadow: 1px 1px 3px rgba(0,0,0,0.1); }
+        footer { position: relative; margin-top: 20px; font-size: 0.9rem; color: #FFF; font-family: 'Gaegu', cursive; }
     </style>
 </head>
 <body>
@@ -125,11 +128,11 @@
 </div>
 
 <div class="card">
-    <h1>✨ 당신의 운명 처방전 ✨</h1>
-    <p class="desc">따스한 햇살이 당신의 오늘을 축복해요.</p>
+    <h1>💖 운명의 처방전 🍭</h1>
+    <p class="desc">은은한 별빛이 당신의 오늘을 축복해요.</p>
     
     <input type="text" id="worryInput" maxlength="15" placeholder="고민을 살포시 적어보세요">
-    <div class="spell-tip">🍭 맞춤법에 맞게 적어야 운명이 더 잘보여요!</div>
+    <div class="spell-tip">🍭 맞춤법에 맞게 적어야 운명이 더 잘 보여요!</div>
     
     <button class="btn-main" onclick="getAdvice()">운명 열어보기 💌</button>
 
@@ -138,10 +141,16 @@
         <div class="category-tag" id="categoryBadge"></div>
         <div class="quote" id="quoteText"></div>
         <div class="author" id="authorText"></div>
+        
+        <div class="extra-section">
+            <div class="extra-title">✨ 함께 하면 좋은 것 ✨</div>
+            <div class="extra-action" id="extraAction"></div>
+        </div>
+
         <button class="btn-share" onclick="shareResult()">이 운명을 공유하기 🎁</button>
     </div>
     
-    <footer>© 2026 당신의 운명 처방전</footer>
+    <footer>© 2026 운명의 처방전</footer>
 </div>
 
 <script src="quotes.js"></script>
@@ -153,6 +162,27 @@
         "성공": "🏆", "행복": "🌸", "불안": "🎈", "용기": "🦁", "인생": "🌈", "가족": "🏡", 
         "이사": "🏠", "금주/절제": "🚫✨", "육아": "👶", "영양제": "💊", "기본": "✨"
     };
+
+    // 50가지의 랜덤 행동 추천 리스트
+    const recommendations = [
+        "따뜻한 차 한 잔 마시기 🍵", "30분간 가볍게 산책하기 👟", "좋아하는 노래 크게 듣기 🎶",
+        "치킨이나 맛있는 야식 먹기 🍗", "일기장에 마음 적어보기 ✍️", "시원한 아이스커피 마시기 ☕",
+        "창문 열고 5분간 환기하기 🪟", "가장 친한 친구에게 안부 묻기 📱", "향기로운 향수 뿌리기 🌸",
+        "놀이공원이나 탁 트인 곳 가기 🎡", "유튜브에서 웃긴 영상 보기 😆", "반신욕이나 족욕 하기 🛀",
+        "오늘 하루 고생한 나 칭찬하기 👏", "방 구조 살짝 바꿔보기 🏠", "스트레칭으로 몸 풀어주기 🙆",
+        "예쁜 꽃 한 송이 사기 💐", "초콜릿이나 사탕 먹기 🍬", "보고 싶었던 영화 정주행하기 🎬",
+        "눈 감고 10분간 명상하기 🧘", "일찍 잠자리에 들기 🌙", "영양제 꼭 챙겨 먹기 💊",
+        "하늘 사진 찍어보기 ☁️", "좋아하는 옷 차려입기 👗", "가족에게 사랑한다고 말하기 💖",
+        "서점 가서 책 구경하기 📚", "편의점 신상 간식 먹기 🍪", "셀카 예쁘게 찍어보기 🤳",
+        "미뤄뒀던 청소 한 군데 하기 ✨", "반려동물과 듬뿍 놀아주기 🐾", "전시회나 미술관 가기 🎨",
+        "따뜻한 물로 샤워하기 🚿", "핸드크림 듬뿍 바르기 👐", "좋아하는 웹툰 보기 📱",
+        "10분간 아무 생각 없이 멍때리기 😶", "나를 위한 작은 선물 사기 🎁", "시원한 맥주나 음료 마시기 🍺",
+        "자전거 타고 동네 한 바퀴 돌기 🚲", "네일 아트나 손톱 정리하기 💅", "맛있는 디저트 카페 가기 🍰",
+        "풍경 좋은 카페에서 책 읽기 ☕", "보고 싶었던 사람에게 연락하기 💌", "숲길이나 공원 걷기 🌳",
+        "떡볶이처럼 매콤한 음식 먹기 🌶️", "오랫동안 연락 안 한 친구 찾기 🔍", "새로운 요리 도전해보기 🍳",
+        "퍼즐이나 컬러링북 하기 🎨", "코인 노래방 가서 노래 부르기 🎤", "바다나 강가 구경 가기 🌊",
+        "비타민 C 가득한 과일 먹기 🍊", "그냥 침대에 대자로 눕기 🛌"
+    ];
 
     function getAdvice() {
         const rawInput = document.getElementById('worryInput').value;
@@ -169,11 +199,17 @@
 
         let quotes = quoteData[category] || quoteData["용기"] || quoteData["기본"];
         const selected = quotes[Math.floor(Math.random() * quotes.length)];
+        
+        // 랜덤 행동 추천 선택
+        const randomAction = recommendations[Math.floor(Math.random() * recommendations.length)];
 
         document.getElementById('categoryIcon').innerText = categoryIcons[category] || "✨";
-        document.getElementById('categoryBadge').innerText = `#${category}의 운명`;
+        document.getElementById('categoryBadge').innerText = "짜잔~✨";
         document.getElementById('quoteText').innerText = `"${selected.text}"`;
         document.getElementById('authorText').innerText = `- ${selected.author} -`;
+        
+        // 행동 지침 텍스트 삽입
+        document.getElementById('extraAction').innerText = randomAction;
         
         resultDiv.style.display = "block";
         setTimeout(() => { resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
@@ -182,10 +218,11 @@
     function shareResult() {
         const quote = document.getElementById('quoteText').innerText;
         const author = document.getElementById('authorText').innerText;
-        const shareText = `[당신의 운명 처방전] 오늘 나에게 도착한 메시지:\n\n${quote} ${author}\n\n너의 운명도 확인해봐! ✨\n${window.location.href}`;
+        const action = document.getElementById('extraAction').innerText;
+        const shareText = `[운명의 처방전] 오늘 나에게 도착한 메시지:\n\n${quote} ${author}\n\n✨ 함께 하면 좋은 것:\n${action}\n\n너의 운명도 확인해봐! ✨\n${window.location.href}`;
 
         if (navigator.share) {
-            navigator.share({ title: '당신의 운명 처방전', text: shareText, url: window.location.href });
+            navigator.share({ title: '운명의 처방전', text: shareText, url: window.location.href });
         } else {
             const tempElem = document.createElement('textarea');
             tempElem.value = shareText; document.body.appendChild(tempElem);
