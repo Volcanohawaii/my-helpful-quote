@@ -18,7 +18,7 @@
             background-attachment: fixed;
         }
 
-        /* 배경 장식 (비눗방울 & 반짝이) */
+        /* 배경 장식 */
         .bg-deco { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; }
         .bubble { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.4); animation: float 10s infinite ease-in-out; filter: blur(8px); }
         @keyframes float { 0%, 100% { transform: translateY(0) translateX(0); } 50% { transform: translateY(-100px) translateX(50px); } }
@@ -55,13 +55,11 @@
         }
         .btn-main:hover { transform: translateY(-5px); filter: brightness(1.1); }
 
-        /* 로딩창 스타일 */
         #loadingOverlay { display: none; margin-top: 30px; text-align: center; }
         .magic-loader { font-size: 3.5rem; animation: rotateMagic 2s infinite linear; display: inline-block; filter: drop-shadow(0 0 10px var(--lavender)); }
         @keyframes rotateMagic { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .loading-text { font-family: 'Gaegu', cursive; font-size: 1.3rem; color: #FF007A; margin-top: 15px; }
 
-        /* 결과창 스타일 */
         #result { margin-top: 30px; display: none; animation: bounceIn 0.8s ease; }
         @keyframes bounceIn { 0% { opacity: 0; transform: scale(0.5); } 100% { opacity: 1; transform: scale(1); } }
 
@@ -71,7 +69,6 @@
         }
         .block-title { font-family: 'Gaegu', cursive; font-size: 1.4rem; color: #FF007A; margin-bottom: 10px; font-weight: bold; }
 
-        /* 타로 카드 스타일 (가시성 대폭 강화) */
         .tarot-card {
             width: 110px; height: 165px; margin: 15px auto; border-radius: 12px;
             border: 4px solid var(--gold); display: flex; align-items: center; justify-content: center;
@@ -85,7 +82,9 @@
         .tarot-name { font-size: 0.8rem; background: rgba(0,0,0,0.2); padding: 2px 8px; border-radius: 5px; }
 
         .content-text { font-family: 'Gaegu', cursive; font-size: 1.6rem; line-height: 1.4; color: #2D3436; margin: 10px 0; word-break: keep-all; }
-        .author-text { font-size: 1rem; color: #9D50BB; font-weight: bold; margin-bottom: 10px; }
+        
+        /* --- 수정 포인트 1: 저자 이름 숨기기 --- */
+        .author-text { display: none !important; } 
         
         .interpretation-box {
             font-size: 0.85rem; background: #FFF9FA; padding: 12px; border-radius: 15px; color: #666;
@@ -160,7 +159,6 @@
 
 <script src="quotes.js"></script>
 <script>
-    // 파스텔 그라데이션 팔레트
     const pastelGradients = [
         "linear-gradient(135deg, #FFB7B2, #FFDAC1)", 
         "linear-gradient(135deg, #B2CEFE, #E2F0CB)", 
@@ -184,7 +182,6 @@
         
         if (!input) { alert("고민의 키워드를 적어주세요! 💖"); return; }
 
-        // 화면 초기화
         document.getElementById('result').style.display = "none";
         const loadingOverlay = document.getElementById('loadingOverlay');
         const loadingText = document.getElementById('loadingMessage');
@@ -192,7 +189,6 @@
         loadingOverlay.style.display = "block";
         loadingText.innerText = loadingMessages[Math.floor(Math.random() * loadingMessages.length)];
 
-        // [용함 포인트] 씨앗 생성 (동일 입력 = 동일 결과)
         const seed = input.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
 
         setTimeout(() => {
@@ -200,27 +196,22 @@
             const resultDiv = document.getElementById('result');
             resultDiv.style.display = "block";
 
-            // 카테고리 판별 (quotes.js의 keywords 사용)
             let category = "기본";
             for (let key in keywords) {
                 if (keywords[key].some(word => input.includes(word))) { category = key; break; }
             }
 
-            // 데이터 선택 (seed 활용)
             const quotes = quoteData[category] || quoteData["기본"];
             const selectedQuote = quotes[seed % quotes.length];
             const selectedAction = recommendations[seed % recommendations.length];
             const selectedSideEffect = sideEffects[seed % sideEffects.length];
             
-            // 타로 카드 3장 선택
             const card1 = tarotCards[seed % 22];
             const card2 = tarotCards[(seed + 7) % 22];
             const card3 = tarotCards[(seed + 13) % 22];
 
-            // 색상 랜덤 섞기
             const shuffledColors = [...pastelGradients].sort(() => (seed % 10 > 5 ? 1 : -1));
 
-            // 화면 업데이트 함수
             function updateCard(id, name, color, icon) {
                 const cardElem = document.getElementById(id);
                 cardElem.style.background = color;
@@ -228,12 +219,13 @@
                 cardElem.querySelector(".tarot-main-icon").innerText = icon;
             }
 
-            // 타로 아이콘 매핑 (quotes.js에 정의된 경우 사용 가능)
             const getIcon = (name) => (typeof tarotIcons !== 'undefined' ? tarotIcons[name] : "🔮");
 
             updateCard("tarot1", card1, shuffledColors[0], getIcon(card1));
             document.getElementById('quoteText').innerHTML = `"${selectedQuote.text}"<br><small style="font-size:0.9rem; color:#9D50BB;">(당신의 ${category} 기운이 느껴집니다!)</small>`;
-            document.getElementById('authorText').innerText = `- ${selectedQuote.author} -`;
+            
+            /* --- 수정 포인트 2: 저자 이름 출력하지 않기 --- */
+            document.getElementById('authorText').innerText = ""; 
 
             updateCard("tarot2", card2, shuffledColors[1], getIcon(card2));
             document.getElementById('actionText').innerText = selectedAction;
@@ -241,7 +233,6 @@
             updateCard("tarot3", card3, shuffledColors[2], getIcon(card3));
             document.getElementById('sideEffectText').innerText = selectedSideEffect;
             
-            // 타로 해석 추가
             const interpretation = (typeof tarotInterpretations !== 'undefined') ? tarotInterpretations[card3] : "이 카드는 당신의 현재 상태를 조용히 비추고 있습니다.";
             document.getElementById('tarotInterpretation').innerHTML = `🔮 <b>타로의 속삭임:</b><br>${interpretation}`;
 
