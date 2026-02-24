@@ -6,71 +6,71 @@
     <title>마음의 문장 - 위인의 명언 처방전</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8f9fa; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; }
-        .container { width: 90%; max-width: 450px; background: white; margin-top: 50px; padding: 40px 20px; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center; }
-        h1 { font-size: 1.8rem; margin-bottom: 30px; color: #222; }
-        input { width: 80%; padding: 15px; border: 2px solid #eee; border-radius: 15px; font-size: 1rem; margin-bottom: 20px; outline: none; }
-        button { background: #4A90E2; color: white; border: none; padding: 15px 40px; border-radius: 15px; font-size: 1.1rem; cursor: pointer; transition: 0.3s; }
-        #result { margin-top: 40px; padding: 25px; background: #fafafa; border-radius: 20px; display: none; }
-        .quote { font-size: 1.2rem; line-height: 1.6; color: #444; margin-bottom: 10px; }
-        .author { color: #4A90E2; font-weight: 700; }
-        footer { margin-top: auto; padding: 30px; font-size: 0.8rem; color: #aaa; text-align: center; }
+        :root { --primary: #4A90E2; --bg: #f4f7f6; }
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: var(--bg); color: #333; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .container { width: 90%; max-width: 450px; background: white; margin-top: 40px; padding: 40px 20px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.08); text-align: center; }
+        h1 { font-weight: 700; color: #222; margin-bottom: 5px; }
+        .desc { font-size: 0.9rem; color: #888; margin-bottom: 30px; }
+        input { width: 85%; padding: 16px; border: 2px solid #eee; border-radius: 12px; font-size: 1rem; margin-bottom: 20px; transition: 0.3s; }
+        input:focus { border-color: var(--primary); outline: none; }
+        button { background: var(--primary); color: white; border: none; padding: 16px 40px; border-radius: 12px; font-size: 1.1rem; font-weight: 500; cursor: pointer; transition: 0.3s; width: 93%; }
+        button:hover { background: #357ABD; transform: translateY(-2px); }
+        #result { margin-top: 35px; padding: 25px; background: #fafafa; border-radius: 15px; display: none; animation: fadeIn 0.5s; border-left: 5px solid var(--primary); }
+        .quote { font-size: 1.15rem; line-height: 1.6; color: #444; margin-bottom: 12px; font-weight: 500; }
+        .author { font-size: 0.9rem; color: var(--primary); font-weight: 700; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        footer { margin-top: auto; padding: 30px; font-size: 0.75rem; color: #bbb; text-align: center; line-height: 1.5; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h1>마음의 문장</h1>
-    <input type="text" id="worryInput" maxlength="15" placeholder="고민을 15자 이내로 적어주세요">
-    <br>
+    <p class="desc">15자 이내의 고민에 위인의 지혜를 처방합니다.</p>
+    <input type="text" id="worryInput" maxlength="15" placeholder="예: 일본 여행 갈까 말까?">
     <button onclick="getAdvice()">처방전 받기</button>
     <div id="result">
+        <div id="categoryBadge" style="font-size:0.7rem; color:#999; margin-bottom:8px; font-weight:bold;"></div>
         <div class="quote" id="quoteText"></div>
         <div class="author" id="authorText"></div>
     </div>
 </div>
 
 <footer>
-    <p>© 2026 마음의 문장 | <a href="#" style="color:#aaa;">개인정보처리방침</a></p>
-    <p>문의: your-email@example.com</p>
+    <p>© 2026 마음의 문장 | 모든 명언은 저작권이 만료된 위인의 글입니다.</p>
+    <p>본 서비스는 사용자의 고민 키워드를 분석하여 최적의 명언을 매칭합니다.</p>
 </footer>
 
 <script src="quotes.js"></script>
 <script>
     function getAdvice() {
-    const input = document.getElementById('worryInput').value;
-    const resultDiv = document.getElementById('result');
-    const quoteText = document.getElementById('quoteText');
-    const authorText = document.getElementById('authorText');
+        const rawInput = document.getElementById('worryInput').value;
+        const input = rawInput.replace(/[^가-힣a-zA-Z0-9]/g, ""); // 공백 및 특수문자 제거
+        const resultDiv = document.getElementById('result');
+        
+        if (!input) { alert("고민을 입력해주세요!"); return; }
 
-    if (!input.trim()) { alert("고민을 입력해주세요."); return; }
-
-    // 키워드 분석
-    let category = "기본";
-    for (let key in keywords) {
-        if (keywords[key].some(word => input.includes(word))) {
-            category = key;
-            break;
+        let category = "기본";
+        for (let key in keywords) {
+            if (keywords[key].some(word => input.includes(word))) {
+                category = key;
+                break;
+            }
         }
-    }
 
-    // 명언 선택
-    const quotes = quoteData[category] || quoteData["기본"];
-    const selected = quotes[Math.floor(Math.random() * quotes.length)];
+        // '할까말까' 결정 장애 로직 보완
+        if (category === "기본" && (input.includes("할까") || input.includes("말까") || input.includes("갈까"))) {
+            category = "결단";
+        }
 
-    // 결과 표시 (애니메이션 효과를 위해 리셋 후 표시)
-    resultDiv.style.display = "none";
-    
-    // 분석 메시지 추가 (이 부분이 핵심!)
-    const categoryMsg = category === "기본" ? "당신을 위한 문장입니다" : `#${category} 고민에 대한 처방입니다`;
+        const quotes = quoteData[category] || quoteData["기본"];
+        const selected = quotes[Math.floor(Math.random() * quotes.length)];
 
-    setTimeout(() => {
-        // 명언 위에 분석 메시지를 살짝 띄워주면 더 좋습니다.
-        quoteText.innerHTML = `<small style="display:block; color:#4A90E2; margin-bottom:10px;">${categoryMsg}</small> "${selected.text}"`;
-        authorText.innerText = "- " + selected.author + " -";
+        document.getElementById('categoryBadge').innerText = `#${category} 처방`;
+        document.getElementById('quoteText').innerText = `"${selected.text}"`;
+        document.getElementById('authorText').innerText = `- ${selected.author} -`;
         resultDiv.style.display = "block";
-    }, 50);
-}
+    }
 </script>
 </body>
 </html>
