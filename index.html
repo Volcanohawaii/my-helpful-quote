@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>운명의 처방전 💖 타로 마법 조언</title>
+    <title>운명 처방전 💖 마법 조언</title>
     <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gowun+Dodum&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -111,11 +111,11 @@
 
 <div class="card">
     <h1>💖 운명의 처방전 🍭</h1>
-    <p class="desc">타로카드로 랜덤 처방을 내려드립니다.</p>
+    <p class="desc">신비로운 메시지를 생성합니다.</p>
     
     <input type="text" id="worryInput" maxlength="15" placeholder="고민을 살포시 적어보세요">
     
-    <button class="btn-main" onclick="getAdvice()">처방전 열어보기 💌</button>
+    <button class="btn-main" onclick="getAdvice()"> 열어보기 💌</button>
 
     <div id="loadingOverlay">
         <div class="magic-loader">🔮</div>
@@ -152,7 +152,7 @@
             <div class="interpretation-box" id="tarotInterpretation"></div>
         </div>
 
-        <button class="btn-share" onclick="shareResult()">이 처방을 공유하기 🎁</button>
+        <button class="btn-share" onclick="shareResult()">나의 처방전 공유하기 🎁</button>
     </div>
     
     <footer>© 2026 운명의 처방전</footer>
@@ -182,7 +182,7 @@
         const inputRaw = inputField.value;
         const input = inputRaw.replace(/[^가-힣a-zA-Z0-9]/g, ""); 
         
-        if (!input) { alert("운명을 읽을 고민을 적어주세요! 💖"); return; }
+        if (!input) { alert("고민의 키워드를 적어주세요! 💖"); return; }
 
         // 화면 초기화
         document.getElementById('result').style.display = "none";
