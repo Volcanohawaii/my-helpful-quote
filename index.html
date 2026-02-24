@@ -38,25 +38,39 @@
 <script src="quotes.js"></script>
 <script>
     function getAdvice() {
-        const input = document.getElementById('worryInput').value;
-        const resultDiv = document.getElementById('result');
-        if (!input.trim()) { alert("고민을 입력해주세요."); return; }
+    const input = document.getElementById('worryInput').value;
+    const resultDiv = document.getElementById('result');
+    const quoteText = document.getElementById('quoteText');
+    const authorText = document.getElementById('authorText');
 
-        let category = "기본";
-        for (let key in keywords) {
-            if (keywords[key].some(word => input.includes(word))) {
-                category = key;
-                break;
-            }
+    if (!input.trim()) { alert("고민을 입력해주세요."); return; }
+
+    // 키워드 분석
+    let category = "기본";
+    for (let key in keywords) {
+        if (keywords[key].some(word => input.includes(word))) {
+            category = key;
+            break;
         }
-
-        const quotes = quoteData[category] || quoteData["기본"];
-        const selected = quotes[Math.floor(Math.random() * quotes.length)];
-
-        document.getElementById('quoteText').innerText = selected.text;
-        document.getElementById('authorText').innerText = "- " + selected.author + " -";
-        resultDiv.style.display = "block";
     }
+
+    // 명언 선택
+    const quotes = quoteData[category] || quoteData["기본"];
+    const selected = quotes[Math.floor(Math.random() * quotes.length)];
+
+    // 결과 표시 (애니메이션 효과를 위해 리셋 후 표시)
+    resultDiv.style.display = "none";
+    
+    // 분석 메시지 추가 (이 부분이 핵심!)
+    const categoryMsg = category === "기본" ? "당신을 위한 문장입니다" : `#${category} 고민에 대한 처방입니다`;
+
+    setTimeout(() => {
+        // 명언 위에 분석 메시지를 살짝 띄워주면 더 좋습니다.
+        quoteText.innerHTML = `<small style="display:block; color:#4A90E2; margin-bottom:10px;">${categoryMsg}</small> "${selected.text}"`;
+        authorText.innerText = "- " + selected.author + " -";
+        resultDiv.style.display = "block";
+    }, 50);
+}
 </script>
 </body>
 </html>
