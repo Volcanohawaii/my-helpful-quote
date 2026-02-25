@@ -102,7 +102,7 @@
         }
 
         .btn-share {
-            margin-top: 40px; background: transparent; border: 1px solid var(--border);
+            margin-top: 40px; width: 100%; background: transparent; border: 1px solid var(--border);
             padding: 14px 30px; border-radius: 4px; font-size: 0.85rem; color: #888; cursor: pointer;
             letter-spacing: 1px; transition: 0.3s;
         }
@@ -157,9 +157,8 @@
 
 <script src="quotes.js"></script>
 <script>
-    let session = { name: '', birth: '', seed: 0, scores: [] };
+    let session = { name: '', birth: '', seed: 0, scores: [], nameReport: '' };
 
-    // 1. 분석 시작
     function startAnalysis() {
         const name = document.getElementById('userName').value.trim();
         const birth = document.getElementById('userBirth').value.trim();
@@ -171,30 +170,35 @@
         setTimeout(() => { processData(name, birth); }, 2000);
     }
 
-    // 2. 데이터 처리
     function processData(name, birth) {
         session.name = name;
         session.birth = birth;
         session.seed = name.split('').reduce((a,b)=>a+b.charCodeAt(0),0) + parseInt(birth);
         
+        let scores = [45, 45, 45, 45, 45]; // 목, 화, 토, 금, 수 초기값
+
+        // [성명학 로직] 이름의 자음 오행 분석
+        for(let i=0; i<name.length; i++) {
+            const onset = getHangulOnset(name[i]);
+            const el = hangulElements[onset] || '土';
+            const idx = ["木", "火", "土", "金", "水"].indexOf(el);
+            if(idx !== -1) scores[idx] += 15;
+        }
+
+        // [사주 로직] 생년월일 계절 반영
         const month = parseInt(birth.substring(4, 6));
-        const firstChar = name.trim().charAt(0);
-        let scores = [40, 40, 40, 40, 40];
+        if([2, 3].includes(month)) scores[0] += 25;
+        else if([5, 6].includes(month)) scores[1] += 25;
+        else if([8, 9].includes(month)) scores[3] += 25;
+        else if([11, 12].includes(month)) scores[4] += 25;
+        else scores[2] += 25;
 
-        if([2, 3].includes(month)) scores[0] += 30;
-        else if([5, 6].includes(month)) scores[1] += 30;
-        else if([8, 9].includes(month)) scores[3] += 30;
-        else if([11, 12].includes(month)) scores[4] += 30;
-        else scores[2] += 30;
+        session.scores = scores.map((s, i) => s + ( (session.seed + i) % 10 ));
 
-        const onset = getHangulOnset(firstChar); 
-        if(['ㄱ','ㅋ'].includes(onset)) scores[0] += 15;
-        else if(['ㄴ','ㄷ','ㄹ','ㅌ'].includes(onset)) scores[1] += 15;
-        else if(['ㅇ','ㅎ'].includes(onset)) scores[2] += 15;
-        else if(['ㅅ','ㅈ','ㅊ'].includes(onset)) scores[3] += 15;
-        else if(['ㅁ','ㅂ','ㅍ'].includes(onset)) scores[4] += 15;
-
-        session.scores = scores.map((s, i) => s + ( (session.seed + i) % 15 ));
+        // [성명학 수리 분석 결과 생성]
+        const strokeVal = (session.seed % 13) + 13;
+        const resultNum = nameNumerology[strokeVal] || {title: "상생격", desc: "주변과 조화롭게 상생하여 안정을 찾는 기운입니다."};
+        session.nameReport = `성명학적으로 <b>${resultNum.title}</b>에 해당하며, ${resultNum.desc}`;
 
         document.getElementById('view-home').classList.add('hidden');
         document.getElementById('view-result').classList.remove('hidden');
@@ -253,10 +257,14 @@
             const lackElement = elements[minIdx];
             const quotes = quoteData["인생"];
             const q = quotes[s % quotes.length];
+
             body.innerHTML = `
-                <span class="section-title">에너지 보강 지침</span>
-                ${session.name}님은 현재 <b>${elementAttributes[lackElement].name}</b>의 기운이 부족한 상태입니다. <br><br>
-                • <b>맞춤 행법:</b> ${elementMissions[lackElement]}<br>
+                <span class="section-title">에너지 보강 및 성명 분석</span>
+                <p style="background:#F9F8F6; padding:15px; border-radius:5px; font-size:0.9rem; border-left:3px solid var(--accent); margin-bottom:20px;">
+                    ${session.nameReport}
+                </p>
+                현재 <b>${elementAttributes[lackElement].name}</b>의 기운이 부족하니 이를 보강하면 더욱 대성할 운입니다. <br><br>
+                • <b>처방 행법:</b> ${elementMissions[lackElement]}<br>
                 • <b>길한 색상:</b> ${elementAttributes[lackElement].color}<br>
                 • <b>오늘의 조언:</b> ${recommendations[s % recommendations.length]}
                 <div class="quote-footer">"${q.text}"</div>
@@ -282,7 +290,6 @@
         }
     }
 
-    // [핵심 기능] 주소에 데이터를 포함하여 복사
     function copyLink() {
         const shareUrl = `${window.location.origin}${window.location.pathname}?name=${encodeURIComponent(session.name)}&birth=${session.birth}`;
         const text = `[운명 공학 리포트] ${session.name}님의 분석 결과가 도착했습니다.\n직접 확인해보세요: ${shareUrl}`;
@@ -292,17 +299,14 @@
         t.select();
         document.execCommand("copy");
         document.body.removeChild(t);
-        alert("나의 분석 데이터가 포함된 링크가 복사되었습니다! 친구에게 전달해보세요. 🎁");
+        alert("데이터가 담긴 공유 링크가 복사되었습니다! 🎁");
     }
 
-    // [핵심 기능] 페이지 로드 시 주소창의 데이터를 읽어서 즉시 분석
     window.onload = function() {
         const urlParams = new URLSearchParams(window.location.search);
         const nameParam = urlParams.get('name');
         const birthParam = urlParams.get('birth');
-
         if (nameParam && birthParam && birthParam.length === 8) {
-            // 데이터가 있으면 로딩 없이 즉시 분석 결과 표시
             processData(nameParam, birthParam);
         }
     };
