@@ -185,19 +185,35 @@
         }, 2000); // 2초간의 분석 의식 시간
     }
 
-    // 2. 데이터 처리 및 시드 기반 점수 생성
+   // 2. 데이터 처리 및 실제 사주 원리 반영 점수 생성
     function processData(name, birth) {
         session.name = name;
         session.birth = birth;
-        // 이름과 생일로 고유 시드값 생성 (항상 같은 결과 보장)
         session.seed = name.split('').reduce((a,b)=>a+b.charCodeAt(0),0) + parseInt(birth);
         
-        session.scores = [];
-        let tempSeed = session.seed;
-        for(let i=0; i<5; i++) {
-            tempSeed = (tempSeed * 16807) % 2147483647;
-            session.scores.push(35 + (tempSeed % 50)); // 35~85점 사이 분포
-        }
+        const month = parseInt(birth.substring(4, 6)); // 태어난 달 추출
+        const firstChar = name.trim().charAt(0);
+        
+        // 오행 기본 점수 (기본 40점씩 배분)
+        let scores = [40, 40, 40, 40, 40]; // 목, 화, 토, 금, 수
+
+        // 1. 계절별 가중치 (태어난 달 기준)
+        if([2, 3].includes(month)) scores[0] += 30; // 봄 - 목
+        else if([5, 6].includes(month)) scores[1] += 30; // 여름 - 화
+        else if([8, 9].includes(month)) scores[3] += 30; // 가을 - 금
+        else if([11, 12].includes(month)) scores[4] += 30; // 겨울 - 수
+        else scores[2] += 30; // 환절기 - 토
+
+        // 2. 성씨 기반 가중치 (이름 첫 자음 오행)
+        const onset = getHangulOnset(firstChar); 
+        if(['ㄱ','ㅋ'].includes(onset)) scores[0] += 15;
+        else if(['ㄴ','ㄷ','ㄹ','ㅌ'].includes(onset)) scores[1] += 15;
+        else if(['ㅇ','ㅎ'].includes(onset)) scores[2] += 15;
+        else if(['ㅅ','ㅈ','ㅊ'].includes(onset)) scores[3] += 15;
+        else if(['ㅁ','ㅂ','ㅍ'].includes(onset)) scores[4] += 15;
+
+        // 3. 미세 조정 (Seed 기반 0~15점 랜덤 추가)
+        session.scores = scores.map((s, i) => s + ( (session.seed + i) % 15 ));
 
         document.getElementById('view-home').classList.add('hidden');
         document.getElementById('view-result').classList.remove('hidden');
@@ -207,6 +223,12 @@
         switchTab('fortune', document.querySelector('.tab-btn.active'));
     }
 
+    // 한글 첫 자음 추출 함수
+    function getHangulOnset(char) {
+        const charCode = char.charCodeAt(0) - 44032;
+        if (charCode < 0 || charCode > 11171) return char; 
+        return String.fromCharCode(Math.floor(charCode / 588) + 4352);
+    }
     // 3. 오행 레이더 차트 그리기 (SVG)
     function renderChart() {
         const labels = ["木(나무)", "火(불)", "土(흙)", "金(쇠)", "水(물)"];
