@@ -31,9 +31,31 @@
         .hidden { display: none; }
         
         input { width: 100%; padding: 15px; margin-bottom: 20px; border: none; border-bottom: 1px solid #DDD; font-size: 1.1rem; outline: none; }
+
+        /* 로딩 스피너 애니메이션 */
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
+
+<div id="loading-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(240, 237, 233, 0.98); z-index:9999; display:none; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+    <div style="background:white; padding:40px; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.05); border:1px solid #D1CDC5; width:90%; max-width:350px;">
+        <div class="official-seal" style="position:static; margin:0 auto 20px; opacity:1;">분석중</div>
+        <h2 style="font-family:'Gowun Batang'; color:var(--primary); font-size:1.1rem; margin-bottom:10px;">운명의 에너지를 조합 중...</h2>
+        <p style="color:#888; font-size:0.8rem; margin-bottom:25px;">잠시만 기다려 주세요.</p>
+        
+        <div style="width:300px; height:250px; background:#f9f9f9; display:flex; align-items:center; justify-content:center; border-radius:8px; overflow:hidden; margin: 0 auto;">
+            <ins class="kakao_ad_area" style="display:none;"
+                 data-ad-unit = "DAN-pMoVBneQCSicnBZ7"
+                 data-ad-width = "300"
+                 data-ad-height = "250"></ins>
+            <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+        </div>
+
+        <div style="margin-top:25px; border:3px solid #f3f3f3; border-top:3px solid var(--accent); border-radius:50%; width:24px; height:24px; animation:spin 1s linear infinite; margin-left:auto; margin-right:auto;"></div>
+    </div>
+</div>
+
 <div class="container">
     <div class="lang-toggle">
         <span class="flag active" id="flag-ko" onclick="setLang('ko')">🇰🇷</span>
@@ -45,16 +67,16 @@
         <h1 id="ui-title">성명학 데이터 분석</h1>
         <p id="ui-desc" style="font-size:0.9rem; color:#888; margin-bottom:40px;">정식 리포트를 생성합니다.</p>
         <input type="text" id="userName" placeholder="성함">
-        <input type="text" id="userBirth" placeholder="양력 생년월일 8자리" onkeyup="if(window.event.keyCode==13){startAnalysis()}">
+        <input type="text" id="userBirth" placeholder="양력 생년월일 8자리" onkeyup="if(event.key==='Enter'){startAnalysis()}">
         <button class="btn-action" id="ui-btn" onclick="startAnalysis()">리포트 생성하기</button>
 
-<div style="margin-top: 30px; display: flex; justify-content: center;">
-    <ins class="kakao_ad_area" style="display:none;"
-         data-ad-unit = "DAN-gySJpKsnNTQ1FIIF"
-         data-ad-width = "320"
-         data-ad-height = "50"></ins>
-    <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
-    </div> 
+        <div style="margin-top: 30px; display: flex; justify-content: center;">
+            <ins class="kakao_ad_area" style="display:none;"
+                 data-ad-unit = "DAN-gySJpKsnNTQ1FIIF"
+                 data-ad-width = "320"
+                 data-ad-height = "50"></ins>
+            <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+        </div> 
     </div>
 
     <div class="report-card hidden" id="view-result">
@@ -69,18 +91,9 @@
         </div>
         <div class="tab-content" id="tab-body"></div>
 
-<div style="margin-top: 30px; display: flex; justify-content: center;">
-    <ins class="kakao_ad_area" style="display:none;"
-         data-ad-unit = "DAN-gySJpKsnNTQ1FIIF"
-         data-ad-width = "320"
-         data-ad-height = "50"></ins>
-    <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
-</div>
-
-<button class="btn-action" style="margin-top:30px; background:white; border:1px solid #DDD; color:#444;" id="ui-copy" onclick="copyLink()">링크 복사</button>
-
-<p onclick="window.location.href=window.location.pathname" style="font-size:0.7rem; color:#CCC; margin-top:20px; cursor:pointer;" id="ui-reset">초기화</p>
-
+        <button class="btn-action" style="margin-top:30px; background:white; border:1px solid #DDD; color:#444;" id="ui-copy" onclick="copyLink()">링크 복사</button>
+        <p onclick="window.location.href=window.location.pathname" style="font-size:0.7rem; color:#CCC; margin-top:20px; cursor:pointer;" id="ui-reset">초기화</p>
+    </div>
 </div>
 
 <script src="quotes.js"></script>
@@ -94,7 +107,6 @@
         document.getElementById(`flag-${lang}`).classList.add('active');
         
         const t = i18n[lang];
-        // [중요] 생략 없이 모든 UI 텍스트 업데이트 로직 추가
         document.getElementById('ui-title').innerText = t.title;
         document.getElementById('ui-desc').innerText = t.desc;
         document.getElementById('userName').placeholder = t.nameLabel;
@@ -112,11 +124,21 @@
         if (session.name) { processData(session.name, session.birth); }
     }
 
+    // [수정] 2초 로딩 후 결과를 보여주는 함수
     function startAnalysis() {
         const n = document.getElementById('userName').value.trim();
         const b = document.getElementById('userBirth').value.trim();
         if(!n || b.length !== 8) { alert(currentLang === 'ko' ? "데이터를 확인해주세요." : "Check inputs."); return; }
-        processData(n, b);
+        
+        // 로딩 화면 표시
+        const overlay = document.getElementById('loading-overlay');
+        overlay.style.display = 'flex';
+
+        // 2초 뒤에 결과 처리
+        setTimeout(() => {
+            overlay.style.display = 'none';
+            processData(n, b);
+        }, 2000);
     }
 
     function processData(name, birth) {
@@ -211,7 +233,6 @@
             `;
        } else if(mode === 'past') {
             const p = pastSource[s % pastSource.length];
-            // [최종 수정] 과거의 소명 앞에 📜 이모티콘 추가
             body.innerHTML = `
                 <span class="section-title">${t.tab2}</span>
                 <div class="info-box" style="line-height:1.8;">
