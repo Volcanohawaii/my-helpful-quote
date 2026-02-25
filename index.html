@@ -7,213 +7,111 @@
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Pretendard:wght@400;600&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-        :root {
-            --bg: #F0EDE9;
-            --paper: #FFFFFF;
-            --primary: #243447;
-            --accent: #9A8467;
-            --text: #444444;
-            --border: #D1CDC5;
-        }
-
-        body {
-            font-family: 'Pretendard', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
+        :root { --bg: #F0EDE9; --paper: #FFFFFF; --primary: #243447; --accent: #9A8467; --text: #444444; --border: #D1CDC5; }
+        body { font-family: 'Pretendard', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
         .container { width: 100%; max-width: 480px; position: relative; }
-
-        .report-card {
-            background: var(--paper);
-            padding: 60px 35px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.1);
-            border: 1px solid var(--border);
-            text-align: center;
-            position: relative;
-            animation: fadeIn 0.8s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .official-seal {
-            position: absolute; top: 25px; right: 25px;
-            width: 65px; height: 65px; border: 2px double var(--accent);
-            color: var(--accent); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'Gowun Batang', serif; font-size: 0.75rem; font-weight: 700;
-            opacity: 0.5; transform: rotate(12deg); pointer-events: none;
-        }
-
+        .report-card { background: var(--paper); padding: 60px 35px; box-shadow: 0 30px 60px rgba(0,0,0,0.1); border: 1px solid var(--border); text-align: center; position: relative; animation: fadeIn 0.8s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .official-seal { position: absolute; top: 25px; right: 25px; width: 65px; height: 65px; border: 2px double var(--accent); color: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Gowun Batang', serif; font-size: 0.75rem; font-weight: 700; opacity: 0.5; transform: rotate(12deg); pointer-events: none; }
         h1 { font-family: 'Gowun Batang', serif; font-size: 1.8rem; color: var(--primary); margin: 0 0 10px 0; letter-spacing: -1px; }
         .serial-num { font-size: 0.7rem; color: #AAA; letter-spacing: 2px; margin-bottom: 45px; display: block; }
-
         .form-area { text-align: left; margin-bottom: 40px; }
         .label { font-size: 0.75rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; display: block; letter-spacing: 1px; }
-        input {
-            width: 100%; padding: 16px; border: none; border-bottom: 1px solid var(--border);
-            font-size: 1.1rem; margin-bottom: 30px; outline: none; background: transparent; transition: 0.3s;
-            font-family: 'Gowun Batang', serif;
-        }
+        input { width: 100%; padding: 16px; border: none; border-bottom: 1px solid var(--border); font-size: 1.1rem; margin-bottom: 30px; outline: none; background: transparent; transition: 0.3s; font-family: 'Gowun Batang', serif; }
         input:focus { border-bottom-color: var(--primary); background: #FAF9F7; }
-
-        .btn-start {
-            width: 100%; padding: 20px; background: var(--primary); color: white; border: none;
-            font-family: 'Gowun Batang', serif; font-size: 1.1rem; font-weight: 700;
-            cursor: pointer; letter-spacing: 2px; transition: 0.4s;
-        }
+        .btn-start { width: 100%; padding: 20px; background: var(--primary); color: white; border: none; font-family: 'Gowun Batang', serif; font-size: 1.1rem; font-weight: 700; cursor: pointer; letter-spacing: 2px; transition: 0.4s; }
         .btn-start:hover { background: #151f2b; letter-spacing: 4px; }
-
         .loader { margin: 40px 0; display: none; }
         .loader-dot { display: inline-block; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; margin: 0 5px; animation: dotPulse 1.5s infinite; }
         @keyframes dotPulse { 0%, 100% { opacity: 0.2; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.1); } }
-
         .hidden { display: none; }
-
         .chart-wrap { margin: 30px auto; width: 240px; height: 240px; }
         .type-tag { font-family: 'Gowun Batang', serif; font-size: 1.3rem; color: var(--accent); font-weight: 700; margin-bottom: 10px; display: block; }
-
         .tabs { display: flex; border-bottom: 1px solid #EEE; margin: 40px 0 25px; }
-        .tab-btn {
-            flex: 1; padding: 15px 0; border: none; background: none; cursor: pointer;
-            font-family: 'Gowun Batang', serif; font-size: 0.95rem; color: #BBB; position: relative;
-        }
+        .tab-btn { flex: 1; padding: 15px 0; border: none; background: none; cursor: pointer; font-family: 'Gowun Batang', serif; font-size: 0.95rem; color: #BBB; position: relative; }
         .tab-btn.active { color: var(--primary); font-weight: 700; }
-        .tab-btn.active::after {
-            content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 2px; background: var(--primary);
-        }
-
+        .tab-btn.active::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 2px; background: var(--primary); }
         .tab-content { text-align: left; line-height: 1.9; font-size: 1rem; min-height: 220px; color: #444; }
         .section-title { font-family: 'Gowun Batang', serif; font-size: 1.1rem; color: var(--accent); display: block; margin-bottom: 15px; font-weight: 700; }
-
-        .quote-footer {
-            margin-top: 40px; padding: 25px; background: #FBF9F7; border-radius: 8px;
-            font-family: 'Gowun Batang', serif; font-size: 1rem; color: #555;
-            text-align: center; line-height: 1.6; font-style: italic;
-        }
-
-        .btn-share {
-            margin-top: 40px; width: 100%; background: transparent; border: 1px solid var(--border);
-            padding: 14px 30px; border-radius: 4px; font-size: 0.85rem; color: #888; cursor: pointer;
-            letter-spacing: 1px; transition: 0.3s;
-        }
+        .quote-footer { margin-top: 40px; padding: 25px; background: #FBF9F7; border-radius: 8px; font-family: 'Gowun Batang', serif; font-size: 1rem; color: #555; text-align: center; line-height: 1.6; font-style: italic; }
+        .btn-share { margin-top: 40px; width: 100%; background: transparent; border: 1px solid var(--border); padding: 14px 30px; border-radius: 4px; font-size: 0.85rem; color: #888; cursor: pointer; letter-spacing: 1px; transition: 0.3s; }
         .btn-share:hover { background: #F4F2EE; color: var(--primary); }
     </style>
 </head>
 <body>
-
 <div class="container">
     <div class="report-card" id="view-home">
         <div class="official-seal">운명공학<br>분석실</div>
         <span class="serial-num">ANALYSIS CASE NO. 2026-X</span>
         <h1>운명 데이터 분석</h1>
         <p style="font-size: 0.9rem; color: #888; margin-bottom: 45px;">성명학과 명리학을 바탕으로 정식 리포트를 생성합니다.</p>
-        
         <div class="form-area">
             <span class="label">성명 (NAME)</span>
             <input type="text" id="userName" placeholder="성함을 입력하십시오">
             <span class="label">생년월일 (BIRTHDAY)</span>
             <input type="text" id="userBirth" placeholder="8자리 (예: 19940512)">
         </div>
-
-        <div id="loader" class="loader">
-            <div class="loader-dot" style="animation-delay: 0s"></div>
-            <div class="loader-dot" style="animation-delay: 0.2s"></div>
-            <div class="loader-dot" style="animation-delay: 0.4s"></div>
-            <p style="font-size: 0.8rem; color: var(--accent); margin-top: 15px; font-family: 'Gowun Batang'">기운의 흐름을 수치화하고 있습니다...</p>
-        </div>
-
+        <div id="loader" class="loader"><div class="loader-dot" style="animation-delay: 0s"></div><div class="loader-dot" style="animation-delay: 0.2s"></div><div class="loader-dot" style="animation-delay: 0.4s"></div><p style="font-size: 0.8rem; color: var(--accent); margin-top: 15px; font-family: 'Gowun Batang'">기운의 흐름을 수치화하고 있습니다...</p></div>
         <button id="btn-submit" class="btn-start" onclick="startAnalysis()">리포트 생성하기</button>
     </div>
-
     <div class="report-card hidden" id="view-result">
         <div class="official-seal">정식분석본</div>
         <span class="serial-num" id="res-id">REF. #00000000</span>
-        <h1 id="res-header">분석 결과 리포트</h1>
+        <h1 id="res-header">운명 분석 결과 리포트</h1>
         <div class="chart-wrap" id="radarChart"></div>
         <span class="type-tag" id="res-type">기운 분석 완료</span>
-
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('fortune', this)">현생 처방</button>
             <button class="tab-btn" onclick="switchTab('past', this)">전생 기록</button>
             <button class="tab-btn" onclick="switchTab('next', this)">내세 예약</button>
         </div>
-
         <div class="tab-content" id="tab-body"></div>
-
-        <button class="btn-share" onclick="copyLink()">결과 링크 복사</button>
+        <button class="btn-share" onclick="copyLink()">분석 결과 저장 및 링크 복사</button>
         <p onclick="location.reload()" style="font-size:0.75rem; color:#ccc; margin-top:30px; cursor:pointer; text-decoration:underline;">데이터 초기화</p>
     </div>
 </div>
-
 <script src="quotes.js"></script>
 <script>
     let session = { name: '', birth: '', seed: 0, scores: [], nameReport: '' };
-
     function startAnalysis() {
         const name = document.getElementById('userName').value.trim();
         const birth = document.getElementById('userBirth').value.trim();
         if(!name || birth.length !== 8) { alert("정확한 성명과 8자리 생년월일을 기입해주십시오."); return; }
-
         document.getElementById('btn-submit').style.display = 'none';
         document.getElementById('loader').style.display = 'block';
-
         setTimeout(() => { processData(name, birth); }, 2000);
     }
-
     function processData(name, birth) {
-        session.name = name;
-        session.birth = birth;
+        session.name = name; session.birth = birth;
         session.seed = name.split('').reduce((a,b)=>a+b.charCodeAt(0),0) + parseInt(birth);
-        
-        let scores = [45, 45, 45, 45, 45]; // 목, 화, 토, 금, 수 초기값
-
-        // [성명학 로직] 이름의 자음 오행 분석
+        let scores = [45, 45, 45, 45, 45];
         for(let i=0; i<name.length; i++) {
             const onset = getHangulOnset(name[i]);
             const el = hangulElements[onset] || '土';
             const idx = ["木", "火", "土", "金", "水"].indexOf(el);
             if(idx !== -1) scores[idx] += 15;
         }
-
-        // [사주 로직] 생년월일 계절 반영
         const month = parseInt(birth.substring(4, 6));
         if([2, 3].includes(month)) scores[0] += 25;
         else if([5, 6].includes(month)) scores[1] += 25;
         else if([8, 9].includes(month)) scores[3] += 25;
         else if([11, 12].includes(month)) scores[4] += 25;
         else scores[2] += 25;
-
         session.scores = scores.map((s, i) => s + ( (session.seed + i) % 10 ));
-
-        // [성명학 수리 분석 결과 생성]
         const strokeVal = (session.seed % 13) + 13;
         const resultNum = nameNumerology[strokeVal] || {title: "상생격", desc: "주변과 조화롭게 상생하여 안정을 찾는 기운입니다."};
         session.nameReport = `성명학적으로 <b>${resultNum.title}</b>에 해당하며, ${resultNum.desc}`;
-
         document.getElementById('view-home').classList.add('hidden');
         document.getElementById('view-result').classList.remove('hidden');
         document.getElementById('res-id').innerText = `REF. #${session.seed}`;
-        
         renderChart();
         switchTab('fortune', document.querySelector('.tab-btn'));
     }
-
     function getHangulOnset(char) {
         const charCode = char.charCodeAt(0) - 44032;
         if (charCode < 0 || charCode > 11171) return char; 
         return String.fromCharCode(Math.floor(charCode / 588) + 4352);
     }
-
     function renderChart() {
         const labels = ["木(나무)", "火(불)", "土(흙)", "金(쇠)", "水(물)"];
         const cx = 120, cy = 120, r = 85;
@@ -223,11 +121,9 @@
             const value = (session.scores[i] / 100) * r;
             polyPoints += `${cx + value * Math.cos(angle)},${cy + value * Math.sin(angle)} `;
         });
-
         const maxIdx = session.scores.indexOf(Math.max(...session.scores));
         const typeLabels = ["강인한 나무", "정열적인 불", "중심을 지키는 흙", "예리한 금속", "깊고 맑은 물"];
         document.getElementById('res-type').innerText = `[${typeLabels[maxIdx]}] 의 기질`;
-
         document.getElementById('radarChart').innerHTML = `
             <svg viewBox="0 0 240 240" style="overflow:visible;">
                 <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#F0F0F0" stroke-width="1" />
@@ -238,77 +134,36 @@
                             <text x="${cx + (r+25) * Math.cos(a)}" y="${cx + (r+25) * Math.sin(a)}" text-anchor="middle" font-size="10" fill="#999" font-weight="600">${l}</text>`;
                 }).join('')}
                 <polygon points="${polyPoints}" fill="rgba(154, 132, 103, 0.3)" stroke="var(--accent)" stroke-width="2.5" />
-            </svg>
-        `;
+            </svg>`;
     }
-
     function switchTab(mode, btn) {
-        if(btn) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-        }
-        const body = document.getElementById('tab-body');
-        const s = session.seed;
+        if(btn) { document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
+        const body = document.getElementById('tab-body'); const s = session.seed;
         const elements = ["木", "火", "土", "金", "水"];
         const maxIdx = session.scores.indexOf(Math.max(...session.scores));
         const minIdx = session.scores.indexOf(Math.min(...session.scores));
-
         if(mode === 'fortune') {
-            const lackElement = elements[minIdx];
-            const quotes = quoteData["인생"];
-            const q = quotes[s % quotes.length];
-
-            body.innerHTML = `
-                <span class="section-title">에너지 보강 및 성명 분석</span>
-                <p style="background:#F9F8F6; padding:15px; border-radius:5px; font-size:0.9rem; border-left:3px solid var(--accent); margin-bottom:20px;">
-                    ${session.nameReport}
-                </p>
-                현재 <b>${elementAttributes[lackElement].name}</b>의 기운이 부족하니 이를 보강하면 더욱 대성할 운입니다. <br><br>
-                • <b>처방 행법:</b> ${elementMissions[lackElement]}<br>
-                • <b>길한 색상:</b> ${elementAttributes[lackElement].color}<br>
-                • <b>오늘의 조언:</b> ${recommendations[s % recommendations.length]}
-                <div class="quote-footer">"${q.text}"</div>
-            `;
+            const lackElement = elements[minIdx]; const q = quoteData["인생"][s % quoteData["인생"].length];
+            body.innerHTML = `<span class="section-title">에너지 보강 및 성명 분석</span><p style="background:#F9F8F6; padding:15px; border-radius:5px; font-size:0.9rem; border-left:3px solid var(--accent); margin-bottom:20px;">${session.nameReport}</p>
+                현재 <b>${elementAttributes[lackElement].name}</b>의 기운이 부족하니 이를 보강하십시오.<br><br>• <b>처방 행법:</b> ${elementMissions[lackElement]}<br>• <b>길한 색상:</b> ${elementAttributes[lackElement].color}<br>• <b>오늘의 조언:</b> ${recommendations[s % recommendations.length]}<div class="quote-footer">"${q.text}"</div>`;
         } else if(mode === 'past') {
-            const pastIdx = (maxIdx * 6) + (s % 6);
-            const p = pastLifeData[pastIdx];
-            body.innerHTML = `
-                <span class="section-title">전거(前居) 에너지 프로필</span>
-                귀하의 에너지는 과거 <b>[${p.job}]</b>의 소명을 기록하고 있습니다. <br><br>
-                - ${p.desc}<br><br>
-                <b>현생에 남겨진 숙제:</b><br> " ${p.homework} "
-            `;
+            const p = pastLifeData[(maxIdx * 6) + (s % 6)];
+            body.innerHTML = `<span class="section-title">전거(前居) 에너지 프로필</span>귀하의 에너지는 과거 <b>[${p.job}]</b>의 소명을 기록하고 있습니다.<br><br>- ${p.desc}<br><br><b>현생에 남겨진 숙제:</b><br> " ${p.homework} "`;
         } else {
             const r = reincarnationData[s % reincarnationData.length];
-            body.innerHTML = `
-                <span class="section-title">차기 내세 예약 확약서</span>
-                다음 생으로의 에너지 전이 경로가 공식적으로 확약되었습니다.<br><br>
-                • <b>차기 정착지:</b> ${r.place}<br>
-                • <b>재탄생 형태:</b> ${r.object}<br>
-                • <b>확정 조건:</b> ${r.mission}
-            `;
+            body.innerHTML = `<span class="section-title">차기 내세 예약 확약서</span>다음 생으로의 에너지 전이 경로가 확약되었습니다.<br><br>• <b>차기 정착지:</b> ${r.place}<br>• <b>재탄생 형태:</b> ${r.object}<br>• <b>확정 조건:</b> ${r.mission}`;
         }
     }
-
     function copyLink() {
         const shareUrl = `${window.location.origin}${window.location.pathname}?name=${encodeURIComponent(session.name)}&birth=${session.birth}`;
-        const text = `[운명 공학 리포트] ${session.name}님의 분석 결과가 도착했습니다.\n직접 확인해보세요: ${shareUrl}`;
-        const t = document.createElement("textarea");
-        document.body.appendChild(t);
-        t.value = text;
-        t.select();
-        document.execCommand("copy");
-        document.body.removeChild(t);
+        const text = `[운명 공학 리포트] ${session.name}님의 분석 결과:\n${shareUrl}`;
+        const t = document.createElement("textarea"); document.body.appendChild(t); t.value = text; t.select(); document.execCommand("copy"); document.body.removeChild(t);
         alert("데이터가 담긴 공유 링크가 복사되었습니다! 🎁");
     }
-
     window.onload = function() {
         const urlParams = new URLSearchParams(window.location.search);
-        const nameParam = urlParams.get('name');
-        const birthParam = urlParams.get('birth');
-        if (nameParam && birthParam && birthParam.length === 8) {
-            processData(nameParam, birthParam);
-        }
+        const nameParam = urlParams.get('name'); const birthParam = urlParams.get('birth');
+        if (nameParam && birthParam && birthParam.length === 8) { processData(nameParam, birthParam); }
     };
 </script>
 </body>
