@@ -11,6 +11,40 @@ const hangulElements = {
     'ㅅ': '金', 'ㅆ': '金', 'ㅈ': '金', 'ㅉ': '金', 'ㅊ': '金',
     'ㅁ': '水', 'ㅂ': '水', 'ㅃ': '水', 'ㅍ': '水'
 };
+/* === 영문 알파벳 오행 매핑 (Phonetic mapping) === */
+const alphabetElements = {
+    'A': '木', 'E': '木', 'I': '木', 'O': '木', 'U': '木', 'Y': '木', // 모음 (생명력)
+    'C': '火', 'G': '火', 'J': '火', 'L': '火', 'S': '火',           // 부드러운 소리
+    'D': '土', 'N': '土', 'T': '土',                                // 치음 (안정)
+    'K': '金', 'R': '金', 'V': '金', 'X': '金', 'Z': '金',           // 강하고 날카로운 소리
+    'B': '水', 'F': '水', 'M': '水', 'P': '水', 'W': '水', 'H': '水'  // 순음 (유연함)
+};
+
+/* === 영문 UI 텍스트 데이터 === */
+const i18n = {
+    ko: {
+        title: "성명학 데이터 분석",
+        desc: "성명과 생년월일을 바탕으로 정식 리포트를 생성합니다.",
+        nameLabel: "성함",
+        birthLabel: "생년월일 양력 8자리",
+        btnAnalyze: "리포트 생성하기",
+        resTitle: "운명 데이터 분석 결과",
+        tab1: "현생 분석", tab2: "전생 기록", tab3: "내세 예약",
+        copyBtn: "결과 저장 및 링크 복사",
+        resetBtn: "새로운 운명 분석하기 (초기화)"
+    },
+    en: {
+        title: "Destiny Engineering Lab",
+        desc: "Generating an official report based on your name and birthdate.",
+        nameLabel: "Full Name",
+        birthLabel: "Birthdate (YYYYMMDD)",
+        btnAnalyze: "Generate Report",
+        resTitle: "Destiny Analysis Report",
+        tab1: "Life Path", tab2: "Past Life", tab3: "Reincarnation",
+        copyBtn: "Save Result & Copy Link",
+        resetBtn: "Analyze New Destiny (Reset)"
+    }
+};
 
 const nameNumerology = {
     1: { title: "기본격", desc: "매사에 의욕적이며 스스로 길을 개척하는 강한 생명력을 가졌습니다." },
