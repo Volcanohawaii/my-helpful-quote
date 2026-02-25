@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>속성 운명관 🔮</title>
+    <title>운명 맛집 🔮</title>
     <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gowun+Dodum&display=swap" rel="stylesheet">
     <style>
         :root { --pink: #FF9A9E; --lavender: #D8B4FE; --lemon: #FFF7AD; --text: #4A3B52; --gold: #FFD700; }
@@ -28,7 +28,7 @@
 <body>
 <div class="card">
     <div id="view-home">
-        <h1>🔮 속성 운명관 🍭</h1>
+        <h1>🔮 운명 맛집 🍭</h1>
         <p style="color:#9D50BB; font-weight:bold; font-size:0.9rem;">당신의 기운을 분석해 드립니다</p>
         <div class="btn-box">
             <button class="btn-m btn-m1" onclick="openMode('fortune')">✨ 현생의 고민 처방</button>
@@ -53,32 +53,43 @@
             <div id="res-missions" class="mission-list">미션 정보</div>
             <div id="res-side" class="side-text">주의사항</div>
         </div>
-        <button class="btn-action" style="margin-top:20px; background:#F3E5F5; color:#9D50BB;" onclick="goHome()">메뉴로 돌아가기</button>
+        <button class="btn-action" style="margin-top:20px; background:#FF9A9E;" onclick="shareResult()">나의 운명 공유하기 🎁</button>
+        <button class="btn-action" style="margin-top:10px; background:#F3E5F5; color:#9D50BB;" onclick="goHome()">메뉴로 돌아가기</button>
     </div>
 </div>
 <script src="quotes.js"></script>
 <script>
     let mode = '';
+    const ui = {
+        home: document.getElementById('view-home'),
+        input: document.getElementById('view-input'),
+        result: document.getElementById('view-result'),
+        title: document.getElementById('title-input'),
+        field: document.getElementById('userInput')
+    };
+
     function openMode(m) {
         mode = m;
-        document.getElementById('view-home').classList.add('hidden');
-        document.getElementById('view-input').classList.remove('hidden');
-        document.getElementById('view-result').classList.add('hidden');
-        document.getElementById('title-input').innerText = m==='fortune'?"✨ 현생 고민 처방":m==='past'?"📜 전생 숙제 확인":"🌈 환생 예약서";
-        document.getElementById('userInput').placeholder = m==='fortune'?"고민을 적어보세요":"이름을 적어보세요";
-        document.getElementById('userInput').value = "";
+        ui.home.classList.add('hidden');
+        ui.input.classList.remove('hidden');
+        ui.result.classList.add('hidden');
+        ui.title.innerText = m==='fortune'?"✨ 고민 처방전":m==='past'?"📜 전생 숙제 확인":"🌈 환생 예약서";
+        ui.field.placeholder = m==='fortune'?"고민을 적어보세요":"이름을 적어보세요";
+        ui.field.value = "";
     }
+
     function goHome() {
-        document.getElementById('view-home').classList.remove('hidden');
-        document.getElementById('view-input').classList.add('hidden');
-        document.getElementById('view-result').classList.add('hidden');
+        ui.home.classList.remove('hidden');
+        ui.input.classList.add('hidden');
+        ui.result.classList.add('hidden');
     }
+
     function run() {
-        const val = document.getElementById('userInput').value.trim();
+        const val = ui.field.value.trim();
         if(!val) { alert("내용을 입력해 주세요! 🍭"); return; }
         const seed = val.split('').reduce((a, b) => a + b.charCodeAt(0), 0);
         const card = tarotCards[seed % 22];
-        const attrNames = ["청량한 나무", "정열적인 불", "단단한 대지", "날카로운 금속", "깊고 맑은 물"];
+        const attrNames = ["청량한 푸른 나무", "정열적인 태양의 불", "단단한 대지의 흙", "예리한 정련된 금속", "깊고 맑은 심해의 물"];
         const attrColors = ["#B4F8C8", "#FFB7B2", "#FFDAC1", "#EEE", "#B2CEFE"];
 
         document.getElementById('res-tarot-card').innerText = tarotIcons[card];
@@ -91,19 +102,40 @@
             for(let k in keywords) { if(keywords[k].some(w => val.includes(w))) { cat = k; break; } }
             const quotes = quoteData[cat] || quoteData["기본"];
             document.getElementById('res-msg').innerText = `"${quotes[seed % quotes.length].text}"`;
-            document.getElementById('res-missions').innerHTML = `<b>영혼의 밸런스 미션:</b><br>1.🧘마음: 속성의 기운으로 평정심 찾기<br>2.🏃행동: ${recommendations[seed % recommendations.length]}<br>3.🍀정화: 주변을 환기하고 심호흡 3번 하기`;
+            document.getElementById('res-missions').innerHTML = `<b>영혼의 밸런스 미션:</b><br>1.🧘마음: 내 속성의 강점을 믿고 차분해지기<br>2.🏃행동: ${recommendations[seed % recommendations.length]}<br>3.🍀정화: 주변을 환기하고 가벼운 스트레칭 하기`;
         } else if(mode === 'past') {
             const p = pastLifeData[seed % pastLifeData.length];
             document.getElementById('res-msg').innerText = `전생의 기록: [${p.job}]`;
-            document.getElementById('res-missions').innerHTML = `<b>남겨진 에너지 기록:</b><br>${p.desc}<br>→ 현생의 숙제: <b>${p.homework}</b>`;
+            document.getElementById('res-missions').innerHTML = `<b>남겨진 에너지 기록:</b><br>${p.desc}<br>→ 이번 생의 데이터 값(숙제): <b>${p.homework}</b>`;
         } else {
             const n = reincarnationData[seed % reincarnationData.length];
             document.getElementById('res-msg').innerText = `차기 행선지: [${n.place}]`;
             document.getElementById('res-missions').innerHTML = `<b>예약 정보:</b><br>- 환생 예정: ${n.object}<br>- 확정 조건: ${n.mission}`;
         }
-        document.getElementById('res-side').innerText = `⚠️ 주의사항: ${sideEffects[seed % sideEffects.length]}`;
-        document.getElementById('view-input').classList.add('hidden');
-        document.getElementById('view-result').classList.remove('hidden');
+        document.getElementById('res-side').innerText = `⚠️ 유의사항: ${sideEffects[seed % sideEffects.length]}`;
+        ui.input.classList.add('hidden');
+        ui.result.classList.remove('hidden');
+    }
+
+    // 수정 포인트: 공유하기 함수 추가
+    function shareResult() {
+        const msg = document.getElementById('res-msg').innerText;
+        const attr = document.getElementById('res-attr').innerText;
+        const url = window.location.href;
+        let modeName = mode === 'fortune' ? "현생 고민 처방" : mode === 'past' ? "전생 숙제 확인" : "환생 예약서";
+        const shareText = `[운명 맛집 - ${modeName}]\n${attr}\n결과: ${msg}\n\n너의 운명도 확인해봐! 🔮\n${url}`;
+
+        if (navigator.share) {
+            navigator.share({ title: '운명 맛집', text: shareText, url: url });
+        } else {
+            const t = document.createElement("textarea");
+            document.body.appendChild(t);
+            t.value = shareText;
+            t.select();
+            document.execCommand("copy");
+            document.body.removeChild(t);
+            alert("운명 데이터가 복사되었습니다! 친구에게 전달해보세요. 🎁");
+        }
     }
 </script>
 </body>
