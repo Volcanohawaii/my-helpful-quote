@@ -1,52 +1,34 @@
-/**
- * [운명 공학 리포트 - 글로벌 통합 데이터셋]
- * 한국어(K-정서) + 영어(US-정서) 데이터 합본
- */
+/* 1. 분석 기초 데이터 */
+const hangulElements = { 'ㄱ': '木', 'ㄲ': '木', 'ㅋ': '木', 'ㄴ': '火', 'ㄷ': '火', 'ㄸ': '火', 'ㄹ': '火', 'ㅌ': '火', 'ㅇ': '土', 'ㅎ': '土', 'ㅅ': '金', 'ㅆ': '金', 'ㅈ': '金', 'ㅉ': '金', 'ㅊ': '金', 'ㅁ': '水', 'ㅂ': '水', 'ㅃ': '水', 'ㅍ': '水' };
+const alphabetElements = { 'A': '木', 'E': '木', 'I': '木', 'O': '木', 'U': '木', 'Y': '木', 'B': '水', 'P': '水', 'M': '水', 'F': '水', 'W': '水', 'C': '火', 'G': '火', 'J': '火', 'L': '火', 'S': '火', 'D': '土', 'N': '土', 'T': '土', 'H': '土', 'K': '金', 'R': '金', 'V': '金', 'X': '金', 'Q': '金', 'Z': '金' };
 
-/* 1. 언어별 이름 분석용 기초 자음/알파벳 매핑 */
-const hangulElements = {
-    'ㄱ': '木', 'ㄲ': '木', 'ㅋ': '木',
-    'ㄴ': '火', 'ㄷ': '火', 'ㄸ': '火', 'ㄹ': '火', 'ㅌ': '火',
-    'ㅇ': '土', 'ㅎ': '土',
-    'ㅅ': '金', 'ㅆ': '金', 'ㅈ': '金', 'ㅉ': '金', 'ㅊ': '金',
-    'ㅁ': '水', 'ㅂ': '水', 'ㅃ': '水', 'ㅍ': '水'
-};
-
-const alphabetElements = {
-    'A': '木', 'E': '木', 'I': '木', 'O': '木', 'U': '木', 'Y': '木',
-    'B': '水', 'P': '水', 'M': '水', 'F': '水', 'W': '水',
-    'C': '火', 'G': '火', 'J': '火', 'L': '火', 'S': '火',
-    'D': '土', 'N': '土', 'T': '土', 'H': '土',
-    'K': '金', 'R': '金', 'V': '金', 'X': '金', 'Q': '金', 'Z': '金'
-};
-
-/* 2. 성명학 수리 데이터 (설명 문구) */
+/* 2. 성명학 수리 데이터 (영문 번역 포함) */
 const nameNumerology = {
-    1: { title: "기본격", desc: "매사에 의욕적이며 스스로 길을 개척하는 강한 생명력을 가졌습니다." },
-    2: { title: "조화격", desc: "타인과 조화롭게 지내며 협력을 통해 안정적인 기반을 닦는 기운입니다." },
-    3: { title: "희망격", desc: "밝고 긍정적인 에너지로 주변에 활력을 주며 꾸준히 성장할 상입니다." },
-    4: { title: "안정격", desc: "차분하고 내실이 있어 큰 굴곡 없이 평안한 삶을 꾸려가는 운입니다." },
-    5: { title: "성공격", desc: "지혜와 운이 따라주어 목표한 바를 끝내 성취하는 길한 기운입니다." },
-    6: { title: "덕망격", desc: "성품이 온화하여 인복이 많고 주변의 도움으로 대업을 이룹니다." },
-    7: { title: "독립격", desc: "주관이 뚜렷하고 의지가 강해 자신의 힘으로 일가를 이루는 형상입니다." },
-    8: { title: "발전격", desc: "성실함을 바탕으로 명예를 쌓아가는 기운입니다." },
-    9: { title: "통찰격", desc: "사물의 이치를 꿰뚫는 눈이 있어 전문 분야에서 빛을 발합니다." },
-    10: { title: "유연격", desc: "어떤 환경에서도 잘 적응하며 위기를 기회로 바꾸는 재치가 뛰어납니다." },
-    11: { title: "재생격", desc: "어려움이 닥쳐도 다시 일어나는 강한 회복력을 가지고 있습니다." },
-    12: { title: "성실격", desc: "한결같은 마음으로 정진하여 말년에 큰 결실을 맺는 대기만성형입니다." },
-    13: { title: "총명격", desc: "두뇌가 영민하고 지혜가 깊어 학문이나 예술로 성공할 운입니다." },
-    14: { title: "기예격", desc: "손재주나 예술적 감각이 뛰어나 독창적인 분야에서 이름을 떨칩니다." },
-    15: { title: "통솔격", desc: "덕망이 높고 처세가 뛰어나 많은 이들을 이끄는 리더가 될 상입니다." },
-    16: { title: "덕망격", desc: "인복이 풍부하여 주변의 도움으로 가문이 번창합니다." },
-    17: { title: "강건격", desc: "신념이 강하고 추진력이 있어 어려운 난관을 정면으로 돌파합니다." },
-    18: { title: "발전격", desc: "강한 의지로 난관을 뚫고 자수성가하여 권위와 부를 거머쥡니다." },
-    19: { title: "직관격", desc: "감각이 예민하고 직관이 뛰어나 기회를 잘 포착합니다." },
-    20: { title: "결단격", desc: "맺고 끊음이 확실하여 공사 구분이 뚜렷하고 신뢰를 받습니다." },
-    21: { title: "두령격", desc: "만인을 통솔하는 기질이 강하며 크게 자성할 운입니다." },
-    22: { title: "원만격", desc: "성격이 모나지 않고 부드러워 대인관계가 원만합니다." },
-    23: { title: "혁신격", desc: "변화를 두려워하지 않고 늘 새로운 것을 추구합니다." },
-    24: { title: "입신격", desc: "점진적인 발전을 거듭하여 큰 부를 축적하게 됩니다." },
-    25: { title: "안강격", desc: "성격이 원만하고 재능이 뛰어나 평생 평안과 복을 누립니다." }
+    1: { title: "기본격", desc: "스스로 길을 개척하는 강한 생명력입니다.", titleEn: "The Pioneer", descEn: "You have a strong drive to blaze your own trail independently." },
+    2: { title: "조화격", desc: "타인과 협력하여 안정적인 기반을 닦습니다.", titleEn: "The Harmonizer", descEn: "You thrive in cooperation and create balance in your surroundings." },
+    3: { title: "희망격", desc: "밝고 긍정적인 에너지로 꾸준히 성장합니다.", titleEn: "The Optimist", descEn: "Your bright, positive energy attracts growth and new opportunities." },
+    4: { title: "안정격", desc: "차분하게 내실을 기하며 평안한 삶을 삽니다.", titleEn: "The Anchor", descEn: "You have a grounded nature that builds a secure and stable life path." },
+    5: { title: "성공격", desc: "지혜와 운이 따라주어 목표를 성취합니다.", titleEn: "The Achiever", descEn: "Luck and wisdom are on your side, guiding you toward success." },
+    6: { title: "덕망격", desc: "성품이 온화하여 인복이 많고 대업을 이룹니다.", titleEn: "The Virtuous", descEn: "Your warm personality attracts great supporters who help you grow." },
+    7: { title: "독립격", desc: "주관이 뚜렷하고 자신의 힘으로 성공합니다.", titleEn: "The Independent", descEn: "A strong self-will allows you to build your own legacy." },
+    8: { title: "발전격", desc: "성실함을 바탕으로 명예를 쌓아갑니다.", titleEn: "The Rising Star", descEn: "Step-by-step diligence leads you to a position of great respect." },
+    9: { title: "통찰격", desc: "사물의 이치를 꿰뚫는 눈이 있어 빛을 발합니다.", titleEn: "The Insightful", descEn: "Your sharp intuition allows you to see the core truth in all things." },
+    10: { title: "유연격", desc: "위기를 기회로 바꾸는 재치가 뛰어납니다.", titleEn: "The Adaptable", descEn: "You have a natural wit to turn challenges into golden opportunities." },
+    11: { title: "재생격", desc: "어려움이 닥쳐도 다시 일어나는 회복력이 강합니다.", titleEn: "The Resilient", descEn: "Your inner strength ensures you rise stronger after every setback." },
+    12: { title: "성실격", desc: "한결같은 마음으로 정진하여 큰 결실을 맺습니다.", titleEn: "The Dedicated", descEn: "Consistency is your power, leading you to grand rewards." },
+    13: { title: "총명격", desc: "지혜가 깊어 학문이나 예술로 성공합니다.", titleEn: "The Brilliant", descEn: "Intellectual sharpness paves your way to professional success." },
+    14: { title: "기예격", desc: "예술적 감각이 뛰어나 독창적인 분야에서 성공합니다.", titleEn: "The Artist", descEn: "Your unique creativity will make you stand out in any creative field." },
+    15: { title: "통솔격", desc: "덕망이 높고 많은 이들을 이끄는 리더가 됩니다.", titleEn: "The Leader", descEn: "Natural charisma and virtue position you at the head of others." },
+    16: { title: "덕망격", desc: "인복이 풍부하여 주변의 도움으로 번창합니다.", titleEn: "The Favored", descEn: "You are surrounded by people who genuinely want to see you succeed." },
+    17: { title: "강건격", desc: "신념이 강하고 난관을 정면으로 돌파합니다.", titleEn: "The Fearless", descEn: "Your unshakable faith allows you to overcome any obstacle." },
+    18: { title: "발전격", desc: "강한 의지로 난관을 뚫고 자수성가합니다.", titleEn: "The Self-Made", descEn: "Through pure determination, you will achieve authority and wealth." },
+    19: { title: "직관격", desc: "감각이 예민하여 남들이 못 보는 기회를 잡습니다.", titleEn: "The Visionary", descEn: "You sense trends and opportunities before they become obvious." },
+    20: { title: "결단격", desc: "맺고 끊음이 확실하고 신뢰를 받는 성격입니다.", titleEn: "The Decisive", descEn: "Your clear judgment and integrity make you a highly trusted individual." },
+    21: { title: "두령격", desc: "만인을 통솔하는 기질로 크게 성공할 운입니다.", titleEn: "The Commander", descEn: "Born with authority, you have the destiny to lead many." },
+    22: { title: "원만격", desc: "성격이 부드러워 대인관계가 매우 원만합니다.", titleEn: "The Diplomat", descEn: "Your gentle nature makes you a master of social harmony." },
+    23: { title: "혁신격", desc: "변화를 두려워하지 않고 시대를 앞서갑니다.", titleEn: "The Innovator", descEn: "A trailblazer who embraces change and leads into the future." },
+    24: { title: "입신격", desc: "빈손으로 시작해도 점진적으로 큰 부를 이룹니다.", titleEn: "The Wealth-Builder", descEn: "Continuous growth leads you to significant prosperity." },
+    25: { title: "안강격", desc: "성격이 원만하고 평생 평안과 복을 누립니다.", titleEn: "The Blessed", descEn: "Your balanced character ensures a life filled with peace." }
 };
 
 /* 3. 오행 속성 (공통) */
