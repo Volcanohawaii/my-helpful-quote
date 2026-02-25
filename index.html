@@ -159,6 +159,7 @@
 <script>
     let session = { name: '', birth: '', seed: 0, scores: [] };
 
+    // 1. 분석 시작
     function startAnalysis() {
         const name = document.getElementById('userName').value.trim();
         const birth = document.getElementById('userBirth').value.trim();
@@ -170,6 +171,7 @@
         setTimeout(() => { processData(name, birth); }, 2000);
     }
 
+    // 2. 데이터 처리
     function processData(name, birth) {
         session.name = name;
         session.birth = birth;
@@ -177,7 +179,7 @@
         
         const month = parseInt(birth.substring(4, 6));
         const firstChar = name.trim().charAt(0);
-        let scores = [40, 40, 40, 40, 40]; // 목, 화, 토, 금, 수
+        let scores = [40, 40, 40, 40, 40];
 
         if([2, 3].includes(month)) scores[0] += 30;
         else if([5, 6].includes(month)) scores[1] += 30;
@@ -264,7 +266,7 @@
             const p = pastLifeData[pastIdx];
             body.innerHTML = `
                 <span class="section-title">전거(前居) 에너지 프로필</span>
-                과거 <b>[${p.job}]</b>의 소명을 기록하고 있습니다. <br><br>
+                귀하의 에너지는 과거 <b>[${p.job}]</b>의 소명을 기록하고 있습니다. <br><br>
                 - ${p.desc}<br><br>
                 <b>현생에 남겨진 숙제:</b><br> " ${p.homework} "
             `;
@@ -280,18 +282,30 @@
         }
     }
 
-   function copyLink() {
-        // 현재 입력된 이름과 생일을 주소 뒤에 붙여서 새로운 링크를 만듭니다.
+    // [핵심 기능] 주소에 데이터를 포함하여 복사
+    function copyLink() {
         const shareUrl = `${window.location.origin}${window.location.pathname}?name=${encodeURIComponent(session.name)}&birth=${session.birth}`;
         const text = `[운명 공학 리포트] ${session.name}님의 분석 결과가 도착했습니다.\n직접 확인해보세요: ${shareUrl}`;
-        
         const t = document.createElement("textarea");
         document.body.appendChild(t);
         t.value = text;
         t.select();
         document.execCommand("copy");
         document.body.removeChild(t);
-        
-        alert("나의 데이터가 담긴 공유 링크가 복사되었습니다! 🎁");
+        alert("나의 분석 데이터가 포함된 링크가 복사되었습니다! 친구에게 전달해보세요. 🎁");
     }
+
+    // [핵심 기능] 페이지 로드 시 주소창의 데이터를 읽어서 즉시 분석
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const nameParam = urlParams.get('name');
+        const birthParam = urlParams.get('birth');
+
+        if (nameParam && birthParam && birthParam.length === 8) {
+            // 데이터가 있으면 로딩 없이 즉시 분석 결과 표시
+            processData(nameParam, birthParam);
+        }
+    };
+</script>
+</body>
 </html>
