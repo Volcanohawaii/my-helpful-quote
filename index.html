@@ -47,6 +47,14 @@
         <input type="text" id="userName" placeholder="성함">
         <input type="text" id="userBirth" placeholder="양력 생년월일 8자리" onkeyup="if(window.event.keyCode==13){startAnalysis()}">
         <button class="btn-action" id="ui-btn" onclick="startAnalysis()">리포트 생성하기</button>
+
+<div style="margin-top: 30px; display: flex; justify-content: center;">
+    <ins class="kakao_ad_area" style="display:none;"
+         data-ad-unit = "DAN-gySJpKsnNTQ1FIIF"
+         data-ad-width = "320"
+         data-ad-height = "50"></ins>
+    <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+    </div> 
     </div>
 
     <div class="report-card hidden" id="view-result">
@@ -60,9 +68,19 @@
             <button class="tab-btn" id="tab3" onclick="switchTab('next', this)">내세 예약</button>
         </div>
         <div class="tab-content" id="tab-body"></div>
-        <button class="btn-action" style="margin-top:40px; background:white; border:1px solid #DDD; color:#444;" id="ui-copy" onclick="copyLink()">링크 복사</button>
-        <p onclick="window.location.href=window.location.pathname" style="font-size:0.7rem; color:#CCC; margin-top:20px; cursor:pointer;" id="ui-reset">초기화</p>
-    </div>
+
+<div style="margin-top: 30px; display: flex; justify-content: center;">
+    <ins class="kakao_ad_area" style="display:none;"
+         data-ad-unit = "DAN-gySJpKsnNTQ1FIIF"
+         data-ad-width = "320"
+         data-ad-height = "50"></ins>
+    <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+</div>
+
+<button class="btn-action" style="margin-top:30px; background:white; border:1px solid #DDD; color:#444;" id="ui-copy" onclick="copyLink()">링크 복사</button>
+
+<p onclick="window.location.href=window.location.pathname" style="font-size:0.7rem; color:#CCC; margin-top:20px; cursor:pointer;" id="ui-reset">초기화</p>
+
 </div>
 
 <script src="quotes.js"></script>
