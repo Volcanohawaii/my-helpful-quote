@@ -1,9 +1,9 @@
 /**
- * [운명 공학 리포트 데이터셋 - 최종 완결본]
- * 타로 제거 및 오행 강도별(Strong/Normal/Weak) 정밀 처방 포함
+ * [운명 공학 리포트 - 글로벌 통합 데이터셋]
+ * 한국어(K-정서) + 영어(US-정서) 데이터 합본
  */
 
-/* === 1. 성명학 분석용 사전 데이터 === */
+/* 1. 언어별 이름 분석용 기초 자음/알파벳 매핑 */
 const hangulElements = {
     'ㄱ': '木', 'ㄲ': '木', 'ㅋ': '木',
     'ㄴ': '火', 'ㄷ': '火', 'ㄸ': '火', 'ㄹ': '火', 'ㅌ': '火',
@@ -11,41 +11,16 @@ const hangulElements = {
     'ㅅ': '金', 'ㅆ': '金', 'ㅈ': '金', 'ㅉ': '金', 'ㅊ': '金',
     'ㅁ': '水', 'ㅂ': '水', 'ㅃ': '水', 'ㅍ': '水'
 };
-/* === 영문 알파벳 오행 매핑 (Phonetic mapping) === */
+
 const alphabetElements = {
-    'A': '木', 'E': '木', 'I': '木', 'O': '木', 'U': '木', 'Y': '木', // 모음 (생명력)
-    'C': '火', 'G': '火', 'J': '火', 'L': '火', 'S': '火',           // 부드러운 소리
-    'D': '土', 'N': '土', 'T': '土',                                // 치음 (안정)
-    'K': '金', 'R': '金', 'V': '金', 'X': '金', 'Z': '金',           // 강하고 날카로운 소리
-    'B': '水', 'F': '水', 'M': '水', 'P': '水', 'W': '水', 'H': '水'  // 순음 (유연함)
+    'A': '木', 'E': '木', 'I': '木', 'O': '木', 'U': '木', 'Y': '木',
+    'B': '水', 'P': '水', 'M': '水', 'F': '水', 'W': '水',
+    'C': '火', 'G': '火', 'J': '火', 'L': '火', 'S': '火',
+    'D': '土', 'N': '土', 'T': '土', 'H': '土',
+    'K': '金', 'R': '金', 'V': '金', 'X': '金', 'Q': '金', 'Z': '金'
 };
 
-/* === 영문 UI 텍스트 데이터 === */
-const i18n = {
-    ko: {
-        title: "성명학 데이터 분석",
-        desc: "성명과 생년월일을 바탕으로 정식 리포트를 생성합니다.",
-        nameLabel: "성함",
-        birthLabel: "생년월일 양력 8자리",
-        btnAnalyze: "리포트 생성하기",
-        resTitle: "운명 데이터 분석 결과",
-        tab1: "현생 분석", tab2: "전생 기록", tab3: "내세 예약",
-        copyBtn: "결과 저장 및 링크 복사",
-        resetBtn: "새로운 운명 분석하기 (초기화)"
-    },
-    en: {
-        title: "Destiny Engineering Lab",
-        desc: "Generating an official report based on your name and birthdate.",
-        nameLabel: "Full Name",
-        birthLabel: "Birthdate (YYYYMMDD)",
-        btnAnalyze: "Generate Report",
-        resTitle: "Destiny Analysis Report",
-        tab1: "Life Path", tab2: "Past Life", tab3: "Reincarnation",
-        copyBtn: "Save Result & Copy Link",
-        resetBtn: "Analyze New Destiny (Reset)"
-    }
-};
-
+/* 2. 성명학 수리 데이터 (설명 문구) */
 const nameNumerology = {
     1: { title: "기본격", desc: "매사에 의욕적이며 스스로 길을 개척하는 강한 생명력을 가졌습니다." },
     2: { title: "조화격", desc: "타인과 조화롭게 지내며 협력을 통해 안정적인 기반을 닦는 기운입니다." },
@@ -59,30 +34,31 @@ const nameNumerology = {
     10: { title: "유연격", desc: "어떤 환경에서도 잘 적응하며 위기를 기회로 바꾸는 재치가 뛰어납니다." },
     11: { title: "재생격", desc: "어려움이 닥쳐도 다시 일어나는 강한 회복력을 가지고 있습니다." },
     12: { title: "성실격", desc: "한결같은 마음으로 정진하여 말년에 큰 결실을 맺는 대기만성형입니다." },
-    13: { title: "총명격(聰明格)", desc: "두뇌가 영민하고 지혜가 깊어 학문이나 예술로 성공할 운입니다." },
+    13: { title: "총명격", desc: "두뇌가 영민하고 지혜가 깊어 학문이나 예술로 성공할 운입니다." },
     14: { title: "기예격", desc: "손재주나 예술적 감각이 뛰어나 독창적인 분야에서 이름을 떨칩니다." },
-    15: { title: "통솔격(統率格)", desc: "덕망이 높고 처세가 뛰어나 많은 이들을 이끄는 리더가 될 상입니다." },
-    16: { title: "덕망격(德望格)", desc: "인복이 풍부하여 주변의 도움으로 가문이 번창합니다." },
+    15: { title: "통솔격", desc: "덕망이 높고 처세가 뛰어나 많은 이들을 이끄는 리더가 될 상입니다." },
+    16: { title: "덕망격", desc: "인복이 풍부하여 주변의 도움으로 가문이 번창합니다." },
     17: { title: "강건격", desc: "신념이 강하고 추진력이 있어 어려운 난관을 정면으로 돌파합니다." },
-    18: { title: "발전격(發展格)", desc: "강한 의지로 난관을 뚫고 자수성가하여 권위와 부를 거머쥡니다." },
+    18: { title: "발전격", desc: "강한 의지로 난관을 뚫고 자수성가하여 권위와 부를 거머쥡니다." },
     19: { title: "직관격", desc: "감각이 예민하고 직관이 뛰어나 기회를 잘 포착합니다." },
     20: { title: "결단격", desc: "맺고 끊음이 확실하여 공사 구분이 뚜렷하고 신뢰를 받습니다." },
-    21: { title: "두령격(頭領格)", desc: "만인을 통솔하는 기질이 강하며 크게 자성할 운입니다." },
+    21: { title: "두령격", desc: "만인을 통솔하는 기질이 강하며 크게 자성할 운입니다." },
     22: { title: "원만격", desc: "성격이 모나지 않고 부드러워 대인관계가 원만합니다." },
     23: { title: "혁신격", desc: "변화를 두려워하지 않고 늘 새로운 것을 추구합니다." },
-    24: { title: "입신격(立身格)", desc: "점진적인 발전을 거듭하여 큰 부를 축적하게 됩니다." },
-    25: { title: "안강격(安康格)", desc: "성격이 원만하고 재능이 뛰어나 평생 평안과 복을 누립니다." }
+    24: { title: "입신격", desc: "점진적인 발전을 거듭하여 큰 부를 축적하게 됩니다." },
+    25: { title: "안강격", desc: "성격이 원만하고 재능이 뛰어나 평생 평안과 복을 누립니다." }
 };
 
-/* === 2. 오행 속성 및 강도별 정밀 처방 (신규) === */
+/* 3. 오행 속성 (공통) */
 const elementAttributes = {
-    "木": { color: "청색(靑)", name: "나무(木)", trait: "성장과 기획, 어진 마음" },
-    "火": { color: "적색(赤)", name: "불(火)", trait: "열정과 예의, 화려함" },
-    "土": { color: "황색(黃)", name: "흙(土)", trait: "신용과 중용, 포용력" },
-    "金": { color: "백색(白)", name: "쇠(金)", trait: "결단과 의리, 날카로움" },
-    "水": { color: "흑색(黑)", name: "물(水)", trait: "지혜와 유연함, 침투력" }
+    "木": { color: "청색(Blue)", name: "나무(Wood)", trait: "성장과 기획 / Growth & Creativity" },
+    "火": { color: "적색(Red)", name: "불(Fire)", trait: "열정과 예의 / Passion & Warmth" },
+    "土": { color: "황색(Yellow)", name: "흙(Earth)", trait: "신용과 중용 / Stability & Trust" },
+    "金": { color: "백색(White)", name: "쇠(Metal)", trait: "결단과 의리 / Logic & Precision" },
+    "水": { color: "흑색(Black)", name: "물(Water)", trait: "지혜와 유연함 / Intuition & Wisdom" }
 };
 
+/* 4-1. 한국어 전용 처방 (K-정서) */
 const elementPrescriptions = {
     "木": {
         strong: "기운이 과해 시작만 하고 끝을 못 맺을 수 있습니다. 일기를 쓰며 생각을 정리(설기)하십시오.",
@@ -108,6 +84,55 @@ const elementPrescriptions = {
         strong: "생각이 깊어져 우울감이 올 수 있습니다. 몸을 격렬하게 움직여 땀을 흘리는 처방이 길합니다.",
         normal: "지혜가 샘솟는 때입니다. 명상을 하거나 새로운 지식을 습득하며 흐름을 즐기십시오.",
         weak: "유연함이 부족해지는 시기입니다. 따뜻한 차를 마시거나 반신욕을 통해 순환을 도와야 합니다."
+    }
+};
+
+/* 4-2. 영어 전용 처방 (US-정서) */
+const enPrescriptions = {
+    "木": { 
+        strong: "Your creative energy is overflowing. Focus on finishing one project at a time rather than starting many.",
+        normal: "Your growth potential is steady. Surround yourself with nature to keep your inspiration fresh.",
+        weak: "Your drive needs a boost. Try wearing green or spending time in the early morning sun."
+    },
+    "火": { 
+        strong: "Your passion is intense. Take a breath and cool down to avoid social burnout.",
+        normal: "You radiate warmth and leadership. It's a great time to lead a team or inspire others.",
+        weak: "Your motivation might be low. Engage in light cardio to get your energy moving again."
+    },
+    "土": { 
+        strong: "Your stability is great, but don't be afraid of change. Try a new hobby this week.",
+        normal: "You are a reliable anchor for those around you. Enjoy the comfort of your home base.",
+        weak: "You might feel ungrounded. Spend time barefoot in the garden or eat earthy foods."
+    },
+    "金": { 
+        strong: "Your judgment is sharp, but be careful not to be too critical of yourself or others.",
+        normal: "Your logic is your greatest strength right now. Perfect time for organizing your life.",
+        weak: "Decision-making might feel hard. Wear white or gold accessories to sharpen your resolve."
+    },
+    "水": { 
+        strong: "Your intuition is deep. Don't overthink—move your body to stay out of a mood slump.",
+        normal: "You are flowing smoothly through life's challenges. Keep learning and stay curious.",
+        weak: "You might feel stuck. A warm bath or listening to jazz can help your emotions flow again."
+    }
+};
+
+/* 5. 다국어 UI 텍스트 사전 */
+const i18n = {
+    ko: {
+        title: "운명 공학 분석소", desc: "성명과 생년월일 기반 정식 리포트",
+        nameLabel: "성함 (한글/영문)", birthLabel: "생년월일 8자리 (YYYYMMDD)", btn: "리포트 생성하기",
+        resTitle: "운명 분석 결과 리포트", tab1: "현생 분석", tab2: "전생 기록", tab3: "내세 예약",
+        copy: "결과 저장 및 링크 복사", reset: "새로운 운명 분석하기 (초기화)",
+        sec1: "1. 성명 수리 분석 결과", sec2: "2. 주체 에너지 분석", sec3: "3. 에너지 보강 지침",
+        sideEffect: "에너지 조정 부작용 주의", advise: "운명 조언", practice: "실천 행법"
+    },
+    en: {
+        title: "Destiny Engineering Lab", desc: "Official Report based on Name & Birthdate",
+        nameLabel: "Full Name (KO/EN)", birthLabel: "Birthdate (YYYYMMDD)", btn: "Generate Report",
+        resTitle: "Destiny Analysis Report", tab1: "Life Path", tab2: "Past Life", tab3: "Future Life",
+        copy: "Save Result & Copy Link", reset: "Analyze New Destiny (Reset)",
+        sec1: "1. Name Numerology", sec2: "2. Core Energy Analysis", sec3: "3. Energy Power-Up Guide",
+        sideEffect: "Temporary Side Effects", advise: "Life Advice", practice: "Daily Mission"
     }
 };
 
@@ -239,13 +264,13 @@ const recommendations = [
 ];
 
 const sideEffects = [
-    "떡볶이가 미치도록 먹고 싶어짐", "모든 말끝마다 '용~'을 붙이고 싶어짐", "전생에 돌덩이였음을 깨닫고 멍해짐",
+    "디저트가 미치도록 먹고 싶어짐", "모든 말끝마다 토를 달고 싶어짐", "전생에 돌덩이였음을 깨닫고 멍해짐",
     "왼쪽 콧구멍만 간지러워짐", "거울 속 내가 너무 눈부셔 선글라스 찾게 됨", "양말 한 짝 영원히 실종",
     "과도한 자신감으로 전생에 나라 구한 기분", "모든 노래가 내 인생 이야기처럼 들림", "강아지 빙의되어 '밥 줘' 외치고 싶음",
     "내가 천재라는 근거 없는 믿음", "화려한 조명 아래 춤추고 싶은 욕구", "고양이가 말을 거는 듯한 환청",
     "이불 속 중력이 강해져 못 나감", "알람 소리가 교향곡처럼 들림", "횡단보도 흰색 칸만 밟게 됨",
     "무의식 중에 손가락 하트 발사", "냉장고 모든 소스 유통기한 점검", "모든 음식이 0칼로리로 느껴짐",
-    "숙면 중 메뚜기 춤 추기", "배경화면을 치킨 사진으로 바꾸고 싶음", "아모르파티가 머릿속 무한 재생",
+    "숙면 중 춤 추기", "배경화면을 치킨 사진으로 바꾸고 싶음", "웃긴 노래가 머릿속 무한 재생",
     "입안에 가시 돋는 예쁜 척 중독", "나뭇잎에게 말 거는 다정다감", "윈드밀 돌 수 있을 것 같은 자신감",
     "공기밥 추가를 안 하면 서운함", "마법사 지팡이를 찾게 됨", "과도한 연예인병",
     "내일 점심이 4K로 꿈에 나옴", "10년 전 흑역사가 고해상도로 기억남", "음치임에도 노래방 용기 폭발",
@@ -253,4 +278,195 @@ const sideEffects = [
     "계단 한 칸씩 건너뛰고 싶은 활력", "채소가 고기 맛으로 느껴짐", "평범한 돌멩이를 주머니에 넣음",
     "만화 주인공처럼 대사 읊기", "웃음소리가 음하하로 바뀜", "모든 비밀을 아는 듯한 예지력",
     "오늘 하루가 영화처럼 상영됨", "춤을 안 추면 몸이 가려움"
+];
+/* === 3-E. US Inspirational Quotes (Western Perspective) === */
+const quoteDataEn = {
+    "life": [
+        { text: "Every flower blooms in its own time." },
+        { text: "Learn from yesterday, live for today, hope for tomorrow." },
+        { text: "Our greatest glory is not in never falling, but in rising every time we fall." },
+        { text: "Where there is life, there is hope." },
+        { text: "If you do nothing, nothing happens." },
+        { text: "Done is better than perfect." },
+        { text: "Be yourself; everyone else is already taken." },
+        { text: "Patience, not laziness, builds your tomorrow." },
+        { text: "Happiness is not something ready-made; it comes from your own actions." },
+        { text: "Life is like riding a bicycle. To keep your balance, you must keep moving." },
+        { text: "The darker the night, the brighter the stars." },
+        { text: "Success is a journey, not a destination." },
+        { text: "Dream big and dare to fail." },
+        { text: "Your time is limited, so don't waste it living someone else's life." },
+        { text: "Everything you've ever wanted is on the other side of fear." }
+    ]
+};
+
+/* === 4-E. Past Life Data (30 Items - Adventurous & Mystical) === */
+const pastLifeDataEn = [
+    { job: "A Poet Writing under the Moonlight", desc: "You pursued wisdom with a kind soul but preferred to avoid the world's chaos.", homework: "Stand tall and show your talents to the world." },
+    { job: "A Royal Cat Napping in the Palace", desc: "You healed others with your peaceful energy but forgot how to hunt for yourself.", homework: "Develop independence and stand on your own feet." },
+    { job: "A Hermit Gardener of a Secret Garden", desc: "You lived in your own beautiful world, talking only to the flowers.", homework: "Step out and connect with the people around you." },
+    { job: "A Master Artisan of Ancient Pottery", desc: "You spent your whole life seeking the perfect shape in a single piece of clay.", homework: "Learn the beauty of waiting and let go of impatience." },
+    { job: "A Wise Village Healer", desc: "You healed the broken hearts of your neighbors with herbs and kindness.", homework: "Continue to care for those around you with empathy." },
+    { job: "A Guardian of the Pristine Forest", desc: "You were a being that guarded the ancient wisdom of nature for millennia.", homework: "Do not fear new changes; embrace the future." },
+    { job: "A Perfumer Creating Secret Scents", desc: "You spent nights researching charms to enchant the hearts of others.", homework: "Develop a strong inner self that isn't easily swayed." },
+    { job: "A Lead Dancer of the Royal Court", desc: "You were an artist who captured even the King's heart with your graceful moves.", homework: "Focus your passion on the right goals." },
+    { job: "A Soulful Soloist of the Great Cathedral", desc: "You were one who moved people's souls with your heavenly voice.", homework: "Speak your truth boldly and clearly." },
+    { job: "A Messenger Crossing the Battlefield", desc: "You were a responsible soul who ran day and night to deliver vital news.", homework: "Always keep your promises until the very end." },
+    { job: "A Pyrotechnician Designing Fireworks", desc: "You researched in the dark for a lifetime just for a moment of brilliance.", homework: "Find light in the small, everyday moments of happiness." },
+    { job: "A High Priest of the Sun God", desc: "You were a sacred figure who transformed the heat of the sun into prayers.", homework: "Manage your inner fire and find true peace." },
+    { job: "A Stalwart Guard of the City Gates", desc: "You protected the city faithfully but never got to see what was outside.", homework: "Travel to unfamiliar places and broaden your horizons." },
+    { job: "An Ancient Rock in the Deep Mountains", desc: "You watched the world change for centuries while staying in one place.", homework: "Let go of stubbornness and learn to be flexible." },
+    { job: "A Peaceful Shepherd in the Alps", desc: "You lived looking at the clouds with your sheep in the vast meadows.", homework: "Clear your complex thoughts and live simply." },
+    { job: "A Master Architect of Grand Palaces", desc: "You designed the sanctuary for others by laying thousands of tiles.", homework: "Have the patience to build everything from the ground up." },
+    { job: "A Warhorse of a Great Merchant", desc: "You ran bravely to help accumulate wealth but your hooves suffered.", homework: "Take better care of your physical health and body." },
+    { job: "A Guardian of a Desert Oasis", desc: "You were a merciful soul who shared life-giving water with weary travelers.", homework: "Understand the joy of sharing with a relaxed heart." },
+    { job: "A Sheriff's Rusty Badge in the Old West", desc: "You shone sharply on someone's chest to protect justice and order.", homework: "Have the courage to stand up for your values." },
+    { job: "A Legendary Swordsman of a Secret Map", desc: "You lived your life with a single blade to protect what truly mattered.", homework: "Set your own principles and stick to them." },
+    { job: "A Viking Guide Raven", desc: "You read the wind from the highest point to lead the ships safely.", homework: "Trust your intuition when you lack certainty." },
+    { job: "An Inventor's Failed Clockwork", desc: "Though you stopped ticking, you gave the inventor great precision and inspiration.", homework: "Do not fear failure; try again." },
+    { job: "A Cartographer Mapping the Golden Desert", desc: "You saved lives with a single, accurate line on your maps.", homework: "Enjoy the process rather than just the result." },
+    { job: "The Anchor of an Arctic Icebreaker", desc: "You had a solid will that broke through the harsh ice to make a path.", homework: "Practice softening your hardened heart." },
+    { job: "An Astronomer Reading the Stars of Egypt", desc: "You pondered the laws of the universe while mapping the night sky.", homework: "Look at the big picture rather than small worries." },
+    { job: "A Clever Merchant of Overseas Treasures", desc: "You were a flexible person who sparked curiosity with exotic goods.", homework: "Seek spiritual value rather than just material wealth." },
+    { job: "A Famous Storyteller in the Marketplace", desc: "You were a popular soul who touched people's hearts with your words.", homework: "Use the power of your words truthfully and wisely." },
+    { job: "A Pearl Diver of an Unknown Island", desc: "You were a wise soul who gathered jewel-like moments from the deep sea.", homework: "Realize that what is most precious is always near you." },
+    { job: "A Wise Fisherman Watching the River", desc: "You were a sage who enjoyed the flow without rushing through time.", homework: "Learn the art of slow living and enjoying the journey." },
+    { job: "A Solitary Monk Clearing Mountain Snow", desc: "You washed away the world's worries while clearing the white snow.", homework: "Regularly organize the clutter in your mind." }
+];
+
+/* === 5-E. Reincarnation Data (30 Items - Global Perspective) === */
+const reincarnationDataEn = [
+    { place: "A wealthy ranch in the Swiss Alps", object: "A luxury cow with an elegant bell", mission: "Open the window and breathe fresh air 3 times today." },
+    { place: "A genius developer's studio in Silicon Valley", object: "A high-end mechanical keyboard", mission: "Tell yourself, 'You did a great job today.'" },
+    { place: "A luxury penthouse in Manhattan", object: "A pampered cat that sleeps 20 hours a day", mission: "Lie down and stretch your legs fully." },
+    { place: "The crystal blue waters of Maui", object: "A dolphin watching the surfers", mission: "Sing a line of your favorite song in the shower." },
+    { place: "A cozy library in a Nordic village", object: "A beloved best-selling book", mission: "Read at least one page before bed." },
+    { place: "A peaceful planet in a distant galaxy", object: "A glowing flower that never withers", mission: "Give yourself your brightest smile in the mirror." },
+    { place: "A sunny bench in Central Park", object: "A trendy New Yorker's sunglasses", mission: "Get some Vitamin D in a sunny spot." },
+    { place: "An art studio near the Eiffel Tower", object: "A paintbrush touched by an artist", mission: "Doodle or draw something, no matter how small." },
+    { place: "An emerald beach in the Bahamas", object: "A surfboard riding the perfect wave", mission: "Purify your mind by looking at a glass of clear water." },
+    { place: "An ancient record shop in London", object: "A vintage vinyl record of a masterpiece", mission: "Listen to your favorite song from start to finish." },
+    { place: "A greenhouse in a future Mars colony", object: "The first Martian apple tree", mission: "Eat a slice of an apple or some fresh fruit." },
+    { place: "A quiet hot spring village in Japan", object: "A happy monkey with a towel on its head", mission: "Take a warm foot bath or a relaxing shower." },
+    { place: "Under a water villa in the Maldives", object: "A colorful and beautiful coral reef", mission: "Look at something blue to calm your mind." },
+    { place: "A castle wall in a fairy tale kingdom", object: "A floating cotton candy cloud", mission: "Stare at the sky blankly for 5 seconds." },
+    { place: "The world's most famous bakery", object: "A freshly baked, buttery croissant", mission: "Treat yourself to a delicious snack today." },
+    { place: "A suite in a 7-star hotel", object: "A fluffy down pillow for travelers", mission: "Tuck yourself in comfortably tonight." },
+    { place: "A street in Kyoto during cherry blossom season", object: "A petal falling on someone's shoulder", mission: "Take a walk and look at the flowers around you." },
+    { place: "Near a research base in Antarctica", object: "A baby penguin sliding on its belly", mission: "Watch a cute animal video for a minute." },
+    { place: "Inside a celebrity's designer bag", object: "A favorite lipstick that's always loved", mission: "Clean or organize one of your favorite items." },
+    { place: "A historic plaza in Rome", object: "A magnificent statue witnessing history", mission: "Think of one great thing about yourself." },
+    { place: "The night sky filled with the Aurora Borealis", object: "The brightest North Star", mission: "Look for a star out your window tonight." },
+    { place: "A smart garden in a futuristic city", object: "An autonomous mower smelling fresh grass", mission: "Tidy up your surroundings for just 1 minute." },
+    { place: "A peaceful temple on the Tibetan Plateau", object: "A clear bell ringing in the wind", mission: "Listen to some meditation or calm music." },
+    { place: "A bamboo forest in a panda sanctuary", object: "A famous panda that gets to be lazy", mission: "Be as lazy as possible just for today." },
+    { place: "A movie set for a Hollywood blockbuster", object: "The lead actor's script", mission: "Write down one inspiring word or sentence." },
+    { place: "A white rooftop in Santorini", object: "A relaxed cat overlooking the sea", mission: "Look at a photo of the ocean or the sky." },
+    { place: "An ancient forest with the cleanest air", object: "A wise Baobab tree living for millennia", mission: "Take 3 deep, slow breaths." },
+    { place: "A theme park filled with children's laughter", object: "A colorful balloon flying high", mission: "Imagine something happy for 1 minute." },
+    { place: "A giant cruise ship sailing the world", object: "A sail witnessing every voyage", mission: "Search for a travel destination you'd like to visit." },
+    { place: "A cherished family photo album", object: "The person smiling brightest in the photo", mission: "Recall one happy memory from your past." }
+];
+
+/* === 6-E. US Action Recommendations & Side Effects (Witty & Western) === */
+const recommendationsEn = [
+    "Have a staring contest with a pigeon to show dominance.",
+    "Give yourself a high-five in the mirror to sync your egos.",
+    "Drink a glass of ice-cold water to lower your brain temp by 1 degree.",
+    "Organize one messy drawer for exactly 5 minutes.",
+    "Add '...or is it just me?' to every answer to create mystery.",
+    "Refer to yourself as a 'Professional Foodie' today.",
+    "Walk around the house with only one sock on to feel the art of imbalance.",
+    "Open the window and try to 'read' the air quality with your skin.",
+    "Blow a finger-heart to a random tree or flower.",
+    "Pick the newest, weirdest snack at the convenience store.",
+    "Imagine you are a martial arts master while taking a shower.",
+    "Whisper 'You are a gem' to yourself 3 times.",
+    "Try one breakdance move while cleaning the floor.",
+    "When you hear a loud noise, mutter 'Is that a signal from destiny?'.",
+    "Pick your 'prettiest piece of trash' and have a retirement ceremony before throwing it away.",
+    "Check an old friend's profile and silently wish them well.",
+    "Listen to your favorite song from the very first second to the last.",
+    "Count how many loose threads are on your clothes right now.",
+    "Silently salute every dog you pass on the street.",
+    "Open the fridge and stand there for 5 seconds to find inner peace.",
+    "Brush your teeth with your non-dominant hand to re-wire your brain.",
+    "Walk to your next meeting as if there is zero gravity.",
+    "Have a 3-minute fashion show in your room with tomorrow's outfit.",
+    "Wink at the wind as it passes by.",
+    "Wear your shoes on the wrong feet for 3 seconds to feel the world's prejudice.",
+    "Drink water and imagine you are the lead in a dramatic soap opera.",
+    "Change your phone wallpaper to a photo of the food you crave most.",
+    "Give life directions to a passing ant.",
+    "Photosynthesize by a sunny window to recharge your luck.",
+    "Be 'professionally lazy' just for today.",
+    "Read your daily schedule like you're reading a movie script.",
+    "Clean your most prized possession to purify its energy.",
+    "Silently tell a stranger 'Nice outfit' in your head.",
+    "Host a party for one with your favorite 3 snacks.",
+    "Look at the sky and feel the fact that 'Air is free'.",
+    "Wink 10 times at yourself in the mirror while brushing teeth.",
+    "Walk 30 feet like a supermodel with your hands in your pockets.",
+    "Pre-analyze tomorrow's lunch menu with extreme detail.",
+    "Draw eyes on your fingertips and have a conversation with them.",
+    "Delete 3 unused apps to clear your digital karma.",
+    "Give a star rating to the last video you watched.",
+    "Lie down and suggest to yourself 'I am a rock'.",
+    "Give a cool name to a wildflower on the street.",
+    "Hold your coffee cup with the most elegant gesture possible.",
+    "Mutter 'I'm so cool' 5 times without realizing it.",
+    "Write one line of your diary using extreme poetic metaphors.",
+    "Remember today's color is purple and find one purple object."
+];
+
+const sideEffectsEn = [
+    "Sudden, uncontrollable craving for spicy tacos.",
+    "Strong urge to end every sentence with '...lol'.",
+    "Sudden realization that you were a rock in a past life.",
+    "A slight, mysterious itch in only your left nostril.",
+    "Intense curiosity to Google who 'Zhu Fu' is.",
+    "Finding yourself so dazzling in the mirror you need sunglasses.",
+    "Increased probability of one sock disappearing in the laundry forever.",
+    "Excessive confidence that you saved the world in a past life.",
+    "Feeling like every pop song lyric is about your life.",
+    "Involuntary winking due to a slight eye twitch.",
+    "Urge to bark 'Feed me!' at your roommates like a puppy.",
+    "Groundless belief that you are the only genius who can save the world.",
+    "Sudden urge to dance when a spotlight hits you.",
+    "Auditory hallucination that a passing cat just said 'Hello'.",
+    "Increased gravity making it impossible to get out of bed.",
+    "Urge to walk around holding a bouquet like a movie lead.",
+    "Hallucination that your alarm clock sounds like a heavenly choir.",
+    "Obsession with only stepping on the white stripes of a crosswalk.",
+    "Accidentally sending finger-hearts to your boss.",
+    "Delusion that all the neighborhood cats treat you as their King.",
+    "Sudden urge to check the expiration date of every sauce in the fridge.",
+    "Danger of overeating because everything feels like 0 calories.",
+    "Dreaming of dancing with a celebrity, ruining your deep sleep.",
+    "Urge to change your phone wallpaper to a photo of fried chicken.",
+    "Inability to function because a catchy song is looping in your head.",
+    "A condition where you feel pain unless you act 'too cute'.",
+    "The 'Kindness Side Effect' where you start talking to fallen leaves.",
+    "Unfounded physical confidence that you can do a windmill spin.",
+    "Feeling offended if you aren't offered a free refill.",
+    "Searching for a magic wand because you're convinced you're a wizard.",
+    "Excessive 'Celebrity Syndrome' feeling like everyone is watching you.",
+    "Tomorrow's lunch appearing in your dreams in 4K resolution.",
+    "Sudden high-definition memory of an embarrassing moment from 10 years ago.",
+    "Increased courage to go to karaoke despite being tone-deaf.",
+    "Visual improvement where the world looks like it has a lavender filter.",
+    "Suddenly acting like a millionaire even when your wallet is empty.",
+    "Delusion that you can actually communicate with pigeons.",
+    "Trying to transmit telepathic signals to aliens.",
+    "Physical vitality making you want to skip every other stair step.",
+    "Taste bud mutation where vegetables suddenly taste like steak.",
+    "Being mistaken for an angel because you're being too nice to everyone.",
+    "Sudden happiness from just tying your shoelaces.",
+    "A tendency to pick up ordinary rocks because they look like gems.",
+    "An urge to recite lines like a protagonist in a cartoon.",
+    "Your laugh changing to an 'Evil Villain' cackle.",
+    "The illusion that you suddenly know everyone's secrets.",
+    "Your day replaying in your head like a movie before you sleep.",
+    "Extreme itchiness to dance if you don't hear a beat.",
+    "Addiction to humming while walking down the street."
 ];
