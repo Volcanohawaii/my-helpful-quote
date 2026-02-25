@@ -3,157 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>속성 운명관 🔮</title>
-    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gowun+Dodum&display=swap" rel="stylesheet">
+    <title>운명 공학 리포트</title>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Pretendard:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* 모든 요소의 크기 계산 방식을 테두리 포함으로 설정 (튀어나옴 방지) */
-        * { box-sizing: border-box; }
+        :root {
+            --bg: #F4F2EE;
+            --paper: #FFFFFF;
+            --primary: #2C3E50; /* 깊은 네이비 */
+            --accent: #A68A64;  /* 차분한 골드 브라운 */
+            --text: #3E3E3E;
+            --border: #E5E1DA;
+        }
 
-        :root { --pink: #FF9A9E; --lavender: #D8B4FE; --lemon: #FFF7AD; --text: #4A3B52; --gold: #FFD700; }
-        
-        body { font-family: 'Gowun Dodum', sans-serif; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; color: var(--text); background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 25%, #D8B4FE 60%, #FFF7AD 100%); background-attachment: fixed; overflow-x: hidden; }
-        
-        .card { width: 90%; max-width: 400px; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(15px); padding: 30px 20px; border-radius: 40px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.1); border: 4px solid white; position: relative; }
-        
-        h1 { font-family: 'Gaegu', cursive; font-size: 2.2rem; margin: 0 0 10px 0; background: linear-gradient(to right, #FF007A, #A78BFA); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        .btn-box { display: flex; flex-direction: column; gap: 12px; margin-top: 25px; }
-        
-        .btn-m { width: 100%; padding: 18px; border: none; border-radius: 20px; font-family: 'Gaegu'; font-size: 1.4rem; font-weight: bold; cursor: pointer; transition: 0.3s; color: white; }
-        .btn-m1 { background: #FF9A9E; } 
-        .btn-m2 { background: #A78BFA; } 
-        .btn-m3 { background: #81ecec; color: #4A3B52; }
-        
+        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body { font-family: 'Pretendard', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+
+        .container { width: 100%; max-width: 450px; padding: 20px; }
+
+        .report-card {
+            background: var(--paper);
+            border-radius: 8px;
+            padding: 50px 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        h1 { font-family: 'Gowun Batang', serif; font-size: 1.7rem; color: var(--primary); margin: 0 0 10px 0; font-weight: 700; }
+        .sub-desc { font-size: 0.85rem; color: var(--accent); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 40px; }
+
+        /* 입력 폼 */
+        .form-area { text-align: left; margin-bottom: 30px; }
+        .label { font-size: 0.8rem; font-weight: 600; color: var(--primary); margin-bottom: 8px; display: block; }
+        input {
+            width: 100%; padding: 16px; border: 1px solid var(--border); border-radius: 4px;
+            font-size: 1rem; margin-bottom: 20px; outline: none; transition: 0.3s;
+        }
+        input:focus { border-color: var(--accent); }
+
+        .btn-start {
+            width: 100%; padding: 18px; background: var(--primary); color: white; border: none;
+            border-radius: 4px; font-family: 'Gowun Batang', serif; font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; transition: 0.3s;
+        }
+        .btn-start:hover { background: #1a252f; }
+
         .hidden { display: none; }
-        
-        /* 입력창 디자인 수정 (튀어나오지 않게 조정) */
-        input { width: 100%; padding: 15px; border: 2px solid #EEE; border-radius: 20px; font-size: 1rem; text-align: center; margin-bottom: 15px; outline: none; display: block; }
-        
-        .btn-action { width: 100%; padding: 18px; border: none; border-radius: 20px; background: #4A3B52; color: white; font-size: 1.2rem; font-family: 'Gaegu'; font-weight: 700; cursor: pointer; }
-        
-        #resultPaper { background: white; border-radius: 25px; padding: 20px 15px; border: 2px solid #F3E5F5; margin-top: 20px; text-align: left; }
-        
-        .tarot-box { background: #FFF9FA; padding: 15px; border-radius: 20px; border: 1px dashed var(--pink); text-align: center; margin-bottom: 15px; }
-        
-        .mini-card { width: 60px; height: 90px; margin: 0 auto 10px; border-radius: 8px; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; font-size: 2rem; background: white; }
-        
-        .attr-tag { display: inline-block; padding: 4px 12px; background: #4A3B52; color: white; border-radius: 10px; font-size: 0.85rem; margin-bottom: 10px; }
-        
-        .msg-text { font-family: 'Gaegu'; font-size: 1.5rem; color: #2D3436; margin-bottom: 15px; line-height: 1.3; }
-        
-        .mission-list { background: #F8F4FF; padding: 12px; border-radius: 15px; font-size: 0.9rem; line-height: 1.6; color: #555; }
-        
-        .side-text { font-size: 0.75rem; color: #BBB; margin-top: 15px; text-align: center; border-top: 1px solid #F0F0F0; padding-top: 10px; font-style: italic; }
+
+        /* 결과창 요소 */
+        .chart-wrap { margin: 30px auto; width: 220px; height: 220px; }
+        .type-tag { font-family: 'Gowun Batang', serif; font-size: 1.2rem; color: var(--accent); font-weight: 700; margin-bottom: 10px; display: block; }
+
+        .tabs { display: flex; border-bottom: 1px solid var(--border); margin: 30px 0 20px; }
+        .tab-btn {
+            flex: 1; padding: 12px 0; border: none; background: none; cursor: pointer;
+            font-family: 'Gowun Batang', serif; font-size: 0.95rem; color: #999; position: relative;
+        }
+        .tab-btn.active { color: var(--primary); font-weight: 700; }
+        .tab-btn.active::after {
+            content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 2px; background: var(--primary);
+        }
+
+        .tab-content { text-align: left; line-height: 1.8; font-size: 0.95rem; min-height: 200px; color: #555; }
+        .section-title { font-family: 'Gowun Batang', serif; font-size: 1.1rem; color: var(--primary); display: block; margin-bottom: 15px; border-left: 3px solid var(--accent); padding-left: 10px; }
+
+        /* 처방전 명언 푸터 */
+        .quote-footer {
+            margin-top: 30px; padding-top: 20px; border-top: 1px dashed var(--border);
+            font-family: 'Gowun Batang', serif; font-size: 0.9rem; color: var(--accent);
+            text-align: center; line-height: 1.5; font-style: italic;
+        }
+
+        .btn-share {
+            margin-top: 30px; background: none; border: 1px solid var(--border);
+            padding: 10px 20px; border-radius: 30px; font-size: 0.8rem; color: #888; cursor: pointer;
+        }
     </style>
 </head>
 <body>
-<div class="card">
-    <div id="view-home">
-        <h1>🔮 속성 운명관 🍭</h1>
-        <p style="color:#9D50BB; font-weight:bold; font-size:0.9rem;">당신의 기운을 분석해 드립니다</p>
-        <div class="btn-box">
-            <button class="btn-m btn-m1" onclick="openMode('fortune')">✨ 현생의 고민 처방</button>
-            <button class="btn-m btn-m2" onclick="openMode('past')">📜 전생의 숙제 확인</button>
-            <button class="btn-m btn-m3" onclick="openMode('next')">🌈 환생 예약 알아보기</button>
+
+<div class="container">
+    <div class="report-card" id="view-home">
+        <h1>운명 분석 보고서</h1>
+        <div class="sub-desc">Attribute Engineering</div>
+        
+        <div class="form-area">
+            <span class="label">성함</span>
+            <input type="text" id="userName" placeholder="성함을 입력하세요">
+            <span class="label">생년월일 (8자리)</span>
+            <input type="text" id="userBirth" placeholder="예: 19920815">
         </div>
+        
+        <button class="btn-start" onclick="analyze()">데이터 분석 시작</button>
     </div>
 
-    <div id="view-input" class="hidden">
-        <h1 id="title-input">제목</h1>
-        <input type="text" id="userInput" placeholder="내용을 입력하세요">
-        <button class="btn-action" onclick="run()">결과 확인하기 💌</button>
-        <p style="cursor:pointer; color:#888; font-size:0.8rem; margin-top:15px; text-decoration:underline;" onclick="goHome()">처음으로 돌아가기</p>
-    </div>
+    <div class="report-card hidden" id="view-result">
+        <span id="res-name-label" style="font-size: 0.8rem; color: #999;">ANALYSIS REPORT</span>
+        <h1 id="res-title">분석 결과</h1>
+        <div class="chart-wrap" id="radarChart"></div>
+        <span class="type-tag" id="res-type">기운 분석 중...</span>
 
-    <div id="view-result" class="hidden">
-        <div id="resultPaper">
-            <div class="tarot-box">
-                <div id="res-tarot-card" class="mini-card">🔮</div>
-                <div id="res-tarot-desc" style="font-size:0.8rem; color:#666;">운명의 속삭임을 읽는 중...</div>
-            </div>
-            <div id="res-attr" class="attr-tag">속성 정보</div>
-            <div id="res-msg" class="msg-text">메시지 본문</div>
-            <div id="res-missions" class="mission-list">미션 정보</div>
-            <div id="res-side" class="side-text">주의사항</div>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('fortune', this)">현생 처방</button>
+            <button class="tab-btn" onclick="switchTab('past', this)">전생 숙제</button>
+            <button class="tab-btn" onclick="switchTab('next', this)">환생 예약</button>
         </div>
-        <button class="btn-action" style="margin-top:20px; background:#FF9A9E;" onclick="shareResult()">나의 운명 공유하기 🎁</button>
-        <button class="btn-action" style="margin-top:10px; background:#F3E5F5; color:#9D50BB;" onclick="goHome()">메뉴로 돌아가기</button>
+
+        <div class="tab-content" id="tab-body"></div>
+
+        <button class="btn-share" onclick="copyUrl()">리포트 링크 복사하기</button>
+        <p onclick="location.reload()" style="font-size:0.75rem; color:#ccc; margin-top:20px; cursor:pointer; text-decoration:underline;">새로운 데이터 입력</p>
     </div>
 </div>
 
 <script src="quotes.js"></script>
 <script>
-    let mode = '';
+    let session = { name: '', birth: '', seed: 0, scores: [] };
 
-    function openMode(m) {
-        mode = m;
-        document.getElementById('view-home').classList.add('hidden');
-        document.getElementById('view-input').classList.remove('hidden');
-        document.getElementById('view-result').classList.add('hidden');
-        document.getElementById('title-input').innerText = m==='fortune'?"✨ 고민 처방전":m==='past'?"📜 전생 숙제 확인":"🌈 환생 예약서";
-        document.getElementById('userInput').placeholder = m==='fortune'?"고민을 적어보세요":"이름을 적어보세요";
-        document.getElementById('userInput').value = "";
-    }
+    function analyze() {
+        const name = document.getElementById('userName').value.trim();
+        const birth = document.getElementById('userBirth').value.trim();
 
-    function goHome() {
-        document.getElementById('view-home').classList.remove('hidden');
-        document.getElementById('view-input').classList.add('hidden');
-        document.getElementById('view-result').classList.add('hidden');
-    }
+        if(!name || birth.length !== 8) {
+            alert("성함과 8자리 생년월일을 정확히 입력해 주세요.");
+            return;
+        }
 
-    function run() {
-        const val = document.getElementById('userInput').value.trim();
-        if(!val) { alert("내용을 입력해 주세요! 🍭"); return; }
+        session.name = name;
+        session.birth = birth;
+        session.seed = name.split('').reduce((a,b)=>a+b.charCodeAt(0),0) + parseInt(birth);
         
-        const seed = val.split('').reduce((a, b) => a + b.charCodeAt(0), 0);
-        const card = tarotCards[seed % 22];
-        const attrNames = ["청량한 푸른 나무", "정열적인 태양의 불", "단단한 대지의 흙", "예리한 정련된 금속", "깊고 맑은 심해의 물"];
-        const attrColors = ["#B4F8C8", "#FFB7B2", "#FFDAC1", "#EEE", "#B2CEFE"];
+        // 오행 점수 생성 로직
+        session.scores = [];
+        let tSeed = session.seed;
+        for(let i=0; i<5; i++) {
+            tSeed = (tSeed * 16807) % 2147483647;
+            session.scores.push(30 + (tSeed % 55)); 
+        }
 
-        document.getElementById('res-tarot-card').innerText = tarotIcons[card] || "🔮";
-        document.getElementById('res-tarot-card').style.background = attrColors[seed % 5];
-        document.getElementById('res-tarot-desc').innerHTML = `<b>${card}</b>: ${tarotInterpretations[card]}`;
-        document.getElementById('res-attr').innerText = `나의 속성: [${attrNames[seed % 5]}]`;
+        document.getElementById('view-home').classList.add('hidden');
+        document.getElementById('view-result').classList.remove('hidden');
+        
+        drawChart();
+        switchTab('fortune', document.querySelector('.tab-btn.active'));
+    }
+
+    function drawChart() {
+        const labels = ["木(나무)", "火(불)", "土(흙)", "金(쇠)", "水(물)"];
+        const c = 110, r = 85;
+        let points = "";
+        
+        labels.forEach((l, i) => {
+            const angle = (Math.PI * 2 / 5) * i - (Math.PI / 2);
+            const val = (session.scores[i] / 100) * r;
+            points += `${c + val * Math.cos(angle)},${c + val * Math.sin(angle)} `;
+        });
+
+        const maxIdx = session.scores.indexOf(Math.max(...session.scores));
+        document.getElementById('res-type').innerText = `${labels[maxIdx].split('(')[1].replace(')', '')}의 속성이 강한 운명`;
+
+        document.getElementById('radarChart').innerHTML = `
+            <svg viewBox="0 0 220 220" style="overflow:visible;">
+                <polygon points="${getGrid(c, r)}" fill="none" stroke="#EEE" />
+                <polygon points="${getGrid(c, r*0.6)}" fill="none" stroke="#EEE" />
+                ${labels.map((l, i) => {
+                    const a = (Math.PI * 2 / 5) * i - (Math.PI / 2);
+                    return `<line x1="${c}" y1="${c}" x2="${c + r * Math.cos(a)}" y2="${c + r * Math.sin(a)}" stroke="#EEE" />
+                            <text x="${c + (r+25) * Math.cos(a)}" y="${c + (r+25) * Math.sin(a)}" text-anchor="middle" font-size="10" fill="#999">${l}</text>`;
+                }).join('')}
+                <polygon points="${points}" fill="rgba(166, 138, 100, 0.3)" stroke="var(--accent)" stroke-width="2" />
+            </svg>
+        `;
+    }
+
+    function getGrid(c, r) {
+        let p = "";
+        for(let i=0; i<5; i++) {
+            const a = (Math.PI * 2 / 5) * i - (Math.PI / 2);
+            p += `${c + r * Math.cos(a)},${c + r * Math.sin(a)} `;
+        }
+        return p;
+    }
+
+    function switchTab(mode, btn) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const body = document.getElementById('tab-body');
+        const s = session.seed;
 
         if(mode === 'fortune') {
-            let cat = "기본";
-            for(let k in keywords) { if(keywords[k].some(w => val.includes(w))) { cat = k; break; } }
-            const quotes = quoteData[cat] || quoteData["기본"];
-            document.getElementById('res-msg').innerText = `"${quotes[seed % quotes.length].text}"`;
-            document.getElementById('res-missions').innerHTML = `<b>영혼의 밸런스 미션:</b><br>1.🧘마음: 내 속성의 강점을 믿고 차분해지기<br>2.🏃행동: ${recommendations[seed % recommendations.length]}<br>3.🍀정화: 주변 환기하고 심호흡 크게 3번 하기`;
+            const q = quoteData["인생"][s % quoteData["인생"].length];
+            body.innerHTML = `
+                <span class="section-title">현생의 에너지 처방</span>
+                ${session.name}님의 현재 기운은 균형을 찾아가는 과정에 있습니다. <br>
+                분석된 보강 지침을 전달합니다.<br><br>
+                • <b>권장 행동:</b> ${recommendations[s % recommendations.length]}<br>
+                • <b>기운의 색상:</b> ${["청색", "적색", "황색", "백색", "흑색"][s % 5]} 계열<br>
+                • <b>유의 요소:</b> ${sideEffects[s % sideEffects.length].split(' ')[0]} 주의
+                <div class="quote-footer">
+                    "${q.text}"
+                </div>
+            `;
         } else if(mode === 'past') {
-            const p = pastLifeData[seed % pastLifeData.length];
-            document.getElementById('res-msg').innerText = `전생의 기록: [${p.job}]`;
-            document.getElementById('res-missions').innerHTML = `<b>남겨진 에너지 기록:</b><br>${p.desc}<br>→ 현생의 숙제: <b>${p.homework}</b>`;
+            const p = pastLifeData[s % pastLifeData.length];
+            body.innerHTML = `
+                <span class="section-title">전생 에너지 이력</span>
+                귀하의 에너지는 과거 <b>[${p.job}]</b>의 소명을 기록하고 있습니다. <br><br>
+                - ${p.desc}<br><br>
+                <b>남겨진 숙제:</b><br>
+                "${p.homework}"
+            `;
         } else {
-            const n = reincarnationData[seed % reincarnationData.length];
-            document.getElementById('res-msg').innerText = `차기 행선지: [${n.place}]`;
-            document.getElementById('res-missions').innerHTML = `<b>예약 정보:</b><br>- 환생 예정: ${n.object}<br>- 확정 조건: ${n.mission}`;
+            const r = reincarnationData[s % reincarnationData.length];
+            body.innerHTML = `
+                <span class="section-title">차기 생 예약 확약서</span>
+                다음 생으로의 에너지 전이 경로가 확정되었습니다.<br><br>
+                • <b>행선지:</b> ${r.place}<br>
+                • <b>재탄생 형태:</b> ${r.object}<br>
+                • <b>확정 조건:</b> ${r.mission}
+            `;
         }
-
-        document.getElementById('res-side').innerText = `⚠️ 주의사항: ${sideEffects[seed % sideEffects.length]}`;
-        document.getElementById('view-input').classList.add('hidden');
-        document.getElementById('view-result').classList.remove('hidden');
     }
 
-    function shareResult() {
-        const msg = document.getElementById('res-msg').innerText;
-        const attr = document.getElementById('res-attr').innerText;
-        const url = window.location.href;
-        let modeName = mode === 'fortune' ? "현생 고민 처방" : mode === 'past' ? "전생 숙제 확인" : "환생 예약서";
-        const shareText = `[속성 운명관 - ${modeName}]\n${attr}\n내용: ${msg}\n\n너의 운명도 확인해봐! 🔮\n${url}`;
-
-        if (navigator.share) {
-            navigator.share({ title: '속성 운명관', text: shareText, url: url });
-        } else {
-            const t = document.createElement("textarea");
-            document.body.appendChild(t);
-            t.value = shareText;
-            t.select();
-            document.execCommand("copy");
-            document.body.removeChild(t);
-            alert("운명 결과가 복사되었습니다! 🎁\n카톡창에 붙여넣기(Ctrl+V) 해보세요!");
-        }
+    function copyUrl() {
+        const t = document.createElement("textarea");
+        document.body.appendChild(t);
+        t.value = `${session.name}님의 운명 분석 리포트 확인: ${window.location.href}`;
+        t.select();
+        document.execCommand("copy");
+        document.body.removeChild(t);
+        alert("리포트 링크가 복사되었습니다.");
     }
 </script>
 </body>
