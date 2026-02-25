@@ -45,7 +45,7 @@
         <h1 id="ui-title">성명학 데이터 분석</h1>
         <p id="ui-desc" style="font-size:0.9rem; color:#888; margin-bottom:40px;">정식 리포트를 생성합니다.</p>
         <input type="text" id="userName" placeholder="성함">
-        <input type="text" id="userBirth" placeholder="양력 생년월일 8자리">
+        <input type="text" id="userBirth" placeholder="양력 생년월일 8자리" onkeyup="if(window.event.keyCode==13){startAnalysis()}">
         <button class="btn-action" id="ui-btn" onclick="startAnalysis()">리포트 생성하기</button>
     </div>
 
