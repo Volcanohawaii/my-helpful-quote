@@ -16,12 +16,12 @@
         .report-card { background: var(--paper); padding: 55px 35px; box-shadow: 0 30px 60px rgba(0,0,0,0.1); border: 1px solid var(--border); text-align: center; position: relative; animation: fadeIn 0.8s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         .official-seal { position: absolute; top: 25px; right: 25px; width: 65px; height: 65px; border: 2px double var(--accent); color: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Gowun Batang', serif; font-size: 0.7rem; font-weight: 700; opacity: 0.5; transform: rotate(12deg); pointer-events: none; }
-        h1 { font-family: 'Gowun Batang', serif; font-size: 1.6rem; color: var(--primary); margin: 0 0 10px 0; }
+        h1 { font-family: 'Gowun Batang', serif; font-size: 1.5rem; color: var(--primary); margin: 0 0 10px 0; word-break: keep-all; }
+        .summary-line { font-family: 'Gowun Batang', serif; font-size: 1rem; color: var(--accent); margin-bottom: 30px; font-weight: 600; }
         .tab-content { text-align: left; line-height: 1.9; font-size: 0.95rem; }
         .section-wrap { margin-bottom: 35px; }
         .section-title { font-family: 'Gowun Batang', serif; font-size: 1.05rem; color: var(--accent); display: block; margin-bottom: 15px; font-weight: 700; border-bottom: 1px solid #F0F0F0; padding-bottom: 8px; }
         .info-box { background: #F9F8F6; padding: 20px; border-radius: 8px; border-left: 4px solid var(--accent); margin-bottom: 15px; }
-        .detail-item { font-size: 0.9rem; color: #666; margin-top: 8px; padding-left: 5px; }
         .warning-box { background: #FFF5F5; padding: 18px; border-radius: 8px; font-size: 0.85rem; color: #C0392B; border: 1px dashed #FADBD8; margin-top: 25px; }
         .tabs { display: flex; border-bottom: 1px solid #EEE; margin: 30px 0; }
         .tab-btn { flex: 1; padding: 12px 0; border: none; background: none; cursor: pointer; font-size: 0.9rem; color: #BBB; font-family: 'Gowun Batang'; }
@@ -49,8 +49,9 @@
 
     <div class="report-card hidden" id="view-result">
         <div class="official-seal" id="seal-res">정식분석본</div>
-        <h1 id="ui-res-title">분석 결과 리포트</h1>
-        <div id="radarChart" style="margin:20px auto; width:220px; height:220px;"></div>
+        <h1 id="dynamic-title">님을 위한 분석 리포트</h1>
+        <div class="summary-line" id="dynamic-summary">분석 중...</div>
+        <div id="radarChart" style="margin:0 auto 30px; width:220px; height:220px;"></div>
         <div class="tabs">
             <button class="tab-btn active" id="tab1" onclick="switchTab('fortune', this)">현생 분석</button>
             <button class="tab-btn" id="tab2" onclick="switchTab('past', this)">전생 기록</button>
@@ -77,15 +78,10 @@
         document.getElementById('userName').placeholder = t.nameLabel;
         document.getElementById('userBirth').placeholder = t.birthLabel;
         document.getElementById('ui-btn').innerText = t.btn;
-        document.getElementById('ui-res-title').innerText = t.resTitle;
-        document.getElementById('tab1').innerText = t.tab1;
-        document.getElementById('tab2').innerText = t.tab2;
-        document.getElementById('tab3').innerText = t.tab3;
-        document.getElementById('ui-copy').innerText = t.copy;
         document.getElementById('ui-reset').innerText = t.reset;
         document.getElementById('seal-home').innerHTML = lang === 'ko' ? "운명공학<br>분석실" : "Destiny<br>Lab";
         document.getElementById('seal-res').innerText = lang === 'ko' ? "정식분석본" : "OFFICIAL";
-        if (session.name) { processData(session.name, session.birth); }
+        if (session.name) processData(session.name, session.birth);
     }
 
     function startAnalysis() {
@@ -107,12 +103,13 @@
         scores[[11,12,1,2,3,4,5,6,7,8,9,10].indexOf(month) % 5] += 25;
         session.scores = scores.map((s, i) => s + ((session.seed + i) % 15));
 
+        const maxIdx = session.scores.indexOf(Math.max(...session.scores));
+        const elements = ["木", "火", "土", "金", "水"];
+        document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `[${name}]님의 운명 공학 리포트` : `Destiny Report for [${name}]`;
+        document.getElementById('dynamic-summary').innerText = currentLang === 'ko' ? nicknamesKo[elements[maxIdx]] : nicknamesEn[elements[maxIdx]];
+
         const res = nameNumerology[(session.seed % 25) + 1] || nameNumerology[1];
-        if (currentLang === 'ko') {
-            session.nameReport = `성명학적으로 <b>${res.title}</b>이며, ${res.desc}`;
-        } else {
-            session.nameReport = `Numerologically, you hold <b>${res.titleEn}</b>: ${res.descEn}`;
-        }
+        session.nameReport = currentLang === 'ko' ? `성명학적으로 <b>${res.title}</b>이며, ${res.desc}` : `Numerologically, you hold <b>${res.titleEn}</b>: ${res.descEn}`;
 
         document.getElementById('view-home').classList.add('hidden');
         document.getElementById('view-result').classList.remove('hidden');
@@ -130,12 +127,18 @@
         const labels = currentLang === 'ko' ? ["木", "火", "土", "金", "水"] : ["Wood", "Fire", "Earth", "Metal", "Water"];
         const cx = 110, cy = 110, r = 80;
         let poly = "";
+        labels.forEach(() => poly += `${cx},${cy} `);
+        document.getElementById('radarChart').innerHTML = `<svg viewBox="0 0 220 220"><circle cx="110" cy="110" r="80" fill="none" stroke="#EEE"/><polygon points="${poly}" fill="rgba(154, 132, 103, 0.3)" stroke="#9A8467" stroke-width="2"><animate attributeName="points" dur="1s" fill="freeze" to="${getTargetPoints(labels, cx, cy, r)}" /></polygon></svg>`;
+    }
+
+    function getTargetPoints(labels, cx, cy, r) {
+        let p = "";
         labels.forEach((l, i) => {
             const a = (Math.PI * 2 / 5) * i - (Math.PI / 2);
             const v = (session.scores[i] / 150) * r;
-            poly += `${cx + v * Math.cos(a)},${cy + v * Math.sin(a)} `;
+            p += `${cx + v * Math.cos(a)},${cy + v * Math.sin(a)} `;
         });
-        document.getElementById('radarChart').innerHTML = `<svg viewBox="0 0 220 220"><circle cx="110" cy="110" r="80" fill="none" stroke="#EEE"/><polygon points="${poly}" fill="rgba(154, 132, 103, 0.3)" stroke="#9A8467" stroke-width="2"/></svg>`;
+        return p;
     }
 
     function switchTab(mode, btn) {
@@ -165,17 +168,31 @@
             `;
         } else if(mode === 'past') {
             const p = pastSource[s % pastSource.length];
-            body.innerHTML = `<span class="section-title">${t.tab2}</span><div class="info-box"><b>[${p.job}]</b><br>${p.desc}</div><p><b>${t.homework}:</b><br> " ${p.homework} "</p>`;
+            body.innerHTML = `
+                <span class="section-title">${t.tab2}</span>
+                <div class="info-box" style="line-height:1.8;">
+                    <div style="margin-bottom:10px;"><b>${t.pastJob}:</b> [${p.job}]</div>
+                    <div style="font-size:0.9rem; color:#666; margin-bottom:15px;">${p.desc}</div>
+                    <div style="border-top:1px dashed #DDD; padding-top:10px;"><b>✨ ${t.pastHomework}:</b><br>" ${p.homework} "</div>
+                </div>
+            `;
         } else {
             const r = nextSource[s % nextSource.length];
-            body.innerHTML = `<span class="section-title">${t.tab3}</span><div class="info-box"><b>${t.destination}:</b> ${r.place}<br><b>${t.object}:</b> ${r.object}</div><p><b>${t.condition}:</b> ${r.mission}</p>`;
+            body.innerHTML = `
+                <span class="section-title">${t.tab3}</span>
+                <div class="info-box" style="line-height:2.2;">
+                    <div><b>📍 ${t.nextDest}:</b> ${r.place}</div>
+                    <div><b>🧬 ${t.nextObj}:</b> ${r.object}</div>
+                    <div style="border-top:1px dashed #DDD; padding-top:10px; margin-top:10px;"><b>✅ ${t.nextMission}:</b> ${r.mission}</div>
+                </div>
+            `;
         }
     }
 
     function copyLink() {
         const url = `${window.location.origin}${window.location.pathname}?name=${encodeURIComponent(session.name)}&birth=${session.birth}&lang=${currentLang}`;
         const t = document.createElement("textarea"); document.body.appendChild(t); t.value = `[Destiny Report] ${session.name}\n${url}`; t.select(); document.execCommand("copy"); document.body.removeChild(t);
-        alert(currentLang === 'ko' ? "복사 완료! 🎁" : "Link Copied! 🎁");
+        alert(currentLang === 'ko' ? "복사 완료!" : "Link Copied!");
     }
 
     window.onload = function() {
