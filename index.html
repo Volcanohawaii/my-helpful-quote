@@ -16,6 +16,7 @@
         .report-card { background: var(--paper); padding: 55px 35px; box-shadow: 0 30px 60px rgba(0,0,0,0.1); border: 1px solid var(--border); text-align: center; position: relative; animation: fadeIn 0.8s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         .official-seal { position: absolute; top: 25px; right: 25px; width: 65px; height: 65px; border: 2px double var(--accent); color: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Gowun Batang', serif; font-size: 0.7rem; font-weight: 700; opacity: 0.5; transform: rotate(12deg); pointer-events: none; }
+        
         h1 { font-family: 'Gowun Batang', serif; font-size: 1.5rem; color: var(--primary); margin: 0 0 10px 0; word-break: keep-all; }
         .summary-line { font-family: 'Gowun Batang', serif; font-size: 1rem; color: var(--accent); margin-bottom: 30px; font-weight: 600; }
         .tab-content { text-align: left; line-height: 1.9; font-size: 0.95rem; }
@@ -28,6 +29,7 @@
         .tab-btn.active { color: var(--primary); font-weight: 700; border-bottom: 2px solid var(--primary); }
         .btn-action { width: 100%; background: var(--primary); color: white; border: none; padding: 18px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 1rem; }
         .hidden { display: none; }
+        
         input { width: 100%; padding: 15px; margin-bottom: 20px; border: none; border-bottom: 1px solid #DDD; font-size: 1.1rem; outline: none; }
     </style>
 </head>
@@ -42,8 +44,8 @@
         <div class="official-seal" id="seal-home">운명공학<br>분석실</div>
         <h1 id="ui-title">성명학 데이터 분석</h1>
         <p id="ui-desc" style="font-size:0.9rem; color:#888; margin-bottom:40px;">정식 리포트를 생성합니다.</p>
-        <input type="text" id="userName" placeholder="Name">
-        <input type="text" id="userBirth" placeholder="YYYYMMDD">
+        <input type="text" id="userName" placeholder="성함">
+        <input type="text" id="userBirth" placeholder="생년월일 8자리">
         <button class="btn-action" id="ui-btn" onclick="startAnalysis()">리포트 생성하기</button>
     </div>
 
@@ -72,16 +74,24 @@
         currentLang = lang;
         document.querySelectorAll('.flag').forEach(f => f.classList.remove('active'));
         document.getElementById(`flag-${lang}`).classList.add('active');
+        
         const t = i18n[lang];
+        // [중요] 생략 없이 모든 UI 텍스트 업데이트 로직 추가
         document.getElementById('ui-title').innerText = t.title;
         document.getElementById('ui-desc').innerText = t.desc;
         document.getElementById('userName').placeholder = t.nameLabel;
         document.getElementById('userBirth').placeholder = t.birthLabel;
         document.getElementById('ui-btn').innerText = t.btn;
         document.getElementById('ui-reset').innerText = t.reset;
+        document.getElementById('tab1').innerText = t.tab1;
+        document.getElementById('tab2').innerText = t.tab2;
+        document.getElementById('tab3').innerText = t.tab3;
+        document.getElementById('ui-copy').innerText = t.copy;
+        
         document.getElementById('seal-home').innerHTML = lang === 'ko' ? "운명공학<br>분석실" : "Destiny<br>Lab";
         document.getElementById('seal-res').innerText = lang === 'ko' ? "정식분석본" : "OFFICIAL";
-        if (session.name) processData(session.name, session.birth);
+
+        if (session.name) { processData(session.name, session.birth); }
     }
 
     function startAnalysis() {
@@ -124,21 +134,36 @@
     }
 
     function renderChart() {
-        const labels = currentLang === 'ko' ? ["木", "火", "土", "金", "水"] : ["Wood", "Fire", "Earth", "Metal", "Water"];
-        const cx = 110, cy = 110, r = 80;
+        const labelsKo = ["木", "火", "土", "金", "水"];
+        const labelsEn = ["Wood", "Fire", "Earth", "Metal", "Water"];
+        const labels = currentLang === 'ko' ? labelsKo : labelsEn;
+        const cx = 110, cy = 110, r = 75;
         let poly = "";
         labels.forEach(() => poly += `${cx},${cy} `);
-        document.getElementById('radarChart').innerHTML = `<svg viewBox="0 0 220 220"><circle cx="110" cy="110" r="80" fill="none" stroke="#EEE"/><polygon points="${poly}" fill="rgba(154, 132, 103, 0.3)" stroke="#9A8467" stroke-width="2"><animate attributeName="points" dur="1s" fill="freeze" to="${getTargetPoints(labels, cx, cy, r)}" /></polygon></svg>`;
+
+        document.getElementById('radarChart').innerHTML = `
+            <svg viewBox="0 0 220 220" style="overflow:visible;">
+                <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#EEE" stroke-width="1"/>
+                ${labels.map((l, i) => {
+                    const a = (Math.PI * 2 / 5) * i - (Math.PI / 2);
+                    const tx = cx + (r + 25) * Math.cos(a);
+                    const ty = cy + (r + 25) * Math.sin(a);
+                    return `<text x="${tx}" y="${ty}" text-anchor="middle" dominant-baseline="middle" fill="${currentLang === 'ko' ? '#243447' : '#999'}" font-size="${currentLang === 'ko' ? '14' : '11'}" font-weight="700" font-family="'Gowun Batang', serif">${l}</text>`;
+                }).join('')}
+                <polygon points="${poly}" fill="rgba(154, 132, 103, 0.3)" stroke="var(--accent)" stroke-width="2.5">
+                    <animate attributeName="points" dur="1s" fill="freeze" to="${getTargetPoints(labels, cx, cy, r)}" />
+                </polygon>
+            </svg>`;
     }
 
     function getTargetPoints(labels, cx, cy, r) {
         let p = "";
-        labels.forEach((l, i) => {
+        labels.forEach((_, i) => {
             const a = (Math.PI * 2 / 5) * i - (Math.PI / 2);
             const v = (session.scores[i] / 150) * r;
             p += `${cx + v * Math.cos(a)},${cy + v * Math.sin(a)} `;
         });
-        return p;
+        return p.trim();
     }
 
     function switchTab(mode, btn) {
@@ -168,7 +193,6 @@
             `;
         } else if(mode === 'past') {
             const p = pastSource[s % pastSource.length];
-            // [최종 수정] 과거의 소명과 현생의 숙제를 하나의 info-box 안으로 깔끔하게 정렬
             body.innerHTML = `
                 <span class="section-title">${t.tab2}</span>
                 <div class="info-box" style="line-height:1.8;">
@@ -179,7 +203,6 @@
             `;
         } else {
             const r = nextSource[s % nextSource.length];
-            // [최종 수정] 차기 정착지, 재탄생 형태, 확정 조건을 하나의 info-box 안으로 깔끔하게 정렬
             body.innerHTML = `
                 <span class="section-title">${t.tab3}</span>
                 <div class="info-box" style="line-height:2.2;">
