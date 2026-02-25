@@ -6,14 +6,12 @@
     <title>운명 공학 분석관</title>
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Pretendard:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* 튀어나옴 방지를 위한 전체 박스 모델 설정 */
         * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-
         :root {
-            --bg: #F0EDE9;      /* 차분한 베이지 배경 */
+            --bg: #F0EDE9;
             --paper: #FFFFFF;
-            --primary: #243447; /* 깊은 신뢰의 네이비 */
-            --accent: #9A8467;  /* 고전적인 골드 브라운 */
+            --primary: #243447;
+            --accent: #9A8467;
             --text: #444444;
             --border: #D1CDC5;
         }
@@ -32,7 +30,6 @@
 
         .container { width: 100%; max-width: 480px; position: relative; }
 
-        /* 보고서 카드 디자인 */
         .report-card {
             background: var(--paper);
             padding: 60px 35px;
@@ -48,7 +45,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 공신력을 주는 검인 인장 */
         .official-seal {
             position: absolute; top: 25px; right: 25px;
             width: 65px; height: 65px; border: 2px double var(--accent);
@@ -61,7 +57,6 @@
         h1 { font-family: 'Gowun Batang', serif; font-size: 1.8rem; color: var(--primary); margin: 0 0 10px 0; letter-spacing: -1px; }
         .serial-num { font-size: 0.7rem; color: #AAA; letter-spacing: 2px; margin-bottom: 45px; display: block; }
 
-        /* 입력 폼 */
         .form-area { text-align: left; margin-bottom: 40px; }
         .label { font-size: 0.75rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; display: block; letter-spacing: 1px; }
         input {
@@ -78,14 +73,12 @@
         }
         .btn-start:hover { background: #151f2b; letter-spacing: 4px; }
 
-        /* 분석 애니메이션 (로더) */
         .loader { margin: 40px 0; display: none; }
         .loader-dot { display: inline-block; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; margin: 0 5px; animation: dotPulse 1.5s infinite; }
         @keyframes dotPulse { 0%, 100% { opacity: 0.2; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.1); } }
 
         .hidden { display: none; }
 
-        /* 결과 화면 디자인 */
         .chart-wrap { margin: 30px auto; width: 240px; height: 240px; }
         .type-tag { font-family: 'Gowun Batang', serif; font-size: 1.3rem; color: var(--accent); font-weight: 700; margin-bottom: 10px; display: block; }
 
@@ -102,7 +95,6 @@
         .tab-content { text-align: left; line-height: 1.9; font-size: 1rem; min-height: 220px; color: #444; }
         .section-title { font-family: 'Gowun Batang', serif; font-size: 1.1rem; color: var(--accent); display: block; margin-bottom: 15px; font-weight: 700; }
 
-        /* 처방전 명언 푸터 (현생 탭용) */
         .quote-footer {
             margin-top: 40px; padding: 25px; background: #FBF9F7; border-radius: 8px;
             font-family: 'Gowun Batang', serif; font-size: 1rem; color: #555;
@@ -137,7 +129,7 @@
             <div class="loader-dot" style="animation-delay: 0s"></div>
             <div class="loader-dot" style="animation-delay: 0.2s"></div>
             <div class="loader-dot" style="animation-delay: 0.4s"></div>
-            <p style="font-size: 0.8rem; color: var(--accent); margin-top: 15px; font-family: 'Gowun Batang'">천기의 흐름을 수치화하고 있습니다...</p>
+            <p style="font-size: 0.8rem; color: var(--accent); margin-top: 15px; font-family: 'Gowun Batang'">기운의 흐름을 수치화하고 있습니다...</p>
         </div>
 
         <button id="btn-submit" class="btn-start" onclick="startAnalysis()">리포트 생성하기</button>
@@ -146,19 +138,19 @@
     <div class="report-card hidden" id="view-result">
         <div class="official-seal">정식분석본</div>
         <span class="serial-num" id="res-id">REF. #00000000</span>
-        <h1 id="res-header">운명 분석 결과 리포트</h1>
+        <h1 id="res-header">분석 결과 리포트</h1>
         <div class="chart-wrap" id="radarChart"></div>
         <span class="type-tag" id="res-type">기운 분석 완료</span>
 
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('fortune', this)">현생 처방</button>
-            <button class="tab-btn" onclick="switchTab('past', this)">전생 숙제</button>
+            <button class="tab-btn" onclick="switchTab('past', this)">전생 기록</button>
             <button class="tab-btn" onclick="switchTab('next', this)">내세 예약</button>
         </div>
 
         <div class="tab-content" id="tab-body"></div>
 
-        <button class="btn-share" onclick="copyLink()">분석 결과 저장 및 링크 복사</button>
+        <button class="btn-share" onclick="copyLink()">결과 링크 복사</button>
         <p onclick="location.reload()" style="font-size:0.75rem; color:#ccc; margin-top:30px; cursor:pointer; text-decoration:underline;">데이터 초기화</p>
     </div>
 </div>
@@ -167,44 +159,32 @@
 <script>
     let session = { name: '', birth: '', seed: 0, scores: [] };
 
-    // 1. 분석 시작 (로딩 연출 포함)
     function startAnalysis() {
         const name = document.getElementById('userName').value.trim();
         const birth = document.getElementById('userBirth').value.trim();
-
-        if(!name || birth.length !== 8) {
-            alert("정확한 성명과 8자리 생년월일을 기입해주십시오.");
-            return;
-        }
+        if(!name || birth.length !== 8) { alert("정확한 성명과 8자리 생년월일을 기입해주십시오."); return; }
 
         document.getElementById('btn-submit').style.display = 'none';
         document.getElementById('loader').style.display = 'block';
 
-        setTimeout(() => {
-            processData(name, birth);
-        }, 2000); // 2초간의 분석 의식 시간
+        setTimeout(() => { processData(name, birth); }, 2000);
     }
 
-   // 2. 데이터 처리 및 실제 사주 원리 반영 점수 생성
     function processData(name, birth) {
         session.name = name;
         session.birth = birth;
         session.seed = name.split('').reduce((a,b)=>a+b.charCodeAt(0),0) + parseInt(birth);
         
-        const month = parseInt(birth.substring(4, 6)); // 태어난 달 추출
+        const month = parseInt(birth.substring(4, 6));
         const firstChar = name.trim().charAt(0);
-        
-        // 오행 기본 점수 (기본 40점씩 배분)
         let scores = [40, 40, 40, 40, 40]; // 목, 화, 토, 금, 수
 
-        // 1. 계절별 가중치 (태어난 달 기준)
-        if([2, 3].includes(month)) scores[0] += 30; // 봄 - 목
-        else if([5, 6].includes(month)) scores[1] += 30; // 여름 - 화
-        else if([8, 9].includes(month)) scores[3] += 30; // 가을 - 금
-        else if([11, 12].includes(month)) scores[4] += 30; // 겨울 - 수
-        else scores[2] += 30; // 환절기 - 토
+        if([2, 3].includes(month)) scores[0] += 30;
+        else if([5, 6].includes(month)) scores[1] += 30;
+        else if([8, 9].includes(month)) scores[3] += 30;
+        else if([11, 12].includes(month)) scores[4] += 30;
+        else scores[2] += 30;
 
-        // 2. 성씨 기반 가중치 (이름 첫 자음 오행)
         const onset = getHangulOnset(firstChar); 
         if(['ㄱ','ㅋ'].includes(onset)) scores[0] += 15;
         else if(['ㄴ','ㄷ','ㄹ','ㅌ'].includes(onset)) scores[1] += 15;
@@ -212,7 +192,6 @@
         else if(['ㅅ','ㅈ','ㅊ'].includes(onset)) scores[3] += 15;
         else if(['ㅁ','ㅂ','ㅍ'].includes(onset)) scores[4] += 15;
 
-        // 3. 미세 조정 (Seed 기반 0~15점 랜덤 추가)
         session.scores = scores.map((s, i) => s + ( (session.seed + i) % 15 ));
 
         document.getElementById('view-home').classList.add('hidden');
@@ -220,21 +199,19 @@
         document.getElementById('res-id').innerText = `REF. #${session.seed}`;
         
         renderChart();
-        switchTab('fortune', document.querySelector('.tab-btn.active'));
+        switchTab('fortune', document.querySelector('.tab-btn'));
     }
 
-    // 한글 첫 자음 추출 함수
     function getHangulOnset(char) {
         const charCode = char.charCodeAt(0) - 44032;
         if (charCode < 0 || charCode > 11171) return char; 
         return String.fromCharCode(Math.floor(charCode / 588) + 4352);
     }
-    // 3. 오행 레이더 차트 그리기 (SVG)
+
     function renderChart() {
         const labels = ["木(나무)", "火(불)", "土(흙)", "金(쇠)", "水(물)"];
         const cx = 120, cy = 120, r = 85;
         let polyPoints = "";
-        
         labels.forEach((l, i) => {
             const angle = (Math.PI * 2 / 5) * i - (Math.PI / 2);
             const value = (session.scores[i] / 100) * r;
@@ -251,7 +228,7 @@
                 <circle cx="${cx}" cy="${cy}" r="${r*0.6}" fill="none" stroke="#F0F0F0" stroke-width="1" />
                 ${labels.map((l, i) => {
                     const a = (Math.PI * 2 / 5) * i - (Math.PI / 2);
-                    return `<line x1="${cx}" y1="${cy}" x2="${cx + r * Math.cos(a)}" y2="${cy + r * Math.sin(a)}" stroke="#EEE" stroke-dasharray="2,2" />
+                    return `<line x1="${cx}" y1="${cy}" x2="${cx + r * Math.cos(a)}" y2="${cx + r * Math.sin(a)}" stroke="#EEE" stroke-dasharray="2,2" />
                             <text x="${cx + (r+25) * Math.cos(a)}" y="${cx + (r+25) * Math.sin(a)}" text-anchor="middle" font-size="10" fill="#999" font-weight="600">${l}</text>`;
                 }).join('')}
                 <polygon points="${polyPoints}" fill="rgba(154, 132, 103, 0.3)" stroke="var(--accent)" stroke-width="2.5" />
@@ -259,60 +236,50 @@
         `;
     }
 
-    // 4. 탭 전환 및 내용 렌더링
-   function switchTab(mode, btn) {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const body = document.getElementById('tab-body');
-    const s = session.seed;
+    function switchTab(mode, btn) {
+        if(btn) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+        const body = document.getElementById('tab-body');
+        const s = session.seed;
+        const elements = ["木", "火", "土", "金", "水"];
+        const maxIdx = session.scores.indexOf(Math.max(...session.scores));
+        const minIdx = session.scores.indexOf(Math.min(...session.scores));
 
-    // 오행 순서 배열
-    const elements = ["木", "火", "土", "金", "水"];
-    // 가장 강한 기운(Max)과 약한 기운(Min) 찾기
-    const maxIdx = session.scores.indexOf(Math.max(...session.scores));
-    const minIdx = session.scores.indexOf(Math.min(...session.scores));
-
-    if(mode === 'fortune') {
-        // [사주 원리] 부족한 기운(Min)을 보강하는 처방
-        const lackElement = elements[minIdx];
-        const quotes = quoteData["인생"];
-        const q = quotes[s % quotes.length];
-
-        body.innerHTML = `
-            <span class="section-title">본신 에너지 보강 지침</span>
-            ${session.name}님은 현재 <b>${elementAttributes[lackElement].name}</b>의 기운이 부족한 상태입니다. <br><br>
-            • <b>맞춤 행법:</b> ${elementMissions[lackElement]}<br>
-            • <b>길한 색상:</b> ${elementAttributes[lackElement].color}<br>
-            • <b>오늘의 조언:</b> ${recommendations[s % recommendations.length]}
-            <div class="quote-footer">
-                "${q.text}"
-            </div>
-        `;
-    } else if(mode === 'past') {
-        // [사주 원리] 가장 강한 기운(Max)과 연결된 전생 데이터 (그룹당 6개씩)
-        const pastIdx = (maxIdx * 6) + (s % 6);
-        const p = pastLifeData[pastIdx];
-        body.innerHTML = `
-            <span class="section-title">전거(前居) 에너지 프로필</span>
-            귀하의 에너지는 과거 <b>[${p.job}]</b>의 소명을 기록하고 있습니다. <br><br>
-            - ${p.desc}<br><br>
-            <b>현생에 남겨진 숙제:</b><br>
-            " ${p.homework} "
-        `;
-    } else {
-        // 환생 데이터는 시드에 따라 랜덤 예약
-        const r = reincarnationData[s % reincarnationData.length];
-        body.innerHTML = `
-            <span class="section-title">차기 내세 예약 확약서</span>
-            다음 생으로의 에너지 전이 경로가 공식적으로 확약되었습니다.<br><br>
-            • <b>행선지:</b> ${r.place}<br>
-            • <b>재탄생 형태:</b> ${r.object}<br>
-            • <b>확정 업데이트 조건:</b> ${r.mission}
-        `;
+        if(mode === 'fortune') {
+            const lackElement = elements[minIdx];
+            const quotes = quoteData["인생"];
+            const q = quotes[s % quotes.length];
+            body.innerHTML = `
+                <span class="section-title">에너지 보강 지침</span>
+                ${session.name}님은 현재 <b>${elementAttributes[lackElement].name}</b>의 기운이 부족한 상태입니다. <br><br>
+                • <b>맞춤 행법:</b> ${elementMissions[lackElement]}<br>
+                • <b>길한 색상:</b> ${elementAttributes[lackElement].color}<br>
+                • <b>오늘의 조언:</b> ${recommendations[s % recommendations.length]}
+                <div class="quote-footer">"${q.text}"</div>
+            `;
+        } else if(mode === 'past') {
+            const pastIdx = (maxIdx * 6) + (s % 6);
+            const p = pastLifeData[pastIdx];
+            body.innerHTML = `
+                <span class="section-title">전거(前居) 에너지 프로필</span>
+                과거 <b>[${p.job}]</b>의 소명을 기록하고 있습니다. <br><br>
+                - ${p.desc}<br><br>
+                <b>현생에 남겨진 숙제:</b><br> " ${p.homework} "
+            `;
+        } else {
+            const r = reincarnationData[s % reincarnationData.length];
+            body.innerHTML = `
+                <span class="section-title">차기 내세 예약 확약서</span>
+                다음 생으로의 에너지 전이 경로가 공식적으로 확약되었습니다.<br><br>
+                • <b>차기 정착지:</b> ${r.place}<br>
+                • <b>재탄생 형태:</b> ${r.object}<br>
+                • <b>확정 조건:</b> ${r.mission}
+            `;
+        }
     }
-}
 
-    // 5. 링크 복사
     function copyLink() {
         const text = `[운명 공학 리포트] ${session.name}님의 분석 결과가 도착했습니다.\n직접 확인해보세요: ${window.location.href}`;
         const t = document.createElement("textarea");
@@ -321,7 +288,7 @@
         t.select();
         document.execCommand("copy");
         document.body.removeChild(t);
-        alert("리포트 링크가 복사되었습니다. 소중한 사람들에게 공유하십시오.");
+        alert("리포트 링크가 복사되었습니다.");
     }
 </script>
 </body>
