@@ -49,7 +49,6 @@
 
     <div class="report-card hidden" id="view-result">
         <div class="official-seal" id="seal-res">정식분석본</div>
-        <span class="serial-num" id="res-id">REF. #00000000</span>
         <h1 id="ui-res-title">분석 결과 리포트</h1>
         <div id="radarChart" style="margin:20px auto; width:220px; height:220px;"></div>
         <div class="tabs">
@@ -58,7 +57,7 @@
             <button class="tab-btn" id="tab3" onclick="switchTab('next', this)">내세 예약</button>
         </div>
         <div class="tab-content" id="tab-body"></div>
-        <button class="btn-action" style="margin-top:40px; background:white; border:1px solid #DDD; color:#444;" id="ui-copy" onclick="copyLink()">결과 저장 및 링크 복사</button>
+        <button class="btn-action" style="margin-top:40px; background:white; border:1px solid #DDD; color:#444;" id="ui-copy" onclick="copyLink()">링크 복사</button>
         <p onclick="window.location.href=window.location.pathname" style="font-size:0.7rem; color:#CCC; margin-top:20px; cursor:pointer;" id="ui-reset">초기화</p>
     </div>
 </div>
@@ -102,11 +101,10 @@
         let scores = [40, 40, 40, 40, 40]; 
         for(let i=0; i<name.length; i++) {
             let el = /[a-zA-Z]/.test(name[i]) ? alphabetElements[name[i].toUpperCase()] : hangulElements[getHangulOnset(name[i])];
-            if(el) { const idx = ["木", "火", "土", "金", "水"].indexOf(el); scores[idx] += 30; }
+            if(el) scores[["木", "火", "土", "金", "水"].indexOf(el)] += 35;
         }
         const month = parseInt(birth.substring(4, 6));
-        const seasonIdx = [11,12,1,2,3,4,5,6,7,8,9,10].indexOf(month);
-        scores[Math.floor(seasonIdx/2.5) % 5] += 25;
+        scores[[11,12,1,2,3,4,5,6,7,8,9,10].indexOf(month) % 5] += 25;
         session.scores = scores.map((s, i) => s + ((session.seed + i) % 15));
 
         const res = nameNumerology[(session.seed % 25) + 1] || nameNumerology[1];
@@ -150,32 +148,34 @@
 
         const t = i18n[currentLang];
         const presSource = currentLang === 'ko' ? elementPrescriptions : enPrescriptions;
+        const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
         const pastSource = currentLang === 'ko' ? pastLifeData : pastLifeDataEn;
         const nextSource = currentLang === 'ko' ? reincarnationData : reincarnationDataEn;
         const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
         const quoteSource = currentLang === 'ko' ? quoteData["인생"] : quoteDataEn["life"];
 
         if(mode === 'fortune') {
+            const strongEl = elements[maxIdx]; const lackEl = elements[minIdx];
             body.innerHTML = `
                 <div class="section-wrap"><span class="section-title">${t.sec1}</span><div class="info-box">${session.nameReport}</div></div>
-                <div class="section-wrap"><span class="section-title">${t.sec2} [${elements[maxIdx]}]</span><div>• <b>${t.advise}:</b> ${presSource[elements[maxIdx]][getLevel(session.scores[maxIdx])]}</div></div>
-                <div class="section-wrap"><span class="section-title">${t.sec3} [${elements[minIdx]}]</span><div>• <b>${t.practice}:</b> ${presSource[elements[minIdx]][getLevel(session.scores[minIdx])]}</div></div>
+                <div class="section-wrap"><span class="section-title">${t.sec2} [${attrSource[strongEl].name}]</span><div><b>${currentLang === 'ko' ? '성향' : 'Trait'}:</b> ${attrSource[strongEl].trait}</div><div class="detail-item">• <b>${t.advise}:</b> ${presSource[strongEl][getLevel(session.scores[maxIdx])]}</div></div>
+                <div class="section-wrap"><span class="section-title">${t.sec3} [${attrSource[lackEl].name}]</span><div>• <b>${t.practice}:</b> ${presSource[lackEl][getLevel(session.scores[minIdx])]}</div></div>
                 <div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[s % sideSource.length]}</div>
                 <div style="margin-top:30px; text-align:center; color:#AAA; font-style:italic;">"${quoteSource[s % quoteSource.length].text}"</div>
             `;
         } else if(mode === 'past') {
             const p = pastSource[s % pastSource.length];
-            body.innerHTML = `<div class="info-box"><b>[${p.job}]</b><br>${p.desc}</div><p><b>Goal:</b> ${p.homework}</p>`;
+            body.innerHTML = `<span class="section-title">${t.tab2}</span><div class="info-box"><b>[${p.job}]</b><br>${p.desc}</div><p><b>${t.homework}:</b><br> " ${p.homework} "</p>`;
         } else {
             const r = nextSource[s % nextSource.length];
-            body.innerHTML = `<div class="info-box">Next: <b>${r.place}</b><br>As: <b>${r.object}</b></div><p><b>Condition:</b> ${r.mission}</p>`;
+            body.innerHTML = `<span class="section-title">${t.tab3}</span><div class="info-box"><b>${t.destination}:</b> ${r.place}<br><b>${t.object}:</b> ${r.object}</div><p><b>${t.condition}:</b> ${r.mission}</p>`;
         }
     }
 
     function copyLink() {
         const url = `${window.location.origin}${window.location.pathname}?name=${encodeURIComponent(session.name)}&birth=${session.birth}&lang=${currentLang}`;
         const t = document.createElement("textarea"); document.body.appendChild(t); t.value = `[Destiny Report] ${session.name}\n${url}`; t.select(); document.execCommand("copy"); document.body.removeChild(t);
-        alert(currentLang === 'ko' ? "복사 완료!" : "Link Copied!");
+        alert(currentLang === 'ko' ? "복사 완료! 🎁" : "Link Copied! 🎁");
     }
 
     window.onload = function() {
