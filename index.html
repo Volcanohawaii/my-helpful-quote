@@ -3,77 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>운명 공학 분석관</title>
+    <title>운명 공학 분석소</title>
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Pretendard:wght@400;600&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         :root { --bg: #F0EDE9; --paper: #FFFFFF; --primary: #243447; --accent: #9A8467; --text: #444444; --border: #D1CDC5; }
         body { font-family: 'Pretendard', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
         .container { width: 100%; max-width: 480px; position: relative; }
-        .report-card { background: var(--paper); padding: 60px 35px; box-shadow: 0 30px 60px rgba(0,0,0,0.1); border: 1px solid var(--border); text-align: center; position: relative; animation: fadeIn 0.8s ease-out; }
+        .report-card { background: var(--paper); padding: 55px 35px; box-shadow: 0 30px 60px rgba(0,0,0,0.1); border: 1px solid var(--border); text-align: center; animation: fadeIn 0.8s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        .official-seal { position: absolute; top: 25px; right: 25px; width: 65px; height: 65px; border: 2px double var(--accent); color: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Gowun Batang', serif; font-size: 0.75rem; font-weight: 700; opacity: 0.5; transform: rotate(12deg); pointer-events: none; }
-        h1 { font-family: 'Gowun Batang', serif; font-size: 1.8rem; color: var(--primary); margin: 0 0 10px 0; letter-spacing: -1px; }
-        .serial-num { font-size: 0.7rem; color: #AAA; letter-spacing: 2px; margin-bottom: 45px; display: block; }
-        .form-area { text-align: left; margin-bottom: 40px; }
-        .label { font-size: 0.75rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; display: block; letter-spacing: 1px; }
-        input { width: 100%; padding: 16px; border: none; border-bottom: 1px solid var(--border); font-size: 1.1rem; margin-bottom: 30px; outline: none; background: transparent; transition: 0.3s; font-family: 'Gowun Batang', serif; }
-        input:focus { border-bottom-color: var(--primary); background: #FAF9F7; }
-        .btn-start { width: 100%; padding: 20px; background: var(--primary); color: white; border: none; font-family: 'Gowun Batang', serif; font-size: 1.1rem; font-weight: 700; cursor: pointer; letter-spacing: 2px; transition: 0.4s; }
-        .btn-start:hover { background: #151f2b; letter-spacing: 4px; }
-        .loader { margin: 40px 0; display: none; }
-        .loader-dot { display: inline-block; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; margin: 0 5px; animation: dotPulse 1.5s infinite; }
-        @keyframes dotPulse { 0%, 100% { opacity: 0.2; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.1); } }
+        
+        h1 { font-family: 'Gowun Batang', serif; font-size: 1.7rem; color: var(--primary); margin: 0 0 10px 0; }
+        .serial-num { font-size: 0.7rem; color: #AAA; letter-spacing: 2px; margin-bottom: 40px; display: block; }
+
+        .tab-content { text-align: left; line-height: 1.9; font-size: 0.95rem; letter-spacing: -0.2px; }
+        .section-wrap { margin-bottom: 35px; }
+        .section-title { font-family: 'Gowun Batang', serif; font-size: 1.05rem; color: var(--accent); display: block; margin-bottom: 15px; font-weight: 700; border-bottom: 1px solid #F0F0F0; padding-bottom: 8px; }
+
+        .info-box { background: #F9F8F6; padding: 20px; border-radius: 8px; border-left: 4px solid var(--accent); margin-bottom: 15px; }
+        .detail-item { font-size: 0.9rem; color: #666; margin-top: 8px; padding-left: 5px; }
+        .warning-box { background: #FFF5F5; padding: 18px; border-radius: 8px; font-size: 0.85rem; color: #C0392B; border: 1px dashed #FADBD8; margin-top: 25px; }
+
+        .tabs { display: flex; border-bottom: 1px solid #EEE; margin: 30px 0 30px; }
+        .tab-btn { flex: 1; padding: 12px 0; border: none; background: none; cursor: pointer; font-family: 'Gowun Batang', serif; font-size: 0.9rem; color: #BBB; }
+        .tab-btn.active { color: var(--primary); font-weight: 700; border-bottom: 2px solid var(--primary); }
+
+        .quote-footer { margin-top: 40px; padding-top: 25px; border-top: 1px solid #F0F0F0; text-align: center; }
+        .btn-action { width: 100%; background: var(--primary); color: white; border: none; padding: 18px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 1rem; transition: 0.3s; }
+        .btn-action:hover { background: #151f2b; }
+        
         .hidden { display: none; }
-        .chart-wrap { margin: 30px auto; width: 240px; height: 240px; }
-        .type-tag { font-family: 'Gowun Batang', serif; font-size: 1.3rem; color: var(--accent); font-weight: 700; margin-bottom: 10px; display: block; }
-        .tabs { display: flex; border-bottom: 1px solid #EEE; margin: 40px 0 25px; }
-        .tab-btn { flex: 1; padding: 15px 0; border: none; background: none; cursor: pointer; font-family: 'Gowun Batang', serif; font-size: 0.95rem; color: #BBB; position: relative; }
-        .tab-btn.active { color: var(--primary); font-weight: 700; }
-        .tab-btn.active::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 2px; background: var(--primary); }
-        .tab-content { text-align: left; line-height: 1.9; font-size: 1rem; min-height: 220px; color: #444; }
-        .section-title { font-family: 'Gowun Batang', serif; font-size: 1.1rem; color: var(--accent); display: block; margin-bottom: 15px; font-weight: 700; }
-        .quote-footer { margin-top: 40px; padding: 25px; background: #FBF9F7; border-radius: 8px; font-family: 'Gowun Batang', serif; font-size: 1rem; color: #555; text-align: center; line-height: 1.6; font-style: italic; }
-        .btn-share { margin-top: 40px; width: 100%; background: transparent; border: 1px solid var(--border); padding: 14px 30px; border-radius: 4px; font-size: 0.85rem; color: #888; cursor: pointer; letter-spacing: 1px; transition: 0.3s; }
-        .btn-share:hover { background: #F4F2EE; color: var(--primary); }
+        .chart-wrap { margin: 25px auto; width: 220px; height: 220px; }
+        input { width: 100%; padding: 15px; margin-bottom: 20px; border: none; border-bottom: 1px solid #DDD; font-size: 1.1rem; outline: none; transition: 0.3s; }
+        input:focus { border-bottom-color: var(--primary); background: #FAF9F7; }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="report-card" id="view-home">
-        <div class="official-seal">운명공학<br>분석실</div>
-        <span class="serial-num">ANALYSIS CASE NO. 2026-X</span>
-        <h1>성명 데이터 분석</h1>
-        <p style="font-size: 0.9rem; color: #888; margin-bottom: 45px;">성명과 생년월일을 바탕으로 정식 리포트를 생성합니다.</p>
-        <div class="form-area">
-            <span class="label">성명 (NAME)</span>
-            <input type="text" id="userName" placeholder="성함을 입력하십시오">
-            <span class="label">생년월일 (BIRTHDAY)</span>
-            <input type="text" id="userBirth" placeholder="8자리 (예: 19940512)">
+        <h1>성명학 데이터 분석</h1>
+        <p style="font-size: 0.9rem; color: #888; margin-bottom: 40px;">성명과 생년월일을 바탕으로 정식 리포트를 생성합니다.</p>
+        <div style="text-align:left;">
+            <input type="text" id="userName" placeholder="성함">
+            <input type="text" id="userBirth" placeholder="생년월일 양력 (예: 19940702)">
         </div>
-        <div id="loader" class="loader">
-            <div class="loader-dot" style="animation-delay: 0s"></div>
-            <div class="loader-dot" style="animation-delay: 0.2s"></div>
-            <div class="loader-dot" style="animation-delay: 0.4s"></div>
-            <p style="font-size: 0.8rem; color: var(--accent); margin-top: 15px; font-family: 'Gowun Batang'">천기의 흐름을 수치화하고 있습니다...</p>
-        </div>
-        <button id="btn-submit" class="btn-start" onclick="startAnalysis()">리포트 생성하기</button>
+        <button class="btn-action" onclick="startAnalysis()">리포트 생성하기</button>
     </div>
 
     <div class="report-card hidden" id="view-result">
-        <div class="official-seal">정식분석본</div>
         <span class="serial-num" id="res-id">REF. #00000000</span>
-        <h1 id="res-header">성명학 리포트</h1>
+        <h1 id="res-header">운명 데이터 분석 결과</h1>
         <div class="chart-wrap" id="radarChart"></div>
-        <span class="type-tag" id="res-type">기운 분석 완료</span>
+        
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('fortune', this)">현생 분석</button>
             <button class="tab-btn" onclick="switchTab('past', this)">전생 기록</button>
             <button class="tab-btn" onclick="switchTab('next', this)">내세 예약</button>
         </div>
+        
         <div class="tab-content" id="tab-body"></div>
-        <button class="btn-share" onclick="copyLink()">결과 저장 및 링크 복사</button>
-        <p onclick="location.reload()" style="font-size:0.75rem; color:#ccc; margin-top:30px; cursor:pointer; text-decoration:underline;">데이터 초기화</p>
+        <button class="btn-action" style="margin-top:40px; background:white; border:1px solid var(--border); color:var(--text);" onclick="copyLink()">결과 저장 및 링크 복사</button>
+        
+        <p onclick="window.location.href=window.location.pathname" style="font-size:0.7rem; color:#CCC; margin-top:20px; cursor:pointer; text-decoration:underline;">
+            새로운 운명 분석하기 (초기화)
+        </p>
     </div>
 </div>
 
@@ -81,59 +74,38 @@
 <script>
     let session = { name: '', birth: '', seed: 0, scores: [], nameReport: '' };
 
-    // [중요] 한글 자음 오행 매핑 (쌍자음 포함 전 국민용)
-    const elementMap = {
-        'ㄱ': '木', 'ㄲ': '木', 'ㅋ': '木',
-        'ㄴ': '火', 'ㄷ': '火', 'ㄸ': '火', 'ㄹ': '火', 'ㅌ': '火',
-        'ㅇ': '土', 'ㅎ': '土',
-        'ㅅ': '金', 'ㅆ': '金', 'ㅈ': '金', 'ㅉ': '金', 'ㅊ': '金',
-        'ㅁ': '水', 'ㅂ': '水', 'ㅃ': '水', 'ㅍ': '水'
-    };
-
     function startAnalysis() {
         const name = document.getElementById('userName').value.trim();
         const birth = document.getElementById('userBirth').value.trim();
-        if(!name || birth.length !== 8) { alert("정확한 성명과 8자리 생년월일을 기입해주십시오."); return; }
-        document.getElementById('btn-submit').style.display = 'none';
-        document.getElementById('loader').style.display = 'block';
-        setTimeout(() => { processData(name, birth); }, 1800);
+        if(!name || birth.length !== 8) { alert("정확한 데이터를 입력하십시오."); return; }
+        processData(name, birth);
     }
 
     function processData(name, birth) {
         session.name = name; session.birth = birth;
         session.seed = name.split('').reduce((a,b)=>a+b.charCodeAt(0),0) + parseInt(birth);
-        
-        let scores = [40, 40, 40, 40, 40]; // 기본 밸런스 점수
-
-        // 1. 이름 오행 가중치 (이름이 그래프 모양을 결정)
+        let scores = [40, 40, 40, 40, 40]; 
         for(let i=0; i<name.length; i++) {
             const onset = getHangulOnset(name[i]);
-            const element = elementMap[onset];
+            const element = hangulElements[onset];
             if(element) {
                 const idx = ["木", "火", "土", "金", "水"].indexOf(element);
-                scores[idx] += 35; // 이름의 영향력을 대폭 강화 (+35)
+                scores[idx] += 30; 
             }
         }
-
-        // 2. 계절 오행 가중치 (태어난 달 반영)
         const month = parseInt(birth.substring(4, 6));
-        if([2, 3].includes(month)) scores[0] += 25;      // 봄(목)
-        else if([5, 6].includes(month)) scores[1] += 25; // 여름(화)
-        else if([8, 9].includes(month)) scores[3] += 25; // 가을(금)
-        else if([11, 12].includes(month)) scores[4] += 25;// 겨울(수)
-        else scores[2] += 25;                            // 환절기(토)
-
-        // 3. 미세 변동성 (Seed 기반)
+        if([2, 3].includes(month)) scores[0] += 25;
+        else if([5, 6].includes(month)) scores[1] += 25;
+        else if([8, 9].includes(month)) scores[3] += 25;
+        else if([11, 12].includes(month)) scores[4] += 25;
+        else scores[2] += 25;
         session.scores = scores.map((s, i) => s + ((session.seed + i) % 15));
-
-        // 성명학 수리 분석
         const strokeVal = (session.seed % 25) + 1;
-        const resultNum = nameNumerology[strokeVal] || nameNumerology[1];
-        session.nameReport = `성명학적으로 <b>${resultNum.title}</b>에 해당하며, ${resultNum.desc}`;
-
+        const res = nameNumerology[strokeVal] || nameNumerology[1];
+        session.nameReport = `성명학적으로 <b>${res.title}</b>에 해당하며, ${res.desc}`;
         document.getElementById('view-home').classList.add('hidden');
         document.getElementById('view-result').classList.remove('hidden');
-        document.getElementById('res-id').innerText = `REF. #${session.seed}`;
+        document.getElementById('res-id').innerText = `ANALYSIS CASE #${session.seed}`;
         renderChart();
         switchTab('fortune', document.querySelector('.tab-btn'));
     }
@@ -146,27 +118,22 @@
     }
 
     function renderChart() {
-        const labels = ["木(나무)", "火(불)", "土(흙)", "金(쇠)", "水(물)"];
-        const cx = 120, cy = 120, r = 85;
+        const labels = ["木", "火", "土", "金", "水"];
+        const cx = 110, cy = 110, r = 80;
         let polyPoints = "";
         labels.forEach((l, i) => {
             const angle = (Math.PI * 2 / 5) * i - (Math.PI / 2);
-            const value = (session.scores[i] / 150) * r; // 최대 점수 대비 비율 조정
+            const value = (session.scores[i] / 150) * r;
             polyPoints += `${cx + value * Math.cos(angle)},${cy + value * Math.sin(angle)} `;
         });
-
-        const maxIdx = session.scores.indexOf(Math.max(...session.scores));
-        const typeLabels = ["강인한 나무", "정열적인 불", "중심을 지키는 흙", "예리한 금속", "깊고 맑은 물"];
-        document.getElementById('res-type').innerText = `[${typeLabels[maxIdx]}] 의 기질`;
-
         document.getElementById('radarChart').innerHTML = `
-            <svg viewBox="0 0 240 240" style="overflow:visible;">
+            <svg viewBox="0 0 220 220" style="overflow:visible;">
                 <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#EEE" />
                 <circle cx="${cx}" cy="${cy}" r="${r*0.6}" fill="none" stroke="#EEE" />
                 ${labels.map((l, i) => {
                     const a = (Math.PI * 2 / 5) * i - (Math.PI / 2);
                     return `<line x1="${cx}" y1="${cy}" x2="${cx + r * Math.cos(a)}" y2="${cx + r * Math.sin(a)}" stroke="#EEE" stroke-dasharray="2,2" />
-                            <text x="${cx + (r+25) * Math.cos(a)}" y="${cx + (r+25) * Math.sin(a)}" text-anchor="middle" font-size="10" fill="#999" font-weight="600">${l}</text>`;
+                            <text x="${cx + (r+20) * Math.cos(a)}" y="${cx + (r+20) * Math.sin(a)}" text-anchor="middle" font-size="12" fill="#999" font-weight="600">${l}</text>`;
                 }).join('')}
                 <polygon points="${polyPoints}" fill="rgba(154, 132, 103, 0.3)" stroke="var(--accent)" stroke-width="2.5" />
             </svg>`;
@@ -174,36 +141,61 @@
 
     function switchTab(mode, btn) {
         if(btn) { document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
-        const body = document.getElementById('tab-body'); const s = session.seed;
+        const body = document.getElementById('tab-body');
+        const s = session.seed;
         const elements = ["木", "火", "土", "金", "水"];
+        const getLevel = (score) => { if(score >= 75) return 'strong'; if(score >= 45) return 'normal'; return 'weak'; };
         const maxIdx = session.scores.indexOf(Math.max(...session.scores));
         const minIdx = session.scores.indexOf(Math.min(...session.scores));
-
         if(mode === 'fortune') {
-            const lackElement = elements[minIdx];
-            const q = quoteData["인생"][s % quoteData["인생"].length];
-            body.innerHTML = `<span class="section-title">성명 및 에너지 분석</span><p style="background:#F9F8F6; padding:15px; border-radius:5px; font-size:0.9rem; border-left:3px solid var(--accent); margin-bottom:20px;">${session.nameReport}</p>
-                현재 <b>${elementAttributes[lackElement].name}</b>의 기운이 가장 부족하니 보강하십시오.<br><br>• <b>처방 행법:</b> ${elementMissions[lackElement]}<br>• <b>길한 색상:</b> ${elementAttributes[lackElement].color}<br>• <b>오늘의 조언:</b> ${recommendations[s % recommendations.length]}<div class="quote-footer">"${q.text}"</div>`;
+            const strongEl = elements[maxIdx];
+            const lackEl = elements[minIdx];
+            body.innerHTML = `
+                <div class="section-wrap">
+                    <span class="section-title">1. 성명 수리 분석 결과</span>
+                    <div class="info-box">${session.nameReport}</div>
+                </div>
+                <div class="section-wrap">
+                    <span class="section-title">2. 주체 에너지 분석 [${strongEl}]</span>
+                    <div><b>기질 진단:</b> ${elementAttributes[strongEl].trait}</div>
+                    <div class="detail-item">• <b>운명 조언:</b> ${elementPrescriptions[strongEl][getLevel(session.scores[maxIdx])]}</div>
+                </div>
+                <div class="section-wrap">
+                    <span class="section-title">3. 에너지 보강 지침 [${lackEl}]</span>
+                    <div><b>보강 필요:</b> 현재 ${lackEl}의 기운이 상대적으로 약함</div>
+                    <div class="detail-item">• <b>실천 행법:</b> ${elementPrescriptions[lackEl][getLevel(session.scores[minIdx])]}</div>
+                </div>
+                <div class="warning-box">
+                    <b>⚠️ 에너지 조정 부작용 주의</b><br>
+                    ${sideEffects[s % sideEffects.length]}
+                </div>
+                <div class="quote-footer">
+                    <div style="margin-bottom:12px;">
+                        <span style="background:var(--primary); color:white; padding:2px 8px; border-radius:10px; font-size:0.75rem; margin-right:5px;">ACTION</span>
+                        <b>${recommendations[s % recommendations.length]}</b>
+                    </div>
+                    <span style="font-size:0.85rem; color:#AAA; font-style:italic;">"${quoteData["인생"][s % quoteData["인생"].length].text}"</span>
+                </div>
+            `;
         } else if(mode === 'past') {
-            const p = pastLifeData[(maxIdx * 6) % pastLifeData.length];
-            body.innerHTML = `<span class="section-title">전거(前居) 에너지 프로필</span>과거 귀하는 <b>[${p.job}]</b>의 소명을 다했습니다.<br><br>- ${p.desc}<br><br><b>현생의 숙제:</b><br> " ${p.homework} "`;
+            const p = pastLifeData[(maxIdx * 6 + s % 6) % 30];
+            body.innerHTML = `<span class="section-title">전거(前居) 에너지 기록</span><div class="info-box" style="line-height:2;">과거 귀하는 <b>[${p.job}]</b>의 소명을 다했습니다.<br>${p.desc}</div><div style="margin-top:20px;"><b>현생의 숙제:</b><br> " ${p.homework} "</div>`;
         } else {
-            const r = reincarnationData[s % reincarnationData.length];
-            body.innerHTML = `<span class="section-title">차기 내세 예약 확약서</span>다음 생으로의 에너지 전이 경로가 확약되었습니다.<br><br>• <b>차기 정착지:</b> ${r.place}<br>• <b>재탄생 형태:</b> ${r.object}<br>• <b>확정 조건:</b> ${r.mission}`;
+            const r = reincarnationData[s % 30];
+            body.innerHTML = `<span class="section-title">차기 내세 예약 확약서</span><div class="info-box">에너지 전이 경로가 공식 확약되었습니다.</div><div style="line-height:2.2;">• <b>차기 정착지:</b> ${r.place}<br>• <b>재탄생 형태:</b> ${r.object}<br>• <b>확정 조건:</b> ${r.mission}</div>`;
         }
     }
 
     function copyLink() {
-        const shareUrl = `${window.location.origin}${window.location.pathname}?name=${encodeURIComponent(session.name)}&birth=${session.birth}`;
-        const text = `[운명 공학 리포트] ${session.name}님의 분석 결과:\n${shareUrl}`;
-        const t = document.createElement("textarea"); document.body.appendChild(t); t.value = text; t.select(); document.execCommand("copy"); document.body.removeChild(t);
-        alert("데이터가 담긴 공유 링크가 복사되었습니다! 🎁");
+        const url = `${window.location.origin}${window.location.pathname}?name=${encodeURIComponent(session.name)}&birth=${session.birth}`;
+        const t = document.createElement("textarea"); document.body.appendChild(t); t.value = `[운명 공학 리포트] ${session.name}님의 분석 결과:\n${url}`; t.select(); document.execCommand("copy"); document.body.removeChild(t);
+        alert("나의 데이터가 담긴 링크가 복사되었습니다! 🎁");
     }
 
     window.onload = function() {
         const urlParams = new URLSearchParams(window.location.search);
-        const nameParam = urlParams.get('name'); const birthParam = urlParams.get('birth');
-        if (nameParam && birthParam && birthParam.length === 8) { processData(nameParam, birthParam); }
+        const n = urlParams.get('name'); const b = urlParams.get('birth');
+        if (n && b && b.length === 8) { processData(n, b); }
     };
 </script>
 </body>
