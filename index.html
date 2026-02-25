@@ -260,47 +260,57 @@
     }
 
     // 4. 탭 전환 및 내용 렌더링
-    function switchTab(mode, btn) {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const body = document.getElementById('tab-body');
-        const s = session.seed;
+   function switchTab(mode, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const body = document.getElementById('tab-body');
+    const s = session.seed;
 
-        if(mode === 'fortune') {
-            // 사용자님이 주신 quoteData 활용
-            const quotes = quoteData["인생"] || quoteData["기본"];
-            const q = quotes[s % quotes.length];
-            body.innerHTML = `
-                <span class="section-title">본신 에너지 보강 지침</span>
-                ${session.name}님의 현재 기운은 조율이 필요한 시기에 있습니다. <br>
-                평온을 되찾기 위한 구체적인 행법을 전달합니다.<br><br>
-                • <b>권장 행법:</b> ${recommendations[s % recommendations.length]}<br>
-                • <b>길한 색상:</b> ${["청색", "적색", "황색", "백색", "흑색"][s % 5]} 계열<br>
-                • <b>유의사항:</b> ${sideEffects[s % sideEffects.length].split(' ')[0]} 증상 주의
-                <div class="quote-footer">
-                    "${q.text}"
-                </div>
-            `;
-        } else if(mode === 'past') {
-            const p = pastLifeData[s % pastLifeData.length];
-            body.innerHTML = `
-                <span class="section-title">전거(前居) 에너지 프로필</span>
-                귀하의 에너지는 과거 <b>[${p.job}]</b>의 소명을 기록하고 있습니다. <br><br>
-                - ${p.desc}<br><br>
-                <b>현생에 남겨진 업(숙제):</b><br>
-                " ${p.homework} "
-            `;
-        } else {
-            const r = reincarnationData[s % reincarnationData.length];
-            body.innerHTML = `
-                <span class="section-title">차기 내세 예약 확약서</span>
-                다음 생으로의 에너지 전이 경로가 공식적으로 확약되었습니다.<br><br>
-                • <b>차기 정착지:</b> ${r.place}<br>
-                • <b>환생 형태:</b> ${r.object}<br>
-                • <b>확정 조건:</b> ${r.mission}
-            `;
-        }
+    // 오행 순서 배열
+    const elements = ["木", "火", "土", "金", "水"];
+    // 가장 강한 기운(Max)과 약한 기운(Min) 찾기
+    const maxIdx = session.scores.indexOf(Math.max(...session.scores));
+    const minIdx = session.scores.indexOf(Math.min(...session.scores));
+
+    if(mode === 'fortune') {
+        // [사주 원리] 부족한 기운(Min)을 보강하는 처방
+        const lackElement = elements[minIdx];
+        const quotes = quoteData["인생"];
+        const q = quotes[s % quotes.length];
+
+        body.innerHTML = `
+            <span class="section-title">본신 에너지 보강 지침</span>
+            ${session.name}님은 현재 <b>${elementAttributes[lackElement].name}</b>의 기운이 부족한 상태입니다. <br><br>
+            • <b>맞춤 행법:</b> ${elementMissions[lackElement]}<br>
+            • <b>길한 색상:</b> ${elementAttributes[lackElement].color}<br>
+            • <b>오늘의 조언:</b> ${recommendations[s % recommendations.length]}
+            <div class="quote-footer">
+                "${q.text}"
+            </div>
+        `;
+    } else if(mode === 'past') {
+        // [사주 원리] 가장 강한 기운(Max)과 연결된 전생 데이터 (그룹당 6개씩)
+        const pastIdx = (maxIdx * 6) + (s % 6);
+        const p = pastLifeData[pastIdx];
+        body.innerHTML = `
+            <span class="section-title">전거(前居) 에너지 프로필</span>
+            귀하의 에너지는 과거 <b>[${p.job}]</b>의 소명을 기록하고 있습니다. <br><br>
+            - ${p.desc}<br><br>
+            <b>현생에 남겨진 숙제:</b><br>
+            " ${p.homework} "
+        `;
+    } else {
+        // 환생 데이터는 시드에 따라 랜덤 예약
+        const r = reincarnationData[s % reincarnationData.length];
+        body.innerHTML = `
+            <span class="section-title">차기 내세 예약 확약서</span>
+            다음 생으로의 에너지 전이 경로가 공식적으로 확약되었습니다.<br><br>
+            • <b>행선지:</b> ${r.place}<br>
+            • <b>재탄생 형태:</b> ${r.object}<br>
+            • <b>확정 업데이트 조건:</b> ${r.mission}
+        `;
     }
+}
 
     // 5. 링크 복사
     function copyLink() {
