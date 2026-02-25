@@ -21,11 +21,12 @@
         .section-wrap { margin-bottom: 35px; }
         .section-title { font-family: 'Gowun Batang', serif; font-size: 1.05rem; color: var(--accent); display: block; margin-bottom: 15px; font-weight: 700; border-bottom: 1px solid #F0F0F0; padding-bottom: 8px; }
         .info-box { background: #F9F8F6; padding: 20px; border-radius: 8px; border-left: 4px solid var(--accent); margin-bottom: 15px; }
+        .detail-item { font-size: 0.9rem; color: #666; margin-top: 8px; padding-left: 5px; }
         .warning-box { background: #FFF5F5; padding: 18px; border-radius: 8px; font-size: 0.85rem; color: #C0392B; border: 1px dashed #FADBD8; margin-top: 25px; }
         .tabs { display: flex; border-bottom: 1px solid #EEE; margin: 30px 0; }
         .tab-btn { flex: 1; padding: 12px 0; border: none; background: none; cursor: pointer; font-size: 0.9rem; color: #BBB; font-family: 'Gowun Batang'; }
         .tab-btn.active { color: var(--primary); font-weight: 700; border-bottom: 2px solid var(--primary); }
-        .btn-action { width: 100%; background: var(--primary); color: white; border: none; padding: 18px; border-radius: 4px; cursor: pointer; font-weight: 600; }
+        .btn-action { width: 100%; background: var(--primary); color: white; border: none; padding: 18px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 1rem; }
         .hidden { display: none; }
         input { width: 100%; padding: 15px; margin-bottom: 20px; border: none; border-bottom: 1px solid #DDD; font-size: 1.1rem; outline: none; }
     </style>
@@ -48,6 +49,7 @@
 
     <div class="report-card hidden" id="view-result">
         <div class="official-seal" id="seal-res">정식분석본</div>
+        <span class="serial-num" id="res-id">REF. #00000000</span>
         <h1 id="ui-res-title">분석 결과 리포트</h1>
         <div id="radarChart" style="margin:20px auto; width:220px; height:220px;"></div>
         <div class="tabs">
@@ -56,7 +58,7 @@
             <button class="tab-btn" id="tab3" onclick="switchTab('next', this)">내세 예약</button>
         </div>
         <div class="tab-content" id="tab-body"></div>
-        <button class="btn-action" style="margin-top:40px; background:white; border:1px solid #DDD; color:#444;" id="ui-copy" onclick="copyLink()">링크 복사</button>
+        <button class="btn-action" style="margin-top:40px; background:white; border:1px solid #DDD; color:#444;" id="ui-copy" onclick="copyLink()">결과 저장 및 링크 복사</button>
         <p onclick="window.location.href=window.location.pathname" style="font-size:0.7rem; color:#CCC; margin-top:20px; cursor:pointer;" id="ui-reset">초기화</p>
     </div>
 </div>
@@ -100,14 +102,19 @@
         let scores = [40, 40, 40, 40, 40]; 
         for(let i=0; i<name.length; i++) {
             let el = /[a-zA-Z]/.test(name[i]) ? alphabetElements[name[i].toUpperCase()] : hangulElements[getHangulOnset(name[i])];
-            if(el) scores[["木", "火", "土", "金", "水"].indexOf(el)] += 35;
+            if(el) { const idx = ["木", "火", "土", "金", "水"].indexOf(el); scores[idx] += 30; }
         }
         const month = parseInt(birth.substring(4, 6));
-        scores[[11,12,1,2,3,4,5,6,7,8,9,10].indexOf(month) % 5] += 25;
+        const seasonIdx = [11,12,1,2,3,4,5,6,7,8,9,10].indexOf(month);
+        scores[Math.floor(seasonIdx/2.5) % 5] += 25;
         session.scores = scores.map((s, i) => s + ((session.seed + i) % 15));
 
         const res = nameNumerology[(session.seed % 25) + 1] || nameNumerology[1];
-        session.nameReport = currentLang === 'ko' ? `성명학적으로 <b>${res.title}</b>이며, ${res.desc}` : `Numerologically, you hold <b>${res.titleEn}</b>: ${res.descEn}`;
+        if (currentLang === 'ko') {
+            session.nameReport = `성명학적으로 <b>${res.title}</b>이며, ${res.desc}`;
+        } else {
+            session.nameReport = `Numerologically, you hold <b>${res.titleEn}</b>: ${res.descEn}`;
+        }
 
         document.getElementById('view-home').classList.add('hidden');
         document.getElementById('view-result').classList.remove('hidden');
