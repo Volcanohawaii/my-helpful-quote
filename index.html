@@ -280,16 +280,18 @@
         }
     }
 
-    function copyLink() {
-        const text = `[운명 공학 리포트] ${session.name}님의 분석 결과가 도착했습니다.\n직접 확인해보세요: ${window.location.href}`;
+   function copyLink() {
+        // 현재 입력된 이름과 생일을 주소 뒤에 붙여서 새로운 링크를 만듭니다.
+        const shareUrl = `${window.location.origin}${window.location.pathname}?name=${encodeURIComponent(session.name)}&birth=${session.birth}`;
+        const text = `[운명 공학 리포트] ${session.name}님의 분석 결과가 도착했습니다.\n직접 확인해보세요: ${shareUrl}`;
+        
         const t = document.createElement("textarea");
         document.body.appendChild(t);
         t.value = text;
         t.select();
         document.execCommand("copy");
         document.body.removeChild(t);
-        alert("리포트 링크가 복사되었습니다.");
+        
+        alert("나의 데이터가 담긴 공유 링크가 복사되었습니다! 🎁");
     }
-</script>
-</body>
 </html>
