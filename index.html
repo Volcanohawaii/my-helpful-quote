@@ -182,7 +182,7 @@
         if(mode === 'fortune') {
             const lackElement = elements[minIdx];
             const q = quoteData["인생"][s % quoteData["인생"].length];
-            body.innerHTML = `<span class="section-title">에너지 보강 및 성명 분석</span><p style="background:#F9F8F6; padding:15px; border-radius:5px; font-size:0.9rem; border-left:3px solid var(--accent); margin-bottom:20px;">${session.nameReport}</p>
+            body.innerHTML = `<span class="section-title">성명 및 에너지 분석</span><p style="background:#F9F8F6; padding:15px; border-radius:5px; font-size:0.9rem; border-left:3px solid var(--accent); margin-bottom:20px;">${session.nameReport}</p>
                 현재 <b>${elementAttributes[lackElement].name}</b>의 기운이 가장 부족하니 보강하십시오.<br><br>• <b>처방 행법:</b> ${elementMissions[lackElement]}<br>• <b>길한 색상:</b> ${elementAttributes[lackElement].color}<br>• <b>오늘의 조언:</b> ${recommendations[s % recommendations.length]}<div class="quote-footer">"${q.text}"</div>`;
         } else if(mode === 'past') {
             const p = pastLifeData[(maxIdx * 6) % pastLifeData.length];
