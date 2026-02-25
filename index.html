@@ -168,6 +168,7 @@
             `;
         } else if(mode === 'past') {
             const p = pastSource[s % pastSource.length];
+            // [최종 수정] 과거의 소명과 현생의 숙제를 하나의 info-box 안으로 깔끔하게 정렬
             body.innerHTML = `
                 <span class="section-title">${t.tab2}</span>
                 <div class="info-box" style="line-height:1.8;">
@@ -178,6 +179,7 @@
             `;
         } else {
             const r = nextSource[s % nextSource.length];
+            // [최종 수정] 차기 정착지, 재탄생 형태, 확정 조건을 하나의 info-box 안으로 깔끔하게 정렬
             body.innerHTML = `
                 <span class="section-title">${t.tab3}</span>
                 <div class="info-box" style="line-height:2.2;">
