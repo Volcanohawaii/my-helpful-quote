@@ -43,8 +43,8 @@
     <div class="report-card" id="view-home">
         <div class="official-seal">운명공학<br>분석실</div>
         <span class="serial-num">ANALYSIS CASE NO. 2026-X</span>
-        <h1>운명 데이터 분석</h1>
-        <p style="font-size: 0.9rem; color: #888; margin-bottom: 45px;">성명학과 명리학을 바탕으로 정식 리포트를 생성합니다.</p>
+        <h1>성명 데이터 분석</h1>
+        <p style="font-size: 0.9rem; color: #888; margin-bottom: 45px;">성명과 생년월일을 바탕으로 정식 리포트를 생성합니다.</p>
         <div class="form-area">
             <span class="label">성명 (NAME)</span>
             <input type="text" id="userName" placeholder="성함을 입력하십시오">
@@ -63,16 +63,16 @@
     <div class="report-card hidden" id="view-result">
         <div class="official-seal">정식분석본</div>
         <span class="serial-num" id="res-id">REF. #00000000</span>
-        <h1 id="res-header">분석 결과 리포트</h1>
+        <h1 id="res-header">성명학 리포트</h1>
         <div class="chart-wrap" id="radarChart"></div>
         <span class="type-tag" id="res-type">기운 분석 완료</span>
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('fortune', this)">현생 처방</button>
+            <button class="tab-btn active" onclick="switchTab('fortune', this)">현생 분석</button>
             <button class="tab-btn" onclick="switchTab('past', this)">전생 기록</button>
             <button class="tab-btn" onclick="switchTab('next', this)">내세 예약</button>
         </div>
         <div class="tab-content" id="tab-body"></div>
-        <button class="btn-share" onclick="copyLink()">분석 결과 저장 및 링크 복사</button>
+        <button class="btn-share" onclick="copyLink()">결과 저장 및 링크 복사</button>
         <p onclick="location.reload()" style="font-size:0.75rem; color:#ccc; margin-top:30px; cursor:pointer; text-decoration:underline;">데이터 초기화</p>
     </div>
 </div>
