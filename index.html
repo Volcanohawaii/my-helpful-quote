@@ -45,7 +45,7 @@
         <h1 id="ui-title">성명학 데이터 분석</h1>
         <p id="ui-desc" style="font-size:0.9rem; color:#888; margin-bottom:40px;">정식 리포트를 생성합니다.</p>
         <input type="text" id="userName" placeholder="성함">
-        <input type="text" id="userBirth" placeholder="생년월일 8자리">
+        <input type="text" id="userBirth" placeholder="양력 생년월일 8자리">
         <button class="btn-action" id="ui-btn" onclick="startAnalysis()">리포트 생성하기</button>
     </div>
 
@@ -191,12 +191,13 @@
                 <div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[s % sideSource.length]}</div>
                 <div style="margin-top:30px; text-align:center; color:#AAA; font-style:italic;">"${quoteSource[s % quoteSource.length].text}"</div>
             `;
-        } else if(mode === 'past') {
+       } else if(mode === 'past') {
             const p = pastSource[s % pastSource.length];
+            // [최종 수정] 과거의 소명 앞에 📜 이모티콘 추가
             body.innerHTML = `
                 <span class="section-title">${t.tab2}</span>
                 <div class="info-box" style="line-height:1.8;">
-                    <div style="margin-bottom:10px;"><b>${t.pastJob}:</b> [${p.job}]</div>
+                    <div style="margin-bottom:10px;"><b>📜 ${t.pastJob}:</b> [${p.job}]</div>
                     <div style="font-size:0.9rem; color:#666; margin-bottom:15px;">${p.desc}</div>
                     <div style="border-top:1px dashed #DDD; padding-top:10px;"><b>✨ ${t.pastHomework}:</b><br>" ${p.homework} "</div>
                 </div>
