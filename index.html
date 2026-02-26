@@ -38,15 +38,14 @@
 </head>
 <body>
 
-<div id="loading-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(240, 237, 233, 0.98); z-index:9999; display:none; align-items:center; justify-content:center;">
-    
-    <div style="background:white; padding:40px 20px; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.05); border:1px solid #D1CDC5; width:90%; max-width:380px; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+<div id="loading-overlay" style="position:fixed; inset:0; width:100%; height:100dvh; background:rgba(240, 237, 233, 0.96); z-index:9999; display:none; align-items:center; justify-content:center; padding:20px; backdrop-filter: blur(2px);">
+    <div style="background:white; padding:40px 15px; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.05); border:1px solid #D1CDC5; width:100%; max-width:340px; min-width:320px; display:flex; flex-direction:column; align-items:center; justify-content:center; box-sizing:border-box;">
         
-        <div class="official-seal" style="position:static; margin-bottom:20px; opacity:1;">분석중</div>
-        <h2 style="font-family:'Gowun Batang'; color:var(--primary); font-size:1.1rem; margin-bottom:10px; width:100%;">운명의 에너지를 조합 중...</h2>
-        <p style="color:#888; font-size:0.8rem; margin-bottom:25px; width:100%;">잠시만 기다려 주세요.</p>
+        <div id="load-seal" class="official-seal" style="position:static; margin-bottom:20px; opacity:1;">분석중</div>
+        <h2 id="load-title" style="font-family:'Gowun Batang'; color:var(--primary); font-size:1.1rem; margin-bottom:8px; width:100%; text-align:center;">운명의 에너지를 조합 중...</h2>
+        <p id="load-desc" style="color:#888; font-size:0.8rem; margin-bottom:25px; width:100%; text-align:center;">잠시만 기다려 주세요.</p>
         
-        <div style="width:300px; height:250px; background:#f9f9f9; display:flex; align-items:center; justify-content:center; border-radius:8px; overflow:hidden;">
+        <div style="width:300px; height:250px; background:#f9f9f9; display:flex; align-items:center; justify-content:center; border-radius:8px; overflow:hidden; flex-shrink:0;">
             <ins class="kakao_ad_area" style="display:none;"
                  data-ad-unit = "DAN-pMoVBneQCSicnBZ7"
                  data-ad-width = "300"
@@ -84,8 +83,11 @@
     <div class="report-card hidden" id="view-result">
         <div class="official-seal" id="seal-res">정식분석본</div>
         <h1 id="dynamic-title">님을 위한 분석 리포트</h1>
-        <div class="summary-line" id="dynamic-summary">분석 중...</div>
-        <div id="radarChart" style="margin:0 auto 30px; width:220px; height:220px;"></div>
+        
+        <div id="radarChart" style="margin:0 auto 20px; width:220px; height:220px;"></div>
+        
+        <div class="summary-line" id="dynamic-summary" style="margin-top: 10px;">분석 중...</div>
+
         <div class="tabs">
             <button class="tab-btn active" id="tab1" onclick="switchTab('fortune', this)">현생 분석</button>
             <button class="tab-btn" id="tab2" onclick="switchTab('past', this)">전생 기록</button>
@@ -136,11 +138,11 @@
         const overlay = document.getElementById('loading-overlay');
         overlay.style.display = 'flex';
 
-        // 2초 뒤에 결과 처리
+        // 3초 뒤에 결과 처리
         setTimeout(() => {
             overlay.style.display = 'none';
             processData(n, b);
-        }, 2000);
+        }, 3000);
     }
 
     function processData(name, birth) {
@@ -174,29 +176,43 @@
         if (c < 0 || c > 11171) return null;
         return ['ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'][Math.floor(c / 588)];
     }
-
+    
+const elementColors = {
+    "木": { fill: "rgba(46, 204, 113, 0.3)", stroke: "#27ae60" }, // 초록 (나무)
+    "火": { fill: "rgba(231, 76, 60, 0.3)", stroke: "#c0392b" },  // 빨강 (불)
+    "土": { fill: "rgba(241, 196, 15, 0.3)", stroke: "#f39c12" },  // 노랑/흙 (토)
+    "金": { fill: "rgba(149, 165, 166, 0.3)", stroke: "#7f8c8d" },  // 회색/금 (금)
+    "水": { fill: "rgba(52, 152, 219, 0.3)", stroke: "#2980b9" }   // 파랑 (물)
+};
     function renderChart() {
-        const labelsKo = ["木", "火", "土", "金", "水"];
-        const labelsEn = ["Wood", "Fire", "Earth", "Metal", "Water"];
-        const labels = currentLang === 'ko' ? labelsKo : labelsEn;
-        const cx = 110, cy = 110, r = 75;
-        let poly = "";
-        labels.forEach(() => poly += `${cx},${cy} `);
+    const labelsKo = ["木", "火", "土", "金", "水"];
+    const labelsEn = ["Wood", "Fire", "Earth", "Metal", "Water"];
+    const labels = currentLang === 'ko' ? labelsKo : labelsEn;
+    const cx = 110, cy = 110, r = 75;
 
-        document.getElementById('radarChart').innerHTML = `
-            <svg viewBox="0 0 220 220" style="overflow:visible;">
-                <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#EEE" stroke-width="1"/>
-                ${labels.map((l, i) => {
-                    const a = (Math.PI * 2 / 5) * i - (Math.PI / 2);
-                    const tx = cx + (r + 25) * Math.cos(a);
-                    const ty = cy + (r + 25) * Math.sin(a);
-                    return `<text x="${tx}" y="${ty}" text-anchor="middle" dominant-baseline="middle" fill="${currentLang === 'ko' ? '#243447' : '#999'}" font-size="${currentLang === 'ko' ? '14' : '11'}" font-weight="700" font-family="'Gowun Batang', serif">${l}</text>`;
-                }).join('')}
-                <polygon points="${poly}" fill="rgba(154, 132, 103, 0.3)" stroke="var(--accent)" stroke-width="2.5">
-                    <animate attributeName="points" dur="1s" fill="freeze" to="${getTargetPoints(labels, cx, cy, r)}" />
-                </polygon>
-            </svg>`;
-    }
+    // [신규] 가장 점수가 높은 오행 찾기 및 색상 결정
+    const maxIdx = session.scores.indexOf(Math.max(...session.scores));
+    const strongEl = ["木", "火", "土", "金", "水"][maxIdx];
+    const themeColor = elementColors[strongEl];
+
+    let poly = "";
+    labels.forEach(() => poly += `${cx},${cy} `);
+
+    document.getElementById('radarChart').innerHTML = `
+        <svg viewBox="0 0 220 220" style="overflow:visible;">
+            <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#EEE" stroke-width="1"/>
+            ${labels.map((l, i) => {
+                const a = (Math.PI * 2 / 5) * i - (Math.PI / 2);
+                const tx = cx + (r + 25) * Math.cos(a);
+                const ty = cy + (r + 25) * Math.sin(a);
+                return `<text x="${tx}" y="${ty}" text-anchor="middle" dominant-baseline="middle" fill="${currentLang === 'ko' ? '#243447' : '#999'}" font-size="${currentLang === 'ko' ? '14' : '11'}" font-weight="700" font-family="'Gowun Batang', serif">${l}</text>`;
+            }).join('')}
+            
+            <polygon points="${poly}" fill="${themeColor.fill}" stroke="${themeColor.stroke}" stroke-width="2.5">
+                <animate attributeName="points" dur="1s" fill="freeze" to="${getTargetPoints(labels, cx, cy, r)}" />
+            </polygon>
+        </svg>`;
+}
 
     function getTargetPoints(labels, cx, cy, r) {
         let p = "";
@@ -224,11 +240,11 @@
         const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
         const quoteSource = currentLang === 'ko' ? quoteData["인생"] : quoteDataEn["life"];
 
-        if(mode === 'fortune') {
+       if(mode === 'fortune') {
             const strongEl = elements[maxIdx]; const lackEl = elements[minIdx];
             body.innerHTML = `
                 <div class="section-wrap"><span class="section-title">${t.sec1}</span><div class="info-box">${session.nameReport}</div></div>
-                <div class="section-wrap"><span class="section-title">${t.sec2} [${attrSource[strongEl].name}]</span><div><b>${currentLang === 'ko' ? '성향' : 'Trait'}:</b> ${attrSource[strongEl].trait}</div><div class="detail-item">• <b>${t.advise}:</b> ${presSource[strongEl][getLevel(session.scores[maxIdx])]}</div></div>
+                <div class="section-wrap"><span class="section-title">${t.sec2} [${attrSource[strongEl].name}]</span><div>• <b>${currentLang === 'ko' ? '성향' : 'Trait'}:</b> ${attrSource[strongEl].trait}</div><div class="detail-item">• <b>${t.advise}:</b> ${presSource[strongEl][getLevel(session.scores[maxIdx])]}</div></div>
                 <div class="section-wrap"><span class="section-title">${t.sec3} [${attrSource[lackEl].name}]</span><div>• <b>${t.practice}:</b> ${presSource[lackEl][getLevel(session.scores[minIdx])]}</div></div>
                 <div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[s % sideSource.length]}</div>
                 <div style="margin-top:30px; text-align:center; color:#AAA; font-style:italic;">"${quoteSource[s % quoteSource.length].text}"</div>
