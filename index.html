@@ -11,7 +11,7 @@
         * { box-sizing: border-box; }
         :root { --bg: #F0EDE9; --paper: #FFFFFF; --primary: #243447; --accent: #9A8467; --text: #444444; --border: #D1CDC5; }
         body { font-family: 'Pretendard', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; overflow-x: hidden; position: relative; }
-        body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at center, rgba(255, 255, 255, 1) 1.2px, transparent 2.5px), radial-gradient(circle at center, rgba(154, 132, 103, 0.9) 2px, transparent 4px); background-size: 60px 60px, 140px 140px; background-position: 0 0, 30px 30px; opacity: 1; animation: twinkle 4s ease-in-out infinite alternate; }
+        body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at center, rgba(255, 255, 255, 1) 1.2px, transparent 2px), radial-gradient(circle at center, rgba(154, 132, 103, 0.9) 2px, transparent 4px); background-size: 60px 60px, 140px 140px; background-position: 0 0, 30px 30px; opacity: 1; animation: twinkle 4s ease-in-out infinite alternate; }
         @keyframes twinkle { 0% { opacity: 0.5; } 100% { opacity: 1; } }
         .container { width: 100%; max-width: 480px; position: relative; z-index: 1; }
         .lang-toggle { position: absolute; top: -50px; right: 0; display: flex; gap: 15px; }
@@ -93,10 +93,10 @@
 </div>
 
 <script src="quotes.js"></script>
-
 <script>
     let currentLang = 'ko';
     let session = { name: '', birth: '', seed: 0, scores: [] };
+    const elements = ["木", "火", "土", "金", "水"];
 
     async function updateCounter() {
         try {
@@ -137,11 +137,10 @@
         session.name = cleanName; session.birth = birth;
         session.seed = cleanName.split('').reduce((a,b)=>a+b.charCodeAt(0),0) + parseInt(birth);
         let sc = [40, 40, 40, 40, 40];
-        const elements = ["木", "火", "土", "金", "水"];
         for(let i=0; i<cleanName.length; i++) {
             const char = cleanName[i];
             const onset = /[a-zA-Z]/.test(char) ? char.toUpperCase() : getHangulOnset(char);
-            const el = /[a-zA-Z]/.test(char) ? alphabetElements[char.toUpperCase()] : hangulElements[onset];
+            const el = /[a-zA-Z]/.test(char) ? alphabetElements[onset] : hangulElements[onset];
             if(el) sc[elements.indexOf(el)] += 35;
         }
         sc[[11,12,1,2,3,4,5,6,7,8,9,10].indexOf(parseInt(birth.substring(4,6))) % 5] += 25;
@@ -166,34 +165,23 @@
         const labels = currentLang === 'ko' ? ["木", "火", "土", "金", "水"] : ["Wood", "Fire", "Earth", "Metal", "Water"];
         const cx = 110, cy = 110, r = 75;
         const maxIdx = session.scores.indexOf(Math.max(...session.scores));
-        const themeColor = { "木": { fill: "rgba(46, 204, 113, 0.3)", stroke: "#27ae60" }, "火": { fill: "rgba(231, 76, 60, 0.3)", stroke: "#c0392b" }, "土": { fill: "rgba(241, 196, 15, 0.3)", stroke: "#f39c12" }, "金": { fill: "rgba(149, 165, 166, 0.3)", stroke: "#7f8c8d" }, "水": { fill: "rgba(52, 152, 219, 0.3)", stroke: "#2980b9" } }[["木", "火", "土", "金", "水"][maxIdx]];
-        let poly = ""; 
-        labels.forEach((_, i) => {
+        const themeColor = { "木": { fill: "rgba(46, 204, 113, 0.3)", stroke: "#27ae60" }, "火": { fill: "rgba(231, 76, 60, 0.3)", stroke: "#c0392b" }, "土": { fill: "rgba(241, 196, 15, 0.3)", stroke: "#f39c12" }, "金": { fill: "rgba(149, 165, 166, 0.3)", stroke: "#7f8c8d" }, "水": { fill: "rgba(52, 152, 219, 0.3)", stroke: "#2980b9" } }[elements[maxIdx]];
+        let poly = ""; labels.forEach((_, i) => {
             const a = (Math.PI * 2 / 5) * i - (Math.PI / 2);
             const v = (session.scores[i] / 150) * r;
             poly += `${cx + v * Math.cos(a)},${cy + v * Math.sin(a)} `;
         });
-        
-        // [수정] 텍스트 라벨(한자) 복구 로직
         const textLabels = labels.map((l, i) => {
             const a = (Math.PI * 2 / 5) * i - (Math.PI / 2);
-            const tx = cx + (r + 25) * Math.cos(a);
-            const ty = cy + (r + 25) * Math.sin(a);
+            const tx = cx + (r + 25) * Math.cos(a), ty = cy + (r + 25) * Math.sin(a);
             return `<text x="${tx}" y="${ty}" text-anchor="middle" dominant-baseline="middle" fill="#243447" font-size="12" font-weight="700">${l}</text>`;
         }).join('');
-
-        document.getElementById('radarChart').innerHTML = `
-            <svg viewBox="0 0 220 220" style="overflow:visible;">
-                <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#EEE"/>
-                ${textLabels}
-                <polygon points="${poly}" fill="${themeColor.fill}" stroke="${themeColor.stroke}" stroke-width="2"/>
-            </svg>`;
+        document.getElementById('radarChart').innerHTML = `<svg viewBox="0 0 220 220" style="overflow:visible;"><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#EEE"/>${textLabels}<polygon points="${poly}" fill="${themeColor.fill}" stroke="${themeColor.stroke}" stroke-width="2"/></svg>`;
     }
 
     function switchTab(mode, btn) {
         if(btn) { document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
         const body = document.getElementById('tab-body'); const s = session.seed; const t = i18n[currentLang];
-        const elements = ["木", "火", "土", "金", "水"];
         if(mode === 'fortune') {
             const maxIdx = session.scores.indexOf(Math.max(...session.scores));
             const minIdx = session.scores.indexOf(Math.min(...session.scores));
@@ -201,24 +189,22 @@
             const presSource = currentLang === 'ko' ? elementPrescriptions : enPrescriptions;
             const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
             const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
-            const quoteSource = currentLang === 'ko' ? quoteData["인생"] : quoteData["인생"]; 
-            const masterSideIdx = s % sideEffects.length;
-            const masterQuoteIdx = s % quoteData["인생"].length;
-            body.innerHTML = `<div class="tab-content"><div class="section-wrap"><span class="section-title">${t.sec1}</span><div class="info-box">${session.nameReport}</div></div><div class="section-wrap"><span class="section-title">${t.sec2}</span><div>• <b>주체 기운:</b> ${attrSource[strongEl].name}</div><div>• <b>${t.advise}:</b> ${presSource[strongEl][getLevel(session.scores[maxIdx])]}</div></div><div class="section-wrap"><span class="section-title">${t.sec3}</span><div>• <b>${t.practice}:</b> ${presSource[lackEl][getLevel(session.scores[minIdx])]}</div></div><div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[masterSideIdx % sideSource.length]}</div><div style="margin-top:30px; text-align:center; color:#AAA; font-style:italic;">"${quoteSource[masterQuoteIdx % quoteSource.length].text}"</div></div>`;
+            const quoteSource = currentLang === 'ko' ? quoteData["인생"] : quoteDataEn["life"];
+            body.innerHTML = `<div class="tab-content"><div class="section-wrap"><span class="section-title">${t.sec1}</span><div class="info-box">${session.nameReport}</div></div><div class="section-wrap"><span class="section-title">${t.sec2}</span><div>• <b>${currentLang==='ko'?'주체 기운':'Core Energy'}:</b> ${attrSource[strongEl].name}</div><div>• <b>${t.advise}:</b> ${presSource[strongEl][getLevel(session.scores[maxIdx])]}</div></div><div class="section-wrap"><span class="section-title">${t.sec3}</span><div>• <b>${t.practice}:</b> ${presSource[lackEl][getLevel(session.scores[minIdx])]}</div></div><div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[s % sideSource.length]}</div><div style="margin-top:30px; text-align:center; color:#AAA; font-style:italic;">"${quoteSource[s % quoteSource.length].text}"</div></div>`;
         } else if(mode === 'past') {
             const pastSource = currentLang === 'ko' ? pastLifeData : pastLifeDataEn;
-            const p = pastSource[s % pastLifeData.length];
+            const p = pastSource[s % pastSource.length];
             body.innerHTML = `<div class="tab-content"><span class="section-title">${t.tab2}</span><div class="info-box"><b>📜 ${t.pastJob}:</b> [${p.job}]<br>${p.desc}<br><br><b>✨ ${t.pastHomework}:</b><br>${p.homework}</div></div>`;
         } else {
             const nextSource = currentLang === 'ko' ? reincarnationData : reincarnationDataEn;
-            const r = nextSource[s % reincarnationData.length];
+            const r = nextSource[s % nextSource.length];
             body.innerHTML = `<div class="tab-content"><span class="section-title">${t.tab3}</span><div class="info-box"><b>📍 ${t.nextDest}:</b> ${r.place}<br><b>🧬 ${t.nextObj}:</b> ${r.object}<br><br><b>✅ ${t.nextMission}:</b><br>${r.mission}</div></div>`;
         }
     }
 
-    function copyLink() { 
+    function copyLink() {
         const url = window.location.href.split('?')[0] + `?name=${encodeURIComponent(session.name)}&birth=${session.birth}&lang=${currentLang}`;
-        navigator.clipboard.writeText(url).then(() => alert(currentLang === 'ko' ? "복사되었습니다!" : "Copied!"));
+        navigator.clipboard.writeText(url).then(() => alert(currentLang === 'ko' ? "복사되었습니다!" : "Link copied!"));
     }
     window.onload = updateCounter;
 </script>
