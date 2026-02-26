@@ -60,8 +60,8 @@
 
     <div class="report-card" id="view-home">
         <div class="official-seal">운명공학<br>분석실</div>
-        <h1 id="ui-title">성명학 데이터 분석</h1>
-        <p id="ui-desc" style="font-size:0.85rem; color:#888; margin-bottom:40px;">이름의 파동 에너지와 탄생일을 결합하여 고유한 운명 기운을 추출합니다.</p>
+        <h1 id="ui-title">운명공학 데이터 분석</h1>
+        <p id="ui-desc" style="font-size:0.85rem; color:#888; margin-bottom:40px;">성명과 탄생일을 기반으로 고유한 에너지를 추출합니다.</p>
         <input type="text" id="userName" placeholder="성함">
         <input type="text" id="userBirth" placeholder="양력 8자리 (1000-2150)">
         <button class="btn-action" id="ui-btn" onclick="startAnalysis()">리포트 생성하기</button>
@@ -127,7 +127,7 @@
         const b = document.getElementById('userBirth').value.trim();
         if(!n || b.length !== 8) { alert(currentLang === 'ko' ? "정보를 확인해주세요." : "Check inputs."); return; }
         const year = parseInt(b.substring(0, 4));
-        if(year < 1000 || year > 2150) { alert(currentLang === 'ko' ? "연도 범위(1000-2150)를 확인해주세요." : "Check year."); return; }
+        if(year < 1000 || year > 2150) { alert(currentLang === 'ko' ? "연도 범위를 확인해주세요." : "Check year."); return; }
         document.getElementById('loading-overlay').style.display = 'flex';
         setTimeout(() => { document.getElementById('loading-overlay').style.display = 'none'; processData(n, b); }, 3000);
     }
