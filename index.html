@@ -138,10 +138,14 @@
         session.seed = cleanName.split('').reduce((a,b)=>a+b.charCodeAt(0),0) + parseInt(birth);
         let sc = [40, 40, 40, 40, 40];
         for(let i=0; i<cleanName.length; i++) {
-            const char = cleanName[i];
-            const onset = /[a-zA-Z]/.test(char) ? char.toUpperCase() : getHangulOnset(char);
-            const el = /[a-zA-Z]/.test(char) ? alphabetElements[onset] : hangulElements[onset];
-            if(el) sc[elements.indexOf(el)] += 35;
+    const char = cleanName[i];
+    const onset = /[a-zA-Z]/.test(char) ? char.toUpperCase() : getHangulOnset(char);
+    const el = /[a-zA-Z]/.test(char) ? alphabetElements[onset] : hangulElements[onset];
+    
+    // el이 실제 목록(elements)에 있을 때만 점수를 더하게 수정!
+    if(el && elements.includes(el)) {
+        sc[elements.indexOf(el)] += 35;
+    }
         }
         sc[[11,12,1,2,3,4,5,6,7,8,9,10].indexOf(parseInt(birth.substring(4,6))) % 5] += 25;
         session.scores = sc.map((s, i) => s + ((session.seed + i) % 15));
