@@ -54,7 +54,7 @@ const elementAttributesEn = {
 /* 4. 다국어 UI (박스 안 라벨 정밀 수정) */
 const i18n = {
     ko: { title: "운명 공학 분석소", desc: "성명과 생년월일 기반 정식 리포트", nameLabel: "성함 (한글/영문)", birthLabel: "생년월일 8자리", btn: "리포트 생성", resTitle: "분석 결과 리포트", tab1: "현생 분석", tab2: "전생 기록", tab3: "내세 예약", copy: "결과 저장 및 링크 복사", reset: "초기화", sec1: "1. 성명 분석 결과", sec2: "2. 주체 에너지 분석", sec3: "3. 에너지 보강 지침", sideEffect: "에너지 조정 부작용 주의", advise: "운명 조언", practice: "실천 행법", pastJob: "과거의 소명", pastHomework: "현생의 숙제", nextDest: "차기 정착지", nextObj: "재탄생 형태", nextMission: "확정 조건" },
-    en: { title: "Destiny Engineering Lab", desc: "Official Report based on Name & Birth", nameLabel: "Full Name (EN/KO)", birthLabel: "Birthdate (YYYYMMDD)", btn: "Generate Report", resTitle: "Your Destiny Report", tab1: "Life Path", tab2: "Past Life", tab3: "Future Life", copy: "Save Result & Copy Link", reset: "Start Over (Reset)", sec1: "1. Name Numerology", sec2: "2. Core Energy Analysis", sec3: "3. Power-Up Guide", sideEffect: "Side Effects", advise: "Advice", practice: "Mission", pastJob: "Past Identity", pastHomework: "Soul Goal", nextDest: "Destination", nextObj: "Born As", nextMission: "Requirement" }
+    en: { title: "Destiny Engineering Lab", desc: "Official Report based on Name & Birth", nameLabel: "Full Name (EN)", birthLabel: "Birthdate (YYYYMMDD)", btn: "Generate Report", resTitle: "Your Destiny Report", tab1: "Life Path", tab2: "Past Life", tab3: "Future Life", copy: "Save Result & Copy Link", reset: "Start Over (Reset)", sec1: "1. Name Numerology", sec2: "2. Core Energy Analysis", sec3: "3. Power-Up Guide", sideEffect: "Side Effects", advise: "Advice", practice: "Mission", pastJob: "Past Identity", pastHomework: "Soul Goal", nextDest: "Destination", nextObj: "Born As", nextMission: "Requirement" }
 };
 
 /* 5. 언어별 5단계 확장 처방 */
@@ -134,7 +134,6 @@ const enPrescriptions = {
     }
 };
 
-JavaScript
 /* 6. 에너지 수치별 5단계 논리 닉네임 */
 const nicknamesKo = {
     "木": {
