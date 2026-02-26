@@ -39,7 +39,7 @@
         .tab-btn.active { color: var(--primary); font-weight: 700; border-bottom: 2px solid var(--primary); }
         .btn-action { width: 100%; background: var(--primary); color: white; border: none; padding: 18px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 1rem; }
         .hidden { display: none; }
-        input { width: 100%; padding: 15px; margin-bottom: 15px; border: none; border-bottom: 1px solid #DDD; font-size: 1.1rem; outline: none; }
+        input { width: 100%; padding: 15px; margin-bottom: 15px; border: none; border-bottom: 1px solid #DDD; font-size: 1.1rem; outline: none; background: transparent; }
         .visitor-counter { margin-top: 25px; font-size: 0.75rem; color: #AAA; font-family: 'Gowun Batang'; border-top: 1px solid #F5F5F5; padding-top: 15px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
@@ -48,8 +48,9 @@
 
 <div id="loading-overlay" style="position:fixed; inset:0; z-index:9999; background:rgba(240, 237, 233, 0.96); display:none; align-items:center; justify-content:center;">
     <div style="background:white; padding:40px; border-radius:15px; text-align:center; width:100%; max-width:340px;">
-        <div class="official-seal" style="position:static; margin-bottom:20px;">분석중</div>
-        <h2 style="font-family:'Gowun Batang'; color:var(--primary); font-size:1.1rem;">운명의 에너지를 조합 중...</h2>
+        <div id="load-seal" class="official-seal" style="position:static; margin-bottom:20px;">분석중</div>
+        <h2 id="load-title" style="font-family:'Gowun Batang'; color:var(--primary); font-size:1.1rem;">운명의 에너지를 조합 중...</h2>
+        <p id="load-desc" style="color:#888; font-size:0.8rem; margin-bottom:20px;">잠시만 기다려 주세요.</p>
         <div style="width:300px; height:250px; margin: 20px auto;">
             <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-pMoVBneQCSicnBZ7" data-ad-width="300" data-ad-height="250"></ins>
             <script src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
@@ -67,7 +68,7 @@
     <div class="report-card" id="view-home">
         <div class="official-seal">운명공학<br>분석실</div>
         <h1 id="ui-title">성명학 데이터 분석</h1>
-        <p id="ui-desc" style="font-size:0.85rem; color:#888; margin-bottom:40px;">이름의 파동 에너지와 탄생일을 결합하여 고유한 운명을 추출합니다.</p>
+        <p id="ui-desc" style="font-size:0.85rem; color:#888; margin-bottom:40px;">이름의 파동 에너지와 탄생일을 결합하여 고유한 운명 기운을 추출합니다.</p>
         <input type="text" id="userName" placeholder="성함">
         <input type="text" id="userBirth" placeholder="양력 8자리 (1000-2150)">
         <button class="btn-action" id="ui-btn" onclick="startAnalysis()">리포트 생성하기</button>
@@ -122,15 +123,21 @@
         document.getElementById('userName').placeholder = t.nameLabel;
         document.getElementById('userBirth').placeholder = t.birthLabel;
         document.getElementById('ui-btn').innerText = t.btn;
+        
+        // 로딩창 텍스트 업데이트
+        document.getElementById('load-seal').innerText = t.loadSeal;
+        document.getElementById('load-title').innerText = t.loadTitle;
+        document.getElementById('load-desc').innerText = t.loadDesc;
+        
         if (session.name) processData(session.name, session.birth);
     }
 
     function startAnalysis() {
         const n = document.getElementById('userName').value.trim();
         const b = document.getElementById('userBirth').value.trim();
-        if(!n || b.length !== 8) { alert("입력값을 확인해주세요."); return; }
+        if(!n || b.length !== 8) { alert(currentLang === 'ko' ? "성함과 생년월일을 확인해주세요." : "Please check your inputs."); return; }
         const year = parseInt(b.substring(0, 4));
-        if(year < 1000 || year > 2150) { alert("연도 범위(1000-2150)를 확인해주세요."); return; }
+        if(year < 1000 || year > 2150) { alert(currentLang === 'ko' ? "연도 범위(1000-2150)를 확인해주세요." : "Check year (1000-2150)."); return; }
         document.getElementById('loading-overlay').style.display = 'flex';
         setTimeout(() => { document.getElementById('loading-overlay').style.display = 'none'; processData(n, b); }, 3000);
     }
@@ -181,16 +188,18 @@
     function switchTab(mode, btn) {
         if(btn) { document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
         const body = document.getElementById('tab-body'); const s = session.seed; const t = i18n[currentLang];
+        const elements = ["木", "火", "土", "金", "水"];
         if(mode === 'fortune') {
-            const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
-            const quoteSource = quoteData["인생"];
-            const masterSideIdx = s % sideEffects.length;
-            const masterQuoteIdx = s % quoteData["인생"].length;
             const maxIdx = session.scores.indexOf(Math.max(...session.scores));
             const minIdx = session.scores.indexOf(Math.min(...session.scores));
-            const strongEl = ["木", "火", "土", "金", "水"][maxIdx];
-            const lackEl = ["木", "火", "土", "金", "水"][minIdx];
-            body.innerHTML = `<div class="tab-content"><div class="section-wrap"><span class="section-title">${t.sec1}</span><div class="info-box">${session.nameReport}</div></div><div class="section-wrap"><span class="section-title">${t.sec2}</span><div>• <b>주체 기운:</b> ${strongEl}</div><div>• <b>${t.advise}:</b> ${elementPrescriptions[strongEl][getLevel(session.scores[maxIdx])]}</div></div><div class="section-wrap"><span class="section-title">${t.sec3}</span><div>• <b>${t.practice}:</b> ${elementPrescriptions[lackEl][getLevel(session.scores[minIdx])]}</div></div><div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[masterSideIdx % sideSource.length]}</div><div style="margin-top:30px; text-align:center; color:#AAA; font-style:italic;">"${quoteSource[masterQuoteIdx % quoteSource.length].text}"</div></div>`;
+            const strongEl = elements[maxIdx]; const lackEl = elements[minIdx];
+            const presSource = currentLang === 'ko' ? elementPrescriptions : enPrescriptions;
+            const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
+            const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
+            const quoteSource = currentLang === 'ko' ? quoteData["인생"] : quoteData["인생"]; 
+            const masterSideIdx = s % sideEffects.length;
+            const masterQuoteIdx = s % quoteData["인생"].length;
+            body.innerHTML = `<div class="tab-content"><div class="section-wrap"><span class="section-title">${t.sec1}</span><div class="info-box">${session.nameReport}</div></div><div class="section-wrap"><span class="section-title">${t.sec2}</span><div>• <b>${currentLang==='ko'?'주체 기운':'Core Energy'}:</b> ${attrSource[strongEl].name}</div><div>• <b>${t.advise}:</b> ${presSource[strongEl][getLevel(session.scores[maxIdx])]}</div></div><div class="section-wrap"><span class="section-title">${t.sec3}</span><div>• <b>${t.practice}:</b> ${presSource[lackEl][getLevel(session.scores[minIdx])]}</div></div><div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[masterSideIdx % sideSource.length]}</div><div style="margin-top:30px; text-align:center; color:#AAA; font-style:italic;">"${quoteSource[masterQuoteIdx % quoteSource.length].text}"</div></div>`;
         } else if(mode === 'past') {
             const pastSource = currentLang === 'ko' ? pastLifeData : pastLifeDataEn;
             const p = pastSource[s % pastLifeData.length];
@@ -202,9 +211,9 @@
         }
     }
 
-    function copyLink() {
+    function copyLink() { 
         const url = window.location.href.split('?')[0] + `?name=${encodeURIComponent(session.name)}&birth=${session.birth}&lang=${currentLang}`;
-        navigator.clipboard.writeText(url).then(() => alert(currentLang === 'ko' ? "복사되었습니다!" : "Link copied!"));
+        navigator.clipboard.writeText(url).then(() => alert(currentLang === 'ko' ? "복사되었습니다!" : "Copied!"));
     }
     window.onload = updateCounter;
 </script>
