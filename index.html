@@ -1,229 +1,433 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Destiny Lab</title>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://t1.daumcdn.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://api.countapi.xyz; frame-src https://t1.daumcdn.net https://display.adfit.kakao.com; connect-src https://api.countapi.xyz;">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Destiny Lab</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Pretendard:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        * { box-sizing: border-box; }
-        :root { --bg: #F0EDE9; --paper: #FFFFFF; --primary: #243447; --accent: #9A8467; --text: #444444; --border: #D1CDC5; }
-        body { font-family: 'Pretendard', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; overflow-x: hidden; position: relative; }
-        body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at center, rgba(255, 255, 255, 1) 1.2px, transparent 2px), radial-gradient(circle at center, rgba(154, 132, 103, 0.9) 2px, transparent 4px); background-size: 60px 60px, 140px 140px; background-position: 0 0, 30px 30px; opacity: 1; animation: twinkle 4s ease-in-out infinite alternate; }
-        @keyframes twinkle { 0% { opacity: 0.5; } 100% { opacity: 1; } }
-        .container { width: 100%; max-width: 480px; position: relative; z-index: 1; }
-        .lang-toggle { position: absolute; top: -50px; right: 0; display: flex; gap: 15px; }
-        .flag { font-size: 1.6rem; cursor: pointer; opacity: 0.4; transition: 0.3s; }
-        .flag.active { opacity: 1; transform: scale(1.2); }
-        .report-card { background: var(--paper); padding: 55px 35px; box-shadow: 0 30px 60px rgba(0,0,0,0.1); border: 1px solid var(--border); text-align: center; position: relative; animation: fadeIn 0.8s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        .official-seal { position: absolute; top: 25px; right: 25px; width: 65px; height: 65px; border: 2px double var(--accent); color: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Gowun Batang'; font-size: 0.7rem; font-weight: 700; opacity: 0.5; transform: rotate(12deg); }
-        h1 { font-family: 'Gowun Batang'; font-size: 1.4rem; color: var(--primary); margin-bottom: 10px; }
-        .summary-line { font-family: 'Gowun Batang'; font-size: 0.95rem; color: var(--accent); margin-bottom: 30px; font-weight: 600; line-height: 1.4; }
-        .tab-content { text-align: left; line-height: 1.8; font-size: 0.95rem; }
-        .section-wrap { margin-bottom: 30px; }
-        .section-title { font-family: 'Gowun Batang'; font-size: 1rem; color: var(--accent); display: block; margin-bottom: 12px; font-weight: 700; border-bottom: 1px solid #F0F0F0; }
-        .info-box { background: #F9F8F6; padding: 18px; border-radius: 8px; border-left: 4px solid var(--accent); margin-bottom: 15px; }
-        .warning-box { background: #FFF5F5; padding: 15px; border-radius: 8px; font-size: 0.85rem; color: #C0392B; margin-top: 25px; }
-        .tabs { display: flex; border-bottom: 1px solid #EEE; margin: 25px 0; }
-        .tab-btn { flex: 1; padding: 12px 0; border: none; background: none; cursor: pointer; font-size: 0.85rem; color: #BBB; font-family: 'Gowun Batang'; }
-        .tab-btn.active { color: var(--primary); font-weight: 700; border-bottom: 2px solid var(--primary); }
-        .btn-action { width: 100%; background: var(--primary); color: white; border: none; padding: 18px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 1rem; }
-        .hidden { display: none; }
-        input { width: 100%; padding: 15px; margin-bottom: 15px; border: none; border-bottom: 1px solid #DDD; font-size: 1.1rem; outline: none; background: transparent; }
-        .visitor-counter { margin-top: 25px; font-size: 0.75rem; color: #AAA; font-family: 'Gowun Batang'; border-top: 1px solid #F5F5F5; padding-top: 15px; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    </style>
+  <!-- ✅ CSP: AdFit + CountAPI + Google Fonts 허용 -->
+  <!-- 주의: 인라인 script/style을 쓰고 있어서 unsafe-inline 유지 -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    base-uri 'self';
+    object-src 'none';
+    script-src 'self' 'unsafe-inline' https://t1.daumcdn.net;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src https://fonts.gstatic.com;
+    img-src 'self' data: https://api.countapi.xyz https://t1.daumcdn.net https://*.daumcdn.net https://display.adfit.kakao.com;
+    frame-src https://display.adfit.kakao.com https://t1.daumcdn.net;
+    connect-src 'self' https://api.countapi.xyz https://t1.daumcdn.net https://display.adfit.kakao.com;
+  ">
+
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Pretendard:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+    :root { --bg: #F0EDE9; --paper: #FFFFFF; --primary: #243447; --accent: #9A8467; --text: #444444; --border: #D1CDC5; }
+    body { font-family: 'Pretendard', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; overflow-x: hidden; position: relative; }
+    body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at center, rgba(255, 255, 255, 1) 1.2px, transparent 2px), radial-gradient(circle at center, rgba(154, 132, 103, 0.9) 2px, transparent 4px); background-size: 60px 60px, 140px 140px; background-position: 0 0, 30px 30px; opacity: 1; animation: twinkle 4s ease-in-out infinite alternate; }
+    @keyframes twinkle { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+    .container { width: 100%; max-width: 480px; position: relative; z-index: 1; }
+    .lang-toggle { position: absolute; top: -50px; right: 0; display: flex; gap: 15px; }
+    .flag { font-size: 1.6rem; cursor: pointer; opacity: 0.4; transition: 0.3s; }
+    .flag.active { opacity: 1; transform: scale(1.2); }
+    .report-card { background: var(--paper); padding: 55px 35px; box-shadow: 0 30px 60px rgba(0,0,0,0.1); border: 1px solid var(--border); text-align: center; position: relative; animation: fadeIn 0.8s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    .official-seal { position: absolute; top: 25px; right: 25px; width: 65px; height: 65px; border: 2px double var(--accent); color: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Gowun Batang'; font-size: 0.7rem; font-weight: 700; opacity: 0.5; transform: rotate(12deg); }
+    h1 { font-family: 'Gowun Batang'; font-size: 1.4rem; color: var(--primary); margin-bottom: 10px; }
+    .summary-line { font-family: 'Gowun Batang'; font-size: 0.95rem; color: var(--accent); margin-bottom: 30px; font-weight: 600; line-height: 1.4; }
+    .tab-content { text-align: left; line-height: 1.8; font-size: 0.95rem; }
+    .section-wrap { margin-bottom: 30px; }
+    .section-title { font-family: 'Gowun Batang'; font-size: 1rem; color: var(--accent); display: block; margin-bottom: 12px; font-weight: 700; border-bottom: 1px solid #F0F0F0; }
+    .info-box { background: #F9F8F6; padding: 18px; border-radius: 8px; border-left: 4px solid var(--accent); margin-bottom: 15px; }
+    .warning-box { background: #FFF5F5; padding: 15px; border-radius: 8px; font-size: 0.85rem; color: #C0392B; margin-top: 25px; }
+    .tabs { display: flex; border-bottom: 1px solid #EEE; margin: 25px 0; }
+    .tab-btn { flex: 1; padding: 12px 0; border: none; background: none; cursor: pointer; font-size: 0.85rem; color: #BBB; font-family: 'Gowun Batang'; }
+    .tab-btn.active { color: var(--primary); font-weight: 700; border-bottom: 2px solid var(--primary); }
+    .btn-action { width: 100%; background: var(--primary); color: white; border: none; padding: 18px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 1rem; }
+    .hidden { display: none; }
+    input { width: 100%; padding: 15px; margin-bottom: 15px; border: none; border-bottom: 1px solid #DDD; font-size: 1.1rem; outline: none; background: transparent; }
+    .visitor-counter { margin-top: 25px; font-size: 0.75rem; color: #AAA; font-family: 'Gowun Batang'; border-top: 1px solid #F5F5F5; padding-top: 15px; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  </style>
 </head>
+
 <body oncontextmenu="return false" onselectstart="return false">
 
-<div id="loading-overlay" style="position:fixed; inset:0; z-index:9999; background:rgba(240, 237, 233, 0.96); display:none; align-items:center; justify-content:center;">
+  <!-- ✅ 로딩 오버레이 -->
+  <div id="loading-overlay" style="position:fixed; inset:0; z-index:9999; background:rgba(240, 237, 233, 0.96); display:none; align-items:center; justify-content:center;">
     <div style="background:white; padding:40px; border-radius:15px; text-align:center; width:100%; max-width:340px;">
-        <div id="load-seal" class="official-seal" style="position:static; margin-bottom:20px;">분석중</div>
-        <h2 id="load-title" style="font-family:'Gowun Batang'; color:var(--primary); font-size:1.1rem;">운명의 에너지를 조합 중...</h2>
-        <p id="load-desc" style="color:#888; font-size:0.8rem; margin-bottom:20px;">잠시만 기다려 주세요.</p>
-        <div style="width:300px; height:250px; margin: 20px auto;">
-            <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-pMoVBneQCSicnBZ7" data-ad-width="300" data-ad-height="250"></ins>
-            <script src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
-        </div>
-        <div style="border:3px solid #f3f3f3; border-top:3px solid var(--accent); border-radius:50%; width:24px; height:24px; animation:spin 1s linear infinite; margin:0 auto;"></div>
-    </div>
-</div>
+      <div id="load-seal" class="official-seal" style="position:static; margin-bottom:20px;">분석중</div>
+      <h2 id="load-title" style="font-family:'Gowun Batang'; color:var(--primary); font-size:1.1rem;">운명의 에너지를 조합 중...</h2>
+      <p id="load-desc" style="color:#888; font-size:0.8rem; margin-bottom:20px;">잠시만 기다려 주세요.</p>
 
-<div class="container">
+      <!-- ✅ AdFit (300x250) -->
+      <div style="width:300px; height:250px; margin: 20px auto;">
+        <ins class="kakao_ad_area" style="display:none;"
+          data-ad-unit="DAN-pMoVBneQCSicnBZ7"
+          data-ad-width="300"
+          data-ad-height="250"></ins>
+      </div>
+
+      <div style="border:3px solid #f3f3f3; border-top:3px solid var(--accent); border-radius:50%; width:24px; height:24px; animation:spin 1s linear infinite; margin:0 auto;"></div>
+    </div>
+  </div>
+
+  <div class="container">
     <div class="lang-toggle">
-        <span class="flag active" id="flag-ko" onclick="setLang('ko')">🇰🇷</span>
-        <span class="flag" id="flag-en" onclick="setLang('en')">🇺🇸</span>
+      <span class="flag active" id="flag-ko" onclick="setLang('ko')">🇰🇷</span>
+      <span class="flag" id="flag-en" onclick="setLang('en')">🇺🇸</span>
     </div>
 
+    <!-- HOME -->
     <div class="report-card" id="view-home">
-        <div class="official-seal">운명공학<br>분석실</div>
-        <h1 id="ui-title">운명공학 데이터 분석</h1>
-        <p id="ui-desc" style="font-size:0.85rem; color:#888; margin-bottom:40px;">성명과 탄생일을 기반으로 고유한 에너지를 추출합니다.</p>
-        <input type="text" id="userName" placeholder="성함">
-        <input type="text" id="userBirth" placeholder="양력 8자리 (1000-2150)">
-        <button class="btn-action" id="ui-btn" onclick="startAnalysis()">리포트 생성하기</button>
-        <div class="visitor-counter">분석 완료된 운명: <span id="visit-count">...</span>건</div>
-        <div style="margin-top: 30px; display: flex; justify-content: center;">
-            <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-gySJpKsnNTQ1FIIF" data-ad-width="320" data-ad-height="50"></ins>
-            <script src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
-        </div>
+      <div class="official-seal">운명공학<br>분석실</div>
+      <h1 id="ui-title">운명공학 데이터 분석</h1>
+      <p id="ui-desc" style="font-size:0.85rem; color:#888; margin-bottom:40px;">성명과 탄생일을 기반으로 고유한 에너지를 추출합니다.</p>
+      <input type="text" id="userName" placeholder="성함" autocomplete="name">
+      <input type="text" id="userBirth" placeholder="양력 8자리 (1000-2150)" inputmode="numeric" autocomplete="bday">
+      <button class="btn-action" id="ui-btn" onclick="startAnalysis()">리포트 생성하기</button>
+
+      <div class="visitor-counter">분석 완료된 운명: <span id="visit-count">...</span>건</div>
+
+      <!-- ✅ AdFit (320x50) -->
+      <div style="margin-top: 30px; display: flex; justify-content: center;">
+        <ins class="kakao_ad_area" style="display:none;"
+          data-ad-unit="DAN-gySJpKsnNTQ1FIIF"
+          data-ad-width="320"
+          data-ad-height="50"></ins>
+      </div>
     </div>
 
+    <!-- RESULT -->
     <div class="report-card hidden" id="view-result">
-        <div class="official-seal">정식분석본</div>
-        <h1 id="dynamic-title">분석 리포트</h1>
-        <div id="radarChart" style="margin:0 auto 15px; width:220px; height:220px;"></div>
-        <div class="summary-line" id="dynamic-summary">분석 중...</div>
-        <div class="tabs">
-            <button class="tab-btn active" id="tab1" onclick="switchTab('fortune', this)">현생 분석</button>
-            <button class="tab-btn" id="tab2" onclick="switchTab('past', this)">전생 기록</button>
-            <button class="tab-btn" id="tab3" onclick="switchTab('next', this)">내세 예약</button>
-        </div>
-        <div id="tab-body"></div>
-        <div style="margin-top: 20px; display: flex; justify-content: center;">
-            <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-gySJpKsnNTQ1FIIF" data-ad-width="320" data-ad-height="50"></ins>
-            <script src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
-        </div>
-        <button class="btn-action" style="margin-top:30px; background:white; color:#444; border:1px solid #DDD;" onclick="copyLink()">링크 복사</button>
-        <p onclick="location.reload()" style="font-size:0.7rem; color:#CCC; margin-top:20px; cursor:pointer;">초기화</p>
-    </div>
-</div>
+      <div class="official-seal">정식분석본</div>
+      <h1 id="dynamic-title">분석 리포트</h1>
+      <div id="radarChart" style="margin:0 auto 15px; width:220px; height:220px;"></div>
+      <div class="summary-line" id="dynamic-summary">분석 중...</div>
 
-<script src="quotes.js"></script>
-<script>
+      <div class="tabs">
+        <button class="tab-btn active" id="tab1" onclick="switchTab('fortune', this)">현생 분석</button>
+        <button class="tab-btn" id="tab2" onclick="switchTab('past', this)">전생 기록</button>
+        <button class="tab-btn" id="tab3" onclick="switchTab('next', this)">내세 예약</button>
+      </div>
+
+      <div id="tab-body"></div>
+
+      <!-- ✅ AdFit (320x50) -->
+      <div style="margin-top: 20px; display: flex; justify-content: center;">
+        <ins class="kakao_ad_area" style="display:none;"
+          data-ad-unit="DAN-gySJpKsnNTQ1FIIF"
+          data-ad-width="320"
+          data-ad-height="50"></ins>
+      </div>
+
+      <button class="btn-action" style="margin-top:30px; background:white; color:#444; border:1px solid #DDD;" onclick="copyLink()">링크 복사</button>
+      <p onclick="location.href=location.pathname" style="font-size:0.7rem; color:#CCC; margin-top:20px; cursor:pointer;">초기화</p>
+    </div>
+  </div>
+
+  <!-- ✅ 데이터셋: quotes.js (반드시 같은 폴더에) -->
+  <script src="quotes.js"></script>
+
+  <script>
     let currentLang = 'ko';
-    let session = { name: '', birth: '', seed: 0, scores: [] };
+    let session = { name: '', birth: '', seed: 0, scores: [], nameReport: '' };
     const elements = ["木", "火", "土", "金", "水"];
 
+    function assertDataset() {
+      if (typeof i18n === 'undefined') {
+        alert("quotes.js 로드 실패(또는 i18n 누락). 같은 폴더에 quotes.js가 있는지 확인하세요.");
+        return false;
+      }
+      return true;
+    }
+
     async function updateCounter() {
-        try {
-            const res = await fetch('https://api.countapi.xyz/hit/destinylab.github.io/visits');
-            const data = await res.json();
-            document.getElementById('visit-count').innerText = data.value.toLocaleString();
-        } catch (e) { document.getElementById('visit-count').innerText = "1,245"; }
+      try {
+        const res = await fetch('https://api.countapi.xyz/hit/destinylab.github.io/visits');
+        const data = await res.json();
+        document.getElementById('visit-count').innerText = Number(data.value).toLocaleString();
+      } catch (e) {
+        document.getElementById('visit-count').innerText = "—";
+      }
     }
 
     function setLang(lang) {
-        currentLang = lang;
-        document.querySelectorAll('.flag').forEach(f => f.classList.remove('active'));
-        document.getElementById(`flag-${lang}`).classList.add('active');
-        const t = i18n[lang];
-        document.getElementById('ui-title').innerText = t.title;
-        document.getElementById('ui-desc').innerText = t.desc;
-        document.getElementById('userName').placeholder = t.nameLabel;
-        document.getElementById('userBirth').placeholder = t.birthLabel;
-        document.getElementById('ui-btn').innerText = t.btn;
-        document.getElementById('load-seal').innerText = t.loadSeal;
-        document.getElementById('load-title').innerText = t.loadTitle;
-        document.getElementById('load-desc').innerText = t.loadDesc;
-        if (session.name) processData(session.name, session.birth);
+      if (!assertDataset()) return;
+      currentLang = lang;
+
+      document.querySelectorAll('.flag').forEach(f => f.classList.remove('active'));
+      document.getElementById(`flag-${lang}`).classList.add('active');
+
+      const t = i18n[lang];
+      document.getElementById('ui-title').innerText = t.title;
+      document.getElementById('ui-desc').innerText = t.desc;
+      document.getElementById('userName').placeholder = t.nameLabel;
+      document.getElementById('userBirth').placeholder = t.birthLabel;
+      document.getElementById('ui-btn').innerText = t.btn;
+
+      document.getElementById('load-seal').innerText = t.loadSeal;
+      document.getElementById('load-title').innerText = t.loadTitle;
+      document.getElementById('load-desc').innerText = t.loadDesc;
+
+      document.getElementById('tab1').innerText = t.tab1Btn;
+      document.getElementById('tab2').innerText = t.tab2Btn;
+      document.getElementById('tab3').innerText = t.tab3Btn;
+
+      if (session.name) {
+        // 언어 변경 시 결과 화면 재렌더
+        processData(session.name, session.birth, { keepView: true });
+      }
     }
 
     function startAnalysis() {
-        const n = document.getElementById('userName').value.trim();
-        const b = document.getElementById('userBirth').value.trim();
-        if(!n || b.length !== 8) { alert(currentLang === 'ko' ? "정보를 확인해주세요." : "Check inputs."); return; }
-        const year = parseInt(b.substring(0, 4));
-        if(year < 1000 || year > 2150) { alert(currentLang === 'ko' ? "연도 범위를 확인해주세요." : "Check year."); return; }
-        document.getElementById('loading-overlay').style.display = 'flex';
-        setTimeout(() => { document.getElementById('loading-overlay').style.display = 'none'; processData(n, b); }, 3000);
+      if (!assertDataset()) return;
+
+      const n = document.getElementById('userName').value.trim();
+      const bRaw = document.getElementById('userBirth').value.trim();
+      const b = bRaw.replace(/\D/g, ''); // 숫자만
+
+      if (!n || b.length !== 8) {
+        alert(currentLang === 'ko' ? "정보를 확인해주세요." : "Check inputs.");
+        return;
+      }
+
+      const year = parseInt(b.substring(0, 4), 10);
+      if (Number.isNaN(year) || year < 1000 || year > 2150) {
+        alert(currentLang === 'ko' ? "연도 범위를 확인해주세요." : "Check year.");
+        return;
+      }
+
+      document.getElementById('loading-overlay').style.display = 'flex';
+      setTimeout(() => {
+        document.getElementById('loading-overlay').style.display = 'none';
+        processData(n, b);
+      }, 2500);
     }
 
-    function processData(name, birth) {
-        const cleanName = name.replace(/<[^>]*>?/gm, '');
-        session.name = cleanName; session.birth = birth;
-        session.seed = cleanName.split('').reduce((a,b)=>a+b.charCodeAt(0),0) + parseInt(birth);
-        let sc = [40, 40, 40, 40, 40];
-        for(let i=0; i<cleanName.length; i++) {
-    const char = cleanName[i];
-    const onset = /[a-zA-Z]/.test(char) ? char.toUpperCase() : getHangulOnset(char);
-    const el = /[a-zA-Z]/.test(char) ? alphabetElements[onset] : hangulElements[onset];
-    
-    // el이 실제 목록(elements)에 있을 때만 점수를 더하게 수정!
-    if(el && elements.includes(el)) {
-        sc[elements.indexOf(el)] += 35;
-    }
-        }
-        sc[[11,12,1,2,3,4,5,6,7,8,9,10].indexOf(parseInt(birth.substring(4,6))) % 5] += 25;
-        session.scores = sc.map((s, i) => s + ((session.seed + i) % 15));
-        const maxIdx = session.scores.indexOf(Math.max(...session.scores));
-        const strongEl = elements[maxIdx];
-        const lv = getLevel(session.scores[maxIdx]);
-        document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `[${cleanName}]님의 운명 리포트` : `Report for [${cleanName}]`;
-        document.getElementById('dynamic-summary').innerText = currentLang === 'ko' ? nicknamesKo[strongEl][lv] : nicknamesEn[strongEl][lv];
-        const res = nameNumerology[(session.seed % 25) + 1];
-        session.nameReport = currentLang === 'ko' ? `성명학적으로 <b>${res.title}</b>이며, ${res.desc}` : `Numerologically: <b>${res.titleEn}</b>. ${res.descEn}`;
+    function processData(name, birth, opts = {}) {
+      const cleanName = name.replace(/<[^>]*>?/gm, '');
+      session.name = cleanName;
+      session.birth = birth;
+
+      session.seed = cleanName.split('').reduce((a, ch) => a + ch.charCodeAt(0), 0) + parseInt(birth, 10);
+
+      let sc = [40, 40, 40, 40, 40];
+
+      for (let i = 0; i < cleanName.length; i++) {
+        const char = cleanName[i];
+        const onset = /[a-zA-Z]/.test(char) ? char.toUpperCase() : getHangulOnset(char);
+        const el = /[a-zA-Z]/.test(char) ? alphabetElements[onset] : hangulElements[onset];
+        if (el && elements.includes(el)) sc[elements.indexOf(el)] += 35;
+      }
+
+      const month = parseInt(birth.substring(4, 6), 10);
+      const monthOrder = [11, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+      const monthIdx = monthOrder.indexOf(month);
+      if (monthIdx >= 0) sc[monthIdx % 5] += 25;
+
+      session.scores = sc.map((s, i) => s + ((session.seed + i) % 15));
+      const maxIdx = session.scores.indexOf(Math.max(...session.scores));
+      const strongEl = elements[maxIdx];
+      const lv = getLevel(session.scores[maxIdx]);
+
+      document.getElementById('dynamic-title').innerText =
+        currentLang === 'ko' ? `[${cleanName}]님의 운명 리포트` : `Report for [${cleanName}]`;
+
+      document.getElementById('dynamic-summary').innerText =
+        currentLang === 'ko' ? nicknamesKo[strongEl][lv] : nicknamesEn[strongEl][lv];
+
+      const res = nameNumerology[(session.seed % 25) + 1];
+      session.nameReport =
+        currentLang === 'ko'
+          ? `성명학적으로 <b>${res.title}</b>이며, ${res.desc}`
+          : `Numerologically: <b>${res.titleEn}</b>. ${res.descEn}`;
+
+      // 뷰 전환(언어 변경 리렌더 때는 keepView)
+      if (!opts.keepView) {
         document.getElementById('view-home').classList.add('hidden');
         document.getElementById('view-result').classList.remove('hidden');
-        renderChart();
-        switchTab('fortune', document.getElementById('tab1'));
+      }
+
+      renderChart();
+      switchTab('fortune', document.getElementById('tab1'));
     }
 
-    function getHangulOnset(char) { const c = char.charCodeAt(0) - 44032; if (c < 0 || c > 11171) return char; return ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'][Math.floor(c / 588)]; }
-    function getLevel(sc) { if (sc >= 110) return 'veryStrong'; if (sc >= 80) return 'strong'; if (sc >= 50) return 'normal'; if (sc >= 20) return 'weak'; return 'veryWeak'; }
+    function getHangulOnset(char) {
+      const code = char.charCodeAt(0);
+      const c = code - 44032;
+      if (c < 0 || c > 11171) return char;
+      const onsets = ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+      return onsets[Math.floor(c / 588)];
+    }
+
+    function getLevel(sc) {
+      if (sc >= 110) return 'veryStrong';
+      if (sc >= 80) return 'strong';
+      if (sc >= 50) return 'normal';
+      if (sc >= 20) return 'weak';
+      return 'veryWeak';
+    }
 
     function renderChart() {
-        const labels = currentLang === 'ko' ? ["木", "火", "土", "金", "水"] : ["Wood", "Fire", "Earth", "Metal", "Water"];
-        const cx = 110, cy = 110, r = 75;
-        const maxIdx = session.scores.indexOf(Math.max(...session.scores));
-        const themeColor = { "木": { fill: "rgba(46, 204, 113, 0.3)", stroke: "#27ae60" }, "火": { fill: "rgba(231, 76, 60, 0.3)", stroke: "#c0392b" }, "土": { fill: "rgba(241, 196, 15, 0.3)", stroke: "#f39c12" }, "金": { fill: "rgba(149, 165, 166, 0.3)", stroke: "#7f8c8d" }, "水": { fill: "rgba(52, 152, 219, 0.3)", stroke: "#2980b9" } }[elements[maxIdx]];
-        let poly = ""; labels.forEach((_, i) => {
-            const a = (Math.PI * 2 / 5) * i - (Math.PI / 2);
-            const v = (session.scores[i] / 150) * r;
-            poly += `${cx + v * Math.cos(a)},${cy + v * Math.sin(a)} `;
-        });
-        const textLabels = labels.map((l, i) => {
-            const a = (Math.PI * 2 / 5) * i - (Math.PI / 2);
-            const tx = cx + (r + 25) * Math.cos(a), ty = cy + (r + 25) * Math.sin(a);
-            return `<text x="${tx}" y="${ty}" text-anchor="middle" dominant-baseline="middle" fill="#243447" font-size="12" font-weight="700">${l}</text>`;
-        }).join('');
-        document.getElementById('radarChart').innerHTML = `<svg viewBox="0 0 220 220" style="overflow:visible;"><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#EEE"/>${textLabels}<polygon points="${poly}" fill="${themeColor.fill}" stroke="${themeColor.stroke}" stroke-width="2"/></svg>`;
+      const labels = currentLang === 'ko' ? ["木", "火", "土", "金", "水"] : ["Wood", "Fire", "Earth", "Metal", "Water"];
+      const cx = 110, cy = 110, r = 75;
+      const maxIdx = session.scores.indexOf(Math.max(...session.scores));
+
+      const themeColor = {
+        "木": { fill: "rgba(46, 204, 113, 0.3)", stroke: "#27ae60" },
+        "火": { fill: "rgba(231, 76, 60, 0.3)", stroke: "#c0392b" },
+        "土": { fill: "rgba(241, 196, 15, 0.3)", stroke: "#f39c12" },
+        "金": { fill: "rgba(149, 165, 166, 0.3)", stroke: "#7f8c8d" },
+        "水": { fill: "rgba(52, 152, 219, 0.3)", stroke: "#2980b9" }
+      }[elements[maxIdx]];
+
+      let poly = "";
+      labels.forEach((_, i) => {
+        const a = (Math.PI * 2 / 5) * i - (Math.PI / 2);
+        const v = (session.scores[i] / 150) * r;
+        poly += `${cx + v * Math.cos(a)},${cy + v * Math.sin(a)} `;
+      });
+
+      const textLabels = labels.map((l, i) => {
+        const a = (Math.PI * 2 / 5) * i - (Math.PI / 2);
+        const tx = cx + (r + 25) * Math.cos(a), ty = cy + (r + 25) * Math.sin(a);
+        return `<text x="${tx}" y="${ty}" text-anchor="middle" dominant-baseline="middle" fill="#243447" font-size="12" font-weight="700">${l}</text>`;
+      }).join('');
+
+      document.getElementById('radarChart').innerHTML =
+        `<svg viewBox="0 0 220 220" style="overflow:visible;">
+          <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#EEE"/>
+          ${textLabels}
+          <polygon points="${poly}" fill="${themeColor.fill}" stroke="${themeColor.stroke}" stroke-width="2"/>
+        </svg>`;
     }
 
     function switchTab(mode, btn) {
-        if(btn) { document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
-        const body = document.getElementById('tab-body'); const s = session.seed; const t = i18n[currentLang];
-       if(mode === 'fortune') {
-            const maxIdx = session.scores.indexOf(Math.max(...session.scores));
-            const minIdx = session.scores.indexOf(Math.min(...session.scores));
-            const strongEl = elements[maxIdx]; const lackEl = elements[minIdx];
-            
-            // [수정] 언어에 따른 소스 변수 정확히 매칭
-            const presSource = currentLang === 'ko' ? elementPrescriptions : enPrescriptions;
-            const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
-            const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
-            const quoteSource = currentLang === 'ko' ? quoteData["인생"] : quoteDataEn["life"];
-            
-            const masterSideIdx = s % sideEffects.length;
-            const masterQuoteIdx = s % quoteSource.length;
+      if (!assertDataset()) return;
 
-            body.innerHTML = `
-                <div class="tab-content">
-                    <div class="section-wrap"><span class="section-title">${t.sec1}</span><div class="info-box">${session.nameReport}</div></div>
-                    <div class="section-wrap"><span class="section-title">${t.sec2}</span><div>• <b>${currentLang==='ko'?'주체 기운':'Core Energy'}:</b> ${attrSource[strongEl].name}</div><div>• <b>${t.advise}:</b> ${presSource[strongEl][getLevel(session.scores[maxIdx])]}</div></div>
-                    <div class="section-wrap"><span class="section-title">${t.sec3}</span><div>• <b>${t.practice}:</b> ${presSource[lackEl][getLevel(session.scores[minIdx])]}</div></div>
-                    <div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[masterSideIdx % sideSource.length]}</div>
-                    <div style="margin-top:30px; text-align:center; color:#AAA; font-style:italic;">"${quoteSource[masterQuoteIdx % quoteSource.length].text}"</div>
-                </div>`;
-        } else if(mode === 'past') {
-            const pastSource = currentLang === 'ko' ? pastLifeData : pastLifeDataEn;
-            const p = pastSource[s % pastSource.length];
-            body.innerHTML = `<div class="tab-content"><span class="section-title">${t.tab2}</span><div class="info-box"><b>📜 ${t.pastJob}:</b> [${p.job}]<br>${p.desc}<br><br><b>✨ ${t.pastHomework}:</b><br>${p.homework}</div></div>`;
-        } else {
-            const nextSource = currentLang === 'ko' ? reincarnationData : reincarnationDataEn;
-            const r = nextSource[s % nextSource.length];
-            body.innerHTML = `<div class="tab-content"><span class="section-title">${t.tab3}</span><div class="info-box"><b>📍 ${t.nextDest}:</b> ${r.place}<br><b>🧬 ${t.nextObj}:</b> ${r.object}<br><br><b>✅ ${t.nextMission}:</b><br>${r.mission}</div></div>`;
-        }
+      if (btn) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      }
+
+      const body = document.getElementById('tab-body');
+      const s = session.seed;
+      const t = i18n[currentLang];
+
+      if (mode === 'fortune') {
+        const maxIdx = session.scores.indexOf(Math.max(...session.scores));
+        const minIdx = session.scores.indexOf(Math.min(...session.scores));
+        const strongEl = elements[maxIdx];
+        const lackEl = elements[minIdx];
+
+        const presSource = currentLang === 'ko' ? elementPrescriptions : enPrescriptions;
+        const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
+        const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
+        const quoteSource = currentLang === 'ko' ? quoteData["인생"] : quoteDataEn["life"];
+
+        const masterSideIdx = s % sideSource.length;
+        const masterQuoteIdx = s % quoteSource.length;
+
+        body.innerHTML = `
+          <div class="tab-content">
+            <div class="section-wrap">
+              <span class="section-title">${t.sec1}</span>
+              <div class="info-box">${session.nameReport}</div>
+            </div>
+
+            <div class="section-wrap">
+              <span class="section-title">${t.sec2}</span>
+              <div>• <b>${currentLang==='ko'?'주체 기운':'Core Energy'}:</b> ${attrSource[strongEl].name} (${attrSource[strongEl].trait})</div>
+              <div>• <b>${t.advise}:</b> ${presSource[strongEl][getLevel(session.scores[maxIdx])]}</div>
+            </div>
+
+            <div class="section-wrap">
+              <span class="section-title">${t.sec3}</span>
+              <div>• <b>${t.practice}:</b> ${presSource[lackEl][getLevel(session.scores[minIdx])]}</div>
+            </div>
+
+            <div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[masterSideIdx]}</div>
+            <div style="margin-top:30px; text-align:center; color:#AAA; font-style:italic;">"${quoteSource[masterQuoteIdx].text}"</div>
+          </div>`;
+      } else if (mode === 'past') {
+        const pastSource = currentLang === 'ko' ? pastLifeData : pastLifeDataEn;
+        const p = pastSource[s % pastSource.length];
+        body.innerHTML = `
+          <div class="tab-content">
+            <span class="section-title">${t.tab2Title}</span>
+            <div class="info-box">
+              <b>📜 ${t.pastJob}:</b> [${p.job}]<br>${p.desc}<br><br>
+              <b>✨ ${t.pastHomework}:</b><br>${p.homework}
+            </div>
+          </div>`;
+      } else {
+        const nextSource = currentLang === 'ko' ? reincarnationData : reincarnationDataEn;
+        const r = nextSource[s % nextSource.length];
+        body.innerHTML = `
+          <div class="tab-content">
+            <span class="section-title">${t.tab3Title}</span>
+            <div class="info-box">
+              <b>📍 ${t.nextDest}:</b> ${r.place}<br>
+              <b>🧬 ${t.nextObj}:</b> ${r.object}<br><br>
+              <b>✅ ${t.nextMission}:</b><br>${r.mission}
+            </div>
+          </div>`;
+      }
     }
 
-    function copyLink() {
-        const url = window.location.href.split('?')[0] + `?name=${encodeURIComponent(session.name)}&birth=${session.birth}&lang=${currentLang}`;
-        navigator.clipboard.writeText(url).then(() => alert(currentLang === 'ko' ? "복사되었습니다!" : "Link copied!"));
+    async function copyLink() {
+      const base = window.location.origin + window.location.pathname;
+      const url = base + `?name=${encodeURIComponent(session.name)}&birth=${encodeURIComponent(session.birth)}&lang=${encodeURIComponent(currentLang)}`;
+
+      try {
+        await navigator.clipboard.writeText(url);
+        alert(currentLang === 'ko' ? "복사되었습니다!" : "Link copied!");
+      } catch {
+        // fallback
+        const ta = document.createElement('textarea');
+        ta.value = url;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        alert(currentLang === 'ko' ? "복사되었습니다!" : "Link copied!");
+      }
     }
-    window.onload = updateCounter;
-</script>
+
+    function initFromQuery() {
+      if (!assertDataset()) return;
+
+      const p = new URLSearchParams(window.location.search);
+      const qLang = p.get('lang');
+      const qName = p.get('name');
+      const qBirth = p.get('birth');
+
+      if (qLang === 'en' || qLang === 'ko') setLang(qLang);
+
+      if (qName) document.getElementById('userName').value = qName;
+      if (qBirth) document.getElementById('userBirth').value = qBirth;
+
+      if (qName && qBirth && String(qBirth).replace(/\D/g,'').length === 8) {
+        // 링크로 들어오면 자동 결과 출력
+        processData(qName, String(qBirth).replace(/\D/g,''));
+        document.getElementById('view-home').classList.add('hidden');
+        document.getElementById('view-result').classList.remove('hidden');
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      updateCounter();
+      if (assertDataset()) {
+        setLang('ko'); // 초기 텍스트 세팅
+        initFromQuery();
+      }
+    });
+  </script>
+
+  <!-- ✅ AdFit 로더: 한 번만 로드 (권장 위치: </body> 바로 위) -->
+  <!-- 공식 가이드에서 사용하는 스크립트: https://t1.daumcdn.net/kas/static/ba.min.js :contentReference[oaicite:1]{index=1} -->
+  <script async type="text/javascript" charset="utf-8" src="https://t1.daumcdn.net/kas/static/ba.min.js"></script>
 </body>
 </html>
