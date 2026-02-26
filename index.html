@@ -5,13 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Destiny Lab</title>
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://t1.daumcdn.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://api.countapi.xyz; frame-src https://t1.daumcdn.net https://display.adfit.kakao.com; connect-src https://api.countapi.xyz;">
+
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Pretendard:wght@400;600&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
         :root { --bg: #F0EDE9; --paper: #FFFFFF; --primary: #243447; --accent: #9A8467; --text: #444444; --border: #D1CDC5; }
         body { font-family: 'Pretendard', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; overflow-x: hidden; position: relative; }
-        body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at center, rgba(255, 255, 255, 1) 1.2px, transparent 2px), radial-gradient(circle at center, rgba(154, 132, 103, 0.8) 1.8px, transparent 3.5px); background-size: 60px 60px, 130px 130px; background-position: 0 0, 40px 40px; opacity: 1; animation: twinkle 4s ease-in-out infinite alternate; }
+        
+        /* 별빛 강화 배경 */
+        body::before { 
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; 
+            background-image: radial-gradient(circle at center, rgba(255, 255, 255, 1) 1.2px, transparent 2px), radial-gradient(circle at center, rgba(154, 132, 103, 0.8) 1.8px, transparent 3.5px);
+            background-size: 60px 60px, 130px 130px; background-position: 0 0, 40px 40px; opacity: 1; animation: twinkle 4s ease-in-out infinite alternate; 
+        }
         @keyframes twinkle { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+
         .container { width: 100%; max-width: 480px; position: relative; z-index: 1; }
         .lang-toggle { position: absolute; top: -50px; right: 0; display: flex; gap: 15px; }
         .flag { font-size: 1.6rem; cursor: pointer; opacity: 0.4; transition: 0.3s; }
@@ -31,7 +39,7 @@
         .tab-btn.active { color: var(--primary); font-weight: 700; border-bottom: 2px solid var(--primary); }
         .btn-action { width: 100%; background: var(--primary); color: white; border: none; padding: 18px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 1rem; }
         .hidden { display: none; }
-        input { width: 100%; padding: 15px; margin-bottom: 15px; border: none; border-bottom: 1px solid #DDD; font-size: 1.1rem; outline: none; background: transparent; }
+        input { width: 100%; padding: 15px; margin-bottom: 15px; border: none; border-bottom: 1px solid #DDD; font-size: 1.1rem; outline: none; }
         .visitor-counter { margin-top: 25px; font-size: 0.75rem; color: #AAA; font-family: 'Gowun Batang'; border-top: 1px solid #F5F5F5; padding-top: 15px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
@@ -91,6 +99,7 @@
 </div>
 
 <script src="quotes.js"></script>
+
 <script>
     let currentLang = 'ko';
     let session = { name: '', birth: '', seed: 0, scores: [] };
@@ -143,7 +152,7 @@
         const maxIdx = session.scores.indexOf(Math.max(...session.scores));
         const strongEl = elements[maxIdx];
         const lv = getLevel(session.scores[maxIdx]);
-        document.getElementById('dynamic-title').innerText = `[${cleanName}]님의 운명 리포트`;
+        document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `[${cleanName}]님의 운명 리포트` : `Report for [${cleanName}]`;
         document.getElementById('dynamic-summary').innerText = currentLang === 'ko' ? nicknamesKo[strongEl][lv] : nicknamesEn[strongEl][lv];
         const res = nameNumerology[(session.seed % 25) + 1];
         session.nameReport = currentLang === 'ko' ? `성명학적으로 <b>${res.title}</b>이며, ${res.desc}` : `Numerologically: <b>${res.titleEn}</b>. ${res.descEn}`;
@@ -154,7 +163,6 @@
     }
 
     function getHangulOnset(char) { const c = char.charCodeAt(0) - 44032; if (c < 0 || c > 11171) return char; return ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'][Math.floor(c / 588)]; }
-
     function getLevel(sc) { if (sc >= 110) return 'veryStrong'; if (sc >= 80) return 'strong'; if (sc >= 50) return 'normal'; if (sc >= 20) return 'weak'; return 'veryWeak'; }
 
     function renderChart() {
@@ -174,27 +182,29 @@
         if(btn) { document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
         const body = document.getElementById('tab-body'); const s = session.seed; const t = i18n[currentLang];
         if(mode === 'fortune') {
-            const maxIdx = session.scores.indexOf(Math.max(...session.scores));
-            const minIdx = session.scores.indexOf(Math.min(...session.scores));
-            const elements = ["木", "火", "土", "金", "水"];
-            const strongEl = elements[maxIdx]; const lackEl = elements[minIdx];
             const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
             const quoteSource = quoteData["인생"];
             const masterSideIdx = s % sideEffects.length;
             const masterQuoteIdx = s % quoteData["인생"].length;
+            const maxIdx = session.scores.indexOf(Math.max(...session.scores));
+            const minIdx = session.scores.indexOf(Math.min(...session.scores));
+            const strongEl = ["木", "火", "土", "金", "水"][maxIdx];
+            const lackEl = ["木", "火", "土", "金", "水"][minIdx];
             body.innerHTML = `<div class="tab-content"><div class="section-wrap"><span class="section-title">${t.sec1}</span><div class="info-box">${session.nameReport}</div></div><div class="section-wrap"><span class="section-title">${t.sec2}</span><div>• <b>주체 기운:</b> ${strongEl}</div><div>• <b>${t.advise}:</b> ${elementPrescriptions[strongEl][getLevel(session.scores[maxIdx])]}</div></div><div class="section-wrap"><span class="section-title">${t.sec3}</span><div>• <b>${t.practice}:</b> ${elementPrescriptions[lackEl][getLevel(session.scores[minIdx])]}</div></div><div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[masterSideIdx % sideSource.length]}</div><div style="margin-top:30px; text-align:center; color:#AAA; font-style:italic;">"${quoteSource[masterQuoteIdx % quoteSource.length].text}"</div></div>`;
         } else if(mode === 'past') {
-            const p = pastLifeData[s % pastLifeData.length];
+            const pastSource = currentLang === 'ko' ? pastLifeData : pastLifeDataEn;
+            const p = pastSource[s % pastLifeData.length];
             body.innerHTML = `<div class="tab-content"><span class="section-title">${t.tab2}</span><div class="info-box"><b>📜 ${t.pastJob}:</b> [${p.job}]<br>${p.desc}<br><br><b>✨ ${t.pastHomework}:</b><br>${p.homework}</div></div>`;
         } else {
-            const r = reincarnationData[s % reincarnationData.length];
+            const nextSource = currentLang === 'ko' ? reincarnationData : reincarnationDataEn;
+            const r = nextSource[s % reincarnationData.length];
             body.innerHTML = `<div class="tab-content"><span class="section-title">${t.tab3}</span><div class="info-box"><b>📍 ${t.nextDest}:</b> ${r.place}<br><b>🧬 ${t.nextObj}:</b> ${r.object}<br><br><b>✅ ${t.nextMission}:</b><br>${r.mission}</div></div>`;
         }
     }
 
-    function copyLink() { 
+    function copyLink() {
         const url = window.location.href.split('?')[0] + `?name=${encodeURIComponent(session.name)}&birth=${session.birth}&lang=${currentLang}`;
-        navigator.clipboard.writeText(url).then(() => alert(currentLang === 'ko' ? "결과 링크가 복사되었습니다!" : "Link copied!"));
+        navigator.clipboard.writeText(url).then(() => alert(currentLang === 'ko' ? "복사되었습니다!" : "Link copied!"));
     }
     window.onload = updateCounter;
 </script>
