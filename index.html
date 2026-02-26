@@ -90,9 +90,9 @@
       <div class="summary-line" id="dynamic-summary">분석 중...</div>
 
       <div class="tabs">
-        <button class="tab-btn active" id="tab1" onclick="switchTab('fortune', this)">현생 분석</button>
-        <button class="tab-btn" id="tab2" onclick="switchTab('past', this)">전생 기록</button>
-        <button class="tab-btn" id="tab3" onclick="switchTab('next', this)">내세 예약</button>
+        <button class="tab-btn active" id="tab1" onclick="switchTab('fortune', this)">현생 분석서</button>
+        <button class="tab-btn" id="tab2" onclick="switchTab('past', this)">전생 기록서</button>
+        <button class="tab-btn" id="tab3" onclick="switchTab('next', this)">내세 예약서</button>
       </div>
 
       <div id="tab-body"></div>
@@ -118,17 +118,22 @@
       }
       return true;
     }
+    
+async function updateCounter() {
+  const el = document.getElementById('visit-count');
+  if (!el) return;
 
-    async function updateCounter() {
-      try {
-        const res = await fetch('https://api.countapi.xyz/hit/destinylab.github.io/visits');
-        const data = await res.json();
-        document.getElementById('visit-count').innerText = Number(data.value).toLocaleString();
-      } catch (e) {
-        document.getElementById('visit-count').innerText = "—";
-      }
-    }
+  try {
+    const res = await fetch('https://countapi.mileshilliard.com/api/v1/hit/volcanohawaii-my-helpful-quote-visits');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
+    const data = await res.json();
+    el.innerText = Number(data.value).toLocaleString();
+  } catch (e) {
+    el.innerText = "—";
+  }
+}
+    
     function setLang(lang) {
       if (!assertDataset()) return;
       currentLang = lang;
