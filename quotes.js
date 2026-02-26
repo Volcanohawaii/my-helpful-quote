@@ -1,14 +1,14 @@
-/* [Destiny Engineering Lab - Global Final Dataset] */
+/* [Destiny Engineering Report - Global Final Dataset] */
 
-// 1. 분석 기초 데이터
+// 1. 기초 오행 데이터
 const hangulElements = { 'ㄱ': '木', 'ㄲ': '木', 'ㅋ': '木', 'ㄴ': '火', 'ㄷ': '火', 'ㄸ': '火', 'ㄹ': '火', 'ㅌ': '火', 'ㅇ': '土', 'ㅎ': '土', 'ㅅ': '金', 'ㅆ': '金', 'ㅈ': '金', 'ㅉ': '金', 'ㅊ': '金', 'ㅁ': '水', 'ㅂ': '水', 'ㅃ': '水', 'ㅍ': '水' };
 const alphabetElements = { 'A': '木', 'E': '木', 'I': '木', 'O': '木', 'U': '木', 'Y': '木', 'B': '水', 'P': '水', 'M': '水', 'F': '水', 'W': '水', 'C': '火', 'G': '火', 'J': '火', 'L': '火', 'S': '火', 'D': '土', 'N': '土', 'T': '土', 'H': '土', 'K': '金', 'R': '金', 'V': '金', 'X': '金', 'Q': '金', 'Z': '金' };
 
-// 2. 성명학 수리 데이터 (1~25번 풀세트)
+// 2. 성명학 수리 25종 (영문 설명 포함)
 const nameNumerology = {
     1: { title: "기본격", desc: "스스로 길을 개척하는 강한 생명력입니다.", titleEn: "The Pioneer", descEn: "A strong drive to blaze your own trail independently." },
     2: { title: "조화격", desc: "타인과 협력하여 안정적인 기반을 닦습니다.", titleEn: "The Harmonizer", descEn: "Thriving in cooperation and creating balance." },
-    3: { title: "희망격", desc: "밝고 긍정적인 에너지로 꾸준히 성장합니다.", titleEn: "The Optimist", descEn: "Bright, positive energy attracts growth." },
+    3: { title: "희망격", desc: "밝고 긍정적인 에너지로 꾸준히 성장합니다.", titleEn: "The Optimist", descEn: "Your bright, positive energy attracts opportunities." },
     4: { title: "안정격", desc: "차분하고 내실이 있어 평안한 삶을 삽니다.", titleEn: "The Anchor", descEn: "A grounded nature that builds a secure path." },
     5: { title: "성공격", desc: "지혜와 운이 따라주어 목표를 성취합니다.", titleEn: "The Achiever", descEn: "Luck and wisdom guide you toward success." },
     6: { title: "덕망격", desc: "성품이 온화하여 인복이 많고 대업을 이룹니다.", titleEn: "The Virtuous", descEn: "A warm personality attracts strong supporters." },
@@ -19,21 +19,21 @@ const nameNumerology = {
     11: { title: "재생격", desc: "어려움이 닥쳐도 다시 일어나는 회복력이 강합니다.", titleEn: "The Resilient", descEn: "Inner strength ensures you rise stronger." },
     12: { title: "성실격", desc: "한결같은 마음으로 정진하여 결실을 맺습니다.", titleEn: "The Dedicated", descEn: "Consistency leads you to grand rewards." },
     13: { title: "총명격", desc: "지혜가 깊어 학문이나 예술로 성공합니다.", titleEn: "The Brilliant", descEn: "Intellectual sharpness paves your way." },
-    14: { title: "기예격", desc: "예술적 감각이 뛰어나 독창적인 분야에서 성공합니다.", titleEn: "The Artist", descEn: "Unique creativity makes you stand out." },
+    14: { title: "기예격", desc: "예술적 감각이 뛰어나 독창적인 분야에서 성공합니다.", titleEn: "The Artist", descEn: "Your unique creativity makes you stand out." },
     15: { title: "통솔격", desc: "덕망이 높고 많은 이들을 이끄는 리더가 됩니다.", titleEn: "The Leader", descEn: "Natural charisma and virtue position you at the head." },
     16: { title: "행운격", desc: "인복이 풍부하여 주변의 도움으로 번창합니다.", titleEn: "The Favored", descEn: "Surrounded by people who want you to succeed." },
     17: { title: "강건격", desc: "신념이 강하고 난관을 정면으로 돌파합니다.", titleEn: "The Fearless", descEn: "Unshakable faith overcomes any obstacle." },
     18: { title: "발전격", desc: "강한 의지로 난관을 뚫고 자수성가합니다.", titleEn: "The Self-Made", descEn: "Pure determination helps you achieve wealth." },
     19: { title: "직관격", desc: "감각이 예민하여 남들이 못 보는 기회를 잡습니다.", titleEn: "The Visionary", descEn: "Sense trends before they are obvious." },
-    20: { title: "결단격", desc: "맺고 끊음이 확실하고 신뢰를 받는 성격입니다.", titleEn: "The Decisive", descEn: "Clear judgment makes you highly trusted." },
+    20: { title: "결단격", desc: "맺고 끊음이 확실하고 신뢰를 받는 성격입니다.", titleEn: "The Decisive", descEn: "Clear judgment and integrity make you trusted." },
     21: { title: "두령격", desc: "만인을 통솔하는 기질로 크게 성공할 운입니다.", titleEn: "The Commander", descEn: "Born with authority to lead many." },
-    22: { title: "원만격", desc: "성격이 부드러워 대인관계가 매우 원만합니다.", titleEn: "The Diplomat", descEn: "Gentle nature makes you a master of social harmony." },
+    22: { title: "원만격", desc: "성격이 부드러워 대인관계가 매우 원만합니다.", titleEn: "The Diplomat", descEn: "A master of social harmony and networking." },
     23: { title: "혁신격", desc: "변화를 두려워하지 않고 시대를 앞서갑니다.", titleEn: "The Innovator", descEn: "A trailblazer who embraces the future." },
     24: { title: "입신격", desc: "빈손으로 시작해도 점진적으로 큰 부를 이룹니다.", titleEn: "The Wealth-Builder", descEn: "Continuous growth leads to prosperity." },
     25: { title: "안강격", desc: "성격이 원만하고 평생 평안과 복을 누립니다.", titleEn: "The Blessed", descEn: "Balanced character ensures a life of peace." }
 };
 
-// 3. 전생 데이터 (30종)
+// 3. 전생 데이터 10종 (한영 완벽 매칭)
 const pastLifeData = [
     { job: "달빛 아래 시를 쓰던 선비", desc: "학문에 정진했으나 세상의 풍파는 피하려 했던 고결한 영혼이었습니다.", homework: "나의 재능을 세상에 당당히 드러내기" },
     { job: "궁궐의 낮잠 자던 삼색 고양이", desc: "평화로운 기운으로 주변을 치유했으나 자립심은 조금 부족했군요.", homework: "스스로 일어서는 독립심 기르기" },
@@ -44,84 +44,86 @@ const pastLifeData = [
     { job: "장희빈의 비밀 조향사", desc: "사람의 마음을 홀리는 향기를 연구하던 매력적인 인물이었습니다.", homework: "누군가에게 휘둘리지 않는 주관 갖기" },
     { job: "궁중 무용의 주인공", desc: "아름다운 몸짓으로 왕의 마음까지 사로잡았던 전설의 무용수였습니다.", homework: "자신의 열정을 올바른 곳에 쏟기" },
     { job: "성가대의 목소리 좋은 솔리스트", desc: "천상의 목소리로 사람들의 영혼을 울리던 신의 목소리였습니다.", homework: "나의 진실된 목소리를 당당하게 내뱉기" },
-    { job: "전장의 소식을 전하던 전령", desc: "밤낮없이 달려 약속을 지켰던 가장 책임감 있는 분이었습니다.", homework: "약속의 소중함을 끝까지 지키기" },
-    { job: "불꽃놀이를 설계하던 화약 기술자", desc: "한순간의 찬란함을 위해 평생을 연구하던 연구자였습니다.", homework: "일상의 소소한 행복에서 빛을 찾기" },
-    { job: "고대 이집트의 태양신 사제", desc: "태양의 열기를 기도로 승화시키던 신성한 인물이었습니다.", homework: "내면의 화를 다스리고 평온을 찾기" },
-    { job: "유럽 성문을 지키던 문지기", desc: "성실하게 자리를 지켰으나 정작 본인의 세상 구경은 못 했군요.", homework: "낯선 곳으로 여행하며 시야 넓히기" },
-    { job: "깊은 산속 도를 닦던 바위", desc: "수백 년간 산 정상에서 세상의 변화를 지켜보던 존재였습니다.", homework: "고집을 버리고 유연하게 대처하기" },
-    { job: "알프스 산맥의 양치기", desc: "광활한 초원에서 양들과 함께 단순하고 순수한 삶을 살았습니다.", homework: "복잡한 생각 비우고 단순하게 살기" },
-    { job: "고궁의 기와를 올리던 장인", desc: "수천 장의 기와를 올리며 누군가의 안식을 설계한 장인이었습니다.", homework: "기초부터 차근차근 다지는 인내심 갖기" },
-    { job: "거상의 군마", desc: "용맹하게 달리며 부를 축적하는 데 큰 공을 세웠던 존재입니다.", homework: "자신의 건강과 몸을 소중히 아끼기" },
-    { job: "사막의 오아시스 수호자", desc: "여행자들에게 생명수를 나누어 주던 자비로운 영혼이었습니다.", homework: "여유로운 마음으로 나눔의 기쁨 알기" },
-    { job: "서부 시대 보안관", desc: "정의를 지키기 위해 고독한 싸움을 이어가던 영웅이었습니다.", homework: "올바른 가치관을 지키는 용기 내기" },
-    { job: "비밀 지도를 지키던 검객", desc: "평생 지켜야 할 가치를 위해 검 한 자루로 세상을 살았습니다.", homework: "자신만의 원칙을 세우고 지키기" },
-    { job: "바이킹 선단의 길잡이 까마귀", desc: "가장 높은 곳에서 바람의 방향을 읽어 배를 인도하던 영물이었습니다.", homework: "확신이 없을 때 본인의 직감을 믿기" },
-    { job: "어느 발명가의 실패한 태엽 시계", desc: "비록 멈췄지만 발명가에게 큰 정교함과 영감을 주었던 기계였습니다.", homework: "실패를 두려워하지 않고 다시 도전하기" },
-    { job: "황금 사막의 지도 제작자", desc: "정확한 선 하나로 사람들의 생명을 구하던 지리학자였습니다.", homework: "결과보다 과정을 즐기는 여유 갖기" },
-    { job: "북극해를 건너던 쇄빙선 닻", desc: "거친 얼음을 깨고 길을 내던 단단한 의지의 소유자였습니다.", homework: "딱딱한 마음을 부드럽게 녹이는 연습" },
-    { job: "고대 별을 읽던 천문학자", desc: "밤마다 하늘의 지도를 그리며 우주의 섭리를 고민했습니다.", homework: "인생의 큰 흐름을 바라보는 눈 갖기" },
-    { job: "바다 건너온 보물을 파는 상인", desc: "사람들의 호기심을 자극하던 유연하고 눈치 빠른 인물이었습니다.", homework: "물질보다 정신적인 가치 찾기" },
-    { job: "저잣거리의 이야기꾼", desc: "입담 하나로 온 마을 사람들의 마음을 적시던 인기인이었습니다.", homework: "진실한 언어의 힘을 올바르게 사용하기" },
-    { job: "이름 모를 섬의 해녀", desc: "깊은 바다 밑에서 보석 같은 순간을 건져 올리던 지혜로운 이였습니다.", homework: "소중한 것은 늘 가까이에 있음을 깨닫기" },
-    { job: "강가에서 세월을 낚던 강태공", desc: "물결을 보며 서두르지 않는 여유를 즐기던 현자였습니다.", homework: "결과보다 과정을 즐기는 법 익히기" },
-    { job: "설산의 눈을 치우던 수도승", desc: "하얗게 내린 눈을 치우며 마음의 번뇌를 씻어냈습니다.", homework: "복잡한 머릿속을 수시로 정리하기" }
+    { job: "전장의 소식을 전하던 전령", desc: "밤낮없이 달려 약속을 지켰던 가장 책임감 있는 분이었습니다.", homework: "약속의 소중함을 끝까지 지키기" }
 ];
 
-const pastLifeDataEn = pastLifeData.map(d => ({ job: "Ancient Identity", desc: "A unique soul who journeyed through the past.", homework: "Fulfill your karmic goal and light up the world." }));
+const pastLifeDataEn = [
+    { job: "Scholar of the Silver Moon", desc: "A noble soul who sought wisdom in solitude but avoided life's chaos.", homework: "Boldly step out and show your true talents to the world." },
+    { job: "The Palace Cat", desc: "A peaceful healer who brought comfort to royalty but lacked independence.", homework: "Develop a fierce independence and stand on your own feet." },
+    { job: "Gardener of Secret Eden", desc: "An artist who built a private paradise while talking only to the flowers.", homework: "Step out of your sanctuary and connect with others." },
+    { job: "Master of Celestial Tea", desc: "A perfectionist who spent lifetimes capturing the universe in a single cup.", homework: "Let go of urgency and master the art of divine patience." },
+    { job: "Wise Village Herbalist", desc: "A saint-like figure who healed heartaches with roots and kindness.", homework: "Continue to nurture your empathy and care for those around you." },
+    { job: "Guardian of Ancient Whispers", desc: "A timeless protector who read the natural flow of the world for millennia.", homework: "Do not fear the winds of change; embrace the unknown future." },
+    { job: "Royal Court Perfumer", desc: "An enchanting creator who studied the scents that captivate souls.", homework: "Find your own center so you are never swayed by others." },
+    { job: "Legendary Court Dancer", desc: "A graceful master who captured the King's heart with every move.", homework: "Direct your intense passion toward the highest good." },
+    { job: "The Divine Soloist", desc: "A voice from the heavens that moved the spirits of everyone.", homework: "Speak your truth boldly and let your unique voice be heard." },
+    { job: "The Battlefield Messenger", desc: "A soul of iron will who ran through fire to keep a single promise.", homework: "Treasure your integrity and keep your word until the end." }
+];
 
-// 4. 내세 데이터 (30종)
+// 4. 내세 데이터 10종
 const reincarnationData = [
-    { place: "스위스 알프스 목장", object: "명품 젖소", mission: "신선한 공기 3번 마시고 힐링하기" },
+    { place: "스위스 알프스 목장", object: "명품 젖소", mission: "신선한 공기 마시며 평화로운 기운 전하기" },
     { place: "실리콘밸리 천재의 서재", object: "기계식 키보드", mission: "위대한 아이디어가 세상에 나오도록 돕기" },
-    { place: "강남 재벌집 거실", object: "사랑받는 품종묘", mission: "느긋하게 스트레칭 3번 하기" },
-    { place: "제주도 푸른 바다", object: "자유로운 돌고래", mission: "좋아하는 노래 한 소절 부르기" },
-    { place: "북유럽 도서관", object: "베스트셀러 책", mission: "책 한 페이지 읽으며 지식 충전하기" },
+    { place: "강남 재벌집 거실", object: "사랑받는 품종묘", mission: "존재만으로 주변에 행복을 선사하기" },
+    { place: "제주도 푸른 바다", object: "자유로운 돌고래", mission: "파도를 타고 넓은 세계로 나아가기" },
+    { place: "북유럽 도서관", object: "베스트셀러 책", mission: "지친 이들에게 지식과 위로를 전달하기" },
     { place: "우주의 빛나는 행성", object: "지지 않는 꽃", mission: "거울 보고 밝게 한번 웃어보기" },
-    { place: "뉴욕 센트럴 파크", object: "여유로운 벤치", mission: "햇볕 5분 쬐기" },
-    { place: "파리 에펠탑 근처 화방", object: "예술가의 붓", mission: "무언가 그려보기" },
-    { place: "하와이 해변", object: "멋진 서핑보드", mission: "물 한 잔 마시기" },
-    { place: "런던의 레코드 숍", object: "오래된 LP판", mission: "음악 끝까지 듣기" },
-    { place: "미래의 화성 식민지", object: "최초의 사과나무", mission: "상큼한 과일 한 조각 먹기" },
-    { place: "일본 온천 마을", object: "행복한 원숭이", mission: "따뜻한 물로 발의 피로 풀어주기" },
-    { place: "몰디브 바다 아래", object: "아름다운 산호초", mission: "파란색 물건 보기" },
-    { place: "동화 속 성곽 위", object: "솜사탕 구름", mission: "하늘 5초 바라보기" },
-    { place: "유명한 빵집", object: "갓 구운 크루아상", mission: "맛있는 간식 먹기" },
-    { place: "최고급 호텔", object: "폭신한 깃털 베개", mission: "자기 전 베개 정돈하기" },
-    { place: "교토의 벚꽃 거리", object: "흩날리는 벚꽃잎", mission: "주변 꽃 구경하기" },
-    { place: "남극의 얼음 기지", object: "아기 펭귄", mission: "동물 영상 보기" },
-    { place: "연예인의 가방 속", object: "최애 립스틱", mission: "물건 하나 정성껏 닦기" },
-    { place: "로마 광장", object: "멋진 조각상", mission: "내 장점 하나 떠올리기" },
-    { place: "북극의 밤하늘", object: "가장 밝은 북극성", mission: "오늘 밤 별 찾아보기" },
-    { place: "부자 동네 정원", object: "자율주행 잔디깎이", mission: "주변 정리 1분 하기" },
-    { place: "티베트 사원", object: "맑은 종소리", mission: "차분한 음악 듣기" },
-    { place: "대나무 숲", object: "인기 만점 판다", mission: "게으름 피워보기" },
-    { place: "영화 촬영장", object: "주인공의 대본", mission: "단어 하나 적어보기" },
-    { place: "산토리니 지붕 위", object: "느긋한 고양이", mission: "바다 사진 보기" },
-    { place: "공기 맑은 숲", object: "바오밥나무", mission: "심호흡 3번 하기" },
-    { place: "꿈의 놀이공원", object: "오색 풍선", mission: "좋은 상상 1분 하기" },
-    { place: "대형 크루즈선", object: "모든 것을 보는 돛", mission: "여행지 검색하기" },
-    { place: "소중한 사진첩", object: "사진 속 인물", mission: "행복한 기억 떠올리기" }
+    { place: "미래의 화성 식민지", object: "최초의 사과나무", mission: "척박한 땅에 푸른 생명의 희망 심기" },
+    { place: "영화 촬영장", object: "주인공의 대본", mission: "아름다운 이야기가 완성되도록 영감 주기" },
+    { place: "안드로메다 은하", object: "차원 여행자", mission: "우주의 평화를 잇는 가교 역할 수행하기" },
+    { place: "산토리니 지붕 위", object: "느긋한 고양이", mission: "바다를 보며 삶의 여유를 가르쳐주기" }
 ];
 
-const reincarnationDataEn = reincarnationData.map(r => ({ place: "Future Realm", object: "Special Form", mission: "Complete your destiny." }));
+const reincarnationDataEn = [
+    { place: "Alps High-Ranch", object: "Elegant Bell-Cow", mission: "Breathe in mountain air and spread peaceful vibes." },
+    { place: "Silicon Valley Studio", object: "Pro Mechanical Keyboard", mission: "Help world-changing ideas become a reality." },
+    { place: "Manhattan Penthouse", object: "Beloved Pedigree Cat", mission: "Simply exist and bring ultimate joy to everyone." },
+    { place: "Crystal Maui Shores", object: "Spirit Dolphin", mission: "Ride the cosmic waves and explore the vast world." },
+    { place: "Nordic Grand Library", object: "Global Bestseller Book", mission: "Comfort weary souls with wisdom and stories." },
+    { place: "A Glowing Planet", object: "Eternal Space Flower", mission: "Smile at your reflection in the stars." },
+    { place: "Future Mars Colony", object: "First Apple Tree", mission: "Plant the hope of green life in a red world." },
+    { place: "Hollywood Movie Set", object: "The Lead Actor's Script", mission: "Inspire the creation of a legendary story." },
+    { place: "Andromeda Galaxy", object: "Dimensional Traveler", mission: "Become a bridge connecting different worlds." },
+    { place: "Santorini Rooftops", object: "A Relaxed Blue-Eye Cat", mission: "Teach the world the art of leisure and calmness." }
+];
 
 // 5. 부작용 및 명언
-const sideEffects = ["디저트 무한 흡입 주의", "모든 말끝에 토 달기", "전생이 돌덩이였던 듯한 멍함", "양말 한 짝 영원히 실종", "냉장고 소스 유통기한 점검 강박", "뜬금없는 윙크 발사", "거울 속 내 모습에 취함", "왼쪽 콧구멍만 간지러움", "비둘기와 대화 시도", "이불 밖이 위험해 보임", "갑자기 윈드밀 가능할 것 같음", "알람 소리가 교향곡 같음", "횡단보도 흰색만 밟음", "나뭇잎에게 이름 지어줌", "손가락 하트 무의식 발사", "채소가 고기 맛으로 느껴짐", "웃음소리가 음하하로 변함", "모든 비밀을 아는 듯한 눈빛", "춤을 안 추면 몸이 근질거림", "지나가는 개미에게 훈수 둠", "공기는 무료임을 실감하며 감동", "모델 워킹으로 걷고 싶음", "내일 점심이 4K로 꿈에 나옴", "10년 전 흑역사 고화질 기억", "계단 한 칸씩 건너뛰는 활력", "지갑 가벼워도 부자인 척", "우주인과 교신 시도", "지나가는 고양이가 인사함", "세상이 라벤더색으로 보임", "냉장고 모든 소스 유통기한 확인", "혼자서 파티 개최", "가장 예쁜 쓰레기 은퇴식", "바람에게 윙크 날림", "신발 좌우 바꿔 신어보기", "들꽃에게 인생 고민 상담", "우아한 손짓으로 물 마시기", "거울 보며 본인 찬양 5번", "일기 한 줄을 시처럼 쓰기", "보라색 물건 보면 반가움", "양말 한 쪽만 신고 달리기", "세상이 나를 중심으로 도는 착각"];
-const sideEffectsEn = sideEffects.map(s => "Mysterious Side Effect");
-const quoteData = { "인생": [ { text: "모든 꽃은 저마다의 시간에 핀다." }, { text: "속도보다 중요한 것은 방향이다." }, { text: "지금 그대로 당신은 충분하다." }, { text: "어두운 밤일수록 별은 빛난다." }, { text: "어제보다 나은 오늘의 나를 사랑하라." }, { text: "삶이 있는 한 희망은 있다." }, { text: "행복은 선택하는 것이다." }, { text: "내일의 나를 만드는 것은 오늘의 인내다." }, { text: "길이 없으면 길을 찾아라." }, { text: "가장 어두운 밤도 해뜨기 직전에 끝난다." }, { text: "생각하는 대로 살지 않으면 사는 대로 생각하게 된다." }, { text: "완벽함보다 완료함이 낫다." }, { text: "너 자신이 되어라. 다른 사람은 이미 다 차 있다." }, { text: "인생은 속도가 아니라 방향이다." }, { text: "작은 것에 감사할 줄 아는 사람이 부자다." }, { text: "행복은 목적지가 아니라 여행하는 과정이다." }, { text: "폭풍우를 피하는 게 아니라 빗속에서 춤추는 법을 배우는 것이다." }, { text: "오늘 하루, 당신은 충분히 잘해냈다." }, { text: "실패는 다시 시작할 수 있는 기회일 뿐이다." }, { text: "내면의 평화가 가장 큰 성공이다." } ] };
-const quoteDataEn = { "life": quoteData["인생"] };
+const sideEffects = ["디저트 무한 흡입 주의", "모든 말끝에 토 달기", "전생이 바위였던 듯한 멍함", "양말 한 짝 영원히 실종", "냉장고 소스 유통기한 점검 강박", "뜬금없는 윙크 발사", "거울 속 내 모습에 취함", "왼쪽 콧구멍만 간지러움"];
+const sideEffectsEn = ["Unstoppable dessert cravings", "Urge to back-talk everyone", "Spells of rock-like zoning out", "Mysterious loss of one sock forever", "Obsessive checking of sauce dates", "Involuntary winking syndrome", "Dazzled by your own mirror image", "An itch in specifically your left nostril"];
+
+const quoteData = { "인생": [ { text: "모든 꽃은 저마다의 시간에 핀다." }, { text: "속도보다 중요한 것은 방향이다." }, { text: "지금 그대로 당신은 충분하다." }, { text: "어두운 밤일수록 별은 빛난다." } ] };
+const quoteDataEn = { "life": [ { text: "Every flower blooms in its own time." }, { text: "Direction is more important than speed." }, { text: "You are enough exactly as you are." }, { text: "The darker the night, the brighter the stars." } ] };
 
 // 6. UI 및 처방
 const i18n = {
-    ko: { title: "운명 공학 분석소", desc: "성명과 생년월일 기반 정식 리포트", nameLabel: "성함 (한글/영문)", birthLabel: "생년월일 8자리", btn: "리포트 생성", resTitle: "분석 결과 리포트", tab1: "현생 분석", tab2: "전생 기록", tab3: "내세 예약", copy: "결과 저장 및 링크 복사", reset: "초기화", sec1: "1. 성명 분석 결과", sec2: "2. 주체 에너지 분석", sec3: "3. 에너지 보강 지침", sideEffect: "에너지 조정 부작용 주의", advise: "운명 조언", practice: "실천 행법", pastJob: "과거의 소명", pastHomework: "현생의 숙제", nextDest: "차기 정착지", nextObj: "재탄생 형태", nextMission: "확정 조건" },
-    en: { title: "Destiny Engineering Lab", desc: "Official Report based on Name & Birth", nameLabel: "Full Name (EN)", birthLabel: "Birthdate (YYYYMMDD)", btn: "Generate Report", resTitle: "Your Destiny Report", tab1: "Life Path", tab2: "Past Life", tab3: "Future Life", copy: "Save Result & Copy Link", reset: "Start Over (Reset)", sec1: "1. Name Numerology", sec2: "2. Core Energy Analysis", sec3: "3. Power-Up Guide", sideEffect: "Side Effects", advise: "Advice", practice: "Mission", pastJob: "Past Identity", pastHomework: "Soul Goal", nextDest: "Destination", nextObj: "Born As", nextMission: "Requirement" }
+    ko: { 
+        title: "성명학 데이터 분석", desc: "이름의 파동 에너지와 사주의 요인을 결합하여 고유한 운명 기운을 추출합니다.", nameLabel: "성함 (한글/영문)", birthLabel: "양력 8자리 (1000-2150)", btn: "리포트 생성하기", reset: "초기화", tab1: "현생 분석", tab2: "전생 기록", tab3: "내세 예약", copy: "링크 복사", sec1: "[성명학적 결과 분석]", sec2: "[강점 오행의 기운]", sec3: "[부족 오행 보완법]", advise: "운명 조언", practice: "실천 행법", sideEffect: "과유불급 부작용", pastJob: "전생의 직업", pastHomework: "현생의 숙제", nextDest: "환생 장소", nextObj: "환생 형태", nextMission: "부여된 소명",
+        loadSeal: "분석중", loadTitle: "운명의 에너지를 조합 중...", loadDesc: "잠시만 기다려 주세요."
+    },
+    en: { 
+        title: "Destiny Engineering Lab", desc: "Extracts unique energy by combining name vibrations with seasonal factors.", nameLabel: "Full Name", birthLabel: "Birthdate (YYYYMMDD)", btn: "Generate Report", reset: "Reset", tab1: "Life Path", tab2: "Past Life", tab3: "Next Life", copy: "Copy Link", sec1: "[Numerology Result]", sec2: "[Core Energy Analysis]", sec3: "[Remedy Guide]", advise: "Life Advice", practice: "Mission", sideEffect: "Side Effects", pastJob: "Past Identity", pastHomework: "Soul Goal", nextDest: "Destination", nextObj: "Born As", nextMission: "Requirement",
+        loadSeal: "Analyzing", loadTitle: "Combining Destiny Energies...", loadDesc: "Please wait a moment."
+    }
 };
 
+const elementAttributesKo = { "木": { name: "나무", trait: "성장과 기획" }, "火": { name: "불", trait: "열정과 확산" }, "土": { name: "흙", trait: "안정과 포용" }, "金": { name: "쇠", trait: "결단과 원칙" }, "水": { name: "물", trait: "지혜와 유연함" } };
+const elementAttributesEn = { "木": { name: "Wood", trait: "Growth & Creativity" }, "火": { name: "Fire", trait: "Passion & Leadership" }, "土": { name: "Earth", trait: "Stability & Trust" }, "金": { name: "Metal", trait: "Logic & Integrity" }, "水": { name: "Water", trait: "Wisdom & Flexibility" } };
+
 const elementPrescriptions = {
-    "木": { veryStrong: "기운이 너무 강해 독단적일 수 있습니다. '비움'의 명상이 필요합니다.", strong: "추진력이 좋습니다. 계획한 일을 끝까지 마무리하는 습관을 들이세요.", normal: "조화로운 기운입니다. 식물을 돌보며 현재의 리듬을 유지하십시오.", weak: "의욕은 있으나 뒷심이 부족합니다. 아침 산책으로 생기를 보충하십시오.", veryWeak: "생존 본능이 저하된 상태입니다. 신맛이 나는 음식이나 초록색 의상을 가까이하세요." },
-    "火": { veryStrong: "감정 조절이 어렵고 번아웃이 오기 쉽습니다. 격렬한 운동으로 열기를 배출하세요.", strong: "열정이 넘칩니다. 그 에너지를 주변 사람들과 온기로 나누면 복이 옵니다.", normal: "밝고 긍정적입니다. 예의를 갖춘 태도가 당신의 운을 더욱 높여줍니다.", weak: "의욕이 저하되고 비관적일 수 있습니다. 낮에 햇볕을 20분 이상 쬐십시오.", veryWeak: "심신이 무기력합니다. 쓴맛이 나는 차를 마시고 붉은색 소품을 소지하세요." },
-    "土": { veryStrong: "고집이 세지고 생각이 정체되기 쉽습니다. 환경을 바꿔 새로운 자극을 주십시오.", strong: "포용력이 훌륭합니다. 타인의 고민을 들어주는 역할이 운을 열어줍니다.", normal: "안정감이 돋보입니다. 꾸준한 독서로 내실을 다지면 큰 성과를 얻습니다.", weak: "마음이 불안하고 기반이 흔들립니다. 맨발로 흙을 밟아 대지의 기운을 받으세요.", veryWeak: "자신감이 바닥난 상태입니다. 달콤한 간식을 챙기고 산행을 추천합니다." },
-    "金": { veryStrong: "판단이 너무 날카로워 주변에 상처를 줄 수 있습니다. 부드러운 음악을 감상하세요.", strong: "결단력이 날카롭습니다. 불필요한 인연과 물건을 정리하기에 좋은 시기입니다.", normal: "이성적이고 깔끔합니다. 규칙적인 생활이 당신의 가장 큰 무기입니다.", weak: "우유부단해지기 쉽습니다. 금속 액세서리를 착용하여 기운을 보강하십시오.", veryWeak: "맺고 끊음이 안 되어 손해를 봅니다. 매운 음식을 챙기고 흰색 옷을 입으세요." },
-    "水": { veryStrong: "생각이 너무 많아 우울감에 빠질 수 있습니다. 땀이 날 정도로 몸을 움직이세요.", strong: "지혜가 샘솟습니다. 새로운 것을 배우거나 창작 활동을 하기에 최적의 상태입니다.", normal: "유연하고 여유롭습니다. 강물처럼 흐르는 대로 순리를 따르면 평안합니다.", weak: "융통성이 부족해지고 고립될 수 있습니다. 따뜻한 차를 마셔 순환을 도우십시오.", veryWeak: "정신적 에너지가 고갈되었습니다. 짠맛이 나는 음식과 검은색 계열이 길합니다." }
+    "木": { veryStrong: "기운이 과해 독단적일 수 있습니다. 명상이 필수입니다.", strong: "추진력이 훌륭합니다. 끝까지 마무리하세요.", normal: "안정적인 성장의 시기입니다. 리듬을 지키세요.", weak: "의욕 보충이 필요합니다. 아침 산책을 하세요.", veryWeak: "생기가 고갈된 상태입니다. 초록색 옷이 길합니다." },
+    "火": { veryStrong: "번아웃이 오기 쉽습니다. 열기를 식히세요.", strong: "열정이 가득합니다. 에너지를 나누세요.", normal: "밝고 따뜻합니다. 예의를 갖추면 복이 옵니다.", weak: "의욕이 저하되었습니다. 햇볕을 20분간 쬐세요.", veryWeak: "무기력하기 쉽습니다. 붉은색 소품이 좋습니다." },
+    "土": { veryStrong: "생각이 정체되기 쉽습니다. 환경을 바꾸세요.", strong: "포용력이 좋습니다. 남을 돕는 것이 운을 엽니다.", normal: "안정감이 훌륭합니다. 독서가 보약입니다.", weak: "기반이 흔들립니다. 맨발로 흙을 밟으세요.", veryWeak: "자신감이 바닥입니다. 달콤한 음식이 길합니다." },
+    "金": { veryStrong: "판단이 날카로워 타인을 아프게 합니다.", strong: "결단력이 좋습니다. 정리에 좋은 때입니다.", normal: "이성적이고 깔끔합니다. 규칙적인 생활이 무기입니다.", weak: "우유부단해집니다. 금속 장신구를 하세요.", veryWeak: "경계심이 부족해 손해 봅니다. 흰색을 입으세요." },
+    "水": { veryStrong: "우울감에 빠질 수 있습니다. 땀 나게 운동하세요.", strong: "지혜가 샘솟습니다. 창작 활동에 매진하세요.", normal: "유연하고 여유롭습니다. 순리대로 사세요.", weak: "융통성이 부족합니다. 따뜻한 차를 마시세요.", veryWeak: "에너지가 고갈되었습니다. 짠맛과 검은색이 길합니다." }
 };
-const enPrescriptions = { "木": { veryStrong: "Excessive energy. Practice letting go.", strong: "Great momentum!", normal: "Perfectly balanced.", weak: "Lacking drive.", veryWeak: "Vitality depleted." } }; // (생략 방지 위해 구조만 유지)
+
+const enPrescriptions = {
+    "木": { veryStrong: "Excessive energy. Daily meditation is a must.", strong: "Great momentum! Focus on finishing tasks.", normal: "Steady growth. Maintain your current rhythm.", weak: "Lacking drive. Take a morning walk daily.", veryWeak: "Vitality depleted. Wear green items." },
+    "火": { veryStrong: "High burnout risk. Cool down your heat.", strong: "Radiant passion! Share your warmth.", normal: "Bright and positive. Politeness brings luck.", weak: "Unmotivated. Get 20 mins of sunlight.", veryWeak: "Deep exhaustion. Carry red accessories." },
+    "土": { veryStrong: "Stubborn thoughts. Change your scenery.", strong: "Great empathy! Helping others opens doors.", normal: "Solid stability. Self-improvement via reading.", weak: "Ungrounded. Walk barefoot on the earth.", veryWeak: "Low confidence. Sweet snacks will help." },
+    "金": { veryStrong: "Too critical. Soften your heart.", strong: "Sharp decisiveness! Perfect time to clean.", normal: "Rational and organized. Keep your routine.", weak: "Indecisive. Wear metallic jewelry.", veryWeak: "Weak boundaries. Wear white clothes." },
+    "水": { veryStrong: "Prone to mood slumps. Exercise intensely.", strong: "Flowing wisdom! Dive into creative work.", normal: "Flexible and calm. Trust the natural flow.", weak: "Rigid flow. Sip warm tea regularly.", veryWeak: "Mentally drained. Black items are lucky." }
+};
+
+const nicknamesKo = { "木": { veryStrong: "숲을 삼키는 개척자", strong: "위대한 기획자", normal: "중재자", weak: "어린 싹", veryWeak: "나뭇가지" }, "火": { veryStrong: "태양의 화신", strong: "열정 리더", normal: "등불 수호자", weak: "작은 별빛", veryWeak: "재 속의 온기" }, "土": { veryStrong: "거대한 바위산", strong: "대지의 수호자", normal: "들판 관리자", weak: "모래 언덕", veryWeak: "먼지 속의 정령" }, "金": { veryStrong: "절대 심판자", strong: "신념의 검객", normal: "지성의 조각가", weak: "황금 세공사", veryWeak: "무명의 철학자" }, "水": { veryStrong: "심연의 소용돌이", strong: "지혜로운 항해사", normal: "계곡의 시냇물", weak: "감성 예술가", veryWeak: "고요한 연못" } };
+const nicknamesEn = { "木": { veryStrong: "Unstoppable Pioneer", strong: "Grand Architect", normal: "Mediator", weak: "Dreaming Sprout", veryWeak: "Lonely Branch" }, "火": { veryStrong: "Explosive Sun", strong: "Solar Leader", normal: "Warm Guardian", weak: "Subtle Starlight", veryWeak: "Hidden Ember" }, "土": { veryStrong: "Immovable Mountain", strong: "Golden Guardian", normal: "Peaceful Manager", weak: "Soft Dune", veryWeak: "Spirit of Dust" }, "金": { veryStrong: "Absolute Judge", strong: "Knight of Integrity", normal: "Refined Sculptor", weak: "Flexible Goldsmith", veryWeak: "Humble Philosopher" }, "水": { veryStrong: "Great Vortex", strong: "Wise Navigator", normal: "Clear Stream", weak: "Sensitive Artist", veryWeak: "Silent Pond" } };
