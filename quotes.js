@@ -46,14 +46,13 @@ const elementPrescriptions = {
 };
 
 const enPrescriptions = {
-    "木": { veryStrong: "Excessive energy. Daily meditation is a must.", strong: "Great momentum! Focus on finishing tasks.", normal: "Steady growth. Maintain your current rhythm.", weak: "Lacking drive. Take a morning walk daily.", veryWeak: "Vitality depleted. Wear green items." },
-    "火": { veryStrong: "High burnout risk. Cool down your heat.", strong: "Radiant passion! Share your warmth.", normal: "Bright and positive. Politeness brings luck.", weak: "Unmotivated. Get 20 mins of sunlight.", veryWeak: "Deep exhaustion. Carry red accessories." },
-    "土": { veryStrong: "Stubborn thoughts. Change your scenery.", strong: "Great empathy! Helping others opens doors.", normal: "Solid stability. Self-improvement via reading.", weak: "Ungrounded. Walk barefoot on the earth.", veryWeak: "Low confidence. Sweet snacks will help." },
-    "金": { veryStrong: "Too critical. Soften your heart.", strong: "Sharp decisiveness! Perfect time to clean.", normal: "Rational and organized. Keep your routine.", weak: "Indecisive. Wear metallic jewelry.", veryWeak: "Weak boundaries. Wear white clothes." },
-    "水": { veryStrong: "Prone to mood slumps. Exercise intensely.", strong: "Flowing wisdom! Dive into creative work.", normal: "Flexible and calm. Trust the natural flow.", weak: "Rigid flow. Sip warm tea regularly.", veryWeak: "Mentally drained. Black items are lucky." }
+    "木": { veryStrong: "Excessive energy. Daily meditation is a must.", strong: "Great momentum! Finish your goals.", normal: "Steady growth. Maintain rhythm.", weak: "Lacking drive. Take a morning walk.", veryWeak: "Vitality depleted. Wear green items." },
+    "火": { veryStrong: "High burnout risk. Cool down your heat.", strong: "Radiant passion! Share your warmth.", normal: "Bright and positive. Politeness helps.", weak: "Unmotivated. Get 20 mins of sunlight.", veryWeak: "Deep exhaustion. Carry red accessories." },
+    "土": { veryStrong: "Stubborn thoughts. Change your scenery.", strong: "Great empathy! Helping others opens doors.", normal: "Solid stability. Improve via reading.", weak: "Ungrounded. Walk barefoot on the earth.", veryWeak: "Low confidence. Sweet snacks will help." },
+    "金": { veryStrong: "Too critical. Soften your heart.", strong: "Sharp decisiveness! Time to clean up.", normal: "Rational and organized. Keep routine.", weak: "Indecisive. Wear metallic jewelry.", veryWeak: "Weak boundaries. Wear white clothes." },
+    "水": { veryStrong: "Prone to mood slumps. Exercise intensely.", strong: "Flowing wisdom! Dive into creative work.", normal: "Flexible and calm. Trust the flow.", weak: "Rigid flow. Sip warm tea regularly.", veryWeak: "Mentally drained. Black items are lucky." }
 };
 
-// 4. 전생/내세 데이터
 const pastLifeData = [
     { job: "달빛 아래 시를 쓰던 선비", desc: "학문에 정진했으나 세상의 풍파는 피하려 했던 고결한 영혼이었습니다.", homework: "나의 재능을 세상에 당당히 드러내기" },
     { job: "궁궐의 낮잠 자던 삼색 고양이", desc: "평화로운 기운으로 주변을 치유했으나 자립심은 조금 부족했군요.", homework: "스스로 일어서는 독립심 기르기" },
@@ -67,6 +66,7 @@ const pastLifeData = [
     { job: "전장의 소식을 전하던 전령", desc: "밤낮없이 달려 약속을 지켰던 가장 책임감 있는 분이었습니다.", homework: "약속의 소중함을 끝까지 지키기" }
 ];
 
+// [수정] 영문 데이터셋: .map을 지우고 실제 데이터를 넣어야 이용자가 어이가 없지 않습니다.
 const pastLifeDataEn = [
     { job: "Scholar of the Silver Moon", desc: "A noble soul who sought wisdom in solitude but avoided life's chaos.", homework: "Boldly step out and show your true talents to the world." },
     { job: "The Palace Cat", desc: "A peaceful healer who brought comfort to royalty but lacked independence.", homework: "Develop a fierce independence and stand on your own feet." },
