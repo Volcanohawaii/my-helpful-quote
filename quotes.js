@@ -57,25 +57,160 @@ const i18n = {
     en: { title: "Destiny Engineering Lab", desc: "Official Report based on Name & Birth", nameLabel: "Full Name (EN/KO)", birthLabel: "Birthdate (YYYYMMDD)", btn: "Generate Report", resTitle: "Your Destiny Report", tab1: "Life Path", tab2: "Past Life", tab3: "Future Life", copy: "Save Result & Copy Link", reset: "Start Over (Reset)", sec1: "1. Name Numerology", sec2: "2. Core Energy Analysis", sec3: "3. Power-Up Guide", sideEffect: "Side Effects", advise: "Advice", practice: "Mission", pastJob: "Past Identity", pastHomework: "Soul Goal", nextDest: "Destination", nextObj: "Born As", nextMission: "Requirement" }
 };
 
-/* 5. 언어별 처방 */
+/* 5. 언어별 5단계 확장 처방 */
 const elementPrescriptions = {
-    "木": { strong: "기운이 과합니다. 일기를 쓰며 생각을 정리하십시오.", normal: "안정적입니다. 식물을 돌보며 리듬을 유지하십시오.", weak: "추진력이 약합니다. 아침 산책으로 생기를 보충하십시오." },
-    "火": { strong: "번아웃 주의. 차가운 물을 마시고 열기를 식히십시오.", normal: "에너지가 밝습니다. 사람들과 온기를 공유하십시오.", weak: "의욕이 저하되었습니다. 낮에 햇볕을 10분 이상 쬐십시오." },
-    "土": { strong: "생각이 정체되었습니다. 안 가본 길로 산책하십시오.", normal: "안정감이 훌륭합니다. 독서하며 내실을 다지십시오.", weak: "기반이 흔들립니다. 맨발로 흙을 밟아 보강하십시오." },
-    "金": { strong: "판단이 너무 날카롭습니다. 부드러운 음악을 들으십시오.", normal: "결단력이 좋습니다. 불필요한 물건을 정리하십시오.", weak: "맺고 끊음이 안 됩니다. 금속 액세서리를 착용하십시오." },
-    "水": { strong: "우울감이 올 수 있습니다. 몸을 움직여 땀을 흘리십시오.", normal: "지혜가 샘솟는 때입니다. 새로운 지식을 습득하십시오.", weak: "유연함이 부족합니다. 따뜻한 차로 순환을 도우십시오." }
-};
-const enPrescriptions = {
-    "木": { strong: "Energy is overflowing. Focus on finishing one thing at a time.", normal: "Steady potential. Surround yourself with nature.", weak: "Drive needs a boost. Try walking in the morning sun." },
-    "火": { strong: "Burnout risk. Drink cold water and take a long break.", normal: "You radiate warmth. Lead a team or inspire others.", weak: "Motivation is low. Get 10 min of sunlight today." },
-    "土": { strong: "Feeling stuck? Try a brand new hobby this week.", normal: "Reliable anchor. Enjoy the comfort of your home.", weak: "Ungrounded? Spend time barefoot in the garden." },
-    "金": { strong: "Too critical? Listen to soft music and relax your mind.", normal: "Logic is sharp. Perfect time for organizing your life.", weak: "Decision-making is hard. Wear white or gold items." },
-    "水": { strong: "Overthinking? Move your body to break the mood slump.", normal: "Flowing smoothly. Keep learning and stay curious.", weak: "Feeling stuck? A warm bath or jazz will help you flow." }
+    "木": { 
+        veryStrong: "기운이 너무 강해 독단적일 수 있습니다. '비움'의 명상이 필요합니다.",
+        strong: "추진력이 좋습니다. 계획한 일을 끝까지 마무리하는 습관을 들이세요.",
+        normal: "조화로운 기운입니다. 식물을 돌보며 현재의 리듬을 유지하십시오.",
+        weak: "의욕은 있으나 뒷심이 부족합니다. 아침 산책으로 생기를 보충하십시오.",
+        veryWeak: "생존 본능이 저하된 상태입니다. 신맛이 나는 음식이나 초록색 의상을 가까이하세요."
+    },
+    "火": { 
+        veryStrong: "감정 조절이 어렵고 번아웃이 오기 쉽습니다. 격렬한 운동으로 열기를 배출하세요.",
+        strong: "열정이 넘칩니다. 그 에너지를 주변 사람들과 온기로 나누면 복이 옵니다.",
+        normal: "밝고 긍정적입니다. 예의를 갖춘 태도가 당신의 운을 더욱 높여줍니다.",
+        weak: "의욕이 저하되고 비관적일 수 있습니다. 낮에 햇볕을 20분 이상 쬐십시오.",
+        veryWeak: "심신이 무기력합니다. 쓴맛이 나는 차를 마시고 붉은색 소품을 소지하세요."
+    },
+    "土": { 
+        veryStrong: "고집이 세지고 생각이 정체되기 쉽습니다. 환경을 바꿔 새로운 자극을 주십시오.",
+        strong: "포용력이 훌륭합니다. 타인의 고민을 들어주는 역할이 운을 열어줍니다.",
+        normal: "안정감이 돋보입니다. 꾸준한 독서로 내실을 다지면 큰 성과를 얻습니다.",
+        weak: "마음이 불안하고 기반이 흔들립니다. 맨발로 흙을 밟아 대지의 기운을 받으세요.",
+        veryWeak: "자신감이 바닥난 상태입니다. 달콤한 간식을 챙기고 산행을 추천합니다."
+    },
+    "金": { 
+        veryStrong: "판단이 너무 날카로워 주변에 상처를 줄 수 있습니다. 부드러운 음악을 감상하세요.",
+        strong: "결단력이 날카롭습니다. 불필요한 인연과 물건을 정리하기에 좋은 시기입니다.",
+        normal: "이성적이고 깔끔합니다. 규칙적인 생활이 당신의 가장 큰 무기입니다.",
+        weak: "우유부단해지기 쉽습니다. 금속 액세서리를 착용하여 기운을 보강하십시오.",
+        veryWeak: "맺고 끊음이 안 되어 손해를 봅니다. 매운 음식을 챙기고 흰색 옷을 입으세요."
+    },
+    "水": { 
+        veryStrong: "생각이 너무 많아 우울감에 빠질 수 있습니다. 땀이 날 정도로 몸을 움직이세요.",
+        strong: "지혜가 샘솟습니다. 새로운 것을 배우거나 창작 활동을 하기에 최적의 상태입니다.",
+        normal: "유연하고 여유롭습니다. 강물처럼 흐르는 대로 순리를 따르면 평안합니다.",
+        weak: "융통성이 부족해지고 고립될 수 있습니다. 따뜻한 차를 마셔 순환을 도우십시오.",
+        veryWeak: "정신적 에너지가 고갈되었습니다. 짠맛이 나는 음식과 검은색 계열이 길합니다."
+    }
 };
 
-/* 6. 별명 데이터 */
-const nicknamesKo = { "木": "성장을 멈추지 않는 [푸른 숲의 기획자]", "火": "세상을 밝히는 [뜨거운 열정의 리더]", "土": "모두를 포용하는 [단단한 대지의 수호자]", "金": "정의롭고 날카로운 [은빛 신념의 검객]", "水": "깊이를 알 수 없는 [지혜로운 바다의 항해사]" };
-const nicknamesEn = { "木": "A [Creative Architect] of the Blue Forest", "火": "A [Passionate Leader] of Light", "土": "A [Solid Guardian] of the Earth", "金": "A [Fearless Blade] of Integrity", "水": "A [Wise Navigator] of the Ocean" };
+const enPrescriptions = {
+    "木": { 
+        veryStrong: "Excessive energy may lead to stubbornness. Practice the art of letting go.",
+        strong: "Great momentum! Focus on finishing what you've started.",
+        normal: "Perfectly balanced. Keep your rhythm by connecting with nature.",
+        weak: "Lacking drive. Boost your vitality with a morning walk in the sun.",
+        veryWeak: "Vitality is depleted. Wear green and try consuming sour-flavored foods."
+    },
+    "火": { 
+        veryStrong: "High risk of burnout. Release heat through intense physical activity.",
+        strong: "Radiant energy! Share your passion to inspire and lead others.",
+        normal: "Bright and positive. Your politeness will attract great fortune.",
+        weak: "Feeling unmotivated. Get at least 20 minutes of sunlight every day.",
+        veryWeak: "Deeply exhausted. Carry red accessories and try bitter teas."
+    },
+    "土": { 
+        veryStrong: "Feeling stuck or stubborn? Change your surroundings for fresh energy.",
+        strong: "Wonderful empathy! Helping others will open doors to new luck.",
+        normal: "Solid and reliable. Self-improvement through reading is highly recommended.",
+        weak: "Feeling ungrounded. Spend time walking barefoot on the earth.",
+        veryWeak: "Confidence is low. Hike a mountain and try something sweet."
+    },
+    "金": { 
+        veryStrong: "Too critical of others? Soften your heart with gentle music.",
+        strong: "Sharp decisiveness! It's a great time to declutter your life and mind.",
+        normal: "Rational and organized. A structured routine is your greatest strength.",
+        weak: "Indecisive? Strengthen your energy by wearing metal jewelry.",
+        veryWeak: "Lacking boundaries. Wear white and try slightly spicy foods."
+    },
+    "水": { 
+        veryStrong: "Prone to overthinking. Move your body to break out of a mood slump.",
+        strong: "Flowing wisdom! Perfect time to start a new hobby or creative project.",
+        normal: "Flexible and calm. Trust the process and go with the flow of life.",
+        weak: "Feeling rigid or isolated. Sip warm tea to improve your inner flow.",
+        veryWeak: "Mentally drained. Black-colored items and salty foods will help."
+    }
+};
+
+JavaScript
+/* 6. 에너지 수치별 5단계 논리 닉네임 */
+const nicknamesKo = {
+    "木": {
+        veryStrong: "숲을 삼키고 번영하는 [거침없는 개척자]",
+        strong: "하늘을 향해 뻗어나가는 [푸른 숲의 위대한 기획자]",
+        normal: "조화롭게 뿌리 내린 [생명력 넘치는 중재자]",
+        weak: "햇살을 기다리며 자라나는 [꿈꾸는 어린 싹]",
+        veryWeak: "비를 기다리는 메마른 대지의 [고독한 나뭇가지]"
+    },
+    "火": {
+        veryStrong: "모든 것을 태워버릴 듯한 [폭주하는 태양의 화신]",
+        strong: "어둠을 몰아내고 세상을 밝히는 [태양의 열정 리더]",
+        normal: "주변을 따뜻하게 감싸는 [온화한 등불의 수호자]",
+        weak: "은은하게 빛을 발하는 [새벽녘의 작은 별빛]",
+        veryWeak: "다시 피어날 준비를 하는 [재 속의 따뜻한 온기]"
+    },
+    "土": {
+        veryStrong: "세상을 움직이지 못하게 만드는 [거대한 바위산]",
+        strong: "모든 생명을 품고 길러내는 [황금빛 대지의 수호자]",
+        normal: "균형을 잡아주는 [평화로운 들판의 관리자]",
+        weak: "변화에 민감하게 반응하는 [부드러운 모래 언덕]",
+        veryWeak: "바람에 흩날리며 자유를 찾는 [먼지 속의 정령]"
+    },
+    "金": {
+        veryStrong: "차갑고 날카로워 범접할 수 없는 [절대 권위의 심판자]",
+        strong: "흐트러짐 없는 정의를 수호하는 [은빛 신념의 검객]",
+        normal: "정교하게 다듬어진 [세련된 지성의 조각가]",
+        weak: "유연함을 간직한 [부드러운 황금의 세공사]",
+        veryWeak: "세상에 동화되어 무뎌진 [소박한 무명의 철학자]"
+    },
+    "水": {
+        veryStrong: "삼라만상을 집어삼키는 [심연의 거대한 소용돌이]",
+        strong: "깊은 심연 속에서 진리를 찾는 [지혜로운 바다의 항해사]",
+        normal: "막힘없이 흐르는 [맑고 영리한 계곡의 시냇물]",
+        weak: "아침 이슬처럼 섬세한 [감성의 예술가]",
+        veryWeak: "한 방울의 물에 우주를 담은 [명상하는 고요한 연못]"
+    }
+};
+
+const nicknamesEn = {
+    "木": {
+        veryStrong: "An [Unstoppable Pioneer] Overgrowing the Forest",
+        strong: "A [Grand Architect] of the Infinite Blue Forest",
+        normal: "A [Vibrant Mediator] Harmoniously Rooted",
+        weak: "A [Dreaming Sprout] Waiting for Sunlight",
+        veryWeak: "A [Lonely Branch] Waiting for Rain"
+    },
+    "火": {
+        veryStrong: "An [Explosive Sun] Consuming All Darkness",
+        strong: "A [Solar Leader] of Eternal Passion and Light",
+        normal: "A [Warm Guardian] of the Nurturing Hearth",
+        weak: "A [Subtle Starlight] Shining in the Dawn",
+        veryWeak: "A [Hidden Ember] Preparing to Re-ignite"
+    },
+    "土": {
+        veryStrong: "An [Immovable Mountain] Locking the World's Flow",
+        strong: "A [Golden Guardian] of the Nurturing Earth",
+        normal: "A [Peaceful Manager] of the Steady Plains",
+        weak: "A [Soft Dune] Sensitive to the Shifting Wind",
+        veryWeak: "A [Spirit of Dust] Seeking Ultimate Freedom"
+    },
+    "金": {
+        veryStrong: "A [Cold Judge] of Absolute Authority",
+        strong: "A [Knight of Integrity] with a Blade of Silver Conviction",
+        normal: "A [Refined Sculptor] of Sharp Intellect",
+        weak: "A [Flexible Goldsmith] Crafting New Realities",
+        veryWeak: "A [Humble Philosopher] Blending into the World"
+    },
+    "水": {
+        veryStrong: "A [Great Vortex] Swallowing All Existence",
+        strong: "A [Wise Navigator] of the Deep Celestial Ocean",
+        normal: "A [Clear Stream] Flowing Without Obstacle",
+        weak: "A [Sensitive Artist] Delicate as Morning Dew",
+        veryWeak: "A [Silent Pond] Meditating on the Universe"
+    }
+};
 
 /* 7. 공통 서술 데이터 (사용자 데이터 100% 복구) */
 const quoteData = { "인생": [ { text: "모든 꽃은 저마다의 시간에 핀다." }, { text: "어제로부터 배우고, 오늘을 살며, 내일을 희망하라." }, { text: "가장 큰 영광은 넘어질 때마다 일어서는 것이다." }, { text: "삶이 있는 한 희망은 있다." }, { text: "아무것도 하지 않으면 아무 일도 일어나지 않는다." }, { text: "완벽함보다 완료함이 낫다." }, { text: "너 자신이 되어라. 다른 사람은 이미 다 차 있다." }, { text: "내일의 나를 만드는 것은 오늘의 인내다." }, { text: "행복은 목적지가 아니라 여행하는 과정에 있다." }, { text: "가장 어두운 밤도 해 뜨기 직전에 끝난다." }, { text: "남보다 뛰어난 것이 아니라, 과거의 나보다 뛰어난 것이 진정한 고귀함이다." }, { text: "실패는 다시 시작할 수 있는 기회일 뿐이다. 이번엔 더 지혜롭게." }, { text: "인생은 속도가 아니라 방향이다." }, { text: "조금 늦어도 괜찮다. 당신은 당신만의 계절에 피어날 것이다." }, { text: "폭풍우를 피하는 법을 배우는 게 아니라, 빗속에서 춤추는 법을 배워야 한다." }, { text: "길이 없으면 길을 찾아라. 그래도 없으면 길을 만들어라." }, { text: "생각하는 대로 살지 않으면, 사는 대로 생각하게 된다." }, { text: "오늘의 1% 노력이 1년 뒤의 당신을 완전히 바꿀 것이다." }, { text: "시작하는 방법은 말을 그만두고 행동하는 것이다." }, { text: "한 걸음 한 걸음이 모여 결국 산을 옮긴다." }, { text: "당신이 할 수 있다고 믿든 할 수 없다고 믿든, 당신이 믿는 대로 될 것이다." }, { text: "꿈을 꾸기에 너무 늦은 나이란 없다." }, { text: "가장 큰 위험은 아무런 위험도 감수하지 않는 것이다." }, { text: "충분히 쉬는 것도 용기다. 멈추어야 비로소 보이는 것들이 있다." }, { text: "당신의 가치는 타인의 시선이 아니라 당신의 내면이 결정한다." }, { text: "모든 시련은 성장을 위한 거름이 된다." }, { text: "마음의 평화는 외부의 상황이 아니라 내부의 선택에서 온다." }, { text: "인생은 자전거와 같다. 균형을 잡으려면 계속 움직여야 한다." }, { text: "오늘 하루, 당신은 충분히 잘해냈다." }, { text: "작은 것에 감사할 줄 아는 사람이 가장 큰 부자다." } ] };
