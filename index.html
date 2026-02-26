@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Destiny Lab</title>
+    
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://t1.daumcdn.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; frame-src https://t1.daumcdn.net https://display.adfit.kakao.com;">
+
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Pretendard:wght@400;600&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         :root { --bg: #F0EDE9; --paper: #FFFFFF; --primary: #243447; --accent: #9A8467; --text: #444444; --border: #D1CDC5; }
         
-        /* [수정] 배경에 은은하게 반짝이는 별가루 효과 추가 */
         body { 
             font-family: 'Pretendard', sans-serif; 
             background-color: var(--bg); 
@@ -24,6 +26,7 @@
             position: relative;
         }
 
+        /* [수정] 배경에 은은하게 반짝이는 별가루 효과 (z-index 조정으로 시인성 확보) */
         body::before {
             content: "";
             position: fixed;
@@ -31,17 +34,17 @@
             pointer-events: none;
             z-index: 0;
             background-image: 
-                radial-gradient(circle at center, rgba(255, 255, 255, 0.8) 0.5px, transparent 1.2px),
+                radial-gradient(circle at center, rgba(255, 255, 255, 0.9) 0.5px, transparent 1.2px),
                 radial-gradient(circle at center, rgba(154, 132, 103, 0.4) 1px, transparent 2px);
-            background-size: 40px 40px, 80px 80px;
-            background-position: 0 0, 20px 20px;
-            opacity: 0.3;
-            animation: twinkle 4s ease-in-out infinite alternate;
+            background-size: 50px 50px, 100px 100px;
+            background-position: 0 0, 30px 30px;
+            opacity: 0.4;
+            animation: twinkle 5s ease-in-out infinite alternate;
         }
 
         @keyframes twinkle {
             0% { opacity: 0.2; transform: translateY(0); }
-            100% { opacity: 0.5; transform: translateY(-5px); }
+            100% { opacity: 0.6; transform: translateY(-8px); }
         }
 
         .container { width: 100%; max-width: 480px; position: relative; z-index: 1; }
@@ -70,23 +73,17 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
 
 <div id="loading-overlay" style="position:fixed; inset:0; width:100%; height:100dvh; background:rgba(240, 237, 233, 0.96); z-index:9999; display:none; align-items:center; justify-content:center; padding:20px; backdrop-filter: blur(2px);">
     <div style="background:white; padding:40px 15px; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.05); border:1px solid #D1CDC5; width:100%; max-width:340px; min-width:320px; display:flex; flex-direction:column; align-items:center; justify-content:center; box-sizing:border-box;">
-        
         <div id="load-seal" class="official-seal" style="position:static; margin-bottom:20px; opacity:1;">분석중</div>
         <h2 id="load-title" style="font-family:'Gowun Batang'; color:var(--primary); font-size:1.1rem; margin-bottom:8px; width:100%; text-align:center;">운명의 에너지를 조합 중...</h2>
         <p id="load-desc" style="color:#888; font-size:0.8rem; margin-bottom:25px; width:100%; text-align:center;">잠시만 기다려 주세요.</p>
-        
         <div style="width:300px; height:250px; background:#f9f9f9; display:flex; align-items:center; justify-content:center; border-radius:8px; overflow:hidden; flex-shrink:0;">
-            <ins class="kakao_ad_area" style="display:none;"
-                 data-ad-unit = "DAN-pMoVBneQCSicnBZ7"
-                 data-ad-width = "300"
-                 data-ad-height = "250"></ins>
+            <ins class="kakao_ad_area" style="display:none;" data-ad-unit = "DAN-pMoVBneQCSicnBZ7" data-ad-width = "300" data-ad-height = "250"></ins>
             <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
         </div>
-
         <div style="margin-top:25px; border:3px solid #f3f3f3; border-top:3px solid var(--accent); border-radius:50%; width:24px; height:24px; animation:spin 1s linear infinite;"></div>
     </div>
 </div>
@@ -106,10 +103,7 @@
         <button class="btn-action" id="ui-btn" onclick="startAnalysis()">리포트 생성하기</button>
 
         <div style="margin-top: 30px; display: flex; justify-content: center;">
-            <ins class="kakao_ad_area" style="display:none;"
-                 data-ad-unit = "DAN-gySJpKsnNTQ1FIIF"
-                 data-ad-width = "320"
-                 data-ad-height = "50"></ins>
+            <ins class="kakao_ad_area" style="display:none;" data-ad-unit = "DAN-gySJpKsnNTQ1FIIF" data-ad-width = "320" data-ad-height = "50"></ins>
             <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
         </div> 
     </div>
@@ -154,7 +148,7 @@
         document.getElementById('tab3').innerText = t.tab3;
         document.getElementById('ui-copy').innerText = t.copy;
         
-        // [추가] 로딩 화면 다국어 번역 로직
+        // [다국어 로딩 해결] 로딩 화면 ID 타겟팅 번역
         const ls = document.getElementById('load-seal');
         const lt = document.getElementById('load-title');
         const ld = document.getElementById('load-desc');
@@ -189,20 +183,25 @@
     }
 
     function processData(name, birth) {
-        session.name = name; session.birth = birth;
-        session.seed = name.split('').reduce((a,b)=>a+b.charCodeAt(0),0) + parseInt(birth);
+        // [보안] 입력값 세척: HTML 태그 제거 및 숫자 외 문자 차단
+        const cleanName = name.replace(/<[^>]*>?/gm, '');
+        const cleanBirth = birth.replace(/[^0-9]/g, '');
+
+        session.name = cleanName; session.birth = cleanBirth;
+        session.seed = cleanName.split('').reduce((a,b)=>a+b.charCodeAt(0),0) + parseInt(cleanBirth);
+        
         let scores = [40, 40, 40, 40, 40]; 
-        for(let i=0; i<name.length; i++) {
-            let el = /[a-zA-Z]/.test(name[i]) ? alphabetElements[name[i].toUpperCase()] : hangulElements[getHangulOnset(name[i])];
+        for(let i=0; i<cleanName.length; i++) {
+            let el = /[a-zA-Z]/.test(cleanName[i]) ? alphabetElements[cleanName[i].toUpperCase()] : hangulElements[getHangulOnset(cleanName[i])];
             if(el) scores[["木", "火", "土", "金", "水"].indexOf(el)] += 35;
         }
-        const month = parseInt(birth.substring(4, 6));
+        const month = parseInt(cleanBirth.substring(4, 6));
         scores[[11,12,1,2,3,4,5,6,7,8,9,10].indexOf(month) % 5] += 25;
         session.scores = scores.map((s, i) => s + ((session.seed + i) % 15));
 
         const maxIdx = session.scores.indexOf(Math.max(...session.scores));
         const elements = ["木", "火", "土", "金", "水"];
-        document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `[${name}]님의 운명 공학 리포트` : `Destiny Report for [${name}]`;
+        document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `[${cleanName}]님의 운명 공학 리포트` : `Destiny Report for [${cleanName}]`;
         document.getElementById('dynamic-summary').innerText = currentLang === 'ko' ? nicknamesKo[elements[maxIdx]] : nicknamesEn[elements[maxIdx]];
 
         const res = nameNumerology[(session.seed % 25) + 1] || nameNumerology[1];
