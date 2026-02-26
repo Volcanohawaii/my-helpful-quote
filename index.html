@@ -11,15 +11,8 @@
         * { box-sizing: border-box; }
         :root { --bg: #F0EDE9; --paper: #FFFFFF; --primary: #243447; --accent: #9A8467; --text: #444444; --border: #D1CDC5; }
         body { font-family: 'Pretendard', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; overflow-x: hidden; position: relative; }
-        
-        /* 별빛 강화 배경 */
-        body::before { 
-            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; 
-            background-image: radial-gradient(circle at center, rgba(255, 255, 255, 1) 1.2px, transparent 2px), radial-gradient(circle at center, rgba(154, 132, 103, 0.8) 1.8px, transparent 3.5px);
-            background-size: 60px 60px, 130px 130px; background-position: 0 0, 40px 40px; opacity: 1; animation: twinkle 4s ease-in-out infinite alternate; 
-        }
+        body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at center, rgba(255, 255, 255, 1) 1.2px, transparent 2.5px), radial-gradient(circle at center, rgba(154, 132, 103, 0.9) 2px, transparent 4px); background-size: 60px 60px, 140px 140px; background-position: 0 0, 30px 30px; opacity: 1; animation: twinkle 4s ease-in-out infinite alternate; }
         @keyframes twinkle { 0% { opacity: 0.5; } 100% { opacity: 1; } }
-
         .container { width: 100%; max-width: 480px; position: relative; z-index: 1; }
         .lang-toggle { position: absolute; top: -50px; right: 0; display: flex; gap: 15px; }
         .flag { font-size: 1.6rem; cursor: pointer; opacity: 0.4; transition: 0.3s; }
@@ -123,21 +116,18 @@
         document.getElementById('userName').placeholder = t.nameLabel;
         document.getElementById('userBirth').placeholder = t.birthLabel;
         document.getElementById('ui-btn').innerText = t.btn;
-        
-        // 로딩창 텍스트 업데이트
         document.getElementById('load-seal').innerText = t.loadSeal;
         document.getElementById('load-title').innerText = t.loadTitle;
         document.getElementById('load-desc').innerText = t.loadDesc;
-        
         if (session.name) processData(session.name, session.birth);
     }
 
     function startAnalysis() {
         const n = document.getElementById('userName').value.trim();
         const b = document.getElementById('userBirth').value.trim();
-        if(!n || b.length !== 8) { alert(currentLang === 'ko' ? "성함과 생년월일을 확인해주세요." : "Please check your inputs."); return; }
+        if(!n || b.length !== 8) { alert(currentLang === 'ko' ? "정보를 확인해주세요." : "Check inputs."); return; }
         const year = parseInt(b.substring(0, 4));
-        if(year < 1000 || year > 2150) { alert(currentLang === 'ko' ? "연도 범위(1000-2150)를 확인해주세요." : "Check year (1000-2150)."); return; }
+        if(year < 1000 || year > 2150) { alert(currentLang === 'ko' ? "연도 범위(1000-2150)를 확인해주세요." : "Check year."); return; }
         document.getElementById('loading-overlay').style.display = 'flex';
         setTimeout(() => { document.getElementById('loading-overlay').style.display = 'none'; processData(n, b); }, 3000);
     }
@@ -151,7 +141,7 @@
         for(let i=0; i<cleanName.length; i++) {
             const char = cleanName[i];
             const onset = /[a-zA-Z]/.test(char) ? char.toUpperCase() : getHangulOnset(char);
-            const el = /[a-zA-Z]/.test(char) ? alphabetElements[onset] : hangulElements[onset];
+            const el = /[a-zA-Z]/.test(char) ? alphabetElements[char.toUpperCase()] : hangulElements[onset];
             if(el) sc[elements.indexOf(el)] += 35;
         }
         sc[[11,12,1,2,3,4,5,6,7,8,9,10].indexOf(parseInt(birth.substring(4,6))) % 5] += 25;
@@ -177,12 +167,27 @@
         const cx = 110, cy = 110, r = 75;
         const maxIdx = session.scores.indexOf(Math.max(...session.scores));
         const themeColor = { "木": { fill: "rgba(46, 204, 113, 0.3)", stroke: "#27ae60" }, "火": { fill: "rgba(231, 76, 60, 0.3)", stroke: "#c0392b" }, "土": { fill: "rgba(241, 196, 15, 0.3)", stroke: "#f39c12" }, "金": { fill: "rgba(149, 165, 166, 0.3)", stroke: "#7f8c8d" }, "水": { fill: "rgba(52, 152, 219, 0.3)", stroke: "#2980b9" } }[["木", "火", "土", "金", "水"][maxIdx]];
-        let poly = ""; labels.forEach((_, i) => {
+        let poly = ""; 
+        labels.forEach((_, i) => {
             const a = (Math.PI * 2 / 5) * i - (Math.PI / 2);
             const v = (session.scores[i] / 150) * r;
             poly += `${cx + v * Math.cos(a)},${cy + v * Math.sin(a)} `;
         });
-        document.getElementById('radarChart').innerHTML = `<svg viewBox="0 0 220 220"><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#EEE"/><polygon points="${poly}" fill="${themeColor.fill}" stroke="${themeColor.stroke}" stroke-width="2"/></svg>`;
+        
+        // [수정] 텍스트 라벨(한자) 복구 로직
+        const textLabels = labels.map((l, i) => {
+            const a = (Math.PI * 2 / 5) * i - (Math.PI / 2);
+            const tx = cx + (r + 25) * Math.cos(a);
+            const ty = cy + (r + 25) * Math.sin(a);
+            return `<text x="${tx}" y="${ty}" text-anchor="middle" dominant-baseline="middle" fill="#243447" font-size="12" font-weight="700">${l}</text>`;
+        }).join('');
+
+        document.getElementById('radarChart').innerHTML = `
+            <svg viewBox="0 0 220 220" style="overflow:visible;">
+                <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#EEE"/>
+                ${textLabels}
+                <polygon points="${poly}" fill="${themeColor.fill}" stroke="${themeColor.stroke}" stroke-width="2"/>
+            </svg>`;
     }
 
     function switchTab(mode, btn) {
@@ -199,7 +204,7 @@
             const quoteSource = currentLang === 'ko' ? quoteData["인생"] : quoteData["인생"]; 
             const masterSideIdx = s % sideEffects.length;
             const masterQuoteIdx = s % quoteData["인생"].length;
-            body.innerHTML = `<div class="tab-content"><div class="section-wrap"><span class="section-title">${t.sec1}</span><div class="info-box">${session.nameReport}</div></div><div class="section-wrap"><span class="section-title">${t.sec2}</span><div>• <b>${currentLang==='ko'?'주체 기운':'Core Energy'}:</b> ${attrSource[strongEl].name}</div><div>• <b>${t.advise}:</b> ${presSource[strongEl][getLevel(session.scores[maxIdx])]}</div></div><div class="section-wrap"><span class="section-title">${t.sec3}</span><div>• <b>${t.practice}:</b> ${presSource[lackEl][getLevel(session.scores[minIdx])]}</div></div><div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[masterSideIdx % sideSource.length]}</div><div style="margin-top:30px; text-align:center; color:#AAA; font-style:italic;">"${quoteSource[masterQuoteIdx % quoteSource.length].text}"</div></div>`;
+            body.innerHTML = `<div class="tab-content"><div class="section-wrap"><span class="section-title">${t.sec1}</span><div class="info-box">${session.nameReport}</div></div><div class="section-wrap"><span class="section-title">${t.sec2}</span><div>• <b>주체 기운:</b> ${attrSource[strongEl].name}</div><div>• <b>${t.advise}:</b> ${presSource[strongEl][getLevel(session.scores[maxIdx])]}</div></div><div class="section-wrap"><span class="section-title">${t.sec3}</span><div>• <b>${t.practice}:</b> ${presSource[lackEl][getLevel(session.scores[minIdx])]}</div></div><div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[masterSideIdx % sideSource.length]}</div><div style="margin-top:30px; text-align:center; color:#AAA; font-style:italic;">"${quoteSource[masterQuoteIdx % quoteSource.length].text}"</div></div>`;
         } else if(mode === 'past') {
             const pastSource = currentLang === 'ko' ? pastLifeData : pastLifeDataEn;
             const p = pastSource[s % pastLifeData.length];
