@@ -5,18 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Destiny Lab</title>
 
-  <!-- CSP: AdFit + CountAPI + Google Fonts 허용 -->
-  <meta http-equiv="Content-Security-Policy" content="
-    default-src 'self';
-    base-uri 'self';
-    object-src 'none';
-    script-src 'self' 'unsafe-inline' https://t1.daumcdn.net;
-    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-    font-src https://fonts.gstatic.com;
-    img-src 'self' data: https://api.countapi.xyz https://t1.daumcdn.net https://*.daumcdn.net https://display.adfit.kakao.com;
-    frame-src https://display.adfit.kakao.com https://t1.daumcdn.net;
-    connect-src 'self' https://api.countapi.xyz https://t1.daumcdn.net https://display.adfit.kakao.com;
-  ">
+ <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://t1.daumcdn.net https://*.daumcdn.net https://display.adfit.kakao.com https://*.kakao.com https://*.kakaocdn.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://api.countapi.xyz https://*.daumcdn.net https://display.adfit.kakao.com https://*.kakao.com https://*.kakaocdn.net; frame-src https://display.adfit.kakao.com https://*.daumcdn.net https://*.kakao.com https://*.kakaocdn.net; connect-src 'self' https://api.countapi.xyz https://display.adfit.kakao.com https://*.daumcdn.net https://*.kakao.com https://*.kakaocdn.net;">
 
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Pretendard:wght@400;600&display=swap" rel="stylesheet">
 
@@ -73,13 +62,14 @@
       <h2 id="load-title" style="font-family:'Gowun Batang'; color:var(--primary); font-size:1.1rem;">운명의 에너지를 조합 중...</h2>
       <p id="load-desc" style="color:#888; font-size:0.8rem; margin-bottom:20px;">잠시만 기다려 주세요.</p>
 
-      <!-- ✅ 로딩 광고(300x250): ins만 (ba.min.js는 페이지 하단에서 1회만 로드) -->
       <div style="width:300px; height:250px; margin: 20px auto;">
-        <ins class="kakao_ad_area" style="display:none;"
-          data-ad-unit="DAN-pMoVBneQCSicnBZ7"
-          data-ad-width="300"
-          data-ad-height="250"></ins>
-      </div>
+  <ins class="kakao_ad_area" style="display:none;"
+    data-ad-unit="DAN-pMoVBneQCSicnBZ7"
+    data-ad-width="300"
+    data-ad-height="250"></ins>
+  <script async type="text/javascript" charset="utf-8"
+    src="https://t1.daumcdn.net/kas/static/ba.min.js"></script>
+</div>
 
       <div style="border:3px solid #f3f3f3; border-top:3px solid var(--accent); border-radius:50%; width:24px; height:24px; animation:spin 1s linear infinite; margin:0 auto;"></div>
     </div>
@@ -104,11 +94,13 @@
 
       <!-- ✅ 메인 배너(320x50): ins만 -->
       <div style="margin-top: 30px; display: flex; justify-content: center;">
-        <ins class="kakao_ad_area" style="display:none;"
-          data-ad-unit="DAN-gySJpKsnNTQ1FIIF"
-          data-ad-width="320"
-          data-ad-height="50"></ins>
-      </div>
+  <ins class="kakao_ad_area" style="display:none;"
+    data-ad-unit="DAN-gySJpKsnNTQ1FIIF"
+    data-ad-width="320"
+    data-ad-height="50"></ins>
+  <script async type="text/javascript" charset="utf-8"
+    src="https://t1.daumcdn.net/kas/static/ba.min.js"></script>
+</div>
     </div>
 
     <!-- RESULT -->
@@ -127,12 +119,14 @@
       <div id="tab-body"></div>
 
       <!-- ✅ 결과 배너(320x50): ins만 -->
-      <div style="margin-top: 20px; display: flex; justify-content: center;">
-        <ins class="kakao_ad_area" style="display:none;"
-          data-ad-unit="DAN-gySJpKsnNTQ1FIIF"
-          data-ad-width="320"
-          data-ad-height="50"></ins>
-      </div>
+     <div style="margin-top: 20px; display: flex; justify-content: center;">
+  <ins class="kakao_ad_area" style="display:none;"
+    data-ad-unit="DAN-gySJpKsnNTQ1FIIF"
+    data-ad-width="320"
+    data-ad-height="50"></ins>
+  <script async type="text/javascript" charset="utf-8"
+    src="https://t1.daumcdn.net/kas/static/ba.min.js"></script>
+</div>
 
       <button class="btn-action" style="margin-top:30px; background:white; color:#444; border:1px solid #DDD;" onclick="copyLink()">링크 복사</button>
       <p onclick="location.href=location.pathname" style="font-size:0.7rem; color:#CCC; margin-top:20px; cursor:pointer;">초기화</p>
@@ -433,9 +427,5 @@
       }
     });
   </script>
-
-  <!-- ✅ AdFit 로더: 페이지에서 딱 1번만 (가이드 스크립트) -->
-  <!-- AdFit 기본 설치 스크립트: //t1.daumcdn.net/kas/static/ba.min.js -->
-  <script async type="text/javascript" src="https://t1.daumcdn.net/kas/static/ba.min.js"></script>
 </body>
 </html>
