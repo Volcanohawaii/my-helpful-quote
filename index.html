@@ -73,9 +73,9 @@
     <div class="report-card" id="view-home">
       <div class="official-seal">운명공학<br>분석실</div>
       <h1 id="ui-title">운명공학 데이터 분석</h1>
-      <p id="ui-desc" style="font-size:0.85rem; color:#888; margin-bottom:40px;">성명과 탄생일을 기반으로 고유한 에너지를 추출합니다.</p>
+      <p id="ui-desc" style="font-size:0.85rem; color:#888; margin-bottom:40px;">성명과 탄생일을 기반으로 에너지를 분석합니다.</p>
       <input type="text" id="userName" placeholder="성함" autocomplete="name">
-      <input type="text" id="userBirth" placeholder="양력 8자리 (1000-2150)" inputmode="numeric" autocomplete="bday">
+      <input type="text" id="userBirth" placeholder="양력 8자리 19901208" inputmode="numeric" autocomplete="bday">
       <button class="btn-action" id="ui-btn" onclick="startAnalysis()">리포트 생성하기</button>
 
       <div class="visitor-counter">분석 완료된 운명: <span id="visit-count">...</span>건</div>
@@ -313,7 +313,7 @@
 
             <div class="section-wrap">
               <span class="section-title">${t.sec2}</span>
-              <div>• <b>${currentLang==='ko'?'주체 기운':'Core Energy'}:</b> ${attrSource[strongEl].name} (${attrSource[strongEl].trait})</div>
+              <div>• <b>${currentLang==='ko'?'주된 에너지':'Core Energy'}:</b> ${attrSource[strongEl].name} (${attrSource[strongEl].trait})</div>
               <div>• <b>${t.advise}:</b> ${presSource[strongEl][getLevel(session.scores[maxIdx])]}</div>
             </div>
 
