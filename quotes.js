@@ -44,15 +44,13 @@ const elementPrescriptions = {
     "金": { veryStrong: "판단이 날카로워 타인을 아프게 합니다.", strong: "결단력이 좋습니다. 정리에 좋은 때입니다.", normal: "이성적이고 깔끔합니다. 규칙적인 생활이 무기입니다.", weak: "우유부단해집니다. 금속 장신구를 하세요.", veryWeak: "경계심이 부족해 손해 봅니다. 흰색을 입으세요." },
     "水": { veryStrong: "우울감에 빠질 수 있습니다. 땀 나게 운동하세요.", strong: "지혜가 샘솟습니다. 창작 활동에 매진하세요.", normal: "유연하고 여유롭습니다. 순리대로 사세요.", weak: "융통성이 부족합니다. 따뜻한 차를 마시세요.", veryWeak: "에너지가 고갈되었습니다. 짠맛과 검은색이 길합니다." }
 };
-
 const enPrescriptions = {
-    "木": { veryStrong: "Excessive energy. Daily meditation is a must.", strong: "Great momentum! Finish your goals.", normal: "Steady growth. Maintain rhythm.", weak: "Lacking drive. Take a morning walk.", veryWeak: "Vitality depleted. Wear green items." },
-    "火": { veryStrong: "High burnout risk. Cool down your heat.", strong: "Radiant passion! Share your warmth.", normal: "Bright and positive. Politeness helps.", weak: "Unmotivated. Get 20 mins of sunlight.", veryWeak: "Deep exhaustion. Carry red accessories." },
-    "土": { veryStrong: "Stubborn thoughts. Change your scenery.", strong: "Great empathy! Helping others opens doors.", normal: "Solid stability. Improve via reading.", weak: "Ungrounded. Walk barefoot on the earth.", veryWeak: "Low confidence. Sweet snacks will help." },
-    "金": { veryStrong: "Too critical. Soften your heart.", strong: "Sharp decisiveness! Time to clean up.", normal: "Rational and organized. Keep routine.", weak: "Indecisive. Wear metallic jewelry.", veryWeak: "Weak boundaries. Wear white clothes." },
-    "水": { veryStrong: "Prone to mood slumps. Exercise intensely.", strong: "Flowing wisdom! Dive into creative work.", normal: "Flexible and calm. Trust the flow.", weak: "Rigid flow. Sip warm tea regularly.", veryWeak: "Mentally drained. Black items are lucky." }
+    "木": { veryStrong: "Excessive energy. Meditation is required.", strong: "Great momentum!", normal: "Balanced.", weak: "Lacking drive.", veryWeak: "Vitality depleted." },
+    "火": { veryStrong: "Burnout risk.", strong: "Radiant passion!", normal: "Bright.", weak: "Unmotivated.", veryWeak: "Exhausted." },
+    "土": { veryStrong: "Stubborn.", strong: "Great empathy!", normal: "Stable.", weak: "Ungrounded.", veryWeak: "Low confidence." },
+    "金": { veryStrong: "Too critical.", strong: "Sharp decisiveness!", normal: "Rational.", weak: "Indecisive.", veryWeak: "Weak boundaries." },
+    "水": { veryStrong: "Overthinking.", strong: "Flowing wisdom!", normal: "Flexible.", weak: "Rigid flow.", veryWeak: "Mentally drained." }
 };
-
 const pastLifeData = [
     { job: "달빛 아래 시를 쓰던 선비", desc: "학문에 정진했으나 세상의 풍파는 피하려 했던 고결한 영혼이었습니다.", homework: "나의 재능을 세상에 당당히 드러내기" },
     { job: "궁궐의 낮잠 자던 삼색 고양이", desc: "평화로운 기운으로 주변을 치유했으나 자립심은 조금 부족했군요.", homework: "스스로 일어서는 독립심 기르기" },
