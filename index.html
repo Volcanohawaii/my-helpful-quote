@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Destiny Lab</title>
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://t1.daumcdn.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://api.countapi.xyz; frame-src https://t1.daumcdn.net https://display.adfit.kakao.com; connect-src https://api.countapi.xyz;">
-
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Pretendard:wght@400;600&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
@@ -26,6 +25,7 @@
         .section-wrap { margin-bottom: 35px; }
         .section-title { font-family: 'Gowun Batang', serif; font-size: 1.05rem; color: var(--accent); display: block; margin-bottom: 15px; font-weight: 700; border-bottom: 1px solid #F0F0F0; padding-bottom: 8px; }
         .info-box { background: #F9F8F6; padding: 20px; border-radius: 8px; border-left: 4px solid var(--accent); margin-bottom: 15px; }
+        .warning-box { background: #FFF5F5; padding: 18px; border-radius: 8px; font-size: 0.85rem; color: #C0392B; border: 1px dashed #FADBD8; margin-top: 25px; }
         .tabs { display: flex; border-bottom: 1px solid #EEE; margin: 30px 0; }
         .tab-btn { flex: 1; padding: 12px 0; border: none; background: none; cursor: pointer; font-size: 0.85rem; color: #BBB; font-family: 'Gowun Batang'; }
         .tab-btn.active { color: var(--primary); font-weight: 700; border-bottom: 2px solid var(--primary); }
@@ -63,13 +63,9 @@
         <h1 id="ui-title">성명학 데이터 분석</h1>
         <p id="ui-desc" style="font-size:0.85rem; color:#888; margin-bottom:40px; line-height:1.6; word-break:keep-all; padding:0 10px;">이름의 파동 에너지를 기반으로 사주의 계절적 요인을 결합하여 고유한 운명 기운을 추출합니다.</p>
         <input type="text" id="userName" placeholder="성함">
-        <input type="text" id="userBirth" placeholder="양력 생년월일 8자리 (예: 19950524)" onkeyup="if(event.key==='Enter'){startAnalysis()}">
+        <input type="text" id="userBirth" placeholder="양력 생년월일 8자리 (1000-2150)" onkeyup="if(event.key==='Enter'){startAnalysis()}">
         <button class="btn-action" id="ui-btn" onclick="startAnalysis()">리포트 생성하기</button>
-
-        <div class="visitor-counter" id="visitor-ui">
-            지금까지 <span class="visitor-count-num" id="visit-count">...</span>명이 분석을 받았습니다.
-        </div>
-
+        <div class="visitor-counter" id="visitor-ui">지금까지 <span class="visitor-count-num" id="visit-count">...</span>명이 분석을 받았습니다.</div>
         <div style="margin-top: 30px; display: flex; justify-content: center;">
             <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-gySJpKsnNTQ1FIIF" data-ad-width="320" data-ad-height="50"></ins>
             <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
@@ -81,63 +77,40 @@
         <h1 id="dynamic-title">님을 위한 분석 리포트</h1>
         <div id="radarChart" style="margin:0 auto 20px; width:220px; height:220px;"></div>
         <div class="summary-line" id="dynamic-summary" style="margin-top: 10px;">분석 중...</div>
-
         <div class="tabs">
             <button class="tab-btn active" id="tab1" onclick="switchTab('fortune', this)">현생 분석</button>
             <button class="tab-btn" id="tab2" onclick="switchTab('past', this)">전생 기록</button>
             <button class="tab-btn" id="tab3" onclick="switchTab('next', this)">내세 예약</button>
         </div>
         <div class="tab-content" id="tab-body"></div>
-
         <button class="btn-action" style="margin-top:30px; background:white; border:1px solid #DDD; color:#444;" id="ui-copy" onclick="copyLink()">링크 복사</button>
         <p onclick="window.location.href=window.location.pathname" style="font-size:0.7rem; color:#CCC; margin-top:20px; cursor:pointer;" id="ui-reset">초기화</p>
     </div>
 </div>
 
-<script src="quotes.js"></script>
 <script>
     /* -------------------------------------------------------------------
-       1. 고정 데이터 및 상수
+       1. 필수 데이터셋
     ------------------------------------------------------------------- */
-    const hangulElements = {'ㄱ':'木','ㄲ':'木','ㄴ':'火','ㄷ':'火','ㄸ':'火','ㄹ':'火','ㅁ':'土','ㅂ':'土','ㅃ':'土','ㅅ':'金','ㅆ':'金','ㅇ':'水','ㅈ':'金','ㅉ':'金','ㅊ':'金','ㅋ':'木','ㅌ':'火','ㅍ':'土','ㅎ':'水'};
-    const alphabetElements = {'A':'木','B':'火','C':'土','D':'金','E':'水','F':'木','G':'火','H':'土','I':'金','J':'水','K':'木','L':'火','M':'土','N':'金','O':'水','P':'木','Q':'火','R':'土','S':'金','T':'水','U':'木','V':'火','W':'土','X':'金','Y':'水','Z':'木'};
+    const hangulElements = {'ㄱ':'木','ㄲ':'木','ㅋ':'木','ㄴ':'火','ㄷ':'火','ㄸ':'火','ㄹ':'火','ㅌ':'火','ㅇ':'土','ㅎ':'土','ㅅ':'金','ㅆ':'金','ㅈ':'金','ㅉ':'金','ㅊ':'金','ㅁ':'水','ㅂ':'水','ㅃ':'水','ㅍ':'水'};
+    const alphabetElements = {'A':'木','E':'木','I':'木','O':'木','U':'木','Y':'木','B':'水','P':'水','M':'水','F':'水','W':'水','C':'火','G':'火','J':'火','L':'火','S':'火','D':'土','N':'土','T':'土','H':'土','K':'金','R':'金','V':'金','X':'金','Q':'金','Z':'金'};
     const elementColors = { "木": { fill: "rgba(46, 204, 113, 0.3)", stroke: "#27ae60" }, "火": { fill: "rgba(231, 76, 60, 0.3)", stroke: "#c0392b" }, "土": { fill: "rgba(241, 196, 15, 0.3)", stroke: "#f39c12" }, "金": { fill: "rgba(149, 165, 166, 0.3)", stroke: "#7f8c8d" }, "水": { fill: "rgba(52, 152, 219, 0.3)", stroke: "#2980b9" } };
     
-    const pastLifeData = [
-        { job: "조선시대 보부상", desc: "팔도를 누비며 소식을 전하던 정보꾼이었습니다.", homework: "진실된 소통으로 신뢰를 쌓으세요." },
-        { job: "북유럽 바이킹", desc: "거친 바다를 항해하며 용기를 증명하던 전사였습니다.", homework: "현생은 무력이 아닌 지혜로 승부하세요." },
-        { job: "이집트 서기", desc: "지식을 기록하고 수호하던 학자였습니다.", homework: "배운 지식을 세상과 나누는 삶을 사세요." },
-        { job: "르네상스 화공", desc: "세상의 아름다움을 캔버스에 담던 예술가였습니다.", homework: "내면의 아름다움을 발견하는 눈을 기르세요." },
-        { job: "인디언 추장", desc: "자연의 흐름을 읽고 부족을 이끌던 리더였습니다.", homework: "공동체를 책임지는 마음을 배우십시오." },
-        { job: "실크로드 대상", desc: "동서를 잇는 길 위에서 인내를 배웠던 수행자였습니다.", homework: "느리더라도 끝까지 나아가는 힘을 기르세요." },
-        { job: "고구려 무사", desc: "국경을 지키며 대륙을 호령하던 용맹한 군인이었습니다.", homework: "강한 힘을 타인을 보호하는 데 사용하세요." },
-        { job: "중세 약초사", desc: "숲속에서 생명을 살리는 비방을 연구하던 치유자였습니다.", homework: "사람들의 마음을 어루만지는 능력을 발휘하세요." },
-        { job: "무명 소리꾼", desc: "한 서린 목소리로 민초들의 슬픔을 달래주던 광대였습니다.", homework: "당신의 목소리로 세상에 기쁨을 전하세요." },
-        { job: "로마 원로원", desc: "질서와 법을 논하며 제국을 설계하던 정치가였습니다.", homework: "공정한 태도로 균형 있는 삶을 꾸려가세요." }
-    ];
-
-    const reincarnationData = [
-        { place: "아틀란티스", object: "해양 연구가", mission: "바다의 비밀을 풀어 인류를 구원하세요." },
-        { place: "화성 에덴", object: "생태 건축가", mission: "척박한 땅에 푸른 생명을 심으세요." },
-        { place: "네오 도쿄", object: "기억 수사관", mission: "진실을 찾아 정의를 구현하십시오." },
-        { place: "천공의 섬", object: "바람의 조율사", mission: "기후의 평화를 유지하는 소명을 다하세요." },
-        { place: "평행 우주", object: "데이터 소울", mission: "순수한 지성을 꽃피우는 존재가 되십시오." },
-        { place: "미래의 달 기지", object: "우주 항해사", mission: "새로운 행성을 발견하여 영토를 넓히세요." },
-        { place: "안드로메다", object: "차원 여행자", mission: "여러 차원의 평화를 잇는 가교가 되세요." },
-        { place: "지저 도시", object: "빛의 채굴꾼", mission: "어둠 속에서 새로운 에너지를 찾으세요." },
-        { place: "영적 안식처", object: "운명의 수호자", mission: "길 잃은 영혼들을 인도하는 가이드가 되세요." },
-        { place: "사이버 스페이스", object: "AI 건축가", mission: "인간과 기계의 공존을 설계하십시오." }
-    ];
-
     const i18n = {
-        ko: { title: "성명학 데이터 분석", desc: "이름의 파동 에너지와 사주의 계절적 요인을 결합하여 고유한 운명 기운을 추출합니다.", nameLabel: "성함", birthLabel: "양력 생년월일 (1000-2150)", btn: "리포트 생성하기", reset: "초기화", tab1: "현생 분석", tab2: "전생 기록", tab3: "내세 예약", copy: "링크 복사", sec1: "[성명학적 현생 분석]", sec2: "[강점 오행의 기운]", sec3: "[부족 오행의 보완]", advise: "운명적 조언", practice: "개운법 실천", pastJob: "전생의 직업", pastHomework: "현생의 숙제", nextDest: "다음 생의 장소", nextObj: "환생할 형태", nextMission: "부여된 소명" },
-        en: { title: "Destiny Data Analysis", desc: "Analyzes destiny by combining name vibration and seasonal Saju energy.", nameLabel: "Name", birthLabel: "Birthdate (1000-2150)", btn: "Generate Report", reset: "Reset", tab1: "Present", tab2: "Past", tab3: "Next", copy: "Copy Link", sec1: "[Analysis]", sec2: "[Strength]", sec3: "[Balance]", advise: "Advice", practice: "Improvement", pastJob: "Past Job", pastHomework: "Karmic Task", nextDest: "Next Place", nextObj: "Next Form", nextMission: "Mission" }
+        ko: { title: "성명학 데이터 분석", desc: "이름의 파동 에너지와 사주의 계절적 요인을 결합하여 고유한 운명 기운을 추출합니다.", nameLabel: "성함", birthLabel: "양력 생년월일 (1000-2150)", btn: "리포트 생성하기", reset: "초기화", tab1: "현생 분석", tab2: "전생 기록", tab3: "내세 예약", copy: "링크 복사", sec1: "[성명학적 분석]", sec2: "[강점 오행의 기운]", sec3: "[에너지 보완 처방]", advise: "운명적 조언", practice: "실천 행법", sideEffect: "과유불급 부작용", pastJob: "전생의 직업", pastHomework: "현생의 숙제", nextDest: "환생 장소", nextObj: "환생 형태", nextMission: "부여된 소명" },
+        en: { title: "Destiny Analysis", desc: "Extracts unique energy by combining name vibrations with seasonal factors.", nameLabel: "Full Name", birthLabel: "Birthdate (1000-2150)", btn: "Generate Report", reset: "Reset", tab1: "Present", tab2: "Past Life", tab3: "Future", copy: "Copy Link", sec1: "[Numerology]", sec2: "[Dominant Energy]", sec3: "[Remedy]", advise: "Advice", practice: "Action", sideEffect: "Side Effects", pastJob: "Past Identity", pastHomework: "Karmic Task", nextDest: "Destination", nextObj: "Born As", nextMission: "Mission" }
     };
 
-    const elementPrescriptions = { "木": { veryStrong: "기운이 과해 독단적일 수 있습니다. 명상이 필요합니다.", strong: "추진력이 좋습니다. 계획을 마무리하세요.", normal: "안정적입니다. 리듬을 유지하세요.", weak: "뒷심이 부족합니다. 산책이 길합니다.", veryWeak: "생기가 고갈된 상태입니다. 녹색을 가까이하세요." }, "火": { veryStrong: "감정 기복 주의. 운동으로 열을 식히세요.", strong: "열정이 넘칩니다. 공유하세요.", normal: "안정적입니다. 예의가 복을 부릅니다.", weak: "의욕 저하. 햇볕을 쬐세요.", veryWeak: "무기력 주의. 붉은색이 길합니다." }, "土": { veryStrong: "생각 정체 주의. 환경을 바꾸세요.", strong: "포용력이 좋습니다.", normal: "안정감이 훌륭합니다.", weak: "기반 보강이 필요합니다.", veryWeak: "자신감 보강 필요." }, "金": { veryStrong: "날카로운 판단 주의.", strong: "결단력이 날카롭습니다.", normal: "이성적입니다.", weak: "장신구를 착용하세요.", veryWeak: "경계가 필요합니다." }, "水": { veryStrong: "우울감 주의.", strong: "지혜가 샘솟습니다.", normal: "유연합니다.", weak: "순환을 도우세요.", veryWeak: "에너지가 고갈되었습니다." } };
-    const nicknamesKo = { "木": { veryStrong: "거침없는 개척자", strong: "위대한 기획자", normal: "생명력 넘치는 중재자", weak: "꿈꾸는 어린 싹", veryWeak: "고독한 나뭇가지" }, "火": { veryStrong: "폭주하는 화신", strong: "열정의 리더", normal: "온화한 수호자", weak: "작은 별빛", veryWeak: "재 속의 온기" }, "土": { veryStrong: "거대한 바위산", strong: "대지의 수호자", normal: "들판의 관리자", weak: "모래 언덕", veryWeak: "먼지 속의 정령" }, "金": { veryStrong: "권위의 심판자", strong: "신념의 검객", normal: "지성의 조각가", weak: "황금 세공사", veryWeak: "무명의 철학자" }, "水": { veryStrong: "심연의 소용돌이", strong: "지혜로운 항해사", normal: "영리한 시냇물", weak: "감성의 예술가", veryWeak: "고요한 연못" } };
+    const elementPrescriptions = { "木": { veryStrong: "기운이 과해 독단적일 수 있습니다.", strong: "추진력이 좋습니다.", normal: "안정적입니다.", weak: "의욕 보충이 필요합니다.", veryWeak: "생기가 고갈된 상태입니다." }, "火": { veryStrong: "번아웃을 주의하세요.", strong: "열정이 넘칩니다.", normal: "조화롭습니다.", weak: "의욕이 저하되었습니다.", veryWeak: "무기력하기 쉽습니다." }, "土": { veryStrong: "생각이 정체되기 쉽습니다.", strong: "포용력이 훌륭합니다.", normal: "안정감이 돋보입니다.", weak: "기반이 흔들립니다.", veryWeak: "자신감이 부족합니다." }, "金": { veryStrong: "판단이 날카로워 주변을 다치게 합니다.", strong: "결단력이 날카롭습니다.", normal: "이성적입니다.", weak: "우유부단해지기 쉽습니다.", veryWeak: "경계가 필요합니다." }, "水": { veryStrong: "우울감에 빠질 수 있습니다.", strong: "지혜가 샘솟습니다.", normal: "유연합니다.", weak: "융통성이 부족합니다.", veryWeak: "에너지가 고갈되었습니다." } };
+    const nicknamesKo = { "木": { veryStrong: "숲을 삼키는 개척자", strong: "위대한 기획자", normal: "넘치는 중재자", weak: "어린 싹", veryWeak: "나뭇가지" }, "火": { veryStrong: "태양의 화신", strong: "열정 리더", normal: "등불 수호자", weak: "작은 별빛", veryWeak: "재 속의 온기" }, "土": { veryStrong: "거대한 바위산", strong: "대지의 수호자", normal: "들판 관리자", weak: "모래 언덕", veryWeak: "먼지 속의 정령" }, "金": { veryStrong: "절대 심판자", strong: "신념의 검객", normal: "지성의 조각가", weak: "황금 세공사", veryWeak: "무명의 철학자" }, "水": { veryStrong: "심연의 소용돌이", strong: "지혜로운 항해사", normal: "계곡의 시냇물", weak: "감성 예술가", veryWeak: "고요한 연못" } };
+    const nicknamesEn = { "木": { veryStrong: "Unstoppable Pioneer", strong: "Grand Architect", normal: "Mediator", weak: "Dreaming Sprout", veryWeak: "Lonely Branch" }, "火": { veryStrong: "Explosive Sun", strong: "Solar Leader", normal: "Warm Guardian", weak: "Subtle Starlight", veryWeak: "Hidden Ember" }, "土": { veryStrong: "Immovable Mountain", strong: "Golden Guardian", normal: "Peaceful Manager", weak: "Soft Dune", veryWeak: "Spirit of Dust" }, "金": { veryStrong: "Absolute Judge", strong: "Knight of Integrity", normal: "Refined Sculptor", weak: "Flexible Goldsmith", veryWeak: "Humble Philosopher" }, "水": { veryStrong: "Great Vortex", strong: "Wise Navigator", normal: "Clear Stream", weak: "Sensitive Artist", veryWeak: "Silent Pond" } };
 
-    const nameNumerology = { 1: {title:"창조의 기운", desc:"새로운 길을 여는 선구자의 기질이 있습니다."}, 2: {title:"조화의 조력자", desc:"타인과 화합하여 큰 성과를 이루는 운입니다."}, 3: {title:"표현의 대가", desc:"예술적 감각과 말솜씨로 세상의 주목을 받습니다."}, 4: {title:"견고한 기반", desc:"성실함으로 부와 명예를 천천히 쌓아갑니다."} /* ... 추가 가능 */ };
+    const pastLifeData = [ { job: "조선시대 보부상", desc: "팔도를 누비며 소식을 전하던 정보꾼이었습니다.", homework: "진실된 소통으로 신뢰를 쌓으세요." }, { job: "북유럽 바이킹", desc: "거친 바다를 항해하며 용기를 증명하던 전사였습니다.", homework: "현생은 무력이 아닌 지혜로 승부하세요." }, { job: "이집트 서기", desc: "지식을 기록하고 수호하던 학자였습니다.", homework: "배운 지식을 세상과 나누는 삶을 사세요." }, { job: "르네상스 화공", desc: "세상의 아름다움을 캔버스에 담던 예술가였습니다.", homework: "내면의 아름다움을 발견하는 눈을 기르세요." }, { job: "인디언 추장", desc: "자연의 흐름을 읽고 부족을 이끌던 리더였습니다.", homework: "공동체를 책임지는 마음을 배우십시오." }, { job: "실크로드 대상", desc: "동서를 잇는 길 위에서 인내를 배웠던 수행자였습니다.", homework: "느리더라도 끝까지 나아가는 힘을 기르세요." }, { job: "고구려 무사", desc: "국경을 지키며 대륙을 호령하던 용맹한 군인이었습니다.", homework: "강한 힘을 타인을 보호하는 데 사용하세요." }, { job: "중세 약초사", desc: "숲속에서 생명을 살리는 비방을 연구하던 치유자였습니다.", homework: "사람들의 마음을 어루만지는 능력을 발휘하세요." }, { job: "무명 소리꾼", desc: "한 서린 목소리로 민초들의 슬픔을 달래주던 광대였습니다.", homework: "당신의 목소리로 세상에 기쁨을 전하세요." }, { job: "로마 원로원", desc: "질서와 법을 논하며 제국을 설계하던 정치가였습니다.", homework: "공정한 태도로 균형 있는 삶을 꾸려가세요." } ];
+    const reincarnationData = [ { place: "아틀란티스", object: "해양 연구가", mission: "바다의 비밀을 풀어 인류를 구원하세요." }, { place: "화성 에덴", object: "생태 건축가", mission: "척박한 땅에 푸른 생명을 심으세요." }, { place: "네오 도쿄", object: "기억 수사관", mission: "진실을 찾아 정의를 구현하십시오." }, { place: "천공의 섬", object: "바람의 조율사", mission: "기후의 평화를 유지하는 소명을 다하세요." }, { place: "평행 우주", object: "데이터 소울", mission: "순수한 지성을 꽃피우는 존재가 되십시오." }, { place: "미래의 달 기지", object: "우주 항해사", mission: "새로운 행성을 발견하여 영토를 넓히세요." }, { place: "안드로메다", object: "차원 여행자", mission: "여러 차원의 평화를 잇는 가교가 되세요." }, { place: "지저 도시", object: "빛의 채굴꾼", mission: "어둠 속에서 새로운 에너지를 찾으세요." }, { place: "영적 안식처", object: "운명의 수호자", mission: "길 잃은 영혼들을 인도하는 가이드가 되세요." }, { place: "사이버 스페이스", object: "AI 건축가", mission: "인간과 기계의 공존을 설계하십시오." } ];
+    const sideEffects = ["디저트가 미치도록 먹고 싶어짐", "전생이 돌덩이였음을 깨닫고 멍해짐", "양말 한 짝 영원히 실종", "노래가 내 이야기처럼 들림", "냉장고 소스 유통기한 점검 강박"];
+    const sideEffectsEn = ["Craving for spicy food.", "Realization that you were a rock.", "One sock disappearing forever.", "Lyrics feeling too relatable.", "Checking expiration dates obsession."];
+    const quoteData = { "인생": [ { text: "모든 꽃은 저마다의 시간에 핀다." }, { text: "삶이 있는 한 희망은 있다." }, { text: "인생은 속도가 아니라 방향이다." } ] };
+    const quoteDataEn = { "life": [ { text: "Every flower blooms in its own time." }, { text: "Where there is life, there is hope." }, { text: "Life is about direction, not speed." } ] };
 
     /* -------------------------------------------------------------------
        2. 핵심 로직 함수
@@ -194,6 +167,7 @@
         else { ls.innerText = "분석중"; lt.innerText = "운명의 에너지를 조합 중..."; ld.innerText = "잠시만 기다려 주세요."; }
         document.getElementById('seal-home').innerHTML = lang === 'ko' ? "운명공학<br>분석실" : "Destiny<br>Lab";
         document.getElementById('seal-res').innerText = lang === 'ko' ? "정식분석본" : "OFFICIAL";
+        if (session.name) { processData(session.name, session.birth); }
     }
 
     function getHangulOnset(char) {
@@ -208,7 +182,6 @@
         if(!n || b.length !== 8) { alert(currentLang === 'ko' ? "성함과 생년월일 8자리를 확인해주세요." : "Check inputs."); return; }
         const year = parseInt(b.substring(0, 4));
         if(year < 1000 || year > 2150) { alert(currentLang === 'ko' ? "연도는 1000~2150년 사이만 가능합니다." : "Year must be 1000-2150."); return; }
-        
         document.getElementById('loading-overlay').style.display = 'flex';
         setTimeout(() => { document.getElementById('loading-overlay').style.display = 'none'; processData(n, b); }, 3000);
     }
@@ -229,15 +202,13 @@
         session.scores = scores.map((s, i) => s + ((session.seed + i) % 15));
 
         const maxIdx = session.scores.indexOf(Math.max(...session.scores));
-        const elementsKo = ["木", "火", "土", "金", "水"];
-        const strongEl = elementsKo[maxIdx];
+        const strongEl = ["木", "火", "土", "金", "水"][maxIdx];
         const lv = getLevel(session.scores[maxIdx]);
 
         document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `[${cleanName}]님의 운명 리포트` : `Report for [${cleanName}]`;
-        document.getElementById('dynamic-summary').innerText = currentLang === 'ko' ? nicknamesKo[strongEl][lv] : nicknamesKo[strongEl][lv];
+        document.getElementById('dynamic-summary').innerText = currentLang === 'ko' ? nicknamesKo[strongEl][lv] : nicknamesEn[strongEl][lv];
 
-        const res = nameNumerology[(session.seed % 4) + 1] || nameNumerology[1];
-        session.nameReport = currentLang === 'ko' ? `성명학적으로 <b>${res.title}</b>이며, ${res.desc}` : `Numerologically: <b>${res.title}</b>. ${res.desc}`;
+        session.nameReport = currentLang === 'ko' ? "성명학 분석 결과 훌륭한 균형을 갖추고 있습니다." : "You have a great balance according to numerology.";
 
         document.getElementById('view-home').classList.add('hidden');
         document.getElementById('view-result').classList.remove('hidden');
@@ -285,10 +256,22 @@
             const maxIdx = session.scores.indexOf(Math.max(...session.scores));
             const minIdx = session.scores.indexOf(Math.min(...session.scores));
             const strongEl = elements[maxIdx]; const lackEl = elements[minIdx];
+            
+            const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
+            const quoteSource = currentLang === 'ko' ? quoteData["인생"] : quoteDataEn["life"];
+
+            // [인덱스 고정 로직]
+            const masterSideIdx = s % sideEffects.length;
+            const finalSideEffect = sideSource[masterSideIdx % sideSource.length];
+            const masterQuoteIdx = s % quoteData["인생"].length;
+            const finalQuote = quoteSource[masterQuoteIdx % quoteSource.length].text;
+
             body.innerHTML = `
                 <div class="section-wrap"><span class="section-title">${t.sec1}</span><div class="info-box">${session.nameReport}</div></div>
                 <div class="section-wrap"><span class="section-title">${t.sec2}</span><div>• <b>기운:</b> ${strongEl}</div><div>• <b>${t.advise}:</b> ${elementPrescriptions[strongEl][getLevel(session.scores[maxIdx])]}</div></div>
                 <div class="section-wrap"><span class="section-title">${t.sec3}</span><div>• <b>${t.practice}:</b> ${elementPrescriptions[lackEl][getLevel(session.scores[minIdx])]}</div></div>
+                <div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${finalSideEffect}</div>
+                <div style="margin-top:30px; text-align:center; color:#AAA; font-style:italic;">"${finalQuote}"</div>
             `;
         } else if(mode === 'past') {
             const p = pastLifeData[s % pastLifeData.length];
