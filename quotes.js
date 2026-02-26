@@ -9,7 +9,7 @@ const i18n = {
     birthLabel: "양력생일(예: 19900101)",
     btn: "리포트 생성하기",
     loadSeal: "분석중",
-    loadTitle: "운명의 에너지를 조합 중...",
+    loadTitle: "당신의 운명 에너지를 조합 중...",
     loadDesc: "잠시만 기다려 주세요.",
 
     tab1Btn: "현생 분석",
@@ -21,7 +21,7 @@ const i18n = {
     sec3: "에너지 보강",
     advise: "현생 조언",
     practice: "실천 사항",
-    sideEffect: "과다 보충 부작용 주의",
+    sideEffect: "과한 보충은 다음의 부작용이 있습니다.",
 
     tab2Title: "전생 분석 자료",
     tab3Title: "내세 분석 자료",
@@ -29,7 +29,7 @@ const i18n = {
     pastHomework: "전생의 숙제",
     nextDest: "다음 목적지",
     nextObj: "다음 오브젝트",
-    nextMission: "미션을 성공하면 내세 예약이 확정됨"
+    nextMission: "예약 확정을 위한 미션"
   },
   en: {
     title: "Destiny Engineering Analysis",
