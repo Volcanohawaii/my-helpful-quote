@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Destiny Lab</title>
 
-  <!-- ✅ CSP: AdFit + CountAPI + Google Fonts 허용 -->
-  <!-- 주의: 인라인 script/style을 쓰고 있어서 unsafe-inline 유지 -->
+  <!-- CSP: AdFit + CountAPI + Google Fonts 허용 -->
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
     base-uri 'self';
@@ -49,19 +48,32 @@
     input { width: 100%; padding: 15px; margin-bottom: 15px; border: none; border-bottom: 1px solid #DDD; font-size: 1.1rem; outline: none; background: transparent; }
     .visitor-counter { margin-top: 25px; font-size: 0.75rem; color: #AAA; font-family: 'Gowun Batang'; border-top: 1px solid #F5F5F5; padding-top: 15px; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    /* ✅ 로딩 오버레이: display:none 대신 opacity/visibility로 숨김(광고 로딩 안정) */
+    #loading-overlay{
+      position:fixed; inset:0; z-index:9999;
+      background:rgba(240, 237, 233, 0.96);
+      display:flex; align-items:center; justify-content:center;
+
+      opacity:0; visibility:hidden; pointer-events:none;
+      transition: opacity .15s ease;
+    }
+    #loading-overlay.show{
+      opacity:1; visibility:visible; pointer-events:auto;
+    }
   </style>
 </head>
 
 <body oncontextmenu="return false" onselectstart="return false">
 
   <!-- ✅ 로딩 오버레이 -->
-  <div id="loading-overlay" style="position:fixed; inset:0; z-index:9999; background:rgba(240, 237, 233, 0.96); display:none; align-items:center; justify-content:center;">
+  <div id="loading-overlay">
     <div style="background:white; padding:40px; border-radius:15px; text-align:center; width:100%; max-width:340px;">
       <div id="load-seal" class="official-seal" style="position:static; margin-bottom:20px;">분석중</div>
       <h2 id="load-title" style="font-family:'Gowun Batang'; color:var(--primary); font-size:1.1rem;">운명의 에너지를 조합 중...</h2>
       <p id="load-desc" style="color:#888; font-size:0.8rem; margin-bottom:20px;">잠시만 기다려 주세요.</p>
 
-      <!-- ✅ AdFit (300x250) -->
+      <!-- ✅ 로딩 광고(300x250): ins만 (ba.min.js는 페이지 하단에서 1회만 로드) -->
       <div style="width:300px; height:250px; margin: 20px auto;">
         <ins class="kakao_ad_area" style="display:none;"
           data-ad-unit="DAN-pMoVBneQCSicnBZ7"
@@ -90,7 +102,7 @@
 
       <div class="visitor-counter">분석 완료된 운명: <span id="visit-count">...</span>건</div>
 
-      <!-- ✅ AdFit (320x50) -->
+      <!-- ✅ 메인 배너(320x50): ins만 -->
       <div style="margin-top: 30px; display: flex; justify-content: center;">
         <ins class="kakao_ad_area" style="display:none;"
           data-ad-unit="DAN-gySJpKsnNTQ1FIIF"
@@ -114,7 +126,7 @@
 
       <div id="tab-body"></div>
 
-      <!-- ✅ AdFit (320x50) -->
+      <!-- ✅ 결과 배너(320x50): ins만 -->
       <div style="margin-top: 20px; display: flex; justify-content: center;">
         <ins class="kakao_ad_area" style="display:none;"
           data-ad-unit="DAN-gySJpKsnNTQ1FIIF"
@@ -175,10 +187,7 @@
       document.getElementById('tab2').innerText = t.tab2Btn;
       document.getElementById('tab3').innerText = t.tab3Btn;
 
-      if (session.name) {
-        // 언어 변경 시 결과 화면 재렌더
-        processData(session.name, session.birth, { keepView: true });
-      }
+      if (session.name) processData(session.name, session.birth, { keepView: true });
     }
 
     function startAnalysis() {
@@ -186,7 +195,7 @@
 
       const n = document.getElementById('userName').value.trim();
       const bRaw = document.getElementById('userBirth').value.trim();
-      const b = bRaw.replace(/\D/g, ''); // 숫자만
+      const b = bRaw.replace(/\D/g, '');
 
       if (!n || b.length !== 8) {
         alert(currentLang === 'ko' ? "정보를 확인해주세요." : "Check inputs.");
@@ -199,9 +208,11 @@
         return;
       }
 
-      document.getElementById('loading-overlay').style.display = 'flex';
+      // ✅ display:none 대신 class 토글
+      document.getElementById('loading-overlay').classList.add('show');
+
       setTimeout(() => {
-        document.getElementById('loading-overlay').style.display = 'none';
+        document.getElementById('loading-overlay').classList.remove('show');
         processData(n, b);
       }, 2500);
     }
@@ -244,7 +255,6 @@
           ? `성명학적으로 <b>${res.title}</b>이며, ${res.desc}`
           : `Numerologically: <b>${res.titleEn}</b>. ${res.descEn}`;
 
-      // 뷰 전환(언어 변경 리렌더 때는 keepView)
       if (!opts.keepView) {
         document.getElementById('view-home').classList.add('hidden');
         document.getElementById('view-result').classList.remove('hidden');
@@ -385,7 +395,6 @@
         await navigator.clipboard.writeText(url);
         alert(currentLang === 'ko' ? "복사되었습니다!" : "Link copied!");
       } catch {
-        // fallback
         const ta = document.createElement('textarea');
         ta.value = url;
         document.body.appendChild(ta);
@@ -410,7 +419,6 @@
       if (qBirth) document.getElementById('userBirth').value = qBirth;
 
       if (qName && qBirth && String(qBirth).replace(/\D/g,'').length === 8) {
-        // 링크로 들어오면 자동 결과 출력
         processData(qName, String(qBirth).replace(/\D/g,''));
         document.getElementById('view-home').classList.add('hidden');
         document.getElementById('view-result').classList.remove('hidden');
@@ -420,14 +428,14 @@
     window.addEventListener('DOMContentLoaded', () => {
       updateCounter();
       if (assertDataset()) {
-        setLang('ko'); // 초기 텍스트 세팅
+        setLang('ko');
         initFromQuery();
       }
     });
   </script>
 
-  <!-- ✅ AdFit 로더: 한 번만 로드 (권장 위치: </body> 바로 위) -->
-  <!-- 공식 가이드에서 사용하는 스크립트: https://t1.daumcdn.net/kas/static/ba.min.js :contentReference[oaicite:1]{index=1} -->
-  <script async type="text/javascript" charset="utf-8" src="https://t1.daumcdn.net/kas/static/ba.min.js"></script>
+  <!-- ✅ AdFit 로더: 페이지에서 딱 1번만 (가이드 스크립트) -->
+  <!-- AdFit 기본 설치 스크립트: //t1.daumcdn.net/kas/static/ba.min.js -->
+  <script async type="text/javascript" src="https://t1.daumcdn.net/kas/static/ba.min.js"></script>
 </body>
 </html>
