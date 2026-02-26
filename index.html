@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Destiny Lab</title>
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://t1.daumcdn.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://api.countapi.xyz; frame-src https://t1.daumcdn.net https://display.adfit.kakao.com; connect-src https://api.countapi.xyz;">
-
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Pretendard:wght@400;600&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
         :root { --bg: #F0EDE9; --paper: #FFFFFF; --primary: #243447; --accent: #9A8467; --text: #444444; --border: #D1CDC5; }
         body { font-family: 'Pretendard', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; overflow-x: hidden; position: relative; }
-        body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at center, rgba(255, 255, 255, 1) 1.2px, transparent 2px), radial-gradient(circle at center, rgba(154, 132, 103, 0.8) 1.8px, transparent 3.5px); background-size: 60px 60px, 130px 130px; opacity: 1; animation: twinkle 4s ease-in-out infinite alternate; }
+        body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at center, rgba(255, 255, 255, 1) 1.2px, transparent 2px), radial-gradient(circle at center, rgba(154, 132, 103, 0.8) 1.8px, transparent 3.5px); background-size: 60px 60px, 130px 130px; background-position: 0 0, 40px 40px; opacity: 1; animation: twinkle 4s ease-in-out infinite alternate; }
         @keyframes twinkle { 0% { opacity: 0.5; } 100% { opacity: 1; } }
         .container { width: 100%; max-width: 480px; position: relative; z-index: 1; }
         .lang-toggle { position: absolute; top: -50px; right: 0; display: flex; gap: 15px; }
@@ -32,7 +31,7 @@
         .tab-btn.active { color: var(--primary); font-weight: 700; border-bottom: 2px solid var(--primary); }
         .btn-action { width: 100%; background: var(--primary); color: white; border: none; padding: 18px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 1rem; }
         .hidden { display: none; }
-        input { width: 100%; padding: 15px; margin-bottom: 15px; border: none; border-bottom: 1px solid #DDD; font-size: 1.1rem; outline: none; }
+        input { width: 100%; padding: 15px; margin-bottom: 15px; border: none; border-bottom: 1px solid #DDD; font-size: 1.1rem; outline: none; background: transparent; }
         .visitor-counter { margin-top: 25px; font-size: 0.75rem; color: #AAA; font-family: 'Gowun Batang'; border-top: 1px solid #F5F5F5; padding-top: 15px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
@@ -42,7 +41,7 @@
 <div id="loading-overlay" style="position:fixed; inset:0; z-index:9999; background:rgba(240, 237, 233, 0.96); display:none; align-items:center; justify-content:center;">
     <div style="background:white; padding:40px; border-radius:15px; text-align:center; width:100%; max-width:340px;">
         <div class="official-seal" style="position:static; margin-bottom:20px;">분석중</div>
-        <h2 id="load-title" style="font-family:'Gowun Batang'; color:var(--primary); font-size:1.1rem;">운명의 에너지를 조합 중...</h2>
+        <h2 style="font-family:'Gowun Batang'; color:var(--primary); font-size:1.1rem;">운명의 에너지를 조합 중...</h2>
         <div style="width:300px; height:250px; margin: 20px auto;">
             <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-pMoVBneQCSicnBZ7" data-ad-width="300" data-ad-height="250"></ins>
             <script src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
@@ -65,7 +64,6 @@
         <input type="text" id="userBirth" placeholder="양력 8자리 (1000-2150)">
         <button class="btn-action" id="ui-btn" onclick="startAnalysis()">리포트 생성하기</button>
         <div class="visitor-counter">분석 완료된 운명: <span id="visit-count">...</span>건</div>
-        
         <div style="margin-top: 30px; display: flex; justify-content: center;">
             <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-gySJpKsnNTQ1FIIF" data-ad-width="320" data-ad-height="50"></ins>
             <script src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
@@ -83,26 +81,20 @@
             <button class="tab-btn" id="tab3" onclick="switchTab('next', this)">내세 예약</button>
         </div>
         <div id="tab-body"></div>
-        
-        <div style="margin-top: 30px; display: flex; justify-content: center;">
+        <div style="margin-top: 20px; display: flex; justify-content: center;">
             <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-gySJpKsnNTQ1FIIF" data-ad-width="320" data-ad-height="50"></ins>
             <script src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
         </div>
-
         <button class="btn-action" style="margin-top:30px; background:white; color:#444; border:1px solid #DDD;" onclick="copyLink()">링크 복사</button>
         <p onclick="location.reload()" style="font-size:0.7rem; color:#CCC; margin-top:20px; cursor:pointer;">초기화</p>
     </div>
 </div>
 
 <script src="quotes.js"></script>
-
 <script>
-    /* 로직 파일은 그대로 유지 (사용자님의 기존 스크립트) */
     let currentLang = 'ko';
     let session = { name: '', birth: '', seed: 0, scores: [] };
 
-    function getLevel(sc) { if (sc >= 110) return 'veryStrong'; if (sc >= 80) return 'strong'; if (sc >= 50) return 'normal'; if (sc >= 20) return 'weak'; return 'veryWeak'; }
-    
     async function updateCounter() {
         try {
             const res = await fetch('https://api.countapi.xyz/hit/destinylab.github.io/visits');
@@ -139,18 +131,19 @@
         session.name = cleanName; session.birth = birth;
         session.seed = cleanName.split('').reduce((a,b)=>a+b.charCodeAt(0),0) + parseInt(birth);
         let sc = [40, 40, 40, 40, 40];
+        const elements = ["木", "火", "土", "金", "水"];
         for(let i=0; i<cleanName.length; i++) {
-            let char = cleanName[i];
-            let onset = getHangulOnset(char);
-            let el = /[a-zA-Z]/.test(char) ? alphabetElements[char.toUpperCase()] : hangulElements[onset];
-            if(el) sc[["木", "火", "土", "金", "水"].indexOf(el)] += 35;
+            const char = cleanName[i];
+            const onset = /[a-zA-Z]/.test(char) ? char.toUpperCase() : getHangulOnset(char);
+            const el = /[a-zA-Z]/.test(char) ? alphabetElements[onset] : hangulElements[onset];
+            if(el) sc[elements.indexOf(el)] += 35;
         }
         sc[[11,12,1,2,3,4,5,6,7,8,9,10].indexOf(parseInt(birth.substring(4,6))) % 5] += 25;
         session.scores = sc.map((s, i) => s + ((session.seed + i) % 15));
         const maxIdx = session.scores.indexOf(Math.max(...session.scores));
-        const strongEl = ["木", "火", "土", "金", "水"][maxIdx];
+        const strongEl = elements[maxIdx];
         const lv = getLevel(session.scores[maxIdx]);
-        document.getElementById('dynamic-title').innerText = `[${cleanName}]님의 리포트`;
+        document.getElementById('dynamic-title').innerText = `[${cleanName}]님의 운명 리포트`;
         document.getElementById('dynamic-summary').innerText = currentLang === 'ko' ? nicknamesKo[strongEl][lv] : nicknamesEn[strongEl][lv];
         const res = nameNumerology[(session.seed % 25) + 1];
         session.nameReport = currentLang === 'ko' ? `성명학적으로 <b>${res.title}</b>이며, ${res.desc}` : `Numerologically: <b>${res.titleEn}</b>. ${res.descEn}`;
@@ -162,11 +155,13 @@
 
     function getHangulOnset(char) { const c = char.charCodeAt(0) - 44032; if (c < 0 || c > 11171) return char; return ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'][Math.floor(c / 588)]; }
 
+    function getLevel(sc) { if (sc >= 110) return 'veryStrong'; if (sc >= 80) return 'strong'; if (sc >= 50) return 'normal'; if (sc >= 20) return 'weak'; return 'veryWeak'; }
+
     function renderChart() {
         const labels = currentLang === 'ko' ? ["木", "火", "土", "金", "水"] : ["Wood", "Fire", "Earth", "Metal", "Water"];
         const cx = 110, cy = 110, r = 75;
         const maxIdx = session.scores.indexOf(Math.max(...session.scores));
-        const themeColor = elementColors[["木", "火", "土", "金", "水"][maxIdx]];
+        const themeColor = { "木": { fill: "rgba(46, 204, 113, 0.3)", stroke: "#27ae60" }, "火": { fill: "rgba(231, 76, 60, 0.3)", stroke: "#c0392b" }, "土": { fill: "rgba(241, 196, 15, 0.3)", stroke: "#f39c12" }, "金": { fill: "rgba(149, 165, 166, 0.3)", stroke: "#7f8c8d" }, "水": { fill: "rgba(52, 152, 219, 0.3)", stroke: "#2980b9" } }[["木", "火", "土", "金", "水"][maxIdx]];
         let poly = ""; labels.forEach((_, i) => {
             const a = (Math.PI * 2 / 5) * i - (Math.PI / 2);
             const v = (session.scores[i] / 150) * r;
@@ -181,11 +176,13 @@
         if(mode === 'fortune') {
             const maxIdx = session.scores.indexOf(Math.max(...session.scores));
             const minIdx = session.scores.indexOf(Math.min(...session.scores));
-            const strongEl = ["木", "火", "土", "金", "水"][maxIdx];
-            const lackEl = ["木", "火", "土", "金", "水"][minIdx];
+            const elements = ["木", "火", "土", "金", "水"];
+            const strongEl = elements[maxIdx]; const lackEl = elements[minIdx];
             const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
-            const quoteSource = currentLang === 'ko' ? quoteData["인생"] : quoteData["인생"]; 
-            body.innerHTML = `<div class="tab-content"><div class="section-wrap"><span class="section-title">${t.sec1}</span><div class="info-box">${session.nameReport}</div></div><div class="section-wrap"><span class="section-title">${t.sec2}</span><div>• <b>주체 기운:</b> ${strongEl}</div><div>• <b>${t.advise}:</b> ${elementPrescriptions[strongEl][getLevel(session.scores[maxIdx])]}</div></div><div class="section-wrap"><span class="section-title">${t.sec3}</span><div>• <b>${t.practice}:</b> ${elementPrescriptions[lackEl][getLevel(session.scores[minIdx])]}</div></div><div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[s % sideEffects.length]}</div><div style="margin-top:30px; text-align:center; color:#AAA; font-style:italic;">"${quoteSource[s % quoteSource.length].text}"</div></div>`;
+            const quoteSource = quoteData["인생"];
+            const masterSideIdx = s % sideEffects.length;
+            const masterQuoteIdx = s % quoteData["인생"].length;
+            body.innerHTML = `<div class="tab-content"><div class="section-wrap"><span class="section-title">${t.sec1}</span><div class="info-box">${session.nameReport}</div></div><div class="section-wrap"><span class="section-title">${t.sec2}</span><div>• <b>주체 기운:</b> ${strongEl}</div><div>• <b>${t.advise}:</b> ${elementPrescriptions[strongEl][getLevel(session.scores[maxIdx])]}</div></div><div class="section-wrap"><span class="section-title">${t.sec3}</span><div>• <b>${t.practice}:</b> ${elementPrescriptions[lackEl][getLevel(session.scores[minIdx])]}</div></div><div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[masterSideIdx % sideSource.length]}</div><div style="margin-top:30px; text-align:center; color:#AAA; font-style:italic;">"${quoteSource[masterQuoteIdx % quoteSource.length].text}"</div></div>`;
         } else if(mode === 'past') {
             const p = pastLifeData[s % pastLifeData.length];
             body.innerHTML = `<div class="tab-content"><span class="section-title">${t.tab2}</span><div class="info-box"><b>📜 ${t.pastJob}:</b> [${p.job}]<br>${p.desc}<br><br><b>✨ ${t.pastHomework}:</b><br>${p.homework}</div></div>`;
@@ -195,7 +192,10 @@
         }
     }
 
-    function copyLink() { alert(currentLang === 'ko' ? "복사되었습니다." : "Copied."); }
+    function copyLink() { 
+        const url = window.location.href.split('?')[0] + `?name=${encodeURIComponent(session.name)}&birth=${session.birth}&lang=${currentLang}`;
+        navigator.clipboard.writeText(url).then(() => alert(currentLang === 'ko' ? "결과 링크가 복사되었습니다!" : "Link copied!"));
+    }
     window.onload = updateCounter;
 </script>
 </body>
