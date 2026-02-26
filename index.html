@@ -14,6 +14,7 @@
         
         body { font-family: 'Pretendard', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; overflow-x: hidden; position: relative; }
 
+        /* 배경 별가루 효과 */
         body::before {
             content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;
             background-image: radial-gradient(circle at center, rgba(255, 255, 255, 0.9) 0.5px, transparent 1.2px), radial-gradient(circle at center, rgba(154, 132, 103, 0.4) 1px, transparent 2px);
@@ -109,7 +110,6 @@
 
 <script src="quotes.js"></script>
 <script>
-    // [i18n 데이터 업데이트] 안내 문구 수정됨
     const i18n = {
         ko: {
             title: "성명학 데이터 분석",
@@ -117,9 +117,7 @@
             nameLabel: "성함", birthLabel: "양력 생년월일 8자리", btn: "리포트 생성하기",
             reset: "초기화", tab1: "현생 분석", tab2: "전생 기록", tab3: "내세 예약", copy: "링크 복사",
             sec1: "[성명학적 현생 분석]", sec2: "[강점 오행의 기운]", sec3: "[부족 오행의 보완]",
-            advise: "운명적 조언", practice: "개운법 실천", sideEffect: "과유불급 주의",
-            pastJob: "전생의 직업", pastHomework: "현생으로 가져온 숙제",
-            nextDest: "다음 생의 거처", nextObj: "환생할 형태", nextMission: "부여받은 소명"
+            advise: "운명적 조언", practice: "개운법 실천", sideEffect: "과유불급 주의"
         },
         en: {
             title: "Destiny Data Analysis",
@@ -127,25 +125,60 @@
             nameLabel: "Full Name", birthLabel: "Birthdate (YYYYMMDD)", btn: "Generate Report",
             reset: "Reset", tab1: "Present Life", tab2: "Past Life", tab3: "Next Life", copy: "Copy Link",
             sec1: "[Numerological Analysis]", sec2: "[Dominant Energy]", sec3: "[Lacking Energy]",
-            advise: "Destiny Advice", practice: "How to Improve", sideEffect: "Warning",
-            pastJob: "Past Job", pastHomework: "Karmic Homework",
-            nextDest: "Next Destination", nextObj: "Next Form", nextMission: "Given Mission"
+            advise: "Destiny Advice", practice: "How to Improve", sideEffect: "Warning"
         }
     };
 
     let currentLang = 'ko';
     let session = { name: '', birth: '', seed: 0, scores: [], nameReport: '' };
 
-    /* 방문자 카운터 애니메이션 */
+    /* 5단계 확장 처방 */
+    const elementPrescriptions = {
+        "木": { veryStrong: "기운이 과해 독단적일 수 있습니다. 명상이 필요합니다.", strong: "추진력이 좋습니다. 계획한 일을 마무리하는 습관을 들이세요.", normal: "안정적입니다. 식물을 돌보며 리듬을 유지하십시오.", weak: "의욕은 있으나 뒷심이 부족합니다. 아침 산책이 길합니다.", veryWeak: "생기가 고갈된 상태입니다. 신맛 음식이나 초록색 옷을 추천합니다." },
+        "火": { veryStrong: "감정 기복이 심하고 번아웃 주의. 운동으로 열을 식히세요.", strong: "열정이 넘칩니다. 그 에너지를 사람들과 나누면 복이 옵니다.", normal: "안정적입니다. 예의를 갖춘 태도가 운을 더 높여줍니다.", weak: "의욕이 저하되었습니다. 낮에 햇볕을 20분 이상 쬐십시오.", veryWeak: "무기력하기 쉽습니다. 쓴맛의 차를 마시고 붉은색을 가까이하세요." },
+        "土": { veryStrong: "고집이 세지고 생각이 정체되기 쉽습니다. 환경을 바꿔보세요.", strong: "포용력이 훌륭합니다. 남의 말을 잘 들어주면 운이 열립니다.", normal: "안정감이 훌륭합니다. 독서하며 내실을 다지기에 좋은 때입니다.", weak: "기반이 흔들립니다. 맨발로 흙을 밟아 대지의 기운을 받으세요.", veryWeak: "자신감이 부족한 상태. 달콤한 간식을 챙기고 산행을 추천합니다." },
+        "金": { veryStrong: "판단이 날카로워 주변을 다치게 합니다. 클래식을 들으세요.", strong: "결단력이 날카롭습니다. 정리에 아주 최적인 시기입니다.", normal: "이성적이고 깔끔합니다. 규칙적인 생활이 가장 큰 무기입니다.", weak: "우유부단해지기 쉽습니다. 금속 장신구를 착용해 보강하세요.", veryWeak: "맺고 끊음이 안 되어 손해를 봅니다. 흰색 옷과 매운 맛이 길합니다." },
+        "水": { veryStrong: "생각이 너무 많아 우울할 수 있습니다. 땀 흘려 운동하세요.", strong: "지혜가 샘솟습니다. 창작 활동이나 학습을 시작하기에 좋습니다.", normal: "유연하고 여유롭습니다. 순리대로 흐르면 만사가 평안합니다.", weak: "융통성이 부족해집니다. 따뜻한 차로 순환을 적극 도우십시오.", veryWeak: "에너지가 고갈되었습니다. 짠맛 음식과 검은색 계열이 좋습니다." }
+    };
+    const enPrescriptions = {
+        "木": { veryStrong: "Over-driven. Practice letting go.", strong: "Great momentum! Finish your goals.", normal: "Steady potential. Connect with nature.", weak: "Lacking drive. Boost it with sunlight.", veryWeak: "Depleted. Wear green or eat sour foods." },
+        "火": { veryStrong: "High burnout risk. Release heat via exercise.", strong: "Radiant passion! Inspire others.", normal: "Bright energy. Politeness attracts luck.", weak: "Unmotivated. Get 20 min of sun daily.", veryWeak: "Exhausted. Carry red items and bitter tea." },
+        "土": { veryStrong: "Feeling stuck? Change your scenery.", strong: "Great empathy! Helping others opens doors.", normal: "Reliable anchor. Great time for reading.", weak: "Ungrounded. Spend time in the garden.", veryWeak: "Low confidence. Try something sweet." },
+        "金": { veryStrong: "Too critical. Soften with gentle music.", strong: "Sharp focus! Time to declutter.", normal: "Logical and organized. Keep your routine.", weak: "Indecisive. Wear gold or metal jewelry.", veryWeak: "Weak boundaries. Wear white items." },
+        "水": { veryStrong: "Overthinking. Move to break the slump.", strong: "Flowing wisdom! Perfect for learning.", normal: "Calm and flexible. Trust the flow.", weak: "Rigid flow. Drink warm tea daily.", veryWeak: "Mentally drained. Try salty flavors." }
+    };
+
+    const nicknamesKo = {
+        "木": { veryStrong: "숲을 삼키고 번영하는 [거침없는 개척자]", strong: "하늘을 향해 뻗어나가는 [푸른 숲의 위대한 기획자]", normal: "조화롭게 뿌리 내린 [생명력 넘치는 중재자]", weak: "햇살을 기다리며 자라나는 [꿈꾸는 어린 싹]", veryWeak: "비를 기다리는 메마른 대지의 [고독한 나뭇가지]" },
+        "火": { veryStrong: "모든 것을 태워버릴 듯한 [폭주하는 태양의 화신]", strong: "어둠을 몰아내고 세상을 밝히는 [태양의 열정 리더]", normal: "주변을 따뜻하게 감싸는 [온화한 등불의 수호자]", weak: "은은하게 빛을 발하는 [새벽녘의 작은 별빛]", veryWeak: "다시 피어날 준비를 하는 [재 속의 따뜻한 온기]" },
+        "土": { veryStrong: "세상을 움직이지 못하게 만드는 [거대한 바위산]", strong: "모든 생명을 품고 길러내는 [황금빛 대지의 수호자]", normal: "균형을 잡아주는 [평화로운 들판의 관리자]", weak: "변화에 민감하게 반응하는 [부드운 모래 언덕]", veryWeak: "바람에 흩날리며 자유를 찾는 [먼지 속의 정령]" },
+        "金": { veryStrong: "차갑고 날카로운 [절대 권위의 심판자]", strong: "흐트러짐 없는 정의를 수호하는 [은빛 신념의 검객]", normal: "정교하게 다듬어진 [세련된 지성의 조각가]", weak: "유연함을 간직한 [부드러운 황금의 세공사]", veryWeak: "세상에 동화되어 무뎌진 [소박한 무명의 철학자]" },
+        "水": { veryStrong: "삼라만상을 집어삼키는 [심연의 거대한 소용돌이]", strong: "깊은 심연 속에서 진리를 찾는 [지혜로운 바다의 항해사]", normal: "막힘없이 흐르는 [맑고 영리한 계곡의 시냇물]", weak: "아침 이슬처럼 섬세한 [감성의 예술가]", veryWeak: "한 방울의 물에 우주를 담은 [명상하는 고요한 연못]" }
+    };
+    const nicknamesEn = {
+        "木": { veryStrong: "Unstoppable Pioneer", strong: "Grand Architect", normal: "Vibrant Mediator", weak: "Dreaming Sprout", veryWeak: "Lonely Branch" },
+        "火": { veryStrong: "Explosive Sun", strong: "Solar Leader", normal: "Warm Guardian", weak: "Subtle Starlight", veryWeak: "Hidden Ember" },
+        "土": { veryStrong: "Immovable Mountain", strong: "Golden Guardian", normal: "Peaceful Manager", weak: "Soft Dune", veryWeak: "Spirit of Dust" },
+        "金": { veryStrong: "Absolute Judge", strong: "Knight of Integrity", normal: "Refined Sculptor", weak: "Flexible Goldsmith", veryWeak: "Humble Philosopher" },
+        "水": { veryStrong: "Great Vortex", strong: "Wise Navigator", normal: "Clear Stream", weak: "Sensitive Artist", veryWeak: "Silent Pond" }
+    };
+
+    const elementColors = { "木": { fill: "rgba(46, 204, 113, 0.3)", stroke: "#27ae60" }, "火": { fill: "rgba(231, 76, 60, 0.3)", stroke: "#c0392b" }, "土": { fill: "rgba(241, 196, 15, 0.3)", stroke: "#f39c12" }, "金": { fill: "rgba(149, 165, 166, 0.3)", stroke: "#7f8c8d" }, "水": { fill: "rgba(52, 152, 219, 0.3)", stroke: "#2980b9" } };
+
+    function getLevel(sc) {
+        if (sc >= 110) return 'veryStrong';
+        if (sc >= 80) return 'strong';
+        if (sc >= 50) return 'normal';
+        if (sc >= 20) return 'weak';
+        return 'veryWeak';
+    }
+
     async function updateCounter() {
         try {
             const res = await fetch('https://api.countapi.xyz/hit/destinylab.github.io/visits');
             const data = await res.json();
-            const target = data.value;
-            animateValue("visit-count", 0, target, 2000);
-        } catch (e) {
-            document.getElementById('visit-count').innerText = "1,245";
-        }
+            animateValue("visit-count", 0, data.value, 2000);
+        } catch (e) { document.getElementById('visit-count').innerText = "1,245"; }
     }
 
     function animateValue(id, start, end, duration) {
@@ -187,8 +220,121 @@
         if (session.name) { processData(session.name, session.birth); }
     }
 
-    /* 이하 로직 생략 (기존 5단계 척도 로직 유지) */
-    // [중요] 기존 코드의 nicknamesKo, elementPrescriptions, processData 등을 이 아래에 그대로 유지하시면 됩니다.
+    function startAnalysis() {
+        const n = document.getElementById('userName').value.trim();
+        const b = document.getElementById('userBirth').value.trim();
+        if(!n || b.length !== 8) { alert(currentLang === 'ko' ? "데이터를 확인해주세요." : "Check inputs."); return; }
+        document.getElementById('loading-overlay').style.display = 'flex';
+        setTimeout(() => { document.getElementById('loading-overlay').style.display = 'none'; processData(n, b); }, 3000);
+    }
+
+    function processData(name, birth) {
+        const cleanName = name.replace(/<[^>]*>?/gm, '');
+        const cleanBirth = birth.replace(/[^0-9]/g, '');
+        session.name = cleanName; session.birth = cleanBirth;
+        session.seed = cleanName.split('').reduce((a,b)=>a+b.charCodeAt(0),0) + parseInt(cleanBirth);
+        
+        let scores = [40, 40, 40, 40, 40]; 
+        for(let i=0; i<cleanName.length; i++) {
+            let el = /[a-zA-Z]/.test(cleanName[i]) ? alphabetElements[cleanName[i].toUpperCase()] : hangulElements[getHangulOnset(cleanName[i])];
+            if(el) scores[["木", "火", "土", "金", "水"].indexOf(el)] += 35;
+        }
+        const month = parseInt(cleanBirth.substring(4, 6));
+        scores[[11,12,1,2,3,4,5,6,7,8,9,10].indexOf(month) % 5] += 25;
+        session.scores = scores.map((s, i) => s + ((session.seed + i) % 15));
+
+        const maxIdx = session.scores.indexOf(Math.max(...session.scores));
+        const elements = ["木", "火", "土", "金", "水"];
+        const strongEl = elements[maxIdx];
+        const lv = getLevel(session.scores[maxIdx]);
+
+        document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `[${cleanName}]님의 운명 공학 리포트` : `Destiny Report for [${cleanName}]`;
+        document.getElementById('dynamic-summary').innerText = currentLang === 'ko' ? nicknamesKo[strongEl][lv] : nicknamesEn[strongEl][lv];
+
+        const res = nameNumerology[(session.seed % 25) + 1] || nameNumerology[1];
+        session.nameReport = currentLang === 'ko' ? `성명학적으로 <b>${res.title}</b>이며, ${res.desc}` : `Numerologically, you hold <b>${res.titleEn}</b>: ${res.descEn}`;
+
+        document.getElementById('view-home').classList.add('hidden');
+        document.getElementById('view-result').classList.remove('hidden');
+        renderChart();
+        switchTab('fortune', document.getElementById('tab1'));
+    }
+
+    function getHangulOnset(char) {
+        const c = char.charCodeAt(0) - 44032;
+        if (c < 0 || c > 11171) return null;
+        return ['ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'][Math.floor(c / 588)];
+    }
+
+    function renderChart() {
+        const labels = currentLang === 'ko' ? ["木", "火", "土", "金", "水"] : ["Wood", "Fire", "Earth", "Metal", "Water"];
+        const cx = 110, cy = 110, r = 75;
+        const maxIdx = session.scores.indexOf(Math.max(...session.scores));
+        const themeColor = elementColors[["木", "火", "土", "金", "水"][maxIdx]];
+        let poly = ""; labels.forEach(() => poly += `${cx},${cy} `);
+        document.getElementById('radarChart').innerHTML = `
+            <svg viewBox="0 0 220 220" style="overflow:visible;">
+                <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#EEE" stroke-width="1"/>
+                ${labels.map((l, i) => {
+                    const a = (Math.PI * 2 / 5) * i - (Math.PI / 2);
+                    const tx = cx + (r + 25) * Math.cos(a), ty = cy + (r + 25) * Math.sin(a);
+                    return `<text x="${tx}" y="${ty}" text-anchor="middle" dominant-baseline="middle" fill="${currentLang === 'ko' ? '#243447' : '#999'}" font-size="12" font-weight="700">${l}</text>`;
+                }).join('')}
+                <polygon points="${poly}" fill="${themeColor.fill}" stroke="${themeColor.stroke}" stroke-width="2.5">
+                    <animate attributeName="points" dur="1s" fill="freeze" to="${getTargetPoints(labels, cx, cy, r)}" />
+                </polygon>
+            </svg>`;
+    }
+
+    function getTargetPoints(labels, cx, cy, r) {
+        let p = "";
+        labels.forEach((_, i) => {
+            const a = (Math.PI * 2 / 5) * i - (Math.PI / 2);
+            const v = (session.scores[i] / 150) * r;
+            p += `${cx + v * Math.cos(a)},${cy + v * Math.sin(a)} `;
+        });
+        return p.trim();
+    }
+
+    function switchTab(mode, btn) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active');
+        const body = document.getElementById('tab-body'); const s = session.seed;
+        const elements = ["木", "火", "土", "金", "水"];
+        const t = i18n[currentLang];
+        const presSource = currentLang === 'ko' ? elementPrescriptions : enPrescriptions;
+        const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
+        
+        if(mode === 'fortune') {
+            const maxIdx = session.scores.indexOf(Math.max(...session.scores));
+            const minIdx = session.scores.indexOf(Math.min(...session.scores));
+            const strongEl = elements[maxIdx]; const lackEl = elements[minIdx];
+            body.innerHTML = `
+                <div class="section-wrap"><span class="section-title">${t.sec1}</span><div class="info-box">${session.nameReport}</div></div>
+                <div class="section-wrap"><span class="section-title">${t.sec2} [${attrSource[strongEl].name}]</span><div>• <b>${currentLang === 'ko' ? '성향' : 'Trait'}:</b> ${attrSource[strongEl].trait}</div><div class="detail-item">• <b>${t.advise}:</b> ${presSource[strongEl][getLevel(session.scores[maxIdx])]}</div></div>
+                <div class="section-wrap"><span class="section-title">${t.sec3} [${attrSource[lackEl].name}]</span><div>• <b>${t.practice}:</b> ${presSource[lackEl][getLevel(session.scores[minIdx])]}</div></div>
+            `;
+        } else if(mode === 'past') {
+            const p = currentLang === 'ko' ? pastLifeData[s % pastLifeData.length] : pastLifeDataEn[s % pastLifeDataEn.length];
+            body.innerHTML = `<span class="section-title">${t.tab2}</span><div class="info-box"><b>📜 ${t.pastJob}:</b> [${p.job}]<br><br>${p.desc}<br><br><b>✨ ${t.pastHomework}:</b><br>${p.homework}</div>`;
+        } else {
+            const r = currentLang === 'ko' ? reincarnationData[s % reincarnationData.length] : reincarnationDataEn[s % reincarnationDataEn.length];
+            body.innerHTML = `<span class="section-title">${t.tab3}</span><div class="info-box"><b>📍 ${t.nextDest}:</b> ${r.place}<br><b>🧬 ${t.nextObj}:</b> ${r.object}<br><br><b>✅ ${t.nextMission}:</b><br>${r.mission}</div>`;
+        }
+    }
+
+    function copyLink() {
+        const url = `${window.location.origin}${window.location.pathname}?name=${encodeURIComponent(session.name)}&birth=${session.birth}&lang=${currentLang}`;
+        const t = document.createElement("textarea"); document.body.appendChild(t); t.value = `[Destiny Report] ${session.name}\n${url}`; t.select(); document.execCommand("copy"); document.body.removeChild(t);
+        alert(currentLang === 'ko' ? "복사 완료!" : "Link Copied!");
+    }
+
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if(urlParams.get('lang')) setLang(urlParams.get('lang'));
+        const n = urlParams.get('name'), b = urlParams.get('birth');
+        if (n && b && b.length === 8) processData(n, b);
+        updateCounter();
+    };
 </script>
 </body>
 </html>
