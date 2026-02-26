@@ -67,8 +67,6 @@
     data-ad-unit="DAN-pMoVBneQCSicnBZ7"
     data-ad-width="300"
     data-ad-height="250"></ins>
-  <script async type="text/javascript" charset="utf-8"
-    src="https://t1.daumcdn.net/kas/static/ba.min.js"></script>
 </div>
 
       <div style="border:3px solid #f3f3f3; border-top:3px solid var(--accent); border-radius:50%; width:24px; height:24px; animation:spin 1s linear infinite; margin:0 auto;"></div>
@@ -98,8 +96,6 @@
     data-ad-unit="DAN-gySJpKsnNTQ1FIIF"
     data-ad-width="320"
     data-ad-height="50"></ins>
-  <script async type="text/javascript" charset="utf-8"
-    src="https://t1.daumcdn.net/kas/static/ba.min.js"></script>
 </div>
     </div>
 
@@ -124,8 +120,6 @@
     data-ad-unit="DAN-gySJpKsnNTQ1FIIF"
     data-ad-width="320"
     data-ad-height="50"></ins>
-  <script async type="text/javascript" charset="utf-8"
-    src="https://t1.daumcdn.net/kas/static/ba.min.js"></script>
 </div>
 
       <button class="btn-action" style="margin-top:30px; background:white; color:#444; border:1px solid #DDD;" onclick="copyLink()">링크 복사</button>
@@ -427,5 +421,33 @@
       }
     });
   </script>
+  <!-- ✅ AdFit: NO-AD 콜백 함수(디버깅용) -->
+<script>
+  function _adfitFallback(ins, label) {
+    const wrap = ins.parentElement;
+    if (!wrap) return;
+
+    const w = parseInt(ins.getAttribute("data-ad-width") || "320", 10);
+    const h = parseInt(ins.getAttribute("data-ad-height") || "50", 10);
+
+    wrap.style.minWidth = w + "px";
+    wrap.style.minHeight = h + "px";
+    wrap.style.display = "flex";
+    wrap.style.alignItems = "center";
+    wrap.style.justifyContent = "center";
+    wrap.style.border = "1px dashed #ddd";
+    wrap.style.color = "#999";
+    wrap.style.fontSize = "12px";
+    wrap.textContent = label + " (NO-AD / FAIL)";
+  }
+
+  function adfitFailLoading(ins){ _adfitFallback(ins, "LOADING AD"); }
+  function adfitFailMain(ins){ _adfitFallback(ins, "MAIN AD"); }
+  function adfitFailResult(ins){ _adfitFallback(ins, "RESULT AD"); }
+</script>
+
+<!-- ✅ AdFit 스크립트는 페이지 맨 아래에서 1번만 로드(권장) -->
+<script async type="text/javascript" charset="utf-8"
+  src="https://t1.daumcdn.net/kas/static/ba.min.js"></script>
 </body>
 </html>
