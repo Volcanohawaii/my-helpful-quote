@@ -403,7 +403,7 @@ const pool =
   (currentLang === 'ko' ? nextObjectPoolsKo.thing : nextObjectPoolsEn.thing);
 
 const finalObject = pool[(session.num81 + session.seed) % pool.length];
-
+        
 const nextLifeName =
   currentLang === 'ko'
     ? makeNextLifeNameKo(session.num81, strongEl, lackEl, session.birthMonth)
