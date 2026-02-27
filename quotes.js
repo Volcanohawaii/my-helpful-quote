@@ -10,7 +10,7 @@ const i18n = {
     btn: "리포트 생성하기",
     loadSeal: "분석중",
     loadTitle: "당신의 운명 에너지를 조합 중...",
-    loadDesc: "잠시만 기다려 주세요.",
+    loadDesc: "당신의 에너지 보강(補强)에 필요한 이미지를 보고 있습니다.",
 
     tab1Btn: "현생 분석",
     tab2Btn: "전생 기록",
@@ -384,19 +384,3 @@ const sideEffectsEn = ["Unstoppable dessert cravings", "Urge to back-talk everyo
 const quoteData = { "인생": [ { text: "모든 꽃은 저마다의 시간에 핀다." }, { text: "속도보다 중요한 것은 방향이다." }, { text: "지금 그대로 당신은 충분하다." }, { text: "어두운 밤일수록 별은 빛난다." } ] };
 const quoteDataEn = { "life": [ { text: "Every flower blooms in its own time." }, { text: "Direction is more important than speed." }, { text: "You are enough exactly as you are." }, { text: "The darker the night, the brighter the stars." } ] };
 
-// 6. 닉네임
-const nicknamesKo60 = {
-  "木": tierKo.map(t => `목(木)의 ${t} 설계자`),
-  "火": tierKo.map(t => `화(火)의 ${t} 촉진자`),
-  "土": tierKo.map(t => `토(土)의 ${t} 기반가`),
-  "金": tierKo.map(t => `금(金)의 ${t} 결단자`),
-  "水": tierKo.map(t => `수(水)의 ${t} 통찰가`)
-};
-
-const nicknamesEn60 = {
-  "木": tierEn.map(t => `${t} Wood Architect`),
-  "火": tierEn.map(t => `${t} Fire Catalyst`),
-  "土": tierEn.map(t => `${t} Earth Builder`),
-  "金": tierEn.map(t => `${t} Metal Decider`),
-  "水": tierEn.map(t => `${t} Water Seer`)
-};
