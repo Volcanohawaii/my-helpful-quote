@@ -1,6 +1,8 @@
-/* [Destiny Engineering Report - Global Final Dataset] */
+/* [Destiny Engineering Report - Global Final Dataset: 81 System] */
 
-// 0. i18n (✅ 너 메인 코드에서 반드시 필요)
+/* =========================
+   0) i18n
+========================= */
 const i18n = {
   ko: {
     title: "운명공학 데이터 분석",
@@ -10,7 +12,9 @@ const i18n = {
     btn: "리포트 생성하기",
     loadSeal: "분석중",
     loadTitle: "당신의 운명 에너지를 조합 중...",
-    loadDesc: "당신의 에너지 보강(補强)에 필요한 이미지를 보고 있습니다.",
+    // ✅ 로딩 화면 문구가 “안 뜨는” 이유: setLang()이 이 문구로 덮어씁니다.
+    //    원하는 문구를 여기(=i18n)에서 바꿔야 화면에 뜹니다.
+    loadDesc: "당신의 에너지 보강(補强)에 필요한 아이템을 이미지를 보며 잠시 기다려 주세요.",
 
     tab1Btn: "현생 분석",
     tab2Btn: "전생 기록",
@@ -31,44 +35,61 @@ const i18n = {
     nextObj: "다음 오브젝트",
     nextMission: "예약 확정을 위한 미션"
   },
+
   en: {
     title: "Destiny Engineering Analysis",
     desc: "We extract your signature energy from your name and birth date.",
-    nameLabel: "Name(Full name)",
+    nameLabel: "Name (Full name)",
     birthLabel: "Birth (YYYYMMDD)",
     btn: "Generate Report",
     loadSeal: "Analyzing",
     loadTitle: "Combining destiny energy...",
-    loadDesc: "Please wait a moment.",
+    loadDesc: "Please wait a moment while we assemble your reinforcement items.",
 
     tab1Btn: "Present-Life Analysis",
-tab2Btn: "Past-Life Records",
-tab3Btn: "Afterlife Reservation",
+    tab2Btn: "Past-Life Records",
+    tab3Btn: "Afterlife Reservation",
 
-sec1: "Name Numerology Analysis",
-sec2: "Energy Analysis",
-sec3: "Energy Reinforcement",
-advise: "Advice for This Life",
-practice: "Action Items",
-sideEffect: "Caution: Side Effects of Over-Supplementing",
+    sec1: "Name Numerology Analysis",
+    sec2: "Energy Analysis",
+    sec3: "Energy Reinforcement",
+    advise: "Advice for This Life",
+    practice: "Action Items",
+    sideEffect: "Caution: Side Effects of Over-Supplementing",
 
-tab2Title: "Past-Life Analysis Report",
-tab3Title: "Afterlife Analysis Report",
-pastJob: "Past-Life Occupation",
-pastHomework: "Past-Life Homework",
-nextDest: "Next Destination",
-nextObj: "Next Object",
-nextMission: "Complete the mission to confirm your afterlife reservation"
+    tab2Title: "Past-Life Analysis Report",
+    tab3Title: "Afterlife Analysis Report",
+    pastJob: "Past-Life Occupation",
+    pastHomework: "Past-Life Homework",
+    nextDest: "Next Destination",
+    nextObj: "Next Object",
+    nextMission: "Complete the mission to confirm your afterlife reservation"
   }
 };
 
-// 1. 분석 기초 데이터
-const hangulElements = { 'ㄱ': '木', 'ㄲ': '木', 'ㅋ': '木', 'ㄴ': '火', 'ㄷ': '火', 'ㄸ': '火', 'ㄹ': '火', 'ㅌ': '火', 'ㅇ': '土', 'ㅎ': '土', 'ㅅ': '金', 'ㅆ': '金', 'ㅈ': '金', 'ㅉ': '金', 'ㅊ': '金', 'ㅁ': '水', 'ㅂ': '水', 'ㅃ': '水', 'ㅍ': '水' };
-const alphabetElements = { 'A': '木', 'E': '木', 'I': '木', 'O': '木', 'U': '木', 'Y': '木', 'B': '水', 'P': '水', 'M': '水', 'F': '水', 'W': '水', 'C': '火', 'G': '火', 'J': '火', 'L': '火', 'S': '火', 'D': '土', 'N': '土', 'T': '土', 'H': '土', 'K': '金', 'R': '金', 'V': '金', 'X': '金', 'Q': '金', 'Z': '金' };
+/* =========================
+   1) name → 5 elements map
+========================= */
+const hangulElements = {
+  'ㄱ': '木','ㄲ': '木','ㅋ': '木',
+  'ㄴ': '火','ㄷ': '火','ㄸ': '火','ㄹ': '火','ㅌ': '火',
+  'ㅇ': '土','ㅎ': '土',
+  'ㅅ': '金','ㅆ': '金','ㅈ': '金','ㅉ': '金','ㅊ': '金',
+  'ㅁ': '水','ㅂ': '水','ㅃ': '水','ㅍ': '水'
+};
 
-// ✅ 2. 81수 성명학 데이터 (1~81) - 자동 생성(한/영)
-// 9(기본 성향) × 9(전개/결과) = 81 조합
+const alphabetElements = {
+  'A': '木','E': '木','I': '木','O': '木','U': '木','Y': '木',
+  'B': '水','P': '水','M': '水','F': '水','W': '水',
+  'C': '火','G': '火','J': '火','L': '火','S': '火',
+  'D': '土','N': '土','T': '土','H': '土',
+  'K': '金','R': '金','V': '金','X': '金','Q': '金','Z': '金'
+};
 
+/* =========================
+   2) 81 numerology (1~81)
+   9 × 9 = 81
+========================= */
 const baseKo = [
   { key:"개척", core:"시작·독립·결단", risk:"독단·조급" },
   { key:"조화", core:"협력·중재·관계", risk:"우유부단·의존" },
@@ -100,9 +121,10 @@ const nameNumerology = (() => {
   const out = {};
   for (let n = 1; n <= 81; n++) {
     const code = String(n).padStart(2, "0");
-    const a = (n - 1) % 9;           // 0~8 (기본)
-    const b = Math.floor((n - 1) / 9); // 0~8 (전개)
-    const ko = baseKo[a], en = baseEn[a];
+    const a = (n - 1) % 9;              // base 0~8
+    const b = Math.floor((n - 1) / 9);  // stage 0~8
+    const ko = baseKo[a];
+    const en = baseEn[a];
 
     out[n] = {
       title: `${code}수 · ${ko.key}(${stageKo[b]})`,
@@ -120,9 +142,11 @@ const nameNumerology = (() => {
   return out;
 })();
 
-// 3. 처방 및 속성 (한영 매칭) 12단계(0~11) 처방: 5원소 × 12단계
-const elementPrescriptions12 = {
-  "木": [
+/* =========================
+   3) prescriptions (12-tier) + attributes
+========================= */
+const elementPrescriptions12 = { /* (너가 쓰던 그대로) */ 
+  "木":[
     "초심: 목표를 1개만 정하고 ‘첫 행동’을 실행하세요.",
     "기초: 계획표를 단순화하고 루틴을 고정하세요.",
     "안정: 성장 속도를 유지하되, 검증(피드백)을 붙이세요.",
@@ -136,7 +160,7 @@ const elementPrescriptions12 = {
     "대성: 장기 로드맵과 단기 실행을 분리해 운영하세요.",
     "궁극: “내가 안 해도 굴러가는 시스템”을 구축하세요."
   ],
-  "火": [
+  "火":[
     "초심: 감정 에너지를 ‘작은 실행’으로 전환하세요.",
     "기초: 말보다 기록(메모/일지)이 과열을 잡습니다.",
     "안정: 에너지 소비 시간을 블록으로 나누세요.",
@@ -150,7 +174,7 @@ const elementPrescriptions12 = {
     "대성: 영향력을 확장하되 책임 범위를 명확히 하세요.",
     "궁극: 강한 불은 ‘관리’가 핵심입니다. 규칙을 만드세요."
   ],
-  "土": [
+  "土":[
     "초심: 오늘 할 일 1개만 완료해 기반을 만드세요.",
     "기초: 정리/청소/정돈이 운의 흐름을 안정화합니다.",
     "안정: 관계에서 경계(선)를 부드럽게 설정하세요.",
@@ -164,7 +188,7 @@ const elementPrescriptions12 = {
     "대성: 기반을 키우려면 자원(시간/돈) 관리가 핵심입니다.",
     "궁극: 큰 토는 ‘흐름’이 필요합니다. 정체를 풀어주세요."
   ],
-  "金": [
+  "金":[
     "초심: 기준을 1개 정하고 그 기준만 지키세요.",
     "기초: 선택지를 줄이면 결정력이 살아납니다.",
     "안정: 말은 짧게, 근거는 명확하게 제시하세요.",
@@ -178,7 +202,7 @@ const elementPrescriptions12 = {
     "대성: 기준은 유지하되 유연성을 10%만 추가하세요.",
     "궁극: 최고의 금은 ‘공정함+따뜻함’의 균형입니다."
   ],
-  "水": [
+  "水":[
     "초심: 생각을 멈추고 5분만 실행하세요.",
     "기초: 불안을 줄이려면 정보 입력을 제한하세요.",
     "안정: 깊이는 강점. 다만 ‘결론’을 반드시 적으세요.",
@@ -194,8 +218,8 @@ const elementPrescriptions12 = {
   ]
 };
 
-const enPrescriptions12 = {
-  "木": [
+const enPrescriptions12 = { /* (너가 쓰던 그대로) */
+  "木":[
     "Initiate: Pick one goal and take the first action today.",
     "Foundation: Simplify plans and lock a repeatable routine.",
     "Stability: Keep pace, but add feedback checkpoints.",
@@ -209,7 +233,7 @@ const enPrescriptions12 = {
     "Grand Master: Separate long-term roadmap and short-term execution.",
     "Ultimate: Build a system that runs without you."
   ],
-  "火": [
+  "火":[
     "Initiate: Convert emotion into one small action.",
     "Foundation: Write it down—logs reduce overheating.",
     "Stability: Split energy usage into time blocks.",
@@ -223,7 +247,7 @@ const enPrescriptions12 = {
     "Grand Master: Expand influence with clear responsibility boundaries.",
     "Ultimate: Strong fire needs rules—manage it."
   ],
-  "土": [
+  "土":[
     "Initiate: Finish one task today to build a base.",
     "Foundation: Declutter—order stabilizes your flow.",
     "Stability: Set soft boundaries in relationships.",
@@ -237,7 +261,7 @@ const enPrescriptions12 = {
     "Grand Master: Resource management is key (time/money).",
     "Ultimate: Keep flow—release stagnation."
   ],
-  "金": [
+  "金":[
     "Initiate: Choose one standard and follow it consistently.",
     "Foundation: Fewer options → clearer decisions.",
     "Stability: Speak short, reason clearly.",
@@ -251,7 +275,7 @@ const enPrescriptions12 = {
     "Grand Master: Keep standards, add 10% flexibility.",
     "Ultimate: The best Metal balances fairness and warmth."
   ],
-  "水": [
+  "水":[
     "Initiate: Stop thinking—execute for 5 minutes.",
     "Foundation: Limit input—too much info fuels anxiety.",
     "Stability: Depth is power, but write the conclusion.",
@@ -267,7 +291,6 @@ const enPrescriptions12 = {
   ]
 };
 
-// ✅ 3-1. 오행 속성
 const elementAttributesKo = {
   "木": { name: "나무", trait: "성장과 기획" },
   "火": { name: "불", trait: "열정과 확산" },
@@ -283,39 +306,40 @@ const elementAttributesEn = {
   "金": { name: "Metal", trait: "Logic & Integrity" },
   "水": { name: "Water", trait: "Wisdom & Flexibility" }
 };
-// ✅ 4. 전생/내세 81개 자동 생성(한/영) + 이유(근거) 포함
 
+/* =========================
+   4) past / next (81) + reason
+========================= */
 const pastJobsKo = [
-  "궁중 기록관", "산중 서당 훈장", "전장의 전령", "약초를 다루던 의원", "해상 무역상",
-  "조향사", "장인(목공/금속)", "사찰의 수행자", "별을 연구하던 관측자"
+  "궁중 기록관","산중 서당 훈장","전장의 전령","약초를 다루던 의원","해상 무역상",
+  "조향사","장인(목공/금속)","사찰의 수행자","별을 연구하던 관측자"
 ];
 
 const pastJobsEn = [
-  "Royal Archivist", "Mountain Tutor", "Battle Messenger", "Herbal Healer", "Sea Merchant",
-  "Perfumer", "Craft Artisan", "Temple Practitioner", "Star Observer"
+  "Royal Archivist","Mountain Tutor","Battle Messenger","Herbal Healer","Sea Merchant",
+  "Perfumer","Craft Artisan","Temple Practitioner","Star Observer"
 ];
 
 const nextPlacesKo = [
-  "도서관의 서재", "바다 위 등대", "산악 목장", "미래 연구소", "정원 도시",
-  "예술 작업실", "우주 정거장", "고요한 호숫가", "영화 촬영장"
+  "도서관의 서재","바다 위 등대","산악 목장","미래 연구소","정원 도시",
+  "예술 작업실","우주 정거장","고요한 호숫가","영화 촬영장"
 ];
 
 const nextPlacesEn = [
-  "Library Study", "Ocean Lighthouse", "Mountain Ranch", "Future Lab", "Garden City",
-  "Art Studio", "Space Station", "Quiet Lakeside", "Movie Set"
+  "Library Study","Ocean Lighthouse","Mountain Ranch","Future Lab","Garden City",
+  "Art Studio","Space Station","Quiet Lakeside","Movie Set"
 ];
 
 const objectsKo = [
-  "기록서", "나침반", "도구 상자", "약병", "무역 장부",
-  "향수 병", "정밀한 칼", "염주", "망원경"
+  "기록서","나침반","도구 상자","약병","무역 장부",
+  "향수 병","정밀한 칼","염주","망원경"
 ];
 
 const objectsEn = [
-  "Record Book", "Compass", "Toolbox", "Medicine Vial", "Trade Ledger",
-  "Perfume Bottle", "Precision Blade", "Prayer Beads", "Telescope"
+  "Record Book","Compass","Toolbox","Medicine Vial","Trade Ledger",
+  "Perfume Bottle","Precision Blade","Prayer Beads","Telescope"
 ];
 
-// 전생/내세의 “이유” 문장(오행 과다/부족을 신비롭게 설명)
 const reasonKo = {
   "木": "성장과 확장의 기운이 강해 ‘개척/기획’ 계열의 전생 흔적이 짙습니다.",
   "火": "표현과 확산의 기운이 강해 ‘열정/무대’ 계열의 전생 흔적이 짙습니다.",
@@ -332,7 +356,6 @@ const reasonEn = {
   "水": "Your energy leans toward insight and flexibility, leaving a strong “research/healing” past-life trace."
 };
 
-// 81개 만들기
 const pastLifeData = Array.from({ length: 81 }, (_, i) => {
   const n = i + 1;
   const a = (n - 1) % 9;
@@ -377,10 +400,33 @@ const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
   };
 });
 
-// 5. 부작용 및 명언
-const sideEffects = ["디저트 무한 흡입 주의", "모든 말끝에 토 달기", "전생이 바위였던 듯한 멍함", "양말 한 짝 영원히 실종", "냉장고 소스 유통기한 점검 강박", "뜬금없는 윙크 발사", "거울 속 내 모습에 취함", "왼쪽 콧구멍만 간지러움"];
-const sideEffectsEn = ["Unstoppable dessert cravings", "Urge to back-talk everyone", "Spells of rock-like zoning out", "Mysterious loss of one sock forever", "Obsessive checking of sauce dates", "Involuntary winking syndrome", "Dazzled by your own mirror image", "An itch in specifically your left nostril"];
+/* =========================
+   5) side effects + quotes
+========================= */
+const sideEffects = [
+  "디저트 무한 흡입 주의","모든 말끝에 토 달기","전생이 바위였던 듯한 멍함","양말 한 짝 영원히 실종",
+  "냉장고 소스 유통기한 점검 강박","뜬금없는 윙크 발사","거울 속 내 모습에 취함","왼쪽 콧구멍만 간지러움"
+];
 
-const quoteData = { "인생": [ { text: "모든 꽃은 저마다의 시간에 핀다." }, { text: "속도보다 중요한 것은 방향이다." }, { text: "지금 그대로 당신은 충분하다." }, { text: "어두운 밤일수록 별은 빛난다." } ] };
-const quoteDataEn = { "life": [ { text: "Every flower blooms in its own time." }, { text: "Direction is more important than speed." }, { text: "You are enough exactly as you are." }, { text: "The darker the night, the brighter the stars." } ] };
+const sideEffectsEn = [
+  "Unstoppable dessert cravings","Urge to back-talk everyone","Spells of rock-like zoning out","Mysterious loss of one sock forever",
+  "Obsessive checking of sauce dates","Involuntary winking syndrome","Dazzled by your own mirror image","An itch in specifically your left nostril"
+];
 
+const quoteData = {
+  "인생": [
+    { text: "모든 꽃은 저마다의 시간에 핀다." },
+    { text: "속도보다 중요한 것은 방향이다." },
+    { text: "지금 그대로 당신은 충분하다." },
+    { text: "어두운 밤일수록 별은 빛난다." }
+  ]
+};
+
+const quoteDataEn = {
+  "life": [
+    { text: "Every flower blooms in its own time." },
+    { text: "Direction is more important than speed." },
+    { text: "You are enough exactly as you are." },
+    { text: "The darker the night, the brighter the stars." }
+  ]
+};
