@@ -147,147 +147,147 @@ const nameNumerology = (() => {
 ========================= */
 const elementPrescriptions12 = { /* (너가 쓰던 그대로) */ 
   "木":[
-    "초심: 목표를 1개만 정하고 ‘첫 행동’을 실행하세요.",
-    "기초: 계획표를 단순화하고 루틴을 고정하세요.",
-    "안정: 성장 속도를 유지하되, 검증(피드백)을 붙이세요.",
-    "정진: 우선순위 3가지만 남기고 나머지는 보류하세요.",
-    "성장: 확장 전에 ‘완료 기준’을 문장으로 정의하세요.",
-    "확장: 협업/외주로 속도를 올리되 품질 체크포인트를 두세요.",
-    "숙련: 반복 작업을 자동화해 리소스를 회수하세요.",
-    "완성: 한 번 더 ‘사용자 관점’에서 흐름을 정리하세요.",
-    "정점: 성과를 표준화(템플릿화)해 재현성을 만드세요.",
-    "초월: 불필요한 욕심을 덜고 핵심만 남기세요.",
-    "대성: 장기 로드맵과 단기 실행을 분리해 운영하세요.",
-    "궁극: “내가 안 해도 굴러가는 시스템”을 구축하세요."
+    "☆초심☆ 목표를 1개만 정하고 ‘첫 행동’을 실행하세요.",
+    "☆기초☆ 계획표를 단순화하고 루틴을 고정하세요.",
+    "☆안정☆ 성장 속도를 유지하되, 검증(피드백)을 붙이세요.",
+    "☆정진☆ 우선순위 3가지만 남기고 나머지는 보류하세요.",
+    "☆성장☆ 확장 전에 ‘완료 기준’을 문장으로 정의하세요.",
+    "☆확장☆ 협업/외주로 속도를 올리되 품질 체크포인트를 두세요.",
+    "☆숙련☆ 반복 작업을 자동화해 리소스를 회수하세요.",
+    "☆완성☆ 한 번 더 ‘사용자 관점’에서 흐름을 정리하세요.",
+    "☆정점☆ 성과를 표준화(템플릿화)해 재현성을 만드세요.",
+    "☆초월☆ 불필요한 욕심을 덜고 핵심만 남기세요.",
+    "☆대성☆ 장기 로드맵과 단기 실행을 분리해 운영하세요.",
+    "☆궁극☆ “내가 안 해도 굴러가는 시스템”을 구축하세요."
   ],
   "火":[
-    "초심: 감정 에너지를 ‘작은 실행’으로 전환하세요.",
-    "기초: 말보다 기록(메모/일지)이 과열을 잡습니다.",
-    "안정: 에너지 소비 시간을 블록으로 나누세요.",
-    "정진: 흥분 포인트를 줄이고 집중 포인트를 1개로.",
-    "성장: 설득/표현은 강점이니 ‘근거’를 같이 붙이세요.",
-    "확장: 무리한 일정은 번아웃을 부릅니다. 휴식도 일정입니다.",
-    "숙련: 감정 기복이 오면 운동/호흡으로 온도를 낮추세요.",
-    "완성: 열정을 ‘성과물’로 끝까지 마무리하세요.",
-    "정점: 주변을 태우지 않도록 톤을 한 단계 낮추세요.",
-    "초월: “덜 말하고 더 보여주기”로 신뢰를 올리세요.",
-    "대성: 영향력을 확장하되 책임 범위를 명확히 하세요.",
-    "궁극: 강한 불은 ‘관리’가 핵심입니다. 규칙을 만드세요."
+    "☆초심☆ 감정 에너지를 ‘작은 실행’으로 전환하세요.",
+    "☆기초☆ 말보다 기록(메모/일지)이 과열을 잡습니다.",
+    "☆안정☆ 에너지 소비 시간을 블록으로 나누세요.",
+    "☆정진☆ 흥분 포인트를 줄이고 집중 포인트를 1개로.",
+    "☆성장☆ 설득/표현은 강점이니 ‘근거’를 같이 붙이세요.",
+    "☆확장☆ 무리한 일정은 번아웃을 부릅니다. 휴식도 일정입니다.",
+    "☆숙련☆ 감정 기복이 오면 운동/호흡으로 온도를 낮추세요.",
+    "☆완성☆ 열정을 ‘성과물’로 끝까지 마무리하세요.",
+    "☆정점☆ 주변을 태우지 않도록 톤을 한 단계 낮추세요.",
+    "☆초월☆ “덜 말하고 더 보여주기”로 신뢰를 올리세요.",
+    "☆대성☆ 영향력을 확장하되 책임 범위를 명확히 하세요.",
+    "☆궁극☆ 강한 불은 ‘관리’가 핵심입니다. 규칙을 만드세요."
   ],
   "土":[
-    "초심: 오늘 할 일 1개만 완료해 기반을 만드세요.",
-    "기초: 정리/청소/정돈이 운의 흐름을 안정화합니다.",
-    "안정: 관계에서 경계(선)를 부드럽게 설정하세요.",
-    "정진: 미루는 습관을 끊기 위해 마감 시간을 정하세요.",
-    "성장: 책임을 지되 ‘내 몫’과 ‘남의 몫’을 구분하세요.",
-    "확장: 과도한 부담은 정체를 만듭니다. 분배하세요.",
-    "숙련: 체력·수면·식사, 3요소를 먼저 고정하세요.",
-    "완성: 안정감은 강점. 다만 변화도 작은 단위로 시도하세요.",
-    "정점: 조용히 끌고 가는 리더십이 빛납니다.",
-    "초월: ‘완벽한 안전’은 없습니다. 실험을 허용하세요.",
-    "대성: 기반을 키우려면 자원(시간/돈) 관리가 핵심입니다.",
-    "궁극: 큰 토는 ‘흐름’이 필요합니다. 정체를 풀어주세요."
+    "☆초심☆ 오늘 할 일 1개만 완료해 기반을 만드세요.",
+    "☆기초☆ 정리/청소/정돈이 운의 흐름을 안정화합니다.",
+    "☆안정☆ 관계에서 경계(선)를 부드럽게 설정하세요.",
+    "☆정진☆ 미루는 습관을 끊기 위해 마감 시간을 정하세요.",
+    "☆성장☆ 책임을 지되 ‘내 몫’과 ‘남의 몫’을 구분하세요.",
+    "☆확장☆ 과도한 부담은 정체를 만듭니다. 분배하세요.",
+    "☆숙련☆ 체력·수면·식사, 3요소를 먼저 고정하세요.",
+    "☆완성☆ 안정감은 강점. 다만 변화도 작은 단위로 시도하세요.",
+    "☆정점☆ 조용히 끌고 가는 리더십이 빛납니다.",
+    "☆초월☆ ‘완벽한 안전’은 없습니다. 실험을 허용하세요.",
+    "☆대성☆ 기반을 키우려면 자원(시간/돈) 관리가 핵심입니다.",
+    "☆궁극☆ 큰 토는 ‘흐름’이 필요합니다. 정체를 풀어주세요."
   ],
   "金":[
-    "초심: 기준을 1개 정하고 그 기준만 지키세요.",
-    "기초: 선택지를 줄이면 결정력이 살아납니다.",
-    "안정: 말은 짧게, 근거는 명확하게 제시하세요.",
-    "정진: 정리·정돈·정산이 강점입니다. 루틴화하세요.",
-    "성장: 과한 비판 대신 ‘개선안’까지 제시하면 신뢰가 커집니다.",
-    "확장: 규칙을 늘리기 전에 핵심 규칙 3개만 남기세요.",
-    "숙련: 관계에서 날이 서면 한 박자 쉬고 말하세요.",
-    "완성: 결과물의 완성도를 올리는 마감력이 강합니다.",
-    "정점: 원칙을 고집하기보다 ‘상황 적용’을 배우세요.",
-    "초월: 상대의 감정을 데이터로 취급하지 마세요. 공감이 필요합니다.",
-    "대성: 기준은 유지하되 유연성을 10%만 추가하세요.",
-    "궁극: 최고의 금은 ‘공정함+따뜻함’의 균형입니다."
+    "☆초심☆ 기준을 1개 정하고 그 기준만 지키세요.",
+    "☆기초☆ 선택지를 줄이면 결정력이 살아납니다.",
+    "☆안정☆ 말은 짧게, 근거는 명확하게 제시하세요.",
+    "☆정진☆ 정리·정돈·정산이 강점입니다. 루틴화하세요.",
+    "☆성장☆ 과한 비판 대신 ‘개선안’까지 제시하면 신뢰가 커집니다.",
+    "☆확장☆ 규칙을 늘리기 전에 핵심 규칙 3개만 남기세요.",
+    "☆숙련☆ 관계에서 날이 서면 한 박자 쉬고 말하세요.",
+    "☆완성☆ 결과물의 완성도를 올리는 마감력이 강합니다.",
+    "☆정점☆ 원칙을 고집하기보다 ‘상황 적용’을 배우세요.",
+    "☆초월☆ 상대의 감정을 데이터로 취급하지 마세요. 공감이 필요합니다.",
+    "☆대성☆ 기준은 유지하되 유연성을 10%만 추가하세요.",
+    "☆궁극☆ 최고의 금은 ‘공정함+따뜻함’의 균형입니다."
   ],
   "水":[
-    "초심: 생각을 멈추고 5분만 실행하세요.",
-    "기초: 불안을 줄이려면 정보 입력을 제한하세요.",
-    "안정: 깊이는 강점. 다만 ‘결론’을 반드시 적으세요.",
-    "정진: 선택 회피 대신 “임시 결론”을 세우세요.",
-    "성장: 통찰을 말로만 두지 말고 문서로 구조화하세요.",
-    "확장: 멀티태스킹은 감정 소모를 키웁니다. 한 번에 하나씩.",
-    "숙련: 과몰입 신호가 오면 산책/수분/수면으로 리셋하세요.",
-    "완성: 완성도는 ‘마감’에서 결정됩니다. 마감 시간을 정하세요.",
-    "정점: 조용한 영향력으로 주변을 설득할 수 있습니다.",
-    "초월: 감정의 바닥으로 내려가기 전에 ‘루틴’이 방패입니다.",
-    "대성: 지혜를 나누면 운이 커집니다. 코칭/공유가 좋습니다.",
-    "궁극: 물의 힘은 흐름. 집착을 내려놓을수록 강해집니다."
+    "☆초심☆ 생각을 멈추고 5분만 실행하세요.",
+    "☆기초☆ 불안을 줄이려면 정보 입력을 제한하세요.",
+    "☆안정☆ 깊이는 강점. 다만 ‘결론’을 반드시 적으세요.",
+    "☆정진☆ 선택 회피 대신 “임시 결론”을 세우세요.",
+    "☆성장☆ 통찰을 말로만 두지 말고 문서로 구조화하세요.",
+    "☆확장☆ 멀티태스킹은 감정 소모를 키웁니다. 한 번에 하나씩.",
+    "☆숙련☆ 과몰입 신호가 오면 산책/수분/수면으로 리셋하세요.",
+    "☆완성☆ 완성도는 ‘마감’에서 결정됩니다. 마감 시간을 정하세요.",
+    "☆정점☆ 조용한 영향력으로 주변을 설득할 수 있습니다.",
+    "☆초월☆ 감정의 바닥으로 내려가기 전에 ‘루틴’이 방패입니다.",
+    "☆대성☆ 지혜를 나누면 운이 커집니다. 코칭/공유가 좋습니다.",
+    "☆궁극☆ 물의 힘은 흐름. 집착을 내려놓을수록 강해집니다."
   ]
 };
 
 const enPrescriptions12 = { /* (너가 쓰던 그대로) */
   "木":[
-    "Initiate: Pick one goal and take the first action today.",
-    "Foundation: Simplify plans and lock a repeatable routine.",
-    "Stability: Keep pace, but add feedback checkpoints.",
-    "Discipline: Keep only the top 3 priorities—pause the rest.",
-    "Growth: Define a clear “done” criteria before expanding.",
-    "Expansion: Scale via collaboration, but keep quality gates.",
-    "Mastery: Automate repeat work to recover time.",
-    "Completion: Re-check the flow from the user’s perspective.",
-    "Apex: Template your wins to make results repeatable.",
-    "Transcendence: Remove extra ambition—keep only the core.",
-    "Grand Master: Separate long-term roadmap and short-term execution.",
-    "Ultimate: Build a system that runs without you."
+    "☆Initiate☆ Pick one goal and take the first action today.",
+    "☆Foundation☆ Simplify plans and lock a repeatable routine.",
+    "☆Stability☆ Keep pace, but add feedback checkpoints.",
+    "☆Discipline☆ Keep only the top 3 priorities—pause the rest.",
+    "☆Growth☆ Define a clear “done” criteria before expanding.",
+    "☆Expansion☆ Scale via collaboration, but keep quality gates.",
+    "☆Mastery☆ Automate repeat work to recover time.",
+    "☆Completion☆ Re-check the flow from the user’s perspective.",
+    "☆Apex☆ Template your wins to make results repeatable.",
+    "☆Transcendence☆ Remove extra ambition—keep only the core.",
+    "☆Grand Master☆ Separate long-term roadmap and short-term execution.",
+    "☆Ultimate☆ Build a system that runs without you."
   ],
   "火":[
-    "Initiate: Convert emotion into one small action.",
-    "Foundation: Write it down—logs reduce overheating.",
-    "Stability: Split energy usage into time blocks.",
-    "Discipline: Reduce triggers; focus on one core point.",
-    "Growth: Add evidence to your expression for credibility.",
-    "Expansion: Rest is part of the schedule—avoid burnout.",
-    "Mastery: Use breath/movement to cool down quickly.",
-    "Completion: Turn passion into a finished deliverable.",
-    "Apex: Lower the tone one step to protect relationships.",
-    "Transcendence: Show more, say less—trust rises.",
-    "Grand Master: Expand influence with clear responsibility boundaries.",
-    "Ultimate: Strong fire needs rules—manage it."
+    "☆Initiate☆ Convert emotion into one small action.",
+    "☆Foundation☆ Write it down—logs reduce overheating.",
+    "☆Stability☆ Split energy usage into time blocks.",
+    "☆Discipline☆ Reduce triggers; focus on one core point.",
+    "☆Growth☆ Add evidence to your expression for credibility.",
+    "☆Expansion☆ Rest is part of the schedule—avoid burnout.",
+    "☆Mastery☆ Use breath/movement to cool down quickly.",
+    "☆Completion☆ Turn passion into a finished deliverable.",
+    "☆Apex☆ Lower the tone one step to protect relationships.",
+    "☆Transcendence☆ Show more, say less—trust rises.",
+    "☆Grand Master☆ Expand influence with clear responsibility boundaries.",
+    "☆Ultimate☆ Strong fire needs rules—manage it."
   ],
   "土":[
-    "Initiate: Finish one task today to build a base.",
-    "Foundation: Declutter—order stabilizes your flow.",
-    "Stability: Set soft boundaries in relationships.",
-    "Discipline: Set deadlines to stop procrastination.",
-    "Growth: Separate your role from others’ responsibilities.",
-    "Expansion: Distribute load—excess weight creates stagnation.",
-    "Mastery: Lock sleep, food, and movement first.",
-    "Completion: Try change in small units, safely.",
-    "Apex: Quiet leadership shines when you stay steady.",
-    "Transcendence: Perfect safety doesn’t exist—allow experiments.",
-    "Grand Master: Resource management is key (time/money).",
-    "Ultimate: Keep flow—release stagnation."
+    "☆Initiate☆ Finish one task today to build a base.",
+    "☆Foundation☆ Declutter—order stabilizes your flow.",
+    "☆Stability☆ Set soft boundaries in relationships.",
+    "☆Discipline☆ Set deadlines to stop procrastination.",
+    "☆Growth☆ Separate your role from others’ responsibilities.",
+    "☆Expansion☆ Distribute load—excess weight creates stagnation.",
+    "☆Mastery☆ Lock sleep, food, and movement first.",
+    "☆Completion☆ Try change in small units, safely.",
+    "☆Apex☆ Quiet leadership shines when you stay steady.",
+    "☆Transcendence☆ Perfect safety doesn’t exist—allow experiments.",
+    "☆Grand Master☆ Resource management is key (time/money).",
+    "☆Ultimate☆ Keep flow—release stagnation."
   ],
   "金":[
-    "Initiate: Choose one standard and follow it consistently.",
-    "Foundation: Fewer options → clearer decisions.",
-    "Stability: Speak short, reason clearly.",
-    "Discipline: Routine your organization and clean-up cycles.",
-    "Growth: Replace criticism with a concrete improvement plan.",
-    "Expansion: Keep only 3 core rules before adding more.",
-    "Mastery: Pause one beat before you speak when tension rises.",
-    "Completion: Your finishing power is strong—close it cleanly.",
-    "Apex: Learn situational flexibility, not just principles.",
-    "Transcendence: Don’t treat feelings as data—add empathy.",
-    "Grand Master: Keep standards, add 10% flexibility.",
-    "Ultimate: The best Metal balances fairness and warmth."
+    "☆Initiate☆ Choose one standard and follow it consistently.",
+    "☆Foundation☆ Fewer options → clearer decisions.",
+    "☆Stability☆ Speak short, reason clearly.",
+    "☆Discipline☆ Routine your organization and clean-up cycles.",
+    "☆Growth☆ Replace criticism with a concrete improvement plan.",
+    "☆Expansion☆ Keep only 3 core rules before adding more.",
+    "☆Mastery☆ Pause one beat before you speak when tension rises.",
+    "☆Completion☆ Your finishing power is strong—close it cleanly.",
+    "☆Apex☆ Learn situational flexibility, not just principles.",
+    "☆Transcendence☆ Don’t treat feelings as data—add empathy.",
+    "☆Grand Master☆ Keep standards, add 10% flexibility.",
+    "☆Ultimate☆ The best Metal balances fairness and warmth."
   ],
   "水":[
-    "Initiate: Stop thinking—execute for 5 minutes.",
-    "Foundation: Limit input—too much info fuels anxiety.",
-    "Stability: Depth is power, but write the conclusion.",
-    "Discipline: Make a temporary conclusion instead of avoiding choice.",
-    "Growth: Structure your insight into a document.",
-    "Expansion: One thing at a time—multitasking drains you.",
-    "Mastery: Reset with walk/water/sleep at over-immersion signals.",
-    "Completion: Deadlines decide quality—set one.",
-    "Apex: Quiet influence can persuade effectively.",
-    "Transcendence: Routine is your shield before mood drops.",
-    "Grand Master: Sharing wisdom grows your luck—teach/coach.",
-    "Ultimate: Flow wins—release attachment."
+    "☆Initiate☆ Stop thinking—execute for 5 minutes.",
+    "☆Foundation☆ Limit input—too much info fuels anxiety.",
+    "☆Stability☆ Depth is power, but write the conclusion.",
+    "☆Discipline☆ Make a temporary conclusion instead of avoiding choice.",
+    "☆Growth☆ Structure your insight into a document.",
+    "☆Expansion☆ One thing at a time—multitasking drains you.",
+    "☆Mastery☆ Reset with walk/water/sleep at over-immersion signals.",
+    "☆Completion☆ Deadlines decide quality—set one.",
+    "☆Apex☆ Quiet influence can persuade effectively.",
+    "☆Transcendence☆ Routine is your shield before mood drops.",
+    "☆Grand Master☆ Sharing wisdom grows your luck—teach/coach.",
+    "☆Ultimate☆ Flow wins—release attachment."
   ]
 };
 
@@ -330,15 +330,26 @@ const nextPlacesEn = [
   "Art Studio","Space Station","Quiet Lakeside","Movie Set"
 ];
 
-const objectsKo = [
-  "기록서","나침반","도구 상자","약병","무역 장부",
-  "향수 병","정밀한 칼","염주","망원경"
-];
+// ✅ (교체) 다음 오브젝트 풀: 사물/동물/인간/신/곤충/미생물/자연 (한/영)
+const nextObjectPoolsKo = {
+  thing: ["기록서", "나침반", "도구 상자", "약병", "무역 장부", "향수 병", "정밀한 칼", "염주", "망원경", "깃발", "열쇠", "모래시계"],
+  animal: ["늑대", "올빼미", "돌고래", "사슴", "고양이", "말", "까마귀", "여우", "독수리", "거북", "나비", "고래"],
+  human: ["치유사", "수호자", "기록관", "항해사", "장인", "연구원", "연출가", "농부", "교사", "조향사", "중재자", "리더"],
+  deity: ["문지기 신", "풍요의 신", "전쟁의 수호신", "지혜의 신", "바람의 신", "물의 정령왕", "불의 정령왕", "숲의 수호령", "별의 안내자"],
+  insect: ["꿀벌", "사마귀", "반딧불이", "잠자리", "개미", "매미", "나방", "거미"],
+  microbe: ["효모", "유산균", "플랑크톤", "균사체", "공생 미생물", "심해 미생물"],
+  nature: ["바다의 조류(潮流)", "산의 바람길", "고요한 호수", "설산의 만년설", "사막의 모래폭풍", "숲의 안개", "유성우", "화산의 숨결"]
+};
 
-const objectsEn = [
-  "Record Book","Compass","Toolbox","Medicine Vial","Trade Ledger",
-  "Perfume Bottle","Precision Blade","Prayer Beads","Telescope"
-];
+const nextObjectPoolsEn = {
+  thing: ["Record Book", "Compass", "Toolbox", "Medicine Vial", "Trade Ledger", "Perfume Bottle", "Precision Blade", "Prayer Beads", "Telescope", "Banner", "Key", "Hourglass"],
+  animal: ["Wolf", "Owl", "Dolphin", "Deer", "Cat", "Horse", "Raven", "Fox", "Eagle", "Turtle", "Butterfly", "Whale"],
+  human: ["Healer", "Guardian", "Archivist", "Navigator", "Artisan", "Researcher", "Director", "Farmer", "Teacher", "Perfumer", "Mediator", "Leader"],
+  deity: ["Gatekeeper Deity", "Deity of Abundance", "War Guardian", "Deity of Wisdom", "Deity of Wind", "King of Water Spirits", "King of Fire Spirits", "Forest Warden", "Star Guide"],
+  insect: ["Honeybee", "Mantis", "Firefly", "Dragonfly", "Ant", "Cicada", "Moth", "Spider"],
+  microbe: ["Yeast", "Lactobacillus", "Plankton", "Mycelium", "Symbiotic Microbe", "Deep-sea Microbe"],
+  nature: ["Ocean Current", "Mountain Windpath", "Quiet Lake", "Perennial Snow", "Sandstorm", "Forest Mist", "Meteor Shower", "Volcanic Breath"]
+};
 
 const reasonKo = {
   "木": "성장과 확장의 기운이 강해 ‘개척/기획’ 계열의 전생 흔적이 짙습니다.",
@@ -378,14 +389,99 @@ const pastLifeDataEn = Array.from({ length: 81 }, (_, i) => {
   };
 });
 
+// ✅ 81수 → 다음 오브젝트/이름 생성 로직
+
+// 81수(1~81)에서 9×9의 a,b는 그대로 사용
+// + 오행(강/약)까지 반영할 수 있도록 "추천 카테고리"를 만들어 둠
+const objectCategoryOrder = ["thing", "animal", "human", "deity", "insect", "microbe", "nature"];
+
+function pickCategoryByNumber(n) {
+  // n=1~81 → 0~6 범위로 회전 (사물만 나오는 걸 방지)
+  return objectCategoryOrder[(n - 1) % objectCategoryOrder.length];
+}
+
+function pickCategoryByElement(strongEl, lackEl, n) {
+  // strongEl/lackEl 기반 “가중 추천” (너무 단조롭지 않게 n으로 섞음)
+  // Wood: 자연/동물/인간
+  // Fire: 신/인간/곤충(빛)
+  // Earth: 사물/인간/자연
+  // Metal: 사물/인간/미생물(정밀)
+  // Water: 동물/미생물/자연
+  const map = {
+    "木": ["nature", "animal", "human"],
+    "火": ["deity", "human", "insect"],
+    "土": ["thing", "human", "nature"],
+    "金": ["thing", "human", "microbe"],
+    "水": ["animal", "microbe", "nature"]
+  };
+  const base = map[strongEl] || ["thing", "animal", "human"];
+  const idx = (n + (lackEl ? lackEl.charCodeAt(0) : 0)) % base.length;
+  return base[idx];
+}
+
+function pickFromPool(pool, n) {
+  return pool[n % pool.length];
+}
+
+// ✅ 다음생 이름 생성(한글/영문)
+// 1) 81수 baseKo/baseEn의 key + stageKo/En
+// 2) strongEl/lackEl로 “성격 접미어”를 부여
+const nextNameSuffixKoByElement = {
+  "木": ["개척자", "설계자", "푸른길", "새순"],
+  "火": ["불꽃", "등불", "노래", "태양"],
+  "土": ["기반", "성채", "들판", "마루"],
+  "金": ["칼날", "규율", "은빛", "서약"],
+  "水": ["물결", "심해", "안개", "거울"]
+};
+
+const nextNameSuffixEnByElement = {
+  "木": ["Pathfinder", "Architect", "Greenway", "Sprout"],
+  "火": ["Flare", "Lantern", "Chant", "Solar"],
+  "土": ["Foundation", "Citadel", "Meadow", "Hearth"],
+  "金": ["Edge", "Order", "Silver", "Vow"],
+  "水": ["Tide", "Abyss", "Mist", "Mirror"]
+};
+
+function makeNextLifeNameKo(n, strongEl, lackEl) {
+  const a = (n - 1) % 9;
+  const b = Math.floor((n - 1) / 9);
+  const base = baseKo[a].key;     // 예: 개척/조화...
+  const stage = stageKo[b];       // 예: 발아/정립...
+  const sufPool = nextNameSuffixKoByElement[strongEl] || ["이름"];
+  const suf = sufPool[(n + (lackEl ? lackEl.charCodeAt(0) : 0)) % sufPool.length];
+  // 예: "개척 · 발아의 불꽃"
+  return `${base} · ${stage}의 ${suf}`;
+}
+
+function makeNextLifeNameEn(n, strongEl, lackEl) {
+  const a = (n - 1) % 9;
+  const b = Math.floor((n - 1) / 9);
+  const base = baseEn[a].key;     // Pioneer/Harmony...
+  const stage = stageEn[b];       // Sprout/Settle...
+  const sufPool = nextNameSuffixEnByElement[strongEl] || ["Name"];
+  const suf = sufPool[(n + (lackEl ? lackEl.charCodeAt(0) : 0)) % sufPool.length];
+  // 예: "Pioneer of Sprout · Lantern"
+  return `${base} of ${stage} · ${suf}`;
+}
+
+// ✅ 81개 생성 (오브젝트 = 다양 카테고리 + 이름 포함)
 const reincarnationData = Array.from({ length: 81 }, (_, i) => {
   const n = i + 1;
   const a = (n - 1) % 9;
   const b = Math.floor((n - 1) / 9);
+
+  // 오행은 HTML의 processData에서 계산되니,
+  // 여기서는 “기본 카테고리”만 번호 기반으로 준비해 둠(최종 선택은 HTML에서)
+  const cat = pickCategoryByNumber(n);
+  const pool = nextObjectPoolsKo[cat] || nextObjectPoolsKo.thing;
+
   return {
     place: nextPlacesKo[b],
-    object: objectsKo[a],
-    mission: `(${String(n).padStart(2,"0")}수 미션) ${baseKo[a].core}을(를) ‘${stageKo[b]}’ 단계로 완성하기.`
+    objectCategory: cat,
+    object: pickFromPool(pool, n + a + b),
+    mission: `(${String(n).padStart(2,"0")}수) ${baseKo[a].core} 흐름을 ‘${stageKo[b]}’ 단계로 완성하기.`,
+    // 이름은 strong/lack이 필요하니 “기본형”만 저장
+    nameBase: `${baseKo[a].key} · ${stageKo[b]}`
   };
 });
 
@@ -393,10 +489,16 @@ const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
   const n = i + 1;
   const a = (n - 1) % 9;
   const b = Math.floor((n - 1) / 9);
+
+  const cat = pickCategoryByNumber(n);
+  const pool = nextObjectPoolsEn[cat] || nextObjectPoolsEn.thing;
+
   return {
     place: nextPlacesEn[b],
-    object: objectsEn[a],
-    mission: `(No.${String(n).padStart(2,"0")}) Complete ${baseEn[a].core} to reach the “${stageEn[b]}” phase.`
+    objectCategory: cat,
+    object: pickFromPool(pool, n + a + b),
+    mission: `(No.${String(n).padStart(2,"0")}) Complete ${baseEn[a].core} to reach the “${stageEn[b]}” phase.`,
+    nameBase: `${baseEn[a].key} of ${stageEn[b]}`
   };
 });
 
