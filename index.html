@@ -252,11 +252,11 @@ async function updateCounter() {
   document.getElementById('dynamic-title').innerText =
     currentLang === 'ko' ? `[${cleanName}]님의 운명 리포트` : `Report for [${cleanName}]`;
 
-  // ✅ 요약(닉네임) — 60체계용 배열을 quotes.js에 추가해야 함
+  // ✅ 요약(닉네임) — 81
   document.getElementById('dynamic-summary').innerText =
-    currentLang === 'ko'
-      ? nicknamesKo60[strongEl][tierStrong]
-      : nicknamesEn60[strongEl][tierStrong];
+  currentLang === 'ko'
+    ? res.title
+    : res.titleEn;
 
   // ✅ 60격(00격 + 설명)
   const res = nameNumerology[typeIdx];
@@ -372,7 +372,7 @@ async function updateCounter() {
           </div>`;
       } else if (mode === 'past') {
         const pastSource = currentLang === 'ko' ? pastLifeData : pastLifeDataEn;
-        const p = pastSource[s % pastSource.length];
+        const p = pastSource[session.num81 - 1]; // 0~80
         body.innerHTML = `
           <div class="tab-content">
             <span class="section-title">${t.tab2Title}</span>
@@ -383,7 +383,7 @@ async function updateCounter() {
           </div>`;
       } else {
         const nextSource = currentLang === 'ko' ? reincarnationData : reincarnationDataEn;
-        const r = nextSource[s % nextSource.length];
+        const r = nextSource[session.num81 - 1]; // 0~80
         const quoteSource = currentLang === 'ko' ? quoteData["인생"] : quoteDataEn["life"];
 const masterQuoteIdx = s % quoteSource.length;
 const quoteLabel = currentLang === 'ko' ? "계속 기억해야 할 조언" : "Advice to remember";
