@@ -374,7 +374,7 @@ const pastLifeData = Array.from({ length: 81 }, (_, i) => {
   return {
     job: pastJobsKo[a],
     desc: `(${String(n).padStart(2,"0")}수 성향) ${baseKo[a].core} 흐름이 전생에서 ‘${stageKo[b]}’로 발현된 흔적입니다.`,
-    homework: `이번 생의 숙제: ${baseKo[a].risk}을(를) 조절하며 ${baseKo[a].core}을(를) 성과로 고정하기.`
+    homework: `${baseKo[a].risk}을(를) 조절하며 ${baseKo[a].core}을(를) 성과로 고정하기.`
   };
 });
 
