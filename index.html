@@ -209,6 +209,7 @@ async function updateCounter() {
   session.seed =
     cleanName.split('').reduce((a, ch) => a + ch.charCodeAt(0), 0) +
     parseInt(birth, 10);
+      session.num81 = (session.seed % 81) + 1; // 1~81
 
   // ✅ 5원소 기본 점수
   let sc = [40, 40, 40, 40, 40];
@@ -344,6 +345,8 @@ async function updateCounter() {
       const minIdx = session.scores.indexOf(Math.min(...session.scores));
       const strongEl = elements[maxIdx];
       const lackEl = elements[minIdx];
+      
+      if (!session.num81) session.num81 = (session.seed % 81) + 1; // 1~81
 
       if (mode === 'fortune') {
         const presSource = currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12;
@@ -375,6 +378,7 @@ async function updateCounter() {
       } else if (mode === 'past') {
         const pastSource = currentLang === 'ko' ? pastLifeData : pastLifeDataEn;
         session.num81 = (session.seed % 81) + 1;  // 1~81
+        const p = pastSource[session.num81 - 1]; // 0~80
         body.innerHTML = `
           <div class="tab-content">
             <span class="section-title">${t.tab2Title}</span>
