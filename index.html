@@ -118,7 +118,7 @@
   </div>
 
   <!-- ✅ 데이터셋: quotes.js (반드시 같은 폴더에) -->
-  <script src="./quotes.js?v=1"></script>
+  <script src="./quotes.js?v=2"></script>
 
   <script>
     let currentLang = 'ko';
@@ -147,10 +147,6 @@ async function updateCounter() {
     el.innerText = "—";
   }
 }
-    window.addEventListener('DOMContentLoaded', () => {
-  updateCounter();
-  // 다른 초기화 코드가 있으면 같이
-});
     function setLang(lang) {
       if (!assertDataset()) return;
       currentLang = lang;
@@ -204,52 +200,79 @@ async function updateCounter() {
     }
 
     function processData(name, birth, opts = {}) {
-      const cleanName = name.replace(/<[^>]*>?/gm, '');
-      session.name = cleanName;
-      session.birth = birth;
+  const cleanName = name.replace(/<[^>]*>?/gm, '');
+  session.name = cleanName;
+  session.birth = birth;
 
-      session.seed = cleanName.split('').reduce((a, ch) => a + ch.charCodeAt(0), 0) + parseInt(birth, 10);
+  // ✅ 결정적(seed) — 동일 입력이면 동일 결과
+  session.seed =
+    cleanName.split('').reduce((a, ch) => a + ch.charCodeAt(0), 0) +
+    parseInt(birth, 10);
 
-      let sc = [40, 40, 40, 40, 40];
+  // ✅ 5원소 기본 점수
+  let sc = [40, 40, 40, 40, 40];
 
-      for (let i = 0; i < cleanName.length; i++) {
-        const char = cleanName[i];
-        const onset = /[a-zA-Z]/.test(char) ? char.toUpperCase() : getHangulOnset(char);
-        const el = /[a-zA-Z]/.test(char) ? alphabetElements[onset] : hangulElements[onset];
-        if (el && elements.includes(el)) sc[elements.indexOf(el)] += 35;
-      }
+  // 이름 → 오행 가산
+  for (let i = 0; i < cleanName.length; i++) {
+    const char = cleanName[i];
+    const onset = /[a-zA-Z]/.test(char) ? char.toUpperCase() : getHangulOnset(char);
+    const el = /[a-zA-Z]/.test(char) ? alphabetElements[onset] : hangulElements[onset];
+    if (el && elements.includes(el)) sc[elements.indexOf(el)] += 35;
+  }
 
-      const month = parseInt(birth.substring(4, 6), 10);
-      const monthOrder = [11, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-      const monthIdx = monthOrder.indexOf(month);
-      if (monthIdx >= 0) sc[monthIdx % 5] += 25;
+  // 생월 → 오행 가산(기존 유지)
+  const month = parseInt(birth.substring(4, 6), 10);
+  const monthOrder = [11, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const monthIdx = monthOrder.indexOf(month);
+  if (monthIdx >= 0) sc[monthIdx % 5] += 25;
 
-      session.scores = sc.map((s, i) => s + ((session.seed + i) % 15));
-      const maxIdx = session.scores.indexOf(Math.max(...session.scores));
-      const strongEl = elements[maxIdx];
-      const lv = getLevel(session.scores[maxIdx]);
+  // ✅ “랜덤처럼 보이는” 부분 제거/완화:
+  // 기존엔 +((seed+i)%15) 때문에 사용자에게 랜덤처럼 보일 수 있음.
+  // 동일 입력이면 동일이긴 하지만, 변동폭이 커서 심리적으로 랜덤처럼 느껴짐.
+  // => 변동폭을 0~4로 줄여 안정감 있게.
+  session.scores = sc.map((s, i) => s + ((session.seed + i) % 5));
 
-      document.getElementById('dynamic-title').innerText =
-        currentLang === 'ko' ? `[${cleanName}]님의 운명 리포트` : `Report for [${cleanName}]`;
+  const maxIdx = session.scores.indexOf(Math.max(...session.scores));
+  const minIdx = session.scores.indexOf(Math.min(...session.scores));
+  const strongEl = elements[maxIdx];
+  const lackEl = elements[minIdx];
 
-      document.getElementById('dynamic-summary').innerText =
-        currentLang === 'ko' ? nicknamesKo[strongEl][lv] : nicknamesEn[strongEl][lv];
+  // ✅ 12단계 티어(0~11)
+  const tierStrong = getTier12(session.scores[maxIdx]);
+  const tierLack   = getTier12(session.scores[minIdx]);
 
-      const res = nameNumerology[(session.seed % 25) + 1];
-      session.nameReport =
-        currentLang === 'ko'
-          ? `성명학적으로 <b>${res.title}</b>이며, ${res.desc}`
-          : `Numerologically: <b>${res.titleEn}</b>. ${res.descEn}`;
+  session.tierStrong = tierStrong;
+  session.tierLack = tierLack;
 
-      if (!opts.keepView) {
-        document.getElementById('view-home').classList.add('hidden');
-        document.getElementById('view-result').classList.remove('hidden');
-      }
+  // ✅ 60격 인덱스: (주원소Index 0~4)*12 + tier(0~11) + 1 => 1~60
+  const typeIdx = (elements.indexOf(strongEl) * 12) + tierStrong + 1;
+  session.typeIdx = typeIdx;
 
-      renderChart();
-      switchTab('fortune', document.getElementById('tab1'));
-    }
+  // 타이틀
+  document.getElementById('dynamic-title').innerText =
+    currentLang === 'ko' ? `[${cleanName}]님의 운명 리포트` : `Report for [${cleanName}]`;
 
+  // ✅ 요약(닉네임) — 60체계용 배열을 quotes.js에 추가해야 함
+  document.getElementById('dynamic-summary').innerText =
+    currentLang === 'ko'
+      ? nicknamesKo60[strongEl][tierStrong]
+      : nicknamesEn60[strongEl][tierStrong];
+
+  // ✅ 60격(00격 + 설명)
+  const res = nameNumerology[typeIdx];
+  session.nameReport =
+    currentLang === 'ko'
+      ? `성명학적으로 <b>${res.title}</b>이며, ${res.desc}`
+      : `Numerologically: <b>${res.titleEn}</b>. ${res.descEn}`;
+
+  if (!opts.keepView) {
+    document.getElementById('view-home').classList.add('hidden');
+    document.getElementById('view-result').classList.remove('hidden');
+  }
+
+  renderChart();
+  switchTab('fortune', document.getElementById('tab1'));
+}
     function getHangulOnset(char) {
       const code = char.charCodeAt(0);
       const c = code - 44032;
@@ -258,13 +281,16 @@ async function updateCounter() {
       return onsets[Math.floor(c / 588)];
     }
 
-    function getLevel(sc) {
-      if (sc >= 110) return 'veryStrong';
-      if (sc >= 80) return 'strong';
-      if (sc >= 50) return 'normal';
-      if (sc >= 20) return 'weak';
-      return 'veryWeak';
-    }
+    function getTier12(score){
+  // 현재 네 로직: 기본 40에서 시작하고, radar가 150을 기준으로 쓰고 있음
+  // => 40~150 범위를 12단계(0~11)로 안정적으로 분해
+  const min = 40;
+  const max = 150;
+
+  const clamped = Math.max(min, Math.min(max, Number(score) || min));
+  const t = Math.floor(((clamped - min) / (max - min)) * 12); // 0~11
+  return Math.max(0, Math.min(11, t));
+}
 
     function renderChart() {
       const labels = currentLang === 'ko' ? ["木", "火", "土", "金", "水"] : ["Wood", "Fire", "Earth", "Metal", "Water"];
@@ -318,7 +344,7 @@ async function updateCounter() {
         const strongEl = elements[maxIdx];
         const lackEl = elements[minIdx];
 
-        const presSource = currentLang === 'ko' ? elementPrescriptions : enPrescriptions;
+        const presSource = currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12;
         const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
         const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
 
@@ -334,12 +360,12 @@ async function updateCounter() {
             <div class="section-wrap">
               <span class="section-title">${t.sec2}</span>
               <div>• <b>${currentLang==='ko'?'주된 에너지':'Core Energy'}:</b> ${attrSource[strongEl].name} (${attrSource[strongEl].trait})</div>
-              <div>• <b>${t.advise}:</b> ${presSource[strongEl][getLevel(session.scores[maxIdx])]}</div>
+              <div>• <b>${t.advise}:</b> ${presSource[strongEl][session.tierStrong]}</div>
             </div>
 
             <div class="section-wrap">
               <span class="section-title">${t.sec3}</span>
-              <div>• <b>${t.practice}:</b> ${presSource[lackEl][getLevel(session.scores[minIdx])]}</div>
+              <div>• <b>${t.practice}:</b> ${presSource[lackEl][session.tierLack]}</div>
             </div>
 
             <div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[masterSideIdx]}</div>
