@@ -35,7 +35,8 @@
     .visitor-counter { margin-top: 25px; font-size: 0.75rem; color: #AAA; font-family: 'Gowun Batang'; border-top: 1px solid #F5F5F5; padding-top: 15px; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-    /* ✅ 로딩 오버레이: display:none 대신 opacity/visibility로 숨김(광고 로딩 안정) */
+    /* ✅ 로딩 오버레이:
+    display:none 대신 opacity/visibility로 숨김(광고 로딩 안정) */
     #loading-overlay{
   position:fixed; inset:0; z-index:9999;
   background:rgba(240, 237, 233, 0.96);
@@ -338,6 +339,12 @@ async function updateCounter() {
       const s = session.seed;
       const t = i18n[currentLang];
 
+      // ✅ 모든 탭에서 공통으로 강/약 원소 계산(전생/내세 근거용)
+const maxIdx = session.scores.indexOf(Math.max(...session.scores));
+const minIdx = session.scores.indexOf(Math.min(...session.scores));
+const strongEl = elements[maxIdx];
+const lackEl = elements[minIdx];
+
       if (mode === 'fortune') {
         const maxIdx = session.scores.indexOf(Math.max(...session.scores));
         const minIdx = session.scores.indexOf(Math.min(...session.scores));
@@ -378,6 +385,7 @@ async function updateCounter() {
             <span class="section-title">${t.tab2Title}</span>
             <div class="info-box">
               <b>📜 ${t.pastJob}:</b> [${p.job}]<br>${p.desc}<br><br>
+              <br><br><i style="color:#999;">${currentLang==='ko' ? reasonKo[strongEl] : reasonEn[strongEl]}</i>
               <b>✨ ${t.pastHomework}:</b><br>${p.homework}
             </div>
           </div>`;
