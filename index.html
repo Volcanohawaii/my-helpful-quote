@@ -249,18 +249,18 @@ async function updateCounter() {
   const typeIdx = (elements.indexOf(strongEl) * 12) + tierStrong + 1;
   session.typeIdx = typeIdx;
 
+   // ✅ 81수격(81)
+ const res = nameNumerology[session.num81];
+
   // 타이틀
   document.getElementById('dynamic-title').innerText =
     currentLang === 'ko' ? `[${cleanName}]님의 운명 리포트` : `Report for [${cleanName}]`;
 
-  // ✅ 요약(닉네임) — 81
+  // ✅ 요약(닉네임) — 81을 쓰는 게 아니라 지금은 res(60) 제목을 표시
   document.getElementById('dynamic-summary').innerText =
   currentLang === 'ko'
     ? res.title
     : res.titleEn;
-
-  // ✅ 60격(00격 + 설명)
-  const res = nameNumerology[typeIdx];
   session.nameReport =
     currentLang === 'ko'
       ? `성명학적으로 <b>${res.title}</b>이며, ${res.desc}`
@@ -340,17 +340,12 @@ async function updateCounter() {
       const t = i18n[currentLang];
 
       // ✅ 모든 탭에서 공통으로 강/약 원소 계산(전생/내세 근거용)
-const maxIdx = session.scores.indexOf(Math.max(...session.scores));
-const minIdx = session.scores.indexOf(Math.min(...session.scores));
-const strongEl = elements[maxIdx];
-const lackEl = elements[minIdx];
+      const maxIdx = session.scores.indexOf(Math.max(...session.scores));
+      const minIdx = session.scores.indexOf(Math.min(...session.scores));
+      const strongEl = elements[maxIdx];
+      const lackEl = elements[minIdx];
 
       if (mode === 'fortune') {
-        const maxIdx = session.scores.indexOf(Math.max(...session.scores));
-        const minIdx = session.scores.indexOf(Math.min(...session.scores));
-        const strongEl = elements[maxIdx];
-        const lackEl = elements[minIdx];
-
         const presSource = currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12;
         const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
         const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
@@ -379,7 +374,7 @@ const lackEl = elements[minIdx];
           </div>`;
       } else if (mode === 'past') {
         const pastSource = currentLang === 'ko' ? pastLifeData : pastLifeDataEn;
-        const p = pastSource[session.num81 - 1]; // 0~80
+        session.num81 = (session.seed % 81) + 1;  // 1~81
         body.innerHTML = `
           <div class="tab-content">
             <span class="section-title">${t.tab2Title}</span>
