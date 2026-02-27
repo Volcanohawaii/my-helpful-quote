@@ -66,47 +66,56 @@ nextMission: "Complete the mission to confirm your afterlife reservation"
 const hangulElements = { 'ㄱ': '木', 'ㄲ': '木', 'ㅋ': '木', 'ㄴ': '火', 'ㄷ': '火', 'ㄸ': '火', 'ㄹ': '火', 'ㅌ': '火', 'ㅇ': '土', 'ㅎ': '土', 'ㅅ': '金', 'ㅆ': '金', 'ㅈ': '金', 'ㅉ': '金', 'ㅊ': '金', 'ㅁ': '水', 'ㅂ': '水', 'ㅃ': '水', 'ㅍ': '水' };
 const alphabetElements = { 'A': '木', 'E': '木', 'I': '木', 'O': '木', 'U': '木', 'Y': '木', 'B': '水', 'P': '水', 'M': '水', 'F': '水', 'W': '水', 'C': '火', 'G': '火', 'J': '火', 'L': '火', 'S': '火', 'D': '土', 'N': '土', 'T': '土', 'H': '土', 'K': '金', 'R': '金', 'V': '金', 'X': '金', 'Q': '金', 'Z': '金' };
 
-// ✅ 2. 성명학 수리 데이터 (1~60번) : 5원소 × 12단계 = 60격
-const ELEMENTS = ["木","火","土","金","水"];
+// ✅ 2. 81수 성명학 데이터 (1~81) - 자동 생성(한/영)
+// 9(기본 성향) × 9(전개/결과) = 81 조합
 
-const tierKo = ["초심","기초","안정","정진","성장","확장","숙련","완성","정점","초월","대성","궁극"];
-const tierEn = ["Initiate","Foundation","Stability","Discipline","Growth","Expansion","Mastery","Completion","Apex","Transcendence","Grand Master","Ultimate"];
+const baseKo = [
+  { key:"개척", core:"시작·독립·결단", risk:"독단·조급" },
+  { key:"조화", core:"협력·중재·관계", risk:"우유부단·의존" },
+  { key:"발전", core:"성장·표현·확장", risk:"산만·과시" },
+  { key:"기반", core:"안정·축적·관리", risk:"정체·완고" },
+  { key:"중심", core:"균형·통합·리더십", risk:"완벽주의·통제" },
+  { key:"책임", core:"의무·봉사·신뢰", risk:"과부담·걱정" },
+  { key:"탐구", core:"분석·통찰·전문성", risk:"고립·냉정" },
+  { key:"성과", core:"현실화·재물·결실", risk:"집착·과욕" },
+  { key:"완성", core:"마무리·지혜·전환", risk:"허무·미련" }
+];
 
-const elementProfile = {
-  "木": { ko:{name:"목(木)", key:"성장·기획·개척", risk:"조급함·독단"},
-          en:{name:"Wood", key:"growth·planning·initiative", risk:"impatience·rigidity"} },
-  "火": { ko:{name:"화(火)", key:"열정·표현·확산", risk:"번아웃·과열"},
-          en:{name:"Fire", key:"passion·expression·expansion", risk:"burnout·overheat"} },
-  "土": { ko:{name:"토(土)", key:"안정·포용·기반", risk:"정체·고집"},
-          en:{name:"Earth", key:"stability·support·foundation", risk:"stagnation·stubbornness"} },
-  "金": { ko:{name:"금(金)", key:"결단·원칙·정리", risk:"비판·냉정"},
-          en:{name:"Metal", key:"decision·principle·order", risk:"harshness·over-critique"} },
-  "水": { ko:{name:"수(水)", key:"지혜·유연·통찰", risk:"우울·과몰입"},
-          en:{name:"Water", key:"wisdom·flexibility·insight", risk:"melancholy·overthinking"} }
-};
+const baseEn = [
+  { key:"Pioneer", core:"start·independence·decision", risk:"rigidity·haste" },
+  { key:"Harmony", core:"cooperation·mediation·relationships", risk:"indecision·dependency" },
+  { key:"Growth", core:"expansion·expression·development", risk:"scattered·showy" },
+  { key:"Foundation", core:"stability·accumulation·management", risk:"stagnation·stubborn" },
+  { key:"Center", core:"balance·integration·leadership", risk:"perfectionism·control" },
+  { key:"Duty", core:"responsibility·service·trust", risk:"overload·worry" },
+  { key:"Research", core:"analysis·insight·expertise", risk:"isolation·coldness" },
+  { key:"Result", core:"materialization·wealth·achievement", risk:"attachment·greed" },
+  { key:"Completion", core:"closure·wisdom·transition", risk:"emptiness·regret" }
+];
+
+const stageKo = ["발아","정립","강화","확장","정점","전환","정리","재도약","완결"];
+const stageEn = ["Sprout","Settle","Strengthen","Expand","Peak","Shift","Refine","Rebound","Complete"];
 
 const nameNumerology = (() => {
   const out = {};
-  let idx = 1;
-  for (const el of ELEMENTS) {
-  for (let t = 0; t < 12; t++) {
-    const p = elementProfile[el];
-    const code = String(idx).padStart(2, "0");
+  for (let n = 1; n <= 81; n++) {
+    const code = String(n).padStart(2, "0");
+    const a = (n - 1) % 9;           // 0~8 (기본)
+    const b = Math.floor((n - 1) / 9); // 0~8 (전개)
+    const ko = baseKo[a], en = baseEn[a];
 
-    out[idx] = {
-      title: `${code}격 · ${p.ko.name} ${tierKo[t]}형`,
+    out[n] = {
+      title: `${code}수 · ${ko.key}(${stageKo[b]})`,
       desc:
-          `${p.ko.key} 성향이 ${tierKo[t]} 단계로 발현됩니다. ` +
-          `강점은 ‘${p.ko.key}’의 구조화 능력이며, ` +
-          `주의점은 ‘${p.ko.risk}’이 과해질 때 균형이 무너질 수 있다는 점입니다.`,
-         titleEn: `Type ${code} · ${tierEn[t]} ${p.en.name}`,
-        descEn:
-          `Your ${p.en.key} pattern expresses at the ${tierEn[t]} level. ` +
-          `Strength: structured use of ${p.en.key}. ` +
-          `Watch-out: imbalance may appear as ${p.en.risk}.`
-      };
-      idx++;
-    }
+        `${ko.core}의 기운이 ‘${stageKo[b]}’ 국면으로 전개됩니다. ` +
+        `강점은 ${ko.core}을(를) 구조화해 성과로 묶는 능력이며, ` +
+        `주의점은 ${ko.risk} 성향이 과해질 때 흐름이 무너질 수 있다는 점입니다.`,
+      titleEn: `No.${code} · ${en.key} (${stageEn[b]})`,
+      descEn:
+        `Your pattern of ${en.core} develops in the “${stageEn[b]}” phase. ` +
+        `Strength: structuring ${en.core} into outcomes. ` +
+        `Watch-out: imbalance may show as ${en.risk}.`
+    };
   }
   return out;
 })();
@@ -274,58 +283,99 @@ const elementAttributesEn = {
   "金": { name: "Metal", trait: "Logic & Integrity" },
   "水": { name: "Water", trait: "Wisdom & Flexibility" }
 };
-// 4. 전생/내세
-const pastLifeData = [
-  { job: "달빛 아래 시를 쓰던 선비", desc: "학문에 정진했으나 세상의 풍파는 피하려 했던 고결한 영혼이었습니다.", homework: "나의 재능을 세상에 당당히 드러내기" },
-  { job: "궁궐의 낮잠 자던 삼색 고양이", desc: "평화로운 기운으로 주변을 치유했으나 자립심은 조금 부족했군요.", homework: "스스로 일어서는 독립심 기르기" },
-  { job: "비밀 정원을 가꾸던 은둔 정원사", desc: "꽃들과 대화하며 조용히 자신만의 세계를 완성했습니다.", homework: "세상 밖으로 나와 사람들과 소통하기" },
-  { job: "고려시대 차(茶)를 달이던 최고 장인", desc: "한 잔의 차에 온 우주를 담기 위해 평생을 바친 완벽주의자였습니다.", homework: "조급함을 버리고 기다림의 미학 배우기" },
-  { job: "마을의 지혜로운 할머니 약사", desc: "풀뿌리와 꽃잎으로 이웃의 아픈 마음을 치유해 주던 성자였습니다.", homework: "배려하는 마음으로 주변 돌보기" },
-  { job: "숲의 지혜를 지키던 파수꾼", desc: "수천 년을 살며 대자연의 흐름을 읽던 고대 숲의 수호신이었습니다.", homework: "새로운 변화를 두려워하지 않기" },
-  { job: "장희빈의 비밀 조향사", desc: "사람의 마음을 홀리는 향기를 연구하던 매력적인 인물이었습니다.", homework: "누군가에게 휘둘리지 않는 주관 갖기" },
-  { job: "궁중 무용의 주인공", desc: "아름다운 몸짓으로 왕의 마음까지 사로잡았던 전설의 무용수였습니다.", homework: "자신의 열정을 올바른 곳에 쏟기" },
-  { job: "성가대의 목소리 좋은 솔리스트", desc: "천상의 목소리로 사람들의 영혼을 울리던 신의 목소리였습니다.", homework: "나의 진실된 목소리를 당당하게 내뱉기" },
-  { job: "전장의 소식을 전하던 전령", desc: "밤낮없이 달려 약속을 지켰던 가장 책임감 있는 분이었습니다.", homework: "약속의 소중함을 끝까지 지키기" }
+// ✅ 4. 전생/내세 81개 자동 생성(한/영) + 이유(근거) 포함
+
+const pastJobsKo = [
+  "궁중 기록관", "산중 서당 훈장", "전장의 전령", "약초를 다루던 의원", "해상 무역상",
+  "조향사", "장인(목공/금속)", "사찰의 수행자", "별을 연구하던 관측자"
 ];
 
-const pastLifeDataEn = [
-  { job: "Scholar of the Silver Moon", desc: "A noble soul who sought wisdom in solitude but avoided life's chaos.", homework: "Boldly step out and show your true talents to the world." },
-  { job: "The Palace Cat", desc: "A peaceful healer who brought comfort to royalty but lacked independence.", homework: "Develop a fierce independence and stand on your own feet." },
-  { job: "Gardener of Secret Eden", desc: "An artist who built a private paradise while talking only to the flowers.", homework: "Step out of your sanctuary and connect with others." },
-  { job: "Master of Celestial Tea", desc: "A perfectionist who spent lifetimes capturing the universe in a single cup.", homework: "Let go of urgency and master the art of divine patience." },
-  { job: "Wise Village Herbalist", desc: "A saint-like figure who healed heartaches with roots and kindness.", homework: "Continue to nurture your empathy and care for those around you." },
-  { job: "Guardian of Ancient Whispers", desc: "A timeless protector who read the natural flow of the world for millennia.", homework: "Do not fear the winds of change; embrace the unknown future." },
-  { job: "Royal Court Perfumer", desc: "An enchanting creator who studied the scents that captivate souls.", homework: "Find your own center so you are never swayed by others." },
-  { job: "Legendary Court Dancer", desc: "A graceful master who captured the King's heart with every move.", homework: "Direct your intense passion toward the highest good." },
-  { job: "The Divine Soloist", desc: "A voice from the heavens that moved the spirits of everyone.", homework: "Speak your truth boldly and let your unique voice be heard." },
-  { job: "The Battlefield Messenger", desc: "A soul of iron will who ran through fire to keep a single promise.", homework: "Treasure your integrity and keep your word until the end." }
+const pastJobsEn = [
+  "Royal Archivist", "Mountain Tutor", "Battle Messenger", "Herbal Healer", "Sea Merchant",
+  "Perfumer", "Craft Artisan", "Temple Practitioner", "Star Observer"
 ];
 
-const reincarnationData = [
-  { place: "스위스 알프스 목장", object: "명품 젖소", mission: "신선한 공기 3번 마시고 힐링하기" },
-  { place: "실리콘밸리 천재의 서재", object: "기계식 키보드", mission: "위대한 아이디어가 세상에 나오도록 돕기" },
-  { place: "강남 재벌집 거실", object: "사랑받는 품종묘", mission: "느긋하게 스트레칭 3번 하기" },
-  { place: "제주도 푸른 바다", object: "자유로운 돌고래", mission: "좋아하는 노래 한 소절 부르기" },
-  { place: "북유럽 도서관", object: "베스트셀러 책", mission: "책 한 페이지 읽으며 지식 충전하기" },
-  { place: "우주의 빛나는 행성", object: "지지 않는 꽃", mission: "거울 보고 밝게 한번 웃어보기" },
-  { place: "미래의 화성 식민지", object: "최초의 사과나무", mission: "척박한 땅에 푸른 생명의 희망 심기" },
-  { place: "영화 촬영장", object: "주인공의 대본", mission: "아름다운 이야기가 완성되도록 영감 주기" },
-  { place: "안드로메다 은하", object: "차원 여행자", mission: "우주의 평화를 잇는 가교 역할 수행하기" },
-  { place: "산토리니 지붕 위", object: "느긋한 고양이", mission: "바다를 보며 삶의 여유를 가르쳐주기" }
+const nextPlacesKo = [
+  "도서관의 서재", "바다 위 등대", "산악 목장", "미래 연구소", "정원 도시",
+  "예술 작업실", "우주 정거장", "고요한 호숫가", "영화 촬영장"
 ];
 
-const reincarnationDataEn = [
-  { place: "High Alps Ranch", object: "Elegant Bell-Cow", mission: "Spread peaceful vibes to travelers." },
-  { place: "Silicon Valley Studio", object: "High-End Keyboard", mission: "Help bridge world-changing ideas." },
-  { place: "Manhattan Penthouse", object: "A Pampered Cat", mission: "Bring ultimate joy to your owner." },
-  { place: "The Shores of Maui", object: "A Spirit Dolphin", mission: "Ride the cosmic waves and explore." },
-  { place: "Nordic Library", object: "A Global Bestseller", mission: "Comfort weary souls with wisdom." },
-  { place: "A Glowing Planet", object: "Eternal Flower", mission: "Smile at your reflection in the stars." },
-  { place: "Future Mars Colony", object: "First Apple Tree", mission: "Plant the hope of green life in a red world." },
-  { place: "Hollywood Movie Set", object: "The Lead Actor's Script", mission: "Inspire the creation of a legendary story." },
-  { place: "Andromeda Galaxy", object: "Dimensional Traveler", mission: "Become a bridge connecting different worlds." },
-  { place: "Santorini Rooftops", object: "A Relaxed Blue-Eye Cat", mission: "Teach the world the art of leisure and calmness." }
+const nextPlacesEn = [
+  "Library Study", "Ocean Lighthouse", "Mountain Ranch", "Future Lab", "Garden City",
+  "Art Studio", "Space Station", "Quiet Lakeside", "Movie Set"
 ];
+
+const objectsKo = [
+  "기록서", "나침반", "도구 상자", "약병", "무역 장부",
+  "향수 병", "정밀한 칼", "염주", "망원경"
+];
+
+const objectsEn = [
+  "Record Book", "Compass", "Toolbox", "Medicine Vial", "Trade Ledger",
+  "Perfume Bottle", "Precision Blade", "Prayer Beads", "Telescope"
+];
+
+// 전생/내세의 “이유” 문장(오행 과다/부족을 신비롭게 설명)
+const reasonKo = {
+  "木": "성장과 확장의 기운이 강해 ‘개척/기획’ 계열의 전생 흔적이 짙습니다.",
+  "火": "표현과 확산의 기운이 강해 ‘열정/무대’ 계열의 전생 흔적이 짙습니다.",
+  "土": "기반과 포용의 기운이 강해 ‘돌봄/관리’ 계열의 전생 흔적이 짙습니다.",
+  "金": "원칙과 결단의 기운이 강해 ‘정리/규율’ 계열의 전생 흔적이 짙습니다.",
+  "水": "통찰과 유연의 기운이 강해 ‘탐구/치유’ 계열의 전생 흔적이 짙습니다."
+};
+
+const reasonEn = {
+  "木": "Your energy leans toward growth and expansion, leaving a strong “pioneer/planner” past-life trace.",
+  "火": "Your energy leans toward expression and spread, leaving a strong “passion/stage” past-life trace.",
+  "土": "Your energy leans toward foundation and support, leaving a strong “care/management” past-life trace.",
+  "金": "Your energy leans toward principles and decisions, leaving a strong “order/discipline” past-life trace.",
+  "水": "Your energy leans toward insight and flexibility, leaving a strong “research/healing” past-life trace."
+};
+
+// 81개 만들기
+const pastLifeData = Array.from({ length: 81 }, (_, i) => {
+  const n = i + 1;
+  const a = (n - 1) % 9;
+  const b = Math.floor((n - 1) / 9);
+  return {
+    job: pastJobsKo[a],
+    desc: `(${String(n).padStart(2,"0")}수 성향) ${baseKo[a].core} 흐름이 전생에서 ‘${stageKo[b]}’로 발현된 흔적입니다.`,
+    homework: `이번 생의 숙제: ${baseKo[a].risk}을(를) 조절하며 ${baseKo[a].core}을(를) 성과로 고정하기.`
+  };
+});
+
+const pastLifeDataEn = Array.from({ length: 81 }, (_, i) => {
+  const n = i + 1;
+  const a = (n - 1) % 9;
+  const b = Math.floor((n - 1) / 9);
+  return {
+    job: pastJobsEn[a],
+    desc: `(No.${String(n).padStart(2,"0")}) Your ${baseEn[a].core} pattern showed a “${stageEn[b]}” past-life trace.`,
+    homework: `Homework: regulate ${baseEn[a].risk} and stabilize ${baseEn[a].core} into outcomes.`
+  };
+});
+
+const reincarnationData = Array.from({ length: 81 }, (_, i) => {
+  const n = i + 1;
+  const a = (n - 1) % 9;
+  const b = Math.floor((n - 1) / 9);
+  return {
+    place: nextPlacesKo[b],
+    object: objectsKo[a],
+    mission: `(${String(n).padStart(2,"0")}수 미션) ${baseKo[a].core}을(를) ‘${stageKo[b]}’ 단계로 완성하기.`
+  };
+});
+
+const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
+  const n = i + 1;
+  const a = (n - 1) % 9;
+  const b = Math.floor((n - 1) / 9);
+  return {
+    place: nextPlacesEn[b],
+    object: objectsEn[a],
+    mission: `(No.${String(n).padStart(2,"0")}) Complete ${baseEn[a].core} to reach the “${stageEn[b]}” phase.`
+  };
+});
 
 // 5. 부작용 및 명언
 const sideEffects = ["디저트 무한 흡입 주의", "모든 말끝에 토 달기", "전생이 바위였던 듯한 멍함", "양말 한 짝 영원히 실종", "냉장고 소스 유통기한 점검 강박", "뜬금없는 윙크 발사", "거울 속 내 모습에 취함", "왼쪽 콧구멍만 간지러움"];
