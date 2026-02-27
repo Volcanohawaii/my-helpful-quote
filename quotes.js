@@ -442,26 +442,86 @@ const nextNameSuffixEnByElement = {
   "水": ["Tide", "Abyss", "Mist", "Mirror"]
 };
 
-function makeNextLifeNameKo(n, strongEl, lackEl) {
-  const a = (n - 1) % 9;
-  const b = Math.floor((n - 1) / 9);
-  const base = baseKo[a].key;     // 예: 개척/조화...
-  const stage = stageKo[b];       // 예: 발아/정립...
-  const sufPool = nextNameSuffixKoByElement[strongEl] || ["이름"];
-  const suf = sufPool[(n + (lackEl ? lackEl.charCodeAt(0) : 0)) % sufPool.length];
-  // 예: "개척 · 발아의 불꽃"
-  return `${base} · ${stage}의 ${suf}`;
+function getSeasonKo(m){
+  if ([3,4,5].includes(m)) return "봄";
+  if ([6,7,8].includes(m)) return "여름";
+  if ([9,10,11].includes(m)) return "가을";
+  return "겨울";
+}
+function getSeasonEn(m){
+  if ([3,4,5].includes(m)) return "Spring";
+  if ([6,7,8].includes(m)) return "Summer";
+  if ([9,10,11].includes(m)) return "Autumn";
+  return "Winter";
 }
 
-function makeNextLifeNameEn(n, strongEl, lackEl) {
+const epithetKoByElement = {
+  "木": ["푸른", "개척의", "수림의", "새순의"],
+  "火": ["화염의", "태양의", "불꽃의", "홍련의"],
+  "土": ["대지의", "성채의", "기반의", "황토의"],
+  "金": ["은검의", "철율의", "백은의", "서약의"],
+  "水": ["심해의", "물결의", "안개의", "거울의"]
+};
+
+const epithetEnByElement = {
+  "木": ["Verdant", "Pathfinding", "Forest-born", "Sprouting"],
+  "火": ["Flamebound", "Solar", "Crimson", "Ember-crowned"],
+  "土": ["Earthforged", "Citadel", "Rooted", "Stoneward"],
+  "金": ["Silver-edged", "Ironlaw", "Oathbound", "Steelflower"],
+  "水": ["Tideborn", "Abyssal", "Mistveiled", "Mirror-souled"]
+};
+
+// “고유명사” 풀 (취향대로 더 늘려도 됨)
+const namePools = {
+  goguryeo: ["연개소문", "을지문덕", "고무려", "해모수", "추모", "주몽", "대무신", "광개토"],
+  silla: ["비담", "김유신", "선덕", "문무", "알천", "염장", "월명", "수로"],
+  goryeo: ["강감찬", "서희", "윤관", "최충", "최무선", "김부식", "정지상", "의천"],
+  latin: ["Aurelius", "Valeria", "Octavian", "Livia", "Cassius", "Severina", "Lucian", "Marcellus"],
+  norse: ["Eirikr", "Sigrid", "Haldor", "Freya", "Ivar", "Astrid", "Ragnar", "Brynhild"],
+  sanskrit: ["Arjuna", "Devi", "Vasanta", "Kalyani", "Agni", "Varuna", "Indra", "Sarasvati"],
+  arabic: ["Zayn", "Layla", "Nadir", "Safiya", "Farid", "Rania", "Qasim", "Amira"],
+  japan: ["하루토", "아키라", "유키", "렌", "사쿠라", "카나데", "레이", "히카리"],
+  fantasy: ["Azrael", "Seraphine", "Kael", "Nyx", "Orion", "Elysia", "Draven", "Morrigan"]
+};
+
+// 81수 n으로 “스타일” 고정(결과가 매번 바뀌지 않게)
+function pickNameStyle(n){
+  const styles = ["goguryeo","silla","goryeo","latin","norse","sanskrit","arabic","japan","fantasy"];
+  return styles[(n - 1) % styles.length];
+}
+function pickFrom(arr, k){ return arr[Math.abs(k) % arr.length]; }
+
+function makeNextLifeNameKo(n, strongEl, lackEl, birthMonth=1){
+  const season = getSeasonKo(birthMonth);
+  const style = pickNameStyle(n);
+
+  // 81수의 base/stage도 슬쩍 끼워 “근거감” 부여
   const a = (n - 1) % 9;
   const b = Math.floor((n - 1) / 9);
-  const base = baseEn[a].key;     // Pioneer/Harmony...
-  const stage = stageEn[b];       // Sprout/Settle...
-  const sufPool = nextNameSuffixEnByElement[strongEl] || ["Name"];
-  const suf = sufPool[(n + (lackEl ? lackEl.charCodeAt(0) : 0)) % sufPool.length];
-  // 예: "Pioneer of Sprout · Lantern"
-  return `${base} of ${stage} · ${suf}`;
+  const base = baseKo[a].key;    // 개척/조화/발전...
+  const stage = stageKo[b];      // 발아/정립...
+
+  const epi = pickFrom(epithetKoByElement[strongEl] || ["운명의"], n + (lackEl ? lackEl.charCodeAt(0) : 0));
+  const coreName = pickFrom(namePools[style] || namePools.goguryeo, n + birthMonth);
+
+  // 결과: “연개소문 — 홍련의 개척(확장), 여름”
+  // 너무 길면 시즌은 빼도 됨
+  return `${coreName} — ${epi} ${base}(${stage}), ${season}`;
+}
+
+function makeNextLifeNameEn(n, strongEl, lackEl, birthMonth=1){
+  const season = getSeasonEn(birthMonth);
+  const style = pickNameStyle(n);
+
+  const a = (n - 1) % 9;
+  const b = Math.floor((n - 1) / 9);
+  const base = baseEn[a].key;   // Pioneer/Harmony...
+  const stage = stageEn[b];     // Sprout/Settle...
+
+  const epi = pickFrom(epithetEnByElement[strongEl] || ["Fated"], n + (lackEl ? lackEl.charCodeAt(0) : 0));
+  const coreName = pickFrom(namePools[style] || namePools.latin, n + birthMonth);
+
+  return `${coreName} — ${epi} ${base} (${stage}), ${season}`;
 }
 
 // ✅ 81개 생성 (오브젝트 = 다양 카테고리 + 이름 포함)
