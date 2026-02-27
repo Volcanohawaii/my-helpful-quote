@@ -391,6 +391,19 @@ async function updateCounter() {
       } else {
         const nextSource = currentLang === 'ko' ? reincarnationData : reincarnationDataEn;
         const r = nextSource[session.num81 - 1]; // 0~80
+        // ✅ 오행(강/약) + 81수로 “최종 카테고리/오브젝트/이름” 확정
+const finalCat = pickCategoryByElement(strongEl, lackEl, session.num81);
+
+const pool =
+  (currentLang === 'ko' ? nextObjectPoolsKo : nextObjectPoolsEn)[finalCat] ||
+  (currentLang === 'ko' ? nextObjectPoolsKo.thing : nextObjectPoolsEn.thing);
+
+const finalObject = pool[(session.num81 + session.seed) % pool.length];
+
+const nextLifeName =
+  currentLang === 'ko'
+    ? makeNextLifeNameKo(session.num81, strongEl, lackEl)
+    : makeNextLifeNameEn(session.num81, strongEl, lackEl);
         const quoteSource = currentLang === 'ko' ? quoteData["인생"] : quoteDataEn["life"];
 const masterQuoteIdx = s % quoteSource.length;
 const quoteLabel = currentLang === 'ko' ? "우주의 메시지" : "Advice to remember";
@@ -400,6 +413,8 @@ const quoteLabel = currentLang === 'ko' ? "우주의 메시지" : "Advice to rem
             <div class="info-box">
               <b>📍 ${t.nextDest}:</b> ${r.place}<br>
               <b>🧬 ${t.nextObj}:</b> ${r.object}<br><br>
+              <b>🧬 ${t.nextObj}:</b> ${finalObject}<br><br>
+              <b>🧬 ${currentLang==='ko'?'다음생 이름':'Next-life Name'}:</b> ${nextLifeName}<br><br>
               <b>✅ ${t.nextMission}:</b><br>${r.mission}
             </div>
             <div style="margin-top:30px; text-align:center; color:#AAA; font-style:italic;">
