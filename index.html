@@ -385,13 +385,13 @@ async function updateCounter() {
             <span class="section-title">${t.tab2Title}</span>
             <div class="info-box">
               <b>📜 ${t.pastJob}:</b> [${p.job}]<br>${p.desc}
-<div style="margin-top:10px; color:#999; font-style:italic;">
-  ${currentLang==='ko' ? reasonKo[strongEl] : reasonEn[strongEl]}
-</div>
-<div style="margin-top:12px;">
-  <b>✨ ${t.pastHomework}:</b><br>${p.homework}
-</div>
-          </div>`;
+              <div style="margin-top:10px; color:#999; font-style:italic;">
+                ${currentLang==='ko' ? reasonKo[strongEl] : reasonEn[strongEl]}
+              </div>
+              <div style="margin-top:12px;">
+                <b>✨ ${t.pastHomework}:</b><br>${p.homework}
+              </div>
+            </div> </div> `;
       } else {
         const nextSource = currentLang === 'ko' ? reincarnationData : reincarnationDataEn;
         const r = nextSource[session.num81 - 1]; // 0~80
