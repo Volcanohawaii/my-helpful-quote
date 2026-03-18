@@ -42,18 +42,150 @@ const stageEn = ["Sprout","Settle","Strengthen","Expand","Peak","Shift","Refine"
 
 // 3) 12단계 처방 (상세 문장 복구)
 const elementPrescriptions12 = {
-    "木":["초심☆ 목표를 1개만 정하고 ‘첫 행동’을 실행하세요.", "기초☆ 계획표를 단순화하고 루틴을 고정하세요.", "안정☆ 성장 속도를 유지하되, 검증(피드백)을 붙이세요.", "정진☆ 우선순위 3가지만 남기고 나머지는 보류하세요.", "성장☆ 확장 전에 ‘완료 기준’을 문장으로 정의하세요.", "확장☆ 협업과 외주로 속도를 올리되 품질 체크포인트를 두세요.", "숙련☆ 반복 작업을 자동화해 리소스를 회수하세요.", "완성☆ 한 번 더 ‘사용자 관점’에서 흐름을 정리하세요.", "정점☆ 성과를 표준화(템플릿화)해 재현성을 만드세요.", "초월☆ 불필요한 욕심을 덜고 핵심만 남기세요.", "대성☆ 장기 로드맵과 단기 실행을 분리해 운영하세요.", "궁극☆ “내가 안 해도 굴러가는 시스템”을 구축하세요."],
-    "火":["초심☆ 감정 에너지를 ‘작은 실행’으로 전환하세요.", "기초☆ 말보다 기록(메모,일지)이 과열을 잡습니다.", "안정☆ 에너지 소비 시간을 블록으로 나누세요.", "정진☆ 흥분 포인트를 줄이고 집중 포인트를 1개로.", "성장☆ 설득과 표현은 강점이니 ‘근거’를 같이 붙이세요.", "확장☆ 무리한 일정은 번아웃을 부릅니다. 휴식도 일정입니다.", "숙련☆ 감정 기복이 오면 운동과 호흡으로 온도를 낮추세요.", "완성☆ 열정을 ‘성과물’로 끝까지 마무리하세요.", "정점☆ 주변을 태우지 않도록 톤을 한 단계 낮추세요.", "초월☆ “덜 말하고 더 보여주기”로 신뢰를 올리세요.", "대성☆ 영향력을 확장하되 책임 범위를 명확히 하세요.", "궁극☆ 강한 불은 ‘관리’가 핵심입니다. 규칙을 만드세요."],
-    "土":["초심☆ 오늘 할 일 1개만 완료해 기반을 만드세요.", "기초☆ 정리정돈이 운의 흐름을 안정화합니다.", "안정☆ 관계에서 경계(선)를 부드럽게 설정하세요.", "정진☆ 미루는 습관을 끊기 위해 마감 시간을 정하세요.", "성장☆ 책임을 지되 ‘내 몫’과 ‘남의 몫’을 구분하세요.", "확장☆ 과도한 부담은 정체를 만듭니다. 분배하세요.", "숙련☆ 체력·수면·식사, 3요소를 먼저 고정하세요.", "완성☆ 안정감은 강점. 다만 변화도 작은 단위로 시도하세요.", "정점☆ 조용히 끌고 가는 리더십이 빛납니다.", "초월☆ ‘완벽한 안전’은 없습니다. 실험을 허용하세요.", "대성☆ 기반을 키우려면 자원(시간,돈) 관리가 핵심입니다.", "궁극☆ 큰 토는 ‘흐름’이 필요합니다. 정체를 풀어주세요."],
-    "金":["초심☆ 기준을 1개 정하고 그 기준만 지키세요.", "기초☆ 선택지를 줄이면 결정력이 살아납니다.", "안정☆ 말은 짧게, 근거는 명확하게 제시하세요.", "정진☆ 정리·정돈·정산이 강점입니다. 루틴화하세요.", "성장☆ 과한 비판 대신 ‘개선안’까지 제시하면 신뢰가 커집니다.", "확장☆ 규칙을 늘리기 전에 핵심 규칙 3개만 남기세요.", "숙련☆ 관계에서 날이 서면 한 박자 쉬고 말하세요.", "완성☆ 결과물의 완성도를 올리는 마감력이 강합니다.", "정점☆ 원칙을 고집하기보다 ‘상황 적용’을 배우세요.", "초월☆ 상대의 감정을 데이터로 취급하지 마세요. 공감이 필요합니다.", "대성☆ 기준은 유지하되 유연성을 10%만 추가하세요.", "궁극☆ 최고의 금은 ‘공정함+따뜻함’의 균형입니다."],
-    "水":["초심☆ 생각을 멈추고 5분만 실행하세요.", "기초☆ 불안을 줄이려면 정보 입력을 제한하세요.", "안정☆ 깊이는 강점. 다만 ‘결론’을 반드시 적으세요.", "정진☆ 선택 회피 대신 “임시 결론”을 세우세요.", "성장☆ 통찰을 말로만 두지 말고 문서로 구조화하세요.", "확장☆ 멀티태스킹은 감정 소모를 키웁니다. 한 번에 하나씩.", "숙련☆ 과몰입 신호가 오면 산책과 수면으로 리셋하세요.", "완성☆ 완성도는 ‘마감’에서 결정됩니다. 마감 시간을 정하세요.", "정점☆ 조용한 영향력으로 주변을 설득할 수 있습니다.", "초월☆ 감정의 바닥으로 내려가기 전에 ‘루틴’이 방패입니다.", "대성☆ 지혜를 나누면 운이 커집니다. 코칭/공유가 좋습니다.", "궁극☆ 물의 힘은 흐름. 집착을 내려놓을수록 강해집니다."]
+    "木":[
+        "초심이 핵심 포인트 입니다. 목표를 1개만 정하고 바로 실천하세요.", 
+        "기초가 핵심 포인트 입니다. 계획표를 단순화하고 루틴을 고정시키세요.", 
+        "안정이 핵심 포인트 입니다. 성장 속도를 유지하되, 검증(피드백)을 붙이세요.",
+        "정진이 핵심 포인트 입니다. 우선순위 3가지만 남기고 나머지는 보류하세요.", 
+        "성장이 핵심 포인트 입니다. 확장 전에 ‘완료 기준’을 문장으로 정의하세요.", 
+        "확장이 핵심 포인트 입니다. 협업과 외주로 속도를 올리되 품질에 체크포인트를 두세요.",
+        "숙련이 핵심 포인트 입니다. 반복 작업을 자동화하여 리소스를 회수하세요.", 
+        "완성이 핵심 포인트 입니다. 한 번 더 ‘상대방의 관점’에서 흐름을 정리하세요.", 
+        "정점이 핵심 포인트 입니다. 성과를 구체적으로 나열하여 포트폴리오를 만들어 두세요.",
+        "초월이 핵심 포인트 입니다. 불필요한 욕심을 덜고 필요한 것만 남기세요.", 
+        "대성이 핵심 포인트 입니다. 장기 로드맵과 단기 실행을 분리하고 우선순위를 정해 운영하세요.", 
+        "궁극이 핵심 포인트 입니다. '내가 없어도 잘 굴러가는 시스템'을 구축하세요."
+    ],
+    "火":[
+        "초심이 핵심 포인트 입니다. 나의 감정 에너지를 ‘작은 실행’으로 표출하세요.", 
+        "기초가 핵심 포인트 입니다. 말보다 기록(메모,일지)이 과열된 에너지를 잡습니다.", 
+        "안정이 핵심 포인트 입니다. 에너지가 소비될 때, 실천 범위를 작은 블록으로 나누세요.",
+        "정진이 핵심 포인트 입니다. 산만해지지 마세요. 중요한 일을 위해 하나에만 집중하세요.", 
+        "성장이 핵심 포인트 입니다. 설득과 표현은 강점이니 ‘근거’를 같이 붙이세요.", 
+        "확장이 핵심 포인트 입니다. 무리한 일정은 번아웃을 부릅니다. 휴식도 일정입니다.",
+        "숙련이 핵심 포인트 입니다. 감정 기복이 심해지면 운동과 호흡으로 내면의 온도를 낮추세요.", 
+        "완성이 핵심 포인트 입니다. 열정을 ‘성과물’로 이루기 위해 끝까지 마무리하세요.", 
+        "정점이 핵심 포인트 입니다. 당신의 톤을 한 단계 낮추면 주변이 덜 시끄러워 집니다.",
+        "초월이 핵심 포인트 입니다. '덜 말하고 더 보여주기'로 신뢰도를 높이세요.", 
+        "대성이 핵심 포인트 입니다. 영향력을 확장하되, 책임 범위를 명확히 하세요.", 
+        "궁극이 핵심 포인트 입니다. 강한 불은 ‘관리’가 핵심입니다. 나만의 선과 규칙을 정하세요."
+    ],
+    "土":[
+        "초심이 핵심 포인트 입니다. 매일 할 일 1개 완료하여 실천의 기반을 만드세요.", 
+        "기초가 핵심 포인트 입니다. 정리정돈이 당신의 운의 흐름을 안정화합니다.", 
+        "안정이 핵심 포인트 입니다. 관계에서 경계(선)를 유연하게 설정하세요.",
+        "정진이 핵심 포인트 입니다. 미루는 습관을 고치기 위해 마감 시간을 정하세요.", 
+        "성장이 핵심 포인트 입니다. 책임을 지되 ‘내 몫’과 ‘남의 몫’을 구분하세요.", 
+        "확장이 핵심 포인트 입니다. 과도한 부담은 정체를 만듭니다. 분배하세요.",
+        "숙련이 핵심 포인트 입니다. 체력·수면·식사, 3요소를 먼저 고정하세요.", 
+        "완성이 핵심 포인트 입니다. 안정감은 강점. 다만 변화도 작은 단위로 시도하세요.", 
+        "정점이 핵심 포인트 입니다. 조용히 끌고 가는 리더십이 빛납니다.",
+        "초월이 핵심 포인트 입니다. ‘완벽한 안전’은 없습니다. 실험정신을 가지고 많이 도전하세요.", 
+        "대성이 핵심 포인트 입니다. 기반을 키우려면 자원(시간,돈) 관리가 핵심입니다.", 
+        "궁극이 핵심 포인트 입니다. 큰 토는 ‘흐름’이 필요합니다. 정체를 풀어주세요."
+    ],
+    "金":[
+        "초심이 핵심 포인트 입니다. 중요한 기준을 1개 정하고 그 기준만 평생 지키세요.", 
+        "기초가 핵심 포인트 입니다. 선택지를 대폭 줄이면 결정장애가 고쳐집니다.", 
+        "안정이 핵심 포인트 입니다. 말은 짧게 끝내되, 근거만 매우 명확하게 제시하세요.",
+        "정진이 핵심 포인트 입니다. 정리·정돈·정산이 당신의 강점입니다. 루틴으로 만드세요.", 
+        "성장이 핵심 포인트 입니다. 과한 비판 대신 ‘개선안’까지 제시하면 신뢰가 커집니다.", 
+        "확장이 핵심 포인트 입니다. 규칙을 늘리기 전에 핵심 규칙 3개만 남기세요.",
+        "숙련이 핵심 포인트 입니다. 관계에서 날이 서면 한 박자 쉬고 30초 뒤에 말하세요.", 
+        "완성이 핵심 포인트 입니다. 결과물의 완성도를 높이는 '마감력'을 계속 키워야 합니다.", 
+        "정점이 핵심 포인트 입니다. 원칙을 고집하기보다 유연함을 가지고 ‘상황 적용’을 배우세요.",
+        "초월이 핵심 포인트 입니다. 상대의 감정을 단순한 데이터로 취급하지 마세요. 깊은 공감이 필요합니다.", 
+        "대성이 핵심 포인트 입니다. 기준은 유지하되 유연성을 10%만 추가하세요.", 
+        "궁극이 핵심 포인트 입니다. 최고의 금은 ‘공정함+따뜻함’의 균형임을 명심하고 실천하세요."
+    ],
+    "水":[
+        "초심이 핵심 포인트 입니다. 생각을 멈추고 당장 해야할 일을 5분만 실행하세요.", 
+        "기초가 핵심 포인트 입니다. 불안을 줄이려면 주변으로부터의 정보 입력을 제한하세요.", 
+        "안정이 핵심 포인트 입니다. 생각의 깊이는 강점입니다. 다만 ‘결론’을 반드시 찾으세요.",
+        "정진이 핵심 포인트 입니다. 선택 회피 대신 “임시 결론”을 세우고 맞서야 합니다.", 
+        "성장이 핵심 포인트 입니다. 나의 강점인 통찰력을 말로만 떠다니게 두지 말고 문서로 구조화하세요.", 
+        "확장이 핵심 포인트 입니다. 멀티태스킹은 나의 감정과 에너지 소모를 악화시킵니다. 한 번에 하나씩 하세요.",
+        "숙련이 핵심 포인트 입니다. 성장 중에 과몰입 신호가 오면 산책과 수면으로 리셋하세요.", 
+        "완성이 핵심 포인트 입니다. 완성도는 ‘마감’에서 결정됩니다. 마감 시간을 꼭 정하세요.", 
+        "정점이 핵심 포인트 입니다. 조용한 영향력을 발휘해야합니다. 그래야 주변을 설득할 수 있습니다.",
+        "초월이 핵심 포인트 입니다. 감정의 바닥으로 내려가기 전에 나의 ‘감정 루틴’을 떠올려 방패로 삼으세요.", 
+        "대성이 핵심 포인트 입니다. 지혜를 나누면 운이 커지니 코칭을 통해 공유하면 당신이 성장합니다.", 
+        "궁극이 핵심 포인트 입니다. 물의 힘은 흐름이오, 집착을 내려놓을수록 나는 점점 강해집니다."
+    ]
 };
+
 const enPrescriptions12 = {
-    "木":["Initiate☆ Focus on one goal.", "Foundation☆ Build a routine.", "Stability☆ Seek feedback.", "Discipline☆ Prioritize top 3.", "Growth☆ Define 'Done'.", "Expansion☆ Use quality gates.", "Mastery☆ Automate work.", "Completion☆ User-centric review.", "Apex☆ Standardize wins.", "Transcendence☆ Keep the core.", "Grand Master☆ Separate roadmap.", "Ultimate☆ Build systems."],
-    "火":["Initiate☆ Small actions.", "Foundation☆ Keep logs.", "Stability☆ Use time blocks.", "Discipline☆ One focus point.", "Growth☆ Add evidence.", "Expansion☆ Rest is schedule.", "Mastery☆ Cool down with breath.", "Completion☆ Finish strong.", "Apex☆ Lower the tone.", "Transcendence☆ Show more.", "Grand Master☆ Clear boundaries.", "Ultimate☆ Rules manage fire."],
-    "土":["Initiate☆ Build base.", "Foundation☆ Declutter.", "Stability☆ Set boundaries.", "Discipline☆ Use deadlines.", "Growth☆ Own your role.", "Expansion☆ Distribute load.", "Mastery☆ Lock health basics.", "Completion☆ Change in units.", "Apex☆ Quiet leadership.", "Transcendence☆ Allow experiments.", "Grand Master☆ Manage resources.", "Ultimate☆ Keep flow."],
-    "金":["Initiate☆ One standard.", "Foundation☆ Fewer choices.", "Stability☆ Speak short.", "Discipline☆ Cycle clean-ups.", "Growth☆ Suggest improvements.", "Expansion☆ Keep 3 core rules.", "Mastery☆ Pause tension.", "Completion☆ Close it cleanly.", "Apex☆ Learn flexibility.", "Transcendence☆ Add empathy.", "Grand Master☆ Standards + 10%.", "Ultimate☆ Fairness + Warmth."],
-    "水":["Initiate☆ Execute 5 mins.", "Foundation☆ Limit input.", "Stability☆ Write conclusions.", "Discipline☆ Temporary conclusions.", "Growth☆ Structure insights.", "Expansion☆ Single-tasking.", "Mastery☆ Reset walk.", "Completion☆ Set deadlines.", "Apex☆ Quiet influence.", "Transcendence☆ Shield with routine.", "Grand Master☆ Teach/coach.", "Ultimate☆ Release attachment."]
+    const enPrescriptions12 = {
+    "木":[
+        "Initiative is important. Focus on a single goal.", 
+        "A solid foundation is important. Build a steady routine.", 
+        "Stability is important. Seek consistent feedback.", 
+        "Discipline is important. Prioritize your top 3 tasks.", 
+        "Growth is important. Define your 'Done' criteria.", 
+        "Expansion is important. Use quality gates to scale.", 
+        "Mastery is important. Automate repetitive work.", 
+        "Completion is important. Review from the user's view.", 
+        "The apex is important. Standardize your wins.", 
+        "Transcendence is important. Keep only the core.", 
+        "Grandmastery is important. Separate your roadmap.", 
+        "The ultimate goal is important. Build self-running systems."
+    ],
+    "火":[
+        "Initiative is important. Turn emotions into action.", 
+        "A solid foundation is important. Keep detailed logs.", 
+        "Stability is important. Use focused time blocks.", 
+        "Discipline is important. Focus on one core point.", 
+        "Growth is important. Add evidence to your work.", 
+        "Expansion is important. Remember that rest is also a schedule.", 
+        "Mastery is important. Cool down with deep breaths.", 
+        "Completion is important. Finish with strong passion.", 
+        "The apex is important. Lower your tone to lead.", 
+        "Transcendence is important. Show more and say less.", 
+        "Grandmastery is important. Set clear boundaries.", 
+        "The ultimate goal is important. Rules are key to managing the fire."
+    ],
+    "土":[
+        "Initiative is important. Finish one task to build a base.", 
+        "A solid foundation is important. Declutter to find order.", 
+        "Stability is important. Set healthy boundaries.", 
+        "Discipline is important. Strictly follow your deadlines.", 
+        "Growth is important. Own your specific role.", 
+        "Expansion is important. Distribute the load to grow.", 
+        "Mastery is important. Secure your health basics first.", 
+        "Completion is important. Try small, safe changes.", 
+        "The apex is important. Quiet leadership shines now.", 
+        "Transcendence is important. Allow small experiments.", 
+        "Grandmastery is important. Manage your resources.", 
+        "The ultimate goal is important. Release all stagnation."
+    ],
+    "金":[
+        "Initiative is important. Follow one clear standard.", 
+        "A solid foundation is important. Minimize your choices.", 
+        "Stability is important. Be brief and reason clearly.", 
+        "Discipline is important. Cycle your clean-up routines.", 
+        "Growth is important. Suggest concrete improvements.", 
+        "Expansion is important. Stick to your 3 core rules.", 
+        "Mastery is important. Pause when tension rises.", 
+        "Completion is important. Close every task cleanly.", 
+        "The apex is important. Learn situational flexibility.", 
+        "Transcendence is important. Add empathy to your logic.", 
+        "Grandmastery is important. Add 10% more flexibility.", 
+        "The ultimate goal is important. Balance fairness with warmth."
+    ],
+    "水":[
+        "Initiative is important. Just execute for 5 minutes.", 
+        "A solid foundation is important. Limit your information intake.", 
+        "Stability is important. Always write a conclusion.", 
+        "Discipline is important. Make temporary decisions fast.", 
+        "Growth is important. Structure your deep insights.", 
+        "Expansion is important. Practice single-tasking.", 
+        "Mastery is important. Reset with a quiet walk.", 
+        "Completion is important. Deadlines decide the quality.", 
+        "The apex is important. Use your quiet influence.", 
+        "Transcendence is important. Use routines as a shield.", 
+        "Grandmastery is important. Share your wisdom.", 
+        "The ultimate goal is important. Release all attachments."
+    ]
 };
 
 // 4) 이름 조각 및 수식어
@@ -90,14 +222,64 @@ const nameNumerology = (() => {
     return out;
 })();
 
-const pastJobsKo = ["궁중 기록관","산중 서당 훈장","전장의 전령","약초 의원","해상 무역상","조향사","금속 장인","사찰 수행자","별 관측자"];
-const pastJobsEn = ["Royal Archivist","Mountain Tutor","Battle Messenger","Herbal Healer","Sea Merchant","Perfumer","Metal Artisan","Temple Practitioner","Star Observer"];
-const nextPlacesKo = ["도서관 서재","바다 위 등대","산악 목장","미래 연구소","정원 도시","예술 작업실","우주 정거장","고요한 호숫가","영화 촬영장"];
-const nextPlacesEn = ["Library Study","Ocean Lighthouse","Mountain Ranch","Future Lab","Garden City","Art Studio","Space Station","Quiet Lakeside","Movie Set"];
+/* =========================
+   4) past / next (상세 수식어 버전)
+========================= */
 
-// 7) 오브젝트 풀
-const nextObjectPoolsKo = { thing: ["기록서", "나침반", "도구 상자"], animal: ["늑대", "올빼미", "돌고래"], human: ["치유사", "수호자", "장인"], deity: ["지혜의 신", "바람의 신"], insect: ["꿀벌", "반딧불이"], microbe: ["효모", "유산균"], nature: ["바다의 조류", "설산의 만년설"] };
-const nextObjectPoolsEn = { thing: ["Book", "Compass", "Toolbox"], animal: ["Wolf", "Owl", "Dolphin"], human: ["Healer", "Guardian", "Artisan"], deity: ["Deity"], insect: ["Bee"], microbe: ["Yeast"], nature: ["Ocean"] };
+// 📜 전생의 직업 (수식어 강화)
+const pastJobsKo = [
+    "궁중의 신뢰로운 기록관", "산중 서당의 지혜로운 훈장님", "전장의 발빠른 전령", 
+    "약초를 다루는 전설적인 명의", "거친 파도를 누비는 해상 무역상", "아름다운 향기를 설계하는 조향사", 
+    "희귀한 귀금속을 다루는 장인 대장장이", "고요한 사찰의 신성한 수행자", "별자리와 행성의 궤적을 쫓는 관측자"
+];
+
+const pastJobsEn = [
+    "A Trusted Archivist of the Royal Court", 
+    "A Wise Scholar of a Secluded Mountain School", 
+    "A Swift-footed Messenger of the Battlefield", 
+    "A Legendary Physician Skilled in Herbal Wisdom", 
+    "An Adventurous Merchant of the High Seas", 
+    "A Master Perfumer Architecting Heavenly Scents", 
+    "A Master Smith Forging Rare and Precious Metals", 
+    "A Sacred Practitioner of a Silent Temple", 
+    "A Celestial Observer Tracking the Orbits of Stars"
+];
+
+// 📍 내세의 목적지 (공간적 배경 풍성화)
+const nextPlacesKo = [
+    "수만 권의 지혜가 잠든 도서관 서재", "끝없는 수평선을 비추는 바다 위 등대", "구름이 맞닿은 평화로운 산악 목장", 
+    "인류의 미지를 연구하는 최첨단 미래 연구소", "꽃과 기계가 공존하는 환상적인 정원 도시", "영감이 쏟아지는 비밀스러운 예술 작업실", 
+    "별들 사이를 고요히 항해하는 우주 정거장", "새벽 물안개가 피어오르는 고요한 호숫가", "빛과 이야기가 살아 숨 쉬는 영화 촬영장"
+];
+
+const nextPlacesEn = [
+    "A Grand Library Study Where Ancient Wisdom Sleeps", 
+    "A Lonely Lighthouse Illumination the Endless Horizon", 
+    "A Peaceful Mountain Ranch Touching the Clouds", 
+    "A Cutting-edge Lab Deciphering the Unknown Future", 
+    "A Fantastic Garden City Where Nature and Tech Coexist", 
+    "A Secret Art Studio Brimming with Infinite Inspiration", 
+    "A Silent Space Station Drifting Among the Stars", 
+    "A Serene Lakeside Veiled in Morning Mist", 
+    "A Cinematic Set Where Light and Stories Come Alive"
+];
+
+// 🧩 다음 생의 오브젝트 (더 구체적으로)
+const nextObjectPoolsKo = {
+    thing: ["운명을 기록한 황금 책", "길을 잃지 않게 돕는 나침반", "모든 것을 고치는 마법 도구 상자", "상처를 치유하는 신비로운 약병"],
+    animal: ["지혜를 상징하는 흰 늑대", "밤을 지키는 영리한 올빼미", "바다의 노래를 아는 돌고래", "행운을 부르는 푸른 사슴"],
+    human: ["모두를 보듬는 치유사", "평화를 수호하는 기사", "지식을 전파하는 기록관", "미지의 바다를 항해하는 선장"],
+    deity: ["지혜를 관장하는 안내자", "풍요를 가져오는 정령", "바람의 흐름을 다스리는 신", "별의 궤도를 그리는 성좌"],
+    nature: ["세상의 흐름을 바꾸는 조류", "가장 높은 곳의 바람길", "모든 것을 비추는 거울 호수", "천 년의 시간을 머금은 설산"]
+};
+
+const nextObjectPoolsEn = {
+    thing: ["A Golden Ledger Recording Destiny", "A Compass That Never Fails the Lost", "A Mystical Toolbox That Fixes All", "A Sacred Vial of Healing Essence"],
+    animal: ["A White Wolf Symbolizing Wisdom", "A Clever Owl Guarding the Night", "A Dolphin That Knows the Sea's Song", "A Azure Deer Bringing Good Fortune"],
+    human: ["A Healer Embracing All Wounds", "A Guardian Protecting Eternal Peace", "An Archivist Spreading Ancient Knowledge", "A Captain Navigating Uncharted Seas"],
+    deity: ["A Guide Presiding Over Wisdom", "A Spirit Bringing Abundance", "A Deity Governing the Wind's Path", "A Constellation Mapping the Stars"],
+    nature: ["An Ocean Current Changing the World's Flow", "A High Altitude Windpath", "A Mirror Lake Reflecting All Truths", "A Snowy Peak Carrying a Thousand Years of Time"]
+};
 
 const pastLifeData = Array.from({ length: 81 }, (_, i) => {
     const n = i+1; const a=i%9; const b=Math.floor(i/9);
