@@ -397,26 +397,32 @@ async function updateCounter() {
       : makePastNameReasonEn(session.num81, strongEl, lackEl, birthMonth);
 
     body.innerHTML = `
-      <div class="tab-content">
-        <span class="section-title">${t.tab2Title}</span>
-        <div class="info-box">
-          <b>∞ ${currentLang === 'ko' ? '전생 이름' : 'Past-life Name'}</b><br>
-          ${pastName}<br>
-          <span style="color:#999; font-size:0.85rem;">${pastNameReason}</span>
-          <br><br>
+  <div class="tab-content">
+    <span class="section-title">${t.tab2Title}</span>
+    <div class="info-box">
+      <!-- 1. 전생 이름 및 설명 -->
+      <b>∞ ${currentLang === 'ko' ? '전생 이름' : 'Past-life Name'}</b><br>
+      ${pastName}<br>
+      <span style="color:#999; font-size:0.85rem;">${pastNameReason}</span>
+      <br><br>
 
-          <b>📜 ${t.pastJob}</b><br>
-          [${p.job}]<br>
-          ${p.desc}
-          <br><br>
+      <!-- 2. 전생 직업 및 설명 -->
+      <b>📜 ${t.pastJob}</b><br>
+      [${p.job}]<br>
+      <span style="font-size:0.95rem;">${p.desc}</span>
+      <br><br>
 
-          <i style="color:#999;">${currentLang === 'ko' ? reasonKo[strongEl] : reasonEn[strongEl]}</i>
-          <br><br>
+      <!-- 3. 에너지 분석 설명 (이름 설명과 스타일 동일하게 맞춤) -->
+      <span style="color:#999; font-size:0.85rem; display:block; line-height:1.4;">
+        ${currentLang === 'ko' ? reasonKo[strongEl] : reasonEn[strongEl]}
+      </span>
+      <br>
 
-          <b>✨ ${t.pastHomework}</b><br>
-          ${p.homework}
-        </div>
-      </div>`;
+      <!-- 4. 전생의 숙제 -->
+      <b>✨ ${t.pastHomework}</b><br>
+      ${p.homework}
+    </div>
+  </div>`;
     return;
   }
 
