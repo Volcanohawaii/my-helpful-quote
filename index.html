@@ -330,102 +330,149 @@ async function updateCounter() {
     }
 
     function switchTab(mode, btn) {
-      if (!assertDataset()) return;
+  if (!assertDataset()) return;
 
-      if (btn) {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-      }
+  if (btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
 
-      const body = document.getElementById('tab-body');
-      const s = session.seed;
-      const t = i18n[currentLang];
+  const body = document.getElementById('tab-body');
+  const s = session.seed;
+  const t = i18n[currentLang];
 
-      // ✅ 모든 탭에서 공통으로 강/약 원소 계산(전생/내세 근거용)
-      const maxIdx = session.scores.indexOf(Math.max(...session.scores));
-      const minIdx = session.scores.indexOf(Math.min(...session.scores));
-      const strongEl = elements[maxIdx];
-      const lackEl = elements[minIdx];
-      
-      if (!session.num81) session.num81 = (session.seed % 81) + 1; // 1~81
+  // ✅ 공통: 오행 강/약 계산
+  const maxIdx = session.scores.indexOf(Math.max(...session.scores));
+  const minIdx = session.scores.indexOf(Math.min(...session.scores));
+  const strongEl = elements[maxIdx];
+  const lackEl = elements[minIdx];
 
-      if (mode === 'fortune') {
-        const presSource = currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12;
-        const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
-        const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
+  // ✅ 공통: 81수 번호(1~81)
+  if (!session.num81) session.num81 = (session.seed % 81) + 1;
 
-        const masterSideIdx = s % sideSource.length;
+  // ✅ 공통: birthMonth (YYYYMMDD)
+  const birthMonth = parseInt(String(session.birth || "").substring(4, 6), 10) || 1;
 
-        body.innerHTML = `
-          <div class="tab-content">
-            <div class="section-wrap">
-              <span class="section-title">${t.sec1}</span>
-              <div class="info-box">${session.nameReport}</div>
-            </div>
+  if (mode === 'fortune') {
+    const presSource = currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12;
+    const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
+    const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
 
-            <div class="section-wrap">
-              <span class="section-title">${t.sec2}</span>
-              <div>• <b>${currentLang==='ko'?'주된 에너지':'Core Energy'}:</b> ${attrSource[strongEl].name} (${attrSource[strongEl].trait})</div>
-              <div>• <b>${t.advise}:</b> ${presSource[strongEl][session.tierStrong]}</div>
-            </div>
+    const masterSideIdx = s % sideSource.length;
 
-            <div class="section-wrap">
-              <span class="section-title">${t.sec3}</span>
-              <div>• <b>${t.practice}:</b> ${presSource[lackEl][session.tierLack]}</div>
-            </div>
+    body.innerHTML = `
+      <div class="tab-content">
+        <div class="section-wrap">
+          <span class="section-title">${t.sec1}</span>
+          <div class="info-box">${session.nameReport}</div>
+        </div>
 
-            <div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[masterSideIdx]}</div>
-          </div>`;
-      } else if (mode === 'past') {
-        const pastSource = currentLang === 'ko' ? pastLifeData : pastLifeDataEn;
-        session.num81 = (session.seed % 81) + 1;  // 1~81
-        const p = pastSource[session.num81 - 1]; // 0~80
-        body.innerHTML = `
-          <div class="tab-content">
-            <span class="section-title">${t.tab2Title}</span>
-            <div class="info-box">
-              <b>📜 ${t.pastJob}:</b> [${p.job}]<br>${p.desc}
-              <div style="margin-top:10px; color:#999; font-style:italic;">
-                ${currentLang==='ko' ? reasonKo[strongEl] : reasonEn[strongEl]}
-              </div>
-              <div style="margin-top:12px;">
-                <b>✨ ${t.pastHomework}:</b><br>${p.homework}
-              </div>
-            </div> </div> `;
-      } else {
-        const nextSource = currentLang === 'ko' ? reincarnationData : reincarnationDataEn;
-        const r = nextSource[session.num81 - 1]; // 0~80
-        // ✅ 오행(강/약) + 81수로 “최종 카테고리/오브젝트/이름” 확정
-const finalCat = pickCategoryByElement(strongEl, lackEl, session.num81);
+        <div class="section-wrap">
+          <span class="section-title">${t.sec2}</span>
+          <div>• <b>${currentLang === 'ko' ? '주된 에너지' : 'Core Energy'}:</b> ${attrSource[strongEl].name} (${attrSource[strongEl].trait})</div>
+          <div>• <b>${t.advise}:</b> ${presSource[strongEl][session.tierStrong]}</div>
+        </div>
 
-const pool =
-  (currentLang === 'ko' ? nextObjectPoolsKo : nextObjectPoolsEn)[finalCat] ||
-  (currentLang === 'ko' ? nextObjectPoolsKo.thing : nextObjectPoolsEn.thing);
+        <div class="section-wrap">
+          <span class="section-title">${t.sec3}</span>
+          <div>• <b>${t.practice}:</b> ${presSource[lackEl][session.tierLack]}</div>
+        </div>
 
-const finalObject = pool[(session.num81 + session.seed) % pool.length];
-        
-const nextLifeName =
-  currentLang === 'ko'
-    ? makeNextLifeNameKo(session.num81, strongEl, lackEl, session.birthMonth)
-    : makeNextLifeNameEn(session.num81, strongEl, lackEl, session.birthMonth);
-        const quoteSource = currentLang === 'ko' ? quoteData["인생"] : quoteDataEn["life"];
-const masterQuoteIdx = s % quoteSource.length;
-const quoteLabel = currentLang === 'ko' ? "우주의 메시지" : "Advice to remember";
-        body.innerHTML = `
-          <div class="tab-content">
-            <span class="section-title">${t.tab3Title}</span>
-            <div class="info-box">
-              <b>📍 ${t.nextDest}:</b> ${r.place}<br>
-              <b>🧬 ${t.nextObj}:</b> ${finalObject}<br><br>
-              <b>✦ ${currentLang==='ko'?'다음생 이름':'Next-life Name'}:</b> ${nextLifeName}<br><br>
-              <b>✅ ${t.nextMission}:</b><br>${r.mission}
-            </div>
-            <div style="margin-top:30px; text-align:center; color:#AAA; font-style:italic;">
-  ${quoteLabel}: "${quoteSource[masterQuoteIdx].text}"
-</div>
-          </div>`;
-      }
-    }
+        <div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[masterSideIdx]}</div>
+      </div>`;
+    return;
+  }
+
+  if (mode === 'past') {
+    const pastSource = currentLang === 'ko' ? pastLifeData : pastLifeDataEn;
+    const p = pastSource[session.num81 - 1]; // 0~80
+
+    // ✅ 전생 이름/이유 (quotes.js에 있는 함수 사용)
+    const pastName = (currentLang === 'ko')
+      ? makePastNameKo(session.num81, strongEl, lackEl, birthMonth)
+      : makePastNameEn(session.num81, strongEl, lackEl, birthMonth);
+
+    const pastNameReason = (currentLang === 'ko')
+      ? makePastNameReasonKo(session.num81, strongEl, lackEl, birthMonth)
+      : makePastNameReasonEn(session.num81, strongEl, lackEl, birthMonth);
+
+    body.innerHTML = `
+      <div class="tab-content">
+        <span class="section-title">${t.tab2Title}</span>
+        <div class="info-box">
+          <b>🪪 ${currentLang === 'ko' ? '전생 이름' : 'Past-life Name'}</b><br>
+          ${pastName}<br>
+          <span style="color:#999; font-size:0.85rem;">${pastNameReason}</span>
+          <br><br>
+
+          <b>📜 ${t.pastJob}</b><br>
+          [${p.job}]<br>
+          ${p.desc}
+          <br><br>
+
+          <i style="color:#999;">${currentLang === 'ko' ? reasonKo[strongEl] : reasonEn[strongEl]}</i>
+          <br><br>
+
+          <b>✨ ${t.pastHomework}</b><br>
+          ${p.homework}
+        </div>
+      </div>`;
+    return;
+  }
+
+  // mode === 'next'
+  const nextSource = currentLang === 'ko' ? reincarnationData : reincarnationDataEn;
+  const r = nextSource[session.num81 - 1]; // 0~80
+
+  // ✅ 오브젝트 다양화: strong/lack 기반 최종 카테고리 확정
+  const finalCat = pickCategoryByElement(strongEl, lackEl, session.num81);
+
+  const pools = (currentLang === 'ko') ? nextObjectPoolsKo : nextObjectPoolsEn;
+  const pool = pools[finalCat] || pools.thing;
+
+  const finalObject = pool[(session.num81 + session.seed) % pool.length];
+
+  // ✅ 다음생 이름/이유
+  const nextLifeName = (currentLang === 'ko')
+    ? makeNextLifeNameKo(session.num81, strongEl, lackEl, birthMonth)
+    : makeNextLifeNameEn(session.num81, strongEl, lackEl, birthMonth);
+
+  const nextNameReason = (currentLang === 'ko')
+    ? makeNextNameReasonKo(session.num81, strongEl, lackEl, birthMonth)
+    : makeNextNameReasonEn(session.num81, strongEl, lackEl, birthMonth);
+
+  const quoteSource = currentLang === 'ko' ? quoteData["인생"] : quoteDataEn["life"];
+  const masterQuoteIdx = s % quoteSource.length;
+  const quoteLabel = currentLang === 'ko' ? "우주의 메시지" : "Message";
+
+  body.innerHTML = `
+    <div class="tab-content">
+      <span class="section-title">${t.tab3Title}</span>
+
+      <div class="info-box">
+        <b>📍 ${t.nextDest}</b><br>
+        ${r.place}
+        <br><br>
+
+        <b>🧩 ${t.nextObj}</b><br>
+        ${finalObject}
+        <br><br>
+
+        <b>🪪 ${currentLang === 'ko' ? '다음생 이름' : 'Next-life Name'}</b><br>
+        ${nextLifeName}<br>
+        <span style="color:#999; font-size:0.85rem;">${nextNameReason}</span>
+        <br><br>
+
+        <b>✅ ${t.nextMission}</b><br>
+        ${r.mission}
+      </div>
+
+      <div style="margin-top:30px; text-align:center; color:#AAA; font-style:italic;">
+        ${quoteLabel} — "${quoteSource[masterQuoteIdx].text}"
+      </div>
+    </div>`;
+}
+    
 
     async function copyLink() {
       const base = window.location.origin + window.location.pathname;
