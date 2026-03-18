@@ -293,7 +293,8 @@ async function updateCounter() {
   return Math.max(0, Math.min(11, t));
 }
 
-    function renderChart() {
+   function renderChart() {
+      // 💡 탭 내부에 새로 만들어진 radarChart 박스를 정확히 찾아갑니다.
       const container = document.getElementById('radarChart');
       if (!container) return; 
 
@@ -378,6 +379,7 @@ async function updateCounter() {
             <div class="section-wrap">
               <span class="section-title">${t.sec2}</span>
               <div class="info-box" style="text-align:center;">
+                <!-- ⭐ 여기에 그래프가 그려집니다 -->
                 <div id="radarChart" style="margin:20px auto; width:220px; height:220px;"></div>
                 <div style="text-align:left; margin-top:15px;">
                   <div>• <b>${currentLang === 'ko' ? '주된 에너지' : 'Core Energy'}:</b> ${attrSource[strongEl].name}</div>
@@ -418,8 +420,6 @@ async function updateCounter() {
         body.innerHTML = `<div class="tab-content"><span class="section-title">${t.tab3Title}</span><div class="info-box"><b>📍 ${t.nextDest}</b><br>${r.place}<br><br><b>🧩 ${t.nextObj}</b><br>${finalObject}<br><br><b>🏷️ 다음생 이름</b><br><span style="font-size:1.1rem; font-weight:bold;">${nextLifeName}</span><br><span style="color:#999; font-size:0.85rem;">${nextNameReason}</span><br><br><b>✅ ${t.nextMission}</b><br>${r.mission}</div></div>`;
       }
     }
-    
-
     async function copyLink() {
       const base = window.location.origin + window.location.pathname;
       const url = base + `?name=${encodeURIComponent(session.name)}&birth=${encodeURIComponent(session.birth)}&lang=${encodeURIComponent(currentLang)}`;
