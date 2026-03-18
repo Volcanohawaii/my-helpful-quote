@@ -140,17 +140,43 @@ const pastLifeDataEn = Array.from({ length: 81 }, (_, i) => {
     return { job: pastJobsEn[a], desc: `A unique manifestation of ${baseEn[a].core} energy in your past life.`,
 });
 
+// --- 한국어 내세 데이터 생성 (130번 줄 부근 시작) ---
 const reincarnationData = Array.from({ length: 81 }, (_, i) => {
-    const n = i+1; const a = i % 9; const b = Math.floor(i / 9);
-    return { place: nextPlacesKo[b], mission: `${baseKo[a].core} 에너지를 ‘${stageKo[b]}’ 국면으로 승화시켜 영혼의 결실을 완성하기.`,
-});
+    const n = i + 1; 
+    const a = i % 9; 
+    const b = Math.floor(i / 9);
+    return { 
+        place: nextPlacesKo[b], 
+        mission: `${baseKo[a].core} 에너지를 ‘${stageKo[b]}’ 국면으로 승화시켜 영혼의 결실을 완성하기.` 
+    };
+}); // 여기서 한 번 닫힘
 
+// --- 영어 내세 데이터 생성 ---
 const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
-    const n = i+1; const a = i % 9; const b = Math.floor(i / 9);
-    return { place: nextPlacesEn[b], mission: `Sublimating ${baseEn[a].core} energy into the '${stageEn[b]}' phase to complete the soul's fruit.` };
-});
+    const n = i + 1; 
+    const a = i % 9; 
+    const b = Math.floor(i / 9);
+    return { 
+        place: nextPlacesEn[b], 
+        mission: `Sublimating ${baseEn[a].core} energy into the '${stageEn[b]}' phase to complete the soul's fruit.` 
+    };
+}); // 여기서 정확히 한 번만 닫혀야 함
 
-const quoteData = { "인생": [{ text: "모든 꽃은 저마다의 시간에 핀다." }, { text: "속도보다 중요한 것은 방향이다." }, { text: "지금 그대로 당신은 충분하다." }, { text: "어두운 밤일수록 별은 빛난다." }] };
-const quoteDataEn = { "life": [{ text: "Every flower blooms in its own time." }, { text: "Direction is more important than speed." }] };
+// --- 하단 공통 데이터 ---
+const quoteData = { 
+    "인생": [
+        { text: "모든 꽃은 저마다의 시간에 핀다." }, 
+        { text: "속도보다 중요한 것은 방향이다." }, 
+        { text: "지금 그대로 당신은 충분하다." }, 
+        { text: "어두운 밤일수록 별은 빛난다." }
+    ] 
+};
 
-console.log("💎 Quotes.js fully loaded with 'Soul Practice' & Full Data!");
+const quoteDataEn = { 
+    "life": [
+        { text: "Every flower blooms in its own time." }, 
+        { text: "Direction is more important than speed." }
+    ] 
+};
+
+console.log("💎 Quotes.js: All brackets matched and data loaded.");
