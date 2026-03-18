@@ -177,15 +177,25 @@
     function renderChart() {
       const container = document.getElementById('radarChart');
       if (!container) return; 
+
       const labels = currentLang === 'ko' ? ["木", "火", "土", "金", "水"] : ["Wood", "Fire", "Earth", "Metal", "Water"];
       const cx = 110, cy = 110, r = 75;
       const maxIdx = session.scores.indexOf(Math.max(...session.scores));
-      const themeColor = { "木": "#27ae60", "火": "#c0392b", "土": "#f39c12", "金": "#7f8c8d", "水": "#2980b9" }[elements[maxIdx]];
+      
+      // ✅ 각 오행별 고유 색상 데이터 복구
+      const themeColor = {
+        "木": { fill: "rgba(46, 204, 113, 0.4)", stroke: "#27ae60" },
+        "火": { fill: "rgba(231, 76, 60, 0.4)", stroke: "#c0392b" },
+        "土": { fill: "rgba(241, 196, 15, 0.4)", stroke: "#f39c12" },
+        "金": { fill: "rgba(149, 165, 166, 0.4)", stroke: "#7f8c8d" },
+        "水": { fill: "rgba(52, 152, 219, 0.4)", stroke: "#2980b9" }
+      }[elements[maxIdx]] || { fill: "rgba(0,0,0,0.1)", stroke: "#ccc" };
 
       let poly = "";
       labels.forEach((_, i) => {
         const a = (Math.PI * 2 / 5) * i - (Math.PI / 2);
-        const v = (session.scores[i] / 150) * r;
+        const val = Math.max(35, session.scores[i] || 40); 
+        const v = (val / 150) * r;
         poly += `${cx + v * Math.cos(a)},${cy + v * Math.sin(a)} `;
       });
 
@@ -197,13 +207,13 @@
 
       container.innerHTML = `
         <svg width="220" height="220" viewBox="0 0 220 220" style="overflow:visible; display:block; margin:0 auto;">
-          <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#EEE"/>
-          <circle cx="${cx}" cy="${cy}" r="${r/2}" fill="none" stroke="#F5F5F5"/>
+          <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#EEE" stroke-width="1"/>
+          <circle cx="${cx}" cy="${cy}" r="${r/2}" fill="none" stroke="#F5F5F5" stroke-width="1"/>
           ${textLabels}
-          <polygon points="${poly}" fill="rgba(154, 132, 103, 0.4)" stroke="${themeColor}" stroke-width="2.5"/>
+          <!-- ✅ 복구된 테마 컬러(fill, stroke) 적용 -->
+          <polygon points="${poly}" fill="${themeColor.fill}" stroke="${themeColor.stroke}" stroke-width="2.5"/>
         </svg>`;
     }
-
     function switchTab(mode, btn) {
       if (!assertDataset()) return;
       if (btn) {
