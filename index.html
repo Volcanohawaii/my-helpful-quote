@@ -400,7 +400,7 @@ async function updateCounter() {
       <div class="tab-content">
         <span class="section-title">${t.tab2Title}</span>
         <div class="info-box">
-          <b>🪪 ${currentLang === 'ko' ? '전생 이름' : 'Past-life Name'}</b><br>
+          <b>∞ ${currentLang === 'ko' ? '전생 이름' : 'Past-life Name'}</b><br>
           ${pastName}<br>
           <span style="color:#999; font-size:0.85rem;">${pastNameReason}</span>
           <br><br>
@@ -443,7 +443,7 @@ async function updateCounter() {
 
   const quoteSource = currentLang === 'ko' ? quoteData["인생"] : quoteDataEn["life"];
   const masterQuoteIdx = s % quoteSource.length;
-  const quoteLabel = currentLang === 'ko' ? "우주의 메시지" : "Message";
+  const quoteLabel = currentLang === 'ko' ? "우주의 메시지" : "Message of God";
 
   body.innerHTML = `
     <div class="tab-content">
@@ -458,7 +458,7 @@ async function updateCounter() {
         ${finalObject}
         <br><br>
 
-        <b>🪪 ${currentLang === 'ko' ? '다음생 이름' : 'Next-life Name'}</b><br>
+        <b>∞ ${currentLang === 'ko' ? '다음생 이름' : 'Next-life Name'}</b><br>
         ${nextLifeName}<br>
         <span style="color:#999; font-size:0.85rem;">${nextNameReason}</span>
         <br><br>
