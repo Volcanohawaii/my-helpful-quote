@@ -102,8 +102,27 @@ const reasonEn = { "木": "Growth trace.", "火": "Passion trace.", "土": "Stab
 
 const pastLifeData = Array.from({ length: 81 }, (_, i) => ({ job: pastJobsKo[i%9], desc: `${i+1}수 흐름의 전생 흔적입니다.`, homework: "평정심 유지." }));
 const pastLifeDataEn = Array.from({ length: 81 }, (_, i) => ({ job: pastJobsEn[i%9], desc: `No.${i+1} trace.`, homework: "Keep balance." }));
-const reincarnationData = Array.from({ length: 81 }, (_, i) => ({ place: nextPlacesKo[i%9], mission: "에너지 완성." }));
-const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => ({ place: nextPlacesEn[i%9], mission: "Complete energy." }));
+// 5) 메인 데이터셋 매핑 (미션 문구 다양화 버전)
+const reincarnationData = Array.from({ length: 81 }, (_, i) => {
+    const n = i + 1;
+    const a = (n - 1) % 9;
+    const b = Math.floor((n - 1) / 9);
+    return { 
+        place: nextPlacesKo[b], 
+        // ✅ 81수의 핵심 에너지(core)와 단계(stage)를 조합하여 미션 생성
+        mission: `(${String(n).padStart(2,"0")}수) ${baseKo[a].core}의 에너지를 ‘${stageKo[b]}’ 국면으로 이끌어 결실 맺기.` 
+    };
+});
+
+const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
+    const n = i + 1;
+    const a = (n - 1) % 9;
+    const b = Math.floor((n - 1) / 9);
+    return { 
+        place: nextPlacesEn[b], 
+        mission: `(No.${String(n).padStart(2,"0")}) Leading the energy of ${baseEn[a].core} to the '${stageEn[b]}' phase.` 
+    };
+});
 
 const sideEffects = ["디저트 무한 흡입 주의","모든 말끝에 토 달기","전생이 바위였던 듯한 멍함","양말 한 짝 영원히 실종","냉장고 소스 유통기한 점검 강박","뜬금없는 윙크 발사","거울 속 내 모습에 취함","왼쪽 콧구멍만 간지러움"];
 const sideEffectsEn = ["Unstoppable dessert cravings","Urge to back-talk everyone","Spells of rock-like zoning out","Mysterious loss of one sock forever","Obsessive checking of sauce dates","Involuntary winking syndrome","Dazzled by your own mirror image","An itch in specifically your left nostril"];
