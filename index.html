@@ -347,12 +347,7 @@ async function updateCounter() {
       const strongEl = elements[maxIdx];
       const lackEl = elements[minIdx];
 
-      if (mode === 'fortune') {
-        const presSource = currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12;
-        const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
-        const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
-        const res = nameNumerology[n81];
-
+     if (mode === 'fortune') {
         body.innerHTML = `
           <div class="tab-content">
             <div style="margin-bottom:28px; padding:22px; background:#fcfcfc; border:1px solid #eee; border-radius:16px; text-align:left; box-shadow: inset 0 0 10px rgba(0,0,0,0.02);">
@@ -369,13 +364,12 @@ async function updateCounter() {
 
             <div class="section-wrap">
               <span class="section-title">${t.sec1}</span>
-              <div class="info-box">${session.nameReport}<br><span style="color:#999; font-size:0.85rem; display:block; margin-top:5px;">특징: ${res.desc}</span></div>
+              <div class="info-box">${session.nameReport}</div>
             </div>
 
             <div class="section-wrap">
               <span class="section-title">${t.sec2}</span>
               <div class="info-box" style="text-align:center;">
-                <!-- ⭐ 여기에 그래프가 그려집니다 -->
                 <div id="radarChart" style="margin:20px auto; width:220px; height:220px;"></div>
                 <div style="text-align:left; margin-top:15px;">
                   <div>• <b>${currentLang === 'ko' ? '주된 에너지' : 'Core Energy'}:</b> ${attrSource[strongEl].name}</div>
