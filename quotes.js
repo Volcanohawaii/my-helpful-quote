@@ -136,11 +136,16 @@ const pastLifeData = Array.from({ length: 81 }, (_, i) => {
 });
 
 const pastLifeDataEn = Array.from({ length: 81 }, (_, i) => {
-    const n = i+1; const a = i % 9;
-    return { job: pastJobsEn[a], desc: `A unique manifestation of ${baseEn[a].core} energy in your past life.`,
+    const n = i + 1; 
+    const a = i % 9;
+    return { 
+        job: pastJobsEn[a], 
+        desc: `A unique manifestation of ${baseEn[a].core} energy in your past life.`,
+        homework: `Focus on balancing your ${baseEn[a].risk} energy.` 
+    };
 });
 
-// --- 한국어 내세 데이터 생성 (130번 줄 부근 시작) ---
+// --- 한국어 내세 데이터 생성 ---
 const reincarnationData = Array.from({ length: 81 }, (_, i) => {
     const n = i + 1; 
     const a = i % 9; 
@@ -149,7 +154,7 @@ const reincarnationData = Array.from({ length: 81 }, (_, i) => {
         place: nextPlacesKo[b], 
         mission: `${baseKo[a].core} 에너지를 ‘${stageKo[b]}’ 국면으로 승화시켜 영혼의 결실을 완성하기.` 
     };
-}); // 여기서 한 번 닫힘
+});
 
 // --- 영어 내세 데이터 생성 ---
 const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
@@ -160,7 +165,7 @@ const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
         place: nextPlacesEn[b], 
         mission: `Sublimating ${baseEn[a].core} energy into the '${stageEn[b]}' phase to complete the soul's fruit.` 
     };
-}); // 여기서 정확히 한 번만 닫혀야 함
+});
 
 // --- 하단 공통 데이터 ---
 const quoteData = { 
