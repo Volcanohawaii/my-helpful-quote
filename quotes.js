@@ -117,6 +117,157 @@ const baseEn = [
 const stageKo = ["발아","정립","강화","확장","정점","전환","정리","재도약","완결"];
 const stageEn = ["Sprout","Settle","Strengthen","Expand","Peak","Shift","Refine","Rebound","Complete"];
 
+/* =========================
+   (NEW) Name generator (Past/Next)
+   - no famous names
+   - deterministic
+========================= */
+
+// 한글 음절 조합(성/이름 느낌)
+const koSurnames = ["하", "윤", "문", "서", "백", "차", "주", "강", "남", "진", "설", "장"];
+const koMid = ["라", "린", "하", "윤", "서", "우", "아", "이", "온", "연", "솔", "담", "휘"];
+const koEnd = ["민", "현", "겸", "준", "율", "성", "린", "휘", "찬", "도", "하", "결"];
+
+// 영문 이름 조합(라틴풍/판타지풍이지만 실존 유명인 X)
+const enHead = ["Ael", "Cor", "Lun", "Ser", "Val", "Eri", "Nym", "Ori", "Kel", "Mira", "Sol", "Vyr"];
+const enMid  = ["a", "e", "i", "o", "u", "ae", "ia", "eo", "ui"];
+const enTail = ["ren", "lia", "dor", "th", "wyn", "mir", "sai", "ven", "ric", "lan", "nox", "riel"];
+
+// 간단 해시 (문자열 -> 숫자)
+function hashStr(s){
+  let h = 2166136261;
+  for (let i=0;i<s.length;i++){
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return Math.abs(h);
+}
+function pick(arr, k){ return arr[Math.abs(k) % arr.length]; }
+
+// 계절(사주 느낌용: 생월 기반)
+function getSeasonKo(m){
+  if ([3,4,5].includes(m)) return "봄";
+  if ([6,7,8].includes(m)) return "여름";
+  if ([9,10,11].includes(m)) return "가을";
+  return "겨울";
+}
+function getSeasonEn(m){
+  if ([3,4,5].includes(m)) return "Spring";
+  if ([6,7,8].includes(m)) return "Summer";
+  if ([9,10,11].includes(m)) return "Autumn";
+  return "Winter";
+}
+
+// 오행별 “칭호(에피소드)” — 유명인 X
+const epithetKoByElement = {
+  "木": ["푸른", "개척의", "수림의", "새순의"],
+  "火": ["화염의", "태양의", "홍련의", "등불의"],
+  "土": ["대지의", "기반의", "성채의", "황토의"],
+  "金": ["은결의", "철율의", "서약의", "백은의"],
+  "水": ["물결의", "심해의", "안개의", "거울의"]
+};
+const epithetEnByElement = {
+  "木": ["Verdant", "Pathfinding", "Forest-born", "Sprouting"],
+  "火": ["Flamebound", "Solar", "Crimson", "Lantern"],
+  "土": ["Earthforged", "Rooted", "Citadel", "Hearth"],
+  "金": ["Silver-edged", "Ironlaw", "Oathbound", "Steelborn"],
+  "水": ["Tideborn", "Abyssal", "Mistveiled", "Mirror-souled"]
+};
+
+// ✅ 전생 이름 생성 (한글/영문)
+function makePastNameKo(n, strongEl, lackEl, birthMonth){
+  const a = (n-1)%9;
+  const b = Math.floor((n-1)/9);
+  const season = getSeasonKo(birthMonth);
+  const epi = pick(epithetKoByElement[strongEl] || ["운명의"], n + (lackEl? lackEl.charCodeAt(0):0));
+
+  // “성 + (중간음절) + (끝음절)” 2~3음절
+  const baseKey = `${n}-${strongEl}-${lackEl}-${birthMonth}-${baseKo[a].key}-${stageKo[b]}`;
+  const h = hashStr(baseKey);
+
+  const surname = pick(koSurnames, h);
+  const mid = pick(koMid, h + 7);
+  const end = pick(koEnd, h + 13);
+
+  // 예: “하라민”
+  return `${surname}${mid}${end}`;
+}
+function makePastNameEn(n, strongEl, lackEl, birthMonth){
+  const a = (n-1)%9;
+  const b = Math.floor((n-1)/9);
+  const season = getSeasonEn(birthMonth);
+  const epi = pick(epithetEnByElement[strongEl] || ["Fated"], n + (lackEl? lackEl.charCodeAt(0):0));
+
+  const baseKey = `${n}-${strongEl}-${lackEl}-${birthMonth}-${baseEn[a].key}-${stageEn[b]}`;
+  const h = hashStr(baseKey);
+
+  // 예: “Ael + ia + ren” => “Aeliaren”
+  const head = pick(enHead, h);
+  const mid = pick(enMid, h + 5);
+  const tail = pick(enTail, h + 11);
+  return `${head}${mid}${tail}`;
+}
+
+// ✅ 다음생 이름 생성 (한글/영문)
+function makeNextLifeNameKo(n, strongEl, lackEl, birthMonth){
+  const a = (n-1)%9;
+  const b = Math.floor((n-1)/9);
+  const season = getSeasonKo(birthMonth);
+  const epi = pick(epithetKoByElement[strongEl] || ["운명의"], n + 3 + (lackEl? lackEl.charCodeAt(0):0));
+
+  const baseKey = `NEXT-${n}-${strongEl}-${lackEl}-${birthMonth}-${baseKo[a].key}-${stageKo[b]}`;
+  const h = hashStr(baseKey);
+
+  const surname = pick(koSurnames, h + 17);
+  const mid = pick(koMid, h + 23);
+  const end = pick(koEnd, h + 29);
+
+  return `${surname}${mid}${end}`;
+}
+function makeNextLifeNameEn(n, strongEl, lackEl, birthMonth){
+  const a = (n-1)%9;
+  const b = Math.floor((n-1)/9);
+  const season = getSeasonEn(birthMonth);
+  const epi = pick(epithetEnByElement[strongEl] || ["Fated"], n + 9 + (lackEl? lackEl.charCodeAt(0):0));
+
+  const baseKey = `NEXT-${n}-${strongEl}-${lackEl}-${birthMonth}-${baseEn[a].key}-${stageEn[b]}`;
+  const h = hashStr(baseKey);
+
+  const head = pick(enHead, h + 19);
+  const mid = pick(enMid, h + 31);
+  const tail = pick(enTail, h + 41);
+  return `${head}${mid}${tail}`;
+}
+
+// ✅ “이유(근거)” 생성
+function makePastNameReasonKo(n, strongEl, lackEl, birthMonth){
+  const a = (n-1)%9;
+  const b = Math.floor((n-1)/9);
+  const season = getSeasonKo(birthMonth);
+  return `전생 이름은 ${String(n).padStart(2,"0")}수의 ‘${baseKo[a].key}’ 성향이 ‘${stageKo[b]}’ 국면으로 흐른다고 보고, ` +
+         `현생의 강한 기운(${strongEl})과 부족 기운(${lackEl})을 반영해 음절을 고정했습니다. (계절: ${season})`;
+}
+function makePastNameReasonEn(n, strongEl, lackEl, birthMonth){
+  const a = (n-1)%9;
+  const b = Math.floor((n-1)/9);
+  const season = getSeasonEn(birthMonth);
+  return `The past-life name is generated deterministically from No.${String(n).padStart(2,"0")} (${baseEn[a].key} / ${stageEn[b]}), ` +
+         `then adjusted by dominant (${strongEl}) and lacking (${lackEl}) energies. (Season: ${season})`;
+}
+function makeNextNameReasonKo(n, strongEl, lackEl, birthMonth){
+  const a = (n-1)%9;
+  const b = Math.floor((n-1)/9);
+  const season = getSeasonKo(birthMonth);
+  return `다음생 이름은 ${String(n).padStart(2,"0")}수의 방향성(‘${baseKo[a].key}’ → ‘${stageKo[b]}’)과 ` +
+         `현생 오행 분포(강: ${strongEl}, 약: ${lackEl})를 합산해 글자 조합을 확정합니다. (계절: ${season})`;
+}
+function makeNextNameReasonEn(n, strongEl, lackEl, birthMonth){
+  const a = (n-1)%9;
+  const b = Math.floor((n-1)/9);
+  const season = getSeasonEn(birthMonth);
+  return `The next-life name is computed from No.${String(n).padStart(2,"0")} (${baseEn[a].key} → ${stageEn[b]}), ` +
+         `combined with your current elemental balance (dominant ${strongEl}, lacking ${lackEl}). (Season: ${season})`;
+}
 const nameNumerology = (() => {
   const out = {};
   for (let n = 1; n <= 81; n++) {
@@ -374,7 +525,11 @@ const pastLifeData = Array.from({ length: 81 }, (_, i) => {
   return {
     job: pastJobsKo[a],
     desc: `(${String(n).padStart(2,"0")}수 성향) ${baseKo[a].core} 흐름이 전생에서 ‘${stageKo[b]}’로 발현된 흔적입니다.`,
-    homework: `${baseKo[a].risk}을(를) 조절하며 ${baseKo[a].core}을(를) 성과로 고정하기.`
+    // ⚠️ 라벨은 HTML에서 붙일 거라 여기서는 라벨 제거(중복 방지)
+    homework: `${baseKo[a].risk}을(를) 조절하며 ${baseKo[a].core}을(를) 성과로 고정하기.`,
+    // ✅ NEW (전생 이름/이유): strong/lack, birthMonth는 HTML에서 계산해야 하므로 여기서는 placeholder만 둠
+    // -> 실제 값은 HTML에서 makePastNameKo/ReasonKo로 계산해서 출력할 거라 "키만" 남김
+    pastNameKey: `PAST-${String(n).padStart(2,"0")}`
   };
 });
 
@@ -385,7 +540,8 @@ const pastLifeDataEn = Array.from({ length: 81 }, (_, i) => {
   return {
     job: pastJobsEn[a],
     desc: `(No.${String(n).padStart(2,"0")}) Your ${baseEn[a].core} pattern showed a “${stageEn[b]}” past-life trace.`,
-    homework: `Homework: regulate ${baseEn[a].risk} and stabilize ${baseEn[a].core} into outcomes.`
+    homework: `Regulate ${baseEn[a].risk} and stabilize ${baseEn[a].core} into outcomes.`,
+    pastNameKey: `PAST-${String(n).padStart(2,"0")}`
   };
 });
 
