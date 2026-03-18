@@ -99,13 +99,13 @@ function get81CoreEn(n){ const a=(n-1)%9, b=Math.floor((n-1)/9); return {base:ba
 
 function makePastNameKo(n, s, l, m){ const info=get81CoreKo(n); return `${pickFrom(syllableKo1, n+m)}${pickFrom(syllableKo2, n+m+7)}${pickFrom(["공","랑","도령","낭","장","선생"], n)} · ${pickFrom(epithetKoByElement[s]||["운명의"], n)} ${info.base}의 ${info.stage}`; }
 function makePastNameEn(n, s, l, m){ const info=get81CoreEn(n); return `${pickFrom(nameRootEn, n+m)}${pickFrom(nameTailEn, n+5)} · ${pickFrom(epithetEnByElement[s]||["Fated"], n)} ${info.base} (${info.stage})`; }
-function makePastNameReasonKo(n, s, l, m){ return `81수(${n}수)와 ${s} 기운이 조합된 전생의 호칭입니다.`; }
-function makePastNameReasonEn(n, s, l, m){ return `Derived from No.${n} and dominant ${s}.`; }
+function makePastNameReasonKo(n, s, l, m){ return `${s} 기운의 특성이 반영된 전생의 고유 호칭입니다.`; }
+function makePastNameReasonEn(n, s, l, m){ return `${n} and dominant ${s}.`; }
 
 function makeNextLifeNameKo(n, s, l, m){ const info=get81CoreKo(n); return `${pickFrom(syllableKo1, n+10)}${pickFrom(syllableKo2, n+15)} · ${pickFrom(epithetKoByElement[l]||["새로운"], n+7)} ${info.base}의 ${info.stage}`; }
 function makeNextLifeNameEn(n, s, l, m){ const info=get81CoreEn(n); return `${pickFrom(nameRootEn, n+20)}${pickFrom(nameTailEn, n+25)} · ${pickFrom(epithetEnByElement[l]||["Renewed"], n+13)} ${info.base} (${info.stage})`; }
-function makeNextNameReasonKo(n, s, l, m){ return `부족한 기운(${l}) 보완과 81수의 흐름을 반영한 다음생의 이름입니다.`; }
-function makeNextNameReasonEn(n, s, l, m){ return `Designed to reinforce your lacking ${l} energy.`; }
+function makeNextNameReasonKo(n, s, l, m){ return `부족한 기운(${l})을 보완하고 당신만의 에너지 흐름을 반영한 다음생의 이름입니다.`; }
+function makeNextNameReasonEn(n, s, l, m){ return `A future identity designed to balance your ${l} energy.`; }
 
 function pickCategoryByElement(s, l, n) { 
     const map = { "木": ["nature", "animal"], "火": ["deity", "insect"], "土": ["thing", "nature"], "金": ["thing", "microbe"], "水": ["animal", "nature"] };
@@ -132,22 +132,22 @@ const nameNumerology = (() => {
 
 const pastLifeData = Array.from({ length: 81 }, (_, i) => {
     const n = i+1; const a = i % 9; 
-    return { job: pastJobsKo[a], desc: `${n}수 성향의 ${baseKo[a].core} 흐름이 전생에서 발현된 흔적입니다.`, homework: `${baseKo[a].risk}을(를) 조절하며 평정심 유지하기.` };
+    return { job: pastJobsKo[a], desc: `${baseKo[a].core} 흐름이 전생에서 발현된 흔적입니다.`, homework: `${baseKo[a].risk}을(를) 조절하며 평정심 유지하기.` };
 });
 
 const pastLifeDataEn = Array.from({ length: 81 }, (_, i) => {
     const n = i+1; const a = i % 9;
-    return { job: pastJobsEn[a], desc: `Trace of No.${n} pattern.`, homework: `Regulate ${baseEn[a].risk}.` };
+    return { job: pastJobsEn[a], desc: `A unique manifestation of ${baseEn[a].core} energy in your past life.`,
 });
 
 const reincarnationData = Array.from({ length: 81 }, (_, i) => {
     const n = i+1; const a = i % 9; const b = Math.floor(i / 9);
-    return { place: nextPlacesKo[b], mission: `(${String(n).padStart(2,"0")}수) ${baseKo[a].core} 에너지를 ‘${stageKo[b]}’ 국면으로 승화시켜 영혼의 결실을 완성하기.` };
+    return { place: nextPlacesKo[b], mission: `${baseKo[a].core} 에너지를 ‘${stageKo[b]}’ 국면으로 승화시켜 영혼의 결실을 완성하기.`,
 });
 
 const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
     const n = i+1; const a = i % 9; const b = Math.floor(i / 9);
-    return { place: nextPlacesEn[b], mission: `(No.${n}) Sublimating ${baseEn[a].core} energy into the '${stageEn[b]}' phase to complete the soul's fruit.` };
+    return { place: nextPlacesEn[b], mission: `Sublimating ${baseEn[a].core} energy into the '${stageEn[b]}' phase to complete the soul's fruit.` };
 });
 
 const quoteData = { "인생": [{ text: "모든 꽃은 저마다의 시간에 핀다." }, { text: "속도보다 중요한 것은 방향이다." }, { text: "지금 그대로 당신은 충분하다." }, { text: "어두운 밤일수록 별은 빛난다." }] };
