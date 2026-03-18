@@ -124,8 +124,14 @@ const nicknamesEn = { "木": { veryStrong: "Divine Pioneer", strong: "Shrewd Pla
 const nameNumerology = (() => {
     const out = {};
     for (let n = 1; n <= 81; n++) {
-        const info = get81CoreKo(n);
-        out[n] = { title: `${String(n).padStart(2,"0")}수·${info.base}(${info.stage})`, desc: `${info.core}의 기운이 ‘${info.stage}’ 국면으로 전개되는 흔적입니다.` };
+        const infoKo = get81CoreKo(n);
+        const infoEn = get81CoreEn(n);
+        out[n] = { 
+            title: `${String(n).padStart(2,"0")}수·${infoKo.base}(${infoKo.stage})`, 
+            desc: `${infoKo.core}의 기운이 ‘${infoKo.stage}’ 국면으로 전개되는 흔적입니다.`,
+            titleEn: `No.${n} ${infoEn.base} (${infoEn.stage})`,
+            descEn: `A flow of ${infoEn.base} energy unfolding in the '${infoEn.stage}' phase.`
+        };
     }
     return out;
 })();
