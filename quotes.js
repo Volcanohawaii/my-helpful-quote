@@ -1,6 +1,6 @@
 /* [Destiny Engineering Report - Global Final Dataset: 81 System] */
 
-// 0) 언어 데이터 (i18n)
+// 0) 언어 설정 (i18n)
 const i18n = {
     ko: {
         title: "운명공학 데이터 분석", desc: "성명과 생일을 기반으로 고유한 에너지를 추출합니다.",
@@ -32,7 +32,7 @@ const baseEn = [{key:"Pioneer",core:"start·independence",risk:"rigidity"},{key:
 const stageKo = ["발아","정립","강화","확장","정점","전환","정리","재도약","완결"];
 const stageEn = ["Sprout","Settle","Strengthen","Expand","Peak","Shift","Refine","Rebound","Complete"];
 
-// 3) 이름 생성 유틸리티 데이터 (중복 선언 에러 방지를 위해 딱 한 번만 정의)
+// 3) 이름 생성 및 오행 수식어 (중복 선언 방지를 위해 한 번만 정의)
 const syllableKo1 = ["하","연","도","가","서","윤","태","민","지","현","보","유","라","휘","린","겸","담","준","채","온"];
 const syllableKo2 = ["서","린","호","민","윤","하","연","우","재","성","람","빛","솔","진","담","율","아","늘","준","온"];
 const nameRootEn = ["Aren","Lyra","Kalen","Seren","Orin","Mira","Elian","Nova","Cairn","Sola","Riven","Lumen","Astra","Veyra","Neris","Kaia"];
@@ -42,26 +42,24 @@ const epithetKoByElement = { "木": ["푸른", "개척의"], "火": ["태양의"
 const epithetEnByElement = { "木": ["Verdant", "Pathfinding"], "火": ["Solar", "Ember"], "土": ["Earthforged", "Rooted"], "金": ["Silver-edged", "Ironlaw"], "水": ["Tideborn", "Abyssal"] };
 
 const reasonKo = { "木": "성장과 기획의 기운이 짙습니다.", "火": "열정과 확산의 기운이 짙습니다.", "土": "안정과 포용의 기운이 짙습니다.", "金": "원칙과 결단의 기운이 짙습니다.", "水": "통찰과 유연의 기운이 짙습니다." };
-const reasonEn = { "木": "Growth and planning trace.", "火": "Passion and expansion trace.", "土": "Stability and support trace.", "金": "Logic and decision trace.", "水": "Insight and flexibility trace." };
+const reasonEn = { "木": "Growth trace.", "火": "Passion trace.", "土": "Stability trace.", "金": "Logic trace.", "水": "Insight trace." };
 
-// 4) 핵심 로직 함수 (HTML에서 호출하는 것들)
+// 4) 핵심 로직 함수들
 function pickFrom(arr, k){ return arr[Math.abs(k) % arr.length]; }
 function get81CoreKo(n){ const a=(n-1)%9, b=Math.floor((n-1)/9); return {base:baseKo[a].key, stage:stageKo[b]}; }
 function get81CoreEn(n){ const a=(n-1)%9, b=Math.floor((n-1)/9); return {base:baseEn[a].key, stage:stageEn[b]}; }
 
 function makePastNameKo(n, s, l, m){ const info=get81CoreKo(n); return `${pickFrom(syllableKo1, n+m)}${pickFrom(syllableKo2, n+m+7)}${pickFrom(["공","랑","도령","낭","장","선생"], n)} · ${pickFrom(epithetKoByElement[s]||["운명의"], n)} ${info.base}의 ${info.stage}`; }
 function makePastNameEn(n, s, l, m){ const info=get81CoreEn(n); return `${pickFrom(nameRootEn, n+m)}${pickFrom(nameTailEn, n+5)} · ${pickFrom(epithetEnByElement[s]||["Fated"], n)} ${info.base} (${info.stage})`; }
-function makePastNameReasonKo(n, s, l, m){ return `81수(${n}수)와 ${s} 기운이 조합된 전생의 호칭입니다.`; }
-function makePastNameReasonEn(n, s, l, m){ return `Derived from No.${n} and dominant ${s}.`; }
+function makePastNameReasonKo(n, s, l, m){ return `81수(${n}수)와 ${s} 기운이 조합된 결과입니다.`; }
+function makePastNameReasonEn(n, s, l, m){ return `Based on No.${n} and dominant ${s}.`; }
 
 function makeNextLifeNameKo(n, s, l, m){ const info=get81CoreKo(n); return `${pickFrom(syllableKo1, n+10)}${pickFrom(syllableKo2, n+15)} · ${pickFrom(epithetKoByElement[l]||["새로운"], n+7)} ${info.base}의 ${info.stage}`; }
 function makeNextLifeNameEn(n, s, l, m){ const info=get81CoreEn(n); return `${pickFrom(nameRootEn, n+20)}${pickFrom(nameTailEn, n+25)} · ${pickFrom(epithetEnByElement[l]||["Renewed"], n+13)} ${info.base} (${info.stage})`; }
 function makeNextNameReasonKo(n, s, l, m){ return `부족한 ${l} 기운을 보완하는 방향으로 구성되었습니다.`; }
 function makeNextNameReasonEn(n, s, l, m){ return `Designed to reinforce your lacking ${l} energy.`; }
 
-function pickCategoryByElement(s, l, n) { const map={"木":"nature","火":"deity","土":"thing","金":"thing","水":"animal"}; return map[s]||"thing"; }
-
-// 5) 메인 데이터셋 및 12단계 처방
+// 5) 메인 데이터셋 구축 (1~81)
 const nameNumerology = (() => {
     const out = {};
     for (let n = 1; n <= 81; n++) {
@@ -72,13 +70,13 @@ const nameNumerology = (() => {
 })();
 
 const elementPrescriptions12 = {
-    "木": ["초심☆ 행동.", "기초☆ 루틴.", "안정☆ 피드백.", "정진☆ 우선순위.", "성장☆ 기준.", "확장☆ 품질.", "숙련☆ 자동화.", "완성☆ 정리.", "정점☆ 표준.", "초월☆ 핵심.", "대성☆ 로드맵.", "궁극☆ 시스템."],
-    "火": ["초심☆ 실행.", "기초☆ 기록.", "안정☆ 블록.", "정진☆ 집중.", "성장☆ 근거.", "확장☆ 휴식.", "숙련☆ 조절.", "완성☆ 마무리.", "정점☆ 톤.", "초월☆ 신뢰.", "대성☆ 책임.", "궁극☆ 규칙."],
-    "土": ["초심☆ 기반.", "기초☆ 정리.", "안정☆ 경계.", "정진☆ 마감.", "성장☆ 역할.", "확장☆ 분배.", "숙련☆ 관리.", "완성☆ 변화.", "정점☆ 정중동.", "초월☆ 실험.", "대성☆ 자산.", "궁극☆ 유지."],
-    "金": ["초심☆ 기준.", "기초☆ 결정.", "안정☆ 근거.", "정진☆ 루틴.", "성장☆ 개선.", "확장☆ 핵심.", "숙련☆ 조절.", "완성☆ 마감.", "정점☆ 유연.", "초월☆ 공감.", "대성☆ 밸런스.", "궁극☆ 조화."],
-    "水": ["초심☆ 실행.", "기초☆ 제한.", "안정☆ 결론.", "정진☆ 임시.", "성장☆ 구조.", "확장☆ 싱글.", "숙련☆ 리셋.", "완성☆ 확정.", "정점☆ 조용.", "초월☆ 방패.", "대성☆ 지혜.", "궁극☆ 흐름."]
+    "木": ["초심☆ 행동하세요.", "기초☆ 루틴화.", "안정☆ 피드백.", "정진☆ 우선순위.", "성장☆ 기준정의.", "확장☆ 품질체크.", "숙련☆ 자동화.", "완성☆ 흐름정리.", "정점☆ 표준화.", "초월☆ 핵심집중.", "대성☆ 로드맵.", "궁극☆ 시스템."],
+    "火": ["초심☆ 실행전환.", "기초☆ 기록관리.", "안정☆ 시간블록.", "정진☆ 집중포인트.", "성장☆ 근거제시.", "확장☆ 휴식일정.", "숙련☆ 온도조절.", "완성☆ 마무리.", "정점☆ 톤조절.", "초월☆ 신뢰구축.", "대성☆ 책임명확.", "궁극☆ 규칙수립."],
+    "土": ["초심☆ 기반형성.", "기초☆ 정리정돈.", "안정☆ 경계설정.", "정진☆ 마감준수.", "성장☆ 역할구분.", "확장☆ 자원분배.", "숙련☆ 건강관리.", "완성☆ 변화시도.", "정점☆ 정중동.", "초월☆ 실험허용.", "대성☆ 자산관리.", "궁극☆ 흐름유지."],
+    "金": ["초심☆ 기준수립.", "기초☆ 결정단순.", "안정☆ 명확근거.", "정진☆ 정산루틴.", "성장☆ 개선제시.", "확장☆ 핵심규칙.", "숙련☆ 감정조절.", "완성☆ 마감완성.", "정점☆ 유연적용.", "초월☆ 공감추가.", "대성☆ 밸런스.", "궁극☆ 따뜻한법."],
+    "水": ["초심☆ 즉시실행.", "기초☆ 정보제한.", "안정☆ 결론작성.", "정진☆ 임시결론.", "성장☆ 문서구조.", "확장☆ 싱글태스킹.", "숙련☆ 리셋산책.", "완성☆ 마감확정.", "정점☆ 조용한힘.", "초월☆ 루틴방패.", "대성☆ 지혜공유.", "궁극☆ 집착내림."]
 };
-const enPrescriptions12 = elementPrescriptions12;
+const enPrescriptions12 = elementPrescriptions12; // 영문 공용
 
 const elementAttributesKo = { "木": { name: "나무", trait: "성장" }, "火": { name: "불", trait: "열정" }, "土": { name: "흙", trait: "안정" }, "金": { name: "쇠", trait: "결단" }, "水": { name: "물", trait: "지혜" } };
 const elementAttributesEn = { "木": { name: "Wood", trait: "Growth" }, "火": { name: "Fire", trait: "Passion" }, "土": { name: "Earth", trait: "Stability" }, "金": { name: "Metal", trait: "Logic" }, "水": { name: "Water", trait: "Wisdom" } };
@@ -98,9 +96,10 @@ const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => ({ place: nextP
 const sideEffects = ["디저트 흡입", "말끝에 토 달기", "멍함", "양말 실종"];
 const sideEffectsEn = ["Dessert cravings", "Back-talking", "Zoning out", "Lost socks"];
 
-const quoteData = { "인생": [{ text: "꽃은 제 시간에 핀다." }, { text: "방향이 중요하다." }] };
-const quoteDataEn = { "life": [{ text: "Every flower blooms in its time." }, { text: "Direction matters." }] };
+const quoteData = { "인생": [{ text: "모든 꽃은 저마다의 시간에 핀다." }, { text: "방향이 중요하다." }] };
+const quoteDataEn = { "life": [{ text: "Every flower blooms in its own time." }, { text: "Direction matters." }] };
 
-// 6) HTML 크래시 방지용 닉네임 (81수 시스템에서는 title을 쓰지만 안전장치로 유지)
+// 6) 기타 유틸리티 및 크래시 방지용
+function pickCategoryByElement(s, l, n) { const map={"木":"nature","火":"deity","土":"thing","金":"thing","水":"animal"}; return map[s]||"thing"; }
 const nicknamesKo = { "木": { veryStrong: "개척자", strong: "기획자", normal: "중재자", weak: "싹", veryWeak: "가지" }, "火": { veryStrong: "태양", strong: "리더", normal: "등불", weak: "별빛", veryWeak: "온기" }, "土": { veryStrong: "산", strong: "수호자", normal: "관리자", weak: "언덕", veryWeak: "정령" }, "金": { veryStrong: "심판자", strong: "검객", normal: "조각가", weak: "세공사", veryWeak: "철학자" }, "水": { veryStrong: "소용돌이", strong: "항해사", normal: "시냇물", weak: "예술가", veryWeak: "연못" } };
 const nicknamesEn = nicknamesKo;
