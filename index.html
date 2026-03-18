@@ -395,15 +395,31 @@ async function updateCounter() {
         return;
       }
 
+      // --- [2] 전생 기록서 (past) ---
       if (mode === 'past') {
         const pastSource = currentLang === 'ko' ? pastLifeData : pastLifeDataEn;
         const p = pastSource[n81 - 1];
         const pastName = (currentLang === 'ko') ? makePastNameKo(n81, strongEl, lackEl, birthMonth) : makePastNameEn(n81, strongEl, lackEl, birthMonth);
-        const pastNameReason = (currentLang === 'ko') ? makePastNameReasonKo(n81, strongEl, lackEl, birthMonth) : makePastNameReasonEn(n81, strongEl, lackEl, birthMonth);
 
-        body.innerHTML = `<div class="tab-content"><span class="section-title">${t.tab2Title}</span><div class="info-box"><b>🏷️ 전생 이름</b><br><span style="font-size:1.1rem; font-weight:bold;">${pastName}</span><br><span style="color:#999; font-size:0.85rem;">${pastNameReason}</span><br><br><b>📜 ${t.pastJob}</b><br>[${p.job}]<br><span style="font-size:0.95rem;">${p.desc}</span><br><br><span style="color:#999; font-size:0.85rem; display:block; line-height:1.5;">${currentLang === 'ko' ? reasonKo[strongEl] : reasonEn[strongEl]}</span><br><b>✨ ${t.pastHomework}</b><br>${p.homework}</div></div>`;
+        body.innerHTML = `
+          <div class="tab-content">
+            <span class="section-title">${t.tab2Title}</span>
+            <div class="info-box">
+              <b>🏷️ 전생 이름</b><br>
+              [${pastName}]<br><br>
+              <b>📜 ${t.pastJob}</b><br>
+              [${p.job}]<br>
+              ${p.desc}<br><br>
+              <span style="color:#999; display:block; line-height:1.5; margin-bottom:15px;">
+                ${currentLang === 'ko' ? reasonKo[strongEl] : reasonEn[strongEl]}
+              </span>
+              <b>✨ ${t.pastHomework}</b><br>
+              ${p.homework}
+            </div>
+          </div>`;
       }
 
+      // --- [3] 내세 예약서 (next) ---
       if (mode === 'next') {
         const nextSource = currentLang === 'ko' ? reincarnationData : reincarnationDataEn;
         const r = nextSource[n81 - 1];
@@ -411,11 +427,22 @@ async function updateCounter() {
         const pool = (currentLang === 'ko' ? nextObjectPoolsKo : nextObjectPoolsEn)[finalCat];
         const finalObject = pool[(n81 + s) % pool.length];
         const nextLifeName = (currentLang === 'ko') ? makeNextLifeNameKo(n81, strongEl, lackEl, birthMonth) : makeNextLifeNameEn(n81, strongEl, lackEl, birthMonth);
-        const nextNameReason = (currentLang === 'ko') ? makeNextNameReasonKo(n81, strongEl, lackEl, birthMonth) : makeNextNameReasonEn(n81, strongEl, lackEl, birthMonth);
 
-        body.innerHTML = `<div class="tab-content"><span class="section-title">${t.tab3Title}</span><div class="info-box"><b>📍 ${t.nextDest}</b><br>${r.place}<br><br><b>🧩 ${t.nextObj}</b><br>${finalObject}<br><br><b>🏷️ 다음생 이름</b><br><span style="font-size:1.1rem; font-weight:bold;">${nextLifeName}</span><br><span style="color:#999; font-size:0.85rem;">${nextNameReason}</span><br><br><b>✅ ${t.nextMission}</b><br>${r.mission}</div></div>`;
+        body.innerHTML = `
+          <div class="tab-content">
+            <span class="section-title">${t.tab3Title}</span>
+            <div class="info-box">
+              <b>🏷️ 다음생 이름</b><br>
+              [${nextLifeName}]<br><br>
+              <b>📍 ${t.nextDest}</b><br>
+              ${r.place}<br><br>
+              <b>🧩 ${t.nextObj}</b><br>
+              ${finalObject}<br><br>
+              <b>✅ ${t.nextMission}</b><br>
+              ${r.mission}
+            </div>
+          </div>`;
       }
-    }
     async function copyLink() {
       const base = window.location.origin + window.location.pathname;
       const url = base + `?name=${encodeURIComponent(session.name)}&birth=${encodeURIComponent(session.birth)}&lang=${encodeURIComponent(currentLang)}`;
