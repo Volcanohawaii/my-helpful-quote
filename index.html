@@ -262,11 +262,7 @@ async function updateCounter() {
   currentLang === 'ko'
     ? res.title
     : res.titleEn;
-  session.nameReport =
-    currentLang === 'ko'
-      ? `성명학적으로 <b>${res.title}</b>이며, ${res.desc}`
-      : `Numerologically: <b>${res.titleEn}</b>. ${res.descEn}`;
-
+ session.nameReport = currentLang === 'ko' ? `성명학적으로 <b>${res.title}</b>입니다.` : `Numerologically: <b>${res.titleEn}</b>.`;
   if (!opts.keepView) {
     document.getElementById('view-home').classList.add('hidden');
     document.getElementById('view-result').classList.remove('hidden');
