@@ -329,7 +329,7 @@ async function updateCounter() {
         </svg>`;
     }
 
-    function switchTab(mode, btn) {
+function switchTab(mode, btn) {
       if (!assertDataset()) return;
 
       if (btn) {
@@ -347,20 +347,20 @@ async function updateCounter() {
       const lackEl = elements[minIdx];
 
       if (!session.num81) session.num81 = (session.seed % 81) + 1;
+      const n81 = session.num81; // 짧은 변수로 고정
       const birthMonth = parseInt(String(session.birth || "").substring(4, 6), 10) || 1;
 
-     // --- [1] 현생 분석서 (fortune) 시작 구역 ---
+      // --- [1] 현생 분석서 (fortune) ---
       if (mode === 'fortune') {
         const presSource = currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12;
         const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
         const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
-        const res = nameNumerology[session.num81];
+        const res = nameNumerology[n81];
         const masterSideIdx = s % sideSource.length;
 
         body.innerHTML = `
           <div class="tab-content">
-            
-            <!-- 1단계: 운명 가이드 박스 (여기에 들어갑니다!) -->
+            <!-- 운명 가이드 박스 -->
             <div style="margin-bottom:28px; padding:22px; background:#fcfcfc; border:1px solid #eee; border-radius:16px; text-align:left; box-shadow: inset 0 0 10px rgba(0,0,0,0.02);">
               <div style="display:flex; align-items:center; margin-bottom:12px;">
                 <span style="font-size:1.2rem; margin-right:8px;">📜</span>
@@ -371,28 +371,25 @@ async function updateCounter() {
               <div style="color:#555; font-size:0.9rem; line-height:1.75; word-break:keep-all;">
                 ${currentLang === 'ko' 
                   ? `인생은 <b>'어떤 모양의 그릇'</b>에 <b>'어떤 색깔의 에너지'</b>를 담느냐에 따라 달라집니다.<br><br>
-                     1. <b>운명의 틀(수리):</b> 당신이 타고난 인생의 <b>'단단한 뼈대'</b>입니다. 삶의 규모와 성취의 크기를 결정하는 설계도와 같습니다.<br>
-                     2. <b>삶의 결(에너지):</b> 그 틀 안을 채우는 <b>'고유한 기운'</b>입니다. 당신이 어떤 온도로 인생을 꾸려나갈지 결정하는 당신만의 스타일입니다.<br><br>
-                     이 리포트는 견고한 <b>인생 틀</b> 위에, 가장 나다운 <b>에너지</b>를 채워 넣을 수 있도록 돕는 맞춤형 가이드입니다.`
-                  : `Life is defined by the <b>'shape of the vessel'</b> and the <b>'essence of the energy'</b> held within.<br><br>
-                     1. <b>The Vessel (Suri):</b> The <b>'sturdy frame'</b> of your life. It determines the overall scale of your journey.<br>
-                     2. <b>The Essence (Energy):</b> The <b>'inner spirit'</b> that fills that frame. It represents your unique style in navigating your world.`
+                     1. <b>운명의 틀(수리):</b> 타고난 인생의 <b>'단단한 뼈대'</b>입니다. 삶의 규모를 결정하는 설계도와 같습니다.<br>
+                     2. <b>삶의 결(에너지):</b> 그 틀 안을 채우는 <b>'고유한 기운'</b>입니다. 당신이 어떤 온도로 인생을 꾸려나갈지 결정하는 스타일입니다.`
+                  : `Life is defined by the <b>'vessel'</b> and the <b>'essence'</b> within.<br><br>
+                     1. <b>The Vessel (Suri):</b> The <b>'sturdy frame'</b> of your life blueprint.<br>
+                     2. <b>The Essence (Energy):</b> The <b>'inner spirit'</b> representing your unique style.`
                 }
               </div>
             </div>
 
-            <!-- 2단계: 기존 성명학 분석 섹션 -->
             <div class="section-wrap">
               <span class="section-title">${t.sec1}</span>
               <div class="info-box">
                 ${session.nameReport}<br>
                 <span style="color:#999; font-size:0.85rem; display:block; margin-top:5px;">
-                  ${session.num81}수의 특징은 다음과 같습니다: ${res.desc}
+                  ${n81}수의 특징은 다음과 같습니다: ${res.desc}
                 </span>
               </div>
             </div>
 
-            <!-- 3단계: 기존 에너지 분석 섹션 -->
             <div class="section-wrap">
               <span class="section-title">${t.sec2}</span>
               <div class="info-box" style="text-align:center;">
@@ -412,44 +409,40 @@ async function updateCounter() {
             <div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[masterSideIdx]}</div>
           </div>`;
         
-        // 중요: HTML을 다 그린 후 그래프를 다시 그려야 함
-        renderChart(); 
+        // 브라우저 부하를 줄이기 위해 약간의 시차를 두고 차트를 그림
+        setTimeout(() => renderChart(), 50);
         return;
       }
 
       // --- [2] 전생 기록서 (past) ---
       if (mode === 'past') {
         const pastSource = currentLang === 'ko' ? pastLifeData : pastLifeDataEn;
-        const p = pastSource[session.num81 - 1];
+        const p = pastSource[n81 - 1];
 
         const pastName = (currentLang === 'ko')
-          ? makePastNameKo(session.num81, strongEl, lackEl, birthMonth)
-          : makePastNameEn(session.num81, strongEl, lackEl, birthMonth);
+          ? makePastNameKo(n81, strongEl, lackEl, birthMonth)
+          : makePastNameEn(n81, strongEl, lackEl, birthMonth);
 
         const pastNameReason = (currentLang === 'ko')
-          ? makePastNameReasonKo(session.num81, strongEl, lackEl, birthMonth)
-          : makePastNameReasonEn(session.num81, strongEl, lackEl, birthMonth);
+          ? makePastNameReasonKo(n81, strongEl, lackEl, birthMonth)
+          : makePastNameReasonEn(n81, strongEl, lackEl, birthMonth);
 
         body.innerHTML = `
           <div class="tab-content">
             <span class="section-title">${t.tab2Title}</span>
             <div class="info-box">
-              <b>🏷️ ${currentLang === 'ko' ? '전생 이름' : 'Past-life Name'}</b><br>
+              <b>🏷️ 전생 이름</b><br>
               <span style="font-size:1.1rem; font-weight:bold;">${pastName}</span><br>
               <span style="color:#999; font-size:0.85rem;">${pastNameReason}</span>
               <br><br>
-
               <b>📜 ${t.pastJob}</b><br>
               [${p.job}]<br>
               <span style="font-size:0.95rem;">${p.desc}</span>
               <br><br>
-
-              <!-- 스타일 통일된 에너지 분석 설명 -->
               <span style="color:#999; font-size:0.85rem; display:block; line-height:1.5;">
                 ${currentLang === 'ko' ? reasonKo[strongEl] : reasonEn[strongEl]}
               </span>
               <br>
-
               <b>✨ ${t.pastHomework}</b><br>
               ${p.homework}
             </div>
@@ -460,44 +453,37 @@ async function updateCounter() {
       // --- [3] 내세 예약서 (next) ---
       if (mode === 'next') {
         const nextSource = currentLang === 'ko' ? reincarnationData : reincarnationDataEn;
-        const r = nextSource[session.num81 - 1];
-        const finalCat = pickCategoryByElement(strongEl, lackEl, session.num81);
+        const r = nextSource[n81 - 1];
+        const finalCat = pickCategoryByElement(strongEl, lackEl, n81);
         const pools = (currentLang === 'ko') ? nextObjectPoolsKo : nextObjectPoolsEn;
         const pool = pools[finalCat] || pools.thing;
-        const finalObject = pool[(session.num81 + session.seed) % pool.length];
+        const finalObject = pool[(n81 + s) % pool.length];
 
         const nextLifeName = (currentLang === 'ko')
-          ? makeNextLifeNameKo(session.num81, strongEl, lackEl, birthMonth)
-          : makeNextLifeNameEn(session.num81, strongEl, lackEl, birthMonth);
+          ? makeNextLifeNameKo(n81, strongEl, lackEl, birthMonth)
+          : makeNextLifeNameEn(n81, strongEl, lackEl, birthMonth);
 
         const nextNameReason = (currentLang === 'ko')
-          ? makeNextNameReasonKo(session.num81, strongEl, lackEl, birthMonth)
-          : makeNextNameReasonEn(session.num81, strongEl, lackEl, birthMonth);
+          ? makeNextNameReasonKo(n81, strongEl, lackEl, birthMonth)
+          : makeNextNameReasonEn(n81, strongEl, lackEl, birthMonth);
 
         const quoteSource = currentLang === 'ko' ? quoteData["인생"] : quoteDataEn["life"];
-        const masterQuoteIdx = s % quoteSource.length;
-        const quoteLabel = currentLang === 'ko' ? "우주의 메시지" : "Message of God";
+        const quoteLabel = currentLang === 'ko' ? "우주의 메시지" : "Message";
 
         body.innerHTML = `
           <div class="tab-content">
             <span class="section-title">${t.tab3Title}</span>
             <div class="info-box">
-              <b>📍 ${t.nextDest}</b><br>
-              ${r.place}<br><br>
-
-              <b>🧩 ${t.nextObj}</b><br>
-              ${finalObject}<br><br>
-
-              <b>🏷️ ${currentLang === 'ko' ? '다음생 이름' : 'Next-life Name'}</b><br>
+              <b>📍 ${t.nextDest}</b><br>${r.place}<br><br>
+              <b>🧩 ${t.nextObj}</b><br>${finalObject}<br><br>
+              <b>🏷️ 다음생 이름</b><br>
               <span style="font-size:1.1rem; font-weight:bold;">${nextLifeName}</span><br>
               <span style="color:#999; font-size:0.85rem;">${nextNameReason}</span>
               <br><br>
-
-              <b>✅ ${t.nextMission}</b><br>
-              ${r.mission}
+              <b>✅ ${t.nextMission}</b><br>${r.mission}
             </div>
             <div style="margin-top:30px; text-align:center; color:#AAA; font-style:italic; font-size:0.85rem;">
-              ${quoteLabel} — "${quoteSource[masterQuoteIdx].text}"
+              ${quoteLabel} — "${quoteSource[s % quoteSource.length].text}"
             </div>
           </div>`;
       }
