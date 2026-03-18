@@ -349,16 +349,39 @@ async function updateCounter() {
       if (!session.num81) session.num81 = (session.seed % 81) + 1;
       const birthMonth = parseInt(String(session.birth || "").substring(4, 6), 10) || 1;
 
-      // --- [1] 현생 분석서 (fortune) ---
+     // --- [1] 현생 분석서 (fortune) 시작 구역 ---
       if (mode === 'fortune') {
         const presSource = currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12;
         const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
         const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
-        const res = nameNumerology[session.num81]; // 성명학 데이터
+        const res = nameNumerology[session.num81];
         const masterSideIdx = s % sideSource.length;
 
         body.innerHTML = `
           <div class="tab-content">
+            
+            <!-- 1단계: 운명 가이드 박스 (여기에 들어갑니다!) -->
+            <div style="margin-bottom:28px; padding:22px; background:#fcfcfc; border:1px solid #eee; border-radius:16px; text-align:left; box-shadow: inset 0 0 10px rgba(0,0,0,0.02);">
+              <div style="display:flex; align-items:center; margin-bottom:12px;">
+                <span style="font-size:1.2rem; margin-right:8px;">📜</span>
+                <b style="font-size:1rem; color:#222; letter-spacing:-0.5px;">
+                  ${currentLang === 'ko' ? '운명 가이드: 삶의 그릇과 결' : 'Destiny Guide: Vessel & Essence'}
+                </b>
+              </div>
+              <div style="color:#555; font-size:0.9rem; line-height:1.75; word-break:keep-all;">
+                ${currentLang === 'ko' 
+                  ? `인생은 <b>'어떤 모양의 그릇'</b>에 <b>'어떤 색깔의 에너지'</b>를 담느냐에 따라 달라집니다.<br><br>
+                     1. <b>운명의 틀(수리):</b> 당신이 타고난 인생의 <b>'단단한 뼈대'</b>입니다. 삶의 규모와 성취의 크기를 결정하는 설계도와 같습니다.<br>
+                     2. <b>삶의 결(에너지):</b> 그 틀 안을 채우는 <b>'고유한 기운'</b>입니다. 당신이 어떤 온도로 인생을 꾸려나갈지 결정하는 당신만의 스타일입니다.<br><br>
+                     이 리포트는 견고한 <b>인생 틀</b> 위에, 가장 나다운 <b>에너지</b>를 채워 넣을 수 있도록 돕는 맞춤형 가이드입니다.`
+                  : `Life is defined by the <b>'shape of the vessel'</b> and the <b>'essence of the energy'</b> held within.<br><br>
+                     1. <b>The Vessel (Suri):</b> The <b>'sturdy frame'</b> of your life. It determines the overall scale of your journey.<br>
+                     2. <b>The Essence (Energy):</b> The <b>'inner spirit'</b> that fills that frame. It represents your unique style in navigating your world.`
+                }
+              </div>
+            </div>
+
+            <!-- 2단계: 기존 성명학 분석 섹션 -->
             <div class="section-wrap">
               <span class="section-title">${t.sec1}</span>
               <div class="info-box">
@@ -369,20 +392,14 @@ async function updateCounter() {
               </div>
             </div>
 
+            <!-- 3단계: 기존 에너지 분석 섹션 -->
             <div class="section-wrap">
               <span class="section-title">${t.sec2}</span>
-              <div class="info-box">
-                <div>• <b>${currentLang === 'ko' ? '주된 에너지' : 'Core Energy'}:</b> ${attrSource[strongEl].name} (${attrSource[strongEl].trait})</div>
-                <div>• <b>${t.advise}:</b> ${presSource[strongEl][session.tierStrong]}</div>
-              </div>
-
-              <!-- 💎 운명 설계 가이드: 아키텍처와 기류 박스 -->
-              <div style="margin-top:20px; padding:18px; background:#fcfcfc; border:1px dashed #ddd; border-radius:12px; text-align:left;">
-                <b style="font-size:0.95rem; color:#222;">📜 ${currentLang === 'ko' ? '운명 설계 가이드: 구조와 기류' : 'Destiny Guide: Architecture & Flow'}</b>
-                <div style="color:#666; font-size:0.85rem; line-height:1.7; margin-top:8px; word-break:keep-all;">
-                  ${currentLang === 'ko' 
-                    ? `본 리포트는 성명학의 <b>수리(Suri)</b>를 생의 골격을 이루는 <b>'인생의 아키텍처'</b>로, 고유 <b>에너지</b>를 그 공간을 채우는 <b>'운용의 기류'</b>로 정의합니다. 수리가 삶의 스케일을 결정하는 설계도라면, 에너지는 그 안에서 어떤 온도로 움직일지를 결정하는 고유한 결을 의미합니다.`
-                    : `This report defines Suri as the 'Architecture of Life' and Energy as the 'Flow' that fills that space. Suri determines the scale, while Energy represents your unique temperament.`}
+              <div class="info-box" style="text-align:center;">
+                <div id="radarChart" style="margin:0 auto 15px; width:220px; height:220px;"></div>
+                <div style="text-align:left; margin-top:15px;">
+                  <div>• <b>${currentLang === 'ko' ? '주된 에너지' : 'Core Energy'}:</b> ${attrSource[strongEl].name} (${attrSource[strongEl].trait})</div>
+                  <div>• <b>${t.advise}:</b> ${presSource[strongEl][session.tierStrong]}</div>
                 </div>
               </div>
             </div>
@@ -394,6 +411,9 @@ async function updateCounter() {
 
             <div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[masterSideIdx]}</div>
           </div>`;
+        
+        // 중요: HTML을 다 그린 후 그래프를 다시 그려야 함
+        renderChart(); 
         return;
       }
 
