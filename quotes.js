@@ -518,6 +518,131 @@ const reasonEn = {
   "水": "Your energy leans toward insight and flexibility, leaving a strong “research/healing” past-life trace."
 };
 
+/* =========================
+   Past / Next Life "Name" generator + Reasons
+   (PUT THIS BELOW reasonEn, ABOVE pastLifeData)
+========================= */
+
+// ✅ 계절(생월) 텍스트
+function getSeasonKo(m){
+  if ([3,4,5].includes(m)) return "봄";
+  if ([6,7,8].includes(m)) return "여름";
+  if ([9,10,11].includes(m)) return "가을";
+  return "겨울";
+}
+function getSeasonEn(m){
+  if ([3,4,5].includes(m)) return "Spring";
+  if ([6,7,8].includes(m)) return "Summer";
+  if ([9,10,11].includes(m)) return "Autumn";
+  return "Winter";
+}
+
+// ✅ "한국식/영문식" 이름 조각(유명인 X, 직접 생성용)
+const syllableKo1 = ["하","연","도","가","서","윤","태","민","지","현","보","유","라","휘","린","겸","담","준","채","온"];
+const syllableKo2 = ["서","린","호","민","윤","하","연","우","재","성","람","빛","솔","진","담","율","아","늘","준","온"];
+
+const nameRootEn = ["Aren","Lyra","Kalen","Seren","Orin","Mira","Elian","Nova","Cairn","Sola","Riven","Lumen","Astra","Veyra","Neris","Kaia"];
+const nameTailEn = ["is","a","en","or","el","yn","on","ia","us","ar","eth","iel","ara","eus","ir","ae"];
+
+// ✅ 오행별 수식어(전생/내세용)
+const epithetKoByElement = {
+  "木": ["푸른", "수림의", "새순의", "개척의"],
+  "火": ["홍련의", "태양의", "불꽃의", "열망의"],
+  "土": ["대지의", "황토의", "기반의", "성채의"],
+  "金": ["은빛의", "철율의", "서약의", "검의"],
+  "水": ["물결의", "안개의", "심해의", "거울의"]
+};
+const epithetEnByElement = {
+  "木": ["Verdant", "Forest-born", "Sprouting", "Pathfinding"],
+  "火": ["Crimson", "Solar", "Ember", "Flamebound"],
+  "土": ["Earthforged", "Rooted", "Stoneward", "Citadel"],
+  "金": ["Silver-edged", "Oathbound", "Ironlaw", "Steelforged"],
+  "水": ["Tideborn", "Mistveiled", "Abyssal", "Mirror-souled"]
+};
+
+function pickFrom(arr, k){ return arr[Math.abs(k) % arr.length]; }
+
+// ✅ 81수 기반 "원형(근거)" 텍스트 만들기
+function get81CoreKo(n){
+  const a = (n - 1) % 9;
+  const b = Math.floor((n - 1) / 9);
+  return { base: baseKo[a].key, stage: stageKo[b], core: baseKo[a].core, risk: baseKo[a].risk };
+}
+function get81CoreEn(n){
+  const a = (n - 1) % 9;
+  const b = Math.floor((n - 1) / 9);
+  return { base: baseEn[a].key, stage: stageEn[b], core: baseEn[a].core, risk: baseEn[a].risk };
+}
+
+// ✅ 전생 이름 생성 (KO/EN)
+function makePastNameKo(n, strongEl, lackEl, birthMonth=1){
+  const season = getSeasonKo(birthMonth);
+  const info = get81CoreKo(n);
+  const epi = pickFrom(epithetKoByElement[strongEl] || ["운명의"], n + (lackEl ? lackEl.charCodeAt(0) : 0));
+  const a = pickFrom(syllableKo1, n + birthMonth);
+  const b = pickFrom(syllableKo2, n + info.stage.length + birthMonth);
+  // 예: “하린”
+  const name = `${a}${b}`;
+  // 전생은 조금 고풍스럽게 보이게 접미어
+  const suffix = pickFrom(["공","랑","도령","낭","장","선생"], n);
+  return `${name}${suffix} · ${epi} ${info.base}의 ${info.stage} (${season})`;
+}
+
+function makePastNameEn(n, strongEl, lackEl, birthMonth=1){
+  const season = getSeasonEn(birthMonth);
+  const info = get81CoreEn(n);
+  const epi = pickFrom(epithetEnByElement[strongEl] || ["Fated"], n + (lackEl ? lackEl.charCodeAt(0) : 0));
+  const root = pickFrom(nameRootEn, n + birthMonth);
+  const tail = pickFrom(nameTailEn, n + info.stage.length);
+  return `${root}${tail} · ${epi} ${info.base} (${info.stage}, ${season})`;
+}
+
+// ✅ 전생 이름 이유 (KO/EN)
+function makePastNameReasonKo(n, strongEl, lackEl, birthMonth=1){
+  const info = get81CoreKo(n);
+  const season = getSeasonKo(birthMonth);
+  return `81수(${String(n).padStart(2,"0")}수)의 ‘${info.base}·${info.stage}’ 흐름과 ${season} 기운, 그리고 ${strongEl} 기운이 강하게 잡혀 전생의 호칭이 이렇게 수렴합니다.`;
+}
+function makePastNameReasonEn(n, strongEl, lackEl, birthMonth=1){
+  const info = get81CoreEn(n);
+  const season = getSeasonEn(birthMonth);
+  return `Derived from No.${String(n).padStart(2,"0")} (${info.base}·${info.stage}), ${season} timing, and your dominant element (${strongEl}).`;
+}
+
+// ✅ 다음생 이름 생성 (KO/EN)
+function makeNextLifeNameKo(n, strongEl, lackEl, birthMonth=1){
+  const season = getSeasonKo(birthMonth);
+  const info = get81CoreKo(n);
+  const epi = pickFrom(epithetKoByElement[lackEl] || ["새로운"], n + (strongEl ? strongEl.charCodeAt(0) : 0));
+  const a = pickFrom(syllableKo1, n + 7 + birthMonth);
+  const b = pickFrom(syllableKo2, n + 11 + info.base.length);
+  const name = `${a}${b}`; // 예: “도윤”
+  const title = pickFrom(["의","에서","로"], n) === "의" ? "의" : "의";
+  // 예: “도윤 · 안개의 조화의 확장”
+  return `${name} · ${epi} ${info.base}${title} ${info.stage} (${season})`;
+}
+
+function makeNextLifeNameEn(n, strongEl, lackEl, birthMonth=1){
+  const season = getSeasonEn(birthMonth);
+  const info = get81CoreEn(n);
+  const epi = pickFrom(epithetEnByElement[lackEl] || ["Renewed"], n + (strongEl ? strongEl.charCodeAt(0) : 0));
+  const root = pickFrom(nameRootEn, n + 13 + birthMonth);
+  const tail = pickFrom(nameTailEn, n + 17 + info.base.length);
+  return `${root}${tail} · ${epi} ${info.base} (${info.stage}, ${season})`;
+}
+
+// ✅ 다음생 이름 이유 (KO/EN)
+function makeNextNameReasonKo(n, strongEl, lackEl, birthMonth=1){
+  const info = get81CoreKo(n);
+  const season = getSeasonKo(birthMonth);
+  return `부족한 기운(${lackEl})을 보완하는 방향으로 수식어를 잡고, 81수(${String(n).padStart(2,"0")}수)의 ‘${info.base}→${info.stage}’ 전개에 맞춰 다음생 이름이 구성됩니다. (${season} 결)`
+}
+function makeNextNameReasonEn(n, strongEl, lackEl, birthMonth=1){
+  const info = get81CoreEn(n);
+  const season = getSeasonEn(birthMonth);
+  return `We bias the epithet toward your weaker element (${lackEl}) and align the name with No.${String(n).padStart(2,"0")} (${info.base} → ${info.stage}). (${season})`;
+}
+
 const pastLifeData = Array.from({ length: 81 }, (_, i) => {
   const n = i + 1;
   const a = (n - 1) % 9;
