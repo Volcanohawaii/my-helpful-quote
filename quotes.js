@@ -157,5 +157,3 @@ const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
 
 const quoteData = { "인생": [{ text: "모든 꽃은 저마다의 시간에 핀다." }] };
 const quoteDataEn = { "life": [{ text: "Every flower blooms in its own time." }] };
-
-console.log("💎 Quotes.js: All brackets matched and data loaded.");
