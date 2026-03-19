@@ -111,17 +111,11 @@
       const b = document.getElementById('userBirth').value.trim().replace(/\D/g, '');
       if (!n || b.length !== 8) { alert("정보를 확인해주세요."); return; }
       
-      // 1. 로딩창 표시
+      // 로딩창 보여주기
       document.getElementById('loading-overlay').classList.add('show');
-
-      // 2. ✅ 로딩창 광고 강제 실행 (이 코드가 없으면 광고가 안 뜹니다!)
-      if(window.adfit) {
-        try {
-          window.adfit.display(); 
-        } catch(e) {
-          console.log("Adfit display error:", e);
-        }
-      }
+      
+      // ✅ 이 코드를 꼭 넣어야 로딩창 광고가 뜹니다!
+      if (window.adfit) window.adfit.display(); 
 
       setTimeout(() => {
         document.getElementById('loading-overlay').classList.remove('show');
@@ -305,6 +299,7 @@
         const nextLifeName = (currentLang === 'ko') ? makeNextLifeNameKo(n81, strongEl, lackEl, birthMonth) : makeNextLifeNameEn(n81, strongEl, lackEl, birthMonth);
         body.innerHTML = `<div class="tab-content"><span class="section-title">${t.tab3Title}</span><div class="info-box"><b>🏷️ ${currentLang === 'ko' ? '다음생 이름' : 'Next Name'}</b><br>[${nextLifeName}]<br><br><b>📍 ${t.nextDest}</b><br>${r.place}<br><br><b>🧩 ${t.nextObj}</b><br>[${finalObject}]<br><br><b>✅ ${t.nextMission}</b><br>${r.mission}</div></div>`;
       }
+      if (window.adfit) window.adfit.display(); 
     }
     async function copyLink() { const base = window.location.origin + window.location.pathname; const url = base + `?name=${encodeURIComponent(session.name)}&birth=${encodeURIComponent(session.birth)}&lang=${encodeURIComponent(currentLang)}`; try { await navigator.clipboard.writeText(url); alert("복사되었습니다!"); } catch { const ta = document.createElement('textarea'); ta.value = url; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); alert("복사되었습니다!"); } }
     function initFromQuery() { if (!assertDataset()) return; const p = new URLSearchParams(window.location.search); const qLang = p.get('lang'), qName = p.get('name'), qBirth = p.get('birth'); if (qLang) setLang(qLang); if (qName) document.getElementById('userName').value = qName; if (qBirth) document.getElementById('userBirth').value = qBirth; if (qName && qBirth && qBirth.length === 8) processData(qName, qBirth); }
