@@ -312,17 +312,40 @@ const diagnosisMsg = currentLang === 'ko'
         setTimeout(renderChart, 100);
       }
       } else if (mode === 'past') {
-        const p = (currentLang === 'ko' ? pastLifeData : pastLifeDataEn)[n81 - 1];
-        const pastName = (currentLang === 'ko') ? makePastNameKo(n81, strongEl, lackEl, birthMonth) : makePastNameEn(n81, strongEl, lackEl, birthMonth);
-        body.innerHTML = `<div class="tab-content"><span class="section-title">${t.tab2Title}</span><div class="info-box"><b>🏷️ 전생 이름</b><br>[${pastName}]<br><br><b>📜 ${t.pastJob}</b><br>[${p.job}]<br>${p.desc}<br><br><b>✨ ${t.pastHomework}</b><br>${p.homework}</div></div>`;
-      } else if (mode === 'next') {
-        const r = (currentLang === 'ko' ? reincarnationData : reincarnationDataEn)[n81 - 1];
-        const finalCat = pickCategoryByElement(strongEl, lackEl, n81);
-        const pool = (currentLang === 'ko' ? nextObjectPoolsKo : nextObjectPoolsEn)[finalCat];
-        const finalObject = pool[n81 % pool.length];
-        const nextLifeName = (currentLang === 'ko') ? makeNextLifeNameKo(n81, strongEl, lackEl, birthMonth) : makeNextLifeNameEn(n81, strongEl, lackEl, birthMonth);
-        body.innerHTML = `<div class="tab-content"><span class="section-title">${t.tab3Title}</span><div class="info-box"><b>🏷️ 다음생 이름</b><br>[${nextLifeName}]<br><br><b>📍 ${t.nextDest}</b><br>${r.place}<br><br><b>🧩 다음 생명체</b><br>[${finalObject}]<br><br><b>✅ ${t.nextMission}</b><br>${r.mission}</div></div>`;
-      }
+  const p = (currentLang === 'ko' ? pastLifeData : pastLifeDataEn)[n81 - 1];
+  const pastName = (currentLang === 'ko') 
+    ? makePastNameKo(n81, strongEl, lackEl, birthMonth) 
+    : makePastNameEn(n81, strongEl, lackEl, birthMonth);
+
+  body.innerHTML = `
+    <div class="tab-content">
+      <span class="section-title">${t.tab2Title}</span>
+      <div class="info-box">
+        <b>🏷️ 전생 이름</b><br>[${pastName}]<br><br>
+        <b>📜 ${t.pastJob}</b><br>[${p.job}]<br>${p.desc}<br><br>
+        <b>✨ ${t.pastHomework}</b><br>${p.homework}
+      </div>
+    </div>`;
+} else if (mode === 'next') {
+  const r = (currentLang === 'ko' ? reincarnationData : reincarnationDataEn)[n81 - 1];
+  const finalCat = pickCategoryByElement(strongEl, lackEl, n81);
+  const pool = (currentLang === 'ko' ? nextObjectPoolsKo : nextObjectPoolsEn)[finalCat];
+  const finalObject = pool[n81 % pool.length];
+  const nextLifeName = (currentLang === 'ko') 
+    ? makeNextLifeNameKo(n81, strongEl, lackEl, birthMonth) 
+    : makeNextLifeNameEn(n81, strongEl, lackEl, birthMonth);
+
+  body.innerHTML = `
+    <div class="tab-content">
+      <span class="section-title">${t.tab3Title}</span>
+      <div class="info-box">
+        <b>🏷️ 다음생 이름</b><br>[${nextLifeName}]<br><br>
+        <b>📍 ${t.nextDest}</b><br>${r.place}<br><br>
+        <b>🧩 다음 생명체</b><br>[${finalObject}]<br><br>
+        <b>✅ ${t.nextMission}</b><br>${r.mission}
+      </div>
+    </div>`;
+}
       
 
 
@@ -332,7 +355,7 @@ const diagnosisMsg = currentLang === 'ko'
     window.addEventListener('load', () => {
   if (window.adfit) window.adfit.display();
 });
-    
+   
   </script>
 </body>
 </html>
