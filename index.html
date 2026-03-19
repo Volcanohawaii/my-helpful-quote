@@ -257,27 +257,54 @@
         const presSource = currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12;
         const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
         const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
+
+        // ✅ 서늘한 진단 문구 생성 로직
+        const month = parseInt(String(session.birth).substring(4,6), 10);
+        const seasons = { "木":"봄", "火":"여름", "金":"가을", "水":"겨울", "土":"환절기" };
         
-        // 성명학 분석 섹션 삭제 후 '에너지 분석'부터 시작하도록 수정됨
+        // 실제 이름 초성에 해당 기운이 있는지 체크 (데이터 기반 팩폭)
+        let nameHasLack = true;
+        for (let i = 0; i < session.name.length; i++) {
+          const char = session.name[i];
+          const onset = /[a-zA-Z]/.test(char) ? char.toUpperCase() : getHangulOnset(char);
+          const el = /[a-zA-Z]/.test(char) ? alphabetElements[onset] : hangulElements[onset];
+          if (el === lackEl) { nameHasLack = false; break; }
+        }
+
+        const diagnosisMsg = currentLang === 'ko' 
+          ? `<div style="color:#C0392B; font-weight:700; margin-bottom:10px; line-height:1.5;">
+              "당신은 ${seasons[elements[month%5]] || '치우친 계절'}에 태어났음에도 이름에 '${lackEl}(${attrSource[lackEl].name})'의 기운이 ${nameHasLack ? '전혀 없으니, 뿌리 내릴 땅(기반)이 흔들리는' : '턱없이 부족하여 위태로운'} 형국입니다."
+             </div>`
+          : `<div style="color:#C0392B; font-weight:700; margin-bottom:10px;">
+              "Born in a season lacking ${lackEl}, and without its trace in your name, your destiny's foundation is critically unstable."
+             </div>`;
+
         body.innerHTML = `
           <div class="tab-content">
             <div class="section-wrap">
-              <span class="section-title">${t.sec2}</span>
+              <span class="section-title">${t.sec1}</span>
               <div class="info-box" style="text-align:center;">
                 <div id="radarChart" style="margin:20px auto; width:220px; height:220px;"></div>
                 <div style="text-align:left; margin-top:15px;">
                   <div>• <b>${currentLang === 'ko' ? '주된 에너지' : 'Core Energy'}:</b> ${attrSource[strongEl].name}</div>
-                  <div>• <b>${t.advise}:</b> ${presSource[strongEl][Math.min(11, Math.floor(session.scores[maxIdx]/200*11))]}</div>
+                  <div>• <b>${t.advise}:</b> ${presSource[strongEl][session.tierStrong]}</div>
                 </div>
               </div>
             </div>
+            
             <div class="section-wrap">
-              <span class="section-title">${t.sec3}</span>
-              <div class="info-box">• <b>${t.practice}:</b> ${presSource[lackEl][Math.min(11, Math.floor(session.scores[minIdx]/200*11))]}</div>
+              <span class="section-title">${t.sec2}</span>
+              <div class="info-box">
+                ${diagnosisMsg} <div style="margin-top:15px; padding-top:15px; border-top:1px dashed #DDD;">
+                  • <b>${t.practice}:</b> ${presSource[lackEl][session.tierLack]}
+                </div>
+              </div>
             </div>
+            
             <div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[Math.abs(session.seed) % sideSource.length]}</div>
           </div>`;
         setTimeout(renderChart, 100);
+      }
       } else if (mode === 'past') {
         const p = (currentLang === 'ko' ? pastLifeData : pastLifeDataEn)[n81 - 1];
         const pastName = (currentLang === 'ko') ? makePastNameKo(n81, strongEl, lackEl, birthMonth) : makePastNameEn(n81, strongEl, lackEl, birthMonth);
