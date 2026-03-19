@@ -198,6 +198,7 @@
     }
     function switchTab(mode, btn) {
       if (!assertDataset()) return; 
+      
       if (btn) { 
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); 
         btn.classList.add('active'); 
@@ -212,15 +213,13 @@
       const lackEl = elements[minIdx]; 
       const birthMonth = parseInt(String(session.birth || "").substring(4, 6), 10) || 1;
 
-if (mode === 'fortune') {
+      if (mode === 'fortune') {
         const presSource = currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12;
         const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
         const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
 
         body.innerHTML = `
           <div class="tab-content">
-            <!-- 기존의 가이드 박스는 상단으로 이동했으므로 여기서는 삭제하고 바로 섹션 시작 -->
-            
             <div class="section-wrap">
               <span class="section-title">${t.sec1}</span>
               <div class="info-box">
@@ -251,8 +250,6 @@ if (mode === 'fortune') {
           </div>`;
         
         setTimeout(renderChart, 100);
-        return;
-      }
 
       } else if (mode === 'past') {
         const p = (currentLang === 'ko' ? pastLifeData : pastLifeDataEn)[n81 - 1];
