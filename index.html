@@ -56,7 +56,7 @@
       <h2 id="load-title" style="font-family:'Gowun Batang'; color:var(--primary); font-size:1.1rem;">운명의 에너지를 조합 중...</h2>
       <p id="load-desc" style="color:#888; font-size:0.8rem; margin-bottom:20px;">잠시 기다려 주세요.</p>
       <div style="margin:16px auto 10px; width:300px; height:250px; display:flex; justify-content:center;">
-  <ins class="kakao_ad_area" style="display:none;width:100%;"
+  <ins class="kakao_ad_area" style="display:block;width:100%;"
   data-ad-unit="DAN-pMoVBneQCSicnBZ7"
   data-ad-width="300"
   data-ad-height="250"></ins>  
@@ -80,7 +80,7 @@
 
       <div class="visitor-counter">분석 완료된 운명: <span id="visit-count">...</span>건</div>
 <div style="margin-top: 28px; display: flex; justify-content: center;">
-  <ins class="kakao_ad_area" style="display:none;"
+  <ins class="kakao_ad_area" style="display:block;"
     data-ad-unit="DAN-gySJpKsnNTQ1FIIF"
     data-ad-width="320"
     data-ad-height="50"></ins>
@@ -147,7 +147,9 @@
       document.getElementById('loading-overlay').classList.add('show');
       
       // ✅ 로딩 광고 즉시 호출
-      setTimeout(() => { if (window.adfit) window.adfit.display(); }, 200);
+      window.addEventListener('load', () => {
+  if (window.adfit) window.adfit.display();
+});
 
       setTimeout(() => {
         document.getElementById('loading-overlay').classList.remove('show');
