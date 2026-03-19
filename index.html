@@ -19,7 +19,15 @@
     @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
     .official-seal { position: absolute; top: 25px; right: 25px; width: 65px; height: 65px; border: 2px double var(--accent); color: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Gowun Batang'; font-size: 0.7rem; font-weight: 700; opacity: 0.5; transform: rotate(12deg); }
     h1 { font-family: 'Gowun Batang'; font-size: 1.4rem; color: var(--primary); margin-bottom: 10px; }
-    .summary-line { font-family: 'Gowun Batang'; font-size: 0.95rem; color: var(--accent); margin-bottom: 30px; font-weight: 600; line-height: 1.4; }
+    .summary-line { 
+      font-family: 'Gowun Batang'; 
+      font-size: 1rem; /* 약간 키움 */
+      color: var(--accent); 
+      margin-bottom: 25px; 
+      font-weight: 600; 
+      line-height: 1.6; /* 줄 간격 확보 */
+      word-break: keep-all; /* 단어 단위 줄바꿈 */
+    }
     .tab-content { text-align: left; line-height: 1.8; font-size: 0.95rem; }
     .section-wrap { margin-bottom: 30px; }
     .section-title { font-family: 'Gowun Batang'; font-size: 1rem; color: var(--accent); display: block; margin-bottom: 12px; font-weight: 700; border-bottom: 1px solid #F0F0F0; }
@@ -106,7 +114,16 @@
       session.tierLack = Math.floor(((Math.max(40, Math.min(150, session.scores[minIdx])) - 40) / 110) * 11);
       const res = nameNumerology[session.num81];
       document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `[${cleanName}]님의 운명 리포트` : `Report for [${cleanName}]`;
-      document.getElementById('dynamic-summary').innerText = currentLang === 'ko' ? res.title : res.titleEn;
+      // [기존 요약 라인을 풍성한 가이드 문장으로 교체]
+      const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
+      const strongEl = elements[maxIdx];
+      
+      // 상단 요약문 생성 로직
+      const fullGuideText = currentLang === 'ko' 
+        ? `<b>${cleanName}</b>님은 <b>'${res.title}'</b>이라는 운명의 그릇에 <b>'${strongEl}(${attrSource[strongEl].name})'</b>의 에너지를 담고 있습니다. <br><span style="color:#666; font-size:0.85rem; font-weight:400; margin-top:5px; display:block;">${res.desc}</span>`
+        : `<b>${cleanName}</b>, you hold <b>'${strongEl}'</b> energy within the vessel of <b>'${res.titleEn}'</b>. <br><span style="color:#666; font-size:0.85rem; font-weight:400; margin-top:5px; display:block;">${res.descEn}</span>`;
+
+      document.getElementById('dynamic-summary').innerHTML = fullGuideText;
       session.nameReport = currentLang === 'ko' ? `성명학적으로 <b>${res.title}</b>입니다.` : `Numerologically: <b>${res.titleEn}</b>.`;
       if (!opts.keepView) { document.getElementById('view-home').classList.add('hidden'); document.getElementById('view-result').classList.remove('hidden'); }
       switchTab('fortune', document.getElementById('tab1'));
@@ -137,31 +154,21 @@
       const lackEl = elements[minIdx]; 
       const birthMonth = parseInt(String(session.birth || "").substring(4, 6), 10) || 1;
 
-      if (mode === 'fortune') {
+if (mode === 'fortune') {
         const presSource = currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12;
         const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
         const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
-        
-        // 81수리 데이터 가져오기
-        const res = nameNumerology[n81];
 
         body.innerHTML = `
           <div class="tab-content">
-            <div style="margin-bottom:28px; padding:22px; background:#fcfcfc; border:1px solid #eee; border-radius:16px;">
-              <b style="font-size:1rem;">📜 ${currentLang === 'ko' ? '운명 가이드: 삶의 그릇과 결' : 'Destiny Guide'}</b>
-              <div style="color:#555; font-size:0.9rem; line-height:1.75; margin-top:10px;">
-                ${currentLang === 'ko' 
-                  ? "인생은 <b>'어떤 모양의 그릇'</b>에 <b>'어떤 색깔의 에너지'</b>를 담느냐에 따라 달라집니다." 
-                  : "Life is about what kind of energy you put in what kind of vessel."}
-              </div>
-            </div>
-
+            <!-- 기존의 가이드 박스는 상단으로 이동했으므로 여기서는 삭제하고 바로 섹션 시작 -->
+            
             <div class="section-wrap">
               <span class="section-title">${t.sec1}</span>
               <div class="info-box">
-                ${session.nameReport}<br>
-                <div style="margin-top:10px; padding-top:10px; border-top:1px dashed #ddd; font-size:0.85rem; color:#666; line-height:1.6;">
-                  ${currentLang === 'ko' ? res.desc : res.descEn}
+                ${session.nameReport}
+                <div style="margin-top:10px; color:#888; font-size:0.8rem;">
+                  * 상세 분석 결과는 상단 운명 가이드를 참조하십시오.
                 </div>
               </div>
             </div>
@@ -181,10 +188,13 @@
               <span class="section-title">${t.sec3}</span>
               <div class="info-box">• <b>${t.practice}:</b> ${presSource[lackEl][session.tierLack]}</div>
             </div>
+            
             <div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[session.seed % sideSource.length]}</div>
           </div>`;
         
         setTimeout(renderChart, 100);
+        return;
+      }
 
       } else if (mode === 'past') {
         const p = (currentLang === 'ko' ? pastLifeData : pastLifeDataEn)[n81 - 1];
