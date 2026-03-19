@@ -114,20 +114,23 @@
         }
       }
 
-      // [4] 계절오행 분석 (탄생월 가중치: 타고난 환경)
+     // [4] 계절오행 분석 (탄생월 가중치: 날카로운 환경 분석)
       const month = parseInt(birth.substring(4, 6), 10);
-      // 봄(2,3,4월:木), 여름(5,6,7월:火), 가을(8,9,10월:金), 겨울(11,12,1월:水)
-      // 土(흙)는 각 계절의 사이(환절기) 혹은 중앙의 기운으로 배분
-      if ([2, 3, 4].includes(month)) sc[0] += 40;
-      else if ([5, 6, 7].includes(month)) sc[1] += 40;
-      else if ([8, 9, 10].includes(month)) sc[3] += 40;
-      else if ([11, 12, 1].includes(month)) sc[4] += 40;
       
-      // 토(土) 기운 보정 (이름이나 생일에 특정 기운이 없을 때 완충 역할)
-      sc[2] += 20; 
+      // 정통 동양 철학의 환절기(土) 배분 방식 적용
+      // 봄(2,3월), 여름(5,6월), 가을(8,9월), 겨울(11,12월)은 순수 기운
+      // 4, 7, 10, 1월은 계절이 바뀌는 '흙(土)'의 시기로 엄격히 분류
+      if ([2, 3].includes(month)) sc[0] += 50;      // 순수 木
+      else if ([5, 6].includes(month)) sc[1] += 50; // 순수 火
+      else if ([8, 9].includes(month)) sc[3] += 50; // 순수 金
+      else if ([11, 12].includes(month)) sc[4] += 50; // 순수 水
+      else if ([4, 7, 10, 1].includes(month)) sc[2] += 50; // 순수 土 (환절기생만 득점)
 
-      // [5] 최종 점수 확정 (랜덤 요소인 %50, %15 등을 완전히 삭제함)
-      session.scores = sc.map(s => s + 40); // 기본값 40점에서 시작
+      // ❌ 기존의 sc[2] += 20; (무조건적 토기운 보정) 삭제
+      // 이제 이름에 'ㅇ,ㅎ'이 없고 환절기생이 아니면 토기운은 '0점'이 됩니다.
+
+      // [5] 최종 점수 확정 (기본 점수 최소화)
+      session.scores = sc.map(s => s + 30); // 기본 베이스를 40->30으로 낮춰 편차를 극대화
       
       const maxIdx = session.scores.indexOf(Math.max(...session.scores));
       const minIdx = session.scores.indexOf(Math.min(...session.scores));
