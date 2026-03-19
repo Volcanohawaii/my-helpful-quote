@@ -94,8 +94,6 @@ const reasonEn = { "木": "Trace of growth and planning.", "火": "Trace of pass
 
 const nameNumerology = (() => {
     const out = {};
-
-    // 9개 그룹별 풍성한 한국어 상세 설명
     const detailedDesc = {
         "개척": `무에서 유를 창조하는 시작의 에너지가 강합니다. 남들이 가지 않은 길을 열어갈 때 가장 큰 성취를 맛보는 선구자적 기질이 있습니다.`,
         "조화": `관계와 균형의 에너지가 핵심입니다. 사람 사이를 연결하는 탁월한 감각이 있으며, 협력을 통해 혼자보다 훨씬 큰 결실을 맺습니다.`,
@@ -107,8 +105,6 @@ const nameNumerology = (() => {
         "성과": `실행과 결과의 에너지가 뚜렷합니다. 현실적인 수완이 좋아 목표한 바를 반드시 물질적, 구체적 성과로 만들어내는 추진력이 강점입니다.`,
         "완성": `마무리와 지혜의 기운이 성숙합니다. 삶의 마디를 잘 정리하고 다음 단계로 도약하는 전환의 힘이 좋으며, 타의 귀감이 되는 완성도를 가집니다.`
     };
-
-    // 9개 그룹별 풍성한 영어 상세 설명
     const detailedDescEn = {
         "Pioneer": `Strong pioneer spirit to create something from nothing. You find success when opening new paths and leading others.`,
         "Harmony": `Focuses on balance and connection. You possess an excellent sense of mediation and achieve greater results through teamwork.`,
@@ -120,11 +116,9 @@ const nameNumerology = (() => {
         "Result": `Clear drive for tangible outcomes. You possess the practical skills to turn your visions into concrete physical achievements.`,
         "Completion": `Mature energy of closure and wisdom. You have the power to transition gracefully and build a life of high integrity.`
     };
-
     for (let n = 1; n <= 81; n++) {
         const infoKo = get81CoreKo(n);
         const infoEn = get81CoreEn(n);
-        
         out[n] = { 
             title: `${String(n).padStart(2,"0")}수·${infoKo.base}(${infoKo.stage})`, 
             desc: `<b>[특성]</b> ${detailedDesc[infoKo.base]}<br><b>[상태]</b> 현재 에너지는 '${infoKo.stage}'의 흐름을 타고 있습니다.`,
@@ -155,4 +149,4 @@ const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
     return { place: nextPlacesEn[b], mission: `Sublimating ${baseEn[a].core} energy into '${stageEn[b]}' stage.` };
 });
 const quoteData = { "인생": [{ text: "모든 꽃은 저마다의 시간에 핀다." }] };
-const quoteDataEn = { "life": [{ text: "Every flower blooms in its own time." }] };
+const quoteDataEn = { "life": [{ text: "Every flower blooms in its own time." }] };;
