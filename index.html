@@ -93,39 +93,67 @@
     function getHangulOnset(char) { const code = char.charCodeAt(0) - 44032; if (code < 0 || code > 11171) return char; const onsets = ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ']; return onsets[Math.floor(code / 588)]; }
     function processData(name, birth, opts = {}) {
       const cleanName = name.replace(/<[^>]*>?/gm, '');
-      session.name = cleanName; session.birth = birth;
-      session.seed = cleanName.split('').reduce((a, ch) => a + ch.charCodeAt(0), 0) + parseInt(birth, 10);
-      session.num81 = (session.seed % 81) + 1;
-      let sc = [40, 40, 40, 40, 40];
+      session.name = cleanName;
+      session.birth = birth;
+
+      // [1] 고정 시드 생성 (우연 요소 제거: 오직 이름과 생일의 조합으로만 생성)
+      const nameVal = cleanName.split('').reduce((a, ch) => a + ch.charCodeAt(0), 0);
+      const birthVal = parseInt(birth, 10);
+      session.num81 = ((nameVal + birthVal) % 81) + 1;
+
+      // [2] 오행 점수 초기화
+      let sc = [0, 0, 0, 0, 0]; // 木, 火, 土, 金, 水 순서
+
+      // [3] 발음오행 분석 (이름의 초성 가중치: 성격과 기질)
       for (let i = 0; i < cleanName.length; i++) {
         const char = cleanName[i];
         const onset = /[a-zA-Z]/.test(char) ? char.toUpperCase() : getHangulOnset(char);
         const el = /[a-zA-Z]/.test(char) ? alphabetElements[onset] : hangulElements[onset];
-        if (el && elements.includes(el)) sc[elements.indexOf(el)] += 35;
+        if (el && elements.includes(el)) {
+          // 이름의 기운은 아주 강력하게 부여 (한 글자당 50점)
+          sc[elements.indexOf(el)] += 50; 
+        }
       }
+
+      // [4] 계절오행 분석 (탄생월 가중치: 타고난 환경)
       const month = parseInt(birth.substring(4, 6), 10);
-      const monthOrder = [11, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-      const monthIdx = monthOrder.indexOf(month);
-      if (monthIdx >= 0) sc[monthIdx % 5] += 25;
-      session.scores = sc.map((s, i) => s + ((session.seed + i) % 50));
+      // 봄(2,3,4월:木), 여름(5,6,7월:火), 가을(8,9,10월:金), 겨울(11,12,1월:水)
+      // 土(흙)는 각 계절의 사이(환절기) 혹은 중앙의 기운으로 배분
+      if ([2, 3, 4].includes(month)) sc[0] += 40;
+      else if ([5, 6, 7].includes(month)) sc[1] += 40;
+      else if ([8, 9, 10].includes(month)) sc[3] += 40;
+      else if ([11, 12, 1].includes(month)) sc[4] += 40;
+      
+      // 토(土) 기운 보정 (이름이나 생일에 특정 기운이 없을 때 완충 역할)
+      sc[2] += 20; 
+
+      // [5] 최종 점수 확정 (랜덤 요소인 %50, %15 등을 완전히 삭제함)
+      session.scores = sc.map(s => s + 40); // 기본값 40점에서 시작
+      
       const maxIdx = session.scores.indexOf(Math.max(...session.scores));
       const minIdx = session.scores.indexOf(Math.min(...session.scores));
-      session.tierStrong = Math.floor(((Math.max(40, Math.min(150, session.scores[maxIdx])) - 40) / 110) * 11);
-      session.tierLack = Math.floor(((Math.max(40, Math.min(150, session.scores[minIdx])) - 40) / 110) * 11);
-      const res = nameNumerology[session.num81];
-      document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `[${cleanName}]님의 운명 리포트` : `Report for [${cleanName}]`;
-      // [기존 요약 라인을 풍성한 가이드 문장으로 교체]
-      const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
-      const strongEl = elements[maxIdx];
       
-      // 상단 요약문 생성 로직
-      const fullGuideText = currentLang === 'ko' 
-        ? `<b>${cleanName}</b>님은 <b>'${res.title}'</b>이라는 운명의 그릇에 <b>'${strongEl}(${attrSource[strongEl].name})'</b>의 에너지를 담고 있습니다. <br><span style="color:#666; font-size:0.85rem; font-weight:400; margin-top:5px; display:block;">${res.desc}</span>`
-        : `<b>${cleanName}</b>, you hold <b>'${strongEl}'</b> energy within the vessel of <b>'${res.titleEn}'</b>. <br><span style="color:#666; font-size:0.85rem; font-weight:400; margin-top:5px; display:block;">${res.descEn}</span>`;
+      // 티어 계산 (상대적 강도)
+      session.tierStrong = Math.min(11, Math.floor((session.scores[maxIdx] / 200) * 11));
+      session.tierLack = Math.min(11, Math.floor((session.scores[minIdx] / 200) * 11));
 
+      const res = nameNumerology[session.num81];
+      const strongEl = elements[maxIdx];
+      const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
+
+      // [6] UI 업데이트: 타이틀 아래 '운명 가이드' 배치
+      const fullGuideText = currentLang === 'ko' 
+        ? `<b>${cleanName}</b>님은 <b>'${res.title}'</b>이라는 운명의 그릇에 <b>'${strongEl}(${attrSource[strongEl].name})'</b>의 에너지를 담고 있습니다. <br><span style="color:#666; font-size:0.85rem; font-weight:400; margin-top:8px; display:block;">${res.desc}</span>`
+        : `<b>${cleanName}</b>, you hold <b>'${strongEl}'</b> energy within the vessel of <b>'${res.titleEn}'</b>. <br><span style="color:#666; font-size:0.85rem; font-weight:400; margin-top:8px; display:block;">${res.descEn}</span>`;
+
+      document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `[${cleanName}]님의 운명 리포트` : `Report for [${cleanName}]`;
       document.getElementById('dynamic-summary').innerHTML = fullGuideText;
       session.nameReport = currentLang === 'ko' ? `성명학적으로 <b>${res.title}</b>입니다.` : `Numerologically: <b>${res.titleEn}</b>.`;
-      if (!opts.keepView) { document.getElementById('view-home').classList.add('hidden'); document.getElementById('view-result').classList.remove('hidden'); }
+
+      if (!opts.keepView) {
+        document.getElementById('view-home').classList.add('hidden');
+        document.getElementById('view-result').classList.remove('hidden');
+      }
       switchTab('fortune', document.getElementById('tab1'));
     }
     function renderChart() {
