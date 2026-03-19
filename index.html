@@ -238,9 +238,12 @@
       container.innerHTML = `<svg width="220" height="220" viewBox="0 0 220 220" style="overflow:visible; display:block; margin:0 auto;"><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#EEE"/><circle cx="${cx}" cy="${cy}" r="${r/2}" fill="none" stroke="#F5F5F5"/>${textLabels}<polygon points="${poly}" fill="${themeColor.f}" stroke="${themeColor.s}" stroke-width="2.5"/></svg>`;
     }
 
-    function switchTab(mode, btn) {
+   function switchTab(mode, btn) {
       if (!assertDataset()) return; 
-      if (btn) { document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
+      if (btn) { 
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); 
+        btn.classList.add('active'); 
+      }
       const body = document.getElementById('tab-body'); 
       const t = i18n[currentLang]; 
       const n81 = session.num81; 
@@ -254,7 +257,26 @@
         const presSource = currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12;
         const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
         const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
-        body.innerHTML = `<div class="tab-content"><div class="section-wrap"><span class="section-title">${t.sec1}</span><div class="info-box">${session.nameReport}</div></div><div class="section-wrap"><span class="section-title">${t.sec2}</span><div class="info-box" style="text-align:center;"><div id="radarChart" style="margin:20px auto; width:220px; height:220px;"></div><div style="text-align:left; margin-top:15px;"><div>• <b>${currentLang === 'ko' ? '주된 에너지' : 'Core Energy'}:</b> ${attrSource[strongEl].name}</div><div>• <b>${t.advise}:</b> ${presSource[strongEl][Math.min(11, Math.floor(session.scores[maxIdx]/200*11))]}</div></div></div></div><div class="section-wrap"><span class="section-title">${t.sec3}</span><div class="info-box">• <b>${t.practice}:</b> ${presSource[lackEl][Math.min(11, Math.floor(session.scores[minIdx]/200*11))]}</div></div><div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[Math.abs(session.seed) % sideSource.length]}</div></div>`;
+        
+        // 성명학 분석 섹션 삭제 후 '에너지 분석'부터 시작하도록 수정됨
+        body.innerHTML = `
+          <div class="tab-content">
+            <div class="section-wrap">
+              <span class="section-title">${t.sec2}</span>
+              <div class="info-box" style="text-align:center;">
+                <div id="radarChart" style="margin:20px auto; width:220px; height:220px;"></div>
+                <div style="text-align:left; margin-top:15px;">
+                  <div>• <b>${currentLang === 'ko' ? '주된 에너지' : 'Core Energy'}:</b> ${attrSource[strongEl].name}</div>
+                  <div>• <b>${t.advise}:</b> ${presSource[strongEl][Math.min(11, Math.floor(session.scores[maxIdx]/200*11))]}</div>
+                </div>
+              </div>
+            </div>
+            <div class="section-wrap">
+              <span class="section-title">${t.sec3}</span>
+              <div class="info-box">• <b>${t.practice}:</b> ${presSource[lackEl][Math.min(11, Math.floor(session.scores[minIdx]/200*11))]}</div>
+            </div>
+            <div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[Math.abs(session.seed) % sideSource.length]}</div>
+          </div>`;
         setTimeout(renderChart, 100);
       } else if (mode === 'past') {
         const p = (currentLang === 'ko' ? pastLifeData : pastLifeDataEn)[n81 - 1];
@@ -268,6 +290,8 @@
         const nextLifeName = (currentLang === 'ko') ? makeNextLifeNameKo(n81, strongEl, lackEl, birthMonth) : makeNextLifeNameEn(n81, strongEl, lackEl, birthMonth);
         body.innerHTML = `<div class="tab-content"><span class="section-title">${t.tab3Title}</span><div class="info-box"><b>🏷️ 다음생 이름</b><br>[${nextLifeName}]<br><br><b>📍 ${t.nextDest}</b><br>${r.place}<br><br><b>🧩 다음 생명체</b><br>[${finalObject}]<br><br><b>✅ ${t.nextMission}</b><br>${r.mission}</div></div>`;
       }
+      
+      // ✅ 광고 유지 명령
       if (window.adfit) window.adfit.display(); 
     }
 
