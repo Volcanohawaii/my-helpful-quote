@@ -154,6 +154,15 @@ const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
     const a = i % 9; const b = Math.floor(i / 9);
     return { place: nextPlacesEn[b], mission: `Sublimating ${baseEn[a].core} energy into '${stageEn[b]}' stage.` };
 });
-
+function getHangulOnset(char) {
+    const code = char.charCodeAt(0) - 44032;
+    if (code < 0 || code > 11171) return null;
+    const onsetIndex = Math.floor(code / 588);
+    const onsets = [
+        'ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ',
+        'ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'
+    ];
+    return onsets[onsetIndex];
+}
 const quoteData = { "인생": [{ text: "모든 꽃은 저마다의 시간에 핀다." }] };
 const quoteDataEn = { "life": [{ text: "Every flower blooms in its own time." }] };
