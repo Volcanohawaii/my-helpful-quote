@@ -122,18 +122,75 @@
       container.innerHTML = `<svg width="220" height="220" viewBox="0 0 220 220" style="overflow:visible; display:block; margin:0 auto;"><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#EEE"/><circle cx="${cx}" cy="${cy}" r="${r/2}" fill="none" stroke="#F5F5F5"/>${textLabels}<polygon points="${poly}" fill="${themeColor.f}" stroke="${themeColor.s}" stroke-width="2.5"/></svg>`;
     }
     function switchTab(mode, btn) {
-      if (!assertDataset()) return; if (btn) { document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
-      const body = document.getElementById('tab-body'); const t = i18n[currentLang]; const n81 = session.num81; const maxIdx = session.scores.indexOf(Math.max(...session.scores)); const minIdx = session.scores.indexOf(Math.min(...session.scores)); const strongEl = elements[maxIdx]; const lackEl = elements[minIdx]; const birthMonth = parseInt(String(session.birth || "").substring(4, 6), 10) || 1;
+      if (!assertDataset()) return; 
+      if (btn) { 
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); 
+        btn.classList.add('active'); 
+      }
+      
+      const body = document.getElementById('tab-body'); 
+      const t = i18n[currentLang]; 
+      const n81 = session.num81; 
+      const maxIdx = session.scores.indexOf(Math.max(...session.scores)); 
+      const minIdx = session.scores.indexOf(Math.min(...session.scores)); 
+      const strongEl = elements[maxIdx]; 
+      const lackEl = elements[minIdx]; 
+      const birthMonth = parseInt(String(session.birth || "").substring(4, 6), 10) || 1;
+
       if (mode === 'fortune') {
         const presSource = currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12;
         const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
         const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
-        body.innerHTML = `<div class="tab-content"><div style="margin-bottom:28px; padding:22px; background:#fcfcfc; border:1px solid #eee; border-radius:16px;"><b style="font-size:1rem;">📜 ${currentLang === 'ko' ? '운명 가이드: 삶의 그릇과 결' : 'Destiny Guide'}</b><div style="color:#555; font-size:0.9rem; line-height:1.75; margin-top:10px;">인생은 <b>'어떤 모양의 그릇'</b>에 <b>'어떤 색깔의 에너지'</b>를 담느냐에 따라 달라집니다.<br><br>1. <b>운명의 틀(수리):</b> 삶의 뼈대이자 규모를 결정하는 설계도입니다.<br>2. <b>삶의 결(에너지):</b> 그 안을 채우는 기운으로 당신만의 스타일을 결정합니다.</div></div><div class="section-wrap"><span class="section-title">${t.sec1}</span><div class="info-box">${session.nameReport}</div></div><div class="section-wrap"><span class="section-title">${t.sec2}</span><div class="info-box" style="text-align:center;"><div id="radarChart" style="margin:20px auto; width:220px; height:220px;"></div><div style="text-align:left; margin-top:15px;"><div>• <b>${currentLang === 'ko' ? '주된 에너지' : 'Core Energy'}:</b> ${attrSource[strongEl].name}</div><div>• <b>${t.advise}:</b> ${presSource[strongEl][session.tierStrong]}</div></div></div></div><div class="section-wrap"><span class="section-title">${t.sec3}</span><div class="info-box">• <b>${t.practice}:</b> ${presSource[lackEl][session.tierLack]}</div></div><div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[session.seed % sideSource.length]}</div></div>`;
+        
+        // 81수리 데이터 가져오기
+        const res = nameNumerology[n81];
+
+        body.innerHTML = `
+          <div class="tab-content">
+            <div style="margin-bottom:28px; padding:22px; background:#fcfcfc; border:1px solid #eee; border-radius:16px;">
+              <b style="font-size:1rem;">📜 ${currentLang === 'ko' ? '운명 가이드: 삶의 그릇과 결' : 'Destiny Guide'}</b>
+              <div style="color:#555; font-size:0.9rem; line-height:1.75; margin-top:10px;">
+                ${currentLang === 'ko' 
+                  ? "인생은 <b>'어떤 모양의 그릇'</b>에 <b>'어떤 색깔의 에너지'</b>를 담느냐에 따라 달라집니다." 
+                  : "Life is about what kind of energy you put in what kind of vessel."}
+              </div>
+            </div>
+
+            <div class="section-wrap">
+              <span class="section-title">${t.sec1}</span>
+              <div class="info-box">
+                ${session.nameReport}<br>
+                <div style="margin-top:10px; padding-top:10px; border-top:1px dashed #ddd; font-size:0.85rem; color:#666; line-height:1.6;">
+                  ${currentLang === 'ko' ? res.desc : res.descEn}
+                </div>
+              </div>
+            </div>
+
+            <div class="section-wrap">
+              <span class="section-title">${t.sec2}</span>
+              <div class="info-box" style="text-align:center;">
+                <div id="radarChart" style="margin:20px auto; width:220px; height:220px;"></div>
+                <div style="text-align:left; margin-top:15px;">
+                  <div>• <b>${currentLang === 'ko' ? '주된 에너지' : 'Core Energy'}:</b> ${attrSource[strongEl].name}</div>
+                  <div>• <b>${t.advise}:</b> ${presSource[strongEl][session.tierStrong]}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-wrap">
+              <span class="section-title">${t.sec3}</span>
+              <div class="info-box">• <b>${t.practice}:</b> ${presSource[lackEl][session.tierLack]}</div>
+            </div>
+            <div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[session.seed % sideSource.length]}</div>
+          </div>`;
+        
         setTimeout(renderChart, 100);
+
       } else if (mode === 'past') {
         const p = (currentLang === 'ko' ? pastLifeData : pastLifeDataEn)[n81 - 1];
         const pastName = (currentLang === 'ko') ? makePastNameKo(n81, strongEl, lackEl, birthMonth) : makePastNameEn(n81, strongEl, lackEl, birthMonth);
         body.innerHTML = `<div class="tab-content"><span class="section-title">${t.tab2Title}</span><div class="info-box"><b>🏷️ ${currentLang === 'ko' ? '전생 이름' : 'Past Name'}</b><br>[${pastName}]<br><br><b>📜 ${t.pastJob}</b><br>[${p.job}]<br>${p.desc}<br><br><span style="color:#999; display:block; line-height:1.5; margin-bottom:15px;">${currentLang === 'ko' ? reasonKo[strongEl] : reasonEn[strongEl]}</span><b>✨ ${t.pastHomework}</b><br>${p.homework}</div></div>`;
+      
       } else if (mode === 'next') {
         const r = (currentLang === 'ko' ? reincarnationData : reincarnationDataEn)[n81 - 1];
         const finalCat = pickCategoryByElement(strongEl, lackEl, n81);
