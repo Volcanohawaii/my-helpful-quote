@@ -7,7 +7,7 @@ const i18n = {
         loadSeal: "분석중", loadTitle: "당신의 운명 에너지를 조합 중...",
         loadDesc: "당신의 에너지 보강(補强)에 필요한 아이템을 이미지를 보며 잠시 기다려 주세요.",
         tab1Btn: "현생 분석", tab2Btn: "전생 기록", tab3Btn: "내세 예약",
-        sec1: "성명학 분석", sec2: "에너지 분석", sec3: "약점 보완", advise: "현생 조언", practice: "실천 사항", sideEffect: "과한 보충은 다음의 부작용이 있습니다.",
+        sec1: "성명학 분석", sec2: "에너지 분석 자료", sec3: "약점 보완", advise: "현생 조언", practice: "실천 사항", sideEffect: "과한 보충은 다음의 부작용이 있습니다.",
         tab2Title: "전생 분석 자료", tab3Title: "내세 분석 자료", pastJob: "전생의 직업", pastHomework: "전생의 과업", nextDest: "다음 목적지", nextObj: "다음 생명(물)체", 
         nextMission: "내세 행복을 위한 수행"
     },
