@@ -111,12 +111,16 @@
       const b = document.getElementById('userBirth').value.trim().replace(/\D/g, '');
       if (!n || b.length !== 8) { alert("정보를 확인해주세요."); return; }
       
-      // 1. 로딩창 보여주기
+      // 1. 로딩창 표시
       document.getElementById('loading-overlay').classList.add('show');
-      
-      // 2. ✅ 로딩창 중앙 광고 강제 호출 (이게 핵심!)
+
+      // 2. ✅ 로딩창 광고 강제 실행 (이 코드가 없으면 광고가 안 뜹니다!)
       if(window.adfit) {
-        try { window.adfit.display(); } catch(e) { console.error("Adfit load error", e); }
+        try {
+          window.adfit.display(); 
+        } catch(e) {
+          console.log("Adfit display error:", e);
+        }
       }
 
       setTimeout(() => {
