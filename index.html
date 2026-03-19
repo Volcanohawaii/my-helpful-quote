@@ -70,21 +70,21 @@
       <span class="flag" id="flag-en" onclick="setLang('en')">🇺🇸</span>
     </div>
 
-    <div class="report-card" id="view-home">
+     <div class="report-card" id="view-home">
       <div class="official-seal">운명공학<br>분석실</div>
       <h1 id="ui-title">운명공학 데이터 분석</h1>
       <p id="ui-desc" style="font-size:0.85rem; color:#888; margin-bottom:40px;">성명과 탄생일을 기반으로 에너지를 분석합니다.</p>
       <input type="text" id="userName" placeholder="성함" autocomplete="name">
       <input type="text" id="userBirth" placeholder="양력 8자리 19901208" inputmode="numeric" autocomplete="bday">
       <button class="btn-action" id="ui-btn" onclick="startAnalysis()">리포트 생성하기</button>
-      
-      <!-- ✅ 메인 하단 광고 (DAN-gySJpKsnNTQ1FIIF) -->
-      <div style="margin-top: 25px; min-height: 100px;">
-        <ins class="kakao_ad_area" style="display:none;" 
-             data-ad-unit="DAN-gySJpKsnNTQ1FIIF" 
-             data-ad-width="320" data-ad-height="100"></ins>
-      </div>
+
       <div class="visitor-counter">분석 완료된 운명: <span id="visit-count">...</span>건</div>
+<div style="margin-top: 28px; display: flex; justify-content: center;">
+  <ins class="kakao_ad_area" style="display:none;"
+    data-ad-unit="DAN-gySJpKsnNTQ1FIIF"
+    data-ad-width="320"
+    data-ad-height="50"></ins>
+</div>
     </div>
 
     <div class="report-card hidden" id="view-result">
