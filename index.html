@@ -114,9 +114,9 @@
       // 로딩창 보여주기
       document.getElementById('loading-overlay').classList.add('show');
       
-      // ✅ 이 코드를 꼭 넣어야 로딩창 광고가 뜹니다!
-      if (window.adfit) window.adfit.display(); 
-
+     setTimeout(() => {
+  if (window.adfit) window.adfit.display();
+}, 300);
       setTimeout(() => {
         document.getElementById('loading-overlay').classList.remove('show');
         processData(n, b);
