@@ -79,7 +79,7 @@
              data-ad-unit="DAN-gySJpKsnNTQ1FIIF" 
              data-ad-width="320" 
              data-ad-height="100"></ins>
-        <script type="text/javascript" src="//t1.daumcdn.net/adfit/static/ad.js" async></script>
+    
       </div>
       <div class="visitor-counter">분석 완료된 운명: <span id="visit-count">...</span>건</div>
     </div>
@@ -305,5 +305,6 @@
     function initFromQuery() { if (!assertDataset()) return; const p = new URLSearchParams(window.location.search); const qLang = p.get('lang'), qName = p.get('name'), qBirth = p.get('birth'); if (qLang) setLang(qLang); if (qName) document.getElementById('userName').value = qName; if (qBirth) document.getElementById('userBirth').value = qBirth; if (qName && qBirth && qBirth.length === 8) processData(qName, qBirth); }
     window.addEventListener('DOMContentLoaded', () => { updateCounter(); setLang('ko'); initFromQuery(); });
   </script>
+  <script src="https://t1.daumcdn.net/adfit/static/ad.js"></script>
 </body>
 </html>
