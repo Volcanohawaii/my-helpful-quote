@@ -20,13 +20,12 @@
     .official-seal { position: absolute; top: 25px; right: 25px; width: 65px; height: 65px; border: 2px double var(--accent); color: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Gowun Batang'; font-size: 0.7rem; font-weight: 700; opacity: 0.5; transform: rotate(12deg); }
     h1 { font-family: 'Gowun Batang'; font-size: 1.4rem; color: var(--primary); margin-bottom: 10px; }
     .summary-line { 
-      font-family: 'Gowun Batang'; 
-      font-size: 1rem; /* 약간 키움 */
-      color: var(--accent); 
-      margin-bottom: 25px; 
-      font-weight: 600; 
-      line-height: 1.6; /* 줄 간격 확보 */
-      word-break: keep-all; /* 단어 단위 줄바꿈 */
+      font-family: 'Pretendard', sans-serif; /* 가독성을 위해 본문용 폰트 권장 */
+      font-size: 0.95rem; 
+      color: var(--text); 
+      margin-bottom: 30px; 
+      line-height: 1.7; 
+      text-align: left; /* 긴 글은 왼쪽 정렬이 더 읽기 편합니다 */
     }
     .tab-content { text-align: left; line-height: 1.8; font-size: 0.95rem; }
     .section-wrap { margin-bottom: 30px; }
@@ -138,15 +137,46 @@
       session.tierLack = Math.min(11, Math.floor((session.scores[minIdx] / 200) * 11));
 
       const res = nameNumerology[session.num81];
-      const strongEl = elements[maxIdx];
       const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
-
-      // [6] UI 업데이트: 타이틀 아래 '운명 가이드' 배치
+      const strongEl = elements[maxIdx];
+      
       const fullGuideText = currentLang === 'ko' 
-        ? `<b>${cleanName}</b>님은 <b>'${res.title}'</b>이라는 운명의 그릇에 <b>'${strongEl}(${attrSource[strongEl].name})'</b>의 에너지를 담고 있습니다. <br><span style="color:#666; font-size:0.85rem; font-weight:400; margin-top:8px; display:block;">${res.desc}</span>`
-        : `<b>${cleanName}</b>, you hold <b>'${strongEl}'</b> energy within the vessel of <b>'${res.titleEn}'</b>. <br><span style="color:#666; font-size:0.85rem; font-weight:400; margin-top:8px; display:block;">${res.descEn}</span>`;
+        ? `
+          <div style="text-align:left; border-bottom: 2px solid var(--accent); padding-bottom: 15px; margin-bottom: 15px;">
+            <span style="font-size: 1.2rem; color: var(--primary);"><b>${cleanName}</b>님의 운명 설계도</span>
+          </div>
+          <div style="text-align:left; line-height: 1.8;">
+            <b>1. 운명의 그릇 (수리성명학):</b> <br>
+            이름의 총체적 합인 <b>'${res.title}'</b>의 기운이 인생의 전체적인 규모와 형태를 결정합니다. <br>
+            <span style="color:#666; font-size:0.85rem;">- ${res.desc}</span> <br><br>
+            
+            <b>2. 타고난 기질 (발음오행):</b> <br>
+            성함의 첫 소리 에너지를 분석한 결과, <b>'${strongEl}(${attrSource[strongEl].name})'</b>의 기운이 당신의 핵심 기질로 자리 잡고 있습니다. <br><br>
+            
+            <b>3. 환경과 조화 (계절오행):</b> <br>
+            탄생하신 <b>${month}월</b>의 계절적 기운이 삶의 배경이 되어, 당신의 기질이 발현되는 환경적 요인을 구성합니다.
+          </div>
+          <div style="margin-top:20px; padding:12px; background:#F0EDE9; border-radius:5px; font-size:0.85rem; color:var(--accent); font-weight:700; text-align:center;">
+            "당신은 '${res.title}'이라는 그릇에 '${strongEl}'의 에너지를 담은 운명입니다."
+          </div>
+        `
+        : `
+          <div style="text-align:left; border-bottom: 2px solid var(--accent); padding-bottom: 15px; margin-bottom: 15px;">
+            <span style="font-size: 1.1rem; color: var(--primary);"><b>${cleanName}</b>'s Destiny Blueprint</span>
+          </div>
+          <div style="text-align:left; line-height: 1.6;">
+            <b>1. Life Vessel (Numerology):</b> <br>
+            The energy of <b>'${res.titleEn}'</b> determines the scale and shape of your life. <br>
+            <span style="color:#666; font-size:0.85rem;">- ${res.descEn}</span> <br><br>
+            
+            <b>2. Core Temperament (Phonetics):</b> <br>
+            Your name's sound energy reveals <b>'${strongEl}(${attrSource[strongEl].name})'</b> as your primary trait. <br><br>
+            
+            <b>3. Environment (Seasonal):</b> <br>
+            The seasonal energy of <b>Month ${month}</b> shapes the background of your life.
+          </div>
+        `;
 
-      document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `[${cleanName}]님의 운명 리포트` : `Report for [${cleanName}]`;
       document.getElementById('dynamic-summary').innerHTML = fullGuideText;
       session.nameReport = currentLang === 'ko' ? `성명학적으로 <b>${res.title}</b>입니다.` : `Numerologically: <b>${res.titleEn}</b>.`;
 
