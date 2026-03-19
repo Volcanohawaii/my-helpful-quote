@@ -13,9 +13,8 @@ const i18n = {
         tab1Btn: "현생 분석", 
         tab2Btn: "전생 기록", 
         tab3Btn: "내세 예약",
-        // sec1(성명학)은 상단 가이드와 중복되어 제거함
-        sec2: "에너지 분석 자료", 
-        sec3: "약점 보완", 
+        sec1: "에너지 분석 자료",  // (구 sec2)
+        sec2: "약점 보완",         // (구 sec3)
         advise: "현생 조언", 
         practice: "실천 사항", 
         sideEffect: "과한 보충은 다음의 부작용이 있습니다.",
@@ -39,8 +38,8 @@ const i18n = {
         tab1Btn: "Present-Life Analysis", 
         tab2Btn: "Past-Life Records", 
         tab3Btn: "Afterlife Reservation",
-        sec2: "Energy Analysis Report", 
-        sec3: "Energy Reinforcement", 
+        sec1: "Energy Analysis Report", 
+        sec2: "Energy Reinforcement", 
         advise: "Advice for This Life", 
         practice: "Action Items", 
         sideEffect: "Caution: Side Effects of Over-Supplementing",
