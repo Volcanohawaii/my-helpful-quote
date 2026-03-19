@@ -94,14 +94,42 @@ const reasonEn = { "木": "Trace of growth and planning.", "火": "Trace of pass
 
 const nameNumerology = (() => {
     const out = {};
+
+    // 9개 그룹별 풍성한 한국어 상세 설명
+    const detailedDesc = {
+        "개척": `무에서 유를 창조하는 시작의 에너지가 강합니다. 남들이 가지 않은 길을 열어갈 때 가장 큰 성취를 맛보는 선구자적 기질이 있습니다.`,
+        "조화": `관계와 균형의 에너지가 핵심입니다. 사람 사이를 연결하는 탁월한 감각이 있으며, 협력을 통해 혼자보다 훨씬 큰 결실을 맺습니다.`,
+        "발전": `확장과 표현의 기운이 넘칩니다. 자신의 아이디어를 세상에 전파하는 능력이 뛰어나며, 끊임없는 변화를 통해 성장하는 운명입니다.`,
+        "기반": `안정과 내실을 기하는 힘이 강합니다. 화려함보다 실속을 챙기며, 한번 쌓아 올린 성은 쉽게 무너지지 않는 단단한 지속력을 가집니다.`,
+        "중심": `통합과 리더십의 기운입니다. 전체를 조망하고 관리하는 능력이 뛰어나며, 조직 내에서 중추적인 리더 역할을 수행할 잠재력이 큽니다.`,
+        "책임": `신뢰와 헌신의 에너지가 깊습니다. 주어진 소임을 끝까지 완수하는 책임감이 강하며, 많은 이들에게 신뢰를 얻어 명예로운 자리에 오릅니다.`,
+        "탐구": `분석과 통찰의 기운이 날카롭습니다. 현상의 이면을 꿰뚫어 보는 지혜가 있으며, 특정 분야의 전문 지식을 쌓아 독보적인 위치에 오릅니다.`,
+        "성과": `실행과 결과의 에너지가 뚜렷합니다. 현실적인 수완이 좋아 목표한 바를 반드시 물질적, 구체적 성과로 만들어내는 추진력이 강점입니다.`,
+        "완성": `마무리와 지혜의 기운이 성숙합니다. 삶의 마디를 잘 정리하고 다음 단계로 도약하는 전환의 힘이 좋으며, 타의 귀감이 되는 완성도를 가집니다.`
+    };
+
+    // 9개 그룹별 풍성한 영어 상세 설명
+    const detailedDescEn = {
+        "Pioneer": `Strong pioneer spirit to create something from nothing. You find success when opening new paths and leading others.`,
+        "Harmony": `Focuses on balance and connection. You possess an excellent sense of mediation and achieve greater results through teamwork.`,
+        "Growth": `Bursting with energy for expansion. You excel at expressing ideas and are destined to grow through constant self-evolution.`,
+        "Foundation": `Solid power for stability and substance. You build a lasting legacy through meticulous management and inner strength.`,
+        "Center": `The essence of leadership and integration. You have the potential to oversee organizations as a pivotal and central figure.`,
+        "Duty": `Deep sense of trust and responsibility. Your commitment earns people's faith, leading you to positions of high honor.`,
+        "Research": `Sharp analytical and intuitive power. Your wisdom allows you to see the core truth, making you an expert in your field.`,
+        "Result": `Clear drive for tangible outcomes. You possess the practical skills to turn your visions into concrete physical achievements.`,
+        "Completion": `Mature energy of closure and wisdom. You have the power to transition gracefully and build a life of high integrity.`
+    };
+
     for (let n = 1; n <= 81; n++) {
         const infoKo = get81CoreKo(n);
         const infoEn = get81CoreEn(n);
+        
         out[n] = { 
             title: `${String(n).padStart(2,"0")}수·${infoKo.base}(${infoKo.stage})`, 
-            desc: `${infoKo.core}의 기운이 전개되는 흔적입니다.`,
+            desc: `<b>[특성]</b> ${detailedDesc[infoKo.base]}<br><b>[상태]</b> 현재 에너지는 '${infoKo.stage}'의 흐름을 타고 있습니다.`,
             titleEn: `No.${n} ${infoEn.base} (${infoEn.stage})`,
-            descEn: `A flow of ${infoEn.base} energy.`
+            descEn: `<b>[Traits]</b> ${detailedDescEn[infoEn.base]}<br><b>[Status]</b> Currently in the '${infoEn.stage}' phase.`
         };
     }
     return out;
