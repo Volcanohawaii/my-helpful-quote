@@ -271,13 +271,13 @@
           if (el === lackEl) { nameHasLack = false; break; }
         }
 
-        const diagnosisMsg = currentLang === 'ko' 
-          ? `<div style="color:#C0392B; font-weight:700; margin-bottom:10px; line-height:1.5;">
-              "당신은 ${seasons[elements[month%5]] || '치우친 계절'}에 태어났음에도 이름에 '${lackEl}(${attrSource[lackEl].name})'의 기운이 ${nameHasLack ? '전혀 없으니, 뿌리 내릴 땅(기반)이 흔들리는' : '턱없이 부족하여 위태로운'} 형국입니다."
-             </div>`
-          : `<div style="color:#C0392B; font-weight:700; margin-bottom:10px;">
-              "Born in a season lacking ${lackEl}, and without its trace in your name, your destiny's foundation is critically unstable."
-             </div>`;
+const diagnosisMsg = currentLang === 'ko' 
+  ? `<div style="color:#C0392B; font-weight:700; margin-bottom:10px; line-height:1.5;">
+      "당신은 ${seasons[elements[month%5]] || '치우친 계절'}에 태어났음에도 이름에 '${lackEl}(${attrSource[lackEl].name})'의 기운이 ${nameHasLack ? '전혀 없으니, 뿌리 내릴 땅(기반)이 흔들리는' : '턱없이 부족하여 위태로운'} 형국입니다."
+     </div>`
+  : `<div style="color:#C0392B; font-weight:700; margin-bottom:10px; line-height:1.5;">
+      "Even though you were born in the season of ${seasons[elements[month%5]] || 'imbalance'}, your name contains ${nameHasLack ? 'absolutely NO' : 'insufficient'} energy of '${lackEl}(${attrSource[lackEl].name})'. Your destiny's foundation is critically unstable."
+     </div>`;
 
         body.innerHTML = `
           <div class="tab-content">
