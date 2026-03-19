@@ -310,7 +310,7 @@ const diagnosisMsg = currentLang === 'ko'
             <div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[Math.abs(session.seed) % sideSource.length]}</div>
           </div>`;
         setTimeout(renderChart, 100);
-      }
+      
       } else if (mode === 'past') {
   const p = (currentLang === 'ko' ? pastLifeData : pastLifeDataEn)[n81 - 1];
   const pastName = (currentLang === 'ko') 
