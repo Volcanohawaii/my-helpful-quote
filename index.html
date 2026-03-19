@@ -152,12 +152,16 @@
   // 로딩 표시
   document.getElementById('loading-overlay').classList.add('show');
 
-  // 광고 강제 호출
-  if (window.adfit) window.adfit.display();
-
   setTimeout(() => {
     document.getElementById('loading-overlay').classList.remove('show');
+
     processData(n, b);
+
+    // 🔥 핵심: 결과 화면 뜬 뒤 광고 실행
+    setTimeout(() => {
+      if (window.adfit) window.adfit.display();
+    }, 300);
+
   }, 2000);
 }
 
