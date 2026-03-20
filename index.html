@@ -161,17 +161,19 @@ updateCounter();
       return onsets[Math.floor(code / 588)]; 
     }
 
-   function processData(name, birth, opts = {}) {
+  function processData(name, birth, opts = {}) {
+      // 1. 데이터 클리닝 및 세션 저장
       const cleanName = name.replace(/<[^>]*>?/gm, '');
       session.name = cleanName;
       session.birth = birth;
 
-      // [데이터 연산부 - 기존 로직 유지]
+      // 2. 수리 연산 (81수 체계)
       const nameVal = cleanName.split('').reduce((a, ch) => a + ch.charCodeAt(0), 0);
       const birthVal = parseInt(birth, 10);
       session.num81 = ((nameVal + birthVal) % 81) + 1;
       session.seed = nameVal + birthVal;
 
+      // 3. 오행 점수 계산 (목화토금수)
       let sc = [0, 0, 0, 0, 0]; 
       const el_list = ['木', '火', '土', '金', '水'];
       for (let i = 0; i < cleanName.length; i++) {
@@ -181,6 +183,7 @@ updateCounter();
         if (el && el_list.includes(el)) sc[el_list.indexOf(el)] += 50;
       }
 
+      // 4. 탄생월 보정
       const month = parseInt(birth.substring(4, 6), 10);
       if ([2, 3].includes(month)) sc[0] += 50; 
       else if ([5, 6].includes(month)) sc[1] += 50; 
@@ -192,51 +195,52 @@ updateCounter();
       session.tierStrong = Math.abs(session.seed) % 12;
       session.tierLack = (Math.abs(session.seed) + 7) % 12;
 
+      // 5. 데이터 매칭
       const res = nameNumerology[session.num81];
       const monthInfo = birthMonthData[month] || birthMonthData[1];
       const monthText = (currentLang === 'ko') ? monthInfo.ko : monthInfo.en;
 
-      // --- [여기서부터 UI 디자인 교체 구간] ---
+      // --- [UI 렌더링 시작: 상단 고정 영역] ---
 
-      // 1. 리포트 상단 컬러 띠
+      // [컬러 띠]
       const resultCard = document.getElementById('view-result');
       resultCard.style.borderTop = `12px solid ${res.color || 'var(--accent)'}`;
       
-      // 2. [왕큰 제목 수정] 전문적인 타이틀로 교체
+      // [제목] 요청하신대로 "000님의 수리성명학 분석 리포트"로 수정
       const dynamicTitle = document.getElementById('dynamic-title');
       dynamicTitle.style.textAlign = "center";
-      dynamicTitle.style.fontFamily = "'Gowun Batang', serif"; // 전문적인 서체
-      dynamicTitle.style.fontSize = "1.4rem"; // 기존 크기 유지
+      dynamicTitle.style.fontFamily = "'Gowun Batang', serif";
+      dynamicTitle.style.fontSize = "1.4rem";
       dynamicTitle.style.fontWeight = "700";
       dynamicTitle.style.marginTop = "10px";
-      dynamicTitle.style.color = var(--primary);
+      dynamicTitle.style.color = "var(--primary)"; // 문자열 처리 완료
       dynamicTitle.innerText = (currentLang === 'ko') ? `${cleanName}님의 수리성명학 분석 리포트` : `${cleanName}'s SURI Analysis Report`;
 
-      // 3. [고정 요약 영역] 지표 데이터 시트 형식으로 재구성
+      // [데이터 시트 요약판] 전문적인 실험실 리포트 스타일
       const monthLabel = currentLang === 'ko' ? `[탄생 ${month}월 시계열 지표]` : `[Birth Month ${month} Index]`;
       
       let summaryHtml = `
         <div style="margin: 25px 0; padding: 25px; background: #fcfcfc; border: 1px solid #eee; border-radius: 2px; text-align: left;">
-          <!-- 메타 정보 섹션 -->
+          <!-- 기술적 헤더 -->
           <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #243447; padding-bottom: 8px; margin-bottom: 20px;">
-            <span style="font-size: 0.75rem; font-weight: 700; color: #999; letter-spacing: 1px;">SURI_DATA_SHEET</span>
-            <span style="font-size: 0.75rem; font-weight: 700; color: #999;">ID: ${String(session.num81).padStart(2, '0')}</span>
+            <span style="font-size: 0.7rem; font-weight: 700; color: #AAA; letter-spacing: 1px;">LAB_REPORT_V.2026</span>
+            <span style="font-size: 0.7rem; font-weight: 700; color: #AAA;">SURI_CODE: ${String(session.num81).padStart(2, '0')}</span>
           </div>
 
-          <!-- 수리 격 및 단계 데이터 (이전 제목 내용을 이쪽으로 이동) -->
+          <!-- 핵심 분석 로그 -->
           <div style="margin-bottom: 20px;">
-             <div style="font-family: 'Gowun Batang'; font-size: 1.1rem; color: ${res.color || 'var(--accent)'}; font-weight: 700; margin-bottom: 5px;">
+             <div style="font-family: 'Gowun Batang'; font-size: 1.15rem; color: ${res.color || 'var(--accent)'}; font-weight: 700; margin-bottom: 10px;">
                ${res.title}
              </div>
-             <div style="font-size: 0.95rem; color: #444; line-height: 1.8;">
+             <div style="font-size: 0.95rem; color: #444; line-height: 1.8; font-family: 'Pretendard';">
                ${res.desc}
              </div>
           </div>
 
-          <!-- 탄생월 시계열 지표 -->
-          <div style="border-top: 1px dashed #ddd; padding-top: 15px;">
-            <div style="font-size: 0.85rem; font-weight: 700; color: #243447; margin-bottom: 8px;">${monthLabel}</div>
-            <div style="font-size: 0.9rem; line-height: 1.7; color: #666;">
+          <!-- 시계열 데이터 -->
+          <div style="border-top: 1px dashed #ddd; padding-top: 18px;">
+            <div style="font-size: 0.85rem; font-weight: 700; color: #243447; margin-bottom: 8px; font-family: 'Pretendard';">${monthLabel}</div>
+            <div style="font-size: 0.9rem; line-height: 1.7; color: #666; font-family: 'Pretendard';">
               ${monthText}
             </div>
           </div>
@@ -245,15 +249,16 @@ updateCounter();
 
       document.getElementById('dynamic-summary').innerHTML = summaryHtml;
 
-      // [기존 뷰 전환 및 탭 호출 유지]
+      // 6. 화면 전환 및 기본 탭 활성화
       if (!opts.keepView) {
         document.getElementById('view-home').classList.add('hidden');
         resultCard.classList.remove('hidden');
       }
+      
+      // 하단 탭 로직은 건드리지 않고 그대로 유지
       switchTab('fortune', document.getElementById('tab1'));
       window.scrollTo(0, 0);
     }
-
     function renderChart() {
       const container = document.getElementById('radarChart'); if (!container) return;
       const labels = currentLang === 'ko' ? ["木", "火", "土", "金", "水"] : ["Wood", "Fire", "Earth", "Metal", "Water"];
