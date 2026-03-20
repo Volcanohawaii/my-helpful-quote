@@ -305,8 +305,23 @@ const nameTailEn = [
     "as", "er", "en", "el", "yn", "ar", "ir", "ae", "is", "ax"
 ];
 
-const epithetKoByElement = { "木": ["푸른"], "火": ["태양의"], "土": ["대지의"], "金": ["은빛의"], "水": ["물결의"] };
-const epithetEnByElement = { "木": ["Verdant"], "火": ["Solar"], "土": ["Earth"], "金": ["Silver"], "水": ["Tide"] };
+/* [Destiny Engineering - Elemental Epithets: High-Resolution Expansion] */
+
+const epithetKoByElement = { 
+    "木": ["푸른", "수림의", "새벽의", "새순의", "청룡의", "개척의", "상승하는", "뿌리 깊은", "창공의", "활기찬"], 
+    "火": ["태양의", "홍련의", "불꽃의", "찬란한", "열망의", "적호의", "광휘의", "용솟음치는", "심장의", "불멸의"], 
+    "土": ["대지의", "황금의", "기반의", "태산의", "성채의", "중심의", "포용하는", "흔들림 없는", "풍요로운", "영겁의"], 
+    "金": ["은빛의", "서리발", "백금의", "철율의", "서약의", "검의", "고결한", "날카로운", "단단한", "정의로운"], 
+    "水": ["물결의", "심해의", "안개의", "지혜의", "북해의", "거울의", "유연한", "끝없는", "고요한", "영묘한"] 
+};
+
+const epithetEnByElement = { 
+    "木": ["Verdant", "Forest-born", "Dawn", "Sprouting", "Azure", "Pathfinding", "Rising", "Deep-rooted", "Celestial", "Vibrant"], 
+    "火": ["Solar", "Crimson", "Ember", "Radiant", "Passionate", "Blazing", "Luminous", "Surging", "Heart-bound", "Immortal"], 
+    "土": ["Earthforged", "Golden", "Rooted", "Citadel", "Foundational", "Central", "Embracing", "Steadfast", "Prosperous", "Eternal"], 
+    "金": ["Silver-edged", "Frost-clad", "Platinum", "Iron-willed", "Sacred", "Steel-forged", "Noble", "Sharp-eyed", "Solid", "Righteous"], 
+    "水": ["Tideborn", "Abyssal", "Mistveiled", "Wise", "Deep-sea", "Mirror-souled", "Fluid", "Boundless", "Serene", "Mystical"] 
+};
 
 const detailedDesc = {
     "개척": "무에서 유를 창조하는 시작의 에너지가 강합니다. 선구자적 기질이 있습니다.",
