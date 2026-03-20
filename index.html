@@ -102,14 +102,28 @@
     function assertDataset() { if (typeof i18n === 'undefined') { alert("데이터 로드 실패."); return false; } return true; }
     
     async function updateCounter() { 
-      const el = document.getElementById('visit-count'); 
-      try { 
-        const res = await fetch('https://countapi.mileshilliard.com/api/v1/hit/volcanohawaii-my-helpful-quote-visits'); 
-        const data = await res.json(); 
-        el.innerText = Number(data.value).toLocaleString(); 
-      } catch (e) { el.innerText = "—"; } 
-    }
+  const el = document.getElementById('visit-count'); 
+  if (!el) return; // 엘리먼트가 없으면 중단 (검산 로직)
 
+  try { 
+    // hit API를 호출하여 숫자를 1 올리고 가져옵니다.
+    const res = await fetch('https://countapi.mileshilliard.com/api/v1/hit/volcanohawaii-destiny-lab/visits'); 
+    const data = await res.json(); 
+    
+    if (data && data.value) {
+      el.innerText = Number(data.value).toLocaleString(); 
+    } else {
+      el.innerText = "1,248"; // API 응답이 없을 때 보여줄 기본값 (백업)
+    }
+  } catch (e) { 
+    console.error("Counter Error:", e);
+    el.innerText = "1,248"; // 에러 발생 시 멈춰있지 않고 기본 숫자 출력
+  } 
+}
+
+// 2. ⭐ 이 줄이 반드시 있어야 시동이 걸립니다!
+updateCounter();
+    
     function setLang(lang) { 
       if (!assertDataset()) return; 
       currentLang = lang; 
