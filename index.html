@@ -166,6 +166,7 @@ updateCounter();
       session.name = cleanName;
       session.birth = birth;
 
+      // [데이터 연산부 - 기존 로직 유지]
       const nameVal = cleanName.split('').reduce((a, ch) => a + ch.charCodeAt(0), 0);
       const birthVal = parseInt(birth, 10);
       session.num81 = ((nameVal + birthVal) % 81) + 1;
@@ -173,7 +174,6 @@ updateCounter();
 
       let sc = [0, 0, 0, 0, 0]; 
       const el_list = ['木', '火', '土', '金', '水'];
-
       for (let i = 0; i < cleanName.length; i++) {
         const char = cleanName[i];
         const onset = /[a-zA-Z]/.test(char) ? char.toUpperCase() : getHangulOnset(char);
@@ -196,32 +196,60 @@ updateCounter();
       const monthInfo = birthMonthData[month] || birthMonthData[1];
       const monthText = (currentLang === 'ko') ? monthInfo.ko : monthInfo.en;
 
-      // 상단 틀 디자인 적용
-      const resultCard = document.getElementById('view-result');
-      resultCard.style.borderTop = `10px solid ${res.color}`;
-      
-      const dynamicTitle = document.getElementById('dynamic-title');
-      dynamicTitle.style.color = res.color;
-      dynamicTitle.innerText = (currentLang === 'ko') ? res.title : res.titleEn;
+      // --- [여기서부터 UI 디자인 교체 구간] ---
 
-      // 사용자님이 마음에 들어하신 요약 영역 틀 구성
-      const monthLabel = currentLang === 'ko' ? `[탄생 ${month}월의 기운]` : `[Birth Month ${month} Energy]`;
+      // 1. 리포트 상단 컬러 띠
+      const resultCard = document.getElementById('view-result');
+      resultCard.style.borderTop = `12px solid ${res.color || 'var(--accent)'}`;
+      
+      // 2. [왕큰 제목 수정] 전문적인 타이틀로 교체
+      const dynamicTitle = document.getElementById('dynamic-title');
+      dynamicTitle.style.textAlign = "center";
+      dynamicTitle.style.fontFamily = "'Gowun Batang', serif"; // 전문적인 서체
+      dynamicTitle.style.fontSize = "1.4rem"; // 기존 크기 유지
+      dynamicTitle.style.fontWeight = "700";
+      dynamicTitle.style.marginTop = "10px";
+      dynamicTitle.style.color = var(--primary);
+      dynamicTitle.innerText = (currentLang === 'ko') ? `${cleanName}님의 수리성명학 분석 리포트` : `${cleanName}'s SURI Analysis Report`;
+
+      // 3. [고정 요약 영역] 지표 데이터 시트 형식으로 재구성
+      const monthLabel = currentLang === 'ko' ? `[탄생 ${month}월 시계열 지표]` : `[Birth Month ${month} Index]`;
       
       let summaryHtml = `
-        <div style="margin-bottom:15px; font-weight:700; color:${res.color};">${monthLabel}</div>
-        <div style="margin-bottom:20px; font-size:0.9rem; opacity:0.8; line-height:1.6;">${monthText}</div>
-        <div style="border-top:1px solid #EEE; padding-top:20px; font-size:1.05em; line-height:1.8;">
-            ${(currentLang === 'ko') ? res.desc : res.descEn}
+        <div style="margin: 25px 0; padding: 25px; background: #fcfcfc; border: 1px solid #eee; border-radius: 2px; text-align: left;">
+          <!-- 메타 정보 섹션 -->
+          <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #243447; padding-bottom: 8px; margin-bottom: 20px;">
+            <span style="font-size: 0.75rem; font-weight: 700; color: #999; letter-spacing: 1px;">SURI_DATA_SHEET</span>
+            <span style="font-size: 0.75rem; font-weight: 700; color: #999;">ID: ${String(session.num81).padStart(2, '0')}</span>
+          </div>
+
+          <!-- 수리 격 및 단계 데이터 (이전 제목 내용을 이쪽으로 이동) -->
+          <div style="margin-bottom: 20px;">
+             <div style="font-family: 'Gowun Batang'; font-size: 1.1rem; color: ${res.color || 'var(--accent)'}; font-weight: 700; margin-bottom: 5px;">
+               ${res.title}
+             </div>
+             <div style="font-size: 0.95rem; color: #444; line-height: 1.8;">
+               ${res.desc}
+             </div>
+          </div>
+
+          <!-- 탄생월 시계열 지표 -->
+          <div style="border-top: 1px dashed #ddd; padding-top: 15px;">
+            <div style="font-size: 0.85rem; font-weight: 700; color: #243447; margin-bottom: 8px;">${monthLabel}</div>
+            <div style="font-size: 0.9rem; line-height: 1.7; color: #666;">
+              ${monthText}
+            </div>
+          </div>
         </div>
       `;
 
       document.getElementById('dynamic-summary').innerHTML = summaryHtml;
 
+      // [기존 뷰 전환 및 탭 호출 유지]
       if (!opts.keepView) {
         document.getElementById('view-home').classList.add('hidden');
         resultCard.classList.remove('hidden');
       }
-
       switchTab('fortune', document.getElementById('tab1'));
       window.scrollTo(0, 0);
     }
