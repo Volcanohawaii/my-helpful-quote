@@ -200,6 +200,9 @@
       session.scores = sc.map(s => s + 30);
       const maxIdx = session.scores.indexOf(Math.max(...session.scores));
       const minIdx = session.scores.indexOf(Math.min(...session.scores));
+      // ✅ 이 두 줄이 정확히 있어야 조언이 undefined가 안 뜹니다.
+      session.tierStrong = Math.min(11, Math.floor((session.scores[maxIdx] / 200) * 11));
+      session.tierLack = Math.min(11, Math.floor((session.scores[minIdx] / 200) * 11));
       const strongEl = elements[maxIdx];
       const res = nameNumerology[session.num81];
       const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
