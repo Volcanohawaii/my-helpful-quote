@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Destiny Lab</title>
- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://t1.daumcdn.net https://*.daumcdn.net https://display.ad.daum.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://t1.daumcdn.net https://*.daumcdn.net https://display.adfit.kakao.com https://display.ad.daum.net https://serv.ds.kakao.com; frame-src https://display.adfit.kakao.com https://t1.daumcdn.net https://*.daumcdn.net https://display.ad.daumcdn.net; connect-src 'self' https://api.counterapi.dev https://display.ad.daum.net https://display.adfit.kakao.com https://*.onkakao.net https://serv.ds.kakao.com;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://t1.daumcdn.net https://*.daumcdn.net https://display.ad.daum.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://api.countapi.xyz https://countapi.mileshilliard.com https://t1.daumcdn.net https://*.daumcdn.net https://display.adfit.kakao.com https://display.ad.daum.net https://serv.ds.kakao.com; frame-src https://display.adfit.kakao.com https://t1.daumcdn.net https://*.daumcdn.net https://display.ad.daum.net; connect-src 'self' https://api.countapi.xyz https://countapi.mileshilliard.com https://display.ad.daum.net https://display.adfit.kakao.com https://*.onkakao.net https://serv.ds.kakao.com;">
+  <style>
     * { box-sizing: border-box; }
     :root { --bg: #F0EDE9; --paper: #FFFFFF; --primary: #243447; --accent: #9A8467; --text: #444444; --border: #D1CDC5; }
     body { font-family: 'Pretendard', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; overflow-x: hidden; position: relative; }
@@ -92,31 +93,38 @@
 
   <script src="./quotes.js?v=4"></script>
   <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
-  
+
   <script>
     let currentLang = 'ko';
     let session = { name: '', birth: '', seed: 0, scores: [], nameReport: '', num81: 1, tierStrong: 0, tierLack: 0 };
     const elements = ["木", "火", "土", "金", "水"];
 
     function assertDataset() { if (typeof i18n === 'undefined') { alert("데이터 로드 실패."); return false; } return true; }
-    
+
     async function updateCounter() { 
   const el = document.getElementById('visit-count'); 
   if (!el) return;
 
+  // 1. 서버에 요청을 보냅니다. (새로운 경로로 시도)
   try { 
-    const res = await fetch('https://api.counterapi.dev/v1/destiny-lab/visits/up'); 
-    const data = await res.json(); 
-    
-    el.innerText = Number(data.count).toLocaleString(); 
+    const res = await fetch('https://api.countapi.xyz/hit/volcanohawaii/destiny-lab-v1'); 
+
+    if (res.ok) {
+      const data = await res.json(); 
+      el.innerText = Number(data.value).toLocaleString(); 
+    } else {
+      // 404 등 서버 응답이 좋지 않을 때 보여줄 기본 '매직 넘버'
+      el.innerText = "1,248"; 
+    }
   } catch (e) { 
-    el.innerText = "1,248"; // 실패 시 백업 숫자
+    // 네트워크 연결 자체가 끊겼을 때 보여줄 백업 숫자
+    el.innerText = "1,248"; 
   } 
 }
 
 // 시동 걸기
 updateCounter();
-    
+
     function setLang(lang) { 
       if (!assertDataset()) return; 
       currentLang = lang; 
@@ -139,7 +147,7 @@ updateCounter();
       const b = document.getElementById('userBirth').value.trim().replace(/\D/g, '');
       if (!n || b.length !== 8) { alert("정보를 확인해주세요."); return; }
       document.getElementById('loading-overlay').classList.add('show');
-     
+
       setTimeout(() => {
         document.getElementById('loading-overlay').classList.remove('show');
         processData(n, b);
@@ -197,7 +205,7 @@ updateCounter();
       // [컬러 띠]
       const resultCard = document.getElementById('view-result');
       resultCard.style.borderTop = `12px solid ${res.color || 'var(--accent)'}`;
-      
+
       // [제목] 요청하신대로 "000님의 수리성명학 분석 리포트"로 수정
       const dynamicTitle = document.getElementById('dynamic-title');
       dynamicTitle.style.textAlign = "center";
@@ -208,8 +216,9 @@ updateCounter();
       dynamicTitle.style.color = "var(--primary)"; // 문자열 처리 완료
       dynamicTitle.innerText = (currentLang === 'ko') ? `${cleanName}님의 수리성명학 분석 리포트` : `${cleanName}'s SURI Analysis Report`;
 
-      
+
       // [고유 코드 기반의 고해상도 요약 박스]
+      const monthLabel = currentLang === 'ko' ? `[${month}월 시계열 지표]` : `[Birth Month ${month} Index]`;
       const monthLabel = currentLang === 'ko' ? `🌌${month}월 시계열 지표` : `[Birth Month ${month} Index]`;
       const luckyTitle = luckyTitles81[session.num81]; // 예: 두령격(頭領格)-독립권위
       const characteristics = (currentLang === 'ko') ? detailedDesc81[session.num81] : detailedDesc81En[session.num81];
@@ -222,6 +231,8 @@ updateCounter();
           </div>
 
           <div style="margin-bottom: 25px;">
+             <div style="font-size: 0.85rem; font-weight: 700; color: #AAA; margin-bottom: 12px; font-family: 'Gowun Batang';">CORE_ANALYSIS_LOG</div>
+             <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; font-family: 'Pretendard';">[${session.num81}수 성명학 지표]</div>
              <div style="font-size: 0.75rem; font-weight: 700; color: #AAA; margin-bottom: 12px; font-family: 'Gowun Batang';">CORE_ANALYSIS_LOG</div>
              <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; font-family: 'Pretendard';">🔥${session.num81}수 성명학 지표</div>
              <div style="font-size: 0.9rem; line-height: 1.7; color: var(--text); font-family: 'Pretendard';">
@@ -232,6 +243,7 @@ updateCounter();
           </div>
 
           <div style="border-top: 1px dashed #ddd; padding-top: 18px;">
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 10px; font-family: 'Pretendard';">${monthLabel}</div>
             <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 5px; font-family: 'Pretendard';">${monthLabel}</div>
             <div style="font-size: 0.9rem; line-height: 1.7; color: #666; font-family: 'Pretendard';">
               ${monthText}
@@ -241,13 +253,13 @@ updateCounter();
       `;
 
       document.getElementById('dynamic-summary').innerHTML = summaryHtml;
-      
+
       // 6. 화면 전환 및 기본 탭 활성화
       if (!opts.keepView) {
         document.getElementById('view-home').classList.add('hidden');
         resultCard.classList.remove('hidden');
       }
-      
+
       // 하단 탭 로직은 건드리지 않고 그대로 유지
       switchTab('fortune', document.getElementById('tab1'));
       window.scrollTo(0, 0);
@@ -278,7 +290,7 @@ updateCounter();
         const presSource = currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12;
         const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
         const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
-        
+
         let seasonName = currentLang === 'ko' ? "환절기(土)" : "Between Seasons(土)";
         if ([2, 3].includes(birthMonth)) seasonName = currentLang === 'ko' ? "봄(木)" : "Spring(木)";
         else if ([5, 6].includes(birthMonth)) seasonName = currentLang === 'ko' ? "여름(火)" : "Summer(火)";
@@ -329,7 +341,7 @@ updateCounter();
           </div>`;
       }
     }
-    
+
   </script>
 </body>
 </html>
