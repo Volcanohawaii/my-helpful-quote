@@ -218,7 +218,6 @@ updateCounter();
 
 
       // [고유 코드 기반의 고해상도 요약 박스]
-      const monthLabel = currentLang === 'ko' ? `[${month}월 시계열 지표]` : `[Birth Month ${month} Index]`;
       const monthLabel = currentLang === 'ko' ? `🌌${month}월 시계열 지표` : `[Birth Month ${month} Index]`;
       const luckyTitle = luckyTitles81[session.num81]; // 예: 두령격(頭領格)-독립권위
       const characteristics = (currentLang === 'ko') ? detailedDesc81[session.num81] : detailedDesc81En[session.num81];
