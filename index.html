@@ -130,7 +130,7 @@
       const b = document.getElementById('userBirth').value.trim().replace(/\D/g, '');
       if (!n || b.length !== 8) { alert("정보를 확인해주세요."); return; }
       document.getElementById('loading-overlay').classList.add('show');
-      if (window.adfit) window.adfit.display();
+     
       setTimeout(() => {
         document.getElementById('loading-overlay').classList.remove('show');
         processData(n, b);
@@ -272,9 +272,8 @@
         const nextLifeName = makeNextLifeNameKo(session.num81, strongEl, lackEl, birthMonth);
         body.innerHTML = `<div class="tab-content"><span class="section-title">${t.tab3Title}</span><div class="info-box"><b>🏷️ 다음생 이름</b><br>[${nextLifeName}]<br><br><b>📍 다음 목적지</b><br>${r.place}<br><br><b>✅ 내세 미션</b><br>${r.mission}</div></div>`;
       }
-      if (window.adfit) window.adfit.display(); 
     }
-    window.addEventListener('DOMContentLoaded', () => { updateCounter(); setLang('ko'); });
+    
   </script>
 </body>
 </html>
