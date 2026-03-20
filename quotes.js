@@ -491,6 +491,58 @@ const detailedDesc81En = {
     81: "Ultimate bliss meeting divine completion. Reaching the peak of success as a beacon of light."
 };
 
+/* [Destiny Engineering - Monthly Energy Matrix] */
+const birthMonthData = {
+    1: { 
+        ko: "맹추위를 뚫고 솟아오르는 '동토의 생명력'을 가졌습니다. 어떤 척박한 환경에서도 결국 결과를 만들어내는 강인함이 특징이며, 당신의 성명학적 격과 결합될 때 타인보다 한 박자 빠른 '선구자적 도약'을 이루게 됩니다.",
+        en: "Possesses the 'Vitality of Frozen Earth' piercing through deep winter. Characterized by resilience that yields results in any environment, combined with your name numerology, it triggers a 'pioneer leap' faster than others."
+    },
+    2: { 
+        ko: "만물이 기지개를 켜는 '초봄의 유연함'을 품고 있습니다. 적응력이 뛰어나고 창의적인 파동이 강하며, 성명학적 수리가 길수일 경우 당신의 아이디어가 세상에 화려하게 꽃피는 '발현의 속도'가 극대화됩니다.",
+        en: "Embraces the 'Flexibility of Early Spring' as all things awaken. With high adaptability and creative vibration, when paired with lucky name numerology, the 'speed of manifestation' for your ideas is maximized."
+    },
+    3: { 
+        ko: "대지를 적시는 봄비와 같은 '성장의 자양분'을 타고났습니다. 주변을 성장시키는 포용력이 장점이며, 당신의 이름에 담긴 리더십과 결합될 때 많은 이들이 따르는 '거대한 숲'과 같은 명예를 얻게 됩니다.",
+        en: "Born as the 'Nutrient of Growth' like spring rain soaking the earth. Your magnanimity nurtures others; combined with leadership in your name, you achieve honor like a 'vast forest' where many seek refuge."
+    },
+    4: { 
+        ko: "화려하게 피어나는 '만개의 에너지'를 지녔습니다. 자신을 드러내고 가치를 증명하는 파동이 강하며, 성명학적 성과격과 결합될 때 당신의 가치가 물질적인 부와 명성으로 즉각 전환되는 흐름을 보입니다.",
+        en: "Possesses the 'Energy of Full Bloom' radiating brilliance. With a strong drive to prove your worth, combined with success-oriented name numerology, your value translates into immediate material wealth and fame."
+    },
+    5: { 
+        ko: "뜨거운 태양 아래 무르익는 '초여름의 열정'이 삶을 구성합니다. 추진력이 독보적이며, 성명학적 중심격과 결합될 때 조직의 핵심에서 만물을 통솔하는 '태양의 리더십'을 완벽히 구현하게 됩니다.",
+        en: "Life is driven by the 'Passion of Early Summer' ripening under the sun. With peerless drive, combined with center-focused name numerology, you perfectly embody 'solar leadership' commanding the core of any organization."
+    },
+    6: { 
+        ko: "만물을 성장시키는 '풍요의 절정'에 서 있는 기운입니다. 에너지가 넘치고 확산성이 좋으며, 성명학적 조화격과 결합될 때 사람과 자본을 끌어모아 거대한 결실을 맺는 '성공의 자석' 역할을 합니다.",
+        en: "Stands at the 'Peak of Abundance' fueling the growth of all things. Vibrant and expansive, combined with harmony-based name numerology, you act as a 'success magnet' attracting people and capital."
+    },
+    7: { 
+        ko: "단단하게 굳어가는 '열매의 견고함'을 지닌 명식입니다. 내실이 탄단하고 실속을 중시하며, 성명학적 기반격과 만나면 어떤 풍파에도 흔들리지 않는 '인생의 절대적 지지대'를 구축하는 삶을 살게 됩니다.",
+        en: "A destiny possessing the 'Firmness of Fruit' as it hardens. Valuing substance and stability, paired with foundational name numerology, you build an 'absolute support system' for life that withstands any storm."
+    },
+    8: { 
+        ko: "황금빛 들판을 완성하는 '결실의 파동'이 흐릅니다. 현실 감각이 탁월하고 수확의 기운이 강하며, 성명학적 완성격과 결합될 때 평생의 노력이 거대한 부귀로 변모하는 '궁극의 마침표'를 찍게 됩니다.",
+        en: "The 'Vibration of Harvest' flows, completing the golden fields. With exceptional realism, combined with completion-based name numerology, your lifelong efforts culminate in 'ultimate prosperity'."
+    },
+    9: { 
+        ko: "서리발처럼 날카로운 '숙살(肅殺)의 기운'을 품고 있습니다. 옳고 그름을 가리는 통찰력이 예리하며, 성명학적 탐구격과 만날 때 누구도 넘볼 수 없는 '독보적인 전문성'의 정점에 오르는 운명입니다.",
+        en: "Embraces the 'Energy of Frosty Resolution' sharp as a blade. With keen insight to discern truth, paired with research-based name numerology, you ascend to the 'pinnacle of peerless expertise'."
+    },
+    10: { 
+        ko: "만물이 저장되는 '창고의 지혜'를 지닌 기운입니다. 생각이 깊고 전략적이며, 성명학적 책임격과 결합될 때 신의를 바탕으로 대업을 완수하여 후세에 이름을 남기는 '명예로운 기록'의 삶이 흐릅니다.",
+        en: "Possesses the 'Wisdom of Storage' where all things are gathered. Deeply strategic, combined with duty-based name numerology, you fulfill grand tasks through integrity, leading to a 'legacy of honor'."
+    },
+    11: { 
+        ko: "어둠 속에서 빛을 기다리는 '근원의 지혜'를 타고났습니다. 통찰력이 깊고 직관이 뛰어나며, 성명학적 독립격과 결합될 때 대중의 흐름에 휩쓸리지 않고 자신만의 '신성한 왕국'을 세우는 선각자가 됩니다.",
+        en: "Born with 'Primal Wisdom' waiting for light in the dark. Highly intuitive, combined with independent name numerology, you become a visionary building your own 'sacred kingdom' regardless of public trends."
+    },
+    12: { 
+        ko: "모든 차원을 융합하고 새로움을 준비하는 '침묵의 힘'이 서려 있습니다. 완성도가 높고 인내심이 강하며, 성명학적 성공격과 결합될 때 보이지 않는 곳에서 승리를 쟁취하는 '지략가의 운명'을 완성합니다.",
+        en: "Imbued with the 'Power of Silence' fusing dimensions for rebirth. Possessing high integrity and patience, paired with success-based name numerology, you complete the 'destiny of a strategist' winning from the shadows."
+    }
+};
+
 // [1. 오행 기본 속성 데이터]
 const elementAttributesKo = { "木": { name: "나무" }, "火": { name: "불" }, "土": { name: "흙" }, "金": { name: "쇠" }, "水": { name: "물" } };
 const elementAttributesEn = { "木": { name: "Wood" }, "火": { name: "Fire" }, "土": { name: "Earth" }, "金": { name: "Metal" }, "水": { name: "Water" } };
