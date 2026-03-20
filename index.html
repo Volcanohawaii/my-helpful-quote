@@ -144,86 +144,70 @@
       return onsets[Math.floor(code / 588)]; 
     }
 
-    function processData(name, birth, opts = {}) {
-  // 1. 이름 정제 및 기본 세션 설정
-  const cleanName = name.replace(/<[^>]*>?/gm, '');
-  session.name = cleanName;
-  session.birth = birth;
+   function processData(name, birth, opts = {}) {
+      const cleanName = name.replace(/<[^>]*>?/gm, '');
+      session.name = cleanName;
+      session.birth = birth;
 
-  // 2. 81수리 및 시드 번호 연산
-  const nameVal = cleanName.split('').reduce((a, ch) => a + ch.charCodeAt(0), 0);
-  const birthVal = parseInt(birth, 10);
-  session.num81 = ((nameVal + birthVal) % 81) + 1;
-  session.seed = nameVal + birthVal;
+      const nameVal = cleanName.split('').reduce((a, ch) => a + ch.charCodeAt(0), 0);
+      const birthVal = parseInt(birth, 10);
+      session.num81 = ((nameVal + birthVal) % 81) + 1;
+      session.seed = nameVal + birthVal;
 
-  // 3. 오행(Element) 점수 초기화 및 계산
-  let sc = [0, 0, 0, 0, 0]; // 木, 火, 土, 金, 水 순서
-  const elements = ['木', '火', '土', '金', '水'];
+      let sc = [0, 0, 0, 0, 0]; 
+      const el_list = ['木', '火', '土', '金', '水'];
 
-  for (let i = 0; i < cleanName.length; i++) {
-    const char = cleanName[i];
-    const onset = /[a-zA-Z]/.test(char) ? char.toUpperCase() : getHangulOnset(char);
-    const el = hangulElements[onset] || alphabetElements[onset];
-    if (el && elements.includes(el)) sc[elements.indexOf(el)] += 50;
-  }
+      for (let i = 0; i < cleanName.length; i++) {
+        const char = cleanName[i];
+        const onset = /[a-zA-Z]/.test(char) ? char.toUpperCase() : getHangulOnset(char);
+        const el = hangulElements[onset] || alphabetElements[onset];
+        if (el && el_list.includes(el)) sc[el_list.indexOf(el)] += 50;
+      }
 
-  // 4. 탄생월에 따른 오행 가산점 연산
-  const month = parseInt(birth.substring(4, 6), 10);
-  if ([2, 3].includes(month)) sc[0] += 50;      // 봄: 木
-  else if ([5, 6].includes(month)) sc[1] += 50; // 여름: 火
-  else if ([8, 9].includes(month)) sc[3] += 50; // 가을: 金
-  else if ([11, 12].includes(month)) sc[4] += 50;// 겨울: 水
-  else sc[2] += 50;                             // 환절기: 土
+      const month = parseInt(birth.substring(4, 6), 10);
+      if ([2, 3].includes(month)) sc[0] += 50; 
+      else if ([5, 6].includes(month)) sc[1] += 50; 
+      else if ([8, 9].includes(month)) sc[3] += 50; 
+      else if ([11, 12].includes(month)) sc[4] += 50;
+      else sc[2] += 50;
 
-  session.scores = sc.map(s => s + 30);
-  const maxIdx = session.scores.indexOf(Math.max(...session.scores));
-  const minIdx = session.scores.indexOf(Math.min(...session.scores));
+      session.scores = sc.map(s => s + 30);
+      session.tierStrong = Math.abs(session.seed) % 12;
+      session.tierLack = (Math.abs(session.seed) + 7) % 12;
 
- // 5. 데이터 호출 및 언어 설정 (수정됨)
-  const res = nameNumerology[session.num81];
-  const monthInfo = birthMonthData[month] || birthMonthData[1];
-  const monthText = (currentLang === 'ko') ? monthInfo.ko : monthInfo.en;
+      const res = nameNumerology[session.num81];
+      const monthInfo = birthMonthData[month] || birthMonthData[1];
+      const monthText = (currentLang === 'ko') ? monthInfo.ko : monthInfo.en;
 
-  // 6. 결과 카드 UI 업데이트
-  const resultCard = document.getElementById('view-result');
-  resultCard.style.borderTop = `10px solid ${res.color}`;
-  
-  const dynamicTitle = document.getElementById('dynamic-title');
-  dynamicTitle.style.color = res.color;
-  dynamicTitle.innerText = (currentLang === 'ko') ? res.title : res.titleEn;
+      // 상단 틀 디자인 적용
+      const resultCard = document.getElementById('view-result');
+      resultCard.style.borderTop = `10px solid ${res.color}`;
+      
+      const dynamicTitle = document.getElementById('dynamic-title');
+      dynamicTitle.style.color = res.color;
+      dynamicTitle.innerText = (currentLang === 'ko') ? res.title : res.titleEn;
 
-  // 7. 리포트 본문 구성 (한글/영어 완벽 대응)
-  const monthHtml = `
-    <div class="month-box" style="border-left: 5px solid ${res.color}; padding: 12px 18px; margin-bottom: 25px; background: rgba(0,0,0,0.02); border-radius: 0 10px 10px 0; text-align: left;">
-        <p style="font-weight: bold; margin-bottom: 6px; color: ${res.color}; font-size: 1.05em;">
-            ${currentLang === 'ko' ? `✨ 탄생 ${month}월의 기운 분석` : `✨ Birth Month ${month} Analysis`}
-        </p>
-        <p style="font-size: 0.95em; line-height: 1.6; color: #333; letter-spacing: -0.02em;">
-            ${monthText}
-        </p>
-    </div>
-  `;
-
-  let summaryHtml = `
-    <div class="report-content" style="text-align: left;">
-        ${monthHtml}
-        <div class="main-desc" style="font-size: 1.1em; line-height: 1.8; color: #222;">
+      // 사용자님이 마음에 들어하신 요약 영역 틀 구성
+      const monthLabel = currentLang === 'ko' ? `[탄생 ${month}월의 기운]` : `[Birth Month ${month} Energy]`;
+      
+      let summaryHtml = `
+        <div style="margin-bottom:15px; font-weight:700; color:${res.color};">${monthLabel}</div>
+        <div style="margin-bottom:20px; font-size:0.9rem; opacity:0.8; line-height:1.6;">${monthText}</div>
+        <div style="border-top:1px solid #EEE; padding-top:20px; font-size:1.05em; line-height:1.8;">
             ${(currentLang === 'ko') ? res.desc : res.descEn}
         </div>
-    </div>
-  `;
+      `;
 
-  // 8. 화면 출력
-  document.getElementById('dynamic-summary').innerHTML = summaryHtml;
-  if (!opts.keepView) {
-    document.getElementById('view-home').classList.add('hidden');
-    resultCard.classList.remove('hidden');
-  }
+      document.getElementById('dynamic-summary').innerHTML = summaryHtml;
 
-  // 탭 상태 fortune으로 초기화 및 스크롤 상단 이동
-  switchTab('fortune', document.getElementById('tab1'));
-  window.scrollTo(0, 0);
-}
+      if (!opts.keepView) {
+        document.getElementById('view-home').classList.add('hidden');
+        resultCard.classList.remove('hidden');
+      }
+
+      switchTab('fortune', document.getElementById('tab1'));
+      window.scrollTo(0, 0);
+    }
 
     function renderChart() {
       const container = document.getElementById('radarChart'); if (!container) return;
