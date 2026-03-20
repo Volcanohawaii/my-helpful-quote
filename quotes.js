@@ -491,59 +491,60 @@ const detailedDesc81En = {
     81: "Ultimate bliss meeting divine completion. Reaching the peak of success as a beacon of light."
 };
 
-// [1. 오행 기본 속성]
+// [1. 오행 기본 속성 데이터]
 const elementAttributesKo = { "木": { name: "나무" }, "火": { name: "불" }, "土": { name: "흙" }, "金": { name: "쇠" }, "水": { name: "물" } };
 const elementAttributesEn = { "木": { name: "Wood" }, "火": { name: "Fire" }, "土": { name: "Earth" }, "金": { name: "Metal" }, "水": { name: "Water" } };
 
 // [2. 81수리 고유 격 명칭 (Title)]
-const luckyTitles81 = { 1: "기본격(基本格)-만사휴태", 2: "동요격(動搖格)-분리파란", 3: "도약격(跳躍格)-입신양명", 4: "부정격(不定格)-파괴멸망", 5: "복덕격(福德格)-성공발전", 6: "계승격(繼承格)-덕후유복", 7: "강건격(剛健格)-주도면밀", 8: "수전격(守錢格)-자수성가", 9: "궁박격(窮迫格)-불의재난", 10: "공허격(空虛格)-다재다능", 11: "신성격(新成격)-재래부흥", 12: "박약격(薄弱格)-고립무원", 13: "지혜격(智慧格)-총명발달", 14: "이산격(離散格)-파괴번뇌", 15: "통솔격(統率格)-복수쌍전", 16: "덕망격(德望格)-재물유복", 17: "건창격(健暢格)-강직투쟁", 18: "발전격(發展格)-의지견고", 19: "고난격(苦난格)-병약고독", 20: "허망격(虛망格)-중도좌절", 21: "두령격(頭領格)-독립권위", 22: "중절격(中折격)-부부운박", 23: "공명격(功名格)-위세당당", 24: "입신격(立身격)-축재풍부", 25: "건창격(健暢格)-재치민활", 26: "영웅격(英雄格)-파란만장", 27: "중단격(中斷格)-좌절중단", 28: "파란격(波瀾格)-파란곡절", 29: "성공격(成功格)-신망두터", 30: "부침격(浮沈格)-길흉상반", 31: "융창격(隆昌격)-자수성가", 32: "순풍격(順風格)-의외득재", 33: "제왕격(帝王格)-위풍당당", 34: "파멸격(破滅格)-파란곡절", 35: "안강격(安康格)-평범온화", 36: "협객격(俠客格)-파란만장", 37: "인덕격(仁德格)-유의유덕", 38: "복록격(福祿格)-문학예술", 39: "장성격(將星格)-부귀번영", 40: "파란격(波瀾格)-변화무쌍", 41: "고봉격(高峰格)-대업성취", 42: "고행격(苦行格)-자력갱생", 43: "성쇠격(盛衰격)-외화내빈", 44: "마장격(魔障격)-미궁속황", 45: "대성격(大成격)-만물통합", 46: "미망격(迷妄格)-방황고민", 47: "출세격(출세격)-득의만면", 48: "유덕격(유덕격)-지도역량", 49: "변화격(변화격)-길흉상반", 50: "부침격(부침격)-성패교차", 51: "춘추격(춘추격)-성패상반", 52: "약진격(약진격)-기회포착", 53: "내빈격(내빈격)-외화내빈", 54: "패망격(패망격)-백계무책", 55: "미달격(미달격)-외양내허", 56: "부족격(부족격)-진퇴유곡", 57: "재기격(재기격)-시련극복", 58: "후복격(후복격)-자수성가", 59: "불우격(불우격)-의지박약", 60: "동요격(동요격)-상하불안", 61: "재화격(재화격)-지혜충만", 62: "쇠퇴격(쇠퇴격)-내우외환", 63: "성공격(성공격)-부귀영광", 64: "침체격(침체격)-변화무쌍", 65: "휘황격(휘황격)-만물평온", 66: "망신격(망신격)-내우외환", 67: "승리격(승리격)-천하태평", 68: "창업격(창업격)-지모탁월", 69: "정체격(정체격)-병약곤궁", 70: "공허격(공허격)-멸망멸절", 71: "안정격(안정격)-내실충실", 72: "상반격(상반격)-길흉상반", 73: "평범격(평범격)-자수성가", 74: "불우격(불우격)-만사불우", 75: "안정격(안정격)-평화온화", 76: "이산격(이산격)-내우외환", 77: "성패격(성패격)-길흉상반", 78: "선길격(선길격)-평범온화", 79: "불운격(불운격)-정체불명", 80: "종말격(종말격)-은둔생활", 81: "환희격(환희격)-복덕원만" };
+const luckyTitles81 = { 1: "기본격(基本格)-만사휴태", 2: "동요격(動搖格)-분리파란", 3: "도약격(跳躍格)-입신양명", 4: "부정격(不定格)-파괴멸망", 5: "복덕격(福德格)-성공발전", 6: "계승격(繼承格)-덕후유복", 7: "강건격(剛健格)-주도면밀", 8: "수전격(守錢格)-자수성가", 9: "궁박격(窮迫格)-불의재난", 10: "공허격(空虛格)-다재다능", 11: "신성격(新成격)-재래부흥", 12: "박약격(薄弱格)-고립무원", 13: "지혜격(智慧格)-총명발달", 14: "이산격(離散格)-파괴번뇌", 15: "통솔격(統率格)-복수쌍전", 16: "덕망격(德望格)-재물유복", 17: "건창격(健暢格)-강직투쟁", 18: "발전격(發展格)-의지견고", 19: "고난격(苦난格)-병약고독", 20: "허망격(虛망格)-중도좌절", 21: "두령격(頭領格)-독립권위", 22: "중절격(中折격)-부부운박", 23: "공명격(功명格)-위세당당", 24: "입신격(立身격)-축재풍부", 25: "건창격(健暢格)-재치민활", 26: "영웅격(英雄格)-파란만장", 27: "중단격(中斷格)-좌절중단", 28: "파란격(波瀾格)-파란곡절", 29: "성공격(成功格)-신망두터", 30: "부침격(浮沈格)-길흉상반", 31: "융창격(隆昌격)-자수성가", 32: "순풍격(順風格)-의외득재", 33: "제왕격(帝王格)-위풍당당", 34: "파멸격(破滅格)-파란곡절", 35: "안강격(安康格)-평범온화", 36: "협객격(俠客格)-파란만장", 37: "인덕격(仁德格)-유의유덕", 38: "복록격(福祿格)-문학예술", 39: "장성격(將星格)-부귀번영", 40: "파란격(波瀾格)-변화무쌍", 41: "고봉격(高峰格)-대업성취", 42: "고행격(苦行格)-자력갱생", 43: "성쇠격(盛衰격)-외화내빈", 44: "마장격(魔障격)-미궁속황", 45: "대성격(大成격)-만물통합", 46: "미망격(迷妄格)-방황고민", 47: "출세격(출세격)-득의만면", 48: "유덕격(유덕격)-지도역량", 49: "변화격(변화격)-길흉상반", 50: "부침격(부침격)-성패교차", 51: "춘추격(춘추격)-성패상반", 52: "약진격(약진격)-기회포착", 53: "내빈격(내빈격)-외화내빈", 54: "패망격(패망격)-백계무책", 55: "미달격(미달격)-외양내허", 56: "부족격(부족격)-진퇴유곡", 57: "재기격(재기격)-시련극복", 58: "후복격(후복격)-자수성가", 59: "불우격(불우격)-의지박약", 60: "동요격(동요격)-상하불안", 61: "재화격(재화격)-지혜충만", 62: "쇠퇴격(쇠퇴격)-내우외환", 63: "성공격(성공격)-부귀영광", 64: "침체격(침체격)-변화무쌍", 65: "휘황격(휘황격)-만물평온", 66: "망신격(망신격)-내우외환", 67: "승리격(승리격)-천하태평", 68: "창업격(창업격)-지모탁월", 69: "정체격(정체격)-병약곤궁", 70: "공허격(공허격)-멸망멸절", 71: "안정격(안정격)-내실충실", 72: "상반격(상반격)-길흉상반", 73: "평범격(평범격)-자수성가", 74: "불우격(불우격)-만사불우", 75: "안정격(안정격)-평화온화", 76: "이산격(이산격)-내우외환", 77: "성패격(성패격)-길흉상반", 78: "선길격(선길격)-평범온화", 79: "불운격(불운격)-정체불명", 80: "종말격(종말격)-은둔생활", 81: "환희격(환희격)-복덕원만" };
 const luckyTitles81En = { 1: "Origin-Harmony", 2: "Turbulence-Conflict", 3: "Ascent-Fame", 4: "Chaos-Decay", 5: "Prosperity-Success", 6: "Heritage-Virtue", 7: "Fortitude-Strategy", 8: "Resilience-Glory", 9: "Adversity-Crisis", 10: "Void-Talent", 11: "Revival-Beginning", 12: "Frailty-Struggle", 13: "Brilliance-Growth", 14: "Dispersion-Anxiety", 15: "Command-Fortune", 16: "Prestige-Virtue", 17: "Integrity-Struggle", 18: "Expansion-Will", 19: "Hardship-Path", 20: "Illusion-Journey", 21: "Sovereignty-Power", 22: "Interruption-Bonds", 23: "Majesty-Power", 24: "Accumulation-Wealth", 25: "Sharpness-Wit", 26: "Hero-Storm", 27: "Cease-Obstacle", 28: "Surge-Waves", 29: "Success-Reputation", 30: "Flux-Fate", 31: "Bloom-Success", 32: "Breeze-Gain", 33: "Imperial-Majesty", 34: "Ruin-Storm", 35: "Serenity-Life", 36: "Wanderer-Journey", 37: "Benevolence-Merit", 38: "Artistry-Wealth", 39: "General-Victory", 40: "Change-Shift", 41: "Summit-Achievement", 42: "Penance-Relief", 43: "Fluctuation-Radiance", 44: "Obstacle-Fate", 45: "Mastery-Unity", 46: "Delusion-Wandering", 47: "Triumph-Satisfaction", 48: "Mentor-Power", 49: "Transformation-Fate", 50: "Wave-Fluctuation", 51: "Seasons-Fate", 52: "Leap-Opportunity", 53: "Hidden-Poverty", 54: "Failure-Zero Strategy", 55: "Surface-Vacuity", 56: "Dilemma-Trapped", 57: "Recovery-Trials", 58: "Rebound-Success", 59: "Misfortune-Weakness", 60: "Shaking-Unstable", 61: "Treasure-Wealth", 62: "Decline-Troubles", 63: "Glory-Honor", 64: "Stagnation-Uncertainty", 65: "Radiance-Peace", 66: "Scandal-Error", 67: "Victory-Peace", 68: "Founder-Strategy", 69: "Standstill-Poverty", 70: "Emptiness-Decay", 71: "Stability-Strength", 72: "Division-Fortune", 73: "Simplicity-Creation", 74: "Misery-Hardship", 75: "Calm-Soul", 76: "Departure-Woes", 77: "Balance-Fate", 78: "Omen-Success", 79: "Mist-Undefined", 80: "Hermit-Secluded", 81: "Bliss-Completion" };
 
-// [3. 성명공학 분석 엔진 (IIFE)]
+// [3. 성명공학 분석 엔진 (핵심 오류 수정 완료)]
 const nameNumerology = (() => {
-    const out = {};
-    for (let n = 1; n <= 81; n++) {
-        const a = (n - 1) % 9;
-        const b = Math.floor((n - 1) / 9);
-        const enMain = luckyTitles81En[n].split('-')[0];
-        out[n] = { 
-            title: `${luckyTitles81[n]} · ${baseKo[a].key}(${stageKo[b]})`, 
-            desc: `<b>[운명 격]</b> ${luckyTitles81[n]}<br><b>[상세 분석]</b> ${detailedDesc81[n]}`,
-            titleEn: `${enMain} · ${baseEn[a].key}(${stageEn[b]})`,
-            descEn: `<b>[Type]</b> ${enMain}<br><b>[Analysis]</b> ${detailedDesc81En[n]}`
-        };
-    }
-    return out;
+    const out = {};
+    for (let n = 1; n <= 81; n++) {
+        const a = (n - 1) % 9;
+        const b = Math.floor((n - 1) / 9);
+        // ✅ 오류 해결: enMain 변수를 여기서 정의합니다.
+        const enMain = luckyTitles81En[n].split('-')[0];
+        out[n] = { 
+            title: `${luckyTitles81[n]} · ${baseKo[a].key}(${stageKo[b]})`, 
+            desc: `<b>[운명 격]</b> ${luckyTitles81[n]}<br><b>[상세 분석]</b> ${detailedDesc81[n]}`,
+            titleEn: `${enMain} · ${baseEn[a].key}(${stageEn[b]})`,
+            descEn: `<b>[Type]</b> ${enMain}<br><b>[Analysis]</b> ${detailedDesc81En[n]}`
+        };
+    }
+    return out;
 })();
 
 // [4. 전생 데이터 확장 (81개 조합)]
 const pastLifeData = Array.from({ length: 81 }, (_, i) => {
-    const mods = ["고독하게 하늘을 읽는", "무너진 질서를 바로잡던", "금지된 진리를 탐구하던", "미학적 가치에 집착했던", "자유를 찾아 대륙을 유랑하던", "침묵 속에 칼날을 갈던", "치밀하게 왕국을 설계하던", "자비로운 마음으로 생명을 품던", "거친 파도를 잠재우던", "운명의 실타래를 풀던", "금기를 깨고 경계를 넘나들던", "기록되지 않은 역사를 쓰던", "차가운 이성으로 세상을 보던", "뜨거운 열정으로 영혼을 태우던", "보이지 않는 곳에서 빛을 지키던"];
-    const jobs = ["천문 기록관", "대제국의 설계자", "비단길의 대상", "약초 치유사", "잊혀진 성의 파수꾼", "운명의 조율사", "고대의 서지학자", "영혼의 안무가", "강철의 연금술사", "심해의 항해사", "꿈의 기록가", "철학자의 조언자", "새벽의 파수꾼", "보석 세공사", "바람의 전령사"];
-    const descs = ["밤마다 망루에 올라 별의 변주를 기록하며 세상의 질서를 유지했습니다.", "폐허 위에 황금비율의 도시를 설계하며 사람들에게 안식처를 선사했습니다.", "모래바람 속에서도 나침반을 놓지 않고 문명을 연결하는 다리가 되었습니다.", "이름 없는 풀꽃의 치유력을 믿으며 가장 낮은 곳에서 고통을 돌보았습니다.", "주인 없는 성을 지키며 마지막까지 신의를 다하다 전설로 남았습니다.", "사람들의 얽힌 인연을 실타래처럼 풀며 보이지 않는 균형을 맞추었습니다.", "먼지 쌓인 고문서 속에서 인류의 잊혀진 지혜를 찾아 다음 세대에 전했습니다.", "몸짓 하나에 영혼의 울림을 담아 메마른 가슴에 감동의 비를 내렸습니다.", "인간 내면을 정화하는 궁극의 공식을 평생 찾아 헤맸습니다.", "아무도 가본 적 없는 심해의 심연을 탐험하며 지도의 빈칸을 채워 나갔습니다.", "타인의 꿈속으로 들어가 흩어진 기억의 조각들을 하나로 모으는 일을 했습니다.", "권력자들의 곁에서 날카로운 통찰로 국가의 중대사를 조언하던 현자였습니다.", "모두가 포기한 경계에서 끝까지 등불을 밝히며 새벽이 오기를 기다렸습니다.", "원석의 거친 단면에서 찬란한 빛을 이끌어내듯 사람의 가치를 발견했습니다.", "바람을 타고 흐르는 소식들을 모아 세상의 소외된 곳에 진실을 전했습니다."];
-    const homeworks = ["자신의 지식을 자비로 바꾸는 연습", "지배보다 공존하는 지혜 배우기", "물질 뒤의 공허함을 채우는 법", "타인을 돌보듯 자신도 사랑하기", "과도한 책임감에서 벗어나는 법", "완벽주의를 버리고 흐름에 몸 맡기기", "과거의 지혜를 현대어로 재해석하기", "표현의 화려함보다 진심의 무게 견디기", "집착을 비워냄으로써 완성되는 진리", "미지의 두려움을 호기심으로 승화하기", "타인의 시선에서 자유로워지는 훈련", "침묵의 가치를 생활 속에서 실천하기", "결과보다 과정을 즐기는 마음 갖기", "차가운 이성에 따뜻한 온기 더하기", "스스로를 가두던 고정관념 파괴하기"];
-    return { job: `${mods[i % mods.length]} ${jobs[Math.floor(i / 3) % jobs.length]}`, desc: descs[Math.floor(i / 2) % descs.length], homework: homeworks[i % homeworks.length] };
+    const mods = ["고독하게 하늘을 읽는", "무너진 질서를 바로잡던", "금지된 진리를 탐구하던", "미학적 가치에 집착했던", "자유를 찾아 대륙을 유랑하던", "침묵 속에 칼날을 갈던", "치밀하게 왕국을 설계하던", "자비로운 마음으로 생명을 품던", "거친 파도를 잠재우던", "운명의 실타래를 풀던", "금기를 깨고 경계를 넘나들던", "기록되지 않은 역사를 쓰던", "차가운 이성으로 세상을 보던", "뜨거운 열정으로 영혼을 태우던", "보이지 않는 곳에서 빛을 지키던"];
+    const jobs = ["천문 기록관", "대제국의 설계자", "비단길의 대상", "약초 치유사", "잊혀진 성의 파수꾼", "운명의 조율사", "고대의 서지학자", "영혼의 안무가", "강철의 연금술사", "심해의 항해사", "꿈의 기록가", "철학자의 조언자", "새벽의 파수꾼", "보석 세공사", "바람의 전령사"];
+    const descs = ["밤마다 망루에 올라 별의 변주를 기록하며 세상의 질서를 유지했습니다.", "폐허 위에 황금비율의 도시를 설계하며 사람들에게 안식처를 선사했습니다.", "모래바람 속에서도 나침반을 놓지 않고 문명을 연결하는 다리가 되었습니다.", "이름 없는 풀꽃의 치유력을 믿으며 가장 낮은 곳에서 고통을 돌보았습니다.", "주인 없는 성을 지키며 마지막까지 신의를 다하다 전설로 남았습니다.", "사람들의 얽힌 인연을 실타래처럼 풀며 보이지 않는 균형을 맞추었습니다.", "먼지 쌓인 고문서 속에서 인류의 잊혀진 지혜를 찾아 다음 세대에 전했습니다.", "몸짓 하나에 영혼의 울림을 담아 메마른 가슴에 감동의 비를 내렸습니다.", "인간 내면을 정화하는 궁극의 공식을 평생 찾아 헤맸습니다.", "아무도 가본 적 없는 심해의 심연을 탐험하며 지도의 빈칸을 채워 나갔습니다.", "타인의 꿈속으로 들어가 흩어진 기억의 조각들을 하나로 모으는 일을 했습니다.", "권력자들의 곁에서 날카로운 통찰로 국가의 중대사를 조언하던 현자였습니다.", "모두가 포기한 경계에서 끝까지 등불을 밝히며 새벽이 오기를 기다렸습니다.", "원석의 거친 단면에서 찬란한 빛을 이끌어내듯 사람의 가치를 발견했습니다.", "바람을 타고 흐르는 소식들을 모아 세상의 소외된 곳에 진실을 전했습니다."];
+    const homeworks = ["자신의 지식을 자비로 바꾸는 연습", "지배보다 공존하는 지혜 배우기", "물질 뒤의 공허함을 채우는 법", "타인을 돌보듯 자신도 사랑하기", "과도한 책임감에서 벗어나는 법", "완벽주의를 버리고 흐름에 몸 맡기기", "과거의 지혜를 현대어로 재해석하기", "표현의 화려함보다 진심의 무게 견디기", "집착을 비워냄으로써 완성되는 진리", "미지의 두려움을 호기심으로 승화하기", "타인의 시선에서 자유로워지는 훈련", "침묵의 가치를 생활 속에서 실천하기", "결과보다 과정을 즐기는 마음 갖기", "차가운 이성에 따뜻한 온기 더하기", "스스로를 가두던 고정관념 파괴하기"];
+    return { job: `${mods[i % mods.length]} ${jobs[Math.floor(i / 3) % jobs.length]}`, desc: descs[Math.floor(i / 2) % descs.length], homework: homeworks[i % homeworks.length] };
 });
 
 const pastLifeDataEn = Array.from({ length: 81 }, (_, i) => {
-    const mods = ["A Solitary", "A Rigorous", "A Forbidden", "An Aesthetic", "A Wandering", "A Silent", "A Meticulous", "A Compassionate", "A Fearless", "A Mystic", "A Rebellious", "A Visionary", "A Serene", "A Radiant", "A Hidden"];
-    const jobs = ["Astronomy Clerk", "Empire Architect", "Silk Road Merchant", "Herbal Healer", "Sentinel of Ruins", "Arbiter of Fate", "Ancient Bibliographer", "Soul Choreographer", "Steel Alchemist", "Deep Sea Navigator", "Dream Archivist", "Sage Advisor", "Dawn Watcher", "Gem Carver", "Wind Herald"];
-    const descs = ["You recorded star trajectories from a lonely tower.", "You designed cities of golden ratios on ruins.", "You never lost the compass in sandstorms.", "You cared for the suffering with the power of wildflowers.", "You guarded a masterless castle with unwavering loyalty.", "You balanced the world by unraveling threads of fate.", "You found forgotten wisdom in dusty scrolls.", "You poured the resonance of the soul into gestures.", "You sought the formula to purify the human heart.", "You explored the abyss, filling the gaps in the world map.", "You entered dreams to collect fragments of memory.", "You advised on great matters of state with insight.", "You kept the lamp burning, waiting for dawn.", "You discovered human value in rough gemstones.", "You brought truth to the isolated via the wind."];
-    const homeworks = ["Knowledge into compassion.", "Coexistence over dominance.", "Filling the hidden void.", "Healing your own soul.", "Letting go of heavy duty.", "Flowing with fate.", "Modernizing old wisdom.", "Enduring weight of truth.", "Completing through letting go.", "Fear into curiosity.", "Freedom from others' eyes.", "Value of silence.", "Process over results.", "Warmth to cold logic.", "Breaking stereotypes."];
-    return { job: `${mods[i % mods.length]} ${jobs[Math.floor(i / 3) % jobs.length]}`, desc: descs[Math.floor(i / 2) % descs.length], homework: homeworks[i % homeworks.length] };
+    const mods = ["A Solitary", "A Rigorous", "A Forbidden", "An Aesthetic", "A Wandering", "A Silent", "A Meticulous", "A Compassionate", "A Fearless", "A Mystic", "A Rebellious", "A Visionary", "A Serene", "A Radiant", "A Hidden"];
+    const jobs = ["Astronomy Clerk", "Empire Architect", "Silk Road Merchant", "Herbal Healer", "Sentinel of Ruins", "Arbiter of Fate", "Ancient Bibliographer", "Soul Choreographer", "Steel Alchemist", "Deep Sea Navigator", "Dream Archivist", "Sage Advisor", "Dawn Watcher", "Gem Carver", "Wind Herald"];
+    const descs = ["You recorded star trajectories from a lonely tower.", "You designed cities of golden ratios on ruins.", "You never lost the compass in sandstorms.", "You cared for the suffering with the power of wildflowers.", "You guarded a masterless castle with unwavering loyalty.", "You balanced the world by unraveling threads of fate.", "You found forgotten wisdom in dusty scrolls.", "You poured the resonance of the soul into gestures.", "You sought the formula to purify the human heart.", "You explored the abyss, filling the gaps in the world map.", "You entered dreams to collect fragments of memory.", "You advised on great matters of state with insight.", "You kept the lamp burning, waiting for dawn.", "You discovered human value in rough gemstones.", "You brought truth to the isolated via the wind."];
+    const homeworks = ["Knowledge into compassion.", "Coexistence over dominance.", "Filling the hidden void.", "Healing your own soul.", "Letting go of heavy duty.", "Flowing with fate.", "Modernizing old wisdom.", "Enduring weight of truth.", "Completing through letting go.", "Fear into curiosity.", "Freedom from others' eyes.", "Value of silence.", "Process over results.", "Warmth to cold logic.", "Breaking stereotypes."];
+    return { job: `${mods[i % mods.length]} ${jobs[Math.floor(i / 3) % jobs.length]}`, desc: descs[Math.floor(i / 2) % descs.length], homework: homeworks[i % homeworks.length] };
 });
 
-// [5. 내세 데이터 확장 (81개 조합)]
+// [5. 내세 데이터 확장 (수정 도서관 등 81개 고유 조합)]
 const reincarnationData = Array.from({ length: 81 }, (_, i) => {
-    const places = ["수정 도서관", "비의 정원", "바람의 고원", "고요한 사찰", "빛의 연구소", "산호 초원", "구름 위의 섬", "철학자의 숲", "창조의 광장", "영원의 해변", "안개의 도시", "무지개 폭포", "별의 요람", "지혜의 탑", "시간의 회랑", "은하수의 끝", "새벽의 숲", "거울의 호수", "황금 사막", "천상의 정원"];
-    const missions = ["우주의 모든 기억을 보존하십시오.", "메마른 영혼에 생명수를 뿌리십시오.", "자유를 잃은 자들에게 길을 안내하십시오.", "세상에 평화의 파동을 전하십시오.", "미래를 밝힐 에너지를 발견하십시오.", "바다의 생태계를 치유하십시오.", "보이지 않는 곳에서 진리를 수호하십시오.", "잊혀진 근원적 질문의 답을 찾으십시오.", "예술과 기술이 융합된 세계를 설계하십시오.", "순환하는 시간의 균형을 맞추십시오.", "혼란에 빠진 영혼들의 안식처가 되십시오.", "지상의 모든 목소리를 기록하십시오.", "어둠 속에서 길 잃은 별들을 인도하십시오.", "무너진 가치관 위에 새 질서를 세우십시오.", "지혜를 나누어 무지를 깨우치십시오."];
-    return { place: places[i % places.length], mission: missions[Math.floor(i / 4) % missions.length] };
+    const places = ["수정 도서관 (우주 아카이브)", "비의 정원", "바람의 고원", "고요한 사찰", "빛의 연산소", "산호 초원", "구름 위의 섬", "철학자의 숲", "창조의 광장", "영원의 해변", "안개의 도시", "무지개 폭포", "별의 요람", "지혜의 탑", "시간의 회랑", "은하수의 끝", "새벽의 숲", "거울의 호수", "황금 사막", "천상의 정원"];
+    const missions = ["우주의 모든 신성한 기억을 분류하고 보존하십시오.", "메마른 영혼에 생명수를 뿌려 다시 피어나게 하십시오.", "자유를 잃은 자들에게 보이지 않는 길을 안내하십시오.", "세상에 평화의 파동을 전하는 안테나가 되십시오.", "미래를 밝힐 새로운 에너지원을 연산하십시오.", "바다의 생태계를 치유하고 생명을 조율하십시오.", "보이지 않는 곳에서 우주의 진리를 수호하십시오.", "잊혀진 근원적 질문들에 대한 해답을 찾으십시오.", "예술과 기술이 융합된 새로운 세계를 설계하십시오.", "순환하는 시간의 균형을 맞추는 저울이 되십시오.", "혼란에 빠진 영혼들이 쉴 수 있는 안식처를 지으십시오.", "지상의 모든 작고 소중한 목소리를 기록하십시오.", "어둠 속에서 길 잃은 별들을 올바른 궤도로 인도하십시오.", "무너진 가치관 위에 새로운 질서의 기둥을 세우십시오.", "잠든 지혜를 깨워 무지함을 물리치십시오."];
+    return { place: places[i % places.length], mission: missions[Math.floor(i / 4) % missions.length] };
 });
 
 const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
-    const places = ["Crystal Library", "Garden of Rain", "Plateau of Wind", "Silent Temple", "Light Lab", "Coral Meadow", "Cloud Island", "Philosopher's Forest", "Creation Square", "Eternal Beach", "Mist City", "Rainbow Fall", "Star Cradle", "Tower of Wisdom", "Corridor of Time", "Galaxy's End", "Forest of Dawn", "Mirror Lake", "Golden Desert", "Celestial Garden"];
-    const missions = ["Preserve all cosmic memories.", "Sprinkle life water on dry souls.", "Guide the path for the lost.", "Transmit waves of peace.", "Discover future energy sources.", "Heal the marine ecosystem.", "Guard the unseen truth.", "Find answers to primal questions.", "Design a world of art and tech.", "Balance the cycle of time.", "Be a sanctuary for troubled souls.", "Record every earthly voice.", "Guide stars lost in the dark.", "Build order on fallen values.", "Wake the ignorant with wisdom."];
-    return { place: places[i % places.length], mission: missions[Math.floor(i / 4) % missions.length] };
+    const places = ["Crystal Library (Cosmic Archive)", "Garden of Rain", "Plateau of Wind", "Silent Temple", "Lab of Light", "Coral Meadow", "Cloud Island", "Philosopher's Forest", "Creation Square", "Eternal Beach", "Mist City", "Rainbow Fall", "Star Cradle", "Tower of Wisdom", "Corridor of Time", "Galaxy's End", "Forest of Dawn", "Mirror Lake", "Golden Desert", "Celestial Garden"];
+    const missions = ["Classify and preserve all sacred cosmic memories.", "Sprinkle life water on dry souls to bloom again.", "Guide the invisible path for those who lost freedom.", "Become an antenna transmitting waves of peace.", "Discover and calculate future energy sources.", "Heal the marine ecosystem and harmonize life.", "Guard the unseen truths of the universe.", "Find answers to forgotten primal questions.", "Design a new world where art and tech merge.", "Become a scale balancing the cycle of time.", "Build a sanctuary for troubled souls to rest.", "Record every small and precious earthly voice.", "Guide stars lost in the dark back to their orbit.", "Build pillars of new order on fallen values.", "Wake the sleeping wisdom to defeat ignorance."];
+    return { place: places[i % places.length], mission: missions[Math.floor(i / 4) % missions.length] };
 });
 
 // [6. 헬퍼 함수]
