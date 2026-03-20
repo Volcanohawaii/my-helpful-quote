@@ -145,60 +145,86 @@
     }
 
     function processData(name, birth, opts = {}) {
-      const cleanName = name.replace(/<[^>]*>?/gm, '');
-      session.name = cleanName;
-      session.birth = birth;
+  // 1. 이름 정제 및 기본 세션 설정
+  const cleanName = name.replace(/<[^>]*>?/gm, '');
+  session.name = cleanName;
+  session.birth = birth;
 
-      const nameVal = cleanName.split('').reduce((a, ch) => a + ch.charCodeAt(0), 0);
-      const birthVal = parseInt(birth, 10);
-      session.num81 = ((nameVal + birthVal) % 81) + 1;
-      session.seed = nameVal + birthVal;
+  // 2. 81수리 및 시드 번호 연산
+  const nameVal = cleanName.split('').reduce((a, ch) => a + ch.charCodeAt(0), 0);
+  const birthVal = parseInt(birth, 10);
+  session.num81 = ((nameVal + birthVal) % 81) + 1;
+  session.seed = nameVal + birthVal;
 
-      let sc = [0, 0, 0, 0, 0]; 
-      for (let i = 0; i < cleanName.length; i++) {
-        const char = cleanName[i];
-        const onset = /[a-zA-Z]/.test(char) ? char.toUpperCase() : getHangulOnset(char);
-        const el = hangulElements[onset] || alphabetElements[onset];
-        if (el && elements.includes(el)) sc[elements.indexOf(el)] += 50; 
-      }
+  // 3. 오행(Element) 점수 초기화 및 계산
+  let sc = [0, 0, 0, 0, 0]; // 木, 火, 土, 金, 水 순서
+  const elements = ['木', '火', '土', '金', '水'];
 
-      const month = parseInt(birth.substring(4, 6), 10);
-      if ([2, 3].includes(month)) sc[0] += 50; 
-      else if ([5, 6].includes(month)) sc[1] += 50; 
-      else if ([8, 9].includes(month)) sc[3] += 50; 
-      else if ([11, 12].includes(month)) sc[4] += 50; 
-      else sc[2] += 50;
+  for (let i = 0; i < cleanName.length; i++) {
+    const char = cleanName[i];
+    const onset = /[a-zA-Z]/.test(char) ? char.toUpperCase() : getHangulOnset(char);
+    const el = hangulElements[onset] || alphabetElements[onset];
+    if (el && elements.includes(el)) sc[elements.indexOf(el)] += 50;
+  }
 
-      session.scores = sc.map(s => s + 30);
-      const maxIdx = session.scores.indexOf(Math.max(...session.scores));
-      const minIdx = session.scores.indexOf(Math.min(...session.scores));
-      
-      // ✅ 티어 계산 (quotes.js 조언 배열 index용)
-      session.tierStrong = Math.min(11, Math.floor((session.scores[maxIdx] / 200) * 11));
-      session.tierLack = Math.min(11, Math.floor((session.scores[minIdx] / 200) * 11));
+  // 4. 탄생월에 따른 오행 가산점 연산
+  const month = parseInt(birth.substring(4, 6), 10);
+  if ([2, 3].includes(month)) sc[0] += 50;      // 봄: 木
+  else if ([5, 6].includes(month)) sc[1] += 50; // 여름: 火
+  else if ([8, 9].includes(month)) sc[3] += 50; // 가을: 金
+  else if ([11, 12].includes(month)) sc[4] += 50;// 겨울: 水
+  else sc[2] += 50;                             // 환절기: 土
 
-      const res = nameNumerology[session.num81];
-      const strongEl = elements[maxIdx];
-      const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
-      
-      const summaryHtml = `
-          <div style="text-align:center; border-bottom: 2px solid var(--accent); padding-bottom: 15px; margin-bottom: 20px;">
-            <span style="font-size: 1.3rem; color: var(--primary);"><b>${cleanName}</b>님의 운명 설계도</span>
-          </div>
-          <div style="text-align:left; line-height: 1.8;">
-            <b>1. 운명의 그릇:</b> <b>'${res.title}'</b><br>
-            <span style="color:#666; font-size:0.85rem;">${res.desc}</span> <br><br>
-            <b>2. 타고난 기질:</b> 분석 결과 <b>'${strongEl}(${attrSource[strongEl].name})'</b>이 핵심입니다. <br><br>
-            <b>3. 환경적 배경:</b> 탄생하신 <b>${month}월</b>의 기운이 삶을 구성합니다.
-          </div>`;
+  session.scores = sc.map(s => s + 30);
+  const maxIdx = session.scores.indexOf(Math.max(...session.scores));
+  const minIdx = session.scores.indexOf(Math.min(...session.scores));
 
-      document.getElementById('dynamic-summary').innerHTML = summaryHtml;
-      if (!opts.keepView) {
-        document.getElementById('view-home').classList.add('hidden');
-        document.getElementById('view-result').classList.remove('hidden');
-      }
-      switchTab('fortune', document.getElementById('tab1'));
-    }
+  // 5. 81수리 데이터 및 탄생월 상세 설명 데이터 호출
+  const res = nameNumerology[session.num81];
+  const monthInfo = birthMonthData[month] || birthMonthData[1];
+  const monthText = (session.lang === 'ko') ? monthInfo.ko : monthInfo.en;
+
+  // 6. 결과 카드 UI 업데이트 (컬러 엔지니어링 적용)
+  const resultCard = document.getElementById('view-result');
+  resultCard.style.borderTop = `10px solid ${res.color}`;
+  
+  const dynamicTitle = document.getElementById('dynamic-title');
+  dynamicTitle.style.color = res.color;
+  dynamicTitle.innerText = (session.lang === 'ko') ? res.title : res.titleEn;
+
+  // 7. 리포트 본문 HTML 구성 (탄생월 분석 박스 포함)
+  const monthHtml = `
+    <div class="month-box" style="border-left: 5px solid ${res.color}; padding: 12px 18px; margin-bottom: 25px; background: rgba(0,0,0,0.02); border-radius: 0 10px 10px 0;">
+        <p style="font-weight: bold; margin-bottom: 6px; color: ${res.color}; font-size: 1.05em;">
+            ${session.lang === 'ko' ? `✨ 탄생 ${month}월의 기운 분석` : `✨ Birth Month ${month} Analysis`}
+        </p>
+        <p style="font-size: 0.95em; line-height: 1.6; color: #333; letter-spacing: -0.02em;">
+            ${monthText}
+        </p>
+    </div>
+  `;
+
+  let summaryHtml = `
+    <div class="report-content">
+        ${monthHtml}
+        <div class="main-desc" style="font-size: 1.1em; line-height: 1.8; color: #222;">
+            ${(session.lang === 'ko') ? res.desc : res.descEn}
+        </div>
+    </div>
+  `;
+
+  // 8. 최종 출력 및 화면 전환
+  document.getElementById('dynamic-summary').innerHTML = summaryHtml;
+
+  if (!opts.keepView) {
+    document.getElementById('view-home').classList.add('hidden');
+    resultCard.classList.remove('hidden');
+  }
+
+  // 탭 상태 fortune으로 초기화 및 스크롤 상단 이동
+  switchTab('fortune', document.getElementById('tab1'));
+  window.scrollTo(0, 0);
+}
 
     function renderChart() {
       const container = document.getElementById('radarChart'); if (!container) return;
