@@ -224,33 +224,30 @@ updateCounter();
       const characteristics = (currentLang === 'ko') ? detailedDesc81[session.num81] : detailedDesc81En[session.num81];
 
       let summaryHtml = `
-        <div style="margin: 25px 0; padding: 25px; background: #fcfcfc; border: 1px solid #eee; border-radius: 2px; text-align: left;">
-          <div style="display: flex; justify-content: space-between; border-bottom: 2px solid var(--primary); padding-bottom: 8px; margin-bottom: 20px;">
-            <span style="font-size: 0.7rem; font-weight: 700; color: #AAA; letter-spacing: 1px;">LAB_REPORT_V.2026</span>
-            <span style="font-size: 0.7rem; font-weight: 700; color: #AAA;">SURI_CODE: ${String(session.num81).padStart(2, '0')}</span>
-          </div>
+  <div style="margin: 25px 0; padding: 25px; background: #fcfcfc; border: 1px solid #eee; border-radius: 2px; text-align: left;">
+    <div style="display: flex; justify-content: space-between; border-bottom: 2px solid var(--primary); padding-bottom: 8px; margin-bottom: 20px;">
+      <span style="font-size: 0.7rem; font-weight: 700; color: #AAA; letter-spacing: 1px;">LAB_REPORT_V.2026</span>
+      <span style="font-size: 0.7rem; font-weight: 700; color: #AAA;">SURI_CODE: ${String(session.num81).padStart(2, '0')}</span>
+    </div>
 
-          <div style="margin-bottom: 25px;">
-             <div style="font-size: 0.85rem; font-weight: 700; color: #AAA; margin-bottom: 12px; font-family: 'Gowun Batang';">CORE_ANALYSIS_LOG</div>
-             <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; font-family: 'Pretendard';">[${session.num81}수 성명학 지표]</div>
-             <div style="font-size: 0.75rem; font-weight: 700; color: #AAA; margin-bottom: 12px; font-family: 'Gowun Batang';">CORE_ANALYSIS_LOG</div>
-             <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; font-family: 'Pretendard';">🔥${session.num81}수 성명학 지표</div>
-             <div style="font-size: 0.9rem; line-height: 1.7; color: var(--text); font-family: 'Pretendard';">
-               당신은 81수 중 <span style="color:${res.color || 'var(--primary)'}; font-weight: 700;">${session.num81}수</span>에 해당합니다.<br> 
-               이는 <span style="color:${res.color || 'var(--primary)'}; font-weight: 700;">${luckyTitle}</span>에 해당하며, 
-               <span style="background: rgba(154, 132, 103, 0.1); padding: 2px 4px;">${characteristics}</span>
-             </div>
-          </div>
+    <div style="margin-bottom: 25px;">
+       <div style="font-size: 0.75rem; font-weight: 700; color: #AAA; margin-bottom: 4px; font-family: 'Gowun Batang';">CORE_ANALYSIS_LOG</div>
+       <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; font-family: 'Pretendard';">🔥 ${session.num81}수 성명학 지표</div>
+       <div style="font-size: 0.9rem; line-height: 1.6; color: var(--text); font-family: 'Pretendard';">
+         당신은 81수 중 <span style="color:${res.color || 'var(--primary)'}; font-weight: 700;">${session.num81}수</span>에 해당합니다.<br>
+         이는 <span style="color:${res.color || 'var(--primary)'}; font-weight: 700;">${luckyTitle}</span>에 해당하며, 
+         <span style="background: rgba(154, 132, 103, 0.1); padding: 2px 4px;">${characteristics}</span>
+       </div>
+    </div>
 
-          <div style="border-top: 1px dashed #ddd; padding-top: 18px;">
-            <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 10px; font-family: 'Pretendard';">${monthLabel}</div>
-            <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 5px; font-family: 'Pretendard';">${monthLabel}</div>
-            <div style="font-size: 0.9rem; line-height: 1.7; color: #666; font-family: 'Pretendard';">
-              ${monthText}
-            </div>
-          </div>
-        </div>
-      `;
+    <div style="border-top: 1px dashed #ddd; padding-top: 18px;">
+      <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; font-family: 'Pretendard';">${monthLabel}</div>
+      <div style="font-size: 0.9rem; line-height: 1.6; color: #666; font-family: 'Pretendard';">
+        ${monthText}
+      </div>
+    </div>
+  </div>
+`;
 
       document.getElementById('dynamic-summary').innerHTML = summaryHtml;
 
