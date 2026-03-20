@@ -216,30 +216,30 @@ updateCounter();
       dynamicTitle.style.color = "var(--primary)"; // 문자열 처리 완료
       dynamicTitle.innerText = (currentLang === 'ko') ? `${cleanName}님의 수리성명학 분석 리포트` : `${cleanName}'s SURI Analysis Report`;
 
-      // [데이터 시트 요약판] 전문적인 실험실 리포트 스타일
-      const monthLabel = currentLang === 'ko' ? `[탄생 ${month}월 시계열 지표]` : `[Birth Month ${month} Index]`;
       
+      // [고유 코드 기반의 고해상도 요약 박스]
+      const monthLabel = currentLang === 'ko' ? `[탄생 ${month}월 시계열 지표]` : `[Birth Month ${month} Index]`;
+      const luckyTitle = luckyTitles81[session.num81]; // 예: 두령격(頭領格)-독립권위
+      const characteristics = (currentLang === 'ko') ? detailedDesc81[session.num81] : detailedDesc81En[session.num81];
+
       let summaryHtml = `
         <div style="margin: 25px 0; padding: 25px; background: #fcfcfc; border: 1px solid #eee; border-radius: 2px; text-align: left;">
-          <!-- 기술적 헤더 -->
-          <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #243447; padding-bottom: 8px; margin-bottom: 20px;">
+          <div style="display: flex; justify-content: space-between; border-bottom: 2px solid var(--primary); padding-bottom: 8px; margin-bottom: 20px;">
             <span style="font-size: 0.7rem; font-weight: 700; color: #AAA; letter-spacing: 1px;">LAB_REPORT_V.2026</span>
             <span style="font-size: 0.7rem; font-weight: 700; color: #AAA;">SURI_CODE: ${String(session.num81).padStart(2, '0')}</span>
           </div>
 
-          <!-- 핵심 분석 로그 -->
-          <div style="margin-bottom: 20px;">
-             <div style="font-family: 'Gowun Batang'; font-size: 1.15rem; color: ${res.color || 'var(--accent)'}; font-weight: 700; margin-bottom: 10px;">
-               ${res.title}
-             </div>
-             <div style="font-size: 0.95rem; color: #444; line-height: 1.8; font-family: 'Pretendard';">
-               ${res.desc}
+          <div style="margin-bottom: 25px;">
+             <div style="font-size: 0.85rem; font-weight: 700; color: #AAA; margin-bottom: 12px; font-family: 'Gowun Batang';">CORE_ANALYSIS_LOG</div>
+             <div style="font-size: 1.05rem; line-height: 1.8; color: var(--text); font-family: 'Pretendard';">
+               당신은 81수 중 <span style="color:${res.color || 'var(--primary)'}; font-weight: 700;">${session.num81}수</span>에 해당합니다. 
+               이는 <span style="color:${res.color || 'var(--primary)'}; font-weight: 700;">${luckyTitle}</span>에 해당하며, 
+               <span style="background: rgba(154, 132, 103, 0.1); padding: 2px 4px;">${characteristics}</span>이라는 특징이 있습니다.
              </div>
           </div>
 
-          <!-- 시계열 데이터 -->
           <div style="border-top: 1px dashed #ddd; padding-top: 18px;">
-            <div style="font-size: 0.85rem; font-weight: 700; color: #243447; margin-bottom: 8px; font-family: 'Pretendard';">${monthLabel}</div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 10px; font-family: 'Pretendard';">${monthLabel}</div>
             <div style="font-size: 0.9rem; line-height: 1.7; color: #666; font-family: 'Pretendard';">
               ${monthText}
             </div>
@@ -248,7 +248,7 @@ updateCounter();
       `;
 
       document.getElementById('dynamic-summary').innerHTML = summaryHtml;
-
+      
       // 6. 화면 전환 및 기본 탭 활성화
       if (!opts.keepView) {
         document.getElementById('view-home').classList.add('hidden');
