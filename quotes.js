@@ -209,9 +209,73 @@ const enPrescriptions12 = {
     ]
 };
 
-const sideEffects = ["디저트 무한 흡입 주의", "모든 말끝에 토 달기", "양말 한 짝 실종", "리모컨 쥐고 찾기", "새벽 2시 방 정리"];
-const sideEffectsEn = ["Dessert cravings", "Talking back", "Lost socks", "Remote search", "2 AM cleaning"];
+/* [부작용: 성명공학적 에너지 간섭 현상] */
+const sideEffects = [
+    "완벽한 타이밍을 기다리다 기회를 놓치는 '만성적 신중함' 주의",
+    "집중력이 최고조일 때 자신도 모르게 턱을 괴는 비대칭 습관",
+    "운명 데이터 동기화 지연으로 인한 월요일 오전의 일시적 무기력",
+    "인지 과부하로 인해 핸드폰을 손에 들고 핸드폰을 찾는 현상",
+    "칭찬을 들으면 갑자기 고장 난 인공지능처럼 행동이 어색해짐",
+    "결정적인 순간에만 발동하는 근거 없는 근 자신감과 뒤늦은 이불킥",
+    "새벽 2시, 갑자기 인생의 진리를 깨달은 것 같은 근거 없는 명석함",
+    "에너지 과몰입으로 인한 신상 과자 및 디저트 무한 흡입 현상",
+    "중요한 발표 직전, 갑자기 주변의 모든 소음이 입체적으로 들림",
+    "대화 중 상대의 말실수를 데이터 오류처럼 정정하고 싶은 강박",
+    "잘 모르는 길에서 지도 앱을 보며 반대 방향으로 당당히 걷기",
+    "카페 진동벨을 귀에 대고 전화를 받으려는 인지적 오류",
+    "자기 전 오늘 했던 대화를 복기하며 시나리오를 수정하는 습관",
+    "이어폰을 끼고 노래를 틀지 않은 채 30분간 명상에 빠짐",
+    "중요한 메일을 보낸 후 1초 만에 오타를 발견하는 예리한 사후 통찰",
+    "에너지 방전 시 고양이 사진이나 영상에 과도하게 집착함",
+    "냉장고 문을 열고 내가 왜 열었는지 3초간 데이터 로딩 현상",
+    "사람이 많은 곳에서 갑자기 내적 댄스가 폭발하려는 충동",
+    "안경을 머리에 쓰고 안경이 없어졌다며 주변을 초토화함",
+    "약속 장소에 도착하자마자 집에 가고 싶어지는 '에너지 회귀' 본능",
+    "평소엔 멀쩡하다가 좋아하는 사람 앞에서만 언어 회로가 꼬임",
+    "배달 앱 메뉴를 1시간 동안 분석하다 결국 어제 먹은 것 주문",
+    "비가 오지 않는데도 우산을 챙겨 나가는 과도한 방어 기제",
+    "모든 물건의 위치가 직각이어야 마음이 편안해지는 수평 강박",
+    "한번 꽂힌 노래 한 곡을 데이터가 마모될 때까지 무한 반복 재생",
+    "새벽에 갑자기 방 구조를 바꾸며 '새로운 인생'을 설계하려는 의지",
+    "길 가다 마주친 강아지와 눈싸움을 하며 교감을 시도함",
+    "쇼핑 카트에 물건을 가득 담고 결제 직전 심리적 만족감만 얻고 퇴장",
+    "남들은 신경 안 쓰는 사소한 디테일에 꽂혀 밤을 지새움",
+    "에너지 과부하로 인해 모든 문장의 끝에 '아마도'를 붙이는 불확실성"
+];
 
+/* [Afterlife Analysis Report - Side Effects English] */
+const sideEffectsEn = [
+    "Chronic deliberation that misses the bus while waiting for the 'perfect' stop.",
+    "Asymmetrical jaw-resting habit during peak cognitive synchronization.",
+    "Temporary Monday morning lethargy caused by destiny data sync latency.",
+    "Cognitive overload resulting in searching for your phone while holding it.",
+    "Freezing like a glitched AI when receiving unexpected compliments.",
+    "Spontaneous bursts of groundless confidence followed by late-night regrets.",
+    "Illusory enlightenment regarding the truth of life at 2 AM.",
+    "Infinite craving for new snacks and desserts due to energy overconsumption.",
+    "Auditory hyper-sensitivity to background noise right before crucial moments.",
+    "Compulsive urge to correct others' typos as if they were data errors.",
+    "Confidently walking in the exact opposite direction while looking at a map.",
+    "Attempting to answer a phone call using a cafe vibrating pager.",
+    "Post-social scenario editing: Replaying today's conversations in bed.",
+    "Accidental 30-minute meditation while wearing headphones with no music.",
+    "Post-send enlightenment: Spotting a typo 1 second after hitting 'Send'.",
+    "Excessive obsession with cat videos when internal energy is depleted.",
+    "3-second data loading lag after opening the refrigerator door.",
+    "Sudden urge to perform an internal dance routine in crowded places.",
+    "Searching the entire house for glasses that are already on your head.",
+    "The 'Energy Regression' instinct: Wanting to go home the moment you arrive.",
+    "Language circuit failure occurring exclusively in front of your crush.",
+    "Analyzing a delivery menu for an hour only to order the usual.",
+    "Hyper-defensive mechanism: Carrying an umbrella on a perfectly sunny day.",
+    "Horizontal obsession: Needing every object to be aligned at right angles.",
+    "Infinite loop: Playing a single song until the digital data wears out.",
+    "Sudden 3 AM urge to rearrange furniture for a 'new life' layout.",
+    "Attempting deep spiritual communication via staring contests with dogs.",
+    "Adding items to a cart only to gain psychological satisfaction without buying.",
+    "Hyper-fixation on minor details that no one else even notices.",
+    "Linguistic uncertainty: Adding 'maybe' to the end of every sentence."
+];
 const syllableKo1 = ["하","연","도","가","서","윤","태","민","지","현"];
 const syllableKo2 = ["서","린","호","민","윤","하","연","우","재","성"];
 const nameRootEn = ["Aren","Lyra","Kalen","Seren","Orin"];
