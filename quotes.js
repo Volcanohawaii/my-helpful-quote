@@ -3,7 +3,7 @@
 const i18n = {
     ko: {
         title: "수리성명학 데이터 분석", 
-        desc: "고대 수리학의 81격 체계와 성명의 파동을 결합하여 당신의 선천적 운명을 정밀 연산합니다.",
+        desc: "성명의 고유 파동과 탄생 시계열 지표를 바탕으로 81수리 체계를 분석합니다. 당신의 시그니처 에너지 구조가 도출됩니다.",
         nameLabel: "성함(예: 강화산)", 
         birthLabel: "양력생일(예: 19901208)", 
         btn: "리포트 생성하기",
@@ -28,7 +28,7 @@ const i18n = {
     },
     en: {
         title: "Suri Seongmyeonghak Analysis", 
-        desc: "Precisely calculates your innate destiny by combining the ancient 81-Numerology system with the vibrations of your name.",
+        desc: "Analyzes the 81-numerology system based on unique name vibrations and birth time-series indicators. Your signature energy structure is derived.",
         nameLabel: "Name", 
         birthLabel: "Birth (YYYYMMDD)", 
         btn: "Generate Report",
