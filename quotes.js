@@ -2,9 +2,9 @@
 
 const i18n = {
     ko: {
-        title: "운명공학 데이터 분석", 
-        desc: "성명과 생일을 기반으로 고유한 에너지를 추출합니다.",
-        nameLabel: "성명(예: 강화산)", 
+        title: "수리성명학 데이터 분석", 
+        desc: "고대 수리학의 81격 체계와 성명의 파동을 결합하여 당신의 선천적 운명을 정밀 연산합니다.",
+        nameLabel: "성함(예: 강화산)", 
         birthLabel: "양력생일(예: 19901208)", 
         btn: "리포트 생성하기",
         loadSeal: "분석중", 
@@ -27,8 +27,8 @@ const i18n = {
         nextMission: "내세 행복을 위한 수행"
     },
     en: {
-        title: "Destiny Engineering Analysis", 
-        desc: "We extract your signature energy from your name and birth date.",
+        title: "Suri Seongmyeonghak Analysis", 
+        desc: "Precisely calculates your innate destiny by combining the ancient 81-Numerology system with the vibrations of your name.",
         nameLabel: "Name", 
         birthLabel: "Birth (YYYYMMDD)", 
         btn: "Generate Report",
@@ -48,7 +48,7 @@ const i18n = {
         pastJob: "Occupation", 
         pastHomework: "Homework", 
         nextDest: "Destination", 
-        nextObj: "Object", 
+        nextObj: "Next Life Being", 
         nextMission: "Mission"
     }
 };
