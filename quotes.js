@@ -276,10 +276,34 @@ const sideEffectsEn = [
     "Hyper-fixation on minor details that no one else even notices.",
     "Linguistic uncertainty: Adding 'maybe' to the end of every sentence."
 ];
-const syllableKo1 = ["하","연","도","가","서","윤","태","민","지","현"];
-const syllableKo2 = ["서","린","호","민","윤","하","연","우","재","성"];
-const nameRootEn = ["Aren","Lyra","Kalen","Seren","Orin"];
-const nameTailEn = ["is","a","en","or","el"];
+/* [Destiny Engineering - Name DNA: Numerology-based Syllables] */
+
+// 한국어 이름 접두사: 깊이와 울림이 있는 고전적 음절 (Prestige Syllables)
+const syllableKo1 = [
+    "휘", "린", "겸", "담", "온", "율", "가", "서", "도", "해", 
+    "준", "채", "윤", "설", "예", "태", "희", "진", "현", "명",
+    "하", "연", "지", "민", "선", "우", "람", "솔", "별", "안"
+];
+
+// 한국어 이름 접미사: 조화와 마무리를 상징하는 음절 (Harmonizing Syllables)
+const syllableKo2 = [
+    "우", "재", "준", "솔", "아", "늘", "담", "린", "온", "율",
+    "호", "민", "성", "윤", "하", "연", "빈", "경", "석", "찬",
+    "진", "수", "현", "주", "의", "겸", "로", "엘", "안", "비"
+];
+
+// 영어 이름 어근: 영적 에너지와 원소를 상징하는 고어/라틴 어근 (Ethereal Roots)
+const nameRootEn = [
+    "Aether", "Lumen", "Vesper", "Caelum", "Eon", "Zion", "Kyros", "Nova", "Astra", "Solis",
+    "Terra", "Aqua", "Ignis", "Ventus", "Physis", "Ethos", "Pathos", "Logos", "Chronos", "Gaia",
+    "Riven", "Lumi", "Seren", "Orin", "Kalen", "Lyra", "Mira", "Elian", "Sola", "Aura"
+];
+
+// 영어 이름 접미사: 이름의 격을 완성하는 신화적 어미 (Mythic Tails)
+const nameTailEn = [
+    "is", "os", "ium", "on", "eth", "iel", "eus", "ara", "ia", "us",
+    "as", "er", "en", "el", "yn", "ar", "ir", "ae", "is", "ax"
+];
 
 const epithetKoByElement = { "木": ["푸른"], "火": ["태양의"], "土": ["대지의"], "金": ["은빛의"], "水": ["물결의"] };
 const epithetEnByElement = { "木": ["Verdant"], "火": ["Solar"], "土": ["Earth"], "金": ["Silver"], "水": ["Tide"] };
