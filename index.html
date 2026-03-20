@@ -105,20 +105,13 @@
   const el = document.getElementById('visit-count'); 
   if (!el) return;
 
-  // 1. 서버에 요청을 보냅니다. (새로운 경로로 시도)
   try { 
-    const res = await fetch('https://api.countapi.xyz/hit/volcanohawaii/destiny-lab-v1'); 
+    const res = await fetch('https://api.counterapi.dev/v1/destiny-lab/visits/up'); 
+    const data = await res.json(); 
     
-    if (res.ok) {
-      const data = await res.json(); 
-      el.innerText = Number(data.value).toLocaleString(); 
-    } else {
-      // 404 등 서버 응답이 좋지 않을 때 보여줄 기본 '매직 넘버'
-      el.innerText = "1,248"; 
-    }
+    el.innerText = Number(data.count).toLocaleString(); 
   } catch (e) { 
-    // 네트워크 연결 자체가 끊겼을 때 보여줄 백업 숫자
-    el.innerText = "1,248"; 
+    el.innerText = "1,248"; // 실패 시 백업 숫자
   } 
 }
 
