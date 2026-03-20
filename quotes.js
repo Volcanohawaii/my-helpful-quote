@@ -534,19 +534,56 @@ const pastLifeDataEn = Array.from({ length: 81 }, (_, i) => {
     return { job: `${mods[i % mods.length]} ${jobs[Math.floor(i / 3) % jobs.length]}`, desc: descs[Math.floor(i / 2) % descs.length], homework: homeworks[i % homeworks.length] };
 });
 
-// [5. 내세 데이터 확장 (수정 도서관 등 81개 고유 조합)]
+// [5. 내세 데이터: 장소, 생명체, 미션의 고해상도 조합]
 const reincarnationData = Array.from({ length: 81 }, (_, i) => {
-    const places = ["수정 도서관 (우주 아카이브)", "비의 정원", "바람의 고원", "고요한 사찰", "빛의 연산소", "산호 초원", "구름 위의 섬", "철학자의 숲", "창조의 광장", "영원의 해변", "안개의 도시", "무지개 폭포", "별의 요람", "지혜의 탑", "시간의 회랑", "은하수의 끝", "새벽의 숲", "거울의 호수", "황금 사막", "천상의 정원"];
-    const missions = ["우주의 모든 신성한 기억을 분류하고 보존하십시오.", "메마른 영혼에 생명수를 뿌려 다시 피어나게 하십시오.", "자유를 잃은 자들에게 보이지 않는 길을 안내하십시오.", "세상에 평화의 파동을 전하는 안테나가 되십시오.", "미래를 밝힐 새로운 에너지원을 연산하십시오.", "바다의 생태계를 치유하고 생명을 조율하십시오.", "보이지 않는 곳에서 우주의 진리를 수호하십시오.", "잊혀진 근원적 질문들에 대한 해답을 찾으십시오.", "예술과 기술이 융합된 새로운 세계를 설계하십시오.", "순환하는 시간의 균형을 맞추는 저울이 되십시오.", "혼란에 빠진 영혼들이 쉴 수 있는 안식처를 지으십시오.", "지상의 모든 작고 소중한 목소리를 기록하십시오.", "어둠 속에서 길 잃은 별들을 올바른 궤도로 인도하십시오.", "무너진 가치관 위에 새로운 질서의 기둥을 세우십시오.", "잠든 지혜를 깨워 무지함을 물리치십시오."];
-    return { place: places[i % places.length], mission: missions[Math.floor(i / 4) % missions.length] };
+    const places = [
+        "수정 도서관 (우주 아카이브)", "에테르 데이터 센터", "비의 정원", "바람의 고원", "고요한 사찰", 
+        "빛의 연산소", "산호 초원", "구름 위의 섬", "철학자의 숲", "창조의 광장", 
+        "영원의 해변", "안개의 도시", "무지개 폭포", "별의 요람", "지혜의 탑", 
+        "시간의 회랑", "은하수의 끝", "새벽의 숲", "거울의 호수", "황금 사막", "천상의 정원"
+    ];
+    const objects = [
+        "지혜를 분류하는 수호자", "백색 왜성의 정원사", "차원의 균형을 맞추는 조율사", "빛의 파동을 기록하는 자", "영혼의 궤적을 그리는 화가",
+        "에너지를 정화하는 연금술사", "시간의 흐름을 지키는 파수꾼", "기억의 조각을 모으는 수집가", "진리를 노래하는 전령사", "생명의 코드를 설계하는 공학자",
+        "꿈의 경계를 지키는 안내자", "평화의 파동을 송출하는 안테나", "우주의 질서를 세우는 설계자", "진화의 방향을 결정하는 관찰자", "감정의 입자를 조절하는 조율사"
+    ];
+    const missions = [
+        "우주의 모든 신성한 기억을 분류하고 보존하십시오.", "메마른 영혼에 생명수를 뿌려 다시 피어나게 하십시오.", "자유를 잃은 자들에게 보이지 않는 길을 안내하십시오.", "세상에 평화의 파동을 전하는 안테나가 되십시오.", "미래를 밝힐 새로운 에너지원을 연산하십시오.", 
+        "바다의 생태계를 치유하고 생명을 조율하십시오.", "보이지 않는 곳에서 우주의 진리를 수호하십시오.", "잊혀진 근원적 질문들에 대한 해답을 찾으십시오.", "예술과 기술이 융합된 새로운 세계를 설계하십시오.", "순환하는 시간의 균형을 맞추는 저울이 되십시오.",
+        "혼란에 빠진 영혼들이 쉴 수 있는 안식처를 지으십시오.", "지상의 모든 작고 소중한 목소리를 기록하십시오.", "어둠 속에서 길 잃은 별들을 올바른 궤도로 인도하십시오.", "무너진 가치관 위에 새로운 질서의 기둥을 세우십시오.", "잠든 지혜를 깨워 무지함을 물리치십시오."
+    ];
+
+    return { 
+        place: places[i % places.length], 
+        object: objects[Math.floor(i / 2) % objects.length], // ✅ 사라졌던 생명체 데이터 복구
+        mission: missions[Math.floor(i / 3) % missions.length] 
+    };
 });
 
 const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
-    const places = ["Crystal Library (Cosmic Archive)", "Garden of Rain", "Plateau of Wind", "Silent Temple", "Lab of Light", "Coral Meadow", "Cloud Island", "Philosopher's Forest", "Creation Square", "Eternal Beach", "Mist City", "Rainbow Fall", "Star Cradle", "Tower of Wisdom", "Corridor of Time", "Galaxy's End", "Forest of Dawn", "Mirror Lake", "Golden Desert", "Celestial Garden"];
-    const missions = ["Classify and preserve all sacred cosmic memories.", "Sprinkle life water on dry souls to bloom again.", "Guide the invisible path for those who lost freedom.", "Become an antenna transmitting waves of peace.", "Discover and calculate future energy sources.", "Heal the marine ecosystem and harmonize life.", "Guard the unseen truths of the universe.", "Find answers to forgotten primal questions.", "Design a new world where art and tech merge.", "Become a scale balancing the cycle of time.", "Build a sanctuary for troubled souls to rest.", "Record every small and precious earthly voice.", "Guide stars lost in the dark back to their orbit.", "Build pillars of new order on fallen values.", "Wake the sleeping wisdom to defeat ignorance."];
-    return { place: places[i % places.length], mission: missions[Math.floor(i / 4) % missions.length] };
-});
+    const places = [
+        "Crystal Library (Cosmic Archive)", "Ether Data Center", "Garden of Rain", "Plateau of Wind", "Silent Temple", 
+        "Lab of Light", "Coral Meadow", "Cloud Island", "Philosopher's Forest", "Creation Square", 
+        "Eternal Beach", "Mist City", "Rainbow Fall", "Star Cradle", "Tower of Wisdom", 
+        "Corridor of Time", "Galaxy's End", "Forest of Dawn", "Mirror Lake", "Golden Desert", "Celestial Garden"
+    ];
+    const objects = [
+        "Guardian of Universal Wisdom", "Gardener of White Dwarfs", "Arbiter of Dimensional Balance", "Recorder of Light Vibrations", "Painter of Soul Trajectories",
+        "Alchemist of Energy Purification", "Sentinel of the Timeline", "Collector of Memory Fragments", "Herald of Sacred Truth", "Engineer of Life Codes",
+        "Guide of Dream Borders", "Antenna of Peace Waves", "Architect of Cosmic Order", "Observer of Evolutionary Paths", "Tuner of Emotional Particles"
+    ];
+    const missions = [
+        "Classify and preserve all sacred cosmic memories.", "Sprinkle life water on dry souls to bloom again.", "Guide the invisible path for those who lost freedom.", "Become an antenna transmitting waves of peace.", "Discover and calculate future energy sources.", 
+        "Heal the marine ecosystem and harmonize life.", "Guard the unseen truths of the universe.", "Find answers to forgotten primal questions.", "Design a new world where art and tech merge.", "Become a scale balancing the cycle of time.",
+        "Build a sanctuary for troubled souls to rest.", "Record every small and precious earthly voice.", "Guide stars lost in the dark back to their orbit.", "Build pillars of new order on fallen values.", "Wake the sleeping wisdom to defeat ignorance."
+    ];
 
+    return { 
+        place: places[i % places.length], 
+        object: objects[Math.floor(i / 2) % objects.length], // ✅ Next Life Being restored
+        mission: missions[Math.floor(i / 3) % missions.length] 
+    };
+});
 // [6. 헬퍼 함수]
 function pickFrom(arr, k){ return arr[Math.abs(k) % arr.length]; }
 function makePastNameKo(n, s, l, m){ return `${pickFrom(syllableKo1, n+m)}${pickFrom(syllableKo2, n+m+7)} · ${pickFrom(epithetKoByElement[s]||["운명의"], n)}`; }
