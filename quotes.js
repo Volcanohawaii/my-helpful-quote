@@ -741,9 +741,12 @@ const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
  */
 const suriPrescription = {
     getRemedy: (num, lackEl, lang) => {
-        // 오행별 시작 인덱스 (6개씩 배정)
+        // 인자가 제대로 안 들어왔을 때를 대비한 안전장치
+        const safeLang = lang || (typeof currentLang !== 'undefined' ? currentLang : 'ko');
+        const safeLack = lackEl || "木"; 
+
         const elIdx = { "木": 0, "火": 6, "土": 12, "金": 18, "水": 24 };
-        const base = elIdx[lackEl] || 0;
+        const base = elIdx[safeLack] || 0;
         const finalIdx = base + (num % 6);
 
         const data = {
@@ -809,7 +812,7 @@ const suriPrescription = {
             }
         };
 
-        const d = data[lang];
+        const d = data[safeLang] || data['ko']; // 데이터가 없으면 한국어 기본 노출
         return {
             color: d.colors[finalIdx],
             action: d.actions[finalIdx],
@@ -818,7 +821,6 @@ const suriPrescription = {
         };
     }
 };
-
 
 // [6. 헬퍼 함수: 기존 음절 데이터를 조합하여 이름 생성]
 function generateSuriName(num, s1, s2) {
