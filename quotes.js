@@ -738,42 +738,85 @@ const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
 
 /**
  * 81Suri 정밀 처방전 시스템 (Prescription System)
- * [컬러 / 행동 / 인맥 / 음식] 4대 보완 지표 포함
- */
-/**
- * 81Suri 정밀 처방전 시스템 (Prescription System)
- * 데이터 양을 각 항목당 30개로 확장 (조합수 극대화)
- */
+
 const suriPrescription = {
-    getRemedy: (num, lang) => {
-        const isLucky = [1,3,5,6,7,8,11,13,15,16,17,18,21,23,24,25,29,31,32,33,35,37,38,39,41,45,47,48,52,57,58,61,63,65,67,68,81].includes(num);
-        const group = Math.floor((num - 1) / 10); 
-        
+    getRemedy: (num, lackEl, lang) => {
+        // 오행별 시작 인덱스 (6개씩 배정)
+        const elIdx = { "木": 0, "火": 6, "土": 12, "金": 18, "水": 24 };
+        const base = elIdx[lackEl] || 0;
+        // 81수 번호에 따라 해당 오행의 6개 데이터 중 하나를 선택
+        const finalIdx = base + (num % 6);
+
         const data = {
-            ko: { // <--- [수정] 중괄호 추가
-                actions: ["과감한 실행", "내실 다지기", "창의적 발상", "감정 조절", "중재와 화합", "명예 수호", "독립적 결단", "인내와 끈기", "결실의 마무리", "과감한 투자", "인맥 관리", "지식 습득", "환경 변화", "명상과 휴식", "체력 단련", "기록의 습관", "공간 정돈", "언어의 절제", "겸손한 태도", "신속한 판단", "장기적 계획", "기술 연마", "예술적 몰입", "봉사와 나눔", "공정한 경쟁", "직관의 신뢰", "정밀한 분석", "유연한 수용", "원칙의 준수", "새로운 도전"],
-                socials: ["진취격(進取格)의 조력자", "정중격(靜重格)의 멘토", "심미격(審美格)의 영감자", "실리격(實利格)의 조언자", "덕망격(德望格)의 리더", "문창격(文昌格)의 학문가", "숙살격(肅殺格)의 전문가", "신의격(信義格)의 동반자", "원숙격(圓熟格)의 지혜자", "강건격(剛健格)의 수호자", "유연격(柔軟格)의 협상가", "명철격(明哲格)의 가이드", "화합격(和合格)의 중재자", "예지격(叡智格)의 선구자", "풍요격(豊饒格)의 파트너", "단단격(丹鍛格)의 장인", "광명격(光明格)의 활력가", "고결격(高潔格)의 동경자", "탐구격(探求格)의 동료", "결단격(決斷格)의 선배", "포용격(包容格)의 후배", "통찰격(洞察格)의 감시자", "성실격(誠實格)의 관리자", "창조격(創造格)의 예술가", "안정격(安定格)의 후원자", "정의격(正義格)의 투사", "자애격(慈愛格)의 치유자", "변혁격(變革格)의 혁신가", "신비격(神秘格)의 관찰자", "완성격(完成格)의 조율자"],
-                foods: ["녹색 채소", "따뜻한 성질의 차", "붉은 과일", "단백질 위주", "뿌리 채소", "해조류", "견과류", "발효 식품", "블랙푸드(검은콩)", "제철 나물", "맑은 생수", "비타민C 보충", "견과류 믹스", "따뜻한 우유", "신선한 샐러드", "잡곡밥", "구운 생선", "오메가3 식품", "버섯 요리", "상큼한 과일", "매콤한 향신료", "부드러운 죽", "고소한 깨", "쌉싸름한 산나물", "달콤한 꿀", "시원한 오이", "지방 적은 고기", "발효 식초", "따뜻한 호박", "신선한 토마토"],
-                colors: ["그린(Green)", "네이비(Navy)", "레드(Red)", "옐로우(Yellow)", "화이트(White)", "골드(Gold)", "퍼플(Purple)", "브라운(Brown)", "실버(Silver)", "스카이블루", "차콜그레이", "오렌지", "핑크", "민트", "베이지", "라벤더", "버건디", "인디고", "올리브", "터쿼이즈", "크림", "머스타드", "에메랄드", "로즈골드", "샌드베이지", "딥블루", "라임", "피치", "그레이", "블랙"]
-            }, // <--- [수정] 중괄호 닫기
+            ko: {
+                actions: [
+                    "과감한 실행(木)", "추진력 강화(木)", "새로운 도전(木)", "개척 정신(木)", "계획 수립(木)", "내실 다지기(木)",
+                    "창의적 발상(火)", "에너지 발산(火)", "소통 확대(火)", "열정 투입(火)", "표현력 강화(火)", "감정 조절(火)",
+                    "중재와 화합(土)", "기반 축적(土)", "공간 정돈(土)", "신뢰 구축(土)", "리스크 관리(土)", "성실한 반복(土)",
+                    "독립적 결단(金)", "예리한 분석(金)", "원칙 준수(金)", "불필요한 정리(金)", "공정성 유지(金)", "기술 연마(金)",
+                    "유연한 사고(水)", "지혜 습득(水)", "심연의 명상(水)", "흐름 순응(水)", "통찰력 강화(水)", "유려한 대화(水)"
+                ],
+                socials: [
+                    "기본격(木)", "도약격(木)", "발전격(木)", "입신격(木)", "약진격(木)", "재기격(木)",
+                    "복덕격(火)", "공명격(火)", "성공격(火)", "융창격(火)", "장성격(火)", "휘황격(火)",
+                    "계승격(土)", "통솔격(土)", "덕망격(土)", "안강격(土)", "대성격(土)", "유덕격(土)",
+                    "강건격(金)", "수전격(金)", "건창격(金)", "두령격(金)", "인덕격(金)", "창업격(金)",
+                    "신성격(水)", "지혜격(水)", "순풍격(水)", "제왕격(水)", "복록격(水)", "환희격(水)"
+                ],
+                foods: [
+                    "녹색 채소(木)", "키위(木)", "매실차(木)", "브로콜리(木)", "시금치(木)", "청포도(木)",
+                    "붉은 과일(火)", "고추(火)", "토마토(火)", "자몽(火)", "수박(火)", "대추차(火)",
+                    "뿌리 채소(土)", "단호박(土)", "감자(土)", "꿀(土)", "버섯 요리(土)", "옥수수(土)",
+                    "견과류(金)", "양파(金)", "마늘(金)", "배(金)", "우유(金)", "두부(金)",
+                    "블랙푸드(水)", "미역(水)", "해조류(水)", "블루베리(水)", "포도(水)", "흑임자(水)"
+                ],
+                colors: [
+                    "그린(木)", "민트(木)", "라임(木)", "에메랄드(木)", "올리브(木)", "포레스트그린(木)",
+                    "레드(火)", "오렌지(火)", "핑크(火)", "버건디(火)", "로즈골드(火)", "피치(火)",
+                    "옐로우(土)", "베이지(土)", "브라운(土)", "골드(土)", "머스타드(土)", "샌드베이지(土)",
+                    "화이트(金)", "실버(金)", "그레이(金)", "차콜그레이(金)", "플래티넘(金)", "크림(金)",
+                    "네이비(水)", "블랙(水)", "블루(水)", "인디고(水)", "터쿼이즈(水)", "스카이블루(水)"
+                ]
+            },
             en: {
-                actions: ["Bold Execution", "Inner Stability", "Creative Thinking", "Emotional Control", "Mediation & Harmony", "Honor Protection", "Independent Decision", "Patience & Persistence", "Fruitful Conclusion", "Bold Investment", "Networking", "Knowledge Gain", "Envir. Change", "Meditation", "Physical Training", "Record Keeping", "Organizing Space", "Mindful Speech", "Humble Attitude", "Quick Judgment", "Long-term Plan", "Skill Refinement", "Artistic Flow", "Service & Sharing", "Fair Competition", "Trust Intuition", "Precise Analysis", "Flexible Acceptance", "Following Rules", "New Challenge"],
-                socials: ["Pioneer-rank Supporter", "Serene-rank Mentor", "Aesthetic-rank Inspirer", "Practical-rank Advisor", "Virtue-rank Leader", "Academic-rank Intellectual", "Precision-rank Specialist", "Faith-rank Companion", "Mature-rank Wise Elder", "Fortitude-rank Guardian", "Flexible-rank Negotiator", "Brilliant-rank Guide", "Harmony-rank Mediator", "Visionary-rank Pioneer", "Abundance-rank Partner", "Craft-rank Artisan", "Radiant-rank Energizer", "Noble-rank Admirer", "Research-rank Peer", "Decision-rank Senior", "Tolerance-rank Junior", "Insight-rank Watcher", "Sincere-rank Manager", "Creative-rank Artist", "Stability-rank Sponsor", "Justice-rank Fighter", "Benevolence-rank Healer", "Reform-rank Innovator", "Mystic-rank Observer", "Perfect-rank Harmonizer"],
-                foods: ["Green Vegetables", "Warm Herbal Tea", "Red Fruits", "Protein-based", "Root Vegetables", "Seaweeds", "Assorted Nuts", "Fermented Foods", "Black Foods", "Seasonal Herbs", "Pure Water", "Vitamin C", "Mixed Nuts", "Warm Milk", "Fresh Salad", "Multi-grains", "Grilled Fish", "Omega-3 Rich", "Mushroom Dish", "Citrus Fruits", "Spicy Spices", "Soft Porridge", "Sesame Seeds", "Wild Herbs", "Sweet Honey", "Cool Cucumber", "Lean Meat", "Natural Vinegar", "Warm Pumpkin", "Fresh Tomato"],
-                colors: ["Green", "Navy", "Red", "Yellow", "White", "Gold", "Purple", "Brown", "Silver", "Sky Blue", "Charcoal", "Orange", "Pink", "Mint", "Beige", "Lavender", "Burgundy", "Indigo", "Olive", "Turquoise", "Cream", "Mustard", "Emerald", "Rose Gold", "Sand Beige", "Deep Blue", "Lime", "Peach", "Gray", "Black"]
+                actions: [
+                    "Bold Execution(木)", "Growth Drive(木)", "New Challenge(木)", "Pioneer Spirit(木)", "Strategic Plan(木)", "Internal Build(木)",
+                    "Creative Idea(火)", "Energy Release(火)", "Active Social(火)", "Full Passion(火)", "Expression(火)", "Self Control(火)",
+                    "Harmony(土)", "Base Building(土)", "Organizing(土)", "Trust Build(土)", "Risk Mgmt(土)", "Persistence(土)",
+                    "Independent(金)", "Sharp Analysis(金)", "Following Rules(金)", "Pruning(金)", "Fairness(金)", "Skill Polish(金)",
+                    "Flexible Mind(水)", "Gaining Wisdom(水)", "Meditation(水)", "Fluidity(水)", "Insight(水)", "Elegant Talk(水)"
+                ],
+                socials: [
+                    "Origin-rank(木)", "Ascent-rank(木)", "Growth-rank(木)", "Advancement-rank(木)", "Leap-rank(木)", "Recovery-rank(木)",
+                    "Prosperity-rank(火)", "Honor-rank(火)", "Success-rank(火)", "Bloom-rank(火)", "General-rank(火)", "Radiant-rank(火)",
+                    "Heritage-rank(土)", "Command-rank(土)", "Prestige-rank(土)", "Serenity-rank(土)", "Mastery-rank(土)", "Mentor-rank(土)",
+                    "Fortitude-rank(金)", "Resilience-rank(金)", "Integrity-rank(金)", "Sovereignty-rank(金)", "Benevolence-rank(金)", "Founder-rank(金)",
+                    "Revival-rank(水)", "Brilliance-rank(水)", "Breeze-rank(水)", "Imperial-rank(水)", "Artistry-rank(水)", "Bliss-rank(水)"
+                ],
+                foods: [
+                    "Green Veggies(木)", "Kiwi(木)", "Plum Tea(木)", "Broccoli(木)", "Spinach(木)", "Green Grapes(木)",
+                    "Red Fruits(火)", "Chili(火)", "Tomato(火)", "Grapefruit(火)", "Watermelon(火)", "Jujube Tea(火)",
+                    "Root Veggies(土)", "Pumpkin(土)", "Potato(土)", "Honey(土)", "Mushrooms(土)", "Corn(土)",
+                    "Mixed Nuts(金)", "Onion(金)", "Garlic(金)", "Pear(金)", "Milk(金)", "Tofu(金)",
+                    "Black Beans(水)", "Seaweed(水)", "Kelp(水)", "Blueberry(水)", "Grapes(水)", "Black Sesame(水)"
+                ],
+                colors: [
+                    "Green(木)", "Mint(木)", "Lime(木)", "Emerald(木)", "Olive(木)", "Forest Green(木)",
+                    "Red(火)", "Orange(火)", "Pink(火)", "Burgundy(火)", "Rose Gold(火)", "Peach(火)",
+                    "Yellow(土)", "Beige(土)", "Brown(土)", "Gold(土)", "Mustard(土)", "Sand Beige(土)",
+                    "White(金)", "Silver(金)", "Gray(金)", "Charcoal(金)", "Platinum(金)", "Cream(金)",
+                    "Navy(水)", "Black(水)", "Blue(水)", "Indigo(水)", "Turquoise(水)", "Sky Blue(水)"
+                ]
             }
         };
 
         const d = data[lang];
-        // [수정] 모든 데이터를 활용하도록 계산식 업데이트
-        const idx = (num + group) % d.actions.length; 
-        const offset = isLucky ? 0 : 1;
-        
+
         return {
-            color: d.colors[(idx + offset) % d.colors.length],
-            action: d.actions[(idx + offset) % d.actions.length],
-            social: d.socials[(idx + offset) % d.socials.length],
-            food: d.foods[(idx + offset) % d.foods.length]
+            color: d.colors[finalIdx],
+            action: d.actions[finalIdx],
+            social: d.socials[finalIdx],
+            food: d.foods[finalIdx]
         };
     }
 };
