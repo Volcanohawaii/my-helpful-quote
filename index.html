@@ -365,7 +365,8 @@ function switchTab(mode, btn) {
     const birthMonth = parseInt(String(session.birth || "").substring(4, 6), 10) || 1;
 
    if (mode === 'fortune') {
-        const remedy = suriPrescription.getRemedy(session.num81, currentLang);
+        // 중간에 lackEl 변수를 꼭 넣어주어야 합니다.
+const remedy = suriPrescription.getRemedy(session.num81, lackEl, currentLang);
         const adviceSource = currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12;
         const adviceText = adviceSource[lackEl][session.tierLack];
         const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
