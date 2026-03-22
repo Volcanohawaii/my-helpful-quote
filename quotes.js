@@ -737,7 +737,8 @@ const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
 });
 
 /**
- * 81Suri 정밀 처방전 시스템 (Prescription System)
+ * 81Suri 정밀 처방전 시스템 (Prescription System)
+*/  // <--- 이 닫는 주석 기호가 누락되어 있습니다. 추가해주세요!
 
 const suriPrescription = {
     getRemedy: (num, lackEl, lang) => {
