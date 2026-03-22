@@ -403,7 +403,7 @@ function switchTab(mode, btn) {
       } else if (mode === 'past') {
         const p = (currentLang === 'ko') ? pastLifeData[session.num81-1] : pastLifeDataEn[session.num81-1];
         const pastName = (currentLang === 'ko') ? makePastNameKo(session.num81, strongEl, lackEl, birthMonth) : makePastNameEn(session.num81, strongEl, lackEl, birthMonth);
-        body.innerHTML = `<div class="tab-content"><span class="section-title">${t.tab2Title}</span><div class="info-box"><b>🏷️ ${currentLang === 'ko' ? '전생 이름' : 'Past Name'}</b><br>[${pastName}]<br><br><b>📜 ${t.pastJob}</b><br>[${p.job}]<br>${p.desc}<br><br><b>✨ ${t.pastHomework}</b><br>${p.homework}</div></div>`;
+        body.innerHTML = `<div class="tab-content"><span class="section-title">${t.tab2Title}</span><div class="info-box"><b>🏷️ ${currentLang === 'ko' ? '전생 이름' : 'Past Name'}</b><br>${pastName}<br><br><b>📜 ${t.pastJob}</b><br>[${p.job}]<br>${p.desc}<br><br><b>✨ ${t.pastHomework}</b><br>${p.homework}</div></div>`;
       } else if (mode === 'next') {
         const r = (currentLang === 'ko') ? reincarnationData[session.num81-1] : reincarnationDataEn[session.num81-1];
         const nextLifeName = (currentLang === 'ko') ? makeNextLifeNameKo(session.num81, strongEl, lackEl, birthMonth) : makeNextLifeNameEn(session.num81, strongEl, lackEl, birthMonth);
@@ -411,7 +411,7 @@ function switchTab(mode, btn) {
           <div class="tab-content">
             <span class="section-title">${t.tab3Title}</span>
             <div class="info-box">
-              <b>🏷️ ${currentLang === 'ko' ? '내세 이름' : 'Next Name'}</b><br>[${nextLifeName}]<br><br>
+              <b>🏷️ ${currentLang === 'ko' ? '내세 이름' : 'Next Name'}</b><br>${nextLifeName}<br><br>
               <b>🧬 ${currentLang === 'ko' ? '다음 생명체' : 'Next Being'}</b><br>[${r.object}]<br><br>
               <b>📍 ${t.nextDest}</b><br>${r.place}<br><br>
               <b>✅ 내세 미션</b><br>${r.mission}
