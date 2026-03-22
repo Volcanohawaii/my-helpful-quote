@@ -665,6 +665,46 @@ const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
         mission: missions[Math.floor(i / 3) % missions.length] 
     };
 });
+
+/**
+ * 81Suri 정밀 처방전 시스템 (Prescription System)
+ * [컬러 / 행동 / 인맥 / 음식] 4대 보완 지표 포함
+ */
+const suriPrescription = {
+    getRemedy: (num, lang) => {
+        const isLucky = [1,3,5,6,7,8,11,13,15,16,17,18,21,23,24,25,29,31,32,33,35,37,38,39,41,45,47,48,52,57,58,61,63,65,67,68,81].includes(num);
+        const group = Math.floor((num - 1) / 10); // 10개 단위 그룹 (0~8)
+        
+        const data = {
+            ko: {
+                actions: ["과감한 실행", "내실 다지기", "창의적 발상", "감정 조절", "중재와 화합", "명예 수호", "독립적 결단", "인내와 끈기", "결실의 마무리"],
+                socials: ["활기찬 연하", "침착한 멘토", "예술가 타입", "현실적인 조언자", "포용력 있는 리더", "학구적인 인물", "냉철한 전문가", "성실한 파트너", "지혜로운 노년"],
+                foods: ["녹색 채소", "따뜻한 성질의 차", "붉은 과일", "단백질 위주", "뿌리 채소", "해조류", "견과류", "발효 식품", "블랙푸드(검은콩)"],
+                colors: ["그린(Green)", "네이비(Navy)", "레드(Red)", "옐로우(Yellow)", "화이트(White)", "골드(Gold)", "퍼플(Purple)", "브라운(Brown)", "실버(Silver)"]
+            },
+            en: {
+                actions: ["Bold Execution", "Inner Stability", "Creative Thinking", "Emotional Control", "Mediation & Harmony", "Honor Protection", "Independent Decision", "Patience & Persistence", "Fruitful Conclusion"],
+                socials: ["Energetic Youths", "Calm Mentors", "Artist Types", "Realistic Advisors", "Tolerant Leaders", "Academic Figures", "Cool Professionals", "Sincere Partners", "Wise Elders"],
+                foods: ["Green Vegetables", "Warm Herbal Tea", "Red Fruits", "Protein-based", "Root Vegetables", "Seaweeds", "Assorted Nuts", "Fermented Foods", "Black Foods(Beans)"],
+                colors: ["Green", "Navy", "Red", "Yellow", "White", "Gold", "Purple", "Brown", "Silver"]
+            }
+        };
+
+        const d = data[lang];
+        const idx = group % 9;
+        
+        // 길흉에 따른 뉘앙스 차이 부여 (Unlucky일 경우 처방을 더 정적인 쪽으로 보정)
+        const offset = isLucky ? 0 : 1;
+        
+        return {
+            color: d.colors[(idx + offset) % 9],
+            action: d.actions[(idx + offset) % 9],
+            social: d.socials[(idx + offset) % 9],
+            food: d.foods[(idx + offset) % 9]
+        };
+    }
+};
+
 // [6. 헬퍼 함수]
 function pickFrom(arr, k){ return arr[Math.abs(k) % arr.length]; }
 function makePastNameKo(n, s, l, m){ return `${pickFrom(syllableKo1, n+m)}${pickFrom(syllableKo2, n+m+7)} · ${pickFrom(epithetKoByElement[s]||["운명의"], n)}`; }
