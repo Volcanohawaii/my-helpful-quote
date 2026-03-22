@@ -737,15 +737,13 @@ const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
 });
 
 /**
- * 81Suri 정밀 처방전 시스템 (Prescription System)
-*/  // <--- 이 닫는 주석 기호가 누락되어 있습니다. 추가해주세요!
-
+ * 81Suri 정밀 처방전 시스템 (Prescription System)
+ */
 const suriPrescription = {
     getRemedy: (num, lackEl, lang) => {
         // 오행별 시작 인덱스 (6개씩 배정)
         const elIdx = { "木": 0, "火": 6, "土": 12, "金": 18, "水": 24 };
         const base = elIdx[lackEl] || 0;
-        // 81수 번호에 따라 해당 오행의 6개 데이터 중 하나를 선택
         const finalIdx = base + (num % 6);
 
         const data = {
@@ -812,7 +810,6 @@ const suriPrescription = {
         };
 
         const d = data[lang];
-
         return {
             color: d.colors[finalIdx],
             action: d.actions[finalIdx],
