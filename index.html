@@ -364,61 +364,67 @@ function switchTab(mode, btn) {
     const lackEl = elements[minIdx]; 
     const birthMonth = parseInt(String(session.birth || "").substring(4, 6), 10) || 1;
 
-    if (mode === 'fortune') {
-        // 1. 81수 정밀 데이터 (컬러, 음식 등)
+   if (mode === 'fortune') {
         const remedy = suriPrescription.getRemedy(session.num81, currentLang);
-        
-        // 2. [복구 포인트] 12단계 현생 조언 데이터
         const adviceSource = currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12;
         const adviceText = adviceSource[lackEl][session.tierLack];
-
         const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
         const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
 
-        // 다국어 라벨
+        // 계절 및 진단 로직
+        let seasonName = currentLang === 'ko' ? "환절기(土)" : "Between Seasons(土)";
+        if ([2, 3].includes(birthMonth)) seasonName = currentLang === 'ko' ? "봄(木)" : "Spring(木)";
+        else if ([5, 6].includes(birthMonth)) seasonName = currentLang === 'ko' ? "여름(火)" : "Summer(火)";
+        else if ([8, 9].includes(birthMonth)) seasonName = currentLang === 'ko' ? "가을(金)" : "Autumn(金)";
+        else if ([11, 12].includes(birthMonth)) seasonName = currentLang === 'ko' ? "겨울(水)" : "Winter(水)";
+
+        const lackMetaphors = currentLang === 'ko' ? 
+            { "木": "성장의 동력이 꺼진", "火": "열정이 식어버린", "土": "기반이 흔들리는", "金": "결단력이 무뎌진", "水": "지혜가 고립된" } :
+            { "木": "stalled growth", "火": "faded passion", "土": "unstable foundation", "金": "dull decision-making", "水": "isolated wisdom" };
+
+        const diagnosisMsg = currentLang === 'ko' ? 
+            `<div style="color:#C0392B; font-weight:700; margin-top:15px; margin-bottom:10px;">"당신은 ${seasonName}에 태어나 이름에 '${lackEl}'의 기운이 부족하여 ${lackMetaphors[lackEl]} 형국입니다."</div>` :
+            `<div style="color:#C0392B; font-weight:700; margin-top:15px; margin-bottom:10px;">"Born in ${seasonName}, your lack of '${lackEl}' energy creates a state of ${lackMetaphors[lackEl]}."</div>`;
+
         const labels = currentLang === 'ko' ? 
-            { t: `[No.${session.num81} 운명 보완 처방]`, c: "행운의 컬러", a: "실천 행동", s: "인적 에너지", f: "기운 보충 음식", adv: "현생 지침" } :
-            { t: `[No.${session.num81} Energy Remedy]`, c: "Lucky Color", a: "Action Plan", s: "Social Energy", f: "Vitality Food", adv: "Guideline" };
+            { t: `No.${session.num81} 에너지 정밀 보완`, c: "행운의 컬러", a: "실천 행동", s: "인적 에너지", f: "기운 보충 음식", adv: "현생 지침" } :
+            { t: `No.${session.num81} Energy Remedy`, c: "Lucky Color", a: "Action Plan", s: "Social Energy", f: "Vitality Food", adv: "Guideline" };
 
         body.innerHTML = `
           <div class="tab-content">
-            <!-- 섹션 1: 에너지 분석 -->
             <div class="section-wrap">
               <span class="section-title">${t.sec1}</span>
-              <div class="info-box" style="text-align:center;">
+              <div class="info-box">
                 <div id="radarChart" style="margin:20px auto; width:220px; height:220px;"></div>
-                <div style="text-align:left; margin-top:15px; font-size:0.9rem;">
-                  <div>• <b>${currentLang === 'ko' ? '주된 에너지' : 'Core Energy'}:</b> ${attrSource[strongEl].name}</div>
+                <div style="text-align:left; border-top:1px solid #EEE; pt:15px;">
+                  <div style="margin-top:10px;">• <b>${currentLang === 'ko' ? '주된 에너지' : 'Core Energy'}:</b> ${attrSource[strongEl].name}</div>
+                  
+                  ${diagnosisMsg}
+                  
+                  <div style="line-height:1.7; font-size:0.92rem; color:#444; background:#FFF; padding:12px; border-radius:5px; border:1px solid #F0F0F0;">
+                    <b style="color:var(--accent); display:block; margin-bottom:5px;">💡 ${labels.adv}</b>
+                    ${adviceText}
+                  </div>
                 </div>
               </div>
             </div>
 
-            <!-- 섹션 2: 약점 보완 및 조언 -->
             <div class="section-wrap">
-              <span class="section-title">${currentLang === 'ko' ? '정밀 처방 및 지침' : 'Prescription & Advice'}</span>
-              <div class="info-box">
-                <!-- 1. 81수 정밀 처방 박스 (그리드 형태) -->
-                <div style="padding:15px; background:white; border:1px solid #EEE; border-radius:8px; margin-bottom:20px;">
-                  <h3 style="font-size:0.9rem; color:var(--accent); text-align:center; margin-bottom:15px; font-family:'Gowun Batang';">${labels.t}</h3>
-                  <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; font-size:0.85rem; line-height:1.4;">
-                    <div><b style="color:var(--primary);">🎨 ${labels.c}:</b><br>${remedy.color}</div>
-                    <div><b style="color:var(--primary);">🏃 ${labels.a}:</b><br>${remedy.action}</div>
-                    <div><b style="color:var(--primary);">👥 ${labels.s}:</b><br>${remedy.social}</div>
-                    <div><b style="color:var(--primary);">🥗 ${labels.f}:</b><br>${remedy.food}</div>
-                  </div>
-                </div>
-
-                <!-- 2. [복구 완료] 12단계 현생 지침 (텍스트 형태) -->
-                <div style="padding:5px; line-height:1.7; font-size:0.92rem; color:#444;">
-                  <b style="color:var(--accent); display:block; margin-bottom:8px;">💡 ${labels.adv} (${lackEl}의 기운 보완)</b>
-                  ${adviceText}
+              <span class="section-title">${currentLang === 'ko' ? '운명 보완 처방전' : 'Destiny Prescription'}</span>
+              <div class="info-box" style="padding:15px; background:white; border:1px solid #EEE; border-radius:8px;">
+                <h3 style="font-size:0.9rem; color:var(--accent); text-align:center; margin-bottom:15px; font-family:'Gowun Batang';">${labels.t}</h3>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; font-size:0.85rem; line-height:1.4;">
+                  <div><b style="color:var(--primary);">🎨 ${labels.c}:</b><br>${remedy.color}</div>
+                  <div><b style="color:var(--primary);">🏃 ${labels.a}:</b><br>${remedy.action}</div>
+                  <div><b style="color:var(--primary);">👥 ${labels.s}:</b><br>${remedy.social}</div>
+                  <div><b style="color:var(--primary);">🥗 ${labels.f}:</b><br>${remedy.food}</div>
                 </div>
               </div>
             </div>
 
             <div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[Math.abs(session.seed) % sideSource.length]}</div>
           </div>`;
-        setTimeout(renderChart, 100);    
+        setTimeout(renderChart, 100);  
       } else if (mode === 'past') {
         const p = (currentLang === 'ko') ? pastLifeData[session.num81-1] : pastLifeDataEn[session.num81-1];
         const pastName = (currentLang === 'ko') ? makePastNameKo(session.num81, strongEl, lackEl, birthMonth) : makePastNameEn(session.num81, strongEl, lackEl, birthMonth);
