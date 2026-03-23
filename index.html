@@ -295,6 +295,8 @@ updateCounter();
       container.innerHTML = `<svg width="220" height="220" viewBox="0 0 220 220" style="overflow:visible; display:block; margin:0 auto;"><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#EEE"/><circle cx="${cx}" cy="${cy}" r="${r/2}" fill="none" stroke="#F5F5F5"/>${textLabels}<polygon points="${poly}" fill="${themeColor.f}" stroke="${themeColor.s}" stroke-width="2.5"/></svg>`;
     }
 
+
+          
 function switchTab(mode, btn) {
     if (!assertDataset()) return; 
     if (btn) { 
@@ -304,34 +306,33 @@ function switchTab(mode, btn) {
     const body = document.getElementById('tab-body'); 
     const t = i18n[currentLang]; 
     
-    // [기존 변수 유지]
+    // [데이터 분석 및 계산]
+    const totalScore = session.scores.reduce((a, b) => a + b, 0); // 점수 총합
     const maxIdx = session.scores.indexOf(Math.max(...session.scores)); 
     const strongEl = elements[maxIdx]; 
+    const strongPercentage = Math.round((session.scores[maxIdx] / totalScore) * 100); // 비중 %
+    const traitText = elementTraits[currentLang][strongEl]; // 오행 특징 설명
     const birthMonth = parseInt(String(session.birth || "").substring(4, 6), 10) || 1;
 
-    // [로직 추가] 하위 2개 오행 정밀 추출
+    // 하위 2개 오행 추출
     const scoreMap = session.scores.map((s, i) => ({ id: i, score: s }));
-    scoreMap.sort((a, b) => a.score - b.score); // 점수 낮은 순 정렬
-
-    const lackEl1 = elements[scoreMap[0].id]; // 가장 약한 오행
-    const lackEl2 = elements[scoreMap[1].id]; // 두 번째로 약한 오행
-    const lackingEls = [lackEl1, lackEl2];    // 복합 처방용 배열
+    scoreMap.sort((a, b) => a.score - b.score);
+    const lackEl1 = elements[scoreMap[0].id]; 
+    const lackEl2 = elements[scoreMap[1].id]; 
+    const lackingEls = [lackEl1, lackEl2]; 
 
     if (mode === 'fortune') {
-        // [수정] 2개의 기운 배열을 넘겨 더블 처방을 받습니다.
-      const labels = currentLang === 'ko' ? 
+        const labels = currentLang === 'ko' ? 
             { t: `No.${session.num81} 에너지 정밀 보완`, c: "행운의 컬러", a: "실천 행동", s: "인적 에너지", f: "기운 보충 음식", adv: "현생 지침" } :
             { t: `No.${session.num81} Energy Remedy`, c: "Lucky Color", a: "Action Plan", s: "Social Energy", f: "Vitality Food", adv: "Guideline" };
-        const remedy = suriPrescription.getRemedy(session.num81, lackingEls, currentLang);
         
-        // 조언 텍스트는 가장 부족한 제1기운(lackEl1)을 기준으로 가져옵니다.
+        const remedy = suriPrescription.getRemedy(session.num81, lackingEls, currentLang);
         const adviceSource = currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12;
         const adviceText = adviceSource[lackEl1][session.tierLack];
-        
         const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
         const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
 
-        // 계절 이름 로직 (기존 유지)
+        // 계절 이름 로직
         let seasonName = currentLang === 'ko' ? "환절기(土)" : "Between Seasons(土)";
         if ([2, 3].includes(birthMonth)) seasonName = currentLang === 'ko' ? "봄(木)" : "Spring(木)";
         else if ([5, 6].includes(birthMonth)) seasonName = currentLang === 'ko' ? "여름(火)" : "Summer(火)";
@@ -342,37 +343,28 @@ function switchTab(mode, btn) {
             { "木": "성장의 동력이 꺼진", "火": "열정이 식어버린", "土": "기반이 흔들리는", "金": "결단력이 무뎌진", "水": "지혜가 고립된" } :
             { "木": "stalled growth", "火": "faded passion", "土": "unstable foundation", "金": "dull decision-making", "水": "isolated wisdom" };
 
-        // [진단 메시지 수정] 두 가지 부족 기운을 모두 언급
-        // [진단 메시지 수정] 글자색을 var(--accent)로 변경하고 배경 박스를 추가했습니다.
-const diagnosisMsg = currentLang === 'ko' ? 
-    `<div style="color:var(--accent); background:#FDFBFA; border:1px solid #F0EAE3; padding:12px; border-radius:6px; font-weight:700; margin-top:15px; margin-bottom:15px; line-height:1.6;">
-        "당신은 ${seasonName}에 태어나 이름에 '${lackEl1}'와 '${lackEl2}'의 기운이 부족하여 
-        <span style="color:var(--text); font-weight:400; font-size:0.9rem;">${lackMetaphors[lackEl1]} 동시에 ${lackMetaphors[lackEl2]} 형국입니다.</span>"
-    </div>` :
-    `<div style="color:var(--accent); background:#FDFBFA; border:1px solid #F0EAE3; padding:12px; border-radius:6px; font-weight:700; margin-top:15px; margin-bottom:15px; line-height:1.6;">
-        "Born in ${seasonName}, your lack of '${lackEl1}' and '${lackEl2}' energy <br>
-        <span style="color:var(--text); font-weight:400; font-size:0.9rem;">creates a state of both ${lackMetaphors[lackEl1]} and ${lackMetaphors[lackEl2]}."</span>
-    </div>`;
-      
-body.innerHTML = `
+        const diagnosisMsg = `<div style="color:var(--accent); background:#FDFBFA; border:1px solid #F0EAE3; padding:12px; border-radius:6px; font-weight:700; margin-top:15px; margin-bottom:15px; line-height:1.6;">
+            "당신은 ${seasonName}에 태어나 이름에 '${lackEl1}'와 '${lackEl2}'의 기운이 부족하여 <br>
+            <span style="color:var(--text); font-weight:400; font-size:0.9rem;">${lackMetaphors[lackEl1]} 동시에 ${lackMetaphors[lackEl2]} 형국입니다.</span>"
+        </div>`;
+
+        body.innerHTML = `
           <div class="tab-content">
             <div class="section-wrap">
               <span class="section-title">${t.sec1}</span>
               <div class="info-box">
                 <div id="radarChart" style="margin:20px auto; width:220px; height:220px;"></div>
                 <div style="text-align:left; border-top:1px solid #EEE; padding-top:15px;">
-                  <div style="margin-bottom:15px; padding-bottom:10px;">
+                  <div style="margin-bottom:15px;">
                     <div style="font-size:0.85rem; color:#888; margin-bottom:4px;">${currentLang === 'ko' ? '시그니처 에너지 구성' : 'Signature Energy Composition'}</div>
-                    <div style="font-size:1.05rem; font-weight:700; color:var(--primary); margin-bottom:6px;">
-                      ${currentLang === 'ko' ? '주된 에너지' : 'Main Energy'}: 
-                      <span style="color:var(--accent);">${attrSource[strongEl].name}(${strongEl})</span> 
-                      <span style="font-size:0.9rem; font-weight:400; color:#999;">| 비중 ${strongPercentage}%</span>
+                    <div style="font-size:1.05rem; font-weight:700; color:var(--primary);">
+                      ${currentLang === 'ko' ? '주된 에너지' : 'Main Energy'}: ${attrSource[strongEl].name}(${strongEl}) <span style="color:var(--accent); font-size:0.9rem;">${strongPercentage}%</span>
                     </div>
-                    <div style="font-size:0.88rem; color:#666; line-height:1.6; word-break:keep-all;">
+                    <div style="font-size:0.88rem; color:#666; margin-top:6px; line-height:1.5;">
                       "${traitText}"
                     </div>
                   </div>
-
+                  
                   ${diagnosisMsg}
                   
                   <div style="line-height:1.7; font-size:0.92rem; color:#444; background:#FFF; padding:12px; border-radius:5px; border:1px solid #F0F0F0;">
@@ -392,16 +384,13 @@ body.innerHTML = `
                   <div><b style="color:var(--primary);">👥 ${labels.s}:</b><br>${remedy.social}</div>
                   <div><b style="color:var(--primary);">🥗 ${labels.f}:</b><br>${remedy.food}</div>
                 </div>
-
+                
                 <div style="margin-top:20px; padding-top:15px; border-top:1px dashed #EEE; font-size:0.8rem; color:#888; line-height:1.5;">
                   <b style="color:#A0A0A0;">⚠️ ${t.sideEffect}</b><br>
                   ${sideSource[Math.abs(session.seed) % sideSource.length]}
                 </div>
               </div>
             </div>
-          </div>`;
-
-            <div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[Math.abs(session.seed) % sideSource.length]}</div>
           </div>`;
           
         window.requestAnimationFrame(() => { renderChart(); });
@@ -426,7 +415,6 @@ body.innerHTML = `
           </div>`;
     }
 }
-
   </script>
 </body>
 </html>
