@@ -302,6 +302,9 @@ function switchTab(mode, btn) {
 
     if (mode === 'fortune') {
         // [수정] 2개의 기운 배열을 넘겨 더블 처방을 받습니다.
+      const labels = currentLang === 'ko' ? 
+            { t: `No.${session.num81} 에너지 정밀 보완`, c: "행운의 컬러", a: "실천 행동", s: "인적 에너지", f: "기운 보충 음식", adv: "현생 지침" } :
+            { t: `No.${session.num81} Energy Remedy`, c: "Lucky Color", a: "Action Plan", s: "Social Energy", f: "Vitality Food", adv: "Guideline" };
         const remedy = suriPrescription.getRemedy(session.num81, lackingEls, currentLang);
         
         // 조언 텍스트는 가장 부족한 제1기운(lackEl1)을 기준으로 가져옵니다.
