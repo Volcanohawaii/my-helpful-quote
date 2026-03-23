@@ -320,6 +320,18 @@ const lackEl1 = elements[scoreMap[0].id];
 const lackEl2 = elements[scoreMap[1].id]; 
 const lackingEls = [lackEl1, lackEl2];
   
+// 1. 탄생월 및 계절 정의 (에러 해결 핵심!)
+const birthMonth = parseInt(String(session.birth || "").substring(4, 6), 10) || 1;
+
+let seasonName = currentLang === 'ko' ? "환절기(土)" : "Between Seasons(土)";
+if ([2, 3].includes(birthMonth)) seasonName = currentLang === 'ko' ? "봄(木)" : "Spring(木)";
+else if ([5, 6].includes(birthMonth)) seasonName = currentLang === 'ko' ? "여름(火)" : "Summer(火)";
+else if ([8, 9].includes(birthMonth)) seasonName = currentLang === 'ko' ? "가을(金)" : "Autumn(金)";
+else if ([11, 12].includes(birthMonth)) seasonName = currentLang === 'ko' ? "겨울(水)" : "Winter(水)";
+
+const lackMetaphors = currentLang === 'ko' ? 
+    { "木": "성장의 동력이 꺼진", "火": "열정이 식어버린", "土": "기반이 흔들리는", "金": "결단력이 무뎌진", "水": "지혜가 고립된" } :
+    { "木": "stalled growth", "火": "faded passion", "土": "unstable foundation", "金": "dull decision-making", "水": "isolated wisdom" };  
     
         if (mode === 'fortune') {
         const labels = currentLang === 'ko' ? 
