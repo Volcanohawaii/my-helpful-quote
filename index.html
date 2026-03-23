@@ -344,8 +344,18 @@ body.innerHTML = `
               <div class="info-box">
                 <div id="radarChart" style="margin:20px auto; width:220px; height:220px;"></div>
                 <div style="text-align:left; border-top:1px solid #EEE; padding-top:15px;">
-                  <div style="margin-top:10px;">• <b>${currentLang === 'ko' ? '주된 에너지' : 'Core Energy'}:</b> ${attrSource[strongEl].name}</div>
-                  
+                  <div style="margin-bottom:15px; padding-bottom:10px;">
+                    <div style="font-size:0.85rem; color:#888; margin-bottom:4px;">${currentLang === 'ko' ? '시그니처 에너지 구성' : 'Signature Energy Composition'}</div>
+                    <div style="font-size:1.05rem; font-weight:700; color:var(--primary); margin-bottom:6px;">
+                      ${currentLang === 'ko' ? '주된 에너지' : 'Main Energy'}: 
+                      <span style="color:var(--accent);">${attrSource[strongEl].name}(${strongEl})</span> 
+                      <span style="font-size:0.9rem; font-weight:400; color:#999;">| 비중 ${strongPercentage}%</span>
+                    </div>
+                    <div style="font-size:0.88rem; color:#666; line-height:1.6; word-break:keep-all;">
+                      "${traitText}"
+                    </div>
+                  </div>
+
                   ${diagnosisMsg}
                   
                   <div style="line-height:1.7; font-size:0.92rem; color:#444; background:#FFF; padding:12px; border-radius:5px; border:1px solid #F0F0F0;">
@@ -365,8 +375,14 @@ body.innerHTML = `
                   <div><b style="color:var(--primary);">👥 ${labels.s}:</b><br>${remedy.social}</div>
                   <div><b style="color:var(--primary);">🥗 ${labels.f}:</b><br>${remedy.food}</div>
                 </div>
+
+                <div style="margin-top:20px; padding-top:15px; border-top:1px dashed #EEE; font-size:0.8rem; color:#888; line-height:1.5;">
+                  <b style="color:#A0A0A0;">⚠️ ${t.sideEffect}</b><br>
+                  ${sideSource[Math.abs(session.seed) % sideSource.length]}
+                </div>
               </div>
             </div>
+          </div>`;
 
             <div class="warning-box"><b>⚠️ ${t.sideEffect}</b><br>${sideSource[Math.abs(session.seed) % sideSource.length]}</div>
           </div>`;
