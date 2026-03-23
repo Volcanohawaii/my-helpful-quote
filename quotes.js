@@ -309,90 +309,88 @@ const nameTailEn = [
 
 const epithetKoByElement = { 
     "木": [
-        "(신성한 숲의 기운과 굽히지 않는 강인한 의지를 지님)", "(태초의 생명력과 끝없이 뻗어 나가는 성장의 에너지를 지님)",
-        "(푸른 바람의 유연함과 세상을 치유하는 자비로운 성품을 지님)", "(새벽 이슬의 청초함과 생명의 시작을 알리는 고결함을 지님)",
-        "(거대한 고목의 침묵과 만물을 품는 포용력 있는 기상을 지님)", "(대지를 뚫고 솟아오르는 기백과 개척자의 날카로운 혼을 지님)",
-        "(신비로운 덩굴의 생명력과 끈질기게 살아남는 집념을 지님)", "(숲을 수호하는 영험한 기운과 범접할 수 없는 위엄을 지님)",
-        "(하늘을 향해 뻗은 가지의 이상과 고귀한 철학적 깊이를 지님)", "(대나무의 곧은 절개와 부러지지 않는 단단한 내면을 지님)",
-        "(꽃을 피우는 섬세한 감각과 세상을 매료시키는 아름다움을 지님)", "(뿌리 깊은 안정감과 보이지 않는 곳에서 세상을 지탱함)"
+        "신성한 숲의 기운과 굽히지 않는 강인한 의지를 지닌", "태초의 생명력과 끝없이 뻗어 나가는 성장의 에너지를 지닌",
+        "푸른 바람의 유연함과 세상을 치유하는 자비로운 성품을 지닌", "새벽 이슬의 청초함과 생명의 시작을 알리는 고결함을 지닌",
+        "거대한 고목의 침묵과 만물을 품는 포용력 있는 기상을 지닌", "대지를 뚫고 솟아오르는 기백과 개척자의 날카로운 혼을 지닌",
+        "신비로운 덩굴의 생명력과 끈질기게 살아남는 집념을 지닌", "숲을 수호하는 영험한 기운과 범접할 수 없는 위엄을 지닌",
+        "하늘을 향해 뻗은 가지의 이상과 고귀한 철학적 깊이를 지닌", "대나무의 곧은 절개와 부러지지 않는 단단한 내면을 지닌",
+        "꽃을 피우는 섬세한 감각과 세상을 매료시키는 아름다움을 지닌", "뿌리 깊은 안정감과 보이지 않는 곳에서 세상을 지탱하는"
     ],
     "火": [
-        "(타오르는 태양의 혼과 세상을 밝히는 찬란한 영광을 지님)", "(별빛의 섬세함과 어둠을 몰아내는 날카로운 통찰력을 지님)",
-        "(용암의 뜨거운 열정과 모든 것을 집어삼킬 파괴력을 지님)", "(심장 깊은 곳의 불꽃과 변화를 두려워하지 않는 용기를 지님)",
-        "(등불의 은은한 온기와 지치지 않는 영혼의 안식을 지님)", "(번개의 번뜩이는 천재성과 순식간에 운명을 바꾸는 힘을 지님)",
-        "(제단의 성스러운 불꽃과 진리를 수호하는 고귀한 사명을 지님)", "(꺼지지 않는 열망의 증거와 불멸의 의지를 영혼에 새김)",
-        "(노을의 우아한 마감과 고독 속에서 빛나는 성숙함을 지님)", "(불사조의 강인한 생명력과 다시 일어서는 부활의 운명을 지님)",
-        "(화려한 불꽃놀이의 기개와 순간의 영원을 포착하는 힘을 지님)", "(빛의 근원을 탐구하는 갈망과 진실을 꿰뚫는 눈을 지님)"
+        "타오르는 태양의 혼과 세상을 밝히는 찬란한 영광을 지닌", "별빛의 섬세함과 어둠을 몰아내는 날카로운 통찰력을 지닌",
+        "용암의 뜨거운 열정과 모든 것을 집어삼킬 파괴력을 지닌", "심장 깊은 곳의 불꽃과 변화를 두려워하지 않는 용기를 지닌",
+        "등불의 은은한 온기와 지치지 않는 영혼의 안식을 지닌", "번개의 번뜩이는 천재성과 순식간에 운명을 바꾸는 힘을 지닌",
+        "제단의 성스러운 불꽃과 진리를 수호하는 고귀한 사명을 지닌", "꺼지지 않는 열망의 증거와 불멸의 의지를 영혼에 새긴",
+        "노을의 우아한 마감과 고독 속에서 빛나는 성숙함을 지닌", "불사조의 강인한 생명력과 다시 일어서는 부활의 운명을 지닌",
+        "화려한 불꽃놀이의 기개와 순간의 영원을 포착하는 힘을 지닌", "빛의 근원을 탐구하는 갈망과 진실을 꿰뚫는 눈을 지닌"
     ],
     "土": [
-        "(태초의 대지가 품은 고요함과 흔들리지 않는 안정을 지님)", "(높은 산의 신비로운 정기와 만물을 내려다보는 지혜를 지님)",
-        "(황금 벌판의 풍요로움과 타인에게 아낌없이 베푸는 덕을 지님)", "(사막의 고독한 강인함과 극한을 견뎌내는 인내심을 지님)",
-        "(깊은 동굴의 정지된 시간과 비밀을 간직한 신비로움을 지님)", "(비옥한 토양의 부드러움과 생명을 잉태하는 숭고함을 지님)",
-        "(섬세한 도자기의 단단함과 세월이 빚어낸 우아한 기품을 지님)", "(대륙을 가로지르는 거대한 흐름과 중재자의 침착함을 지님)",
-        "(지층에 새겨진 시간의 지혜와 우주의 기억을 공유함)", "(바위의 묵직한 신뢰와 변치 않는 영원한 우정을 지님)",
-        "(안개의 모호함 속에 감춰진 거대한 실체와 신비함을 지님)", "(지평선의 무한한 가능성과 경계가 없는 자유로움을 지님)"
+        "태초의 대지가 품은 고요함과 흔들리지 않는 안정을 지닌", "높은 산의 신비로운 정기와 만물을 내려다보는 지혜를 지닌",
+        "황금 벌판의 풍요로움과 타인에게 아낌없이 베푸는 덕을 지닌", "사막의 고독한 강인함과 극한을 견뎌내는 인내심을 지닌",
+        "깊은 동굴의 정지된 시간과 비밀을 간직한 신비로움을 지닌", "비옥한 토양의 부드러움과 생명을 잉태하는 숭고함을 지닌",
+        "섬세한 도자기의 단단함과 세월이 빚어낸 우아한 기품을 지닌", "대륙을 가로지르는 거대한 흐름과 중재자의 침착함을 지닌",
+        "지층에 새겨진 시간의 지혜와 우주의 기억을 공유하는", "바위의 묵직한 신뢰와 변치 않는 영원한 우정을 지닌",
+        "안개의 모호함 속에 감춰진 거대한 실체와 신비함을 지닌", "지평선의 무한한 가능성과 경계가 없는 자유로움을 지닌"
     ],
     "金": [
-        "(차가운 달빛의 예리함과 범접할 수 없는 고결한 기품을 지님)", "(정련된 보석의 광채와 부서지지 않는 완벽한 질서를 지님)",
-        "(전설 속 명검의 서늘함과 운명을 단번에 베어내는 힘을 지님)", "(흰 눈의 순수함과 세상을 정화하는 강력한 에너지를 지님)",
-        "(거울처럼 맑은 이성과 진실을 비추는 정직한 성품을 지님)", "(황금 갑옷의 위풍당당함과 정의를 향한 굽히지 않는 기개를 지님)",
-        "(얼음 송곳의 냉철함과 한 치의 오차도 허용하지 않는 정밀함을 지님)", "(가을 서리의 단호함과 맺고 끊음이 확실한 결단력을 지님)",
-        "(강철의 견고한 침묵과 어떤 시련도 튕겨내는 방어력을 지님)", "(악기의 맑은 울림과 영혼을 울리는 공명감을 지님)",
-        "(바람을 가르는 화살의 신속함과 목표를 향한 집요함을 지님)", "(보물지도의 신비로운 암호와 보이지 않는 부를 끌어당김)"
+        "차가운 달빛의 예리함과 범접할 수 없는 고결한 기품을 지닌", "정련된 보석의 광채와 부서지지 않는 완벽한 질서를 지닌",
+        "전설 속 명검의 서늘함과 운명을 단번에 베어내는 힘을 지닌", "흰 눈의 순수함과 세상을 정화하는 강력한 에너지를 지닌",
+        "거울처럼 맑은 이성과 진실을 비추는 정직한 성품을 지닌", "황금 갑옷의 위풍당당함과 정의를 향한 굽히지 않는 기개를 지닌",
+        "얼음 송곳의 냉철함과 한 치의 오차도 허용하지 않는 정밀함을 지닌", "가을 서리의 단호함과 맺고 끊음이 확실한 결단력을 지닌",
+        "강철의 견고한 침묵과 어떤 시련도 튕겨내는 방어력을 지닌", "악기의 맑은 울림과 영혼을 울리는 공명감을 지닌",
+        "바람을 가르는 화살의 신속함과 목표를 향한 집요함을 지닌", "보물지도의 신비로운 암호와 보이지 않는 부를 끌어당기는"
     ],
     "水": [
-        "(영원한 심연의 지혜와 멈추지 않고 흐르는 유려함을 지님)", "(대양의 거대한 포용력과 모든 것을 품어 안는 관용을 지님)",
-        "(맑은 샘물의 영험함과 영혼을 씻어내는 정화의 능력을 지님)", "(빗방울의 섬세한 리듬과 감성을 자극하는 예술적 기질을 지님)",
-        "(짙은 안개의 신비로움과 속을 알 수 없는 깊은 통찰을 지님)", "(폭포의 거침없는 기상과 장애물을 돌파하는 에너지를 지님)",
-        "(얼어붙은 호수의 정적과 폭풍 전야의 긴장된 지적 능력을 지님)", "(이슬처럼 맑은 영혼과 순수하게 빛나는 지혜의 눈을 지님)",
-        "(검은 바다의 거대한 비밀과 운명을 읽어내는 직관력을 지님)", "(강물의 끊임없는 탐구심과 지식의 바다로 향하는 열정을 지님)",
-        "(파도의 유연한 춤사위와 상황에 따라 변화하는 천재성을 지님)", "(구름의 자유로운 비행과 구속받지 않는 영혼의 날개를 지님)"
+        "영원한 심연의 지혜와 멈추지 않고 흐르는 유려함을 지닌", "대양의 거대한 포용력과 모든 것을 품어 안는 관용을 지닌",
+        "맑은 샘물의 영험함과 영혼을 씻어내는 정화의 능력을 지닌", "빗방울의 섬세함과 감성을 자극하는 예술적 기질을 지닌",
+        "짙은 안개의 신비로움과 속을 알 수 없는 깊은 통찰을 지닌", "폭포의 거침없는 기상과 장애물을 돌파하는 에너지를 지닌",
+        "얼어붙은 호수의 정적과 폭풍 전야의 긴장된 지적 능력을 지닌", "이슬처럼 맑은 영혼과 순수하게 빛나는 지혜의 눈을 지닌",
+        "검은 바다의 거대한 비밀과 운명을 읽어내는 직관력을 지닌", "강물의 끊임없는 탐구심과 지식의 바다로 향하는 열정을 지닌",
+        "파도의 유연한 춤사위와 상황에 따라 변화하는 천재성을 지닌", "구름의 자유로운 비행과 구속받지 않는 영혼의 날개를 지닌"
     ]
 };
-
 const epithetEnByElement = { 
    "木": [
-        "(Possessing divine forest energy and unbending resilient will)", "(Possessing primordial vitality and energy of endless growth)",
-        "(Possessing the flexibility of blue wind and a merciful nature)", "(Possessing the purity of dawn dew and noble start of life)",
-        "(Possessing the silence of ancient trees and immense tolerance)", "(Possessing the spirit of breaking through and pioneer's soul)",
-        "(Possessing the mystery of vines and persistent determination)", "(Possessing the spiritual energy of the forest protector)",
-        "(Possessing high ideals and noble philosophical depth)", "(Possessing the integrity of bamboo and solid inner core)",
-        "(Possessing delicate artistic sense and enchanting beauty)", "(Possessing deep-rooted stability that supports the world)"
+        "Possessing divine forest energy and unbending resilient will", "Possessing primordial vitality and energy of endless growth",
+        "Possessing the flexibility of blue wind and a merciful nature", "Possessing the purity of dawn dew and noble start of life",
+        "Possessing the silence of ancient trees and immense tolerance", "Possessing the spirit of breaking through and pioneer's soul",
+        "Possessing the mystery of vines and persistent determination", "Possessing the spiritual energy of the forest protector",
+        "Possessing high ideals and noble philosophical depth", "Possessing the integrity of bamboo and solid inner core",
+        "Possessing delicate artistic sense and enchanting beauty", "Possessing deep-rooted stability that supports the world"
     ],
     "火": [
-        "(Possessing a burning solar soul and brilliant radiant glory)", "(Possessing the delicacy of starlight and sharp insight)",
-        "(Possessing the passion of lava and destructive power)", "(Possessing a heart of flame and courage to change)",
-        "(Possessing the warmth of a lamp and rest for the soul)", "(Possessing the genius of lightning and power to shift fate)",
-        "(Possessing the sacred flame of the altar and noble mission)", "(Possessing the proof of desire and immortal will)",
-        "(Possessing the grace of sunset and mature solitude)", "(Possessing the vitality of a phoenix and destiny of rebirth)",
-        "(Possessing the spirit of fireworks and capturing eternity)", "(Possessing the longing for light and eye for truth)"
+        "Possessing a burning solar soul and brilliant radiant glory", "Possessing the delicacy of starlight and sharp insight",
+        "Possessing the passion of lava and destructive power", "Possessing a heart of flame and courage to change",
+        "Possessing the warmth of a lamp and rest for the soul", "Possessing the genius of lightning and power to shift fate",
+        "Possessing the sacred flame of the altar and noble mission", "Possessing the proof of desire and immortal will",
+        "Possessing the grace of sunset and mature solitude", "Possessing the vitality of a phoenix and destiny of rebirth",
+        "Possessing the spirit of fireworks and capturing eternity", "Possessing the longing for light and eye for truth"
     ],
     "土": [
-        "(Possessing the serenity of primordial earth and stability)", "(Possessing the mystery of high mountains and wisdom)",
-        "(Possessing the abundance of golden fields and virtue)", "(Possessing the strength of the desert and endurance)",
-        "(Possessing the stillness of caves and hidden mystery)", "(Possessing the softness of fertile soil and nobility)",
-        "(Possessing the hardness of porcelain and elegant grace)", "(Possessing the flow of continents and calm mediation)",
-        "(Possessing the wisdom of strata and cosmic memory)", "(Possessing the trust of rock and eternal friendship)",
-        "(Possessing the vast reality hidden in the fog)", "(Possessing the potential of the horizon and freedom)"
+        "Possessing the serenity of primordial earth and stability", "Possessing the mystery of high mountains and wisdom",
+        "Possessing the abundance of golden fields and virtue", "Possessing the strength of the desert and endurance",
+        "Possessing the stillness of caves and hidden mystery", "Possessing the softness of fertile soil and nobility",
+        "Possessing the hardness of porcelain and elegant grace", "Possessing the flow of continents and calm mediation",
+        "Possessing the wisdom of strata and cosmic memory", "Possessing the trust of rock and eternal friendship",
+        "Possessing the vast reality hidden in the fog", "Possessing the potential of the horizon and freedom"
     ],
     "金": [
-        "(Possessing the sharpness of moonlight and noble grace)", "(Possessing the brilliance of gems and perfect order)",
-        "(Possessing the chill of legendary swords and power)", "(Possessing the purity of white snow and purifying energy)",
-        "(Possessing clear reason and an honest personality)", "(Possessing the dignity of golden armor and integrity)",
-        "(Possessing the coldness of ice and flawless precision)", "(Possessing the decisiveness of autumn frost)",
-        "(Possessing the silence of steel and solid defense)", "(Possessing the resonance of instruments and deep soul)",
-        "(Possessing the speed of an arrow and persistence)", "(Possessing the mystery of treasure maps and wealth)"
+        "Possessing the sharpness of moonlight and noble grace", "Possessing the brilliance of gems and perfect order",
+        "Possessing the chill of legendary swords and power", "Possessing the purity of white snow and purifying energy",
+        "Possessing clear reason and an honest personality", "Possessing the dignity of golden armor and integrity",
+        "Possessing the coldness of ice and flawless precision", "Possessing the decisiveness of autumn frost",
+        "Possessing the silence of steel and solid defense", "Possessing the resonance of instruments and deep soul",
+        "Possessing the speed of an arrow and persistence", "Possessing the mystery of treasure maps and wealth"
     ],
     "水": [
-        "(Possessing eternal abyssal wisdom and elegant flow)", "(Possessing the vast tolerance of the great ocean)",
-        "(Possessing the divinity of spring water and purification)", "(Possessing the rhythm of raindrops and artistic flair)",
-        "(Possessing the mystery of mist and deep insight)", "(Possessing the spirit of waterfalls and breakthrough energy)",
-        "(Possessing the silence of frozen lakes and intellect)", "(Possessing the pure soul of dew and eye of wisdom)",
-        "(Possessing the secrets of the dark sea and intuition)", "(Possessing the curiosity of rivers and passion)",
-        "(Possessing the genius of waves and adaptability)", "(Possessing the flight of clouds and wings of soul)"
+        "Possessing eternal abyssal wisdom and elegant flow", "Possessing the vast tolerance of the great ocean",
+        "Possessing the divinity of spring water and purification", "Possessing the rhythm of raindrops and artistic flair",
+        "Possessing the mystery of mist and deep insight", "Possessing the spirit of waterfalls and breakthrough energy",
+        "Possessing the silence of frozen lakes and intellect", "Possessing the pure soul of dew and eye of wisdom",
+        "Possessing the secrets of the dark sea and intuition", "Possessing the curiosity of rivers and passion",
+        "Possessing the genius of waves and adaptability", "Possessing the flight of clouds and wings of soul"
     ]
 };
-
 const detailedDesc81 = {
     1: "태초의 빛이 만물을 깨우는 형상입니다. 독립심과 개척 정신이 강하며 스스로 길을 열어 대업을 성취합니다.",
     2: "뿌리가 흔들리는 고립의 기운입니다. 재능은 있으나 주변과의 조화가 깨지기 쉬우니 내실을 다져야 합니다.",
