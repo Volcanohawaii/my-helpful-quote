@@ -738,17 +738,17 @@ const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
 
 /**
  * 81Suri 정밀 처방전 시스템 (Prescription System)
+ * 하위 2개 오행을 받아 복합 처방을 생성합니다.
  */
 const suriPrescription = {
-    getRemedy: (num, lackEl, lang) => {
+    getRemedy: (num, lackEls, lang) => {
         // 인자가 제대로 안 들어왔을 때를 대비한 안전장치
-        const safeLang = lang || (typeof currentLang !== 'undefined' ? currentLang : 'ko');
-        const safeLack = lackEl || "木"; 
+        const safeLang = lang || 'ko';
+        const safeLacks = (Array.isArray(lackEls) && lackEls.length >= 2) ? lackEls : ["木", "火"]; 
 
         const elIdx = { "木": 0, "火": 6, "土": 12, "金": 18, "水": 24 };
-        const base = elIdx[safeLack] || 0;
-        const finalIdx = base + (num % 6);
-
+        
+        // 데이터셋 정의
         const data = {
             ko: {
                 actions: [
@@ -812,12 +812,22 @@ const suriPrescription = {
             }
         };
 
-        const d = data[safeLang] || data['ko']; // 데이터가 없으면 한국어 기본 노출
+        const d = data[safeLang] || data['ko'];
+
+        // [핵심 로직] 두 가지 오행의 처방 인덱스를 각각 계산
+        const getIdx = (el, offset) => elIdx[el] + ((num + offset) % 6);
+        
+        const idx1 = getIdx(safeLacks[0], 0); // 첫 번째 부족 오행
+        const idx2 = getIdx(safeLacks[1], 1); // 두 번째 부족 오행
+
+        // 두 처방을 줄바꿈(<br>)으로 합쳐서 반환
+        const combine = (arr, i1, i2) => `${arr[i1]}<br>${arr[i2]}`;
+
         return {
-            color: d.colors[finalIdx],
-            action: d.actions[finalIdx],
-            social: d.socials[finalIdx],
-            food: d.foods[finalIdx]
+            color: combine(d.colors, idx1, idx2),
+            action: combine(d.actions, idx1, idx2),
+            social: combine(d.socials, idx1, idx2),
+            food: combine(d.foods, idx1, idx2)
         };
     }
 };
