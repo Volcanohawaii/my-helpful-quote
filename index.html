@@ -98,6 +98,23 @@
     let currentLang = 'ko';
     let session = { name: '', birth: '', seed: 0, scores: [], nameReport: '', num81: 1, tierStrong: 0, tierLack: 0 };
     const elements = ["木", "火", "土", "金", "水"];
+    const elementTraits = {
+        ko: {
+            "木": "곧게 뻗어 나가는 성질과 강한 추진력을 의미하며, 새로운 시작과 기획에 능한 기운입니다.",
+            "火": "뜨겁게 타오르는 열정과 확산력을 의미하며, 자신을 표현하고 주변을 밝히는 화려한 기운입니다.",
+            "土": "만물을 품는 포용력과 안정감을 의미하며, 신뢰를 바탕으로 중심을 잡고 중재하는 기운입니다.",
+            "金": "날카로운 결단력과 분석력을 의미하며, 불필요한 것을 정리하고 원칙을 지키는 냉철한 기운입니다.",
+            "水": "깊은 지혜와 유연한 흐름을 의미하며, 상황에 맞춰 적응하고 본질을 꿰뚫는 통찰의 기운입니다."
+        },
+        en: {
+            "木": "Represents growth and drive; it is the energy of pioneering new starts and planning.",
+            "火": "Represents passion and expansion; it is the energy of expression and brightening the world.",
+            "土": "Represents tolerance and stability; it is the energy of building trust and mediation.",
+            "金": "Represents decisiveness and analysis; it is the energy of pruning excess and integrity.",
+            "水": "Represents wisdom and fluidity; it is the energy of adaptation and deep insight."
+        }
+    };
+    
 
     function assertDataset() { if (typeof i18n === 'undefined') { alert("데이터 로드 실패."); return false; } return true; }
 
