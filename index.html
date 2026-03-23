@@ -356,7 +356,7 @@ const lackingEls = [lackEl1, lackEl2];
         <div style="text-align:left; border-top:1px solid #EEE; padding-top:15px;">
           
           <div style="margin-bottom:15px; padding-bottom:10px;">
-            <div style="font-size:0.85rem; color:#888; margin-bottom:4px;">시그니처 에너지 구성</div>
+            <div style="font-size:0.85rem; color:#888; margin-bottom:4px;">시그니처 에너지</div>
             <div style="font-size:1.05rem; font-weight:700; color:var(--primary); margin-bottom:6px;">
               주된 에너지: <span style="color:var(--accent);">${attrSource[strongEl].name}(${strongEl})</span> 
               <span style="font-size:0.9rem; font-weight:400; color:#999;">| 비중 ${strongPercentage}%</span>
@@ -388,12 +388,13 @@ const lackingEls = [lackEl1, lackEl2];
         </div>
 
         <div style="margin-top:20px; padding-top:15px; border-top:1px dashed #EEE; font-size:0.8rem; color:#888; line-height:1.5;">
-          <b style="color:#A0A0A0;">⚠️ 보완 시 주의점</b><br>
+          <b style="color:#A0A0A0;">⚠️ 과한 보충은 부작용이 있습니다.</b><br>
           ${sideSource[Math.abs(session.seed) % sideSource.length]}
         </div>
+
       </div>
     </div>
-  </div>`; // 여기서 tab-content를 닫고 전체 문자열을 종료합니다.
+  </div>`; // 전체 HTML 문자열 종료 (백틱 닫기)
           
         window.requestAnimationFrame(() => { renderChart(); });
 
