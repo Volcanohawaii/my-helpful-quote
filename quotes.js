@@ -683,7 +683,7 @@ const pastLifeDataEn = Array.from({ length: 81 }, (_, i) => {
     return { job: `${mods[i % mods.length]} ${jobs[Math.floor(i / 3) % jobs.length]}`, desc: descs[Math.floor(i / 2) % descs.length], homework: homeworks[i % homeworks.length] };
 });
 
-// [5. 내세 데이터: 장소, 생명체, 미션의 고해상도 조합]
+// [5. 내세 데이터: 장소, 직업, 상세설명, 미션의 고해상도 조합]
 const reincarnationData = Array.from({ length: 81 }, (_, i) => {
     const places = [
         "수정 도서관 (우주 아카이브)", "에테르 데이터 센터", "비의 정원", "바람의 고원", "고요한 사찰", 
@@ -691,21 +691,131 @@ const reincarnationData = Array.from({ length: 81 }, (_, i) => {
         "영원의 해변", "안개의 도시", "무지개 폭포", "별의 요람", "지혜의 탑", 
         "시간의 회랑", "은하수의 끝", "새벽의 숲", "거울의 호수", "황금 사막", "천상의 정원"
     ];
-    const objects = [
+    const jobs = [
         "지혜를 분류하는 수호자", "백색 왜성의 정원사", "차원의 균형을 맞추는 조율사", "빛의 파동을 기록하는 자", "영혼의 궤적을 그리는 화가",
         "에너지를 정화하는 연금술사", "시간의 흐름을 지키는 파수꾼", "기억의 조각을 모으는 수집가", "진리를 노래하는 전령사", "생명의 코드를 설계하는 공학자",
         "꿈의 경계를 지키는 안내자", "평화의 파동을 송출하는 안테나", "우주의 질서를 세우는 설계자", "진화의 방향을 결정하는 관찰자", "감정의 입자를 조절하는 조율사"
     ];
+    const descs = [
+        "우주 탄생의 비밀부터 멸망까지 모든 기록을 지키며, 다음 세대의 문명에 필요한 지혜를 선별하여 전달합니다.",
+        "차갑게 식어가는 별의 표면에 에테르 꽃을 피워, 죽어가는 성계에 새로운 생태계의 가능성을 심습니다.",
+        "뒤엉킨 다차원의 시공간을 정렬하고 차원간의 마찰을 줄여 우주의 붕괴를 막는 중대한 임무를 수행합니다.",
+        "우주에 존재하는 모든 빛의 스펙트럼을 분석하여 문명의 흥망성쇠를 데이터로 남기고 보존합니다.",
+        "성운의 가루를 물감 삼아 밤하늘에 새로운 은하의 밑그림을 그리며 생명의 영감을 시각화합니다.",
+        "오염된 차원 에너지를 정제하여 다시 순수한 마나로 되돌림으로써 우주의 수명을 연장하는 연금술을 펼칩니다.",
+        "역사의 왜곡이나 시간의 균열을 감시하며, 정해진 운명의 흐름이 올바른 방향으로 나아가도록 감시합니다.",
+        "사라져가는 별들의 마지막 기억 조각들을 모아 도서관에 아카이빙하고 영원한 생명을 부여합니다.",
+        "우주 너머에서 들려오는 진리의 공명음을 노래로 만들어 하급 문명에 영적 각성을 촉구하는 메시지를 보냅니다.",
+        "DNA 구조보다 복잡한 영혼의 프로그래밍 언어를 다루며 생명체가 진화할 수 있는 최적의 설계를 구축합니다.",
+        "무의식의 세계와 현실의 경계에서 길 잃은 영혼들이 올바른 환생의 문으로 들어서도록 안내합니다.",
+        "평화와 자애의 주파수를 증폭시켜 우주 구석구석에 닿게 함으로써 차원 간의 갈등을 근원적으로 해소합니다.",
+        "성단의 중력과 궤도를 정밀하게 계산하여 새로운 태양계가 안정적으로 자리 잡을 수 있도록 기반을 닦습니다.",
+        "종의 탄생과 멸종을 긴 안목으로 지켜보며, 우주가 스스로를 인식하고 진화하는 과정을 기록하고 판단합니다.",
+        "고통이나 슬픔의 입자를 중화시키고 기쁨과 평온의 입자로 변환하여 지성체들의 정신적 풍요를 돕습니다."
+    ];
+    // 81수리에 맞춰 27개로 대폭 확장된 미션
     const missions = [
-        "우주의 모든 신성한 기억을 분류하고 보존하십시오.", "메마른 영혼에 생명수를 뿌려 다시 피어나게 하십시오.", "자유를 잃은 자들에게 보이지 않는 길을 안내하십시오.", "세상에 평화의 파동을 전하는 안테나가 되십시오.", "미래를 밝힐 새로운 에너지원을 연산하십시오.", 
-        "바다의 생태계를 치유하고 생명을 조율하십시오.", "보이지 않는 곳에서 우주의 진리를 수호하십시오.", "잊혀진 근원적 질문들에 대한 해답을 찾으십시오.", "예술과 기술이 융합된 새로운 세계를 설계하십시오.", "순환하는 시간의 균형을 맞추는 저울이 되십시오.",
-        "혼란에 빠진 영혼들이 쉴 수 있는 안식처를 지으십시오.", "지상의 모든 작고 소중한 목소리를 기록하십시오.", "어둠 속에서 길 잃은 별들을 올바른 궤도로 인도하십시오.", "무너진 가치관 위에 새로운 질서의 기둥을 세우십시오.", "잠든 지혜를 깨워 무지함을 물리치십시오."
+        "멸망해가는 행성의 고대 언어를 해석하여 수정 도서관에 영구 보존하십시오.",
+        "메마른 은하계에 생명수를 뿌려 잠든 생태계의 씨앗을 다시 깨우십시오.",
+        "자유를 잃고 방황하는 영혼들에게 보이지 않는 빛의 길을 안내하십시오.",
+        "문명 간의 충돌을 방지하기 위해 평화의 파동을 전 우주에 송출하십시오.",
+        "미래 세대가 사용할 새로운 차원의 에너지원을 완벽하게 연산해내십시오.",
+        "심해 속에 잠든 고대 지혜의 파편을 찾아내어 현재의 문명과 연결하십시오.",
+        "우주 역사의 왜곡을 감시하고, 뒤틀린 인과율을 원래의 궤도로 되돌리십시오.",
+        "잊혀진 근원적 질문들에 대한 해답을 찾기 위해 차원의 끝을 탐험하십시오.",
+        "예술적 감성과 초과학 기술이 융합된 완전히 새로운 유토피아를 설계하십시오.",
+        "순환하는 시공간의 저울을 평형 상태로 유지하여 우주의 붕괴를 막으십시오.",
+        "혼란에 빠진 지성체들이 영적 안식을 취할 수 있는 제4차원의 쉼터를 지으십시오.",
+        "우주 구석구석에서 들려오는 작고 소중한 생명의 목소리를 하나도 빠짐없이 기록하십시오.",
+        "어둠 속에서 길을 잃고 떠도는 어린 별들을 안전한 태양계의 궤도로 인도하십시오.",
+        "붕괴된 가치관 위에 사랑과 신뢰를 바탕으로 한 새로운 질서의 기둥을 세우십시오.",
+        "오랫동안 잠들어 있던 거대 지혜를 깨워 무지로부터 오는 갈등을 종식시키십시오.",
+        "다른 차원에서 침입한 오염된 에너지를 정제하여 우주의 순수성을 수호하십시오.",
+        "우주 아카이브에서 손상된 기억 데이터를 복구하여 사라진 역사를 재건하십시오.",
+        "행성 간의 문화적 마찰을 조율하여 범은하적 평화 조약을 체결하십시오.",
+        "지치고 상처받은 영혼들이 다시 태어날 용기를 얻도록 치유의 성소를 관리하십시오.",
+        "차원 이동의 경계선을 순찰하며 허가받지 않은 운명의 간섭을 차단하십시오.",
+        "진화의 임계점에 도달한 문명이 올바른 선택을 하도록 지혜의 징표를 남기십시오.",
+        "성운의 먼지를 모아 새로운 태양이 탄생할 수 있는 최적의 환경을 조성하십시오.",
+        "우주에 떠도는 모든 감정의 입자를 분석하여 슬픔을 기쁨으로 치유하십시오.",
+        "영혼의 궤적을 분석하여 환생 시스템의 효율성을 극대화하는 코드를 작성하십시오.",
+        "우주 전체의 공명 주파수를 미세하게 조정하여 조화로운 시대를 여십시오.",
+        "시간의 흐름 속에 숨겨진 비밀 통로를 찾아 미래의 위협을 미리 방지하십시오.",
+        "스스로 빛을 내지 못하는 행성들에 지혜의 불꽃을 전달하여 문명을 꽃피우십시오."
     ];
 
     return { 
         place: places[i % places.length], 
-        object: objects[Math.floor(i / 2) % objects.length], // ✅ 사라졌던 생명체 데이터 복구
-        mission: missions[Math.floor(i / 3) % missions.length] 
+        job: jobs[Math.floor(i / 2) % jobs.length], 
+        desc: descs[Math.floor(i / 2) % descs.length],
+        mission: missions[i % missions.length] // 미션의 회전 주기를 독립적으로 설정
+    };
+});
+
+const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
+    const places = [
+        "Crystal Library (Cosmic Archive)", "Ether Data Center", "Garden of Rain", "Plateau of Wind", "Silent Temple", 
+        "Lab of Light", "Coral Meadow", "Cloud Island", "Philosopher's Forest", "Creation Square", 
+        "Eternal Beach", "Mist City", "Rainbow Fall", "Star Cradle", "Tower of Wisdom", 
+        "Corridor of Time", "Galaxy's End", "Forest of Dawn", "Mirror Lake", "Golden Desert", "Celestial Garden"
+    ];
+    const jobs = [
+        "Guardian of Universal Wisdom", "Gardener of White Dwarfs", "Arbiter of Dimensional Balance", "Recorder of Light Vibrations", "Painter of Soul Trajectories",
+        "Alchemist of Energy Purification", "Sentinel of the Timeline", "Collector of Memory Fragments", "Herald of Sacred Truth", "Engineer of Life Codes",
+        "Guide of Dream Borders", "Antenna of Peace Waves", "Architect of Cosmic Order", "Observer of Evolutionary Paths", "Tuner of Emotional Particles"
+    ];
+    const descs = [
+        "Protects records from the birth to the end of the universe, curating essential wisdom for future civilizations.",
+        "Cultivates ether flowers on the surfaces of cooling stars, planting possibilities for new ecosystems in dying systems.",
+        "Aligns tangled multi-dimensional spacetimes and reduces friction to prevent the collapse of the universe.",
+        "Analyzes all light spectrums to record the rise and fall of civilizations into eternal cosmic data.",
+        "Uses nebula dust as paint to sketch new galaxies across the night sky, visualizing the inspiration of life.",
+        "Purifies polluted dimensional energy back into pure mana, performing alchemy to extend the universe's lifespan.",
+        "Monitors historical distortions and temporal cracks, ensuring the stream of fate flows in the right direction.",
+        "Collects the final memory fragments of fading stars, archiving them in the library to grant them eternal life.",
+        "Turns the resonance of truth from beyond the universe into songs, sparking spiritual awakening in lower civilizations.",
+        "Manages the programming language of souls, building optimal designs for the evolution of all life forms.",
+        "Stands at the border of the unconscious and reality, guiding lost souls toward the correct gate of reincarnation.",
+        "Amplifies frequencies of peace and benevolence, fundamentally resolving dimensional conflicts across the cosmos.",
+        "Calculates the gravity and orbits of star clusters, laying the foundation for new solar systems to stabilize.",
+        "Observes the birth and extinction of species, recording and judging the universe's process of self-recognition.",
+        "Neutralizes particles of pain or sorrow, converting them into joy and tranquility to enrich the minds of beings."
+    ];
+    const missions = [
+        "Decode the ancient languages of dying planets and preserve them in the Crystal Library.",
+        "Sprinkle life water on barren galaxies to awaken the seeds of dormant ecosystems.",
+        "Guide the invisible paths of light for souls wandering without freedom.",
+        "Broadcast peace waves across the universe to prevent inter-civilization conflicts.",
+        "Calculate and perfect new dimensional energy sources for future generations.",
+        "Find fragments of ancient wisdom in the deep sea and connect them with modern life.",
+        "Monitor distortions in cosmic history and restore the causal order to its orbit.",
+        "Explore the edges of dimensions to find answers to forgotten primal questions.",
+        "Design a completely new utopia where artistic sensibility and high-tech merge.",
+        "Maintain the balance of rotating spacetime scales to prevent cosmic collapse.",
+        "Build a 4th-dimensional sanctuary where troubled beings can find spiritual rest.",
+        "Record every small and precious voice of life from every corner of the cosmos.",
+        "Guide young stars lost in the dark back to the safe orbits of their solar systems.",
+        "Build pillars of a new order based on love and trust upon shattered values.",
+        "Wake the ancient, sleeping wisdom to end conflicts born from ignorance.",
+        "Purify polluted energy from other dimensions to protect the universe's purity.",
+        "Reconstruct lost history by restoring damaged memory data in the cosmic archives.",
+        "Harmonize planetary cultural frictions and sign a Pan-Galactic Peace Treaty.",
+        "Manage healing sanctuaries where weary souls gain courage for their next life.",
+        "Patrol the borders of dimensional travel to block unauthorized interference of fate.",
+        "Leave tokens of wisdom to guide civilizations at the threshold of evolution.",
+        "Collect nebula dust to create the optimal environment for new suns to be born.",
+        "Analyze all emotional particles in the universe to heal sorrow into joy.",
+        "Write code that analyzes soul trajectories to maximize reincarnation efficiency.",
+        "Fine-tune the resonance frequencies of the universe to open a harmonious era.",
+        "Find hidden passages in the flow of time to prevent future threats.",
+        "Deliver the flame of wisdom to planets that cannot shine on their own."
+    ];
+
+    return { 
+        place: places[i % places.length], 
+        job: jobs[Math.floor(i / 2) % jobs.length], 
+        desc: descs[Math.floor(i / 2) % descs.length],
+        mission: missions[i % missions.length] 
     };
 });
 
