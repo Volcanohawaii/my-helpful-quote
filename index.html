@@ -320,7 +320,8 @@ const lackEl1 = elements[scoreMap[0].id];
 const lackEl2 = elements[scoreMap[1].id]; 
 const lackingEls = [lackEl1, lackEl2];
   
-    if (mode === 'fortune') {
+    
+        if (mode === 'fortune') {
         const labels = currentLang === 'ko' ? 
             { t: `No.${session.num81} 에너지 정밀 보완`, c: "행운의 컬러", a: "실천 행동", s: "인적 에너지", f: "기운 보충 음식", adv: "현생 지침" } :
             { t: `No.${session.num81} Energy Remedy`, c: "Lucky Color", a: "Action Plan", s: "Social Energy", f: "Vitality Food", adv: "Guideline" };
@@ -331,43 +332,27 @@ const lackingEls = [lackEl1, lackEl2];
         const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
         const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
 
-        // 계절 이름 로직
-        let seasonName = currentLang === 'ko' ? "환절기(土)" : "Between Seasons(土)";
-        if ([2, 3].includes(birthMonth)) seasonName = currentLang === 'ko' ? "봄(木)" : "Spring(木)";
-        else if ([5, 6].includes(birthMonth)) seasonName = currentLang === 'ko' ? "여름(火)" : "Summer(火)";
-        else if ([8, 9].includes(birthMonth)) seasonName = currentLang === 'ko' ? "가을(金)" : "Autumn(金)";
-        else if ([11, 12].includes(birthMonth)) seasonName = currentLang === 'ko' ? "겨울(水)" : "Winter(水)";
-
-        const lackMetaphors = currentLang === 'ko' ? 
-            { "木": "성장의 동력이 꺼진", "火": "열정이 식어버린", "土": "기반이 흔들리는", "金": "결단력이 무뎌진", "水": "지혜가 고립된" } :
-            { "木": "stalled growth", "火": "faded passion", "土": "unstable foundation", "金": "dull decision-making", "水": "isolated wisdom" };
-
         const diagnosisMsg = `<div style="color:var(--accent); background:#FDFBFA; border:1px solid #F0EAE3; padding:12px; border-radius:6px; font-weight:700; margin-top:15px; margin-bottom:15px; line-height:1.6;">
-            "당신은 ${seasonName}에 태어나 이름에 '${lackEl1}'와 '${lackEl2}'의 기운이 부족하여 
+            "당신은 ${seasonName}에 태어나 이름에 '${lackEl1}'와 '${lackEl2}'의 기운이 부족하여 <br>
             <span style="color:var(--text); font-weight:400; font-size:0.9rem;">${lackMetaphors[lackEl1]} 동시에 ${lackMetaphors[lackEl2]} 형국입니다.</span>"
         </div>`;
 
-         body.innerHTML = `
-  <div class="tab-content">
-    <div class="section-wrap">
-      <span class="section-title">${t.sec1}</span>
-      <div class="info-box">
-        <div id="radarChart" style="margin:20px auto; width:220px; height:220px;"></div>
-        <div style="text-align:left; border-top:1px solid #EEE; padding-top:15px;">
-          
-          <div style="margin-bottom:15px; padding-bottom:10px;">
-            <div style="font-size:0.85rem; color:#888; margin-bottom:4px;">시그니처 에너지</div>
-            <div style="font-size:1.05rem; font-weight:700; color:var(--primary); margin-bottom:6px;">
-              주된 에너지: <span style="color:var(--accent);">${attrSource[strongEl].name}(${strongEl})</span> 
-              <span style="font-size:0.9rem; font-weight:400; color:#999;">| 비중 ${strongPercentage}%</span>
-            </div>
-            <div style="font-size:0.88rem; color:#666; line-height:1.6; word-break:keep-all;">
-              "${traitText}"
-            </div>
-          </div>
-                  
+        body.innerHTML = `
+          <div class="tab-content">
+            <div class="section-wrap">
+              <span class="section-title">${t.sec1}</span>
+              <div class="info-box">
+                <div id="radarChart" style="margin:20px auto; width:220px; height:220px;"></div>
+                <div style="text-align:left; border-top:1px solid #EEE; padding-top:15px;">
+                  <div style="margin-bottom:15px; padding-bottom:10px;">
+                    <div style="font-size:0.85rem; color:#888; margin-bottom:4px;">시그니처 에너지</div>
+                    <div style="font-size:1.05rem; font-weight:700; color:var(--primary); margin-bottom:6px;">
+                      주된 에너지: <span style="color:var(--accent);">${attrSource[strongEl].name}(${strongEl})</span> 
+                      <span style="font-size:0.9rem; font-weight:400; color:#999;">| 비중 ${strongPercentage}%</span>
+                    </div>
+                    <div style="font-size:0.88rem; color:#666; line-height:1.6; word-break:keep-all;">"${traitText}"</div>
+                  </div>
                   ${diagnosisMsg}
-                  
                   <div style="line-height:1.7; font-size:0.92rem; color:#444; background:#FFF; padding:12px; border-radius:5px; border:1px solid #F0F0F0;">
                     <b style="color:var(--accent); display:block; margin-bottom:5px;">💡 ${labels.adv}</b>
                     ${adviceText}
@@ -375,28 +360,25 @@ const lackingEls = [lackEl1, lackEl2];
                 </div>
               </div>
             </div>
-
             <div class="section-wrap">
-      <span class="section-title">에너지 보완 처방</span>
-      <div class="info-box" style="padding:20px 15px; background:white; border:1px solid #EEE; border-radius:8px;">
-        
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px 10px; font-size:0.85rem; line-height:1.6;">
-          <div><b style="color:var(--primary);">🎨 행운 컬러:</b><br>${remedy.color}</div>
-          <div><b style="color:var(--primary);">🏃 실천 행동:</b><br>${remedy.action}</div>
-          <div><b style="color:var(--primary);">👥 인적 에너지:</b><br>${remedy.social}</div>
-          <div><b style="color:var(--primary);">🥗 보충 음식:</b><br>${remedy.food}</div>
-        </div>
-
-        <div style="margin-top:20px; padding-top:15px; border-top:1px dashed #EEE; font-size:0.8rem; color:#888; line-height:1.5;">
-          <b style="color:#A0A0A0;">⚠️ 과한 보충은 부작용이 있습니다.</b><br>
-          ${sideSource[Math.abs(session.seed) % sideSource.length]}
-        </div>
-
-      </div>
-    </div>
-  </div>`; // 전체 HTML 문자열 종료 (백틱 닫기)
+              <span class="section-title">에너지 보완 처방</span>
+              <div class="info-box" style="padding:20px 15px; background:white; border:1px solid #EEE; border-radius:8px;">
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px 10px; font-size:0.85rem; line-height:1.6;">
+                  <div><b style="color:var(--primary);">🎨 행운 컬러:</b><br>${remedy.color}</div>
+                  <div><b style="color:var(--primary);">🏃 실천 행동:</b><br>${remedy.action}</div>
+                  <div><b style="color:var(--primary);">👥 인적 에너지:</b><br>${remedy.social}</div>
+                  <div><b style="color:var(--primary);">🥗 보충 음식:</b><br>${remedy.food}</div>
+                </div>
+                <div style="margin-top:20px; padding-top:15px; border-top:1px dashed #EEE; font-size:0.8rem; color:#888; line-height:1.5;">
+                  <b style="color:#A0A0A0;">⚠️ 과한 보충은 부작용이 있습니다.</b><br>
+                  ${sideSource[Math.abs(session.seed) % sideSource.length]}
+                </div>
+              </div>
+            </div>
+          </div>`;
           
-        window.requestAnimationFrame(() => { renderChart(); });
+        window.requestAnimationFrame(() => { renderChart(); });  
+  
 
     } else if (mode === 'past') {
         const p = (currentLang === 'ko') ? pastLifeData[session.num81-1] : pastLifeDataEn[session.num81-1];
