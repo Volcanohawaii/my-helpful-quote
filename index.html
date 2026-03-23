@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data:; style-src * 'unsafe-inline';">
   <style>
     * { box-sizing: border-box; }
-    :root { --bg: #F0EDE9; --paper: #FFFFFF; --primary: #243447; --accent: #9A8467; --text: #444444; --border: #D1CDC5; }
+   :root { --bg: #F0EDE9; --paper: #FFFFFF; --primary: #243447; --accent: #9A8467; --text: #000000; --border: #D1CDC5; }
     body { font-family: 'Pretendard', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; overflow-x: hidden; position: relative; }
     body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at center, rgba(255, 255, 255, 1) 1.2px, transparent 2px), radial-gradient(circle at center, rgba(154, 132, 103, 0.9) 2px, transparent 4px); background-size: 60px 60px, 140px 140px; background-position: 0 0, 30px 30px; opacity: 1; animation: twinkle 4s ease-in-out infinite alternate; }
     @keyframes twinkle { 0% { opacity: 0.5; } 100% { opacity: 1; } }
@@ -94,448 +94,150 @@
   <script src="./quotes.js?v=4"></script>
   <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
 
-  <script>
+<script>
     let currentLang = 'ko';
-async function updateCounter() { 
+    const elements = ["木", "火", "土", "金", "水"];
+
+    // 방문자 카운터
+    async function updateCounter() { 
       const el = document.getElementById('visit-count'); 
       if (!el) return;
       try { 
         const res = await fetch('https://api.counterapi.dev/v1/volcanohawaii-lab/main-counter/up'); 
         if (res.ok) {
           const data = await res.json(); 
-          if (data && typeof data.count === "number") { 
-            el.innerText = Number(data.count).toLocaleString(); 
-          }
+          if (data && typeof data.count === "number") { el.innerText = Number(data.count).toLocaleString(); }
         }
       } catch (e) { el.innerText = "1,248"; } 
     }
-    updateCounter(); // 이 줄이 있어야 실행됩니다.
-    
-    let session = { name: '', birth: '', seed: 0, scores: [], nameReport: '', num81: 1, tierStrong: 0, tierLack: 0 };
-    const elements = ["木", "火", "土", "金", "水"];
-    const elementTraits = {
-        ko: {
-            "木": "곧게 뻗어 나가는 성질과 강한 추진력을 의미하며, 새로운 시작과 기획에 능한 기운입니다.",
-            "火": "뜨겁게 타오르는 열정과 확산력을 의미하며, 자신을 표현하고 주변을 밝히는 화려한 기운입니다.",
-            "土": "만물을 품는 포용력과 안정감을 의미하며, 신뢰를 바탕으로 중심을 잡고 중재하는 기운입니다.",
-            "金": "날카로운 결단력과 분석력을 의미하며, 불필요한 것을 정리하고 원칙을 지키는 냉철한 기운입니다.",
-            "水": "깊은 지혜와 유연한 흐름을 의미하며, 상황에 맞춰 적응하고 본질을 꿰뚫는 통찰의 기운입니다."
-        },
-        en: {
-            "木": "Represents growth and drive; it is the energy of pioneering new starts and planning.",
-            "火": "Represents passion and expansion; it is the energy of expression and brightening the world.",
-            "土": "Represents tolerance and stability; it is the energy of building trust and mediation.",
-            "金": "Represents decisiveness and analysis; it is the energy of pruning excess and integrity.",
-            "水": "Represents wisdom and fluidity; it is the energy of adaptation and deep insight."
-        }
-    };
+    updateCounter();
 
-
-    function assertDataset() { if (typeof i18n === 'undefined') { alert("데이터 로드 실패."); return false; } return true; }
-
-    async function updateCounter() { 
-  const el = document.getElementById('visit-count'); 
-  if (!el) return;
-
-  try { 
-    // 실제 작동하는 보안 서버 주소입니다.
-    const res = await fetch('https://api.counterapi.dev/v1/volcanohawaii-lab/main-counter/up'); 
-    if (res.ok) {
-      const data = await res.json(); 
-      if (data && typeof data.count === "number") {
-        el.innerText = Number(data.count).toLocaleString(); 
-      }
-    } else { el.innerText = "1,248"; } // 서버 문제시 기본값
-  } catch (e) { el.innerText = "1,248"; } 
-}
-updateCounter();
-
-    function setLang(lang) { 
-      if (!assertDataset()) return; 
-      currentLang = lang; 
-      document.querySelectorAll('.flag').forEach(f => f.classList.remove('active')); 
-      document.getElementById(`flag-${lang}`).classList.add('active'); 
-      const t = i18n[lang]; 
-      document.getElementById('ui-title').innerText = t.title; 
-      document.getElementById('ui-desc').innerText = t.desc; 
-      document.getElementById('userName').placeholder = t.nameLabel; 
-      document.getElementById('userBirth').placeholder = t.birthLabel; 
-      document.getElementById('ui-btn').innerText = t.btn; 
-      document.getElementById('tab1').innerText = t.tab1Btn; 
-      document.getElementById('tab2').innerText = t.tab2Btn; 
-      document.getElementById('tab3').innerText = t.tab3Btn; 
+    function setLang(lang) {
+      currentLang = lang;
+      document.querySelectorAll('.flag').forEach(f => f.classList.remove('active'));
+      document.getElementById(`flag-${lang}`).classList.add('active');
+      const t = i18n[lang];
+      document.getElementById('ui-title').innerText = t.title;
+      document.getElementById('ui-desc').innerText = t.desc;
+      document.getElementById('userName').placeholder = t.nameLabel;
+      document.getElementById('userBirth').placeholder = t.birthLabel;
+      document.getElementById('ui-btn').innerText = t.btn;
+      document.getElementById('tab1').innerText = t.tab1Btn;
+      document.getElementById('tab2').innerText = t.tab2Btn;
+      document.getElementById('tab3').innerText = t.tab3Btn;
     }
 
     function startAnalysis() {
-      if (!assertDataset()) return;
       const n = document.getElementById('userName').value.trim();
       const b = document.getElementById('userBirth').value.trim().replace(/\D/g, '');
-      if (!n || b.length !== 8) { alert("정보를 확인해주세요."); return; }
+      if (!n || b.length !== 8) { alert(currentLang === 'ko' ? "정보를 확인해주세요." : "Check info."); return; }
       document.getElementById('loading-overlay').classList.add('show');
-
       setTimeout(() => {
         document.getElementById('loading-overlay').classList.remove('show');
         processData(n, b);
       }, 2000);
     }
 
-    function getHangulOnset(char) { 
-      const code = char.charCodeAt(0) - 44032; 
-      if (code < 0 || code > 11171) return char; 
-      const onsets = ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ']; 
-      return onsets[Math.floor(code / 588)]; 
+    function getHangulOnset(char) {
+      const code = char.charCodeAt(0) - 44032;
+      if (code < 0 || code > 11171) return char;
+      return ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'][Math.floor(code / 588)];
     }
 
-  function processData(name, birth, opts = {}) {
-      // 1. 데이터 클리닝 및 세션 저장
-      const cleanName = name.replace(/<[^>]*>?/gm, '');
-      session.name = cleanName;
-      session.birth = birth;
-
-      // 2. 수리 연산 (81수 체계)
-      const nameVal = cleanName.split('').reduce((a, ch) => a + ch.charCodeAt(0), 0);
+    function processData(name, birth) {
+      const nameVal = name.split('').reduce((a, ch) => a + ch.charCodeAt(0), 0);
       const birthVal = parseInt(birth, 10);
-      session.num81 = ((nameVal + birthVal) % 81) + 1;
-      session.seed = nameVal + birthVal;
-
-      // 3. 오행 점수 계산 (목화토금수)
-      let sc = [0, 0, 0, 0, 0]; 
-      const el_list = ['木', '火', '土', '金', '水'];
-      for (let i = 0; i < cleanName.length; i++) {
-        const char = cleanName[i];
+      const num81 = ((nameVal + birthVal) % 81) + 1;
+      let sc = [0, 0, 0, 0, 0];
+      for (let char of name) {
         const onset = /[a-zA-Z]/.test(char) ? char.toUpperCase() : getHangulOnset(char);
         const el = hangulElements[onset] || alphabetElements[onset];
-        if (el && el_list.includes(el)) sc[el_list.indexOf(el)] += 50;
+        if (el) sc[elements.indexOf(el)] += 50;
       }
-
-      // 4. 탄생월 보정
       const month = parseInt(birth.substring(4, 6), 10);
-      if ([2, 3].includes(month)) sc[0] += 50; 
-      else if ([5, 6].includes(month)) sc[1] += 50; 
-      else if ([8, 9].includes(month)) sc[3] += 50; 
-      else if ([11, 12].includes(month)) sc[4] += 50;
-      else sc[2] += 50;
-
-      session.scores = sc.map(s => s + 30);
-      session.tierStrong = Math.abs(session.seed) % 12;
-      session.tierLack = (Math.abs(session.seed) + 7) % 12;
-
-      // 5. 데이터 매칭
-      const res = nameNumerology[session.num81];
-      const monthInfo = birthMonthData[month] || birthMonthData[1];
-      const monthText = (currentLang === 'ko') ? monthInfo.ko : monthInfo.en;
-
-      // --- [UI 렌더링 시작: 상단 고정 영역] ---
-
-      // [컬러 띠]
-      const resultCard = document.getElementById('view-result');
-      resultCard.style.borderTop = `12px solid ${res.color || 'var(--accent)'}`;
-
-      // [제목] 요청하신대로 "000님의 수리성명학 분석 리포트"로 수정
-      const dynamicTitle = document.getElementById('dynamic-title');
-      dynamicTitle.style.textAlign = "center";
-      dynamicTitle.style.fontFamily = "'Gowun Batang', serif";
-      dynamicTitle.style.fontSize = "1.4rem";
-      dynamicTitle.style.fontWeight = "700";
-      dynamicTitle.style.marginTop = "10px";
-      dynamicTitle.style.color = "var(--primary)"; // 문자열 처리 완료
-      dynamicTitle.innerText = (currentLang === 'ko') ? `${cleanName}님의 수리성명학 분석 리포트` : `${cleanName}'s SURI Analysis Report`;
-
-
-      // [고유 코드 기반의 고해상도 요약 박스 - 다국어 대응]
-      const currentMonthLabel = (currentLang === 'ko') 
-          ? `🌌 ${month}월 시계열 지표` 
-          : `🌌 Birth Month ${month} Index`;
-
-      const luckyTitle = luckyTitles81[session.num81]; 
-      const characteristics = (currentLang === 'ko') 
-          ? detailedDesc81[session.num81] 
-          : detailedDesc81En[session.num81];
-
-      // 다국어 텍스트 분기 처리
-      const suriTitle = (currentLang === 'ko') ? `🔥 ${session.num81}수 성명학 지표` : `🔥 Suri Code ${session.num81} Indicator`;
-
-      const mainAnalysisText = (currentLang === 'ko') 
-          ? `당신은 81수 중 <span style="color:${res.color || 'var(--primary)'}; font-weight: 700;">${session.num81}수</span>에 해당합니다.<br>
-             이는 <span style="color:${res.color || 'var(--primary)'}; font-weight: 700;">${luckyTitle}</span>에 해당하며, 
-             <span style="background: rgba(154, 132, 103, 0.1); padding: 2px 4px;">${characteristics}</span>`
-          : `You belong to <span style="color:${res.color || 'var(--primary)'}; font-weight: 700;">Suri No.${session.num81}</span> out of 81.<br>
-             This corresponds to <span style="color:${res.color || 'var(--primary)'}; font-weight: 700;">${luckyTitle}</span>, 
-             characterized by <span style="background: rgba(154, 132, 103, 0.1); padding: 2px 4px;">${characteristics}</span>`;
-
-      let summaryHtml = `
-  <div style="margin: 25px 0; padding: 25px; background: #fcfcfc; border: 1px solid #eee; border-radius: 2px; text-align: left;">
-    <div style="display: flex; justify-content: space-between; border-bottom: 2px solid var(--primary); padding-bottom: 8px; margin-bottom: 20px;">
-      <span style="font-size: 0.7rem; font-weight: 700; color: #AAA; letter-spacing: 1px;">LAB_REPORT_V.2026</span>
-      <span style="font-size: 0.7rem; font-weight: 700; color: #AAA;">SURI_CODE: ${String(session.num81).padStart(2, '0')}</span>
-  <div style="margin: 20px 0; padding: 20px; background: #fcfcfc; border: 1px solid #eee; text-align: left;">
-    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--text); padding-bottom: 5px; margin-bottom: 15px;">
-        <span style="font-weight: 700;">LAB_REPORT_2026</span>
-        <span style="color: var(--accent); font-weight: 700;">SURI: ${String(session.num81).padStart(2, '0')}</span>
-    </div>
-
-    <div style="margin-bottom: 25px;">
-       <div style="font-size: 0.75rem; font-weight: 700; color: #AAA; margin-bottom: 4px; font-family: 'Gowun Batang';">CORE_ANALYSIS_LOG</div>
-       <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; font-family: 'Pretendard';">${suriTitle}</div>
-       <div style="font-size: 0.9rem; line-height: 1.6; color: var(--text); font-family: 'Pretendard';">
-         ${mainAnalysisText}
-       </div>
-    <div style="margin-bottom: 15px;">
-        <div style="font-weight: 700; margin-bottom: 5px;">[${suriTitle}]</div>
-        <div style="color: var(--text);">${mainAnalysisText}</div>
-    </div>
-
-    <div style="border-top: 1px dashed #ddd; padding-top: 18px;">
-      <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; font-family: 'Pretendard';">${currentMonthLabel}</div>
-      <div style="font-size: 0.9rem; line-height: 1.6; color: #666; font-family: 'Pretendard';">
-        ${monthText}
-      </div>
-    <div style="border-top: 1px dashed #ddd; padding-top: 15px;">
-        <div style="font-weight: 700; margin-bottom: 5px;">[${currentMonthLabel}]</div>
-        <div style="color: var(--text);">${monthText}</div>
-    </div>
-  </div>
-`;
-
-  </div>`;
-    
-      document.getElementById('dynamic-summary').innerHTML = summaryHtml;
-
-      // 6. 화면 전환 및 기본 탭 활성화
-      container.innerHTML = `<svg width="220" height="220" viewBox="0 0 220 220" style="overflow:visible; display:block; margin:0 auto;"><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#EEE"/><circle cx="${cx}" cy="${cy}" r="${r/2}" fill="none" stroke="#F5F5F5"/>${textLabels}<polygon points="${poly}" fill="${themeColor.f}" stroke="${themeColor.s}" stroke-width="2.5"/></svg>`;
+      sc[[0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 4, 4][month-1]] += 60;
+      const scores = sc.map(v => v + 30);
+      const strongEl = elements[scores.indexOf(Math.max(...scores))];
+      const lackEls = elements.filter((el, i) => scores[i] === Math.min(...scores)).slice(0, 2);
+      
+      const sessionData = { name, birth, num81, seed: nameVal+birthVal, elementScores: scores, strongEl, lackEls };
+      localStorage.setItem('destinySession', JSON.stringify(sessionData));
+      
+      renderSummary(sessionData);
+      document.getElementById('view-home').classList.add('hidden');
+      document.getElementById('view-result').classList.remove('hidden');
+      switchTab('fortune');
     }
 
-function switchTab(mode, btn) {
-    if (!assertDataset()) return; 
-    if (btn) { 
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); 
-        btn.classList.add('active'); 
-    }
-    const body = document.getElementById('tab-body'); 
-    const t = i18n[currentLang]; 
-
-    // [1. 모든 데이터 계산 및 정의 - 여기서 한 번만 합니다]
-    const totalScore = session.scores.reduce((a, b) => a + b, 0);
-    const maxIdx = session.scores.indexOf(Math.max(...session.scores));
-    const strongEl = elements[maxIdx]; 
-    const strongPercentage = Math.round((session.scores[maxIdx] / totalScore) * 100);
-    const traitText = elementTraits[currentLang][strongEl];
-    const birthMonth = parseInt(String(session.birth || "").substring(4, 6), 10) || 1;
-
-    const scoreMap = session.scores.map((s, i) => ({ id: i, score: s }));
-    scoreMap.sort((a, b) => a.score - b.score);
-    const lackEl1 = elements[scoreMap[0].id]; 
-    const lackEl2 = elements[scoreMap[1].id]; 
-    const lackingEls = [lackEl1, lackEl2]; 
-
-   
-    // [2. 화면 렌더링]
-function switchTab(mode) {
-    const body = document.getElementById('reportDetail');
-    const t = (currentLang === 'ko') ? i18n.ko : i18n.en;
-    const session = JSON.parse(localStorage.getItem('destinySession'));
-    if (!session) return;
-
-    // 탭 버튼 활성화 상태 변경
-    document.querySelectorAll('.tab-btn').forEach(b => {
-        b.classList.toggle('active', b.getAttribute('onclick').includes(mode));
-    });
-
-    const attrSource = (currentLang === 'ko') ? elementAttributesKo : elementAttributesEn;
-    const { strongEl, lackEls, strongPercentage } = session;
-    
-    // [중요: 에러 방지용 변수 정의 - 이 부분이 있어야 ReferenceError가 안 납니다]
-    const birthMonth = parseInt(session.birth.substring(4, 6));
-    let seasonName = currentLang === 'ko' ? "환절기(土)" : "Between Seasons(土)";
-    if ([2, 3].includes(birthMonth)) seasonName = currentLang === 'ko' ? "봄(木)" : "Spring(木)";
-    else if ([5, 6].includes(birthMonth)) seasonName = currentLang === 'ko' ? "여름(火)" : "Summer(火)";
-    else if ([8, 9].includes(birthMonth)) seasonName = currentLang === 'ko' ? "가을(金)" : "Autumn(金)";
-    else if ([11, 12].includes(birthMonth)) seasonName = currentLang === 'ko' ? "겨울(水)" : "Winter(水)";
-
-    const lackMetaphors = currentLang === 'ko' ? 
-        { "木": "성장의 동력이 꺼진", "火": "열정이 식어버린", "土": "기반이 흔들리는", "金": "결단력이 무뎌진", "水": "지혜가 고립된" } :
-        { "木": "stalled growth", "火": "faded passion", "土": "unstable foundation", "金": "dull decision-making", "水": "isolated wisdom" };
-
-    if (mode === 'fortune') {
-        const labels = currentLang === 'ko' ? 
-            { t: `No.${session.num81} 에너지 정밀 보완`, c: "행운의 컬러", a: "실천 행동", s: "인적 에너지", f: "기운 보충 음식", adv: "현생 지침" } :
-            { t: `No.${session.num81} Energy Remedy`, c: "Lucky Color", a: "Action Plan", s: "Social Energy", f: "Vitality Food", adv: "Guideline" };
-        const remedy = suriPrescription.getRemedy(session.num81, lackEls, currentLang);
-        const labels = (currentLang === 'ko') ? { adv: "성명학적 조언" } : { adv: "Numerology Advice" };
-        const sideSource = (currentLang === 'ko') ? sideEffects : sideEffectsEn;
-
-        const remedy = suriPrescription.getRemedy(session.num81, lackingEls, currentLang);
-        const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
-        const adviceSource = currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12;
-        const adviceText = adviceSource[lackEl1][session.tierLack];
-        const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
-
-        let seasonName = currentLang === 'ko' ? "환절기(土)" : "Between Seasons(土)";
-        if ([2, 3].includes(birthMonth)) seasonName = currentLang === 'ko' ? "봄(木)" : "Spring(木)";
-        else if ([5, 6].includes(birthMonth)) seasonName = currentLang === 'ko' ? "여름(火)" : "Summer(火)";
-        else if ([8, 9].includes(birthMonth)) seasonName = currentLang === 'ko' ? "가을(金)" : "Autumn(金)";
-        else if ([11, 12].includes(birthMonth)) seasonName = currentLang === 'ko' ? "겨울(水)" : "Winter(水)";
-
-        const lackMetaphors = currentLang === 'ko' ? 
-            { "木": "성장의 동력이 꺼진", "火": "열정이 식어버린", "土": "기반이 흔들리는", "金": "결단력이 무뎌진", "水": "지혜가 고립된" } :
-            { "木": "stalled growth", "火": "faded passion", "土": "unstable foundation", "金": "dull decision-making", "水": "isolated wisdom" };
-
-// 2. [그다음에 바로 아래 줄인 const diagnosisMsg = ... 부분은 그대로 두시면 됩니다]
-        const diagnosisMsg = `<div style="color:var(--accent); background:#FDFBFA; border:1px solid #F0EAE3; padding:12px; border-radius:6px; font-weight:700; margin-top:15px; margin-bottom:15px; line-height:1.6;">
-            "당신은 ${seasonName}에 태어나 이름에 '${lackEl1}'와 '${lackEl2}'의 기운이 부족하여 
-            <span style="color:var(--text); font-weight:400; font-size:0.9rem;">${lackMetaphors[lackEl1]} 동시에 ${lackMetaphors[lackEl2]} 형국입니다.</span>"
+    function renderSummary(data) {
+      const month = parseInt(data.birth.substring(4,6));
+      document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `${data.name}님의 분석 리포트` : `${data.name}'s Report`;
+      document.getElementById('dynamic-summary').innerHTML = `
+        <div class="info-box" style="background:#F9F8F6; border:1px solid #EEE; color:#000; font-size:0.95rem;">
+          <div style="display:flex; justify-content:space-between; border-bottom:1px solid #000; padding-bottom:8px; margin-bottom:15px;">
+              <span style="font-weight:800;">DESTINY_LAB_2026</span>
+              <span style="color:var(--accent); font-weight:800;">CODE: ${String(data.num81).padStart(2, '0')}</span>
+          </div>
+          <p><b>[수리 격]</b> ${currentLang === 'ko' ? luckyTitles81[data.num81] : luckyTitles81En[data.num81]}</p>
+          <p style="margin-bottom:15px; line-height:1.7;">${currentLang === 'ko' ? detailedDesc81[data.num81] : detailedDesc81En[data.num81]}</p>
+          <div style="border-top:1px dashed #DDD; padding-top:15px;">
+            <b>[월간 에너지]</b><br>${birthMonthData[month][currentLang]}
+          </div>
         </div>`;
-        // 성명학 조언 문구 가져오기 (12단계 처방 데이터 사용)
-        const presArr = (currentLang === 'ko') ? elementPrescriptions12[strongEl] : enPrescriptions12[strongEl];
-        const adviceText = presArr[(session.num81 + birthMonth) % 12];
-        const traitText = (currentLang === 'ko') ? detailedDesc81[session.num81] : detailedDesc81En[session.num81];
-
-        // 진단 메시지 구성
-        const diagnosisMsg = currentLang === 'ko' ?
-            `<p style="margin:15px 0;">당신은 <b>${seasonName}</b>에 태어나 <b>${attrSource[strongEl].name}</b>의 기운을 가장 강력하게 사용합니다. 현재 구조에서 가장 아쉬운 점은 <b>${lackEls.join(', ')}</b>의 부재이며, 이는 <b>${lackMetaphors[lackEls[0]]}</b> 심리적 상태로 나타날 수 있습니다.</p>` :
-            `<p style="margin:15px 0;">Born in <b>${seasonName}</b>, you harness the power of <b>${attrSource[strongEl].name}</b>. Your chart lacks <b>${lackEls.join(', ')}</b>, leading to <b>${lackMetaphors[lackEls[0]]}</b> traits.</p>`;
-
-        body.innerHTML = `
-          <div class="tab-content">
-          <div class="tab-content" style="color:#000; font-size:0.95rem;">
-            <div class="section-wrap">
-              <span class="section-title">${t.sec1}</span>
-              <div class="info-box">
-                <div id="radarChart" style="margin:20px auto; width:220px; height:220px;"></div>
-                <div style="text-align:left; border-top:1px solid #EEE; padding-top:15px;">
-              <span class="section-title" style="color:var(--accent); font-weight:700;">${t.sec1}</span>
-              <div class="info-box" style="border: 1px solid #EEE; padding:20px; background:#fff;">
-                <div id="radarChart" style="margin:10px auto; width:220px; height:220px;"></div>
-                <div style="border-top:1px solid #EEE; padding-top:15px;">
-                  <div style="margin-bottom:15px;">
-                    <div style="font-size:0.85rem; color:#888; margin-bottom:4px;">시그니처 에너지 구성</div>
-                    <div style="font-size:1.05rem; font-weight:700; color:var(--primary);">
-                      주된 에너지: <span style="color:var(--accent);">${attrSource[strongEl].name}(${strongEl})</span> 
-                      <span style="font-size:0.9rem; font-weight:400; color:#999;">| 비중 ${strongPercentage}%</span>
-                    </div>
-                    <div style="font-size:0.88rem; color:#666; margin-top:6px; line-height:1.5;">"${traitText}"</div>
-                    <b style="color:#000;">주된 에너지:</b> <span style="color:var(--accent); font-weight:700;">${attrSource[strongEl].name}(${strongEl})</span> 
-                    <span style="color:#000;">| 비중 ${strongPercentage}%</span><br>
-                  </div>
-                  ${diagnosisMsg}
-                  <div style="line-height:1.7; font-size:0.92rem; color:#444; background:#FFF; padding:12px; border-radius:5px; border:1px solid #F0F0F0;">
-                    <b style="color:var(--accent); display:block; margin-bottom:5px;">💡 ${labels.adv}</b>
-                    ${adviceText}
-                  <div style="padding:15px; background:#F9F8F6; border-radius:8px;">
-                    <b style="color:var(--accent);">💡 ${labels.adv}</b><br>
-                    <span style="color:#000; line-height:1.6;">${adviceText}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="section-wrap">
-              <span class="section-title">에너지 보완 처방</span>
-              <div class="info-box" style="padding:20px 15px; background:white; border:1px solid #EEE; border-radius:8px;">
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px 10px; font-size:0.85rem; line-height:1.6;">
-                  <div><b style="color:var(--primary);">🎨 ${labels.c}:</b><br>${remedy.color}</div>
-                  <div><b style="color:var(--primary);">🏃 ${labels.a}:</b><br>${remedy.action}</div>
-                  <div><b style="color:var(--primary);">👥 ${labels.s}:</b><br>${remedy.social}</div>
-                  <div><b style="color:var(--primary);">🥗 ${labels.f}:</b><br>${remedy.food}</div>
-
-            <div class="section-wrap" style="margin-top:25px;">
-              <span class="section-title" style="color:var(--accent); font-weight:700;">에너지 보완 전략</span>
-              <div class="info-box" style="background:#fff; border: 1px solid #EEE; padding:20px;">
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px 15px;">
-                  <div><b style="color:var(--accent);">🎨 행운 컬러</b><br><span style="color:#000;">${remedy.color}</span></div>
-                  <div><b style="color:var(--accent);">🏃 실천 행동</b><br><span style="color:#000;">${remedy.action}</span></div>
-                  <div><b style="color:var(--accent);">👥 인적 에너지</b><br><span style="color:#000;">${remedy.social}</span></div>
-                  <div><b style="color:var(--accent);">🥗 보충 음식</b><br><span style="color:#000;">${remedy.food}</span></div>
-                </div>
-                <div style="margin-top:20px; padding-top:15px; border-top:1px dashed #EEE; font-size:0.8rem; color:#888; line-height:1.5;">
-                  <b style="color:#A0A0A0;">⚠️ 과한 보충은 부작용이 있습니다.</b><br>
-                  ${sideSource[Math.abs(session.seed) % sideSource.length]}
-                <div style="margin-top:20px; padding-top:15px; border-top:1px dashed #EEE;">
-                  <b style="color:#E74C3C;">⚠️ 주의사항:</b><br>
-                  <span style="color:#000;">${sideSource[Math.abs(session.seed) % sideSource.length]}</span>
-                </div>
-              </div>
-            </div>
-          </div>`;
-        window.requestAnimationFrame(() => { renderChart(); });
-          
-        setTimeout(() => renderRadar(session.elementScores), 50);
-
-    } else if (mode === 'past') {
-        const p = (currentLang === 'ko') ? pastLifeData[session.num81-1] : pastLifeDataEn[session.num81-1];
-        const pastName = (currentLang === 'ko') ? makePastNameKo(session.num81, strongEl, lackEl1, birthMonth) : makePastNameEn(session.num81, strongEl, lackEl1, birthMonth);
-        body.innerHTML = `<div class="tab-content"><span class="section-title">${t.tab2Title}</span><div class="info-box"><b>🏷️ 전생 이름</b><br>${pastName}<br><br><b>💼 ${t.pastJob}</b><br>[${p.job}]<br>${p.desc}<br><br><b>📜 ${t.pastHomework}</b><br>${p.homework}</div></div>`;
-        const epithet = (currentLang === 'ko') ? epithetKoByElement[strongEl][(session.num81 + birthMonth) % 12] : epithetEnByElement[strongEl][(session.num81 + birthMonth) % 12];
-        const pastName = (currentLang === 'ko') ? makePastNameKo(session.num81, strongEl, lackEls[0], birthMonth) : makePastNameEn(session.num81, strongEl, lackEls[0], birthMonth);
-
-        body.innerHTML = `
-          <div class="tab-content" style="color:#000; font-size:0.95rem;">
-            <span class="section-title" style="color:var(--accent); font-weight:700;">${t.tab2Title}</span>
-            <div class="info-box" style="background:#fff; border: 1px solid #EEE; padding:25px;">
-              <div style="margin-bottom:25px; text-align:center; padding-bottom:20px; border-bottom:1px solid #F0F0F0;">
-                <b style="color:var(--accent); display:block; margin-bottom:5px;">[기록된 이름]</b>
-                <span style="font-size:1.1rem; font-weight:700; color:#000;">${pastName}</span>
-              </div>
-              <div style="margin-bottom:20px;">
-                <b style="color:var(--accent);">💼 ${t.pastJob}</b><br>
-                <span style="font-weight:700; color:#000;">${p.job}</span>
-                <p style="margin-top:8px; line-height:1.6; color:#000;">${p.desc}</p>
-              </div>
-              <div>
-                <b style="color:var(--accent);">📜 ${t.pastHomework}</b><br>
-                <span style="color:#000;">${p.homework}</span>
-              </div>
-            </div>
-          </div>`;
-
-    } else if (mode === 'next') {
-        const r = (currentLang === 'ko') ? reincarnationData[session.num81-1] : reincarnationDataEn[session.num81-1];
-        
-        const nextLifeName = (currentLang === 'ko') 
-            ? makeNextLifeNameKo(session.num81, strongEl, lackEl1, birthMonth) 
-            : makeNextLifeNameEn(session.num81, strongEl, lackEl1, birthMonth);
-        const nextName = (currentLang === 'ko') ? makeNextLifeNameKo(session.num81, strongEl, lackEls[0], birthMonth) : makeNextLifeNameEn(session.num81, strongEl, lackEls[0], birthMonth);
-
-        body.innerHTML = `
-          <div class="tab-content">
-            <span class="section-title">${t.tab3Title}</span>
-            <div class="info-box">
-              <div style="margin-bottom:20px; padding-bottom:15px; border-bottom:1px dashed #EEE;">
-                <b style="color:var(--accent);">🏷️ ${currentLang === 'ko' ? '내세 이름' : 'Reserved Future Name'}</b><br>
-                <span style="font-size:1.1rem; font-weight:700;">${nextLifeName}</span>
-          <div class="tab-content" style="color:#000; font-size:0.95rem;">
-            <span class="section-title" style="color:var(--accent); font-weight:700;">${t.tab3Title}</span>
-            <div class="info-box" style="background:#fff; border: 1px solid #EEE; padding:25px;">
-              <div style="margin-bottom:25px; text-align:center; padding-bottom:20px; border-bottom:1px solid #F0F0F0;">
-                <b style="color:var(--accent); display:block; margin-bottom:5px;">[예약된 미래명]</b>
-                <span style="font-size:1.1rem; font-weight:700; color:#000;">${nextName}</span>
-              </div>
-              
-              <div style="margin-bottom:20px;">
-                <b style="color:var(--primary);">💼 ${currentLang === 'ko' ? '내세의 직업' : 'Future Occupation'}</b><br>
-                <span style="font-weight:700; color:var(--accent);">[${r.job}]</span><br>
-                <p style="font-size:0.88rem; color:#666; margin-top:5px; line-height:1.6;">${r.desc}</p>
-                <b style="color:var(--accent);">💼 ${t.nextObj}</b><br>
-                <span style="font-weight:700; color:#000;">[${r.job}]</span>
-                <p style="margin-top:8px; line-height:1.6; color:#000;">${r.desc}</p>
-              </div>
-
-              <div style="margin-bottom:20px;">
-                <b style="color:var(--primary);">📍 ${currentLang === 'ko' ? '내세 목적지' : 'Center of Activity'}</b><br>
-                ${r.place}
-                <b style="color:var(--accent);">📍 ${t.nextDest}</b><br>
-                <span style="color:#000;">${r.place}</span>
-              </div>
-
-              <div>
-                <b style="color:var(--primary);">📜 ${currentLang === 'ko' ? '내세의 미션' : 'Core Mission'}</b><br>
-                <span style="color:var(--text);">${r.mission}</span>
-                <b style="color:var(--accent);">📜 ${t.nextMission}</b><br>
-                <span style="color:#000;">${r.mission}</span>
-              </div>
-            </div>
-          </div>`;
     }
-}
-  </script>
+
+    function renderChart(scores) {
+      const container = document.getElementById('radarChart'); if (!container) return;
+      const labels = currentLang === 'ko' ? ["木", "火", "土", "金", "水"] : ["Wood", "Fire", "Earth", "Metal", "Water"];
+      const cx = 110, cy = 110, r = 70;
+      let poly = ""; labels.forEach((_, i) => { const a = (Math.PI * 2 / 5) * i - (Math.PI / 2); const v = (scores[i] / 180) * r; poly += `${cx + v * Math.cos(a)},${cy + v * Math.sin(a)} `; });
+      container.innerHTML = `<svg width="220" height="220" style="overflow:visible; display:block; margin:0 auto;"><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#EEE"/><circle cx="${cx}" cy="${cy}" r="${r/2}" fill="none" stroke="#F9F9F9"/>${labels.map((l, i) => { const a = (Math.PI * 2 / 5) * i - (Math.PI / 2); const tx = cx + (r + 25) * Math.cos(a), ty = cy + (r + 25) * Math.sin(a); return `<text x="${tx}" y="${ty}" text-anchor="middle" dominant-baseline="middle" fill="#000" font-size="11" font-weight="700">${l}</text>`; }).join('')}<polygon points="${poly}" fill="rgba(154, 132, 103, 0.3)" stroke="#9A8467" stroke-width="2"/></svg>`;
+    }
+
+    function switchTab(mode) {
+      const body = document.getElementById('reportDetail');
+      const session = JSON.parse(localStorage.getItem('destinySession'));
+      if (!session) return;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.getAttribute('onclick').includes(mode)));
+      const birthMonth = parseInt(session.birth.substring(4, 6));
+      let seasonName = currentLang === 'ko' ? "환절기(土)" : "Between Seasons(土)";
+      if ([2, 3].includes(birthMonth)) seasonName = currentLang === 'ko' ? "봄(木)" : "Spring(木)";
+      else if ([5, 6].includes(birthMonth)) seasonName = currentLang === 'ko' ? "여름(火)" : "Summer(火)";
+      else if ([8, 9].includes(birthMonth)) seasonName = currentLang === 'ko' ? "가을(金)" : "Autumn(金)";
+      else if ([11, 12].includes(birthMonth)) seasonName = currentLang === 'ko' ? "겨울(水)" : "Winter(水)";
+
+      if (mode === 'fortune') {
+        const remedy = suriPrescription.getRemedy(session.num81, session.lackEls, currentLang);
+        body.innerHTML = `
+          <div class="tab-content">
+            <span class="section-title">에너지 분석 지표</span>
+            <div class="info-box" style="background:#fff;">
+              <div id="radarChart" style="margin:10px auto; width:220px; height:220px;"></div>
+              <p>당신은 <b>${seasonName}</b>에 태어나 <b>${session.strongEl}</b>의 기운을 강력하게 사용합니다.</p>
+              <div style="padding:15px; background:#F9F8F6; border-radius:8px; border:1px solid #F0EAE3;">
+                <b style="color:var(--accent);">💡 성명학적 조언</b><br>${(currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12)[session.strongEl][(session.num81 + birthMonth) % 12]}
+              </div>
+            </div>
+            <span class="section-title">데일리 에너지 처방</span>
+            <div class="info-box" style="background:#fff;">
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                <div><b style="color:var(--accent);">🎨 행운 컬러</b><br>${remedy.color}</div>
+                <div><b style="color:var(--accent);">🏃 실천 행동</b><br>${remedy.action}</div>
+                <div><b style="color:var(--accent);">👥 인적 조화</b><br>${remedy.social}</div>
+                <div><b style="color:var(--accent);">🥗 보충 음식</b><br>${remedy.food}</div>
+              </div>
+            </div>
+          </div>`;
+        renderChart(session.elementScores);
+      } else if (mode === 'past') {
+        const p = (currentLang === 'ko') ? pastLifeData[session.num81-1] : pastLifeDataEn[session.num81-1];
+        body.innerHTML = `<div class="tab-content"><span class="section-title">전생 기록 데이터</span><div class="info-box" style="background:#fff; padding:25px;"><div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;"><b style="color:var(--accent); display:block;">[기록된 전생명]</b><span style="font-weight:800; font-size:1.1rem;">${(currentLang === 'ko' ? makePastNameKo : makePastNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span></div><p><b>💼 직업:</b> ${p.job}</p><p>${p.desc}</p><p><b>📜 과업:</b> ${p.homework}</p></div></div>`;
+      } else if (mode === 'next') {
+        const r = (currentLang === 'ko') ? reincarnationData[session.num81-1] : reincarnationDataEn[session.num81-1];
+        body.innerHTML = `<div class="tab-content"><span class="section-title">내세 예약 정보</span><div class="info-box" style="background:#fff; padding:25px;"><div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;"><b style="color:var(--accent); display:block;">[예약된 미래명]</b><span style="font-weight:800; font-size:1.1rem;">${(currentLang === 'ko' ? makeNextLifeNameKo : makeNextLifeNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span></div><p><b>💼 직업:</b> [${r.job}]</p><p>${r.desc}</p><p><b>📍 장소:</b> ${r.place}</p>Total<b>✅ 미션:</b> ${r.mission}</p></div></div>`;
+      }
+    }
+    window.onload = () => { if (typeof i18n !== 'undefined') setLang('ko'); };
+</script>
 </body>
 </html>
