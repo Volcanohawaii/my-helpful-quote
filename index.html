@@ -96,6 +96,21 @@
 
   <script>
     let currentLang = 'ko';
+async function updateCounter() { 
+      const el = document.getElementById('visit-count'); 
+      if (!el) return;
+      try { 
+        const res = await fetch('https://api.counterapi.dev/v1/volcanohawaii-lab/main-counter/up'); 
+        if (res.ok) {
+          const data = await res.json(); 
+          if (data && typeof data.count === "number") { 
+            el.innerText = Number(data.count).toLocaleString(); 
+          }
+        }
+      } catch (e) { el.innerText = "1,248"; } 
+    }
+    updateCounter(); // 이 줄이 있어야 실행됩니다.
+    
     let session = { name: '', birth: '', seed: 0, scores: [], nameReport: '', num81: 1, tierStrong: 0, tierLack: 0 };
     const elements = ["木", "火", "土", "金", "水"];
     const elementTraits = {
@@ -287,7 +302,6 @@ updateCounter();
       document.getElementById('dynamic-summary').innerHTML = summaryHtml;
 
       // 6. 화면 전환 및 기본 탭 활성화
-@@ -295,138 +287,140 @@
       container.innerHTML = `<svg width="220" height="220" viewBox="0 0 220 220" style="overflow:visible; display:block; margin:0 auto;"><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#EEE"/><circle cx="${cx}" cy="${cy}" r="${r/2}" fill="none" stroke="#F5F5F5"/>${textLabels}<polygon points="${poly}" fill="${themeColor.f}" stroke="${themeColor.s}" stroke-width="2.5"/></svg>`;
     }
 
