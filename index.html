@@ -249,29 +249,21 @@ updateCounter();
              characterized by <span style="background: rgba(154, 132, 103, 0.1); padding: 2px 4px;">${characteristics}</span>`;
 
       let summaryHtml = `
-  <div style="margin: 25px 0; padding: 25px; background: #fcfcfc; border: 1px solid #eee; border-radius: 2px; text-align: left;">
-    <div style="display: flex; justify-content: space-between; border-bottom: 2px solid var(--primary); padding-bottom: 8px; margin-bottom: 20px;">
-      <span style="font-size: 0.7rem; font-weight: 700; color: #AAA; letter-spacing: 1px;">LAB_REPORT_V.2026</span>
-      <span style="font-size: 0.7rem; font-weight: 700; color: #AAA;">SURI_CODE: ${String(session.num81).padStart(2, '0')}</span>
+  <div style="margin: 20px 0; padding: 20px; background: #fcfcfc; border: 1px solid #eee; text-align: left;">
+    <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--text); padding-bottom: 5px; margin-bottom: 15px;">
+        <span style="font-weight: 700;">LAB_REPORT_2026</span>
+        <span style="color: var(--accent); font-weight: 700;">SURI: ${String(session.num81).padStart(2, '0')}</span>
     </div>
-
-    <div style="margin-bottom: 25px;">
-       <div style="font-size: 0.75rem; font-weight: 700; color: #AAA; margin-bottom: 4px; font-family: 'Gowun Batang';">CORE_ANALYSIS_LOG</div>
-       <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; font-family: 'Pretendard';">${suriTitle}</div>
-       <div style="font-size: 0.9rem; line-height: 1.6; color: var(--text); font-family: 'Pretendard';">
-         ${mainAnalysisText}
-       </div>
+    <div style="margin-bottom: 15px;">
+        <div style="font-weight: 700; margin-bottom: 5px;">[${suriTitle}]</div>
+        <div style="color: var(--text);">${mainAnalysisText}</div>
     </div>
-
-    <div style="border-top: 1px dashed #ddd; padding-top: 18px;">
-      <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; font-family: 'Pretendard';">${currentMonthLabel}</div>
-      <div style="font-size: 0.9rem; line-height: 1.6; color: #666; font-family: 'Pretendard';">
-        ${monthText}
-      </div>
+    <div style="border-top: 1px dashed #ddd; padding-top: 15px;">
+        <div style="font-weight: 700; margin-bottom: 5px;">[${currentMonthLabel}]</div>
+        <div style="color: var(--text);">${monthText}</div>
     </div>
-  </div>
-`;
-
+  </div>`;
+    
       document.getElementById('dynamic-summary').innerHTML = summaryHtml;
 
       // 6. 화면 전환 및 기본 탭 활성화
@@ -295,133 +287,135 @@ updateCounter();
       container.innerHTML = `<svg width="220" height="220" viewBox="0 0 220 220" style="overflow:visible; display:block; margin:0 auto;"><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#EEE"/><circle cx="${cx}" cy="${cy}" r="${r/2}" fill="none" stroke="#F5F5F5"/>${textLabels}<polygon points="${poly}" fill="${themeColor.f}" stroke="${themeColor.s}" stroke-width="2.5"/></svg>`;
     }
 
-function switchTab(mode, btn) {
-    if (!assertDataset()) return; 
-    if (btn) { 
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); 
-        btn.classList.add('active'); 
-    }
-    const body = document.getElementById('tab-body'); 
-    const t = i18n[currentLang]; 
+function switchTab(mode) {
+    const body = document.getElementById('reportDetail');
+    const t = (currentLang === 'ko') ? i18n.ko : i18n.en;
+    const session = JSON.parse(localStorage.getItem('destinySession'));
+    if (!session) return;
 
-    // [1. 모든 데이터 계산 및 정의 - 여기서 한 번만 합니다]
-    const totalScore = session.scores.reduce((a, b) => a + b, 0);
-    const maxIdx = session.scores.indexOf(Math.max(...session.scores));
-    const strongEl = elements[maxIdx]; 
-    const strongPercentage = Math.round((session.scores[maxIdx] / totalScore) * 100);
-    const traitText = elementTraits[currentLang][strongEl];
-    const birthMonth = parseInt(String(session.birth || "").substring(4, 6), 10) || 1;
+    // 탭 버튼 활성화 상태 변경
+    document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('onclick').includes(mode));
+    });
 
-    const scoreMap = session.scores.map((s, i) => ({ id: i, score: s }));
-    scoreMap.sort((a, b) => a.score - b.score);
-    const lackEl1 = elements[scoreMap[0].id]; 
-    const lackEl2 = elements[scoreMap[1].id]; 
-    const lackingEls = [lackEl1, lackEl2]; 
+    const attrSource = (currentLang === 'ko') ? elementAttributesKo : elementAttributesEn;
+    const { strongEl, lackEls, strongPercentage } = session;
+    
+    // [중요: 에러 방지용 변수 정의 - 이 부분이 있어야 ReferenceError가 안 납니다]
+    const birthMonth = parseInt(session.birth.substring(4, 6));
+    let seasonName = currentLang === 'ko' ? "환절기(土)" : "Between Seasons(土)";
+    if ([2, 3].includes(birthMonth)) seasonName = currentLang === 'ko' ? "봄(木)" : "Spring(木)";
+    else if ([5, 6].includes(birthMonth)) seasonName = currentLang === 'ko' ? "여름(火)" : "Summer(火)";
+    else if ([8, 9].includes(birthMonth)) seasonName = currentLang === 'ko' ? "가을(金)" : "Autumn(金)";
+    else if ([11, 12].includes(birthMonth)) seasonName = currentLang === 'ko' ? "겨울(水)" : "Winter(水)";
 
-   
-    // [2. 화면 렌더링]
+    const lackMetaphors = currentLang === 'ko' ? 
+        { "木": "성장의 동력이 꺼진", "火": "열정이 식어버린", "土": "기반이 흔들리는", "金": "결단력이 무뎌진", "水": "지혜가 고립된" } :
+        { "木": "stalled growth", "火": "faded passion", "土": "unstable foundation", "金": "dull decision-making", "水": "isolated wisdom" };
+
     if (mode === 'fortune') {
-        const labels = currentLang === 'ko' ? 
-            { t: `No.${session.num81} 에너지 정밀 보완`, c: "행운의 컬러", a: "실천 행동", s: "인적 에너지", f: "기운 보충 음식", adv: "현생 지침" } :
-            { t: `No.${session.num81} Energy Remedy`, c: "Lucky Color", a: "Action Plan", s: "Social Energy", f: "Vitality Food", adv: "Guideline" };
+        const remedy = suriPrescription.getRemedy(session.num81, lackEls, currentLang);
+        const labels = (currentLang === 'ko') ? { adv: "성명학적 조언" } : { adv: "Numerology Advice" };
+        const sideSource = (currentLang === 'ko') ? sideEffects : sideEffectsEn;
         
-        const remedy = suriPrescription.getRemedy(session.num81, lackingEls, currentLang);
-        const attrSource = currentLang === 'ko' ? elementAttributesKo : elementAttributesEn;
-        const adviceSource = currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12;
-        const adviceText = adviceSource[lackEl1][session.tierLack];
-        const sideSource = currentLang === 'ko' ? sideEffects : sideEffectsEn;
+        // 성명학 조언 문구 가져오기 (12단계 처방 데이터 사용)
+        const presArr = (currentLang === 'ko') ? elementPrescriptions12[strongEl] : enPrescriptions12[strongEl];
+        const adviceText = presArr[(session.num81 + birthMonth) % 12];
+        const traitText = (currentLang === 'ko') ? detailedDesc81[session.num81] : detailedDesc81En[session.num81];
 
-        let seasonName = currentLang === 'ko' ? "환절기(土)" : "Between Seasons(土)";
-        if ([2, 3].includes(birthMonth)) seasonName = currentLang === 'ko' ? "봄(木)" : "Spring(木)";
-        else if ([5, 6].includes(birthMonth)) seasonName = currentLang === 'ko' ? "여름(火)" : "Summer(火)";
-        else if ([8, 9].includes(birthMonth)) seasonName = currentLang === 'ko' ? "가을(金)" : "Autumn(金)";
-        else if ([11, 12].includes(birthMonth)) seasonName = currentLang === 'ko' ? "겨울(水)" : "Winter(水)";
-
-        const lackMetaphors = currentLang === 'ko' ? 
-            { "木": "성장의 동력이 꺼진", "火": "열정이 식어버린", "土": "기반이 흔들리는", "金": "결단력이 무뎌진", "水": "지혜가 고립된" } :
-            { "木": "stalled growth", "火": "faded passion", "土": "unstable foundation", "金": "dull decision-making", "水": "isolated wisdom" };
-
-// 2. [그다음에 바로 아래 줄인 const diagnosisMsg = ... 부분은 그대로 두시면 됩니다]
-        const diagnosisMsg = `<div style="color:var(--accent); background:#FDFBFA; border:1px solid #F0EAE3; padding:12px; border-radius:6px; font-weight:700; margin-top:15px; margin-bottom:15px; line-height:1.6;">
-            "당신은 ${seasonName}에 태어나 이름에 '${lackEl1}'와 '${lackEl2}'의 기운이 부족하여 
-            <span style="color:var(--text); font-weight:400; font-size:0.9rem;">${lackMetaphors[lackEl1]} 동시에 ${lackMetaphors[lackEl2]} 형국입니다.</span>"
-        </div>`;
+        // 진단 메시지 구성
+        const diagnosisMsg = currentLang === 'ko' ?
+            `<p style="margin:15px 0;">당신은 <b>${seasonName}</b>에 태어나 <b>${attrSource[strongEl].name}</b>의 기운을 가장 강력하게 사용합니다. 현재 구조에서 가장 아쉬운 점은 <b>${lackEls.join(', ')}</b>의 부재이며, 이는 <b>${lackMetaphors[lackEls[0]]}</b> 심리적 상태로 나타날 수 있습니다.</p>` :
+            `<p style="margin:15px 0;">Born in <b>${seasonName}</b>, you harness the power of <b>${attrSource[strongEl].name}</b>. Your chart lacks <b>${lackEls.join(', ')}</b>, leading to <b>${lackMetaphors[lackEls[0]]}</b> traits.</p>`;
 
         body.innerHTML = `
-          <div class="tab-content">
+          <div class="tab-content" style="color:#000; font-size:0.95rem;">
             <div class="section-wrap">
-              <span class="section-title">${t.sec1}</span>
-              <div class="info-box">
-                <div id="radarChart" style="margin:20px auto; width:220px; height:220px;"></div>
-                <div style="text-align:left; border-top:1px solid #EEE; padding-top:15px;">
+              <span class="section-title" style="color:var(--accent); font-weight:700;">${t.sec1}</span>
+              <div class="info-box" style="border: 1px solid #EEE; padding:20px; background:#fff;">
+                <div id="radarChart" style="margin:10px auto; width:220px; height:220px;"></div>
+                <div style="border-top:1px solid #EEE; padding-top:15px;">
                   <div style="margin-bottom:15px;">
-                    <div style="font-size:0.85rem; color:#888; margin-bottom:4px;">시그니처 에너지 구성</div>
-                    <div style="font-size:1.05rem; font-weight:700; color:var(--primary);">
-                      주된 에너지: <span style="color:var(--accent);">${attrSource[strongEl].name}(${strongEl})</span> 
-                      <span style="font-size:0.9rem; font-weight:400; color:#999;">| 비중 ${strongPercentage}%</span>
-                    </div>
-                    <div style="font-size:0.88rem; color:#666; margin-top:6px; line-height:1.5;">"${traitText}"</div>
+                    <b style="color:#000;">주된 에너지:</b> <span style="color:var(--accent); font-weight:700;">${attrSource[strongEl].name}(${strongEl})</span> 
+                    <span style="color:#000;">| 비중 ${strongPercentage}%</span><br>
                   </div>
                   ${diagnosisMsg}
-                  <div style="line-height:1.7; font-size:0.92rem; color:#444; background:#FFF; padding:12px; border-radius:5px; border:1px solid #F0F0F0;">
-                    <b style="color:var(--accent); display:block; margin-bottom:5px;">💡 ${labels.adv}</b>
-                    ${adviceText}
+                  <div style="padding:15px; background:#F9F8F6; border-radius:8px;">
+                    <b style="color:var(--accent);">💡 ${labels.adv}</b><br>
+                    <span style="color:#000; line-height:1.6;">${adviceText}</span>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="section-wrap">
-              <span class="section-title">에너지 보완 처방</span>
-              <div class="info-box" style="padding:20px 15px; background:white; border:1px solid #EEE; border-radius:8px;">
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px 10px; font-size:0.85rem; line-height:1.6;">
-                  <div><b style="color:var(--primary);">🎨 ${labels.c}:</b><br>${remedy.color}</div>
-                  <div><b style="color:var(--primary);">🏃 ${labels.a}:</b><br>${remedy.action}</div>
-                  <div><b style="color:var(--primary);">👥 ${labels.s}:</b><br>${remedy.social}</div>
-                  <div><b style="color:var(--primary);">🥗 ${labels.f}:</b><br>${remedy.food}</div>
+
+            <div class="section-wrap" style="margin-top:25px;">
+              <span class="section-title" style="color:var(--accent); font-weight:700;">에너지 보완 전략</span>
+              <div class="info-box" style="background:#fff; border: 1px solid #EEE; padding:20px;">
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px 15px;">
+                  <div><b style="color:var(--accent);">🎨 행운 컬러</b><br><span style="color:#000;">${remedy.color}</span></div>
+                  <div><b style="color:var(--accent);">🏃 실천 행동</b><br><span style="color:#000;">${remedy.action}</span></div>
+                  <div><b style="color:var(--accent);">👥 인적 에너지</b><br><span style="color:#000;">${remedy.social}</span></div>
+                  <div><b style="color:var(--accent);">🥗 보충 음식</b><br><span style="color:#000;">${remedy.food}</span></div>
                 </div>
-                <div style="margin-top:20px; padding-top:15px; border-top:1px dashed #EEE; font-size:0.8rem; color:#888; line-height:1.5;">
-                  <b style="color:#A0A0A0;">⚠️ 과한 보충은 부작용이 있습니다.</b><br>
-                  ${sideSource[Math.abs(session.seed) % sideSource.length]}
+                <div style="margin-top:20px; padding-top:15px; border-top:1px dashed #EEE;">
+                  <b style="color:#E74C3C;">⚠️ 주의사항:</b><br>
+                  <span style="color:#000;">${sideSource[Math.abs(session.seed) % sideSource.length]}</span>
                 </div>
               </div>
             </div>
           </div>`;
-        window.requestAnimationFrame(() => { renderChart(); });
+          
+        setTimeout(() => renderRadar(session.elementScores), 50);
 
     } else if (mode === 'past') {
         const p = (currentLang === 'ko') ? pastLifeData[session.num81-1] : pastLifeDataEn[session.num81-1];
-        const pastName = (currentLang === 'ko') ? makePastNameKo(session.num81, strongEl, lackEl1, birthMonth) : makePastNameEn(session.num81, strongEl, lackEl1, birthMonth);
-        body.innerHTML = `<div class="tab-content"><span class="section-title">${t.tab2Title}</span><div class="info-box"><b>🏷️ 전생 이름</b><br>${pastName}<br><br><b>💼 ${t.pastJob}</b><br>[${p.job}]<br>${p.desc}<br><br><b>📜 ${t.pastHomework}</b><br>${p.homework}</div></div>`;
-    } else if (mode === 'next') {
-        const r = (currentLang === 'ko') ? reincarnationData[session.num81-1] : reincarnationDataEn[session.num81-1];
-        
-        const nextLifeName = (currentLang === 'ko') 
-            ? makeNextLifeNameKo(session.num81, strongEl, lackEl1, birthMonth) 
-            : makeNextLifeNameEn(session.num81, strongEl, lackEl1, birthMonth);
+        const epithet = (currentLang === 'ko') ? epithetKoByElement[strongEl][(session.num81 + birthMonth) % 12] : epithetEnByElement[strongEl][(session.num81 + birthMonth) % 12];
+        const pastName = (currentLang === 'ko') ? makePastNameKo(session.num81, strongEl, lackEls[0], birthMonth) : makePastNameEn(session.num81, strongEl, lackEls[0], birthMonth);
 
         body.innerHTML = `
-          <div class="tab-content">
-            <span class="section-title">${t.tab3Title}</span>
-            <div class="info-box">
-              <div style="margin-bottom:20px; padding-bottom:15px; border-bottom:1px dashed #EEE;">
-                <b style="color:var(--accent);">🏷️ ${currentLang === 'ko' ? '내세 이름' : 'Reserved Future Name'}</b><br>
-                <span style="font-size:1.1rem; font-weight:700;">${nextLifeName}</span>
+          <div class="tab-content" style="color:#000; font-size:0.95rem;">
+            <span class="section-title" style="color:var(--accent); font-weight:700;">${t.tab2Title}</span>
+            <div class="info-box" style="background:#fff; border: 1px solid #EEE; padding:25px;">
+              <div style="margin-bottom:25px; text-align:center; padding-bottom:20px; border-bottom:1px solid #F0F0F0;">
+                <b style="color:var(--accent); display:block; margin-bottom:5px;">[기록된 이름]</b>
+                <span style="font-size:1.1rem; font-weight:700; color:#000;">${pastName}</span>
               </div>
-              
               <div style="margin-bottom:20px;">
-                <b style="color:var(--primary);">💼 ${currentLang === 'ko' ? '내세의 직업' : 'Future Occupation'}</b><br>
-                <span style="font-weight:700; color:var(--accent);">[${r.job}]</span><br>
-                <p style="font-size:0.88rem; color:#666; margin-top:5px; line-height:1.6;">${r.desc}</p>
+                <b style="color:var(--accent);">💼 ${t.pastJob}</b><br>
+                <span style="font-weight:700; color:#000;">${p.job}</span>
+                <p style="margin-top:8px; line-height:1.6; color:#000;">${p.desc}</p>
               </div>
-
-              <div style="margin-bottom:20px;">
-                <b style="color:var(--primary);">📍 ${currentLang === 'ko' ? '내세 목적지' : 'Center of Activity'}</b><br>
-                ${r.place}
-              </div>
-
               <div>
-                <b style="color:var(--primary);">📜 ${currentLang === 'ko' ? '내세의 미션' : 'Core Mission'}</b><br>
-                <span style="color:var(--text);">${r.mission}</span>
+                <b style="color:var(--accent);">📜 ${t.pastHomework}</b><br>
+                <span style="color:#000;">${p.homework}</span>
+              </div>
+            </div>
+          </div>`;
+
+    } else if (mode === 'next') {
+        const r = (currentLang === 'ko') ? reincarnationData[session.num81-1] : reincarnationDataEn[session.num81-1];
+        const nextName = (currentLang === 'ko') ? makeNextLifeNameKo(session.num81, strongEl, lackEls[0], birthMonth) : makeNextLifeNameEn(session.num81, strongEl, lackEls[0], birthMonth);
+
+        body.innerHTML = `
+          <div class="tab-content" style="color:#000; font-size:0.95rem;">
+            <span class="section-title" style="color:var(--accent); font-weight:700;">${t.tab3Title}</span>
+            <div class="info-box" style="background:#fff; border: 1px solid #EEE; padding:25px;">
+              <div style="margin-bottom:25px; text-align:center; padding-bottom:20px; border-bottom:1px solid #F0F0F0;">
+                <b style="color:var(--accent); display:block; margin-bottom:5px;">[예약된 미래명]</b>
+                <span style="font-size:1.1rem; font-weight:700; color:#000;">${nextName}</span>
+              </div>
+              <div style="margin-bottom:20px;">
+                <b style="color:var(--accent);">💼 ${t.nextObj}</b><br>
+                <span style="font-weight:700; color:#000;">[${r.job}]</span>
+                <p style="margin-top:8px; line-height:1.6; color:#000;">${r.desc}</p>
+              </div>
+              <div style="margin-bottom:20px;">
+                <b style="color:var(--accent);">📍 ${t.nextDest}</b><br>
+                <span style="color:#000;">${r.place}</span>
+              </div>
+              <div>
+                <b style="color:var(--accent);">📜 ${t.nextMission}</b><br>
+                <span style="color:#000;">${r.mission}</span>
               </div>
             </div>
           </div>`;
