@@ -347,7 +347,7 @@ const lackingEls = [lackEl1, lackEl2];
             <span style="color:var(--text); font-weight:400; font-size:0.9rem;">${lackMetaphors[lackEl1]} 동시에 ${lackMetaphors[lackEl2]} 형국입니다.</span>"
         </div>`;
 
-          body.innerHTML = `
+         body.innerHTML = `
   <div class="tab-content">
     <div class="section-wrap">
       <span class="section-title">${t.sec1}</span>
@@ -355,13 +355,13 @@ const lackingEls = [lackEl1, lackEl2];
         <div id="radarChart" style="margin:20px auto; width:220px; height:220px;"></div>
         <div style="text-align:left; border-top:1px solid #EEE; padding-top:15px;">
           
-          <div style="margin-bottom:15px;">
+          <div style="margin-bottom:15px; padding-bottom:10px;">
             <div style="font-size:0.85rem; color:#888; margin-bottom:4px;">시그니처 에너지 구성</div>
-            <div style="font-size:1.05rem; font-weight:700; color:var(--primary);">
+            <div style="font-size:1.05rem; font-weight:700; color:var(--primary); margin-bottom:6px;">
               주된 에너지: <span style="color:var(--accent);">${attrSource[strongEl].name}(${strongEl})</span> 
               <span style="font-size:0.9rem; font-weight:400; color:#999;">| 비중 ${strongPercentage}%</span>
             </div>
-            <div style="font-size:0.88rem; color:#666; margin-top:6px; line-height:1.5;">
+            <div style="font-size:0.88rem; color:#666; line-height:1.6; word-break:keep-all;">
               "${traitText}"
             </div>
           </div>
