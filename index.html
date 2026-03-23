@@ -351,9 +351,14 @@ function switchTab(mode, btn) {
             </div>
 
             <div class="section-wrap">
-              <span class="section-title">${currentLang === 'ko' ? '에너지 보완 리포트' : 'Energy Supplement Report'}</span>
-              <div class="info-box" style="padding:15px; background:white; border:1px solid #EEE; border-radius:8px;">
-                <h3 style="font-size:0.9rem; color:var(--accent); text-align:center; margin-bottom:15px; font-family:'Gowun Batang';">${labels.t}</h3>
+  <span class="section-title">${currentLang === 'ko' ? '에너지 보완 리포트' : 'Energy Supplement Report'}</span>
+  <div class="info-box" style="padding:15px; background:white; border:1px solid #EEE; border-radius:8px;">
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; font-size:0.85rem; line-height:1.6;">
+      <div><b style="color:var(--primary);">🎨 ${labels.c}:</b><br>${remedy.color}</div>
+      </div>
+  </div>
+</div>
+        
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; font-size:0.85rem; line-height:1.6;">
                   <div><b style="color:var(--primary);">🎨 ${labels.c}:</b><br>${remedy.color}</div>
                   <div><b style="color:var(--primary);">🏃 ${labels.a}:</b><br>${remedy.action}</div>
