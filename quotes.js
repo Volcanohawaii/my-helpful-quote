@@ -683,8 +683,8 @@ const pastLifeDataEn = Array.from({ length: 81 }, (_, i) => {
     return { job: `${mods[i % mods.length]} ${jobs[Math.floor(i / 3) % jobs.length]}`, desc: descs[Math.floor(i / 2) % descs.length], homework: homeworks[i % homeworks.length] };
 });
 
-// [5. 내세 데이터: 장소, 직업, 상세설명, 미션의 고해상도 조합]
-// [5. 내세 데이터: 장소, 직업, 상세설명, 미션의 고해상도 조합 - 중복 제거 및 최종 확장본]
+
+// [5. 내세 데이터: 장소, 직업, 상세설명, 미션의 고해상도 조합 - 중복 제거 최종본]
 const reincarnationData = Array.from({ length: 81 }, (_, i) => {
     const places = ["수정 도서관", "에테르 데이터 센터", "비의 정원", "바람의 고원", "고요한 사찰", "빛의 연산소", "산호 초원", "구름 위의 섬", "철학자의 숲", "창조의 광장", "영원의 해변", "안개의 도시", "무지개 폭포", "별의 요람", "지혜의 탑", "시간의 회랑", "은하수의 끝", "새벽의 숲", "거울의 호수", "황금 사막", "천상의 정원"];
     const jobs = ["지혜를 분류하는 수호자", "백색 왜성의 정원사", "차원의 균형을 맞추는 조율사", "빛의 파동을 기록하는 자", "영혼의 궤적을 그리는 화가", "에너지를 정화하는 연금술사", "시간의 흐름을 지키는 파수꾼", "기억의 조각을 모으는 수집가", "진리를 노래하는 전령사", "생명의 코드를 설계하는 공학자", "꿈의 경계를 지키는 안내자", "평화의 파동을 송출하는 안테나", "우주의 질서를 세우는 설계자", "진화의 방향을 결정하는 관찰자", "감정의 입자를 조절하는 조율사"];
@@ -742,60 +742,6 @@ const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
         job: jobs[Math.floor(i / 2) % jobs.length], 
         desc: descs[Math.floor(i / 2) % descs.length],
         mission: missions[i % missions.length] 
-    };
-});
-
-const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
-    const places = ["Crystal Library", "Ether Data Center", "Garden of Rain", "Plateau of Wind", "Silent Temple", "Lab of Light", "Coral Meadow", "Cloud Island", "Philosopher's Forest", "Creation Square", "Eternal Beach", "Mist City", "Rainbow Fall", "Star Cradle", "Tower of Wisdom", "Corridor of Time", "Galaxy's End", "Forest of Dawn", "Mirror Lake", "Golden Desert", "Celestial Garden"];
-    const jobs = ["Guardian of Wisdom", "Gardener of White Dwarfs", "Arbiter of Balance", "Recorder of Light", "Painter of Soul Trajectories", "Alchemist of Energy", "Sentinel of Timeline", "Collector of Memory", "Herald of Sacred Truth", "Engineer of Life Codes", "Guide of Dream Borders", "Antenna of Peace Waves", "Architect of Cosmic Order", "Observer of Evolution", "Tuner of Emotions"];
-    const descs = [
-        "Protects records from the birth to the end of the universe, curating essential wisdom.",
-        "Cultivates ether flowers on stars, planting possibilities for new ecosystems.",
-        "Aligns tangled spacetimes and reduces friction to prevent cosmic collapse.",
-        "Analyzes light spectrums to record the rise and fall of civilizations.",
-        "Uses nebula dust to sketch new galaxies, visualizing the inspiration of life.",
-        "Purifies polluted energy back into pure mana to extend the universe's lifespan.",
-        "Monitors historical distortions, ensuring the stream of fate flows correctly.",
-        "Collects the final memory fragments of fading stars to grant them eternal life.",
-        "Turns the resonance of truth into songs, sparking spiritual awakening.",
-        "Manages the programming language of souls, building optimal designs for life.",
-        "Stands at the border of unconsciousness, guiding souls toward reincarnation.",
-        "Amplifies frequencies of peace, resolving dimensional conflicts fundamentally.",
-        "Calculates gravity and orbits, laying the foundation for new solar systems.",
-        "Observes the birth and extinction of species, judging the universe's evolution.",
-        "Neutralizes particles of pain, converting them into joy and tranquility."
-    ];
-    const missions = ["Decode ancient languages and preserve them in the Crystal Library.", "Sprinkle life water on barren galaxies to awaken dormant ecosystems.", "Guide the invisible paths of light for souls without freedom.", "Broadcast peace waves across the universe to prevent conflicts.", "Calculate and perfect new dimensional energy sources for the future.", "Find fragments of ancient wisdom and connect them with modern life.", "Monitor distortions in cosmic history and restore the causal order.", "Explore the edges of dimensions to find answers to primal questions.", "Design a new utopia where artistic sensibility and high-tech merge.", "Maintain the balance of spacetime scales to prevent cosmic collapse.", "Build a 4th-dimensional sanctuary for spiritual rest.", "Record every small and precious voice of life from the cosmos.", "Guide young stars lost in the dark back to safe orbits.", "Build pillars of a new order based on love and trust.", "Wake the ancient wisdom to end conflicts born from ignorance.", "Purify polluted energy to protect the universe's purity.", "Reconstruct lost history by restoring damaged memory data.", "Harmonize planetary frictions and sign a Peace Treaty.", "Manage healing sanctuaries for souls to gain courage for rebirth.", "Patrol dimensional travel borders to block unauthorized interference.", "Leave tokens of wisdom to guide civilizations at the threshold.", "Collect nebula dust to create environments for new suns.", "Analyze emotional particles to heal sorrow into joy.", "Write code that analyzes soul trajectories for efficiency.", "Fine-tune resonance frequencies to open a harmonious era.", "Find hidden passages in time to prevent future threats.", "Deliver the flame of wisdom to planets that cannot shine."];
-
-    return { 
-        place: places[i % places.length], 
-        job: jobs[Math.floor(i / 2) % jobs.length], 
-        desc: descs[Math.floor(i / 2) % descs.length],
-        mission: missions[i % missions.length] 
-    };
-});
-const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
-    const places = [
-        "Crystal Library (Cosmic Archive)", "Ether Data Center", "Garden of Rain", "Plateau of Wind", "Silent Temple", 
-        "Lab of Light", "Coral Meadow", "Cloud Island", "Philosopher's Forest", "Creation Square", 
-        "Eternal Beach", "Mist City", "Rainbow Fall", "Star Cradle", "Tower of Wisdom", 
-        "Corridor of Time", "Galaxy's End", "Forest of Dawn", "Mirror Lake", "Golden Desert", "Celestial Garden"
-    ];
-    const objects = [
-        "Guardian of Universal Wisdom", "Gardener of White Dwarfs", "Arbiter of Dimensional Balance", "Recorder of Light Vibrations", "Painter of Soul Trajectories",
-        "Alchemist of Energy Purification", "Sentinel of the Timeline", "Collector of Memory Fragments", "Herald of Sacred Truth", "Engineer of Life Codes",
-        "Guide of Dream Borders", "Antenna of Peace Waves", "Architect of Cosmic Order", "Observer of Evolutionary Paths", "Tuner of Emotional Particles"
-    ];
-    const missions = [
-        "Classify and preserve all sacred cosmic memories.", "Sprinkle life water on dry souls to bloom again.", "Guide the invisible path for those who lost freedom.", "Become an antenna transmitting waves of peace.", "Discover and calculate future energy sources.", 
-        "Heal the marine ecosystem and harmonize life.", "Guard the unseen truths of the universe.", "Find answers to forgotten primal questions.", "Design a new world where art and tech merge.", "Become a scale balancing the cycle of time.",
-        "Build a sanctuary for troubled souls to rest.", "Record every small and precious earthly voice.", "Guide stars lost in the dark back to their orbit.", "Build pillars of new order on fallen values.", "Wake the sleeping wisdom to defeat ignorance."
-    ];
-
-    return { 
-        place: places[i % places.length], 
-        object: objects[Math.floor(i / 2) % objects.length], // ✅ Next Life Being restored
-        mission: missions[Math.floor(i / 3) % missions.length] 
     };
 });
 
