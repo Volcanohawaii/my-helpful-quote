@@ -323,14 +323,17 @@ function switchTab(mode, btn) {
             { "木": "stalled growth", "火": "faded passion", "土": "unstable foundation", "金": "dull decision-making", "水": "isolated wisdom" };
 
         // [진단 메시지 수정] 두 가지 부족 기운을 모두 언급
-        const diagnosisMsg = currentLang === 'ko' ? 
-            `<div style="color:#C0392B; font-weight:700; margin-top:15px; margin-bottom:10px;">"당신은 ${seasonName}에 태어나 이름에 '${lackEl1}'와 '${lackEl2}'의 기운이 부족하여 ${lackMetaphors[lackEl1]} 동시에 ${lackMetaphors[lackEl2]} 형국입니다."</div>` :
-            `<div style="color:#C0392B; font-weight:700; margin-top:15px; margin-bottom:10px;">"Born in ${seasonName}, your lack of '${lackEl1}' and '${lackEl2}' energy creates a state of both ${lackMetaphors[lackEl1]} and ${lackMetaphors[lackEl2]}."</div>`;
-
-        const labels = currentLang === 'ko' ? 
-            { t: `No.${session.num81} 에너지 정밀 보완`, c: "행운의 컬러", a: "실천 행동", s: "인적 에너지", f: "기운 보충 음식", adv: "현생 지침" } :
-            { t: `No.${session.num81} Energy Remedy`, c: "Lucky Color", a: "Action Plan", s: "Social Energy", f: "Vitality Food", adv: "Guideline" };
-
+        // [진단 메시지 수정] 글자색을 var(--accent)로 변경하고 배경 박스를 추가했습니다.
+const diagnosisMsg = currentLang === 'ko' ? 
+    `<div style="color:var(--accent); background:#FDFBFA; border:1px solid #F0EAE3; padding:12px; border-radius:6px; font-weight:700; margin-top:15px; margin-bottom:15px; line-height:1.6;">
+        "당신은 ${seasonName}에 태어나 이름에 '${lackEl1}'와 '${lackEl2}'의 기운이 부족하여 <br>
+        <span style="color:var(--text); font-weight:400; font-size:0.9rem;">${lackMetaphors[lackEl1]} 동시에 ${lackMetaphors[lackEl2]} 형국입니다.</span>"
+    </div>` :
+    `<div style="color:var(--accent); background:#FDFBFA; border:1px solid #F0EAE3; padding:12px; border-radius:6px; font-weight:700; margin-top:15px; margin-bottom:15px; line-height:1.6;">
+        "Born in ${seasonName}, your lack of '${lackEl1}' and '${lackEl2}' energy <br>
+        <span style="color:var(--text); font-weight:400; font-size:0.9rem;">creates a state of both ${lackMetaphors[lackEl1]} and ${lackMetaphors[lackEl2]}."</span>
+    </div>`;
+      
 body.innerHTML = `
           <div class="tab-content">
             <div class="section-wrap">
