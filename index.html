@@ -391,11 +391,40 @@ function switchTab(mode, btn) {
     } else if (mode === 'past') {
         const p = (currentLang === 'ko') ? pastLifeData[session.num81-1] : pastLifeDataEn[session.num81-1];
         const pastName = (currentLang === 'ko') ? makePastNameKo(session.num81, strongEl, lackEl1, birthMonth) : makePastNameEn(session.num81, strongEl, lackEl1, birthMonth);
-        body.innerHTML = `<div class="tab-content"><span class="section-title">${t.tab2Title}</span><div class="info-box"><b>🏷️ 전생 이름</b><br>${pastName}<br><br><b>📜 ${t.pastJob}</b><br>[${p.job}]<br>${p.desc}<br><br><b>✨ ${t.pastHomework}</b><br>${p.homework}</div></div>`;
+        body.innerHTML = `<div class="tab-content"><span class="section-title">${t.tab2Title}</span><div class="info-box"><b>🏷️ 전생 이름</b><br>${pastName}<br><br><b>💼 ${t.pastJob}</b><br>[${p.job}]<br>${p.desc}<br><br><b>📜 ${t.pastHomework}</b><br>${p.homework}</div></div>`;
     } else if (mode === 'next') {
         const r = (currentLang === 'ko') ? reincarnationData[session.num81-1] : reincarnationDataEn[session.num81-1];
-        const nextLifeName = (currentLang === 'ko') ? makeNextLifeNameKo(session.num81, strongEl, lackEl1, birthMonth) : makeNextLifeNameEn(session.num81, strongEl, lackEl1, birthMonth);
-        body.innerHTML = `<div class="tab-content"><span class="section-title">${t.tab3Title}</span><div class="info-box"><b>🏷️ 내세 이름</b><br>${nextLifeName}<br><br><b>🧬 다음 생명체</b><br>[${r.object}]<br><br><b>📍 ${t.nextDest}</b><br>${r.place}<br><br><b>✅ 내세 미션</b><br>${r.mission}</div></div>`;
+        
+        const nextLifeName = (currentLang === 'ko') 
+            ? makeNextLifeNameKo(session.num81, strongEl, lackEl1, birthMonth) 
+            : makeNextLifeNameEn(session.num81, strongEl, lackEl1, birthMonth);
+
+        body.innerHTML = `
+          <div class="tab-content">
+            <span class="section-title">${t.tab3Title}</span>
+            <div class="info-box">
+              <div style="margin-bottom:20px; padding-bottom:15px; border-bottom:1px dashed #EEE;">
+                <b style="color:var(--accent);">🏷️ ${currentLang === 'ko' ? '내세 이름' : 'Reserved Future Name'}</b><br>
+                <span style="font-size:1.1rem; font-weight:700;">${nextLifeName}</span>
+              </div>
+              
+              <div style="margin-bottom:20px;">
+                <b style="color:var(--primary);">💼 ${currentLang === 'ko' ? '내세의 직업' : 'Future Occupation'}</b><br>
+                <span style="font-weight:700; color:var(--accent);">[${r.job}]</span><br>
+                <p style="font-size:0.88rem; color:#666; margin-top:5px; line-height:1.6;">${r.desc}</p>
+              </div>
+
+              <div style="margin-bottom:20px;">
+                <b style="color:var(--primary);">📍 ${currentLang === 'ko' ? '내세 목적지' : 'Center of Activity'}</b><br>
+                ${r.place}
+              </div>
+
+              <div>
+                <b style="color:var(--primary);">📜 ${currentLang === 'ko' ? '내세의 미션' : 'Core Mission'}</b><br>
+                <span style="color:var(--text);">${r.mission}</span>
+              </div>
+            </div>
+          </div>`;
     }
 }
   </script>
