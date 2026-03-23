@@ -331,7 +331,7 @@ function switchTab(mode, btn) {
             { t: `No.${session.num81} 에너지 정밀 보완`, c: "행운의 컬러", a: "실천 행동", s: "인적 에너지", f: "기운 보충 음식", adv: "현생 지침" } :
             { t: `No.${session.num81} Energy Remedy`, c: "Lucky Color", a: "Action Plan", s: "Social Energy", f: "Vitality Food", adv: "Guideline" };
 
-        body.innerHTML = `
+body.innerHTML = `
           <div class="tab-content">
             <div class="section-wrap">
               <span class="section-title">${t.sec1}</span>
@@ -351,15 +351,9 @@ function switchTab(mode, btn) {
             </div>
 
             <div class="section-wrap">
-  <span class="section-title">${currentLang === 'ko' ? '에너지 보완 리포트' : 'Energy Supplement Report'}</span>
-  <div class="info-box" style="padding:15px; background:white; border:1px solid #EEE; border-radius:8px;">
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; font-size:0.85rem; line-height:1.6;">
-      <div><b style="color:var(--primary);">🎨 ${labels.c}:</b><br>${remedy.color}</div>
-      </div>
-  </div>
-</div>
-        
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; font-size:0.85rem; line-height:1.6;">
+              <span class="section-title">${currentLang === 'ko' ? '에너지 보완 리포트' : 'Energy Supplement Report'}</span>
+              <div class="info-box" style="padding:20px 15px; background:white; border:1px solid #EEE; border-radius:8px;">
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px 10px; font-size:0.85rem; line-height:1.6;">
                   <div><b style="color:var(--primary);">🎨 ${labels.c}:</b><br>${remedy.color}</div>
                   <div><b style="color:var(--primary);">🏃 ${labels.a}:</b><br>${remedy.action}</div>
                   <div><b style="color:var(--primary);">👥 ${labels.s}:</b><br>${remedy.social}</div>
