@@ -205,14 +205,12 @@
       const body = document.getElementById('reportDetail');
       const session = JSON.parse(localStorage.getItem('destinySession'));
       if (!session) return;
-      
-      const t = i18n[currentLang]; // quotes.js의 다국어 라벨 데이터
+      const t = i18n[currentLang];
       const birthMonth = parseInt(session.birth.substring(4, 6));
 
-      // 탭 활성화 UI 업데이트
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.getAttribute('onclick').includes(mode)));
 
-      // [사용자 요청] 계절 및 오행 로직 - 절대 빼놓지 않았습니다!
+      // [계절 및 오행 로직] - 사용자님의 코드를 영문 지원 버전으로 유지
       let seasonName = currentLang === 'ko' ? "환절기(土)" : "the Change of Seasons(土)";
       if ([2, 3].includes(birthMonth)) seasonName = currentLang === 'ko' ? "봄(木)" : "Spring(木)";
       else if ([5, 6].includes(birthMonth)) seasonName = currentLang === 'ko' ? "여름(火)" : "Summer(火)";
@@ -226,11 +224,7 @@
             <span class="section-title">${t.sec1}</span>
             <div class="info-box" style="background:#fff;">
               <div id="radarChart" style="margin:10px auto; width:220px; height:220px;"></div>
-              <p>
-                ${currentLang === 'ko' 
-                  ? `당신은 <b>${seasonName}</b>에 태어나 <b>${session.strongEl}</b>의 기운이 강력한 운명입니다.` 
-                  : `Born in <b>${seasonName}</b>, you possess powerful <b>${session.strongEl}</b> energy.`}
-              </p>
+              <p>${currentLang === 'ko' ? `당신은 <b>${seasonName}</b>에 태어나 <b>${session.strongEl}</b>의 기운이 강력한 운명입니다.` : `Born in <b>${seasonName}</b>, you possess powerful <b>${session.strongEl}</b> energy.`}</p>
               <div style="padding:15px; background:#F9F8F6; border-radius:8px; border:1px solid #F0EAE3;">
                 <b style="color:var(--accent);">${currentLang === 'ko' ? '📜 현생 과업' : '📜 Life Mission'}</b><br>
                 ${(currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12)[session.strongEl][(session.num81 + birthMonth) % 12]}
@@ -251,7 +245,7 @@
       
       else if (mode === 'past') {
         const p = (currentLang === 'ko') ? pastLifeData[session.num81-1] : pastLifeDataEn[session.num81-1];
-        // 📍 전생 활동 중심지 데이터 매칭
+        // 📍 전생 활동 중심지 계산 (이름 옆 괄호와 인덱스 일치)
         const era = (currentLang === 'ko' ? eraPastKo : eraPastEn)[session.num81 % (currentLang === 'ko' ? eraPastKo.length : eraPastEn.length)];
         const region = (currentLang === 'ko' ? regionPastKo : regionPastEn)[(session.num81 + birthMonth) % (currentLang === 'ko' ? regionPastKo.length : regionPastEn.length)];
 
@@ -260,10 +254,8 @@
             <span class="section-title">${t.tab2Title}</span>
             <div class="info-box" style="background:#fff; padding:25px;">
               <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
-                <b style="color:var(--accent); display:block;">[식별된 전생 기록]</b>
-                <span style="font-weight:800; font-size:1.2rem;">
-                  ${(currentLang === 'ko' ? makePastNameKo : makePastNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}
-                </span>
+                <b style="color:var(--accent); display:block;">${currentLang === 'ko' ? '[식별된 전생 기록]' : '[Identified Past Record]'}</b>
+                <span style="font-weight:800; font-size:1.2rem;">${(currentLang === 'ko' ? makePastNameKo : makePastNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span>
               </div>
               <p style="margin-bottom:12px;"><b>📍 ${t.pastDest}:</b> ${era}, ${region}</p>
               <p style="margin-bottom:12px;"><b>💼 ${t.pastJob}:</b> ${p.job}<br><span style="font-size:0.85rem; color:#666;">${p.desc}</span></p>
@@ -271,6 +263,28 @@
             </div>
           </div>`;
       } 
+      
+      else if (mode === 'next') {
+        const r = (currentLang === 'ko') ? reincarnationData[session.num81-1] : reincarnationDataEn[session.num81-1];
+        // 📍 내세 활동 중심지 계산
+        const era = (currentLang === 'ko' ? eraNextKo : eraNextEn)[session.num81 % (currentLang === 'ko' ? eraNextKo.length : eraNextEn.length)];
+        const region = (currentLang === 'ko' ? regionNextKo : regionNextEn)[(session.num81 + birthMonth) % (currentLang === 'ko' ? regionNextKo.length : regionNextEn.length)];
+
+        body.innerHTML = `
+          <div class="tab-content">
+            <span class="section-title">${t.tab3Title}</span>
+            <div class="info-box" style="background:#fff; padding:25px;">
+              <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
+                <b style="color:var(--accent); display:block;">${currentLang === 'ko' ? '[예약된 내세 명단]' : '[Reserved Afterlife List]'}</b>
+                <span style="font-weight:800; font-size:1.2rem;">${(currentLang === 'ko' ? makeNextLifeNameKo : makeNextLifeNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span>
+              </div>
+              <p style="margin-bottom:12px;"><b>🌌 ${t.nextDest}:</b> ${era}, ${region}</p>
+              <p style="margin-bottom:12px;"><b>💼 ${t.nextObj}:</b> ${r.job}<br><span style="font-size:0.85rem; color:#666;">${r.desc}</span></p>
+              <p><b>📜 ${t.nextMission}:</b> ${r.mission}</p>
+            </div>
+          </div>`;
+      }
+    }
       
       else if (mode === 'next') {
         const r = (currentLang === 'ko') ? reincarnationData[session.num81-1] : reincarnationDataEn[session.num81-1];
