@@ -205,12 +205,14 @@
       const body = document.getElementById('reportDetail');
       const session = JSON.parse(localStorage.getItem('destinySession'));
       if (!session) return;
-      const t = i18n[currentLang];
+      
+      const t = i18n[currentLang]; 
       const birthMonth = parseInt(session.birth.substring(4, 6));
 
+      // 탭 활성 상태 변경
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.getAttribute('onclick').includes(mode)));
 
-      // [계절 및 오행 로직] - 사용자님의 코드를 영문 지원 버전으로 유지
+      // [복구] 계절 및 오행 로직
       let seasonName = currentLang === 'ko' ? "환절기(土)" : "the Change of Seasons(土)";
       if ([2, 3].includes(birthMonth)) seasonName = currentLang === 'ko' ? "봄(木)" : "Spring(木)";
       else if ([5, 6].includes(birthMonth)) seasonName = currentLang === 'ko' ? "여름(火)" : "Summer(火)";
@@ -242,10 +244,9 @@
           </div>`;
         renderChart(session.elementScores);
       } 
-      
       else if (mode === 'past') {
         const p = (currentLang === 'ko') ? pastLifeData[session.num81-1] : pastLifeDataEn[session.num81-1];
-        // 📍 전생 활동 중심지 계산 (이름 옆 괄호와 인덱스 일치)
+        // 📍 전생 활동 중심지 매칭 로직
         const era = (currentLang === 'ko' ? eraPastKo : eraPastEn)[session.num81 % (currentLang === 'ko' ? eraPastKo.length : eraPastEn.length)];
         const region = (currentLang === 'ko' ? regionPastKo : regionPastEn)[(session.num81 + birthMonth) % (currentLang === 'ko' ? regionPastKo.length : regionPastEn.length)];
 
@@ -263,10 +264,9 @@
             </div>
           </div>`;
       } 
-      
       else if (mode === 'next') {
         const r = (currentLang === 'ko') ? reincarnationData[session.num81-1] : reincarnationDataEn[session.num81-1];
-        // 📍 내세 활동 중심지 계산
+        // 📍 내세 활동 중심지 매칭 로직
         const era = (currentLang === 'ko' ? eraNextKo : eraNextEn)[session.num81 % (currentLang === 'ko' ? eraNextKo.length : eraNextEn.length)];
         const region = (currentLang === 'ko' ? regionNextKo : regionNextEn)[(session.num81 + birthMonth) % (currentLang === 'ko' ? regionNextKo.length : regionNextEn.length)];
 
