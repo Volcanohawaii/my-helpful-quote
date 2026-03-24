@@ -435,23 +435,23 @@ function makePastNameKo(num, strong, lack, month) {
     const name = syllableKo1[num % syllableKo1.length] + syllableKo2[(num + 7) % syllableKo2.length];
     const era = eraPastKo[num % eraPastKo.length];
     const region = regionPastKo[(num + month) % regionPastKo.length];
-    return `${name} (${era} ${region})`;
+    return `${name}`;
 }
 function makePastNameEn(num, strong, lack, month) {
     const name = nameRootEn[num % nameRootEn.length] + nameTailEn[(num + 5) % nameTailEn.length];
     const era = eraPastEn[num % eraPastEn.length];
     const region = regionPastEn[(num + month) % regionPastEn.length];
-    return `${name} (${era}, ${region})`;
+    return `${name})`;
 }
 function makeNextLifeNameKo(num, strong, lack, month) {
     const name = syllableKo1[(num + 10) % syllableKo1.length] + syllableKo2[(num + 15) % syllableKo2.length];
     const era = eraNextKo[num % eraNextKo.length];
     const region = regionNextKo[(num + month) % regionNextKo.length];
-    return `${name} (${era} ${region})`;
+    return `${name}`;
 }
 function makeNextLifeNameEn(num, strong, lack, month) {
     const name = nameRootEn[(num + 20) % nameRootEn.length] + nameTailEn[(num + 25) % nameTailEn.length];
     const era = eraNextEn[num % eraNextEn.length];
     const region = regionNextEn[(num + month) % regionNextEn.length];
-    return `${name} (${era}, ${region})`;
+    return `${name})`;
 }
