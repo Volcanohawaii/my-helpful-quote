@@ -170,20 +170,26 @@
     }
 
     function renderSummary(data) {
-      const month = parseInt(data.birth.substring(4,6));
-      document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `${data.name}님의 분석 리포트` : `${data.name}'s Report`;
+      const month = parseInt(data.birth.substring(4, 6));
+      const t = i18n[currentLang]; // 언어셋 불러오기
+      
+      document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `${data.name}님의 분석 리포트` : `${data.name}'s Analysis Report`;
+      
       document.getElementById('dynamic-summary').innerHTML = `
         <div class="info-box" style="background:#F9F8F6; border:1px solid #EEE; color:#000; font-size:0.95rem;">
           <div style="display:flex; justify-content:space-between; border-bottom:1px solid #000; padding-bottom:8px; margin-bottom:15px;">
               <span style="font-weight:800;">DESTINY_LAB_2026</span>
               <span style="color:var(--accent); font-weight:800;">CODE: ${String(data.num81).padStart(2, '0')}</span>
           </div>
-          <b>🔮수리 격 특징</b> ${currentLang === 'ko' ? luckyTitles81[data.num81] : luckyTitles81En[data.num81]}
-<p style="margin-top:0; margin-bottom:15px; line-height:1.7;">${currentLang === 'ko' ? detailedDesc81[data.num81] : detailedDesc81En[data.num81]}</p>
-<div style="border-top:1px dashed #DDD; padding-top:15px;">
-  <b>💫탄생 월 특징</b>
-  <p style="margin-top:0; line-height:1.7;">${birthMonthData[month][currentLang]}</p>
-</div>
+          <b>${currentLang === 'ko' ? '🔮 수리 격 특징' : '🔮 Suri Character'}</b> 
+          ${currentLang === 'ko' ? luckyTitles81[data.num81] : luckyTitles81En[data.num81]}
+          <p style="margin-top:0; margin-bottom:15px; line-height:1.7;">
+            ${currentLang === 'ko' ? detailedDesc81[data.num81] : detailedDesc81En[data.num81]}
+          </p>
+          <div style="border-top:1px dashed #DDD; padding-top:15px;">
+            <b>${currentLang === 'ko' ? '💫 탄생 월 특징' : '💫 Birth Month Factor'}</b><br>
+            <p style="margin-top:0; line-height:1.7;">${birthMonthData[month][currentLang]}</p>
+          </div>
         </div>`;
     }
 
@@ -199,9 +205,12 @@
       const body = document.getElementById('reportDetail');
       const session = JSON.parse(localStorage.getItem('destinySession'));
       if (!session) return;
+      
+      const t = i18n[currentLang]; // 언어셋 불러오기
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.getAttribute('onclick').includes(mode)));
+      
       const birthMonth = parseInt(session.birth.substring(4, 6));
-      let seasonName = currentLang === 'ko' ? "환절기(土)" : "Between Seasons(土)";
+      let seasonName = currentLang === 'ko' ? "환절기(土)" : "the Change of Seasons(土)";
       if ([2, 3].includes(birthMonth)) seasonName = currentLang === 'ko' ? "봄(木)" : "Spring(木)";
       else if ([5, 6].includes(birthMonth)) seasonName = currentLang === 'ko' ? "여름(火)" : "Summer(火)";
       else if ([8, 9].includes(birthMonth)) seasonName = currentLang === 'ko' ? "가을(金)" : "Autumn(金)";
@@ -211,41 +220,57 @@
         const remedy = suriPrescription.getRemedy(session.num81, session.lackEls, currentLang);
         body.innerHTML = `
           <div class="tab-content">
-            <span class="section-title">현생 분석 자료</span>
+            <span class="section-title">${t.sec1}</span>
             <div class="info-box" style="background:#fff;">
               <div id="radarChart" style="margin:10px auto; width:220px; height:220px;"></div>
-              <p>당신은 <b>${seasonName}</b>에 태어나 <b>${session.strongEl}</b>의 기운이 강력한 운명입니다.</p>
+              <p>
+                ${currentLang === 'ko' 
+                  ? `당신은 <b>${seasonName}</b>에 태어나 <b>${session.strongEl}</b>의 기운이 강력한 운명입니다.` 
+                  : `Born in <b>${seasonName}</b>, you possess a destiny with powerful <b>${session.strongEl}</b> energy.`}
+              </p>
               <div style="padding:15px; background:#F9F8F6; border-radius:8px; border:1px solid #F0EAE3;">
-                <b style="color:var(--accent);">📜 현생 과업</b><br>${(currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12)[session.strongEl][(session.num81 + birthMonth) % 12]}
+                <b style="color:var(--accent);">${currentLang === 'ko' ? '📜 현생 과업' : '📜 Life Mission'}</b><br>
+                ${(currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12)[session.strongEl][(session.num81 + birthMonth) % 12]}
               </div>
             </div>
-            <span class="section-title">에너지 보완 방법</span>
+            <span class="section-title">${t.sec2}</span>
             <div class="info-box" style="background:#fff;">
               <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-                <div><b style="color:var(--accent);">🎨 행운 컬러</b><br>${remedy.color}</div>
-                <div><b style="color:var(--accent);">🏃 실천 행동</b><br>${remedy.action}</div>
-                <div><b style="color:var(--accent);">👥 인적 정보</b><br>${remedy.social}</div>
-                <div><b style="color:var(--accent);">🥗 보충 음식</b><br>${remedy.food}</div>
+                <div><b style="color:var(--accent);">🎨 ${currentLang === 'ko' ? '행운 컬러' : 'Lucky Color'}</b><br>${remedy.color}</div>
+                <div><b style="color:var(--accent);">🏃 ${currentLang === 'ko' ? '실천 행동' : 'Action'}</b><br>${remedy.action}</div>
+                <div><b style="color:var(--accent);">👥 ${currentLang === 'ko' ? '인적 정보' : 'Social'}</b><br>${remedy.social}</div>
+                <div><b style="color:var(--accent);">🥗 ${currentLang === 'ko' ? '보충 음식' : 'Food'}</b><br>${remedy.food}</div>
               </div>
             </div>
           </div>`;
         renderChart(session.elementScores);
       } else if (mode === 'past') {
         const p = (currentLang === 'ko') ? pastLifeData[session.num81-1] : pastLifeDataEn[session.num81-1];
-        body.innerHTML = `<div class="tab-content"><span class="section-title">전생 분석 자료</span><div class="info-box" style="background:#fff; padding:25px;"><div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;"><b style="color:var(--accent); display:block;">📋 전생의 ${session.name}님</b><span style="font-weight:800; font-size:1.1rem;">${(currentLang === 'ko' ? makePastNameKo : makePastNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span></div><p><b>💼 전생 직업:</b> ${p.job}<br>${p.desc}</p><p><b>📜 전생 과업:</b> ${p.homework}</p></div></div>`;
+        body.innerHTML = `
+          <div class="tab-content">
+            <span class="section-title">${t.tab2Title}</span>
+            <div class="info-box" style="background:#fff; padding:25px;">
+              <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
+                <b style="color:var(--accent); display:block;">📋 ${currentLang === 'ko' ? `전생의 ${session.name}님` : `Past Life: ${session.name}`}</b>
+                <span style="font-weight:800; font-size:1.1rem;">${(currentLang === 'ko' ? makePastNameKo : makePastNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span>
+              </div>
+              <p><b>💼 ${t.pastJob}:</b> ${p.job}<br>${p.desc}</p>
+              <p><b>📜 ${t.pastHomework}:</b> ${p.homework}</p>
+            </div>
+          </div>`;
       } else if (mode === 'next') {
         const r = (currentLang === 'ko') ? reincarnationData[session.num81-1] : reincarnationDataEn[session.num81-1];
         body.innerHTML = `
           <div class="tab-content">
-            <span class="section-title">내세 분석 자료</span>
+            <span class="section-title">${t.tab3Title}</span>
             <div class="info-box" style="background:#fff; padding:25px;">
               <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
-                <b style="color:var(--accent); display:block;">📋 내세의 ${session.name}님</b>
+                <b style="color:var(--accent); display:block;">📋 ${currentLang === 'ko' ? `내세의 ${session.name}님` : `Afterlife Reserved: ${session.name}`}</b>
                 <span style="font-weight:800; font-size:1.1rem;">${(currentLang === 'ko' ? makeNextLifeNameKo : makeNextLifeNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span>
               </div>
-              <p><b>💼 내세 직업:</b> ${r.job}<br>${r.desc}</p>
-              <p><b>🌌 도착 장소:</b> ${r.place}</p>
-              <p><b>📜 내세 과업:</b> ${r.mission}</p>
+              <p><b>💼 ${t.nextObj}:</b> ${r.job}<br>${r.desc}</p>
+              <p><b>🌌 ${t.nextDest}:</b> ${r.place}</p>
+              <p><b>📜 ${t.nextMission}:</b> ${r.mission}</p>
             </div>
           </div>`;
       }
