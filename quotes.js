@@ -137,14 +137,19 @@ const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
 });
 
 /* [6. 정밀 처방전 & 헬퍼 함수] */
+/* [6. 정밀 처방전 & 헬퍼 함수] */
 const suriPrescription = {
     getRemedy: (num, lackEls, lang) => {
         const safeLang = lang || 'ko';
-        // 부족 기운이 1개만 들어올 경우를 대비해 2개를 확보합니다.
+        
+        // 1. 부족 기운이 1개만 들어올 경우를 대비해 2개를 확보합니다.
         const safeLacks = (Array.isArray(lackEls) && lackEls.length >= 1) 
             ? (lackEls.length === 1 ? [lackEls[0], lackEls[0]] : lackEls) 
             : ["木", "火"];
-       const elIdx = { "木": 0, "火": 3, "土": 6, "金": 9, "水": 12 };
+
+        // 2. 각 오행 데이터의 시작 인덱스 (기운당 3개씩)
+        const elIdx = { "木": 0, "火": 3, "土": 6, "金": 9, "水": 12 };
+
         const data = {
             ko: {
                 actions: ["과감한 실행(木)", "추진력 강화(木)", "새로운 도전(木)", "창의적 발상(火)", "에너지 발산(火)", "소통 확대(火)", "중재와 화합(土)", "기반 축적(土)", "공간 정돈(土)", "독립적 결단(金)", "예리한 분석(金)", "원칙 준수(金)", "유연한 사고(水)", "지혜 습득(水)", "심연의 명상(水)"],
@@ -159,30 +164,31 @@ const suriPrescription = {
                 colors: ["Green", "Mint", "Lime", "Red", "Orange", "Pink", "Yellow", "Beige", "Brown", "White", "Silver", "Gray", "Navy", "Black", "Blue"]
             }
         };
+
         const d = (data[safeLang] || data['ko']);
-        
-        // 특정 오행 내에서 3개 중 하나를Surri 번호(num)에 따라 선택
+
+        // 3. 인덱스 계산 함수 (중요: 괄호 닫기 해결)
         const getIdx = (el, offset) => {
             const base = elIdx[el] !== undefined ? elIdx[el] : 0;
             return (base + ((num + offset) % 3));
-       const idx1 = getIdx(safeLacks[0], 0);
+        }; // <-- 이 닫는 괄호가 빠져있었습니다!
+
+        const idx1 = getIdx(safeLacks[0], 0);
         const idx2 = getIdx(safeLacks[1], 1);
 
-        // 두 기운의 처방을 합쳐서 반환
+        // 4. 두 기운의 처방을 합치는 함수
         const combine = (arr, i1, i2) => {
-            // 같은 기운이 두 번 부족할 경우 중복 출력 방지
             if (i1 === i2) return arr[i1];
             return `${arr[i1]}<br>${arr[i2]}`;
         };
 
-        return { 
-            color: combine(d.colors, idx1, idx2), 
-            action: combine(d.actions, idx1, idx2), 
-            social: combine(d.socials, idx1, idx2), 
-            food: combine(d.foods, idx1, idx2) 
+        return {
+            color: combine(d.colors, idx1, idx2),
+            action: combine(d.actions, idx1, idx2),
+            social: combine(d.socials, idx1, idx2),
+            food: combine(d.foods, idx1, idx2)
         };
     }
-        }
 };
 
 function generateSuriName(num, s1, s2) {
