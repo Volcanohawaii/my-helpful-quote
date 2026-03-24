@@ -171,23 +171,22 @@
 
     function renderSummary(data) {
       const month = parseInt(data.birth.substring(4, 6));
-      const t = i18n[currentLang]; // 언어셋 불러오기
-      
+      // 언어에 따른 타이틀 설정
       document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `${data.name}님의 분석 리포트` : `${data.name}'s Analysis Report`;
       
+      const labelSuri = currentLang === 'ko' ? '🔮수리 격 특징' : '🔮 Suri Character';
+      const labelMonth = currentLang === 'ko' ? '💫탄생 월 특징' : '💫 Birth Month Factor';
+
       document.getElementById('dynamic-summary').innerHTML = `
         <div class="info-box" style="background:#F9F8F6; border:1px solid #EEE; color:#000; font-size:0.95rem;">
           <div style="display:flex; justify-content:space-between; border-bottom:1px solid #000; padding-bottom:8px; margin-bottom:15px;">
               <span style="font-weight:800;">DESTINY_LAB_2026</span>
               <span style="color:var(--accent); font-weight:800;">CODE: ${String(data.num81).padStart(2, '0')}</span>
           </div>
-          <b>${currentLang === 'ko' ? '🔮 수리 격 특징' : '🔮 Suri Character'}</b> 
-          ${currentLang === 'ko' ? luckyTitles81[data.num81] : luckyTitles81En[data.num81]}
-          <p style="margin-top:0; margin-bottom:15px; line-height:1.7;">
-            ${currentLang === 'ko' ? detailedDesc81[data.num81] : detailedDesc81En[data.num81]}
-          </p>
+          <b>${labelSuri}</b> ${currentLang === 'ko' ? luckyTitles81[data.num81] : luckyTitles81En[data.num81]}
+          <p style="margin-top:0; margin-bottom:15px; line-height:1.7;">${currentLang === 'ko' ? detailedDesc81[data.num81] : detailedDesc81En[data.num81]}</p>
           <div style="border-top:1px dashed #DDD; padding-top:15px;">
-            <b>${currentLang === 'ko' ? '💫 탄생 월 특징' : '💫 Birth Month Factor'}</b><br>
+            <b>${labelMonth}</b>
             <p style="margin-top:0; line-height:1.7;">${birthMonthData[month][currentLang]}</p>
           </div>
         </div>`;
