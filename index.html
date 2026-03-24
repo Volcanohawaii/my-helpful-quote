@@ -178,11 +178,12 @@
               <span style="font-weight:800;">DESTINY_LAB_2026</span>
               <span style="color:var(--accent); font-weight:800;">CODE: ${String(data.num81).padStart(2, '0')}</span>
           </div>
-          <b>🔮수리 격 특징</b> ${currentLang === 'ko' ? luckyTitles81[data.num81] : luckyTitles81En[data.num81]}<br>
-          <p style="margin-bottom:15px; line-height:1.7;">${currentLang === 'ko' ? detailedDesc81[data.num81] : detailedDesc81En[data.num81]}</p>
-          <div style="border-top:1px dashed #DDD; padding-top:15px;">
-         <b>💫탄생 월 특징</b><br>${birthMonthData[month][currentLang]}
-          </div>
+          <b>🔮수리 격 특징</b> ${currentLang === 'ko' ? luckyTitles81[data.num81] : luckyTitles81En[data.num81]}
+<p style="margin-top:0; margin-bottom:15px; line-height:1.7;">${currentLang === 'ko' ? detailedDesc81[data.num81] : detailedDesc81En[data.num81]}</p>
+<div style="border-top:1px dashed #DDD; padding-top:15px;">
+  <b>💫탄생 월 특징</b>
+  <p style="margin-top:0; line-height:1.7;">${birthMonthData[month][currentLang]}</p>
+</div>
         </div>`;
     }
 
@@ -231,7 +232,7 @@
         renderChart(session.elementScores);
       } else if (mode === 'past') {
         const p = (currentLang === 'ko') ? pastLifeData[session.num81-1] : pastLifeDataEn[session.num81-1];
-        body.innerHTML = `<div class="tab-content"><span class="section-title">전생 분석 자료</span><div class="info-box" style="background:#fff; padding:25px;"><div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;"><b style="color:var(--accent); display:block;">📋 전생의 ${session.name}님</b><span style="font-weight:800; font-size:1.1rem;">${(currentLang === 'ko' ? makePastNameKo : makePastNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span></div><p><b>💼 직업:</b> ${p.job}<br>${p.desc}</p><p><b>📜 전생 과업:</b> ${p.homework}</p></div></div>`;
+        body.innerHTML = `<div class="tab-content"><span class="section-title">전생 분석 자료</span><div class="info-box" style="background:#fff; padding:25px;"><div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;"><b style="color:var(--accent); display:block;">📋 전생의 ${session.name}님</b><span style="font-weight:800; font-size:1.1rem;">${(currentLang === 'ko' ? makePastNameKo : makePastNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span></div><p><b>💼 전생 직업:</b> ${p.job}<br>${p.desc}</p><p><b>📜 전생 과업:</b> ${p.homework}</p></div></div>`;
       } else if (mode === 'next') {
         const r = (currentLang === 'ko') ? reincarnationData[session.num81-1] : reincarnationDataEn[session.num81-1];
         body.innerHTML = `
