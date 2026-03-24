@@ -178,10 +178,10 @@
               <span style="font-weight:800;">DESTINY_LAB_2026</span>
               <span style="color:var(--accent); font-weight:800;">CODE: ${String(data.num81).padStart(2, '0')}</span>
           </div>
-          <p><b>[수리 격]</b> ${currentLang === 'ko' ? luckyTitles81[data.num81] : luckyTitles81En[data.num81]}</p>
+          <b>🔮수리 격 특징</b> ${currentLang === 'ko' ? luckyTitles81[data.num81] : luckyTitles81En[data.num81]}<br>
           <p style="margin-bottom:15px; line-height:1.7;">${currentLang === 'ko' ? detailedDesc81[data.num81] : detailedDesc81En[data.num81]}</p>
           <div style="border-top:1px dashed #DDD; padding-top:15px;">
-            <b>[월간 에너지]</b><br>${birthMonthData[month][currentLang]}
+         <b>💫탄생 월 특징</b><br>${birthMonthData[month][currentLang]}
           </div>
         </div>`;
     }
@@ -210,20 +210,20 @@
         const remedy = suriPrescription.getRemedy(session.num81, session.lackEls, currentLang);
         body.innerHTML = `
           <div class="tab-content">
-            <span class="section-title">에너지 분석 지표</span>
+            <span class="section-title">현생 분석 자료</span>
             <div class="info-box" style="background:#fff;">
               <div id="radarChart" style="margin:10px auto; width:220px; height:220px;"></div>
-              <p>당신은 <b>${seasonName}</b>에 태어나 <b>${session.strongEl}</b>의 기운을 강력하게 사용합니다.</p>
+              <p>당신은 <b>${seasonName}</b>에 태어나 <b>${session.strongEl}</b>의 기운이 강력한 운명입니다.</p>
               <div style="padding:15px; background:#F9F8F6; border-radius:8px; border:1px solid #F0EAE3;">
-                <b style="color:var(--accent);">💡 성명학적 조언</b><br>${(currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12)[session.strongEl][(session.num81 + birthMonth) % 12]}
+                <b style="color:var(--accent);">📜 현생 과업</b><br>${(currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12)[session.strongEl][(session.num81 + birthMonth) % 12]}
               </div>
             </div>
-            <span class="section-title">데일리 에너지 처방</span>
+            <span class="section-title">에너지 보완 방법</span>
             <div class="info-box" style="background:#fff;">
               <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
                 <div><b style="color:var(--accent);">🎨 행운 컬러</b><br>${remedy.color}</div>
                 <div><b style="color:var(--accent);">🏃 실천 행동</b><br>${remedy.action}</div>
-                <div><b style="color:var(--accent);">👥 인적 조화</b><br>${remedy.social}</div>
+                <div><b style="color:var(--accent);">👥 인적 정보</b><br>${remedy.social}</div>
                 <div><b style="color:var(--accent);">🥗 보충 음식</b><br>${remedy.food}</div>
               </div>
             </div>
@@ -231,21 +231,21 @@
         renderChart(session.elementScores);
       } else if (mode === 'past') {
         const p = (currentLang === 'ko') ? pastLifeData[session.num81-1] : pastLifeDataEn[session.num81-1];
-        body.innerHTML = `<div class="tab-content"><span class="section-title">전생 기록 데이터</span><div class="info-box" style="background:#fff; padding:25px;"><div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;"><b style="color:var(--accent); display:block;">[기록된 전생명]</b><span style="font-weight:800; font-size:1.1rem;">${(currentLang === 'ko' ? makePastNameKo : makePastNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span></div><p><b>💼 직업:</b> ${p.job}</p><p>${p.desc}</p><p><b>📜 과업:</b> ${p.homework}</p></div></div>`;
+        body.innerHTML = `<div class="tab-content"><span class="section-title">전생 분석 자료</span><div class="info-box" style="background:#fff; padding:25px;"><div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;"><b style="color:var(--accent); display:block;">📋 전생의 `${data.name}</b><span style="font-weight:800; font-size:1.1rem;">${(currentLang === 'ko' ? makePastNameKo : makePastNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span></div><p><b>💼 직업:</b> ${p.job}<br>${p.desc}</p><p><b>📜 전생 과업:</b> ${p.homework}</p></div></div>`;
       } else if (mode === 'next') {
         const r = (currentLang === 'ko') ? reincarnationData[session.num81-1] : reincarnationDataEn[session.num81-1];
         body.innerHTML = `
           <div class="tab-content">
-            <span class="section-title">내세 예약 정보</span>
+            <span class="section-title">내세 분석 자료</span>
             <div class="info-box" style="background:#fff; padding:25px;">
               <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
-                <b style="color:var(--accent); display:block;">[예약된 미래명]</b>
+                <b style="color:var(--accent); display:block;">📋 내세의 `${data.name}</b>
                 <span style="font-weight:800; font-size:1.1rem;">${(currentLang === 'ko' ? makeNextLifeNameKo : makeNextLifeNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span>
               </div>
-              <p><b>💼 직업:</b> [${r.job}]</p>
+              <p><b>💼 내세 직업:</b> ${r.job}<br>
               <p>${r.desc}</p>
-              <p><b>📍 장소:</b> ${r.place}</p>
-              <p><b>✅ 미션:</b> ${r.mission}</p>
+              <p><b>🌌 도착 장소:</b> ${r.place}</p>
+              <p><b>📜 내세 과업:</b> ${r.mission}</p>
             </div>
           </div>`;
       }
