@@ -10,7 +10,7 @@ const i18n = {
         sec1: "에너지 분석 자료", sec2: "약점 보완 전략", advise: "현생 조언", practice: "실천 사항", 
         sideEffect: "과한 보충은 다음의 부작용이 있습니다.",
         tab2Title: "전생 분석 자료", tab3Title: "내세 분석 자료", 
-        pastJob: "전생의 직업", pastHomework: "전생의 과업", 
+        pastJob: "전생의 직업", pastDest: "활동 중심지", pastHomework: "전생의 과업", 
         nextDest: "활동 중심지", nextObj: "내세의 직업", nextMission: "핵심 미션"
     },
     en: {
@@ -22,7 +22,7 @@ const i18n = {
         sec1: "Energy Analysis", sec2: "Reinforcement", advise: "Advice", practice: "Practice", 
         sideEffect: "Side Effects",
         tab2Title: "Past-Life Report", tab3Title: "Afterlife Report", 
-        pastJob: "Occupation", pastHomework: "Homework", 
+        pastJob: "Occupation", pastDest: "Activity Center", pastHomework: "Homework", 
         nextDest: "Activity Center", nextObj: "Future Occupation", nextMission: "Core Mission"
     }
 };
@@ -46,34 +46,20 @@ const elementPrescriptions12 = {
 const sideEffects = ["'만성적 신중함' 주의", "무의식적으로 턱 괴는 습관", "월요일 오전의 일시적 무기력", "핸드폰을 들고 핸드폰 찾기", "칭찬 들으면 AI처럼 고장남", "근거 없는 자신감과 이불킥", "새벽 2시의 근거 없는 명석함", "디저트 무한 흡입 현상", "발표 직전 소음에 예민해짐", "상대의 오타를 정정하고픈 강박"];
 const sideEffectsEn = ["Chronic deliberation", "Jaw-resting habit", "Monday lethargy", "Searching phone while holding it", "Freezing at compliments", "Late-night regrets", "2 AM enlightenment", "Sugar cravings", "Auditory sensitivity", "Typo correction urge"];
 
-/* [1] 글로벌 감성 한글 음절 (외국인 이름 느낌) */
-const syllableKo1 = [
-    "알", "베", "로", "루", "마", "에", "이", "카", "크", "프", "리", "니", "산", "벤", "파", "디", "레", "미", "넬", "벨",
-    "아", "안", "엘", "오", "우", "클", "플", "브", "테", "스", "켈", "멜", "조", "제", "카", "피", "바", "샤", "타", "나",
-    "휘", "린", "겸", "담", "온", "율", "가", "서", "도", "해", "준", "채", "윤", "설", "예", "태", "희", "진", "현", "명",
-    "헤", "메", "세", "데", "게", "베", "페", "체", "제", "레", "네", "아", "오", "우", "에", "이", "카", "키", "쿠", "코"
-];
-const syllableKo2 = [
-    "토", "라", "나", "아", "리", "엘", "온", "로", "스", "넬", "드", "크", "테", "샤", "루", "니", "벨", "룬", "인", "움",
-    "리스", "티", "나", "시아", "안", "더", "엘", "엔", "이", "오", "아", "타", "카", "데", "레", "미", "피", "스", "트", "넬",
-    "우", "재", "준", "솔", "아", "늘", "담", "린", "온", "율", "호", "민", "성", "윤", "하", "연", "빈", "경", "석", "찬",
-    "반", "센", "칸", "얀", "린", "론", "릴", "란", "레", "라", "나", "노", "네", "니", "누", "네", "노", "나", "라", "리"
-];
+const syllableKo1 = ["알", "베", "로", "루", "마", "에", "이", "카", "크", "프", "리", "니", "산", "벤", "파", "디", "레", "미", "넬", "벨", "아", "안", "엘", "오", "우", "클", "플", "브", "테", "스", "켈", "멜", "조", "제", "카", "피", "바", "샤", "타", "나", "휘", "린", "겸", "담", "온", "율", "준", "윤", "설", "예", "진", "현"];
+const syllableKo2 = ["토", "라", "나", "아", "리", "엘", "온", "로", "스", "넬", "드", "크", "테", "샤", "루", "니", "벨", "룬", "인", "움", "리스", "티", "시아", "안", "더", "엔", "오", "카", "데", "레", "미", "피", "트", "넬", "우", "재", "준", "솔", "아", "늘", "담", "린", "온", "율", "호"];
+ 
+const eraPastKo = ["로마 제국", "고대 이집트", "중국 송나라", "에도 막부 시대", "아즈텍 제국", "바이킹 시대", "르네상스 이탈리아", "메소포타미아", "고대 그리스", "대한제국기", "조선 시대", "마야 문명"];
+const regionPastKo = ["콜로세움 인근", "나일강 하류", "낙양 성내", "교토 인근 마을", "테노치티틀란 중심부", "스칸디나비아 해안", "피렌체 광장", "바빌론 공중정원", "아테네 아크로폴리스", "한양 육조거리"];
 
-/* [2] 영어/라틴 성명 데이터 */
-const nameRootEn = ["Aether", "Lumen", "Vesper", "Caelum", "Eon", "Zion", "Kyros", "Nova", "Astra", "Solis", "Terra", "Aqua", "Ignis", "Ventus", "Physis", "Ethos", "Pathos", "Logos", "Chronos", "Gaia", "Riven", "Lumi", "Seren", "Orin", "Kalen", "Lyra", "Mira", "Elian", "Sola", "Aura", "Nyx", "Helio", "Thal", "Pyro", "Geo", "Atmo", "Xeno", "Zephyr", "Onyx", "Titan", "Valer", "Amon", "Eros", "Kael", "Doran", "Juno", "Silas", "Vael", "Koda", "Rhodes"];
-const nameTailEn = ["is", "os", "ium", "on", "eth", "iel", "eus", "ara", "ia", "us", "as", "er", "en", "el", "yn", "ar", "ir", "ae", "is", "ax", "ith", "onus", "ius", "ora", "is", "ox", "ex", "un", "ix", "an"];
+const eraPastEn = ["Roman Empire", "Ancient Egypt", "Mesopotamia", "Aztec Empire", "Viking Age", "Renaissance Italy", "Ancient Greece", "Mayan Civilization"];
+const regionPastEn = ["near Colosseum", "lower Nile", "Babylon", "Tenochtitlan", "Scandinavia", "Florence", "Acropolis", "Yucatan"];
 
-/* [3] 시대 및 지역 데이터 (전생) */
-const eraPastKo = ["조선 시대", "고려 왕조", "통일 신라", "고구려 연맹", "백제 부흥기", "대한제국기", "발해 무역로", "중국 송나라", "일본 에도 막부", "중국 당나라", "고대 마야", "잉카 제국", "고대 이집트", "페르시아 제국", "고대 그리스"];
-const regionPastKo = ["한양 육조거리", "개경 저잣거리", "서라벌 중심지", "요동성 인근", "금강 인근 부락", "평양성 외곽", "강화도 해안가", "장안성 동쪽", "교토 인근 마을", "낙양 성내", "유카탄 반도", "마추픽추 인근", "테베 나일강변", "페르세폴리스", "아테네 광장"];
+const eraNextKo = ["은하 연합 시대", "네오-서울 자치국", "화성 개척 시대", "에테르 차원기", "해저 돔 시티", "사이버펑크 암흑기", "성간 식민지 시대"];
+const regionNextKo = ["섹터 7", "중앙 허브", "올림푸스 몬스 기지", "차원 게이트 00", "아쿠아리스", "네온 스트리트", "타이탄 정거장"];
 
-const eraPastEn = ["Roman Empire", "Ancient Greece", "Mesopotamia", "Aztec Empire", "Viking Age", "Renaissance Italy", "Ancient Egypt", "Medieval England", "Celtic Age", "Ottoman Empire", "Industrial Revolution", "Golden Age of Piracy"];
-const regionPastEn = ["Rome", "Athens", "Babylon", "Tenochtitlan", "Scandinavia", "Florence", "Alexandria", "London", "Ireland", "Constantinople", "Paris", "Caribbean Sea"];
-
-/* [4] 내세 배경 데이터 */
-const eraNext = ["Galactic Alliance", "Neo-Seoul State", "Mars Frontier", "Ether Dimension", "Underwater Dome City", "Sky Island Era", "Cyber-Punk Age", "Interstellar Colony", "Post-Human Era", "Deep-Space Ark", "Quantum Singularity Era"];
-const regionNext = ["Sector 7", "Central Hub", "Olympus Mons Base", "Zone 00", "Aquarius City", "Cloud-9", "Neon-Street 01", "Titan Station", "Memory-Cloud", "Omega Point", "Andromeda Gate"];
+const eraNextEn = ["Galactic Alliance", "Neo-Seoul State", "Mars Frontier", "Ether Dimension", "Underwater Dome", "Cyber-Punk Era"];
+const regionNextEn = ["Sector 7", "Central Hub", "Olympus Mons", "Zone 00", "Aquarius", "Neon-Street", "Titan"];
 
 
 const epithetKoByElement = { 
@@ -220,29 +206,26 @@ function generateSuriName(num, s1, s2) {
 }
 /* [이름 생성 로직 업그레이드] */
 function makePastNameKo(num, strong, lack, month) {
+    const name = syllableKo1[num % syllableKo1.length] + syllableKo2[(num + 7) % syllableKo2.length];
     const era = eraPastKo[num % eraPastKo.length];
     const region = regionPastKo[(num + month) % regionPastKo.length];
-    const name = generateSuriName(num, syllableKo1, syllableKo2);
     return `${name} (${era} ${region})`;
 }
-
 function makePastNameEn(num, strong, lack, month) {
+    const name = nameRootEn[num % nameRootEn.length] + nameTailEn[(num + 5) % nameTailEn.length];
     const era = eraPastEn[num % eraPastEn.length];
     const region = regionPastEn[(num + month) % regionPastEn.length];
-    const name = nameRootEn[num % nameRootEn.length] + nameTailEn[(num + 5) % nameTailEn.length];
-    return `${name} (${era}, ${region} region)`;
+    return `${name} (${era}, ${region})`;
 }
-
 function makeNextLifeNameKo(num, strong, lack, month) {
-    const era = eraNext[num % eraNext.length];
-    const region = regionNext[(num + month) % regionNext.length];
-    const name = generateSuriName(num + 10, syllableKo1, syllableKo2);
+    const name = syllableKo1[(num + 10) % syllableKo1.length] + syllableKo2[(num + 15) % syllableKo2.length];
+    const era = eraNextKo[num % eraNextKo.length];
+    const region = regionNextKo[(num + month) % regionNextKo.length];
     return `${name} (${era} ${region})`;
 }
-
 function makeNextLifeNameEn(num, strong, lack, month) {
-    const era = eraNext[num % eraNext.length];
-    const region = regionNext[(num + month) % regionNext.length];
     const name = nameRootEn[(num + 20) % nameRootEn.length] + nameTailEn[(num + 25) % nameTailEn.length];
+    const era = eraNextEn[num % eraNextEn.length];
+    const region = regionNextEn[(num + month) % regionNextEn.length];
     return `${name} (${era}, ${region})`;
 }
