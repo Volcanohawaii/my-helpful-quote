@@ -209,10 +209,16 @@
       const t = i18n[currentLang]; 
       const birthMonth = parseInt(session.birth.substring(4, 6));
 
-      // 탭 활성 상태 변경
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.getAttribute('onclick').includes(mode)));
+      // 탭 버튼 활성화 상태 업데이트
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('active');
+        // 각 버튼의 텍스트나 ID를 기준으로 활성화
+        if (mode === 'fortune' && b.id === 'tab1') b.classList.add('active');
+        if (mode === 'past' && b.id === 'tab2') b.classList.add('active');
+        if (mode === 'next' && b.id === 'tab3') b.classList.add('active');
+      });
 
-      // [복구] 계절 및 오행 로직
+      // [계절 및 오행 로직] - 사용자님 필수 코드
       let seasonName = currentLang === 'ko' ? "환절기(土)" : "the Change of Seasons(土)";
       if ([2, 3].includes(birthMonth)) seasonName = currentLang === 'ko' ? "봄(木)" : "Spring(木)";
       else if ([5, 6].includes(birthMonth)) seasonName = currentLang === 'ko' ? "여름(火)" : "Summer(火)";
@@ -246,7 +252,6 @@
       } 
       else if (mode === 'past') {
         const p = (currentLang === 'ko') ? pastLifeData[session.num81-1] : pastLifeDataEn[session.num81-1];
-        // 📍 전생 활동 중심지 매칭 로직
         const era = (currentLang === 'ko' ? eraPastKo : eraPastEn)[session.num81 % (currentLang === 'ko' ? eraPastKo.length : eraPastEn.length)];
         const region = (currentLang === 'ko' ? regionPastKo : regionPastEn)[(session.num81 + birthMonth) % (currentLang === 'ko' ? regionPastKo.length : regionPastEn.length)];
 
@@ -266,7 +271,6 @@
       } 
       else if (mode === 'next') {
         const r = (currentLang === 'ko') ? reincarnationData[session.num81-1] : reincarnationDataEn[session.num81-1];
-        // 📍 내세 활동 중심지 매칭 로직
         const era = (currentLang === 'ko' ? eraNextKo : eraNextEn)[session.num81 % (currentLang === 'ko' ? eraNextKo.length : eraNextEn.length)];
         const region = (currentLang === 'ko' ? regionNextKo : regionNextEn)[(session.num81 + birthMonth) % (currentLang === 'ko' ? regionNextKo.length : regionNextEn.length)];
 
@@ -284,31 +288,9 @@
             </div>
           </div>`;
       }
-    }
-      
-      else if (mode === 'next') {
-        const r = (currentLang === 'ko') ? reincarnationData[session.num81-1] : reincarnationDataEn[session.num81-1];
-        // 📍 내세 활동 중심지 데이터 매칭
-        const era = (currentLang === 'ko' ? eraNextKo : eraNextEn)[session.num81 % (currentLang === 'ko' ? eraNextKo.length : eraNextEn.length)];
-        const region = (currentLang === 'ko' ? regionNextKo : regionNextEn)[(session.num81 + birthMonth) % (currentLang === 'ko' ? regionNextKo.length : regionNextEn.length)];
+    } // 함수의 끝
 
-        body.innerHTML = `
-          <div class="tab-content">
-            <span class="section-title">${t.tab3Title}</span>
-            <div class="info-box" style="background:#fff; padding:25px;">
-              <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
-                <b style="color:var(--accent); display:block;">[예약된 내세 명단]</b>
-                <span style="font-weight:800; font-size:1.2rem;">
-                  ${(currentLang === 'ko' ? makeNextLifeNameKo : makeNextLifeNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}
-                </span>
-              </div>
-              <p style="margin-bottom:12px;"><b>🌌 ${t.nextDest}:</b> ${era}, ${region}</p>
-              <p style="margin-bottom:12px;"><b>💼 ${t.nextObj}:</b> ${r.job}<br><span style="font-size:0.85rem; color:#666;">${r.desc}</span></p>
-              <p><b>📜 ${t.nextMission}:</b> ${r.mission}</p>
-            </div>
-          </div>`;
-      }
-    }
+  
   function copyLink() {
       const url = window.location.href;
       navigator.clipboard.writeText(url).then(() => {
