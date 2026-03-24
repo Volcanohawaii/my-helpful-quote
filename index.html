@@ -41,7 +41,7 @@
   <div id="loading-overlay">
     <div style="background:white; padding:20px; border-radius:15px; text-align:center; width:100%; max-width:340px;">
       <div class="official-seal" style="position:static; margin:0 auto 20px auto;">분석중</div>
-      <h2 style="font-family:'Gowun Batang'; color:var(--primary); font-size:1.1rem;">운명의 에너지를 조합 중...</h2>
+      <h2 style="font-family:'Gowun Batang'; color:var(--primary); font-size:1.1rem;">수리성명학 운명가 에너지를 조합 중...</h2>
       <div style="border:3px solid #f3f3f3; border-top:3px solid var(--accent); border-radius:50%; width:24px; height:24px; animation:spin 1s linear infinite; margin:0 auto 20px auto;"></div>
       <!-- 로딩 광고 슬롯 -->
       <div style="min-height: 250px; display: flex; justify-content: center; align-items: center;">
@@ -231,7 +231,7 @@
         renderChart(session.elementScores);
       } else if (mode === 'past') {
         const p = (currentLang === 'ko') ? pastLifeData[session.num81-1] : pastLifeDataEn[session.num81-1];
-        body.innerHTML = `<div class="tab-content"><span class="section-title">전생 분석 자료</span><div class="info-box" style="background:#fff; padding:25px;"><div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;"><b style="color:var(--accent); display:block;">📋 전생의 `${data.name}</b><span style="font-weight:800; font-size:1.1rem;">${(currentLang === 'ko' ? makePastNameKo : makePastNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span></div><p><b>💼 직업:</b> ${p.job}<br>${p.desc}</p><p><b>📜 전생 과업:</b> ${p.homework}</p></div></div>`;
+        body.innerHTML = `<div class="tab-content"><span class="section-title">전생 분석 자료</span><div class="info-box" style="background:#fff; padding:25px;"><div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;"><b style="color:var(--accent); display:block;">📋 전생의 ${session.name}님</b><span style="font-weight:800; font-size:1.1rem;">${(currentLang === 'ko' ? makePastNameKo : makePastNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span></div><p><b>💼 직업:</b> ${p.job}<br>${p.desc}</p><p><b>📜 전생 과업:</b> ${p.homework}</p></div></div>`;
       } else if (mode === 'next') {
         const r = (currentLang === 'ko') ? reincarnationData[session.num81-1] : reincarnationDataEn[session.num81-1];
         body.innerHTML = `
@@ -239,16 +239,21 @@
             <span class="section-title">내세 분석 자료</span>
             <div class="info-box" style="background:#fff; padding:25px;">
               <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
-                <b style="color:var(--accent); display:block;">📋 내세의 `${data.name}</b>
+                <b style="color:var(--accent); display:block;">📋 내세의 ${session.name}님</b>
                 <span style="font-weight:800; font-size:1.1rem;">${(currentLang === 'ko' ? makeNextLifeNameKo : makeNextLifeNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span>
               </div>
-              <p><b>💼 내세 직업:</b> ${r.job}<br>
-              <p>${r.desc}</p>
+              <p><b>💼 내세 직업:</b> ${r.job}<br>${r.desc}</p>
               <p><b>🌌 도착 장소:</b> ${r.place}</p>
               <p><b>📜 내세 과업:</b> ${r.mission}</p>
             </div>
           </div>`;
       }
+    }
+  function copyLink() {
+      const url = window.location.href;
+      navigator.clipboard.writeText(url).then(() => {
+        alert(currentLang === 'ko' ? "복사가 완료되었습니다! ✨" : "Link copied! ✨");
+      });
     }
     window.onload = () => { if (typeof i18n !== 'undefined') setLang('ko'); };
 </script>
