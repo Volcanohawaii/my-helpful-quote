@@ -243,43 +243,24 @@
             </div>
           </div>`;
         renderChart(session.elementScores);
-      } else if (mode === 'past') {
-    const p = (currentLang === 'ko') ? pastLifeData[session.num81-1] : pastLifeDataEn[session.num81-1];
-    const t = i18n[currentLang];
-    
-    // 데이터 보정: 화면 하단에도 📍활동 중심지를 보여주기 위해 변수 생성
-    const era = (currentLang === 'ko' ? eraPastKo : eraPastEn)[session.num81 % (currentLang === 'ko' ? eraPastKo.length : eraPastEn.length)];
-    const region = (currentLang === 'ko' ? regionPastKo : regionPastEn)[(session.num81 + birthMonth) % (currentLang === 'ko' ? regionPastKo.length : regionPastEn.length)];
-
-    body.innerHTML = `
-        <div class="tab-content">
-            <span class="section-title">${t.tab2Title}</span>
-            <div class="info-box" style="background:#fff; padding:25px;">
-                <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
-                    <b style="color:var(--accent); display:block;">[식별된 전생명]</b>
-                    <span style="font-weight:800; font-size:1.2rem;">
-                        ${(currentLang === 'ko' ? makePastNameKo : makePastNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}
-                    </span>
-                </div>
-                <!-- 전생에도 활동 중심지 추가 -->
-                <p style="margin-bottom:12px;"><b>📍 ${t.pastDest}:</b> ${era}, ${region}</p>
-                <p style="margin-bottom:12px;"><b>💼 ${t.pastJob}:</b> ${p.job}<br><span style="font-size:0.85rem; color:#666;">${p.desc}</span></p>
-                <p><b>📜 ${t.pastHomework}:</b> ${p.homework}</p>
-            </div>
-        </div>`;
-}
       } else if (mode === 'next') {
         const r = (currentLang === 'ko') ? reincarnationData[session.num81-1] : reincarnationDataEn[session.num81-1];
+        // 📍 내세 활동 중심지 계산
+        const era = (currentLang === 'ko' ? eraNextKo : eraNextEn)[session.num81 % (currentLang === 'ko' ? eraNextKo.length : eraNextEn.length)];
+        const region = (currentLang === 'ko' ? regionNextKo : regionNextEn)[(session.num81 + birthMonth) % (currentLang === 'ko' ? regionNextKo.length : regionNextEn.length)];
+
         body.innerHTML = `
           <div class="tab-content">
             <span class="section-title">${t.tab3Title}</span>
             <div class="info-box" style="background:#fff; padding:25px;">
               <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
-                <b style="color:var(--accent); display:block;">📋 ${currentLang === 'ko' ? `내세의 ${session.name}님` : `Afterlife Reserved: ${session.name}`}</b>
-                <span style="font-weight:800; font-size:1.1rem;">${(currentLang === 'ko' ? makeNextLifeNameKo : makeNextLifeNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span>
+                <b style="color:var(--accent); display:block;">📋 ${currentLang === 'ko' ? `내세의 ${session.name}님` : `Afterlife: ${session.name}`}</b>
+                <span style="font-weight:800; font-size:1.2rem;">
+                  ${(currentLang === 'ko' ? makeNextLifeNameKo : makeNextLifeNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}
+                </span>
               </div>
-              <p><b>💼 ${t.nextObj}:</b> ${r.job}<br>${r.desc}</p>
-              <p><b>🌌 ${t.nextDest}:</b> ${r.place}</p>
+              <p style="margin-bottom:12px;"><b>🌌 ${t.nextDest}:</b> ${era}, ${region}</p>
+              <p style="margin-bottom:12px;"><b>💼 ${t.nextObj}:</b> ${r.job}<br><span style="font-size:0.85rem; color:#666;">${r.desc}</span></p>
               <p><b>📜 ${t.nextMission}:</b> ${r.mission}</p>
             </div>
           </div>`;
