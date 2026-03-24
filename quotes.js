@@ -88,29 +88,245 @@ const epithetEnByElement = {
     "水": ["Possessing abyssal wisdom", "Possessing vast tolerance", "Possessing spring water divinity", "Possessing raindrop rhythm", "Possessing mist mystery", "Possessing waterfall spirit", "Possessing lake silence", "Possessing dew soul", "Possessing sea secrets", "Possessing river curiosity", "Possessing wave genius", "Possessing cloud flight"] 
 };
 
-/* [월간 데이터] */
+/* [월간 데이터 - 운명 서사 확장판] */
 const birthMonthData = {
-    1: { ko: "맹추위를 뚫고 솟아오르는 '동토의 생명력'을 가졌습니다.", en: "Vitality of Frozen Earth piercing through deep winter." },
-    2: { ko: "만물이 기지개를 켜는 '초봄의 유연함'을 품고 있습니다.", en: "Flexibility of Early Spring as all things awaken." },
-    3: { ko: "대지를 적시는 봄비와 같은 '성장의 자양분'을 타고났습니다.", en: "Nutrient of Growth like spring rain soaking the earth." },
-    4: { ko: "화려하게 피어나는 '만개의 에너지'를 지녔습니다.", en: "Energy of Full Bloom radiating brilliance." },
-    5: { ko: "뜨거운 태양 아래 무르익는 '초여름의 열정'이 가득합니다.", en: "Passion of Early Summer ripening under the sun." },
-    6: { ko: "만물을 성장시키는 '풍요의 절정'에 서 있는 기운입니다.", en: "Peak of Abundance fueling the growth of all things." },
-    7: { ko: "단단하게 굳어가는 '열매의 견고함'을 지닌 명식입니다.", en: "Firmness of Fruit as it hardens with substance." },
-    8: { ko: "황금빛 들판을 완성하는 '결실의 파동'이 흐릅니다.", en: "Vibration of Harvest completing golden fields." },
-    9: { ko: "서리발처럼 날카로운 '숙살(肅殺)의 기운'을 품고 있습니다.", en: "Energy of Frosty Resolution sharp as a blade." },
-    10: { ko: "만물이 저장되는 '창고의 지혜'를 지닌 기운입니다.", en: "Wisdom of Storage where all things are gathered." },
-    11: { ko: "어둠 속에서 빛을 기다리는 '근원의 지혜'를 타고났습니다.", en: "Primal Wisdom waiting for light in the dark." },
-    12: { ko: "새로움을 준비하는 '침묵의 힘'이 서려 있습니다.", en: "Power of Silence preparing for rebirth." }
+    1: { 
+        ko: "맹추위를 뚫고 솟아오르는 '동토의 생명력'을 가졌습니다. 겉으로는 고요하고 차가워 보일 수 있으나, 내면에는 가장 뜨거운 생존 의지가 용트림하고 있습니다. 어떤 역경 속에서도 결국 스스로의 길을 열어젖히는 강인한 개척자의 기운입니다.", 
+        en: "You possess the 'Vitality of Frozen Earth' that pierces through deep winter. While appearing calm and cold on the outside, a powerful will to survive stirs within. It is the energy of a resilient pioneer who eventually carves out their own path against all odds." 
+    },
+    2: { 
+        ko: "만물이 기지개를 켜는 '초봄의 유연함'을 품고 있습니다. 딱딱한 대지를 뚫고 나오는 새순처럼, 주변 환경에 부드럽게 적응하면서도 자신의 존재감을 확실히 드러냅니다. 변화를 두려워하지 않는 호기심과 무한한 잠재력이 당신의 무기입니다.", 
+        en: "You embody the 'Flexibility of Early Spring' as all things awaken. Like a sprout breaking through hard ground, you adapt gently to your surroundings while establishing a clear presence. Your curiosity and boundless potential are your greatest strengths." 
+    },
+    3: { 
+        ko: "대지를 적시는 봄비와 같은 '성장의 자양분'을 타고났습니다. 스스로 빛나기보다 타인과 세상을 성장시키는 데 탁월한 능력을 발휘하며, 그 과정에서 본인의 가치 또한 거대하게 확장됩니다. 생명력 넘치는 추진력으로 만물의 흐름을 주도하는 기운입니다.", 
+        en: "You were born with the 'Nutrient of Growth,' much like spring rain soaking the earth. You excel at nurturing others and the world, and in that process, your own value expands immensely. You possess the energy to lead the flow of existence with vibrant momentum." 
+    },
+    4: { 
+        ko: "화려하게 피어나는 '만개의 에너지'를 지녔습니다. 인생의 가장 찬란한 순간을 포착하고 표현하는 능력이 뛰어나며, 사람들의 시선을 사로잡는 선천적인 매력을 가졌습니다. 당신이 머무는 곳은 언제나 활기가 넘치고 새로운 가능성이 꽃피우게 됩니다.", 
+        en: "You carry the 'Energy of Full Bloom' radiating brilliance. You have an exceptional ability to capture and express life's most radiant moments, possessing an innate charm that draws people in. Wherever you go, vitality overflows and new possibilities begin to flower." 
+    },
+    5: { 
+        ko: "뜨거운 태양 아래 무르익는 '초여름의 열정'이 가득합니다. 이상향을 향한 추진력이 남다르며, 목표가 정해지면 뒤를 돌아보지 않고 전진하는 불꽃 같은 기질을 가졌습니다. 당신의 야망은 주변을 전염시키며 거대한 변화의 파동을 만들어냅니다.", 
+        en: "You are filled with the 'Passion of Early Summer' ripening under the sun. Your drive toward your ideals is extraordinary, and once a goal is set, you advance with a fiery spirit. Your ambition is contagious, creating vast waves of transformation." 
+    },
+    6: { 
+        ko: "만물을 성장시키는 '풍요의 절정'에 서 있는 기운입니다. 에너지의 밀도가 가장 높은 시기에 태어나, 어떤 일을 하든 그 결과물의 완성도가 매우 높습니다. 세상을 따뜻하게 품는 포용력과 체계적으로 질서를 세우는 통찰력을 동시에 갖췄습니다.", 
+        en: "You stand at the 'Peak of Abundance' fueling the growth of all things. Born when energy is at its highest density, you achieve a remarkable level of completion in everything you do. You possess both the warmth to embrace the world and the insight to establish order." 
+    },
+    7: { 
+        ko: "단단하게 굳어가는 '열매의 견고함'을 지닌 명식입니다. 화려한 겉모습보다는 실질적인 가치와 내실을 중시하며, 세월이 흐를수록 깊어지는 지혜를 가졌습니다. 어떠한 흔들림에도 흔들리지 않는 내면의 중심을 지탱하며 성과를 완성해가는 기운입니다.", 
+        en: "You possess the 'Firmness of Fruit' as it hardens with substance. You value practical worth and inner strength over flashy appearances, gaining wisdom that deepens over time. Your energy allows you to complete achievements while maintaining an unshakable inner center." 
+    },
+    8: { 
+        ko: "황금빛 들판을 완성하는 '결실의 파동'이 흐릅니다. 노력에 대한 정당한 보상을 끌어당기는 힘이 강하며, 복잡한 상황 속에서도 핵심을 찾아내 결론을 짓는 능력이 탁월합니다. 수확의 기쁨을 주변과 나눌 줄 아는 고귀한 리더십의 소유자입니다.", 
+        en: "The 'Vibration of Harvest' flows through you, completing golden fields. You have a strong power to attract rightful rewards for your efforts and excel at finding the core of complex situations to bring them to a conclusion. You possess a noble leadership that shares the joy of harvest." 
+    },
+    9: { 
+        ko: "서리발처럼 날카로운 '숙살(肅殺)의 기운'을 품고 있습니다. 불필요한 것을 쳐내고 본질만을 남기는 단호함과 냉철한 분석력이 당신의 천성입니다. 정의롭지 못한 것에 타협하지 않으며, 혼란스러운 세상 속에서 명확한 질서를 세우는 심판자의 기운입니다.", 
+        en: "You harbor the 'Energy of Frosty Resolution' as sharp as a blade. Your nature is defined by the decisiveness and cold analytical power to cut away the unnecessary and leave only the essence. You never compromise with injustice, acting as a judge who establishes clear order in a chaotic world." 
+    },
+    10: { 
+        ko: "만물이 저장되는 '창고의 지혜'를 지닌 기운입니다. 방대한 지식과 경험을 자신의 것으로 소화하여 내면의 자산으로 만드는 능력이 뛰어납니다. 겉으로 드러내지 않아도 깊이 있는 통찰을 지녔으며, 위기의 순간에 가장 결정적인 해답을 제시하는 인물입니다.", 
+        en: "You possess the 'Wisdom of Storage' where all things are gathered. You excel at digesting vast knowledge and experience, turning them into your own internal assets. Even when quiet, your insight is deep, and you are the one to provide the most decisive answers in times of crisis." 
+    },
+    11: { 
+        ko: "어둠 속에서 빛을 기다리는 '근원의 지혜'를 타고났습니다. 보이지 않는 가치를 탐구하고 인간의 심연을 이해하는 능력이 탁월합니다. 고독을 두려워하지 않고 사색을 통해 진리를 찾아내며, 세상에 새로운 영감의 불씨를 던지는 철학적인 기운입니다.", 
+        en: "You were born with 'Primal Wisdom' waiting for light in the dark. You excel at exploring invisible values and understanding the depths of the human psyche. Unafraid of solitude, you find truth through contemplation and cast sparks of new inspiration upon the world." 
+    },
+    12: { 
+        ko: "새로움을 준비하는 '침묵의 힘'이 서려 있습니다. 한 사이클의 마무리를 상징하며, 정화를 통해 과거를 정리하고 다음 차원으로 넘어가는 지혜를 상징합니다. 고요함 속에 가장 거대한 폭발력을 숨기고 있는, 만물의 끝이자 시작을 담당하는 신비로운 기운입니다.", 
+        en: "The 'Power of Silence' preparing for rebirth resides within you. Representing the conclusion of a cycle, you symbolize the wisdom of clearing the past through purification to leap into the next dimension. Yours is a mysterious energy that hides the greatest explosive potential within stillness—the end and the beginning of all things." 
+    }
 };
-const luckyTitles81 = { 1: "기본격-만사휴태", 2: "동요격-분리파란", 3: "도약격-입신양명", 4: "부정격-파괴멸망", 5: "복덕격-성공발전", 6: "계승격-덕후유복", 7: "강건격-주도면밀", 8: "수전격-자수성가", 9: "궁박격-불의재난", 10: "공허격-다재다능", 11: "신성격-재래부흥", 12: "박약격-고립무원", 13: "지혜격-총명발달", 14: "이산격-파괴번뇌", 15: "통솔격-복수쌍전", 16: "덕망격-재물유복", 17: "건창격-강직투쟁", 18: "발전격-의지견고", 19: "고난격-병약고독", 20: "허망격-중도좌절", 21: "두령격-독립권위", 22: "중절격-부부운박", 23: "공명격-위세당당", 24: "입신격-축재풍부", 25: "건창격-재치민활", 26: "영웅격-파란만장", 27: "중단격-좌절중단", 28: "파란격-파란곡절", 29: "성공격-신망두터", 30: "부침격-길흉상반", 31: "융창격-자수성가", 32: "순풍격-의외득재", 33: "제왕격-위풍당당", 34: "파멸격-파란곡절", 35: "안강격-평범온화", 36: "협객격-파란만장", 37: "인덕격-유의유덕", 38: "복록격-문학예술", 39: "장성격-부귀번영", 40: "파란격-변화무쌍", 41: "고봉격-대업성취", 42: "고행격-자력갱생", 43: "성쇠격-외화내빈", 44: "마장격-미궁속황", 45: "대성격-만물통합", 46: "미망격-방황고민", 47: "출세격-득의만면", 48: "유덕격-지도역량", 49: "변화격-길흉상반", 50: "부침격-성패교차", 51: "춘추격-성패상반", 52: "약진격-기회포착", 53: "내빈격-외화내빈", 54: "패망격-백계무책", 55: "미달격-외양내허", 56: "부족격-진퇴유곡", 57: "재기격-시련극복", 58: "후복격-자수성가", 59: "불우격-의지박약", 60: "동요격-상하불안", 61: "재화격-지혜충만", 62: "쇠퇴격-내우외환", 63: "성공격-부귀영광", 64: "침체격-변화무쌍", 65: "휘황격-만물평온", 66: "망신격-내우외환", 67: "승리격-천하태평", 68: "창업격-지모탁월", 69: "정체격-병약곤궁", 70: "공허격-멸망멸절", 71: "안정격-내실충실", 72: "상반격-길흉상반", 73: "평범격-자수성가", 74: "불우격-만사불우", 75: "안정격-평화온화", 76: "이산격-내우외환", 77: "성패격-길흉상반", 78: "선길격-평범온화", 79: "불운격-정체불명", 80: "종말격-은둔생활", 81: "환희격-복덕원만" };
+const luckyTitles81 = {
+    1: "기본격-만사휴태 (萬事休泰)", 2: "동요격-분리파란 (分離波瀾)", 3: "도약격-입신양명 (立身揚名)", 4: "부정격-파괴멸망 (破壞滅亡)", 5: "복덕격-성공발전 (成功發展)",
+    6: "계승격-덕후유복 (德厚有福)", 7: "강건격-주도면밀 (周到綿密)", 8: "수전격-자수성가 (自手成家)", 9: "궁박격-불의재난 (不意災難)", 10: "공허격-다재다능 (多才多能)",
+    11: "신성격-재래부흥 (再來復興)", 12: "박약격-고립무원 (孤立無援)", 13: "지혜격-총명발달 (聰明發達)", 14: "이산격-파괴번뇌 (破壞煩惱)", 15: "통솔격-복수쌍전 (福壽雙全)",
+    16: "덕망격-재물유복 (財物有福)", 17: "건창격-강직투쟁 (剛直鬪爭)", 18: "발전격-의지견고 (意志堅固)", 19: "고난격-병약고독 (病弱孤獨)", 20: "허망격-중도좌절 (中途挫折)",
+    21: "두령격-독립권위 (獨立權威)", 22: "중절격-부부운박 (夫婦運薄)", 23: "공명격-위세당당 (威勢堂堂)", 24: "입신격-축재풍부 (蓄財豊富)", 25: "건창격-재치민활 (才致敏活)",
+    26: "영웅격-파란만장 (波瀾萬丈)", 27: "중단격-좌절중단 (挫折中斷)", 28: "파란격-파란곡절 (波瀾曲折)", 29: "성공격-신망두터 (信望厚厚)", 30: "부침격-길흉상반 (吉凶相半)",
+    31: "융창격-자수성가 (自手成家)", 32: "순풍격-의외득재 (意外得財)", 33: "제왕격-위풍당당 (威風堂堂)", 34: "파멸격-파란곡절 (波瀾曲折)", 35: "안강격-평범온화 (平凡溫和)",
+    36: "협객격-파란만장 (波瀾萬丈)", 37: "인덕격-유의유덕 (有意有德)", 38: "복록격-문학예술 (文學藝術)", 39: "장성격-부귀번영 (富貴繁榮)", 40: "파란격-변화무쌍 (變化無雙)",
+    41: "고봉격-대업성취 (大業成就)", 42: "고행격-자력갱생 (自力更生)", 43: "성쇠격-외화내빈 (外華內貧)", 44: "마장격-미궁속황 (迷宮束徨)", 45: "대성격-만물통합 (萬物統合)",
+    46: "미망격-방황고민 (彷徨苦悶)", 47: "출세격-득의만면 (得意滿面)", 48: "유덕격-지도역량 (指導力量)", 49: "변화격-길흉상반 (吉凶相半)", 50: "부침격-성패교차 (成敗交叉)",
+    51: "춘추격-성패상반 (成敗相半)", 52: "약진격-기회포착 (機會捕捉)", 53: "내빈격-외화내빈 (外華內貧)", 54: "패망격-백계무책 (百計無策)", 55: "미달격-외양내허 (外樣內虛)",
+    56: "부족격-진퇴유곡 (進退維谷)", 57: "재기격-시련극복 (試鍊克服)", 58: "후복격-자수성가 (自手成家)", 59: "불우격-의지박약 (意志薄弱)", 60: "동요격-상하불안 (上下不安)",
+    61: "재화격-지혜충만 (智慧充滿)", 62: "쇠퇴격-내우외환 (內憂外患)", 63: "성공격-부귀영광 (富貴榮光)", 64: "침체격-변화무쌍 (變化無雙)", 65: "휘황격-만물평온 (萬物平溫)",
+    66: "망신격-내우외환 (內憂外患)", 67: "승리격-천하태평 (天下泰平)", 68: "창업격-지모탁월 (智謀卓越)", 69: "정체격-병약곤궁 (病弱困窮)", 70: "공허격-멸망멸절 (滅亡滅絶)",
+    71: "안정격-내실충실 (內實充實)", 72: "상반격-길흉상반 (吉凶相半)", 73: "평범격-자수성가 (自手成家)", 74: "불우격-만사불우 (萬事不遇)", 75: "안정격-평화온화 (平和溫和)",
+    76: "이산격-내우외환 (內憂外患)", 77: "성패격-길흉상반 (吉凶相半)", 78: "선길격-평범온화 (平凡溫和)", 79: "불운격-정체불명 (正體不明)", 80: "종말격-은둔생활 (隱遁生活)",
+    81: "환희격-복덕원만 (福德圓滿)"
+};
 const luckyTitles81En = { 1: "Origin", 2: "Turbulence", 3: "Ascent", 4: "Chaos", 5: "Prosperity", 6: "Heritage", 7: "Fortitude", 8: "Resilience", 9: "Adversity", 10: "Void", 11: "Revival", 12: "Frailty", 13: "Brilliance", 14: "Dispersion", 15: "Command", 16: "Prestige", 17: "Integrity", 18: "Expansion", 19: "Hardship", 20: "Illusion", 21: "Sovereignty", 22: "Interruption", 23: "Majesty", 24: "Accumulation", 25: "Sharpness", 26: "Hero", 27: "Cease", 28: "Surge", 29: "Success", 30: "Flux", 31: "Bloom", 32: "Breeze", 33: "Imperial", 34: "Ruin", 35: "Serenity", 36: "Wanderer", 37: "Benevolence", 38: "Artistry", 39: "General", 40: "Change", 41: "Summit", 42: "Penance", 43: "Fluctuation", 44: "Obstacle", 45: "Mastery", 46: "Delusion", 47: "Triumph", 48: "Mentor", 49: "Transformation", 50: "Wave", 51: "Seasons", 52: "Leap", 53: "Hidden", 54: "Failure", 55: "Surface", 56: "Dilemma", 57: "Recovery", 58: "Rebound", 59: "Misfortune", 60: "Shaking", 61: "Treasure", 62: "Decline", 63: "Glory", 64: "Stagnation", 65: "Radiance", 66: "Scandal", 67: "Victory", 68: "Founder", 69: "Standstill", 70: "Emptiness", 71: "Stability", 72: "Division", 73: "Simplicity", 74: "Misery", 75: "Calm", 76: "Departure", 77: "Balance", 78: "Omen", 79: "Mist", 80: "Hermit", 81: "Bliss" };
 
-const detailedDesc81 = { 1: "태초의 빛이 만물을 깨우는 형상입니다. 독립심과 개척 정신이 강하며 스스로 길을 열어 대업을 성취합니다.", 2: "뿌리가 흔들리는 고립의 기운입니다. 재능은 있으나 주변과의 조화가 깨지기 쉬우니 내실을 다져야 합니다.", 3: "새순이 돋아 하늘로 뻗어가는 생명력의 정점입니다. 지혜와 명예가 따르며 입신양명의 기운이 강합니다.", 4: "거친 파도가 앞길을 가로막는 흐름입니다. 파괴와 창조가 공존하니 성급한 확장보다는 기초가 우선입니다.", 5: "만물이 조화롭게 무르익어 복이 들어오는 형국입니다. 인덕과 재복이 함께하며 성공이 따르는 길수입니다.", 6: "조상의 덕이 흐르고 대를 이어 번영하는 파동입니다. 책임감이 강하며 신뢰를 바탕으로 안정을 누립니다.", 7: "강철 같은 의지와 면밀함으로 목표를 관철합니다. 독립심이 강해 자수성가하며 전문가의 위치에 오릅니다.", 8: "흙 속의 황금을 찾아내어 빛을 발하는 명식입니다. 꾸준한 노력 끝에 재물을 모으고 지키는 힘이 탁월합니다.", 9: "능력은 천재적이나 운명의 부침이 심한 기운입니다. 고독한 탐구자의 길을 걷기 쉬우니 평정심이 숙제입니다.", 10: "재주는 비상하나 안개가 자욱해 방향을 잃기 쉽습니다. 공허함을 경계하고 명확한 목표를 세워야 합니다.", 11: "메마른 땅에 비가 내려 새 생명이 움트듯, 가문을 부흥시키고 새로운 가치를 창출하는 개척자의 운명입니다.", 12: "홀로 거친 세상에 서야 하는 고립의 흐름입니다. 내면의 힘을 기르고 유연함을 배워야 성장을 완성합니다.", 13: "하늘이 내린 총명함과 지혜가 머무는 자리입니다. 어떤 문제든 명쾌한 해답을 찾아내며 귀감이 됩니다.", 14: "에너지가 분산되어 안정이 필요한 파동입니다. 마음의 중심을 잡고 환경을 정돈하는 것이 최우선 과제입니다.", 15: "복과 인덕이 함께하니 전체를 조망하고 이끄는 리더의 기운입니다. 부귀와 명예가 따르는 상서로운 수입니다.", 16: "덕망으로 사람의 마음을 얻어 대업을 완수합니다. 많은 이들의 신뢰를 얻어 명예로운 자리에 오를 명식입니다.", 17: "강직한 의지와 날카로운 논리로 진리를 탐구합니다. 전문성이 독보적이나 부드러움을 더해야 완벽해집니다.", 18: "굳건한 추진력으로 현실적인 결실을 맺습니다. 역경을 기회로 바꾸며 반드시 성과를 증명해내는 운명입니다.", 19: "재능은 비상하나 고독의 기운이 흐르는 영혼입니다. 현실과의 조화를 찾고 지혜를 나누는 것이 삶의 열쇠입니다.", 20: "이상은 높으나 기반이 약해 중도 좌절하기 쉬운 형국입니다. 내실을 다지고 성급함을 경계해야 번영합니다.", 21: "우뚝 솟은 산처럼 흔들림 없는 두령의 기운입니다. 독립심과 권위가 따르며 조직의 핵심을 담당할 운명입니다.", 22: "재주는 많으나 관계가 불안정해 이용당하기 쉬운 흐름입니다. 중심을 잡고 거절의 선을 지키는 법을 익히십시오.", 23: "태양 같은 열정으로 자신의 아이디어를 세상에 발산합니다. 끊임없는 변화를 통해 명성과 성장을 얻게 됩니다.", 24: "성실한 축적과 철저한 관리로 황금빛 결실을 맺습니다. 물질적 풍요와 지속적인 안정력을 동시에 갖춥니다.", 25: "비상한 재치와 유연함으로 혼돈 속에서 질서를 찾습니다. 많은 이들을 올바른 방향으로 이끄는 중추적 사명입니다.", 26: "영웅적 기질을 가졌으나 파란이 많은 담금질의 형국입니다. 시련을 이겨낼 때 비로소 진가가 드러나는 명식입니다.", 27: "예리한 통찰력이 있으나 고립으로 인해 중단되기 쉬운 흐름입니다. 따뜻한 마음을 회복해야 운이 열립니다.", 28: "거친 바다를 항해하는 선장처럼 파란곡절이 많습니다. 집착을 버리고 흐름을 타야 큰 성과를 거둡니다.", 29: "지혜와 완성도를 통해 세상의 신망을 얻는 원숙한 운명입니다. 전환의 시기를 슬기롭게 넘겨 도약합니다.", 30: "길흉이 교차하여 부침이 심한 형국입니다. 다시 일어서는 개척의 에너지는 좋으나 내실을 더 기해야 합니다.", 31: "관계의 에너지를 통해 무에서 유를 창조합니다. 협력을 바탕으로 혼자보다 거대한 결실을 맺는 명식입니다.", 32: "순풍에 돛을 단 듯 예기치 못한 기회가 찾아옵니다. 유연한 소통을 통해 운명의 크기를 무한히 확장합니다.", 33: "제왕의 위엄과 강력한 리더십을 지녔습니다. 화려함 뒤의 책임을 다할 때 비로소 대업이 완성됩니다.", 34: "폭풍이 닥쳐 기반이 흔들리는 고난의 형국입니다. 기초 체력을 기르고 내실을 다져 삶을 지탱해야 합니다.", 35: "대지처럼 포용력이 넓고 평온한 운명입니다. 조직의 안정적인 중심축 역할을 하며 평화를 유지합니다.", 36: "덕으로 사람의 마음을 얻어 명예를 지키는 에너지입니다. 헌신을 통해 사회적 신뢰와 높은 보상을 얻습니다.", 37: "이면을 꿰뚫는 통찰과 장인 정신으로 전문성을 인정받습니다. 고결한 독립성을 유지하며 지식을 쌓습니다.", 38: "강력한 추진력으로 이상을 현실로 만듭니다. 구체적인 결과물로 본인의 가치를 증명해내는 성취의 운명입니다.", 39: "원을 완벽히 닫고 다음 차원으로 도약하는 지혜입니다. 부귀와 영광을 누리며 타의 귀감이 되는 명식입니다.", 40: "개척의 기운이 있으나 성급함으로 인해 요동칩니다. 평정심을 유지하고 기반을 다져야 번영을 유지합니다.", 41: "조직을 대업으로 이끄는 강력한 통솔력의 파동입니다. 협력을 통해 거대한 성과를 현실화하는 운명입니다.", 42: "아이디어는 화려하나 시련이 많은 담금질의 시기입니다. 변화를 두려워하지 말고 성장의 발판으로 삼으십시오.", 43: "겉은 화려하나 속이 비기 쉬운 외화내빈의 명식입니다. 기초를 단단히 다지고 실속을 챙기는 지혜가 필요합니다.", 44: "리더십은 있으나 방향을 잃고 헤매는 마장의 기운입니다. 통찰력을 길러 혼돈 속에서 질서를 찾아야 합니다.", 45: "책임감과 조상의 덕이 결합되어 전체를 통합합니다. 이타적인 헌신으로 높은 명예와 신뢰를 얻게 됩니다.", 46: "통찰력은 있으나 방황으로 인해 독립성을 잃기 쉽습니다. 중심을 잡고 유연함을 회복해야 운이 풀립니다.", 47: "인내 끝에 결실을 맺어 생의 참된 의미를 깨닫는 운명입니다. 구체적인 성과로 가치를 증명하는 명식입니다.", 48: "만물을 통합하는 리더십으로 타인을 이끄는 중추적 사명을 지녔습니다. 지혜로운 조언자로 존경받는 운명입니다.", 49: "변화가 극심하여 길흉이 상반되는 흐름입니다. 환경 변화에 민감하게 대응하며 내실을 다지는 것이 생존법입니다.", 50: "협력의 파동은 좋으나 성패가 교차하여 불안정합니다. 평정심을 유지하고 기반을 튼튼히 해야 무너지지 않습니다.", 51: "성장의 기운은 넘치나 인생의 사계를 모두 경험하는 형국입니다. 역경을 통해 대기만성형으로 성장합니다.", 52: "견고한 내실과 기회 포착 능력이 결합된 강한 운입니다. 철저한 자기관리로 대업을 성취하는 지지대를 갖습니다.", 53: "겉은 번듯하나 실속이 부족해 성패가 교차합니다. 외양보다는 내실을 중시해야 중심을 잡을 수 있습니다.", 54: "책임감은 강하나 기반이 무너져 계획이 틀어지기 쉽습니다. 기초부터 다시 점검하고 신의를 지키십시오.", 55: "통찰은 예리하나 겉치레에 치중해 실속이 없는 명식입니다. 따뜻한 가슴과 유연함을 길러야 사람을 얻습니다.", 56: "성과를 내는 힘은 좋으나 결정적인 순간에 주저하기 쉽습니다. 추진력과 현실 감각을 조화시켜 마침표를 찍으십시오.", 57: "시련을 극복하고 새로운 질서를 세우는 개척의 파동입니다. 고난 끝에 귀감이 되는 성취를 이루는 명식입니다.", 58: "성실히 축적하여 중년 이후 자수성가하는 안정된 운입니다. 인내의 시간 끝에 거대한 결실을 맺게 됩니다.", 59: "변화의 기운은 강하나 의지가 약해 방향을 잃기 쉽습니다. 루틴을 고정하고 명확한 목표에 집중해야 합니다.", 60: "내실은 있으나 상하 관계의 불안으로 흔들리는 형국입니다. 기반을 단단히 하고 자기관리에 집중하십시오.", 61: "지혜가 충만하여 조직의 핵심 축 역할을 수행합니다. 혼돈 속에서도 길을 찾아내는 현명한 지도자의 운명입니다.", 62: "책임감은 깊으나 내우외환으로 쇠퇴하기 쉬운 흐름입니다. 유연함을 기르고 이타적인 태도로 위기를 넘기십시오.", 63: "예리한 통찰과 꾸준한 성과가 만나 부귀영화를 누립니다. 인내 끝에 최고의 결실을 보는 원만한 명식입니다.", 64: "지혜는 있으나 변화무쌍한 운명으로 인해 정체되기 쉽습니다. 슬기롭게 정리하고 도약의 발판을 마련하십시오.", 65: "창조의 파동이 완성과 만나 만물이 평온해지는 운명입니다. 안정 속에서 자신의 가치를 널리 알리는 명식입니다.", 66: "협력의 기운은 좋으나 예기치 못한 실수로 망신을 살 수 있습니다. 중심을 잡고 거절의 선을 분명히 하십시오.", 67: "화려한 표현력을 바탕으로 대업을 완수하고 태평성대를 누립니다. 역경을 딛고 영혼의 고저를 높이는 운명입니다.", 68: "견고한 내실과 탁월한 지모가 결합된 창업자의 명식입니다. 흔들리지 않는 지지대를 구축해 성공을 유지합니다.", 69: "리더십은 있으나 기반이 약해 정체되기 쉬운 기운입니다. 기초 체력을 보강하고 통찰력을 길러 위기를 대비하십시오.", 70: "신의는 깊으나 공허함이 서려 계획이 무너지기 쉽습니다. 헌신적인 태도로 명예를 얻어야 삶이 풀립니다.", 71: "통찰력과 흔들리지 않는 내실이 결합된 완벽한 명식입니다. 전문성을 바탕으로 안정적인 부와 명예를 누립니다.", 72: "추진력은 좋으나 성패의 기복이 심한 형국입니다. 현실 감각을 잃지 말고 리스크를 관리하는 지혜가 필요합니다.", 73: "지혜롭게 마무리를 짓고 새로운 질서를 세우는 개척의 운명입니다. 스스로의 힘으로 높은 가치를 증명해냅니다.", 74: "시작의 에너지는 좋으나 만사가 불우한 마장의 흐름입니다. 역경 속에서 스스로 길을 찾는 인내력이 생존법입니다.", 75: "균형의 파동을 통해 완벽한 안정을 창출하는 통솔의 기운입니다. 협력을 통해 거대한 결실을 손에 거머쥡니다.", 76: "표현력은 좋으나 내우외환으로 이산하기 쉬운 영혼입니다. 중심을 잡고 성장을 완성하는 데 집중하십시오.", 77: "내실은 있으나 성패가 교차하여 운명이 요동칩니다. 기초를 단단히 하고 지지대를 보강해야 무너지지 않습니다. ",
-    78: "조직을 이끄는 힘은 좋으나 선길후흉의 기운이 있습니다. 통찰력과 중심을 잃지 않아야 번영을 유지합니다.", 79: "신의는 있으나 안개 속에서 헤매는 정체불명의 운입니다. 유연함을 기르고 명확한 목표를 세워야 명예를 얻습니다.", 80: "통찰력은 깊으나 종말의 기운으로 은둔하기 쉬운 명식입니다. 유연함을 회복하고 세상과의 접점을 유지하십시오.", 81: "궁극의 지혜와 환희가 만나 복덕원만한 완성의 명식입니다. 부귀를 누리며 타의 귀감이 되는 최고의 운명입니다." 
+const detailedDesc81 = {
+    1: "태초의 빛이 만물을 깨우는 형상으로, 강력한 독립심과 개척 정신을 타고난 리더의 명식입니다. 스스로 길을 개척하여 대업을 성취하는 에너지가 매우 강합니다. 다만, 지나친 자신감이 독단으로 흐를 수 있으니 주변의 조언을 수용하는 포용력을 기르십시오.",
+    2: "재능이 뛰어나고 감각이 예리하여 창의적인 분야에서 두각을 나타낼 수 있는 기운입니다. 하지만 주변 환경이나 인간관계에서 변동이 잦을 수 있습니다. 꾸준한 인내심과 정서적 안정을 최우선으로 삼는다면 불안정한 흐름을 기회로 바꿀 수 있습니다.",
+    3: "만물이 생동하는 봄날의 새순처럼 활기찬 생명력과 지혜를 가졌으며, 명예와 지위가 자연스럽게 따르는 길한 운수입니다. 사회적 성취도가 매우 높습니다. 다만, 화려함을 쫓다 내실을 놓칠 수 있으니 마무리에 힘을 쏟는다면 더 큰 성공을 거머쥘 것입니다.",
+    4: "위기 상황에서 놀라운 돌파력을 발휘하는 승부사적 기질이 있으며, 파괴 뒤에 새로운 창조를 이끄는 에너지가 있습니다. 기초를 단단히 다지는 것이 성공의 열쇠입니다. 성급한 확장은 공든 탑을 무너뜨릴 수 있으니 매사에 신중함이 필요합니다.",
+    5: "만물이 조화롭게 어우러져 복이 넝쿨째 들어오는 형국입니다. 인덕과 재복이 모두 풍족하여 주변의 도움으로 순탄하게 목표를 달성하는 행운아입니다. 지나치게 안일함에 빠지지 않도록 자기 혁신을 게을리하지 않는다면 그 풍요로움은 대대로 이어질 것입니다.",
+    6: "조상의 덕과 신뢰를 바탕으로 안정적인 성장을 이루는 계승자의 운명입니다. 책임감이 강해 조직의 중심에서 큰 역할을 수행하며 안정을 누립니다. 변화에 보수적일 수 있으니, 가끔은 과감한 도전을 통해 새로운 성장 동력을 찾아야 정체를 막을 수 있습니다.",
+    7: "강철 같은 의지와 치밀한 계획력으로 한 번 세운 목표는 반드시 달성하고야 마는 장인 정신의 소유자입니다. 자수성가하여 전문가로서 존경받을 기운입니다. 고집이 강해 주변과 마찰이 생길 수 있으니 유연한 대화 기법을 익힌다면 더 넓은 세상을 품을 수 있습니다.",
+    8: "흙 속에서 빛나는 황금을 찾아내는 명식으로, 끈기 있게 기회를 기다릴 줄 아는 지혜와 재물을 모으는 탁월한 능력을 갖췄습니다. 실무적 능력이 매우 뛰어납니다. 결과에 대한 집착이 스트레스를 유발할 수 있으니 가끔은 과정 자체를 즐기는 여유가 필요합니다.",
+    9: "천재적인 두뇌와 예리한 직관력을 지녀 시대를 앞서가는 선구자적 면모를 보입니다. 고독한 탐구의 시간 끝에 위대한 발견을 할 명식입니다. 운명의 부침이 심할 수 있으니 마음의 평정심을 유지하기 위한 명상이나 운동을 병행하여 위기를 관리하십시오.",
+    10: "재주가 비상하고 다재다능하여 어떤 분야에서든 빠르게 적응하는 유연함을 가졌습니다. 팔방미인이라는 소리를 듣기에 충분합니다. 하지만 방향성을 잃기 쉬우니, 하나의 명확한 목표에 집중하는 '선택과 집중'이 절실히 요구됩니다.",
+    11: "가문을 다시 일으켜 세우고 새로운 부흥을 이끄는 개척자의 운명입니다. 신념이 뚜렷하고 사람들의 신망을 얻어 안정적인 성공을 거둡니다. 자신의 틀에 갇히면 성장이 멈출 수 있으니, 항상 새로운 지식을 습득하고 세상을 넓게 보는 안목을 유지하십시오.",
+    12: "섬세한 감수성과 높은 지능을 바탕으로 예술이나 학문에서 독보적인 세계를 구축할 수 있습니다. 하지만 주변의 도움 없이 홀로 서야 하는 고독함이 따를 수 있습니다. 내면의 힘을 기르고 타인에게 먼저 다가가는 유연함을 배운다면 성장을 완성할 수 있습니다.",
+    13: "하늘이 내린 총명함과 지혜로 어떤 문제든 명쾌하게 해결하는 해결사의 운명입니다. 언변이 좋고 사교적이라 주변에 늘 사람이 따릅니다. 다만, 자신의 재능을 과신하여 타인을 무시할 수 있으니 겸손함을 갖출 때 진정한 권위가 완성됩니다.",
+    14: "남들이 보지 못하는 이면을 꿰뚫는 통찰력이 있으며, 복잡한 문제를 단순화하는 천재적인 능력이 있습니다. 정신적인 영역에서 큰 성취를 이룹니다. 다만 감정의 기복이 심해 번뇌에 빠지기 쉬우니, 규칙적인 생활 루틴을 통해 감정의 중심을 잡으십시오.",
+    15: "부귀와 건강, 그리고 명예를 모두 거머쥐는 복수쌍전의 운명입니다. 부드러운 카리스마로 사람들을 이끌며 조직의 수장이 될 상입니다. 지나친 완벽주의가 주변을 지치게 할 수 있으니 10%의 여백을 두는 지혜를 발휘한다면 만인의 존경을 받을 것입니다.",
+    16: "덕망이 높고 사람을 끌어당기는 자비로운 성품을 지녀, 주변의 추대로 명예로운 자리에 오를 명식입니다. 재물운이 끊이지 않는 안정된 삶입니다. 다만 남의 부탁을 거절하지 못해 손해를 볼 수 있으니 공과 사를 명확히 구분하는 결단력이 필요합니다.",
+    17: "강직한 의지와 불굴의 투지로 어떠한 역경도 뚫고 나가는 전사의 운명입니다. 정직하고 정의로워 리더의 신뢰를 한 몸에 받습니다. 성격이 너무 곧아 부러질 수 있으니, 때로는 부드러움이 강함을 이긴다는 유능제강(柔能制剛)의 도리를 새기십시오.",
+    18: "견고한 의지와 흔들림 없는 신념으로 계획한 바를 현실로 만들어내는 실행력의 화신입니다. 중년 이후 거대한 발전을 이룩합니다. 다만 지나치게 고집스러운 면이 성공의 걸림돌이 될 수 있으니 다수의 의견을 경청하는 유연성을 갖추십시오.",
+    19: "비상한 재능과 예술적 감각으로 천재성을 발휘하지만, 운명의 파동이 커서 고독을 느끼기 쉬운 명식입니다. 전문성을 갈고닦는 데 집중하십시오. 현실적인 감각을 잃지 않도록 재무 관리나 법률적인 공부를 병행하는 것이 불운을 막는 열쇠입니다.",
+    20: "이상과 포부가 원대하며 한 시대를 풍미할 수 있는 거대한 야망을 가진 영혼입니다. 거시적인 안목이 탁월합니다. 하지만 기반이 약하면 모래 위에 지은 성이 될 수 있으니, 화려한 겉모습보다는 내실을 채우는 기초 작업에 더 많은 공을 들이십시오.",
+    21: "우뚝 솟은 산처럼 흔들림 없는 두령의 기운으로, 독립적인 권위와 리더십을 발휘하여 조직을 장악하는 힘이 탁월합니다. 만인의 존경을 받습니다. 다만 아랫사람에게 위압적으로 비칠 수 있으니 덕을 베푸는 따뜻한 통솔력을 기르십시오.",
+    22: "재주는 많으나 인간관계에서 예상치 못한 마찰이 발생할 수 있는 기운입니다. 자신만의 독창적인 전문 기술을 갖추는 것이 생존 전략입니다. 언행을 신중히 하고 비밀을 잘 지킨다면 오해를 사지 않고 자신의 자리를 지킬 수 있습니다.",
+    23: "태양과 같은 정열로 자신의 아이디어를 세상에 발산하며 화려한 명성을 얻게 될 명식입니다. 창의적인 혁신가에게 자주 나타나는 수입니다. 다만 열정이 지나쳐 실수를 할 수 있으니 매사에 한 템포 쉬어가는 여유를 가져보십시오.",
+    24: "성실한 노력과 철저한 관리 능력으로 무에서 유를 창조하며 막대한 재산을 축적하는 거부의 운명입니다. 경제적 감각이 타고났습니다. 다만 돈에 너무 집착하면 인심을 잃을 수 있으니 사회적 기여를 통해 부의 품격을 높이십시오.",
+    25: "비상한 재치와 유연함으로 어떤 혼돈 속에서도 질서를 찾아내는 지략가의 명식입니다. 수완이 좋아 성공의 기회를 놓치지 않습니다. 하지만 이익에만 밝으면 신뢰를 잃을 수 있으니 도덕적인 원칙을 먼저 세우는 것이 장기적인 성공의 비결입니다.",
+    26: "영웅적인 기질과 파란만장한 삶을 동시에 지닌 명식으로, 시련을 겪을수록 보석처럼 빛나는 존재가 됩니다. 불굴의 투지가 당신의 무기입니다. 다만 독선적인 태도가 적을 만들 수 있으니 겸허한 자세로 주변과 화합하십시오.",
+    27: "예리한 분석력과 통찰력을 가졌으나 인간관계의 갈등으로 중도에 좌절할 위험이 있는 흐름입니다. 내면의 평화를 찾는 것이 급선무입니다. 타인을 비판하기보다 칭찬하는 습관을 들인다면 닫혔던 행운의 문이 다시 열릴 것입니다.",
+    28: "거친 파도를 헤쳐 나가는 선장처럼 파란곡절이 많으나, 그만큼 담력이 크고 경험치가 풍부한 노련한 지도자입니다. 큰 승부를 즐깁니다. 하지만 고난이 계속되면 지칠 수 있으니 든든한 조력자를 곁에 두고 의지하는 지혜를 발휘하십시오.",
+    29: "원숙한 지혜와 높은 완성도를 통해 사회적 신망을 얻으며 평온한 성공을 누리는 운명입니다. 말년으로 갈수록 운이 더욱 좋아집니다. 다만 변화를 거부하고 정체될 수 있으니 항상 젊은 사고방식을 유지하려 노력하십시오.",
+    30: "성공과 실패가 교차하며 인생의 사계절을 모두 겪게 되는 파란의 운명입니다. 역경을 기회로 바꾸는 개척 에너지가 좋습니다. 다만 마음의 안정이 깨지기 쉬우니 종교나 철학적 사색을 통해 정신적인 지지대를 구축하십시오.",
+    31: "관계의 힘을 통해 협력의 시너지를 극대화하며 자수성가하는 자비로운 리더의 명식입니다. 인복이 많아 위기의 순간마다 귀인이 나타납니다. 지나치게 타인에게 의존하지 않도록 본인만의 독립적인 기술도 함께 갖추십시오.",
+    32: "순풍에 돛을 단 듯 예기치 못한 행운과 재물이 따르는 복 많은 운명입니다. 소통 능력이 뛰어나 영업이나 중재 분야에서 큰 결실을 봅니다. 다만 행운을 당연하게 여기면 방만해질 수 있으니 항상 감사하는 마음과 성실함을 유지하십시오.",
+    33: "제왕의 기상을 타고나 강력한 추진력과 야망으로 세상의 중심에 서게 될 명식입니다. 큰 꿈을 현실로 만드는 실현력이 무섭습니다. 권위주의가 강해지면 주변 사람이 떠날 수 있으니 겸손함을 갖춰 진정한 덕장이 되십시오.",
+    34: "폭풍우 속에서도 뿌리를 지탱해야 하는 연단의 시기를 겪게 되는 명식입니다. 인내심 하나로 대성할 수 있는 기운입니다. 건강 관리에 유의하고 작은 성취에도 기뻐하는 긍정적인 마인드를 가진다면 결국 해뜰날이 올 것입니다.",
+    35: "대지처럼 넓은 포용력과 온화한 성품으로 주변의 평화를 지키는 수호자의 운명입니다. 안정적이고 보수적인 성공을 거둡니다. 도전 정신이 부족해 큰 기회를 놓칠 수 있으니 가끔은 과감한 모험을 즐겨보십시오.",
+    36: "의리가 넘치고 헌신적인 태도로 사람들의 마음을 얻어 사회적 대우를 받는 협객의 운명입니다. 공적인 이익을 우선시합니다. 다만 남을 돕다 본인의 살림이 거덜 날 수 있으니 본인의 기반을 먼저 다진 후 베푸는 지혜가 필요합니다.",
+    37: "이면을 꿰뚫는 깊은 통찰과 장인 정신으로 특정 분야의 최고 권위자가 될 명식입니다. 독립성이 강해 혼자서도 대업을 이룹니다. 하지만 지나치게 냉철하여 인간미가 부족해 보일 수 있으니 따뜻한 공감 능력을 키우십시오.",
+    38: "강력한 추진력으로 이상을 현실로 바꾸며 실질적인 결과물을 내놓는 성취의 달인입니다. 문학이나 예술적 재능도 겸비했습니다. 다만 목표를 위해 수단을 가리지 않을 수 있으니 과정의 정의로움을 항상 체크하십시오.",
+    39: "완성과 도약을 상징하며 부귀와 영광을 누리며 타의 귀감이 되는 최고의 길수입니다. 지혜가 깊어 모든 일을 원만하게 처리합니다. 다만 운이 너무 좋아 자만하기 쉬우니 늘 낮은 자세로 세상을 대하십시오.",
+    40: "개척의 기운은 강하나 성급한 판단으로 인해 운세가 요동칠 수 있는 흐름입니다. 감정 조절이 성공의 관건입니다. 투기적인 일보다는 안정적인 사업에 투자하고 장기적인 안목을 기른다면 번영을 유지할 수 있습니다.",
+    41: "대업을 완수할 수 있는 강력한 통솔력과 인덕을 겸비한 지도자의 파동입니다. 주변과 협력하여 거대한 부를 일굽니다. 다만 책임감이 너무 강해 건강을 해칠 수 있으니 휴식과 업무의 균형을 잘 맞추십시오.",
+    42: "화려한 아이디어는 많으나 현실적인 시련이 잦아 인내심이 필요한 담금질의 시기입니다. 자력갱생의 아이콘입니다. 포기하지 않고 끝까지 완주한다면 중년 이후 최고의 반전 성공을 맞이하게 될 것입니다.",
+    43: "겉은 화려하고 번듯하나 속이 비기 쉬운 외화내빈의 형국입니다. 실속을 챙기는 경제 관념을 기르는 것이 필수입니다. 과시욕을 버리고 본질적인 가치에 투자한다면 안정적인 삶을 영위할 수 있습니다.",
+    44: "방향을 잃고 헤매는 미궁의 기운이 있으나, 이를 극복하면 세상을 놀라게 할 혁신적인 성과를 낼 수 있습니다. 통찰력을 기르십시오. 부정적인 생각에 빠지지 않도록 활동적인 취미를 가지는 것이 도움이 됩니다.",
+    45: "조상의 덕과 본인의 성실함이 만나 만물을 통합하는 거물급 인사가 될 운명입니다. 높은 명예와 신뢰를 얻습니다. 다만 명예를 지키기 위해 무리한 행동을 할 수 있으니 항상 정직과 원칙을 최우선으로 하십시오.",
+    46: "통찰력은 예리하나 방황으로 인해 에너지를 소모하기 쉬운 흐름입니다. 마음의 중심을 잡는 수양이 필요합니다. 자신을 믿고 한 우물을 판다면 결국 본인만의 독보적인 영역을 구축하게 될 것입니다.",
+    47: "오랜 인내 끝에 거대한 결실을 맺어 생의 참된 의미를 증명해내는 대기만성형 명식입니다. 구체적인 성과로 인정받습니다. 성공이 늦다고 조급해하지 마십시오. 당신의 운은 뒤로 갈수록 강력해집니다.",
+    48: "만물을 통합하고 조화롭게 이끄는 지도자적 자질이 뛰어납니다. 지혜로운 조언자로 존경받을 운명입니다. 다만 지나치게 타인의 일에 간섭하여 구설에 오를 수 있으니 적절한 거리 두기를 연습하십시오.",
+    49: "변화가 무쌍하여 길흉이 상반되지만, 변화에 민감하게 대응하는 순발력이 탁월합니다. 유연한 생존자입니다. 환경 탓을 하기보다 스스로 환경을 바꾸려는 적극적인 의지를 가질 때 운이 풀립니다.",
+    50: "협력의 운은 좋으나 성패가 극명하게 갈릴 수 있어 세밀한 리스크 관리가 필요한 운명입니다. 평정심이 재산입니다. 도박이나 투기성 짙은 사업은 피하고 확실한 증거를 바탕으로 의사결정을 하십시오.",
+    51: "인생의 사계를 모두 경험하며 파란만장하게 성장하는 기운입니다. 고난을 겪을수록 내면이 단단해집니다. 역경 속에서도 유머를 잃지 않는 여유를 가진다면 결국 승리자의 미소를 짓게 될 것입니다.",
+    52: "견고한 내실과 기회 포착 능력이 결합되어 중년 이후 대업을 성취하는 지지대를 갖게 됩니다. 철저한 자기관리가 무기입니다. 다만 건강 과신으로 위기를 맞을 수 있으니 주기적인 검진과 휴식을 잊지 마십시오.",
+    53: "겉모습은 화려하지만 실속이 부족할 수 있으니 내실을 다지는 데 주력해야 하는 명식입니다. 내면 수양이 성공의 열쇠입니다. 화려한 인맥보다 진심 어린 친구 한 명을 얻는 데 공을 들이십시오.",
+    54: "책임감은 누구보다 강하지만 기반이 무너져 계획이 틀어질 위험이 있는 흐름입니다. 기초부터 다시 점검하십시오. 신의를 지키는 태도를 끝까지 유지한다면 반전의 기회가 반드시 찾아옵니다.",
+    55: "예리한 통찰력을 가졌지만 겉치레에 치중하여 주변의 진심을 놓칠 수 있는 명식입니다. 따뜻한 마음을 회복하십시오. 겸손하고 소박한 태도로 세상을 대한다면 당신의 천재성이 비로소 빛을 발할 것입니다.",
+    56: "성과를 내는 힘은 좋으나 결정적인 순간에 주저하여 기회를 놓칠 수 있습니다. 추진력과 현실 감각을 조화시키십시오. 일단 시작했다면 끝을 보겠다는 강력한 실행 의지가 당신의 운명을 바꿀 것입니다.",
+    57: "시련을 극복하고 새로운 질서를 세우는 개척의 파동으로, 고난 끝에 귀감이 되는 성취를 이룹니다. 의지가 남다릅니다. 다만 과거의 성공에 안주하면 다시 위기가 올 수 있으니 항상 혁신하는 자세를 가지십시오.",
+    58: "성실하게 재산을 축적하여 자수성가하는 안정된 운세입니다. 끈기와 인내로 거대한 성을 쌓는 기운입니다. 다만 인색하다는 평을 들을 수 있으니 재물을 사회와 나누는 지혜를 발휘하십시오.",
+    59: "변화의 기운은 강하지만 의지가 약해 방향을 잃기 쉬운 흐름입니다. 자신만의 확실한 루틴을 만드십시오. 명확한 목표를 세우고 주변의 유혹을 뿌리치는 단호함을 길러야 성공에 도달합니다.",
+    60: "내실은 있으나 주변 관계나 상하 관계의 불안으로 흔들릴 수 있는 형국입니다. 기반을 단단히 하십시오. 사람을 얻는 것이 가장 큰 투자임을 명심하고 인간관계 관리에 더 많은 에너지를 쏟으십시오.",
+    61: "지혜가 충만하여 어떤 혼돈 속에서도 길을 찾아내는 현명한 지도자의 운명입니다. 조직의 핵심 축입니다. 다만 자신의 지혜를 과시하면 적이 생길 수 있으니 말수를 줄이고 행동으로 보여주십시오.",
+    62: "책임감은 깊으나 예상치 못한 악재로 고전할 수 있는 흐름입니다. 유연한 태도로 위기를 넘기십시오. 이타적인 마음으로 타인을 돕다 보면 그 선행이 복이 되어 당신의 위기를 해결해 줄 것입니다.",
+    63: "예리한 통찰과 꾸준한 노력이 만나 부귀영화를 누리는 아주 원만한 명식입니다. 인내의 끝에 달콤한 결실이 있습니다. 다만 풍족함에 젖어 게을러질 수 있으니 끊임없이 새로운 목표를 설정하십시오.",
+    64: "지혜는 있으나 변화무쌍한 환경 탓에 잠시 정체될 수 있는 운세입니다. 슬기롭게 주변을 정리하십시오. 도약의 시기를 기다리며 실력을 쌓는 데 집중한다면 곧 거대한 기회의 문이 열릴 것입니다.",
+    65: "창조의 파동이 완성과 만나 만물이 평온해지는 운명입니다. 자신의 가치를 널리 알려 명성을 얻습니다. 안정 속에서 자만하지 말고 초심을 유지한다면 그 영광은 영원히 지속될 것입니다.",
+    66: "협력의 기운은 좋으나 예기치 못한 실수로 신용을 잃을 수 있습니다. 중심을 잡고 거절의 선을 분명히 하십시오. 보증이나 무리한 투자는 피하고 확실한 자기 중심을 지키는 것이 번영의 지름길입니다.",
+    67: "화려한 표현력과 예술적 감각으로 대업을 완수하고 태평성대를 누리는 명식입니다. 영혼의 깊이가 남다릅니다. 다만 화려함 뒤의 고독을 느낄 수 있으니 깊은 유대감을 나눌 소중한 인연을 잘 관리하십시오.",
+    68: "견고한 내실과 탁월한 지모를 결합한 창업자의 명식입니다. 흔들리지 않는 지지대를 구축하여 성공을 유지합니다. 다만 너무 엄격한 기준이 주변을 숨막히게 할 수 있으니 인간적인 여유를 보여주십시오.",
+    69: "리더십은 있으나 기반이 약해 잠시 정체될 수 있는 기운입니다. 기초 체력과 내실을 보강하십시오. 통찰력을 발휘해 다가올 위기를 미리 감지하고 대비하는 신중함을 갖출 때 다시 도약할 수 있습니다.",
+    70: "신의는 깊으나 공허함이 서려 계획이 무너지기 쉬운 흐름입니다. 헌신적인 태도로 명예를 얻으십시오. 보이지 않는 가치를 추구하며 타인을 돕는 활동에 매진한다면 삶의 의미를 찾고 운도 풀릴 것입니다.",
+    71: "통찰력과 흔들리지 않는 내실이 결합된 완벽한 명식으로, 전문성을 바탕으로 큰 부와 명예를 누립니다. 다만 높은 위치에서 오만해지면 모든 것을 잃을 수 있으니 항상 낮은 곳을 살피는 덕을 쌓으십시오.",
+    72: "추진력은 좋으나 성패의 기복이 심해 현실 감각과 리스크 관리가 절실히 필요한 명식입니다. 지혜를 짜내십시오. 감정적인 투자보다는 숫자에 기반한 냉철한 판단력을 기르는 것이 부를 지키는 비결입니다.",
+    73: "지혜롭게 한 시대를 마무리하고 새로운 질서를 세우는 개척의 운명입니다. 높은 가치를 스스로 증명해냅니다. 다만 과거의 영광에 집착하면 앞길이 막힐 수 있으니 항상 미래를 향해 시선을 두십시오.",
+    74: "시작의 에너지는 좋으나 만사가 불우한 마장의 흐름입니다. 인내력이 유일한 생존법입니다. 역경 속에서 스스로 길을 찾는 강인함을 기른다면 언젠가 찾아올 운명의 반전 기회를 잡을 수 있습니다.",
+    75: "균형의 파동을 통해 완벽한 안정을 창출하는 통솔의 기운입니다. 협력을 통해 거대한 결실을 손에 거머쥡니다. 다만 지나친 중립이 우유부단함으로 비칠 수 있으니 결정적인 순간에는 카리스마를 보이십시오.",
+    76: "표현력은 좋으나 내우외환으로 흩어지기 쉬운 영혼입니다. 중심을 잡고 성장을 완성하는 데 집중하십시오. 내실을 다지고 가족이나 가까운 사람들과의 유대를 강화하는 것이 불운을 막는 방패가 됩니다.",
+    77: "내실은 있으나 성패가 교차하여 운명이 요동칩니다. 기초를 단단히 하고 지지대를 보강하십시오. 흔들리는 환경 속에서도 변치 않는 자신만의 원칙을 고수한다면 결국 최후의 승자가 될 것입니다.",
+    78: "조직을 이끄는 힘은 좋으나 초반엔 길하고 후반엔 흉한 기운이 있습니다. 통찰력과 중심을 잃지 마십시오. 성공했을 때 실패를 대비하는 유비무환의 자세가 당신의 번영을 영원하게 만들어 줄 것입니다.",
+    79: "신의는 있으나 안개 속에서 헤매는 정체불명의 운입니다. 유연함을 기르고 명확한 목표를 세우십시오. 실력을 감추고 때를 기다리는 은둔의 지혜를 발휘한다면 결국 명예로운 자리에 오르게 될 것입니다.",
+    80: "통찰력은 깊으나 종말의 기운으로 은둔하기 쉬운 명식입니다. 유연함을 회복하고 세상과의 접점을 유지하십시오. 당신의 지혜를 사회에 환원하려는 적극적인 자세가 삶에 활력을 불어넣어 줄 것입니다.",
+    81: "수리의 완성이자 무한한 순환을 의미하는 가장 성스러운 수입니다. 궁극의 지혜와 환희가 당신의 삶에 가득합니다. 모든 복을 누리되 자만하지 말고, 받은 만큼 베푸는 삶을 살 때 비로소 신의 축복이 완성됩니다."
 };
-const detailedDesc81En = { 1: "Primordial light awakening existence. A strong pioneer spirit achieving great success.", 2: "Shaky roots and isolation. Needs internal harmony to prevent scattering of energy.", 3: "Vitality reaching for the sky. Wisdom and fame accompany your name.", 4: "Rough waves blocking the path. Focus on foundations before expansion.", 5: "Perfect ripeness where blessings overflow. Abundant luck and virtue lead to shared success.", 6: "Inherited virtue and lasting prosperity. A trusted pillar of any organization.", 7: "Iron-willed strategy. Born to be self-made, reaching the peak of expertise.", 8: "Finding gold in the earth. Accumulate and protect wealth through steady effort.", 9: "Brilliant but turbulent energy. Maintaining inner peace is your life's homework.", 10: "Extraordinary wit clouded by mist. Set crystal-clear goals to find your path.", 11: "New creation igniting parched land. A pioneer leading a spiritual revival.", 12: "Standing alone against waves. Cultivate inner strength and accept fluidity.", 13: "Divine wisdom and brilliance. A radiant mind serving as a beacon for others.", 14: "Scattered energy requiring stability. Finding your inner center is priority one.", 15: "Fortunate command and virtue. You integrate your environment with reputation.", 16: "Winning hearts with honor. Destined for a prestigious life through trust.", 17: "Sharp logic seeking truth. Must master emotional connection.", 18: "Firm will manifesting success. Transforming adversity into concrete achievements.", 19: "Brilliant yet solitary soul. Finding harmony with reality is the key.", 20: "High ideals on shaky foundations. Focus on substance to prosper.", 21: "Majestic like a peak. An independent leader with high authority.", 22: "Great talent but fragile boundaries. Protect your center and say 'No'.", 23: "Solar passion radiating ideas. Achieving fame through constant evolution.", 24: "Meticulous management achieving ripeness. Possessing lasting strength.", 25: "Brilliant wit finding order in chaos. Guiding others to the correct path.", 26: "Heroic vibration tested by storms. Revealed worth through conquering trials.", 27: "Sharp insight prone to isolation. Restore empathy to unlock your fate.", 28: "Navigating waves like a captain. Let go of obsession to succeed.", 29: "Established reputation and integrity. Refining turning points to leap higher.", 30: "Mixed fate with sharp fluctuations. Needs more internal solidity.", 31: "Creating from nothing through unity. Achieving success by harmonizing.", 32: "Opportunities like a breeze. Elevating your soul through communication.", 33: "Imperial majesty and leadership. Fulfill duties to complete your work.", 34: "Rough storms disrupting fate. Solidify foundations to withstand pressure.", 35: "Fortress-like strength and peace. Maintaining organizational harmony.", 36: "Winning hearts with virtue. Gaining social trust through dedication.", 37: "Expert precision piercing appearances. Maintaining high soulful integrity.", 38: "Manifesting visions into triumphs. Proving worth through practical success.", 39: "Closing the cycle to leap higher. Serving as a radiant beacon of light.", 40: "Pioneer fire but prone to shifts. Maintain serenity to maintain prosperity.", 41: "Powerful command leading collective triumphs. Harmonizing connections.", 42: "Radiant ideas tested by trials. Use change as a stepping stone.", 43: "Outer radiance but inner decay. Prioritize substance over spectacle.", 44: "Leader's fire lost in a labyrinth. Seek order in chaos for direction.", 45: "Duty and merit integrating unity. Gaining honor through dedication.", 46: "Insight prone to delusion. Regain your center to unlock your path.", 47: "Proving worth through success. Finding meaning through grit.", 48: "Ultimate completion guiding others. A trusted mentor for universal peace.", 49: "Extreme changes and mixed fate. Adapt quickly to survive and thrive.", 50: "Good unity but unstable fluctuations. Maintain serenity to prevent collapse.", 51: "Abundant growth experiencing all seasons. Growing into a powerhouse.", 52: "Fortress-like solidity. Achieving works through meticulous management.", 53: "Outer show but inner poverty. Prioritize substance over appearance.", 54: "Strong duty but shaky foundations. Re-examine your base to overcome.", 55: "Sharp insight but hollow spectacle. Cultivate warmth to win people over.", 56: "Strong drive but prone to indecision. Harmonize execution with reality.", 57: "Pioneer waves resurrecting from trials. Exemplary success after hardship.", 58: "Accumulating wealth through effort. Reaching ripeness via grit.", 59: "Strong change but weak will. Fix your routine to find your way.", 60: "Inner substance but unstable relations. Solidify your base first.", 61: "Divine wisdom guiding the core axis. A wise leader finding order.", 62: "Deep duty tested by woes. Use fluidity to navigate through crises.", 63: "Sharp insight meeting steady results. Success through patience.", 64: "Wisdom prone to stagnation. Refine turning points for the next leap.", 65: "Primordial creation meeting completion. Radiating value from peace.", 66: "Unity waves prone to fatal errors. Guard your center to protect yourself.", 67: "Radiant expression achieving peace. Elevating soul's altitude through trials.", 68: "Fortress solidity and brilliant strategy. Building a lasting legacy.", 69: "Leader's fire but prone to standstill. Reinforce basic strength.", 70: "Deep faith but prone to emptiness. Gain honor through dedication.", 71: "Master's precision and strength. Enjoying stable wealth and expertise.", 72: "Strong drive but sharp fluctuations. Use wisdom to manage risks.", 73: "Pioneer fire closing cycles wisely. Proving high value through creation.", 74: "Pioneer fire lost in misery. Survival depends on the grit to find a path.", 75: "Universal harmony creating total peace. Success through cooperation.", 76: "Radiant expression prone to dispersion. Guard your center for growth.", 77: "Inner substance but turbulent fate. Reinforce base to prevent collapse.", 78: "Leader's fire with mixed outcomes. Maintain insight for prosperity.", 79: "Deep faith lost in the mist. Cultivate clear goals for honor.", 80: "Deep insight prone to seclusion. Restore connection with the world.", 81: "Ultimate bliss meeting completion. Reaching the peak as a beacon." };
 
+const detailedDesc81En = {
+    1: "A pioneer with divine leadership. You possess the energy to carve your own path. [Advice] Avoid dogmatism and listen to others.",
+    2: "Gifted and intuitive. [Advantage] Creative excellence. [Caution] Environmental instability. Focus on emotional balance.",
+    3: "Vibrant as a spring sprout. [Advantage] Natural fame and status. [Advice] Ensure substance behind the flashiness.",
+    4: "A crisis-breaker with creative destruction. [Advantage] Breakthrough spirit. [Advice] Build a solid foundation first.",
+    5: "Blessings flow naturally. [Advantage] Abundant luck and financial virtue. [Advice] Avoid complacency through self-innovation.",
+    6: "A trusted successor. [Advantage] Steady growth and organizational stability. [Advice] Embrace bold challenges to avoid stagnation.",
+    7: "A master with an iron will. [Advantage] Self-made expertise. [Advice] Practice flexible communication to avoid friction.",
+    8: "Discovering gold in the soil. [Advantage] Extraordinary wealth accumulation. [Advice] Learn to enjoy the process, not just results.",
+    9: "A pioneer with genius intellect. [Advantage] Great discoveries. [Caution] Turbulent fate. Maintain inner peace via meditation.",
+    10: "Versatile and flexible. [Advantage] Adapts quickly to any field. [Advice] Focus on 'Selection and Focus' to find direction.",
+    11: "A pioneer reviving a legacy. [Advantage] Earns profound trust and success. [Advice] Keep an open mind to the wider world.",
+    12: "Intellectual solitude. [Advantage] Built-in artistic/academic depth. [Advice] Approach others first with flexibility.",
+    13: "A divine problem-solver. [Advantage] Radiant intelligence and social charm. [Advice] Stay humble to complete your authority.",
+    14: "A mental giant. [Advantage] Insightful and strategic. [Caution] Emotional volatility. Establish a strict life routine.",
+    15: "Ultimate prosperity and health. [Advantage] Natural charisma and leadership. [Advice] Leave room for mistakes for others.",
+    16: "A benevolent pillar. [Advantage] High virtue and financial luck. [Advice] Learn to say 'No' to avoid personal loss.",
+    17: "A resolute warrior. [Advantage] Honest and courageous. [Advice] Remember that softness often overcomes hardness.",
+    18: "Execution incarnate. [Advantage] Transforms plans into reality. [Advice] Listen to diverse opinions to grow further.",
+    19: "An artistic genius with high sensitivity. [Advantage] Creative brilliance. [Caution] Solitude. Maintain practical fiscal skills.",
+    20: "A visionary with grand ambitions. [Advantage] Macro insight. [Advice] Focus on the foundation rather than appearances.",
+    21: "Majestic leader. [Advantage] Unshakable authority. [Advice] Temper your command with warmth and virtue.",
+    22: "A technical expert with unique talent. [Advantage] Inventive. [Caution] Social friction. Practice careful speech.",
+    23: "Solar passion radiating fame. [Advantage] Creative innovation. [Advice] Take a step back and breathe before acting.",
+    24: "A wealth-builder starting from scratch. [Advantage] Natural fiscal sense. [Advice] Use your wealth for social contribution.",
+    25: "A brilliant strategist finding order in chaos. [Advantage] High resourcefulness. [Advice] Prioritize ethical principles for longevity.",
+    26: "A heroic figure forged by storms. [Advantage] Invincible willpower. [Advice] Cooperate with others to avoid isolation.",
+    27: "A sharp analyst prone to conflict. [Advantage] Deep insight. [Advice] Practice praising others to unlock your luck.",
+    28: "A weathered captain. [Advantage] Bravery in big games. [Advice] Rely on a trusted partner during long hardships.",
+    29: "Established reputation and mature wisdom. [Advantage] Late-life prosperity. [Advice] Keep a youthful and open mindset.",
+    30: "Fate of all seasons. [Advantage] Resilience in shifts. [Advice] Build a spiritual anchor through philosophy.",
+    31: "Synergy leader. [Advantage] Success through harmony and mentors. [Advice] Cultivate independent skills to avoid over-reliance.",
+    32: "Fortune-favored soul. [Advantage] Natural wealth and social success. [Advice] Maintain sincerity to keep your luck flowing.",
+    33: "Imperial majesty with fierce drive. [Advantage] Formidable manifestation. [Advice] Equip yourself with humility to lead truly.",
+    34: "Root-deep endurance. [Advantage] Achieving greatness after trials. [Advice] Maintain a positive mindset for the sun to rise.",
+    35: "A peaceful guardian like the earth. [Advantage] Organizational harmony. [Advice] Take bold risks occasionally to leap higher.",
+    36: "A dedicated knight. [Advantage] High social respect and loyalty. [Advice] Solidify your own base before helping others.",
+    37: "Expert precision. [Advantage] Ultimate authority in your niche. [Advice] Develop warm empathy to connect with others.",
+    38: "Achievement master. [Advantage] Artistic sense and drive. [Advice] Ensure the justice of the process matches the result.",
+    39: "Exemplary peak of completion. [Advantage] Wisdom and glory. [Advice] Always maintain a humble stance at your peak.",
+    40: "Pioneer fire with fluctuation. [Advantage] Strong drive. [Caution] Impatience. Focus on stable, long-term investments.",
+    41: "Powerful command with human virtue. [Advantage] Achieving mass prosperity. [Advice] Balance work and rest for your health.",
+    42: "Icon of self-reliance. [Advantage] Brilliant ideas tested by trials. [Advice] Complete your journey to see late-life success.",
+    43: "Outer radiance meeting inner vacancy. [Advantage] Polished showmanship. [Advice] Prioritize substance over spectacle.",
+    44: "Labyrinth walker turned innovator. [Advantage] Thinking outside the box. [Advice] Engage in active hobbies to ward off negativity.",
+    45: "Universal integration. [Advantage] Inherited virtue and honor. [Advice] Keep honesty as your primary guiding principle.",
+    46: "Insight prone to wandering. [Advantage] Keen perception. [Advice] Trust yourself and dig one well to succeed.",
+    47: "Powerhouse of late-blooming success. [Advantage] Proving worth through grit. [Advice] Do not rush; your luck peaks late.",
+    48: "A wise mentor guiding universal peace. [Advantage] Respect and virtue. [Advice] Practice healthy boundaries in guidance.",
+    49: "Flexible survivor. [Advantage] Rapid adaptation to change. [Advice] Take an active role in changing your environment.",
+    50: "Unitary luck with sharp risks. [Advantage] Good partnerships. [Advice] Avoid speculation and base decisions on facts.",
+    51: "Storm-tested powerhouse. [Advantage] Inner strength through hardship. [Advice] Maintain your sense of humor during trials.",
+    52: "Fortress-like solidity. [Advantage] Meticulous management for great success. [Advice] Do not over-rely on your health alone.",
+    53: "Outer show but needs inner work. [Advantage] Charisma. [Advice] Invest in one true friendship over many acquaintances.",
+    54: "Strong duty with shaky base. [Advantage] Loyalty. [Advice] Re-check your foundations to turn the tide for success.",
+    55: "Genius clouded by vanity. [Advantage] Sharp perception. [Advice] Embrace simplicity and modesty to let your brilliance shine.",
+    56: "Strong drive but prone to hesitation. [Advantage] High potential. [Advice] Commit fully once you begin the journey.",
+    57: "Pioneer wave of resurrection. [Advantage] Forging new order from trials. [Advice] Innovate constantly to maintain success.",
+    58: "Fortress of wealth. [Advantage] Accumulating steady prosperity. [Advice] Share your wealth to increase its noble value.",
+    59: "Strong change with weak will. [Advantage] Adaptability. [Advice] Establish a firm routine and stick to your goals.",
+    60: "Substance meeting shaky relations. [Advantage] Internal strength. [Advice] Managing human connections is your best investment.",
+    61: "Wise leader finding order in chaos. [Advantage] Core organizational pillar. [Advice] Lead by action rather than showy words.",
+    62: "Deep duty tested by woes. [Advantage] Sacrifice for others. [Advice] Your altruism will eventually be your salvation.",
+    63: "Sharp insight meeting steady luck. [Advantage] Harmonious prosperity. [Advice] Set new goals constantly to avoid laziness.",
+    64: "Stagnant wisdom. [Advantage] Deep potential. [Advice] Clear your surroundings and wait for the leap year.",
+    65: "Primordial completion meeting peace. [Advantage] Fame and value. [Advice] Maintain your original intentions to stay glorious.",
+    66: "Unity waves prone to errors. [Advantage] Collaborative spirit. [Advice] Avoid excessive risk-taking or guarantees.",
+    67: "Radiant expression. [Advantage] Completing great works with depth. [Advice] Manage your close bonds to avoid late-life solitude.",
+    68: "Founding strategist. [Advantage] Building a lasting legacy. [Advice] Show some human weakness to relate to others.",
+    69: "Leader fire prone to standstill. [Advantage] Potential command. [Advice] Reinforce your base to prepare for the next leap.",
+    70: "Faith meeting emptiness. [Advantage] High integrity. [Advice] Seek meaning in altruistic service to unlock your fate.",
+    71: "Master's precision and strength. [Advantage] High wealth and expertise. [Advice] Stay grounded as you reach higher positions.",
+    72: "Strong drive with sharp fluctuation. [Advantage] Strategic wit. [Advice] Use data-based logic over emotional impulse.",
+    73: "Pioneer closing cycles wisely. [Advantage] Proving high value through creation. [Advice] Focus on the future, not past glory.",
+    74: "Pioneer fire lost in misery. [Advantage] Survival grit. [Advice] Cultivate endurance; your turnaround will be legendary.",
+    75: "Universal harmony creator. [Advantage] Success through total unity. [Advice] Be decisive in critical moments.",
+    76: "Radiant but dispersed soul. [Advantage] Polished expression. [Advice] Strengthen your inner circle to block misfortune.",
+    77: "Inner substance but turbulent fate. [Advantage] Unshakable principles. [Advice] Your consistency will make you the final winner.",
+    78: "Leader's fire with mixed outcomes. [Advantage] Early success. [Advice] Prepare for the lean years during your peak.",
+    79: "Deep faith lost in the mist. [Advantage] Quiet integrity. [Advice] Master the wisdom of seclusion to wait for your time.",
+    80: "Deep insight prone to seclusion. [Advantage] Hidden sage. [Advice] Restore social connection to revitalize your energy.",
+    81: "Ultimate bliss meeting completion. [Advantage] Sacred luck and wisdom. [Advice] Live a life of giving to complete the cycle."
+};
 const nameNumerology = (() => {
     const out = {};
     for (let n = 1; n <= 81; n++) {
