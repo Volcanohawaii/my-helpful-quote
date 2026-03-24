@@ -1,5 +1,6 @@
 /* [Destiny Engineering Report - Global Final Dataset: 81 System] */
 
+// 1. i18n 라벨 업데이트 (전생/내세 활동 중심지 항목 추가)
 const i18n = {
     ko: {
         title: "수리성명학 데이터 분석", 
@@ -10,8 +11,12 @@ const i18n = {
         sec1: "에너지 분석 자료", sec2: "약점 보완 전략", advise: "현생 조언", practice: "실천 사항", 
         sideEffect: "과한 보충은 다음의 부작용이 있습니다.",
         tab2Title: "전생 분석 자료", tab3Title: "내세 분석 자료", 
-        pastJob: "전생의 직업", pastDest: "활동 중심지", pastHomework: "전생의 과업", 
-        nextDest: "활동 중심지", nextObj: "내세의 직업", nextMission: "핵심 미션"
+        pastDest: "전생 활동 중심지", // 추가
+        pastJob: "전생의 에너지 역할", 
+        pastHomework: "영혼의 과업", 
+        nextDest: "내세 활동 중심지", 
+        nextObj: "내세의 에너지 역할", 
+        nextMission: "핵심 미션"
     },
     en: {
         title: "Suri Analysis Report", 
@@ -22,8 +27,12 @@ const i18n = {
         sec1: "Energy Analysis", sec2: "Reinforcement", advise: "Advice", practice: "Practice", 
         sideEffect: "Side Effects",
         tab2Title: "Past-Life Report", tab3Title: "Afterlife Report", 
-        pastJob: "Occupation", pastDest: "Activity Center", pastHomework: "Homework", 
-        nextDest: "Activity Center", nextObj: "Future Occupation", nextMission: "Core Mission"
+        pastDest: "Activity Center", 
+        pastJob: "Karmic Role", 
+        pastHomework: "Homework", 
+        nextDest: "Future Domain", 
+        nextObj: "Future Occupation", 
+        nextMission: "Core Mission"
     }
 };
 
@@ -46,21 +55,22 @@ const elementPrescriptions12 = {
 const sideEffects = ["'만성적 신중함' 주의", "무의식적으로 턱 괴는 습관", "월요일 오전의 일시적 무기력", "핸드폰을 들고 핸드폰 찾기", "칭찬 들으면 AI처럼 고장남", "근거 없는 자신감과 이불킥", "새벽 2시의 근거 없는 명석함", "디저트 무한 흡입 현상", "발표 직전 소음에 예민해짐", "상대의 오타를 정정하고픈 강박"];
 const sideEffectsEn = ["Chronic deliberation", "Jaw-resting habit", "Monday lethargy", "Searching phone while holding it", "Freezing at compliments", "Late-night regrets", "2 AM enlightenment", "Sugar cravings", "Auditory sensitivity", "Typo correction urge"];
 
-const syllableKo1 = ["알", "베", "로", "루", "마", "에", "이", "카", "크", "프", "리", "니", "산", "벤", "파", "디", "레", "미", "넬", "벨", "아", "안", "엘", "오", "우", "클", "플", "브", "테", "스", "켈", "멜", "조", "제", "카", "피", "바", "샤", "타", "나", "휘", "린", "겸", "담", "온", "율", "준", "윤", "설", "예", "진", "현"];
-const syllableKo2 = ["토", "라", "나", "아", "리", "엘", "온", "로", "스", "넬", "드", "크", "테", "샤", "루", "니", "벨", "룬", "인", "움", "리스", "티", "시아", "안", "더", "엔", "오", "카", "데", "레", "미", "피", "트", "넬", "우", "재", "준", "솔", "아", "늘", "담", "린", "온", "율", "호"];
- 
-const eraPastKo = ["로마 제국", "고대 이집트", "중국 송나라", "에도 막부 시대", "아즈텍 제국", "바이킹 시대", "르네상스 이탈리아", "메소포타미아", "고대 그리스", "대한제국기", "조선 시대", "마야 문명"];
-const regionPastKo = ["콜로세움 인근", "나일강 하류", "낙양 성내", "교토 인근 마을", "테노치티틀란 중심부", "스칸디나비아 해안", "피렌체 광장", "바빌론 공중정원", "아테네 아크로폴리스", "한양 육조거리"];
+// 2. 글로벌 감성 음절 확장 (외국인 이름 느낌 대거 추가)
+const syllableKo1 = ["알", "베", "로", "루", "마", "에", "이", "카", "크", "프", "리", "니", "산", "벤", "파", "디", "레", "미", "넬", "벨", "아", "안", "엘", "오", "우", "클", "플", "브", "테", "스", "켈", "멜", "조", "제", "카", "피", "바", "샤", "타", "나", "휘", "린", "겸", "담", "온", "율", "준", "윤", "설", "예", "진", "현", "헤", "메", "세", "데", "게", "베", "페", "체", "제", "레", "네", "솔", "별", "얀", "실", "데", "모", "자", "바", "티", "피"];
+const syllableKo2 = ["토", "라", "나", "아", "리", "엘", "온", "로", "스", "넬", "드", "크", "테", "샤", "루", "니", "벨", "룬", "인", "움", "리스", "티", "나", "시아", "안", "더", "엘", "엔", "이", "오", "아", "타", "카", "데", "레", "미", "피", "스", "트", "넬", "반", "센", "칸", "얀", "린", "론", "릴", "란", "레", "라", "나", "노", "네", "니", "누", "우", "재", "준", "솔", "아", "늘", "담", "린", "온", "율", "호", "스", "타", "포", "노", "뮤", "주"];
 
-const eraPastEn = ["Roman Empire", "Ancient Egypt", "Mesopotamia", "Aztec Empire", "Viking Age", "Renaissance Italy", "Ancient Greece", "Mayan Civilization"];
-const regionPastEn = ["near Colosseum", "lower Nile", "Babylon", "Tenochtitlan", "Scandinavia", "Florence", "Acropolis", "Yucatan"];
+// 3. 시대 및 지역 데이터 통일 (변수명 eraNextKo 등으로 통일)
+const eraPastKo = ["로마 제국", "고대 이집트", "중국 송나라", "에도 막부 시대", "아즈텍 제국", "바이킹 시대", "르네상스 이탈리아", "메소포타미아", "고대 그리스", "대한제국기", "고려 왕조", "조선 시대", "마야 문명", "페르시아 제국"];
+const regionPastKo = ["콜로세움 인근", "나일강 하류", "낙양 성내", "교토 인근 마을", "테노치티틀란 중심부", "스칸디나비아 해안", "피렌체 광장", "바빌론 공중정원", "아테네 아크로폴리스", "한양 육조거리", "개경 저잣거리", "유카탄 반도 정글"];
 
-const eraNextKo = ["은하 연합 시대", "네오-서울 자치국", "화성 개척 시대", "에테르 차원기", "해저 돔 시티", "사이버펑크 암흑기", "성간 식민지 시대"];
-const regionNextKo = ["섹터 7", "중앙 허브", "올림푸스 몬스 기지", "차원 게이트 00", "아쿠아리스", "네온 스트리트", "타이탄 정거장"];
+const eraPastEn = ["Roman Empire", "Ancient Egypt", "Mesopotamia", "Aztec Empire", "Viking Age", "Renaissance Italy", "Ancient Greece", "Mayan Civilization", "Chosun Dynasty", "Persian Empire"];
+const regionPastEn = ["near Colosseum", "lower Nile", "Babylon Garden", "Tenochtitlan", "Scandinavia coast", "Florence Square", "Acropolis", "Yucatan Jungle", "Hanyang", "Persepolis"];
 
-const eraNextEn = ["Galactic Alliance", "Neo-Seoul State", "Mars Frontier", "Ether Dimension", "Underwater Dome", "Cyber-Punk Era"];
-const regionNextEn = ["Sector 7", "Central Hub", "Olympus Mons", "Zone 00", "Aquarius", "Neon-Street", "Titan"];
+const eraNextKo = ["은하 연합 시대", "네오-서울 자치국", "화성 개척 시대", "에테르 차원기", "해저 돔 시티", "공중 부유섬 시대", "사이버펑크 암흑기", "성간 식민지 시대", "포스트-휴먼 시대", "디지털 클라우드기"];
+const regionNextKo = ["섹터 7", "중앙 허브 스테이션", "올림푸스 몬스 기지", "차원 게이트 00", "아쿠아리스 도시", "클라우드-9", "네온 스트리트 01", "타이탄 정거장", "메모리 저장소", "안드로메다 게이트"];
 
+const eraNextEn = ["Galactic Alliance", "Neo-Seoul State", "Mars Frontier", "Ether Dimension", "Underwater Dome City", "Sky Island Era", "Cyber-Punk Age", "Interstellar Colony", "Post-Human Era"];
+const regionNextEn = ["Sector 7", "Central Hub", "Olympus Mons Base", "Zone 00", "Aquarius City", "Cloud-9", "Neon-Street 01", "Titan Station", "Omega Point"];
 
 const epithetKoByElement = { 
     "木": ["신성한 숲의 기운과 굽히지 않는 강인한 의지를 지닌", "태초의 생명력과 끝없이 뻗어 나가는 성장의 에너지를 지닌", "푸른 바람의 유연함과 세상을 치유하는 자비로운 성품을 지닌", "새벽 이슬의 청초함과 생명의 시작을 알리는 고결함을 지닌", "거대한 고목의 침묵과 만물을 품는 포용력 있는 기상을 지닌", "대지를 뚫고 솟아오르는 기백과 개척자의 날카로운 혼을 지닌", "신비로운 덩굴의 생명력과 끈질기게 살아남는 집념을 지닌", "숲을 수호하는 영험한 기운과 범접할 수 없는 위엄을 지닌", "하늘을 향해 뻗은 가지의 이상과 고귀한 철학적 깊이를 지닌", "대나무의 곧은 절개와 부러지지 않는 단단한 내면을 지닌", "꽃을 피우는 섬세한 감각과 세상을 매료시키는 아름다움을 지닌", "뿌리 깊은 안정감과 보이지 않는 곳에서 세상을 지탱하는"],
@@ -204,25 +214,28 @@ const suriPrescription = {
 function generateSuriName(num, s1, s2) {
     return s1[num % s1.length] + s2[(num + 7) % s2.length];
 }
-/* [이름 생성 로직 업그레이드] */
+// 4. 이름 생성 함수 (괄호 정보를 포함하도록 유지)
 function makePastNameKo(num, strong, lack, month) {
     const name = syllableKo1[num % syllableKo1.length] + syllableKo2[(num + 7) % syllableKo2.length];
     const era = eraPastKo[num % eraPastKo.length];
     const region = regionPastKo[(num + month) % regionPastKo.length];
     return `${name} (${era} ${region})`;
 }
+
 function makePastNameEn(num, strong, lack, month) {
     const name = nameRootEn[num % nameRootEn.length] + nameTailEn[(num + 5) % nameTailEn.length];
     const era = eraPastEn[num % eraPastEn.length];
     const region = regionPastEn[(num + month) % regionPastEn.length];
     return `${name} (${era}, ${region})`;
 }
+
 function makeNextLifeNameKo(num, strong, lack, month) {
     const name = syllableKo1[(num + 10) % syllableKo1.length] + syllableKo2[(num + 15) % syllableKo2.length];
     const era = eraNextKo[num % eraNextKo.length];
     const region = regionNextKo[(num + month) % regionNextKo.length];
     return `${name} (${era} ${region})`;
 }
+
 function makeNextLifeNameEn(num, strong, lack, month) {
     const name = nameRootEn[(num + 20) % nameRootEn.length] + nameTailEn[(num + 25) % nameTailEn.length];
     const era = eraNextEn[num % eraNextEn.length];
