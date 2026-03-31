@@ -145,30 +145,49 @@
     }
 
     function processData(name, birth) {
-      const nameVal = name.split('').reduce((a, ch) => a + ch.charCodeAt(0), 0);
-      const birthVal = parseInt(birth, 10);
-      const num81 = ((nameVal + birthVal) % 81) + 1;
-      let sc = [0, 0, 0, 0, 0];
-      for (let char of name) {
+    const nameVal = name.split('').reduce((a, ch) => a + ch.charCodeAt(0), 0);
+    const birthVal = parseInt(birth, 10);
+    const seed = nameVal + birthVal;
+    const num81 = (seed % 81) + 1;
+    // 1. 기초 기운 설정 (중요: 여기서 사람마다 다른 베이스를 깔아줍니다)
+    // 모든 사람에게 똑같은 50점을 주는 게 아니라, 이름/생일 조합에 따라 20~50점 사이로 분산시킵니다.
+    let sc = [
+        20 + (seed % 17),  // 木 베이스
+        20 + (seed % 13),  // 火 베이스
+        20 + (seed % 19),  // 土 베이스
+        20 + (seed % 11),  // 金 베이스
+        20 + (seed % 15)   // 水 베이스
+    ];
+
+    // 2. 이름 초성 가중치 (+50점)
+    for (let char of name) {
         const onset = /[a-zA-Z]/.test(char) ? char.toUpperCase() : getHangulOnset(char);
         const el = hangulElements[onset] || alphabetElements[onset];
-        if (el) sc[elements.indexOf(el)] += 50;
-      }
-      const month = parseInt(birth.substring(4, 6), 10);
-// 1:토, 2:목, 3:목, 4:토, 5:화, 6:화, 7:토, 8:금, 9:금, 10:토, 11:수, 12:수 (인덱스: 목0, 화1, 토2, 금3, 수4)
-sc[[2, 0, 0, 2, 1, 1, 2, 3, 3, 2, 4, 4][month-1]] += 60;
-      const scores = sc.map(v => v + 50);
-      const strongEl = elements[scores.indexOf(Math.max(...scores))];
-      const lackEls = elements.filter((el, i) => scores[i] === Math.min(...scores)).slice(0, 2);
-      
-      const sessionData = { name, birth, num81, seed: nameVal+birthVal, elementScores: scores, strongEl, lackEls };
-      localStorage.setItem('destinySession', JSON.stringify(sessionData));
-      
-      renderSummary(sessionData);
-      document.getElementById('view-home').classList.add('hidden');
-      document.getElementById('view-result').classList.remove('hidden');
-      switchTab('fortune');
+        if (el) {
+            const idx = elements.indexOf(el);
+            if (idx !== -1) sc[idx] += 50;
+        }
     }
+
+    // 3. 탄생 월 가중치 (+60점)
+    const month = parseInt(birth.substring(4, 6), 10);
+    const monthIdx = [2, 0, 0, 2, 1, 1, 2, 3, 3, 2, 4, 4][month-1];
+    sc[monthIdx] += 60;
+
+    // 4. 최종 점수 확정 (나누기 160에 최적화된 상태)
+    const scores = sc; 
+    
+    const strongEl = elements[scores.indexOf(Math.max(...scores))];
+    const lackEls = elements.filter((el, i) => scores[i] === Math.min(...scores)).slice(0, 2);
+    
+    const sessionData = { name, birth, num81, seed: seed, elementScores: scores, strongEl, lackEls };
+    localStorage.setItem('destinySession', JSON.stringify(sessionData));
+    
+    renderSummary(sessionData);
+    document.getElementById('view-home').classList.add('hidden');
+    document.getElementById('view-result').classList.remove('hidden');
+    switchTab('fortune');
+}
 
     function renderSummary(data) {
       const month = parseInt(data.birth.substring(4, 6));
