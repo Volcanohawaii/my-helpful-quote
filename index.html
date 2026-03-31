@@ -178,7 +178,8 @@
     const scores = sc; 
     
     const strongEl = elements[scores.indexOf(Math.max(...scores))];
-    const lackEls = elements.filter((el, i) => scores[i] === Math.min(...scores)).slice(0, 2);
+    const sortedIndices = scores.map((s, i) => i).sort((a, b) => scores[a] - scores[b]);
+const lackEls = [elements[sortedIndices[0]], elements[sortedIndices[1]]];
     
     const sessionData = { name, birth, num81, seed: seed, elementScores: scores, strongEl, lackEls };
     localStorage.setItem('destinySession', JSON.stringify(sessionData));
@@ -280,23 +281,40 @@ if ([2, 3].includes(birthMonth)) {
 // 그 외(1, 4, 7, 10월)는 자동으로 위에서 설정한 '환절기(土)'가 됩니다.
 
       if (mode === 'fortune') {
-    const remedy = suriPrescription.getRemedy(session.num81, session.lackEls, currentLang);
-   const elKey = currentLang === 'ko' ? session.strongEl : { "목(木)":"Wood", "화(火)":"Fire", "토(土)":"Earth", "금(金)":"Metal", "수(水)":"Water" }[session.strongEl];
-    body.innerHTML = `
-      <div class="tab-content">
-        <span class="section-title">${t.sec1}</span>
-        <div class="info-box" style="background:#fff;">
-          <div id="radarChart" style="margin:10px auto; width:220px; height:220px;"></div>
-          
-          <p>${currentLang === 'ko' 
-            ? `당신은 <b>${seasonName}</b>의 시공간적 기운을 받고 태어났습니다. 고유의 성명 에너지(소리 파동)가 더해져 <b>${session.strongEl}</b> 중심으로 그래프가 형성됩니다.` 
-            : `Receiving the spatiotemporal energy of <b>${seasonName}</b> with phonetic vibrations, you form a profile centered on <b>${session.strongEl}</b>.`}</p>
-          
-          <div style="padding:15px; background:#F9F8F6; border-radius:8px; border:1px solid #F0EAE3;">
-            <b style="color:var(--accent);">${currentLang === 'ko' ? '📜 현생 과업' : '📜 Life Mission'}</b><br>
-           ${(currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12)[elKey][(session.num81 + birthMonth) % 12]}
-          </div>
-        </div>
+        // 1. 하위 2개 데이터 준비
+        const r1 = suriPrescription.getRemedy(session.num81, [session.lackEls[0]], currentLang);
+        const r2 = suriPrescription.getRemedy(session.num81, [session.lackEls[1]], currentLang);
+        
+        const elKey = currentLang === 'ko' ? session.strongEl : { "목(木)":"Wood", "화(火)":"Fire", "토(土)":"Earth", "금(金)":"Metal", "수(水)":"Water" }[session.strongEl];
+        
+        body.innerHTML = `
+          <div class="tab-content">
+            <span class="section-title">${t.sec1}</span>
+            <div class="info-box" style="background:#fff;">
+              <div id="radarChart" style="margin:10px auto; width:220px; height:220px;"></div>
+              
+              <p>${currentLang === 'ko' 
+                ? `당신은 <b>${seasonName}</b>의 시공간적 기운을 받고 태어났습니다. 고유의 성명 에너지(소리 파동)가 더해져 <b>${session.strongEl}</b> 중심으로 그래프가 형성됩니다.` 
+                : `Receiving the spatiotemporal energy of <b>${seasonName}</b> with phonetic vibrations, you form a profile centered on <b>${session.strongEl}</b>.`}</p>
+              
+              <div style="padding:15px; background:#F9F8F6; border-radius:8px; border:1px solid #F0EAE3;">
+                <b style="color:var(--accent);">${currentLang === 'ko' ? '📜 현생 과업' : '📜 Life Mission'}</b><br>
+                ${(currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12)[elKey][(session.num81 + birthMonth) % 12]}
+              </div>
+            </div>
+
+            <span class="section-title">${t.sec2} (${session.lackEls.join(', ')})</span>
+            <div class="info-box" style="background:#fff;">
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                <div><b style="color:var(--accent);">🎨 ${currentLang === 'ko' ? '행운 컬러' : 'Lucky Color'}</b><br>${r1.color} / ${r2.color}</div>
+                <div><b style="color:var(--accent);">🏃 ${currentLang === 'ko' ? '실천 행동' : 'Action'}</b><br>${r1.action} / ${r2.action}</div>
+                <div><b style="color:var(--accent);">👥 ${currentLang === 'ko' ? '인적 정보' : 'Social'}</b><br>${r1.social} / ${r2.social}</div>
+                <div><b style="color:var(--accent);">🥗 ${currentLang === 'ko' ? '보충 음식' : 'Food'}</b><br>${r1.food} / ${r2.food}</div>
+              </div>
+            </div>
+          </div>`;
+        renderChart(session.elementScores);
+      }
 
         <span class="section-title">${t.sec2}</span>
         <div class="info-box" style="background:#fff;">
