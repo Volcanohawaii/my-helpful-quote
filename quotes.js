@@ -8,7 +8,7 @@ const i18n = {
         nameLabel: "성명", birthLabel: "양력 8자리(19901208)", btn: "리포트 생성하기",
         loadSeal: "분석중", loadTitle: "당신의 운명 에너지를 조합 중...", loadDesc: "잠시 기다려 주세요.",
         tab1Btn: "현생 분석", tab2Btn: "전생 기록", tab3Btn: "내세 예약",
-        sec1: "에너지 분석 자료", sec2: "약점 보완 전략", advise: "현생 조언", practice: "실천 사항", 
+        sec1: "Five Elements Dynamics Profile", sec2: "약점 보완 전략", advise: "현생 조언", practice: "실천 사항", 
         sideEffect: "과한 보충은 다음의 부작용이 있습니다.",
         tab2Title: "전생 분석 자료", tab3Title: "내세 분석 자료", 
         pastDest: "전생 활동 중심지", // 추가
@@ -24,7 +24,7 @@ const i18n = {
         nameLabel: "Name", birthLabel: "Birthdate (YYYYMMDD)", btn: "Generate Report",
         loadSeal: "Analyzing", loadTitle: "Combining your destiny energy...", loadDesc: "Please wait a moment.",
         tab1Btn: "Current Life", tab2Btn: "Past Life", tab3Btn: "Afterlife",
-        sec1: "Energy Analysis Data", sec2: "Weakness Strategy", advise: "Life Advice", practice: "Action Plan", 
+        sec1: "Five Elements Dynamics Profile", sec2: "Weakness Strategy", advise: "Life Advice", practice: "Action Plan", 
         sideEffect: "Note: Excessive compensation may cause side effects.",
         tab2Title: "Past-Life Analysis", tab3Title: "Afterlife Reservations", 
         pastDest: "Past Activity Center",
