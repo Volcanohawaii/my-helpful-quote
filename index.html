@@ -197,7 +197,7 @@ sc[[2, 0, 0, 2, 1, 1, 2, 3, 3, 2, 4, 4][month-1]] += 60;
       const container = document.getElementById('radarChart'); if (!container) return;
       const labels = currentLang === 'ko' ? ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"] : ["Wood", "Fire", "Earth", "Metal", "Water"];
       const cx = 110, cy = 110, r = 70;
-      let poly = ""; labels.forEach((_, i) => { const a = (Math.PI * 2 / 5) * i - (Math.PI / 2); const v = (scores[i] / 180) * r; poly += `${cx + v * Math.cos(a)},${cy + v * Math.sin(a)} `; });
+      let poly = ""; labels.forEach((_, i) => { const a = (Math.PI * 2 / 5) * i - (Math.PI / 2); const v = (scores[i] / 200) * 45 + 25; poly += `${cx + v * Math.cos(a)},${cy + v * Math.sin(a)} `; });
       container.innerHTML = `<svg width="220" height="220" style="overflow:visible; display:block; margin:0 auto;"><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#EEE"/><circle cx="${cx}" cy="${cy}" r="${r/2}" fill="none" stroke="#F9F9F9"/>${labels.map((l, i) => { const a = (Math.PI * 2 / 5) * i - (Math.PI / 2); const tx = cx + (r + 25) * Math.cos(a), ty = cy + (r + 25) * Math.sin(a); return `<text x="${tx}" y="${ty}" text-anchor="middle" dominant-baseline="middle" fill="#000" font-size="11" font-weight="700">${l}</text>`; }).join('')}<polygon points="${poly}" fill="rgba(154, 132, 103, 0.3)" stroke="#9A8467" stroke-width="2"/></svg>`;
     }
 
