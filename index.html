@@ -155,7 +155,8 @@
         if (el) sc[elements.indexOf(el)] += 50;
       }
       const month = parseInt(birth.substring(4, 6), 10);
-      sc[[0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 4, 4][month-1]] += 60;
+// 1:토, 2:목, 3:목, 4:토, 5:화, 6:화, 7:토, 8:금, 9:금, 10:토, 11:수, 12:수 (인덱스: 목0, 화1, 토2, 금3, 수4)
+sc[[2, 0, 0, 2, 1, 1, 2, 3, 3, 2, 4, 4][month-1]] += 60;
       const scores = sc.map(v => v + 30);
       const strongEl = elements[scores.indexOf(Math.max(...scores))];
       const lackEls = elements.filter((el, i) => scores[i] === Math.min(...scores)).slice(0, 2);
@@ -218,12 +219,19 @@
         if (mode === 'next' && b.id === 'tab3') b.classList.add('active');
       });
 
-      // [계절 및 오행 로직] - 사용자님 필수 코드
-      let seasonName = currentLang === 'ko' ? "환절기(土)" : "the Change of Seasons(土)";
-      if ([2, 3].includes(birthMonth)) seasonName = currentLang === 'ko' ? "봄(木)" : "Spring(木)";
-      else if ([5, 6].includes(birthMonth)) seasonName = currentLang === 'ko' ? "여름(火)" : "Summer(火)";
-      else if ([8, 9].includes(birthMonth)) seasonName = currentLang === 'ko' ? "가을(金)" : "Autumn(金)";
-      else if ([11, 12].includes(birthMonth)) seasonName = currentLang === 'ko' ? "겨울(水)" : "Winter(水)";
+     // [수정 후] switchTab 함수 내부의 seasonName 결정 로직
+let seasonName = currentLang === 'ko' ? "환절기(土)" : "the Change of Seasons(土)";
+
+if ([2, 3].includes(birthMonth)) {
+    seasonName = currentLang === 'ko' ? "봄(木)" : "Spring(木)";
+} else if ([5, 6].includes(birthMonth)) {
+    seasonName = currentLang === 'ko' ? "여름(火)" : "Summer(火)";
+} else if ([8, 9].includes(birthMonth)) {
+    seasonName = currentLang === 'ko' ? "가을(金)" : "Autumn(金)";
+} else if ([11, 12].includes(birthMonth)) {
+    seasonName = currentLang === 'ko' ? "겨울(水)" : "Winter(水)";
+}
+// 그 외(1, 4, 7, 10월)는 자동으로 위에서 설정한 '환절기(土)'가 됩니다.
 
       if (mode === 'fortune') {
         const remedy = suriPrescription.getRemedy(session.num81, session.lackEls, currentLang);
