@@ -270,6 +270,7 @@
       if (mode === 'fortune') {
         const r1 = suriPrescription.getRemedy(session.num81, [session.lackEls[0]], currentLang);
         const r2 = suriPrescription.getRemedy(session.num81, [session.lackEls[1]], currentLang);
+        const elKey = currentLang === 'ko' ? session.strongEl : { "목(木)":"Wood", "화(火)":"Fire", "토(土)":"Earth", "금(金)":"Metal", "수(水)":"Water" }[session.strongEl];
         
         body.innerHTML = `
           <div class="tab-content">
@@ -284,18 +285,20 @@
                 ${(currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12)[elKey][(session.num81 + birthMonth) % 12]}
               </div>
             </div>
-            <span class="section-title">${t.sec2} (${session.lackEls.join(', ')})</span>
-            <div class="info-box" style="background:#fff;">
-              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-                <div><b style="color:var(--accent);">🎨 ${currentLang === 'ko' ? '행운 컬러' : 'Lucky Color'}</b><br>${r1.color} / ${r2.color}</div>
-                <div><b style="color:var(--accent);">🏃 ${currentLang === 'ko' ? '실천 행동' : 'Action'}</b><br>${r1.action} / ${r2.action}</div>
-                <div><b style="color:var(--accent);">👥 ${currentLang === 'ko' ? '인적 정보' : 'Social'}</b><br>${r1.social} / ${r2.social}</div>
-                <div><b style="color:var(--accent);">🥗 ${currentLang === 'ko' ? '보충 음식' : 'Food'}</b><br>${r1.food} / ${r2.food}</div>
-              </div>
+
+            <span class="section-title">${t.sec2}</span>
+            <div class="info-box" style="background:#fff; margin-bottom:12px; border-left:4px solid #9A8467;">
+              <b style="color:var(--accent);">[${session.lackEls[0]}] 보완 전략</b><br>
+              <span style="font-size:0.85rem; line-height:1.6;">🎨 ${r1.color} | 🏃 ${r1.action} | 👥 ${r1.social} | 🥗 ${r1.food}</span>
+            </div>
+            <div class="info-box" style="background:#fff; border-left:4px solid #9A8467;">
+              <b style="color:var(--accent);">[${session.lackEls[1]}] 보완 전략</b><br>
+              <span style="font-size:0.85rem; line-height:1.6;">🎨 ${r2.color} | 🏃 ${r2.action} | 👥 ${r2.social} | 🥗 ${r2.food}</span>
             </div>
           </div>`;
         renderChart(session.elementScores);
-      } 
+      }
+       
       else if (mode === 'past') {
         const p = (currentLang === 'ko') ? pastLifeData[session.num81-1] : pastLifeDataEn[session.num81-1];
         const era = (currentLang === 'ko' ? eraPastKo : eraPastEn)[session.num81 % (currentLang === 'ko' ? eraPastKo.length : eraPastEn.length)];
