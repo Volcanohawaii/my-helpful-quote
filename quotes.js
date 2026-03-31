@@ -35,6 +35,9 @@ const i18n = {
         nextMission: "Core Mission"
     }
 };
+/* [필수 데이터: 영문 성함 재료] */
+const nameRootEn = ["Al", "Be", "Ro", "Lu", "Ma", "E", "I", "Ka", "Kh", "Ph", "Ri", "Ni", "San", "Ben", "Pha", "Di", "Le", "Mi", "Nel", "Bel", "An", "El", "O", "U", "Cl", "Fl", "Br", "Te", "St", "Ke", "Me", "Jo", "Je", "Ca", "Pi", "Ba", "Sha", "Ta", "Na", "Whi", "Lin", "Ky", "Da", "On", "Yu", "Jun", "Yun", "Sul", "Ye", "Jin", "Hye"];
+const nameTailEn = ["to", "ra", "na", "a", "ri", "el", "on", "ro", "s", "nel", "d", "k", "te", "sha", "lu", "ni", "bel", "run", "in", "um", "tis", "ti", "na", "sia", "an", "더", "ell", "en", "i", "o", "a", "ta", "카", "de", "le", "mi", "pi", "st", "tr", "반", "sen", "kan", "yan", "lin", "ron", "rill", "lan", "le", "ra", "na", "no"];
 
 const hangulElements = { 'ㄱ': '木','ㄲ': '木','ㅋ': '木', 'ㄴ': '火','ㄷ': '火','ㄸ': '火','ㄹ': '火','ㅌ': '火', 'ㅇ': '土','ㅎ': '土', 'ㅅ': '金','ㅆ': '金','ㅈ': '金','ㅉ': '金','ㅊ': '金', 'ㅁ': '水','ㅂ': '水','ㅃ': '水','ㅍ': '水' };
 const alphabetElements = { 'A': '木','E': '木','I': '木','O': '木','U': '木','Y': '木', 'B': '水','P': '水','M': '水','F': '水','W': '水', 'C': '火','G': '火','J': '火','L': '火','S': '火', 'D': '土','N': '土','T': '土','H': '土', 'K': '金','R': '金','V': '金','X': '金','Q': '金','Z': '金' };
@@ -604,28 +607,21 @@ const suriPrescription = {
 function generateSuriName(num, s1, s2) {
     return s1[num % s1.length] + s2[(num + 7) % s2.length];
 }
-/* [이름 생성 로직: 이름 (시대 지역) 형식] */
+
+/* [오류 수정된 이름 생성 함수] */
 function makePastNameKo(num, strong, lack, month) {
     const name = syllableKo1[num % syllableKo1.length] + syllableKo2[(num + 7) % syllableKo2.length];
-    const era = eraPastKo[num % eraPastKo.length];
-    const region = regionPastKo[(num + month) % regionPastKo.length];
     return `${name}`;
 }
 function makePastNameEn(num, strong, lack, month) {
     const name = nameRootEn[num % nameRootEn.length] + nameTailEn[(num + 5) % nameTailEn.length];
-    const era = eraPastEn[num % eraPastEn.length];
-    const region = regionPastEn[(num + month) % regionPastEn.length];
-    return `${name})`;
+    return `${name}`; 
 }
 function makeNextLifeNameKo(num, strong, lack, month) {
     const name = syllableKo1[(num + 10) % syllableKo1.length] + syllableKo2[(num + 15) % syllableKo2.length];
-    const era = eraNextKo[num % eraNextKo.length];
-    const region = regionNextKo[(num + month) % regionNextKo.length];
     return `${name}`;
 }
 function makeNextLifeNameEn(num, strong, lack, month) {
     const name = nameRootEn[(num + 20) % nameRootEn.length] + nameTailEn[(num + 25) % nameTailEn.length];
-    const era = eraNextEn[num % eraNextEn.length];
-    const region = regionNextEn[(num + month) % regionNextEn.length];
-    return `${name})`;
+    return `${name}`;
 }
