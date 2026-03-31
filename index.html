@@ -178,8 +178,8 @@
     const scores = sc; 
     
     const strongEl = elements[scores.indexOf(Math.max(...scores))];
-    const sortedIndices = scores.map((s, i) => i).sort((a, b) => scores[a] - scores[b]);
-const lackEls = [elements[sortedIndices[0]], elements[sortedIndices[1]]];
+    const sIdx = scores.map((s, i) => i).sort((a, b) => scores[a] - scores[b]);
+    const lackEls = [elements[sIdx[0]], elements[sIdx[1]]];
     
     const sessionData = { name, birth, num81, seed: seed, elementScores: scores, strongEl, lackEls };
     localStorage.setItem('destinySession', JSON.stringify(sessionData));
@@ -244,65 +244,46 @@ const lackEls = [elements[sortedIndices[0]], elements[sortedIndices[1]]];
 }
 
     
-    function switchTab(mode) {
+   function switchTab(mode) {
       const body = document.getElementById('reportDetail');
       const session = JSON.parse(localStorage.getItem('destinySession'));
       if (!session) return;
       
       const t = i18n[currentLang]; 
       const birthMonth = parseInt(session.birth.substring(4, 6));
-
-      // 📍 1. 통역 사전 준비
-    const elKeyMap = { "목(木)":"Wood", "화(火)":"Fire", "토(土)":"Earth", "금(金)":"Metal", "수(水)":"Water" };
-    // 📍 2. 현재 언어에 맞춰서 "목(木)" 또는 "Wood"로 변환
-    const elKey = currentLang === 'ko' ? session.strongEl : elKeyMap[session.strongEl];
+      const elKeyMap = { "목(木)":"Wood", "화(火)":"Fire", "토(土)":"Earth", "금(金)":"Metal", "수(水)":"Water" };
+      const elKey = currentLang === 'ko' ? session.strongEl : elKeyMap[session.strongEl];
       
-      // 탭 버튼 활성화 상태 업데이트
       document.querySelectorAll('.tab-btn').forEach(b => {
         b.classList.remove('active');
-        // 각 버튼의 텍스트나 ID를 기준으로 활성화
         if (mode === 'fortune' && b.id === 'tab1') b.classList.add('active');
         if (mode === 'past' && b.id === 'tab2') b.classList.add('active');
         if (mode === 'next' && b.id === 'tab3') b.classList.add('active');
       });
 
-     // [수정 후] switchTab 함수 내부의 seasonName 결정 로직
-let seasonName = currentLang === 'ko' ? "환절기(土)" : "the Change of Seasons(土)";
-
-if ([2, 3].includes(birthMonth)) {
-    seasonName = currentLang === 'ko' ? "봄(木)" : "Spring(木)";
-} else if ([5, 6].includes(birthMonth)) {
-    seasonName = currentLang === 'ko' ? "여름(火)" : "Summer(火)";
-} else if ([8, 9].includes(birthMonth)) {
-    seasonName = currentLang === 'ko' ? "가을(金)" : "Autumn(金)";
-} else if ([11, 12].includes(birthMonth)) {
-    seasonName = currentLang === 'ko' ? "겨울(水)" : "Winter(水)";
-}
-// 그 외(1, 4, 7, 10월)는 자동으로 위에서 설정한 '환절기(土)'가 됩니다.
+      let seasonName = currentLang === 'ko' ? "환절기(土)" : "the Change of Seasons(土)";
+      if ([2, 3].includes(birthMonth)) seasonName = currentLang === 'ko' ? "봄(木)" : "Spring(木)";
+      else if ([5, 6].includes(birthMonth)) seasonName = currentLang === 'ko' ? "여름(火)" : "Summer(火)";
+      else if ([8, 9].includes(birthMonth)) seasonName = currentLang === 'ko' ? "가을(金)" : "Autumn(金)";
+      else if ([11, 12].includes(birthMonth)) seasonName = currentLang === 'ko' ? "겨울(水)" : "Winter(水)";
 
       if (mode === 'fortune') {
-        // 1. 하위 2개 데이터 준비
         const r1 = suriPrescription.getRemedy(session.num81, [session.lackEls[0]], currentLang);
         const r2 = suriPrescription.getRemedy(session.num81, [session.lackEls[1]], currentLang);
-        
-        const elKey = currentLang === 'ko' ? session.strongEl : { "목(木)":"Wood", "화(火)":"Fire", "토(土)":"Earth", "금(金)":"Metal", "수(水)":"Water" }[session.strongEl];
         
         body.innerHTML = `
           <div class="tab-content">
             <span class="section-title">${t.sec1}</span>
             <div class="info-box" style="background:#fff;">
               <div id="radarChart" style="margin:10px auto; width:220px; height:220px;"></div>
-              
               <p>${currentLang === 'ko' 
                 ? `당신은 <b>${seasonName}</b>의 시공간적 기운을 받고 태어났습니다. 고유의 성명 에너지(소리 파동)가 더해져 <b>${session.strongEl}</b> 중심으로 그래프가 형성됩니다.` 
                 : `Receiving the spatiotemporal energy of <b>${seasonName}</b> with phonetic vibrations, you form a profile centered on <b>${session.strongEl}</b>.`}</p>
-              
               <div style="padding:15px; background:#F9F8F6; border-radius:8px; border:1px solid #F0EAE3;">
                 <b style="color:var(--accent);">${currentLang === 'ko' ? '📜 현생 과업' : '📜 Life Mission'}</b><br>
                 ${(currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12)[elKey][(session.num81 + birthMonth) % 12]}
               </div>
             </div>
-
             <span class="section-title">${t.sec2} (${session.lackEls.join(', ')})</span>
             <div class="info-box" style="background:#fff;">
               <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
@@ -314,25 +295,11 @@ if ([2, 3].includes(birthMonth)) {
             </div>
           </div>`;
         renderChart(session.elementScores);
-      }
-
-        <span class="section-title">${t.sec2}</span>
-        <div class="info-box" style="background:#fff;">
-          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-            <div><b style="color:var(--accent);">🎨 ${currentLang === 'ko' ? '행운 컬러' : 'Lucky Color'}</b><br>${remedy.color}</div>
-            <div><b style="color:var(--accent);">🏃 ${currentLang === 'ko' ? '실천 행동' : 'Action'}</b><br>${remedy.action}</div>
-            <div><b style="color:var(--accent);">👥 ${currentLang === 'ko' ? '인적 정보' : 'Social'}</b><br>${remedy.social}</div>
-            <div><b style="color:var(--accent);">🥗 ${currentLang === 'ko' ? '보충 음식' : 'Food'}</b><br>${remedy.food}</div>
-          </div>
-        </div>
-      </div>`;
-        renderChart(session.elementScores);
       } 
       else if (mode === 'past') {
         const p = (currentLang === 'ko') ? pastLifeData[session.num81-1] : pastLifeDataEn[session.num81-1];
         const era = (currentLang === 'ko' ? eraPastKo : eraPastEn)[session.num81 % (currentLang === 'ko' ? eraPastKo.length : eraPastEn.length)];
         const region = (currentLang === 'ko' ? regionPastKo : regionPastEn)[(session.num81 + birthMonth) % (currentLang === 'ko' ? regionPastKo.length : regionPastEn.length)];
-
         body.innerHTML = `
           <div class="tab-content">
             <span class="section-title">${t.tab2Title}</span>
@@ -351,7 +318,6 @@ if ([2, 3].includes(birthMonth)) {
         const r = (currentLang === 'ko') ? reincarnationData[session.num81-1] : reincarnationDataEn[session.num81-1];
         const era = (currentLang === 'ko' ? eraNextKo : eraNextEn)[session.num81 % (currentLang === 'ko' ? eraNextKo.length : eraNextEn.length)];
         const region = (currentLang === 'ko' ? regionNextKo : regionNextEn)[(session.num81 + birthMonth) % (currentLang === 'ko' ? regionNextKo.length : regionNextEn.length)];
-
         body.innerHTML = `
           <div class="tab-content">
             <span class="section-title">${t.tab3Title}</span>
@@ -366,7 +332,7 @@ if ([2, 3].includes(birthMonth)) {
             </div>
           </div>`;
       }
-    } // 함수의 끝
+    }
 
   
   function copyLink() {
