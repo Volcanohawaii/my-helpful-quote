@@ -272,6 +272,10 @@
         const r2 = suriPrescription.getRemedy(session.num81, [session.lackEls[1]], currentLang);
         const elKey = currentLang === 'ko' ? session.strongEl : { "목(木)":"Wood", "화(火)":"Fire", "토(土)":"Earth", "금(金)":"Metal", "수(水)":"Water" }[session.strongEl];
         
+        // 오행 이름에서 한자 부분만 추출 (예: "목(木)" -> "木")
+        const e1 = session.lackEls[0].includes('(') ? session.lackEls[0].split('(')[1].split(')')[0] : session.lackEls[0];
+        const e2 = session.lackEls[1].includes('(') ? session.lackEls[1].split('(')[1].split(')')[0] : session.lackEls[1];
+
         body.innerHTML = `
           <div class="tab-content">
             <span class="section-title">${t.sec1}</span>
@@ -287,13 +291,13 @@
             </div>
 
             <span class="section-title">${t.sec2}</span>
-            <div class="info-box" style="background:#fff; margin-bottom:12px; border-left:4px solid #9A8467;">
-              <b style="color:var(--accent);">[${session.lackEls[0]}] 보완 전략</b><br>
-              <span style="font-size:0.85rem; line-height:1.6;">🎨 ${r1.color} | 🏃 ${r1.action} | 👥 ${r1.social} | 🥗 ${r1.food}</span>
-            </div>
-            <div class="info-box" style="background:#fff; border-left:4px solid #9A8467;">
-              <b style="color:var(--accent);">[${session.lackEls[1]}] 보완 전략</b><br>
-              <span style="font-size:0.85rem; line-height:1.6;">🎨 ${r2.color} | 🏃 ${r2.action} | 👥 ${r2.social} | 🥗 ${r2.food}</span>
+            <div class="info-box" style="background:#fff;">
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                <div><b style="color:var(--accent);">🎨 ${currentLang === 'ko' ? '행운 컬러' : 'Lucky Color'}</b><br>${r1.color}(${e1}) / ${r2.color}(${e2})</div>
+                <div><b style="color:var(--accent);">🏃 ${currentLang === 'ko' ? '실천 행동' : 'Action'}</b><br>${r1.action}(${e1}) / ${r2.action}(${e2})</div>
+                <div><b style="color:var(--accent);">👥 ${currentLang === 'ko' ? '인적 정보' : 'Social'}</b><br>${r1.social}(${e1}) / ${r2.social}(${e2})</div>
+                <div><b style="color:var(--accent);">🥗 ${currentLang === 'ko' ? '보충 음식' : 'Food'}</b><br>${r1.food}(${e1}) / ${r2.food}(${e2})</div>
+              </div>
             </div>
           </div>`;
         renderChart(session.elementScores);
