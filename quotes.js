@@ -608,20 +608,28 @@ function generateSuriName(num, s1, s2) {
     return s1[num % s1.length] + s2[(num + 7) % s2.length];
 }
 
-/* [오류 수정된 이름 생성 함수] */
+/* [더 정밀하게 조합되는 이름 생성 함수] */
 function makePastNameKo(num, strong, lack, month) {
-    const name = syllableKo1[num % syllableKo1.length] + syllableKo2[(num + 7) % syllableKo2.length];
+    // month와 num을 섞어서 인덱스를 결정하면 훨씬 다양한 이름이 나옵니다.
+    const name = syllableKo1[(num + month) % syllableKo1.length] + syllableKo2[(num + 7) % syllableKo2.length];
     return `${name}`;
 }
+
 function makePastNameEn(num, strong, lack, month) {
-    const name = nameRootEn[num % nameRootEn.length] + nameTailEn[(num + 5) % nameTailEn.length];
+    // 여기도 month를 섞어주면 생일마다 다른 영어 이름이 탄생합니다.
+    const name = nameRootEn[(num + month) % nameRootEn.length] + nameTailEn[(num + 5) % nameTailEn.length];
     return `${name}`; 
 }
+
 function makeNextLifeNameKo(num, strong, lack, month) {
-    const name = syllableKo1[(num + 10) % syllableKo1.length] + syllableKo2[(num + 15) % syllableKo2.length];
+    // 강한 기운(strong)의 길이에 따라 인덱스를 변형해주는 공학적 기법
+    const offset = strong.length + month;
+    const name = syllableKo1[(num + offset) % syllableKo1.length] + syllableKo2[(num + 15) % syllableKo2.length];
     return `${name}`;
 }
+
 function makeNextLifeNameEn(num, strong, lack, month) {
-    const name = nameRootEn[(num + 20) % nameRootEn.length] + nameTailEn[(num + 25) % nameTailEn.length];
+    const offset = strong.length + month;
+    const name = nameRootEn[(num + offset) % nameRootEn.length] + nameTailEn[(num + 25) % nameTailEn.length];
     return `${name}`;
 }
