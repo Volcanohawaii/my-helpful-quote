@@ -122,7 +122,7 @@ const elementPrescriptions12 = {
 };
 
 const enPrescriptions12 = {
-    "木": [
+    "Wood": [
         "Dominated by the powerful drive of <b>Wood</b>, you possess pioneering traits but inherently lack the flexibility of Water, risking isolation through dogmatism. You excel at planning but struggle with emotional diplomacy. Ideal as a <b>Strategist or Entrepreneur</b>, your mission is to treat feedback as essential data to refine your designs.",
         "Overflowing with growth energy, you enjoy new challenges, but a lack of Earth's cohesion makes it difficult to finish what you start. You are an idea bank with a persistence problem. Ideal as an <b>Educator or Project Manager</b>, your task is to systematize routines and master the art of completion.",
         "Like a deeply rooted tree, you have firm convictions, but a lack of Metal's decisiveness makes you soft in boundary setting. You trust easily but may lose personal interest. Ideal for <b>HR or Welfare Specialization</b>, your task is to clarify boundaries and protect your sovereignty.",
@@ -136,7 +136,7 @@ const enPrescriptions12 = {
         "You excel at drawing perfect blueprints, but a lack of Metal's organization leads to messy surroundings and lost cores. You see the big picture but miss details. Ideal as a <b>System Engineer or Urban Planner</b>, your mission is to master 'Simplification' and focus on the essence.",
         "You possess the energy to create an entire ecosystem, but a lack of Earth's mediation risks stifling others with your pace. Ideal as a <b>Content Producer or Art Director</b>, your final mission is to learn patience and respect the developmental speed of those around you."
     ],
-    "火": [
+    "Fire": [
         "Explosive passion is your weapon, but a lack of Water's calm makes your efficiency volatile based on mood. High immersion, low persistence. Ideal as a <b>Marketer or Ad Planner</b>, your task is to control your burning heart with a cold, consistent routine.",
         "A genius of inspiration, yet weak Metal discipline risks scattering ideas without manifestation. Ideal as an <b>Artist or Content Creator</b>, your mission is to archive every thought and endure until the final result is achieved.",
         "Possessing brilliant eloquence, but a lack of Earth's prudence risks self-sabotage through verbal errors. High sociability, low weight. Ideal as a <b>Broadcaster or Spokesperson</b>, your mission is to recognize that silence is sometimes the most powerful message.",
@@ -150,7 +150,7 @@ const enPrescriptions12 = {
         "Responsible and destined for the spotlight, but a lack of Metal's critique risks self-sabotage by falling for flattery. Ideal as a <b>Brand Director or Entertainer</b>, your task is to face cold evaluations as data and constantly reinvent yourself.",
         "Combining charisma and intellect, but a lack of Earth's tolerance leads to excluding those who don't meet your standards. Ideal as a <b>Critic or Lawyer</b>, your final task is to become a magnanimous leader who nurtures the weak."
     ],
-    "土": [
+    "Earth": [
         "Reliable and trustworthy, but a lack of Wood's pioneering spirit risks falling into stagnation or complacency. High stability, low innovation. Ideal in <b>Finance or Public Service</b>, your task is to try one new thing daily to prevent luck from expiring.",
         "Possessing immense tolerance, but weak Water precision makes you a 'nice person' who neglects their own interests for others. Ideal as a <b>Social Worker or Counselor</b>, your task is to organize your own space first and practice 'Healthy Egoism.'",
         "Connecting people with a warm heart, but a lack of Metal's decisiveness leads to carrying others' burdens alone. Ideal as a <b>Community Leader or HR Manager</b>, your mission is to set clear interpersonal boundaries and protect your own energy.",
@@ -164,7 +164,7 @@ const enPrescriptions12 = {
         "Precise in management and calculation, but a lack of Fire's emotional energy risks treating others like robots. High results, low loyalty. Ideal as an <b>Accountant or Data Analyst</b>, your task is to recognize the need for warmth and increase emotional investment.",
         "Destined to embrace the world like the earth, but a lack of Metal's sharp discernment risks loss by failing to judge the quality of those nearby. Ideal for <b>Philanthropy or Foundation Management</b>, your final task is to seek advice from wise mentors and remain flexible."
     ],
-    "金": [
+    "Metal": [
         "A natural competitor with unrivaled decisiveness, but a lack of Wood's mercy risks making you a cold-blooded loner. Ideal as a <b>Prosecutor or Pro Athlete</b>, your mission is to add a drop of humanity to your rigid principles to gain mass support.",
         "Top-tier analytical skills, but weak Water embrace leads to sharp criticism of others, resulting in self-isolation. Ideal as an <b>Auditor or Critic</b>, your mission is to always provide constructive alternatives and use language that heals.",
         "Possessing a heavy presence and strong justice, but a lack of Fire's sociability makes you a silent worker who struggles to express sincerity. Ideal as an <b>Engineer or Technical Official</b>, your mission is to raise the temperature with sincere praise and expression.",
@@ -178,7 +178,7 @@ const enPrescriptions12 = {
         "Reliable and solid, but a lack of Water's change energy risks rejecting innovation and remaining an isolated expert. Ideal as a <b>Security Designer or Metal Artist</b>, your mission is to digitize and modernize your classical values.",
         "Destined to be a legendary blade, but weak Earth foundation risks self-harm or lack of purpose. Ideal as a <b>Niche Expert or Columnist</b>, your mission is to build a solid foundation first and use your sharpness for the greater good."
     ],
-    "水": [
+    "Water": [
         "A wise sage with deep insight, but weak Fire execution makes you a 'dreamer' who misses opportunities. Ideal as a <b>Scholar or Strategist</b>, your mission is to build a mechanical routine that turns thoughts into immediate action.",
         "Naturally imaginative, yet a lack of Earth's grounding leads to immersion in unrealistic ideals and emotional anxiety. Ideal as a <b>Writer or Psychologist</b>, your mission is to set clear financial goals and keep your feet on the ground.",
         "Enjoying philosophical thought, but weak Metal decisiveness leads to indecision in relationships and social friction. Ideal as a <b>Counselor or Humanist</b>, your mission is to document your thoughts and express them firmly.",
@@ -698,7 +698,7 @@ const suriPrescription = {
             : ["木", "火"];
 
         // 2. 각 오행 데이터의 시작 인덱스 (기운당 3개씩)
-        const elIdx = { "木": 0, "火": 3, "土": 6, "金": 9, "水": 12 };
+        const elIdx = { "목(木)": 0, "화(火)": 3, "토(土)": 6, "금(金)": 9, "수(水)": 12 };
 
         const data = {
             ko: {
