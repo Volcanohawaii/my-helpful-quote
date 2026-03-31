@@ -19,20 +19,20 @@ const i18n = {
         nextMission: "내세의 임무"
     },
     en: {
-        title: "Suri Analysis Report", 
-        desc: "Analyzes the 81-numerology system based on unique name vibrations and birth indicators.",
-        nameLabel: "Name", birthLabel: "Birth (YYYYMMDD)", btn: "Generate Report",
-        loadSeal: "Analyzing", loadTitle: "Combining energy...", loadDesc: "Please wait.",
-        tab1Btn: "Fortune", tab2Btn: "Past Life", tab3Btn: "Afterlife",
-        sec1: "Energy Analysis", sec2: "Reinforcement", advise: "Advice", practice: "Practice", 
-        sideEffect: "Side Effects",
-        tab2Title: "Past-Life Report", tab3Title: "Afterlife Report", 
-        pastDest: "Activity Center", 
-        pastJob: "Karmic Role", 
-        pastHomework: "Homework", 
+        title: "Suri Numerology Analysis", 
+        desc: "Analyzes the 81-numerology system based on name vibrations and birth indicators to derive your signature energy structure.",
+        nameLabel: "Name", birthLabel: "Birthdate (YYYYMMDD)", btn: "Generate Report",
+        loadSeal: "Analyzing", loadTitle: "Combining your destiny energy...", loadDesc: "Please wait a moment.",
+        tab1Btn: "Current Life", tab2Btn: "Past Life", tab3Btn: "Afterlife",
+        sec1: "Energy Analysis Data", sec2: "Weakness Strategy", advise: "Life Advice", practice: "Action Plan", 
+        sideEffect: "Note: Excessive compensation may cause side effects.",
+        tab2Title: "Past-Life Analysis", tab3Title: "Afterlife Reservations", 
+        pastDest: "Past Activity Center",
+        pastJob: "Past Occupation", 
+        pastHomework: "Past Mission", 
         nextDest: "Future Domain", 
         nextObj: "Future Occupation", 
-        nextMission: "Core Mission"
+        nextMission: "Future Assignment"
     }
 };
 /* [필수 데이터: 영문 성함 재료] */
