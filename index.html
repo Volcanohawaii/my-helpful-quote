@@ -234,28 +234,33 @@ if ([2, 3].includes(birthMonth)) {
 // 그 외(1, 4, 7, 10월)는 자동으로 위에서 설정한 '환절기(土)'가 됩니다.
 
       if (mode === 'fortune') {
-        const remedy = suriPrescription.getRemedy(session.num81, session.lackEls, currentLang);
-        body.innerHTML = `
-          <div class="tab-content">
-            <span class="section-title">${t.sec1}</span>
-            <div class="info-box" style="background:#fff;">
-              <div id="radarChart" style="margin:10px auto; width:220px; height:220px;"></div>
-              <p>${currentLang === 'ko' ? `당신은 <b>${seasonName}</b>에 태어나 <b>${session.strongEl}</b>의 기운이 강력한 운명입니다.` : `Born in <b>${seasonName}</b>, you possess powerful <b>${session.strongEl}</b> energy.`}</p>
-              <div style="padding:15px; background:#F9F8F6; border-radius:8px; border:1px solid #F0EAE3;">
-                <b style="color:var(--accent);">${currentLang === 'ko' ? '📜 현생 과업' : '📜 Life Mission'}</b><br>
-                ${(currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12)[session.strongEl][(session.num81 + birthMonth) % 12]}
-              </div>
-            </div>
-            <span class="section-title">${t.sec2}</span>
-            <div class="info-box" style="background:#fff;">
-              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-                <div><b style="color:var(--accent);">🎨 ${currentLang === 'ko' ? '행운 컬러' : 'Lucky Color'}</b><br>${remedy.color}</div>
-                <div><b style="color:var(--accent);">🏃 ${currentLang === 'ko' ? '실천 행동' : 'Action'}</b><br>${remedy.action}</div>
-                <div><b style="color:var(--accent);">👥 ${currentLang === 'ko' ? '인적 정보' : 'Social'}</b><br>${remedy.social}</div>
-                <div><b style="color:var(--accent);">🥗 ${currentLang === 'ko' ? '보충 음식' : 'Food'}</b><br>${remedy.food}</div>
-              </div>
-            </div>
-          </div>`;
+    const remedy = suriPrescription.getRemedy(session.num81, session.lackEls, currentLang);
+    body.innerHTML = `
+      <div class="tab-content">
+        <span class="section-title">${t.sec1}</span>
+        <div class="info-box" style="background:#fff;">
+          <div id="radarChart" style="margin:10px auto; width:220px; height:220px;"></div>
+          
+          <p>${currentLang === 'ko' 
+            ? `귀하는 <b>${seasonName}</b>의 시공간적 기운을 받고 성명의 소리 파동이 더해진 <b>${session.strongEl}</b> 중심의 지표를 형성합니다.` 
+            : `Receiving the spatiotemporal energy of <b>${seasonName}</b> with phonetic vibrations, you form a profile centered on <b>${session.strongEl}</b>.`}</p>
+          
+          <div style="padding:15px; background:#F9F8F6; border-radius:8px; border:1px solid #F0EAE3;">
+            <b style="color:var(--accent);">${currentLang === 'ko' ? '📜 현생 과업' : '📜 Life Mission'}</b><br>
+            ${(currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12)[session.strongEl][(session.num81 + birthMonth) % 12]}
+          </div>
+        </div>
+
+        <span class="section-title">${t.sec2}</span>
+        <div class="info-box" style="background:#fff;">
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+            <div><b style="color:var(--accent);">🎨 ${currentLang === 'ko' ? '행운 컬러' : 'Lucky Color'}</b><br>${remedy.color}</div>
+            <div><b style="color:var(--accent);">🏃 ${currentLang === 'ko' ? '실천 행동' : 'Action'}</b><br>${remedy.action}</div>
+            <div><b style="color:var(--accent);">👥 ${currentLang === 'ko' ? '인적 정보' : 'Social'}</b><br>${remedy.social}</div>
+            <div><b style="color:var(--accent);">🥗 ${currentLang === 'ko' ? '보충 음식' : 'Food'}</b><br>${remedy.food}</div>
+          </div>
+        </div>
+      </div>`;
         renderChart(session.elementScores);
       } 
       else if (mode === 'past') {
