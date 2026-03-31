@@ -5,18 +5,18 @@ const i18n = {
     ko: {
         title: "수리성명학 데이터 분석", 
         desc: "성명의 파동과 탄생 시계열 지표를 바탕으로 81수리 체계를 분석합니다. 당신의 시그니처 에너지 구조가 도출됩니다.",
-        nameLabel: "성함", birthLabel: "양력 8자리(19901208)", btn: "리포트 생성하기",
+        nameLabel: "성명", birthLabel: "양력 8자리(19901208)", btn: "리포트 생성하기",
         loadSeal: "분석중", loadTitle: "당신의 운명 에너지를 조합 중...", loadDesc: "잠시 기다려 주세요.",
         tab1Btn: "현생 분석", tab2Btn: "전생 기록", tab3Btn: "내세 예약",
         sec1: "에너지 분석 자료", sec2: "약점 보완 전략", advise: "현생 조언", practice: "실천 사항", 
         sideEffect: "과한 보충은 다음의 부작용이 있습니다.",
         tab2Title: "전생 분석 자료", tab3Title: "내세 분석 자료", 
         pastDest: "전생 활동 중심지", // 추가
-        pastJob: "전생의 에너지 역할", 
-        pastHomework: "영혼의 과업", 
+        pastJob: "전생의 직업", 
+        pastHomework: "전생의 과업", 
         nextDest: "내세 활동 중심지", 
-        nextObj: "내세의 에너지 역할", 
-        nextMission: "핵심 미션"
+        nextObj: "내세의 직업", 
+        nextMission: "내세의 임무"
     },
     en: {
         title: "Suri Analysis Report", 
@@ -392,7 +392,7 @@ const pastLifeData = Array.from({ length: 81 }, (_, i) => {
 
     return { 
         job: `${mods[i % mods.length]} ${jobs[i % jobs.length]}`, 
-        desc: `성명학적으로 당신은 <b>${elInfo.name}</b>의 <b>${elInfo.trait}</b>이 두드러지는 명식입니다. 이로 인해 과거 생애에서 ${elInfo.reason}`, 
+        desc: `성명학 분석 결과, 당신은 <b>${elInfo.name}</b>의 <b>${elInfo.trait}</b>이 두드러지는 명식입니다. 이로 인해 과거 생애에서 ${elInfo.reason}`, 
         homework: homeworks[i % homeworks.length] 
     };
 });
@@ -494,7 +494,7 @@ const reincarnationData = Array.from({ length: 81 }, (_, i) => {
         place: places[i % places.length], 
         job: jobs[i % jobs.length], 
         // 📍 desc 부분에 미래 에너지 예측 근거 포함
-        desc: `성명학적 설계 데이터에 따르면 귀하의 미래 에너지는 <b>${elInfo.name}</b>의 <b>${elInfo.trait}</b>이 지배적일 것으로 예측됩니다. 이로 인해 내세에서는 <b>${elInfo.role}</b> 임무를 맡게 될 것입니다.`, 
+        desc: `성명학적 데이터 분석에 따르면 당신의 미래 에너지는 <b>${elInfo.name}</b>의 <b>${elInfo.trait}</b>이 지배적일 것으로 예측됩니다. 이로 인해 내세에서는 <b>${elInfo.role}</b> 임무를 맡게 될 것입니다.`, 
         mission: missions[i % missions.length] 
     };
 });
@@ -566,7 +566,7 @@ const suriPrescription = {
         const data = {
             ko: {
                 actions: ["과감한 실행(木)", "추진력 강화(木)", "새로운 도전(木)", "창의적 발상(火)", "에너지 발산(火)", "소통 확대(火)", "중재와 화합(土)", "기반 축적(土)", "공간 정돈(土)", "독립적 결단(金)", "예리한 분석(金)", "원칙 준수(金)", "유연한 사고(水)", "지혜 습득(水)", "심연의 명상(水)"],
-                socials: ["기본격(木)", "도약격(木)", "발전격(木)", "복덕격(火)", "공명격(火)", "성공격(火)", "계승격(土)", "통솔격(土)", "덕망격(土)", "강건격(金)", "수전격(金)", "건창격(金)", "신성격(水)", "지혜격(수)", "순풍격(水)"],
+                socials: ["기본격(木)", "도약격(木)", "발전격(木)", "복덕격(火)", "공명격(火)", "성공격(火)", "계승격(土)", "통솔격(土)", "덕망격(土)", "강건격(金)", "수전격(金)", "건창격(金)", "신성격(水)", "지혜격(水)", "순풍격(水)"],
                 foods: ["녹색 채소(木)", "키위(木)", "매실차(木)", "붉은 과일(火)", "고추(火)", "토마토(火)", "뿌리 채소(土)", "단호박(土)", "감자(土)", "견과류(金)", "양파(金)", "마늘(金)", "블랙푸드(水)", "미역(水)", "해조류(水)"],
                 colors: ["그린(木)", "민트(木)", "라임(木)", "레드(火)", "오렌지(火)", "핑크(火)", "옐로우(土)", "베이지(土)", "브라운(土)", "화이트(金)", "실버(金)", "그레이(金)", "네이비(水)", "블랙(水)", "블루(水)"]
             },
