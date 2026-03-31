@@ -222,11 +222,14 @@
   // 최고점을 기준으로 비율을 계산하여 모든 각의 개성을 살립니다.
   const maxS = Math.max(...scores);
   
-  let poly = ""; 
+ let poly = ""; 
   labels.forEach((_, i) => { 
     const a = (Math.PI * 2 / 5) * i - (Math.PI / 2); 
-    // 최고점 대비 비율로 계산 (최소 20% 크기 보장으로 기상 강화)
-    const v = (scores[i] / maxS) * r * 0.8 + (r * 0.2); 
+    
+    // ✅ 핵심 수식: 최고점을 100%로 잡고, 나머지를 비율로 계산
+    // 0.85는 그래프가 원 밖으로 나가지 않게 조절하는 비율입니다.
+    const v = (scores[i] / maxS) * r * 0.85 + (r * 0.15); 
+    
     poly += `${cx + v * Math.cos(a)},${cy + v * Math.sin(a)} `; 
   });
   
