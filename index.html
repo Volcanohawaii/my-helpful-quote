@@ -272,10 +272,6 @@
         const r2 = suriPrescription.getRemedy(session.num81, [session.lackEls[1]], currentLang);
         const elKey = currentLang === 'ko' ? session.strongEl : { "목(木)":"Wood", "화(火)":"Fire", "토(土)":"Earth", "금(金)":"Metal", "수(水)":"Water" }[session.strongEl];
         
-        // 오행 이름에서 한자 부분만 추출 (예: "목(木)" -> "木")
-        const e1 = session.lackEls[0].includes('(') ? session.lackEls[0].split('(')[1].split(')')[0] : session.lackEls[0];
-        const e2 = session.lackEls[1].includes('(') ? session.lackEls[1].split('(')[1].split(')')[0] : session.lackEls[1];
-
         body.innerHTML = `
           <div class="tab-content">
             <span class="section-title">${t.sec1}</span>
@@ -295,14 +291,11 @@
               <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
                 <div><b style="color:var(--accent);">🎨 ${currentLang === 'ko' ? '행운 컬러' : 'Lucky Color'}</b><br>${r1.color}, ${r2.color}</div>
                 <div><b style="color:var(--accent);">🏃 ${currentLang === 'ko' ? '실천 행동' : 'Action'}</b><br>${r1.action}, ${r2.action}</div>
-                <div><b style="color:var(--accent);">👥 ${currentLang === 'ko' ? '인적 정보' : 'Social'}</b><br>${r1.social}), ${r2.social}</div>
-                <div><b style="color:var(--accent);">🥗 ${currentLang === 'ko' ? '보충 음식' : 'Food'}</b><br>${r1.food}, ${r2.food}</div>
               </div>
             </div>
           </div>`;
         renderChart(session.elementScores);
-      }
-       
+      } // <--- 여기 닫는 중괄호 다음에 바로 else if (mode === 'past') 가 와야 합니다!
       else if (mode === 'past') {
         const p = (currentLang === 'ko') ? pastLifeData[session.num81-1] : pastLifeDataEn[session.num81-1];
         const era = (currentLang === 'ko' ? eraPastKo : eraPastEn)[session.num81 % (currentLang === 'ko' ? eraPastKo.length : eraPastEn.length)];
