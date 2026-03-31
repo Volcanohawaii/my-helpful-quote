@@ -47,12 +47,151 @@ const baseEn = [{key:"Pioneer",core:"start",risk:"rigidity"},{key:"Harmony",core
 const stageKo = ["발아","정립","강화","확장","정점","전환","정리","재도약","완결"];
 const stageEn = ["Sprout","Settle","Strengthen","Expand","Peak","Shift","Refine","Rebound","Complete"];
 
+/* [현생 과업: 오행 역학 통합 분석 시스템] */
 const elementPrescriptions12 = {
-    "木": ["추진력이 천성입니다. 목표를 좁혀 완결의 기쁨을 누리십시오.", "기획력이 뛰어난 선구자입니다. 루틴을 군대처럼 고정하십시오.", "따뜻한 리더십이 빛납니다. 자신만의 주권을 당당히 선포하십시오.", "성장이 강합니다. 불필요한 가지를 쳐내고 집중하십시오.", "외유내강의 전형입니다. 내실을 위해 '완료의 기준'을 정하십시오.", "상생을 위해 직접 검수하는 최종 체크포인트를 두십시오.", "학습 능력이 좋습니다. 시스템을 구축해 시간을 자유롭게 하십시오.", "고결한 이상을 가졌습니다. 사용자 관점에서 흐름을 정리하십시오.", "강력한 두령의 기운입니다. 자리에 없어도 돌아가는 시스템을 만드십시오.", "기회를 포착하는 눈이 있습니다. 욕심을 덜고 본질에 집중하십시오.", "설계자의 운명입니다. 실행과 운영을 철저히 분리하십시오.", "생태계를 창조할 기운입니다. 스스로 순환하는 구조를 만드십시오."],
-    "火": ["뜨거운 열정이 무기입니다. 규칙적인 운동으로 에너지를 유지하십시오.", "영감이 샘솟는 재주꾼입니다. 모든 생각에 기록이라는 닻을 내리십시오.", "군중을 매료시킵니다. 번아웃 방지를 위해 에너지를 통제하십시오.", "빠른 몰입도가 강점입니다. 명확한 타겟에 전력을 다하십시오.", "설득력이 매력적입니다. 숫자의 힘과 증거를 더해 권위를 갖추십시오.", "폭발적 에너지입니다. 의도적인 멈춤으로 강약을 조절하십시오.", "예술적 성취의 기운입니다. 명상을 통해 평정심을 유지하십시오.", "열정가입니다. 인내심을 높여 반드시 '결과물'로 증명하십시오.", "리더의 상입니다. 겸손을 갖출 때 당신의 빛은 영원할 것입니다.", "소통에 능합니다. 때로는 침묵이 더 강한 메시지가 됨을 기억하십시오.", "주목받을 운명입니다. 책임의 범위를 명확히 할 때 더 큰 운이 옵니다.", "강력한 화기를 품고 있습니다. 철저한 자기 철칙을 세우십시오."],
-    "土": ["듬직한 인물입니다. 오늘 할 일 하나를 완벽히 끝내 지지대를 만드십시오.", "만물을 기르는 풍요로운 기운입니다. 공간을 정돈해 운의 통로를 여십시오.", "따뜻한 심성입니다. 타인에게 이용당하지 않게 경계선을 그으십시오.", "신중함이 자산입니다. 80% 상태에서 과감히 완성하는 연습을 하십시오.", "책임감이 강합니다. 모든 짐을 혼자 지지 말고 분산하십시오.", "조직의 핵심입니다. 리소스를 배분하고 나누는 지혜를 발휘하십시오.", "결국 목표를 이룰 운명입니다. 식사와 수면 시간을 고정하십시오.", "안정감이 강점입니다. 아주 작은 변화부터 시도하며 흐름을 타십시오.", "끈기가 남다릅니다. 의도를 명확히 문서화하여 공유하십시오.", "신중함이 품격입니다. 실패를 두려워 말고 새로운 사람을 만나십시오.", "관리 능력이 뛰어납니다. 수치를 계산하며 미래를 철저히 대비하십시오.", "대지의 운명입니다. 고집을 유연함으로 바꾸어 세상을 품으십시오."],
-    "金": ["타고난 승부사입니다. 자신만의 원칙을 칼같이 지키는 기백을 갖추십시오.", "핵심을 꿰뚫는 분석가입니다. 직관을 믿고 즉각 결단하십시오.", "묵직한 존재감을 가졌습니다. 표현은 짧고 간결하게 하십시오.", "정리 능력이 방패입니다. 루틴을 무기 삼아 완벽한 시스템을 갖추십시오.", "정의로운 시각을 가졌습니다. 비판 뒤에는 반드시 대안을 제시하십시오.", "스스로에게 엄격합니다. 유연함을 섞어야 부러지지 않습니다.", "카리스마 있는 지도자입니다. 날카로운 칼날을 부드러움 속에 감추십시오.", "장인 정신이 빛납니다. 완벽보다 완결이 우선임을 명심하십시오.", "원칙을 지키는 고결한 성품입니다. 10%의 유연성으로 대인이 되십시오.", "이성적인 태도가 강점입니다. 공감이라는 엔진을 장착하십시오.", "믿음직한 사람입니다. 인간적인 여백을 두어 사람의 마음을 얻으십시오.", "명검의 운명입니다. 차가운 이성에 뜨거운 열정을 더하십시오."],
-    "水": ["지혜로운 현자의 기운입니다. 생각을 즉각 행동으로 루틴화하십시오.", "상상력이 재능입니다. 정보에 매몰되지 말고 내면의 소리를 들으십시오.", "철학적 사고를 즐깁니다. 도출된 결론을 반드시 서면으로 남기십시오.", "어디든 적응합니다. 기회가 썩지 않게 마디를 짓고 흐름을 만드십시오.", "직관력이 뛰어납니다. 머릿속 지도를 구체적인 문서로 구조화하십시오.", "조율하는 인물입니다. 고갈을 막기 위해 한 번에 하나씩만 하십시오.", "깊이 있는 사람입니다. 주기적인 산책과 수면으로 뇌를 리셋하십시오.", "섬세한 완벽주의자입니다. 마감 기한을 엄격히 부여해 가치를 높이십시오.", "조용한 카리스마가 있습니다. 뜻을 명확히 전달해 흐름을 타십시오.", "마음을 잘 읽습니다. 우울함이 올 땐 기계적인 루틴으로 움직이십시오.", "지혜를 공유할 운명입니다. 지식을 사회적으로 적극 순환시키십시오.", "지혜의 화신입니다. 집착을 버리고 흐름에 몸을 맡겨 자유를 얻으십시오."]
+    "木": [
+        "강한 <b>목(木)</b>의 추진력으로 선구자적 기질이 뚜렷하지만, 상대적으로 수(水)의 유연함이 부족해 독단에 빠지기 쉽습니다. 기획과 시작에는 능하나 감정적 소통에 서툰 편입니다. <b>전략가나 벤처 창업가</b>가 잘 어울리며, 타인의 피드백을 데이터로 수용하여 설계를 수정하는 것이 당신의 핵심 과업입니다.",
+        "성장의 에너지가 넘쳐 늘 새로운 도전을 즐기나, 토(土)의 응집력이 약해 마무리가 흐려지는 경향이 있습니다. 아이디어는 뱅크 수준이나 실행의 지속성이 숙제입니다. <b>교육자나 신규 프로젝트 매니저</b>가 적합하며, 루틴을 시스템화하여 끝까지 완수하는 습관을 기르는 것이 현생의 미션입니다.",
+        "뿌리 깊은 나무처럼 주관이 뚜렷하고 리더십이 강하지만, 금(金)의 결단력이 부족해 맺고 끊음이 약할 수 있습니다. 사람을 잘 믿고 품지만 실속을 놓치기 쉽습니다. <b>인사 관리나 복지 전문가</b>가 어울리며, 공과 사의 경계를 명확히 하여 주권을 지키는 것이 가장 큰 과업입니다.",
+        "위로 뻗어가는 생명력이 강해 조직의 활력을 불어넣지만, 화(火)의 조절력이 약하면 의욕만 앞서 번아웃될 위험이 있습니다. 열정은 높으나 에너지 분배에 서툽니다. <b>창의적 디자이너나 기획자</b>가 천직이며, 자신의 에너지를 수치화하여 효율적으로 배분하는 법을 익히는 것이 과업입니다.",
+        "외유내강의 전형으로 내면의 독립심이 강하나, 주변과의 융합 에너지가 약해 고립된 섬처럼 느껴질 때가 있습니다. 전문성은 독보적이나 협업에서 스트레스를 받습니다. <b>기술 아키텍트나 연구원</b>이 어울리며, 고립에서 벗어나 네트워크를 구축하는 것이 영혼의 숙제입니다.",
+        "상생의 기운이 강해 주변을 돕는 것을 즐기나, 자기 방어 기제인 금(金)이 약해 이용당하거나 상처받기 쉬운 구조입니다. 타인의 성장을 돕는 데 탁월한 재능이 있습니다. <b>컨설턴트나 멘토</b>가 잘 맞으며, '아니오'라고 말할 수 있는 단호함을 갖추는 것이 현생의 생존 과업입니다.",
+        "습득 능력이 매우 뛰어나 지식의 흡수가 빠르지만, 토(土)의 안정감이 부족해 배운 것을 현실의 수익으로 연결하는 힘이 약합니다. 이론에는 강하나 실전 재테크에 취약할 수 있습니다. <b>학자나 정보 분석가</b>가 적합하며, 지식을 자본으로 전환하는 실전 감각을 익히는 것이 과업입니다.",
+        "고결한 이상주의자로 도덕적 가치를 중시하지만, 화(火)의 현실적 발산력이 약해 본인의 가치를 세상에 알리는 데 소극적입니다. 실력은 있으나 PR이 부족합니다. <b>비영리 단체 리더나 예술가</b>가 어울리며, 대중의 언어로 자신의 가치를 당당히 증명하는 것이 과업입니다.",
+        "강력한 두령의 기운을 타고나 조직을 장악하는 힘이 좋으나, 수(水)의 정화 작용이 부족해 성공 후 적을 만들기 쉬운 기질입니다. 카리스마는 넘치나 포용력이 변수입니다. <b>정치인이나 CEO</b>가 천직이며, 높은 자리에 있을수록 낮은 곳을 살피며 적을 친구로 만드는 것이 과업입니다.",
+        "기회를 포착하는 직관이 예리하지만, 목(木)의 과다한 경쟁심으로 인해 정작 소중한 사람들과의 관계를 놓칠 수 있습니다. 성취욕은 극상이나 정서적 허기가 있습니다. <b>영업 전문가나 투자가</b>가 어울리며, 승리보다 공존의 가치를 먼저 계산하는 법을 배우는 것이 과업입니다.",
+        "완벽한 설계도를 그리는 능력이 탁월하지만, 금(金)의 정리 능력이 약해 주변이 늘 어수선하고 핵심을 놓칠 때가 있습니다. 큰 그림은 잘 보나 디테일에 약합니다. <b>도시 설계자나 시스템 엔지니어</b>가 적합하며, 불필요한 것을 쳐내고 핵심에 집중하는 '단순화'가 당신의 현생 과업입니다.",
+        "스스로 생태계를 창조할 만큼 에너지가 거대하지만, 토(土)의 중재 능력이 결여되면 주변 사람들을 본인의 속도에 맞추려다 숨막히게 할 수 있습니다. <b>문화 콘텐츠 제작자나 예술 감독</b>이 어울리며, 타인의 속도를 존중하고 기다려주는 인내를 배우는 것이 최종 미션입니다."
+    ],
+    "火": [
+        "폭발적인 열정과 추진력이 무기이지만, 수(水)의 냉정함이 결핍되어 감정 기복에 따라 업무 효율이 극명하게 갈리는 편입니다. 몰입도는 최상이나 뒷심이 약합니다. <b>마케터나 광고 기획자</b>가 잘 어울리며, 뜨거운 가슴을 차가운 루틴으로 통제하는 법을 배우는 것이 과업입니다.",
+        "영감이 샘솟는 재주꾼이나, 금(金)의 규율 에너지가 약해 창의적인 생각들을 결과물로 매듭짓지 못하고 흩뿌리는 경향이 있습니다. <b>예술가나 콘텐츠 크리에이터</b>가 적합하며, 모든 아이디어를 문서로 기록하고 끝을 보는 끈기를 갖추는 것이 현생의 미션입니다.",
+        "군중을 매료시키는 화려한 언변을 가졌으나, 토(土)의 신중함이 부족해 말실수로 공든 탑을 무너뜨릴 리스크가 상존합니다. 사교성은 최고이나 입이 가벼울 수 있습니다. <b>방송인이나 대변인</b>이 어울리며, 때로는 침묵이 가장 강력한 메시지임을 깨닫고 무게감을 지키는 것이 과업입니다.",
+        "빠른 정보 처리와 순발력이 돋보이지만, 목(木)의 지속적인 성장 기운이 약해 깊이 있는 전문성을 쌓기보다 넓고 얕은 지식에 머물기 쉽습니다. <b>IT 트렌드 분석가나 기자</b>가 천직이며, 한 우물을 깊게 파서 자신만의 독보적인 영역을 구축하는 것이 과업입니다.",
+        "설득력이 매력적이고 존재감이 뚜렷하지만, 수(水)의 겸손 기운이 약해 본의 아니게 오만하다는 오해를 받기 쉬운 구조입니다. 리더십은 좋으나 독단이 적입니다. <b>영업 리더나 정치인</b>이 적합하며, 숫자의 힘과 객관적 증거로 권위를 세우고 고개를 숙이는 법을 익히는 것이 과업입니다.",
+        "감성이 풍부하고 예술적 감각이 탁월하지만, 금(金)의 현실 감각이 부족해 경제적 기반이 흔들리거나 사기를 당할 우려가 있습니다. <b>순수 예술가나 종교인</b>이 어울리며, 현실의 영수증을 꼼꼼히 챙기고 자산의 토대를 스스로 구축하는 것이 생존 과업입니다.",
+        "변화무쌍한 적응력과 에너지를 가졌으나, 토(土)의 중심축이 약해 한 곳에 정착하지 못하고 방황할 확률이 높은 명식입니다. 재능은 많으나 정체성이 모호합니다. <b>여행 작가나 프리랜서</b>가 어울리며, 자신만의 확고한 철학적 닻을 내려 삶의 기준점을 세우는 것이 과업입니다.",
+        "불멸의 의지와 열정을 타고났지만, 목(木)의 자비심이 결핍되면 목표 달성을 위해 주변을 희생시키는 냉혈한이 될 수 있습니다. 성과는 독보적이나 주변이 외롭습니다. <b>전문 경영인이나 펀드 매니저</b>가 어울리며, 사람의 마음을 얻는 것이 진짜 성공임을 증명하는 것이 과업입니다.",
+        "태양처럼 세상을 밝히는 명예 중심의 삶이나, 화(火)의 기운이 과열되면 건강(심혈관)을 소홀히 하고 일에 중독될 위험이 큽니다. 사회적 지위는 높으나 속은 타들어갑니다. <b>고위 공직자나 교수</b>가 적합하며, 의도적인 멈춤과 휴식을 통해 내면의 화기를 다스리는 것이 미션입니다.",
+        "소통의 달인으로 네트워크가 방대하지만, 수(水)의 깊은 통찰이 부족해 진실한 인연보다 화려한 인맥에만 집착할 수 있습니다. <b>이벤트 기획자나 홍보 전문가</b>가 잘 맞으며, 화려한 조명 뒤의 고독을 즐기고 자아의 깊이를 더하는 사색의 시간을 갖는 것이 과업입니다.",
+        "책임감이 강하고 주목받는 운명이나, 금(金)의 비판력이 결여되면 주변의 아첨을 가려내지 못해 위기를 자초할 수 있습니다. <b>브랜드 디렉터나 연예인</b>이 어울리며, 자신에 대한 냉정한 평가를 데이터로 직시하고 끊임없이 재창조하는 것이 과업입니다.",
+        "강력한 카리스마와 지성을 겸비했으나, 토(土)의 포용력이 약해 본인의 기준에 미치지 못하는 사람들을 배척하는 냉정한 면모가 있습니다. <b>비평가나 법률가</b>가 어울리며, 타인의 부족함을 품고 함께 성장하는 대인이 되는 것이 현생의 최종 숙제입니다."
+    ],
+    "土": [
+        "듬직하고 신뢰감 주는 성품이나, 목(木)의 개척 정신이 부족해 변화하는 시대에 뒤처지거나 매너리즘에 빠지기 쉬운 기질입니다. 안정감은 최고이나 혁신이 부족합니다. <b>금융인이나 공무원</b>이 잘 어울리며, 매일 새로운 것 하나를 시도하며 운의 정체를 막는 것이 과업입니다.",
+        "만물을 기르는 포용력이 강점이나, 수(水)의 정밀함이 약해 남 좋은 일만 하다가 본인의 실속은 하나도 챙기지 못하는 '호인'의 전형입니다. <b>사회 복지사나 상담가</b>가 적합하며, 자신의 공간과 자산을 먼저 정돈하고 남을 돕는 '건강한 이기주의'를 배우는 것이 과업입니다.",
+        "따뜻한 심성으로 사람들을 연결하지만, 금(金)의 결단력이 결여되어 거절을 못 하고 스트레스를 혼자 짊어지는 구조입니다. <b>인사 운영자나 커뮤니티 리더</b>가 어울리며, 인간관계의 명확한 경계선을 긋고 본인의 에너지를 보호하는 법을 익히는 것이 미션입니다.",
+        "신중함이 최대 자산이나, 화(火)의 실행 에너지가 약해 완벽을 기하다가 타이밍을 놓치고 주저하는 경우가 많습니다. 준비는 철저하나 시작이 어렵습니다. <b>기록물 관리사나 박물관 큐레이터</b>가 적합하며, 80%의 준비 상태에서 과감히 세상에 내놓는 연습을 하는 것이 과업입니다.",
+        "책임감이 강해 조직의 기둥 역할을 수행하지만, 목(木)의 유연함이 부족해 고집스럽고 보수적이라는 평을 듣기 쉽습니다. <b>감사 업무나 보안 전문가</b>가 어울리며, 타인의 새로운 아이디어를 비판 없이 수용하고 조직의 유연성을 높이는 중재자가 되는 것이 과업입니다.",
+        "리소스 배분과 관리에 탁월한 재능이 있으나, 수(水)의 창의적 발상 기운이 약해 기존 시스템을 유지하는 데만 에너지를 쏟는 경향이 있습니다. <b>물류 전문가나 운영 이사</b>가 잘 맞으며, 데이터 뒤의 숨겨진 트렌드를 읽어내어 시스템을 업그레이드하는 것이 현생의 숙제입니다.",
+        "결국 목표를 이루는 끈기가 남다르지만, 화(火)의 열정이 부족해 과정 자체를 즐기기보다 의무감에 짓눌려 무기력해질 때가 많습니다. <b>장기 프로젝트 매니저나 장인</b>이 어울리며, 사소한 성취를 기념하고 자신에게 보상을 주어 즐겁게 일하는 법을 배우는 것이 과업입니다.",
+        "안정적인 환경에서 최고의 능력을 발휘하나, 금(金)의 도전 기운이 약해 안전지대를 벗어나는 것을 극도로 두려워합니다. <b>부동산 전문가나 관제사</b>가 적합하며, 인생에 찾아오는 불확실성을 기회로 보고 배팅할 수 있는 담력을 키우는 것이 과업입니다.",
+        "확고한 신념과 묵직한 존재감을 가졌지만, 수(水)의 소통력이 결여되면 본인의 의도를 오해받거나 불통의 아이콘이 될 수 있습니다. <b>전략 수립가나 법관</b>이 어울리며, 자신의 철학을 친절한 문서와 언어로 공유하여 대중의 동의를 얻어내는 것이 미션입니다.",
+        "품격 있고 신중하나, 목(木)의 추진력이 약해 결론을 내는 속도가 느려 경쟁에서 밀릴 리스크가 있습니다. <b>자산 관리사나 골동품 감정사</b>가 잘 맞으며, 결정적인 순간에 본능을 믿고 빠르게 움직이는 '동물적 감각'을 훈련하는 것이 과업입니다.",
+        "관리 능력과 수치 계산이 정확하지만, 화(火)의 감성 에너지가 부족해 주변 사람들을 로봇처럼 대할 수 있습니다. 결과는 좋으나 인심을 잃기 쉽습니다. <b>회계사나 데이터 분석가</b>가 천직이며, 사람의 마음에도 따뜻한 온기가 필요함을 인정하고 정서적 투자를 늘리는 것이 과업입니다.",
+        "대지처럼 만물을 품는 위대한 운명이나, 금(金)의 날카로운 안목이 부족해 곁에 둔 사람들의 옥석을 가리지 못하고 손해를 볼 수 있습니다. <b>자선가나 교육 재단 운영자</b>가 어울리며, 고집을 버리고 진정한 지혜를 가진 멘토를 찾아 조언을 구하는 유연함을 갖추는 것이 과업입니다."
+    ],
+    "金": [
+        "타고난 승부사로 결단력과 용기가 독보적이지만, 목(木)의 자비심이 부족해 주변에 적을 만들거나 냉혈한이라는 평을 듣기 쉬운 명식입니다. <b>검사나 프로 운동선수</b>가 잘 어울리며, 칼날 같은 원칙에 따뜻한 인간미를 한 방울 섞어 대중의 지지를 얻는 것이 현생의 과업입니다.",
+        "핵심을 꿰뚫는 분석력이 최고 수준이나, 수(水)의 포용력이 약해 본인의 기준에 미치지 못하는 타인을 날카롭게 비판하여 스스로 고립됩니다. <b>회계 감사나 평론가</b>가 적합하며, 비판 뒤에 반드시 건설적인 대안을 제시하여 사람을 살리는 언어를 쓰는 것이 과업입니다.",
+        "묵직한 존재감과 강한 정의감을 가졌지만, 화(火)의 사교성이 부족해 본인의 진심을 표현하지 못하고 묵묵히 일만 하는 스타일입니다. <b>엔지니어나 기술직 공무원</b>이 어울리며, 짧고 간결하되 진심이 담긴 칭찬과 표현으로 주변의 온도를 높이는 것이 미션입니다.",
+        "정리 능력이 신의 경지로 시스템 구축에 능하나, 토(土)의 완충력이 약해 작은 오차에도 예민하게 반응하고 스스로를 볶아댑니다. <b>품질 관리사나 프로그래머</b>가 천직이며, 10%의 여백과 불완전함을 인정하고 정서적 안정을 찾는 법을 익히는 것이 과업입니다.",
+        "정의롭고 강직한 성품이나, 수(水)의 유연함이 결여되어 융통성 없는 사람으로 비치기 쉽습니다. 옳고 그름에 너무 집착합니다. <b>법조인이나 인권 활동가</b>가 잘 맞으며, 세상에는 흑백 외에도 수많은 회색 지대가 있음을 인정하고 포용하는 것이 현생의 숙제입니다.",
+        "스스로에게 엄격하여 높은 성취를 이루지만, 목(木)의 성장에너지가 약하면 현재의 성공에 갇혀 더 큰 기회를 보지 못할 수 있습니다. <b>전문 장인이나 고위 기술직</b>이 어울리며, 끊임없이 새로운 분야를 배우고 자신을 리셋하여 '낡은 칼'이 되지 않도록 벼르는 것이 과업입니다.",
+        "카리스마 있는 지도자이나, 화(火)의 발산력이 과하면 본인의 권위를 지나치게 내세워 아랫사람의 창의성을 죽일 수 있습니다. <b>군인이나 경찰 리더</b>가 적합하며, 부드러움 속에 예리함을 감추는 '외유내강'의 리더십을 완성하는 것이 미션입니다.",
+        "장인 정신이 빛나고 디테일에 강하지만, 토(土)의 넓은 시야가 부족해 숲을 보지 못하고 나무만 보다가 큰 흐름을 놓칩니다. <b>세공사나 정밀 기계 공학자</b>가 어울리며, 주기적으로 일에서 벗어나 거시적인 트렌드를 살피는 거시적 안목을 기르는 것이 과업입니다.",
+        "고결한 성품으로 원칙을 지키나, 목(木)의 융통성이 부족해 조직 생활에서 갈등의 핵이 될 위험이 있습니다. <b>교정 전문가나 윤리 경영관</b>이 잘 맞으며, 10%의 유연성을 발휘해 타협할 줄 아는 '정치적 감각'을 갖추는 것이 대인이 되는 과업입니다.",
+        "이성적이고 차가운 지성을 가졌으나, 화(火)의 공감 엔진이 약해 타인의 슬픔에 공감하지 못해 인간관계가 건조합니다. <b>금융 분석가나 의사(외과)</b>가 어울리며, 감정 데이터를 읽는 능력을 길러 사람의 마음을 치유하는 기술을 장착하는 것이 현생의 숙제입니다.",
+        "믿음직하고 견고한 인물이나, 수(水)의 변화 기운이 결여되면 시대의 변화를 거부하고 고립된 전문가로 남을 수 있습니다. <b>보안 설계자나 금속 공예가</b>가 적합하며, 최신 기술과 디지털 트렌드를 적극 수용하여 자신의 고전적 가치를 현대화하는 것이 과업입니다.",
+        "천하의 명검과 같은 운명이나, 토(土)의 지지 기반이 약하면 휘두를 곳을 찾지 못하고 방황하거나 자신을 상처 입힐 수 있습니다. <b>특수직 전문가나 칼럼니스트</b>가 어울리며, 뜨거운 열정(火)과 단단한 기초(土)를 먼저 닦아 자신의 예리함을 세상을 위해 바르게 쓰는 것이 최종 과업입니다."
+    ],
+    "水": [
+        "지혜로운 현자의 기운으로 통찰력이 깊지만, 화(火)의 실행력이 약해 생각만 하다가 기회를 흘려보내는 '몽상가' 기질이 있습니다. <b>학자나 전략가</b>가 어울리며, 머릿속 지도를 즉각 행동으로 옮기는 기계적인 루틴을 구축하는 것이 현생의 과업입니다.",
+        "상상력이 천부적이나, 토(土)의 지지력이 부족해 현실과 동떨어진 이상에 매몰되거나 정서적 불안감을 느끼기 쉬운 구조입니다. <b>작가나 심리학자</b>가 적합하며, 명확한 경제적 목표와 현실적인 체크리스트를 만들어 발을 지면에 붙이는 법을 배우는 것이 미션입니다.",
+        "철학적 사고와 심오한 대화를 즐기나, 금(金)의 결단력이 약해 인간관계에서 우유부단하게 행동하다 오해를 살 수 있습니다. <b>상담가나 인문학자</b>가 어울리며, 자신의 생각과 결론을 명확히 문서화하고 단호하게 의사를 표현하는 법을 익히는 것이 과업입니다.",
+        "어디든 적응하는 유연함이 강점이나, 목(木)의 주관이 약하면 타인의 의견에 휩쓸려 본인의 색깔을 잃는 '액체' 같은 삶을 살기 쉽습니다. <b>외교관이나 무역가</b>가 천직이며, 자신만의 변치 않는 핵심 가치(Anchor)를 설정하고 중심을 지키는 것이 과업입니다.",
+        "직관력이 뛰어나 보이지 않는 흐름을 잘 읽지만, 화(火)의 열정이 부족해 본인의 지혜를 세상에 드러내는 데 인색합니다. <b>점성술사나 연구원</b>이 어울리며, 자신의 지식과 직관을 구체적인 서비스나 상품으로 구조화하여 사회적 기여도를 높이는 것이 숙제입니다.",
+        "조율하고 중재하는 데 탁월하나, 수(水)의 기운이 과다하면 모든 일을 혼자 떠맡아 에너지가 고갈되고 우울감에 빠질 수 있습니다. <b>오케스트라 지휘자나 조정자</b>가 잘 맞으며, 리소스를 분산하고 타인에게 권한을 위임하는 '덜어내기' 기술을 배우는 것이 과업입니다.",
+        "깊이 있는 성찰과 고결한 정신을 가졌으나, 토(土)의 현실 기반이 결여되어 경제적인 고난을 겪거나 현실을 외면할 리스크가 큽니다. <b>철학자나 시인</b>이 어울리며, 주기적인 산책과 규칙적인 생활로 뇌를 리셋하고 현실의 안정을 최우선 지표로 관리하는 것이 과업입니다.",
+        "섬세한 완벽주의자로 가치 있는 일을 해내지만, 화(火)의 속도감이 부족해 마감 기한을 넘기거나 지나친 고민으로 건강을 해칠 수 있습니다. <b>수석 연구원이나 아카이브 관리자</b>가 적합하며, '완벽보다 완결'을 모토로 삼아 실행의 속도를 높이는 것이 미션입니다.",
+        "조용한 카리스마로 사람들을 이끌지만, 목(木)의 소통력이 약해 팀원들에게 차가운 인상을 주거나 벽을 쌓을 수 있습니다. <b>고독한 리더나 전문직</b>이 어울리며, 자신의 비전을 대중의 언어로 번역하여 따뜻하게 전달하는 소통 기술을 연마하는 것이 과업입니다.",
+        "상대의 마음을 읽는 능력이 귀신같으나, 수(水)의 침잠하는 기운 때문에 우울함이 올 때 바닥까지 내려갈 위험이 있습니다. <b>정신과 의사나 타로 상담사</b>가 잘 맞으며, 우울한 감정이 들 땐 생각하지 말고 몸을 움직이는 기계적 루틴을 가동하는 것이 생존 과업입니다.",
+        "지혜를 공유할 고귀한 운명을 타고났으나, 금(金)의 자기 관리력이 결여되면 타인의 문제 해결에만 몰두하다 본인의 삶을 놓칠 수 있습니다. <b>대학교수나 대중 강연가</b>가 어울리며, 자신의 지식을 유료화하거나 체계화하여 사회적 부와 연결시키는 순환 구조를 만드는 것이 과업입니다.",
+        "지혜의 화신으로 무궁무진한 잠재력을 가졌으나, 토(土)의 규율이 부족해 무질서한 생활에 빠지거나 중독(주색, 도박 등)에 취약할 수 있습니다. <b>자유로운 예술가나 명상 전문가</b>가 천직이며, 집착을 버리되 삶의 질서는 엄격히 유지하는 '중용의 미덕'을 실천하는 것이 최종 과업입니다."
+    ]
+};
+
+const enPrescriptions12 = {
+    "木": [
+        "Dominated by the powerful drive of <b>Wood</b>, you possess pioneering traits but inherently lack the flexibility of Water, risking isolation through dogmatism. You excel at planning but struggle with emotional diplomacy. Ideal as a <b>Strategist or Entrepreneur</b>, your mission is to treat feedback as essential data to refine your designs.",
+        "Overflowing with growth energy, you enjoy new challenges, but a lack of Earth's cohesion makes it difficult to finish what you start. You are an idea bank with a persistence problem. Ideal as an <b>Educator or Project Manager</b>, your task is to systematize routines and master the art of completion.",
+        "Like a deeply rooted tree, you have firm convictions, but a lack of Metal's decisiveness makes you soft in boundary setting. You trust easily but may lose personal interest. Ideal for <b>HR or Welfare Specialization</b>, your task is to clarify boundaries and protect your sovereignty.",
+        "Your vital energy fuels organizational growth, but without Fire's self-regulation, you risk burnout through excessive enthusiasm. You struggle with energy distribution. Ideal as a <b>Creative Designer or Planner</b>, your mission is to digitize and manage your energy output for long-term sustainability.",
+        "The epitome of inner strength, you are independent but may lack integration energy, feeling like an island. Your expertise is unrivaled, yet collaboration stresses you. Ideal as a <b>Tech Architect or Researcher</b>, your soul's mission is to break out of isolation and build strategic networks.",
+        "While you enjoy helping others, a weak Metal defense makes you vulnerable to exploitation. You are a natural nurturer. Ideal as a <b>Consultant or Mentor</b>, your task is to develop the decisiveness to say 'No' and protect your own resources.",
+        "A fast learner who absorbs knowledge quickly, but a lack of Earth's stability makes it hard to turn that knowledge into wealth. You are strong in theory but weak in practical finance. Ideal as a <b>Scholar or Analyst</b>, your task is to develop the sense to convert knowledge into capital.",
+        "A noble idealist valuing morality, yet a lack of Fire's practical expression makes you passive in self-promotion. You have talent but no PR. Ideal for <b>NGO Leadership or Artistry</b>, your task is to confidently prove your value using the language of the masses.",
+        "Born with majestic leadership, you command organizations well, but a lack of Water's purification risks making enemies after success. You have charisma but need tolerance. Ideal as a <b>CEO or Politician</b>, your mission is to look after subordinates and turn enemies into allies.",
+        "Your intuition for opportunity is sharp, yet excessive Wood competitiveness may drive away loved ones. You have a high desire for achievement but emotional hunger. Ideal for <b>Sales or Investment</b>, your mission is to calculate the value of coexistence over mere victory.",
+        "You excel at drawing perfect blueprints, but a lack of Metal's organization leads to messy surroundings and lost cores. You see the big picture but miss details. Ideal as a <b>System Engineer or Urban Planner</b>, your mission is to master 'Simplification' and focus on the essence.",
+        "You possess the energy to create an entire ecosystem, but a lack of Earth's mediation risks stifling others with your pace. Ideal as a <b>Content Producer or Art Director</b>, your final mission is to learn patience and respect the developmental speed of those around you."
+    ],
+    "火": [
+        "Explosive passion is your weapon, but a lack of Water's calm makes your efficiency volatile based on mood. High immersion, low persistence. Ideal as a <b>Marketer or Ad Planner</b>, your task is to control your burning heart with a cold, consistent routine.",
+        "A genius of inspiration, yet weak Metal discipline risks scattering ideas without manifestation. Ideal as an <b>Artist or Content Creator</b>, your mission is to archive every thought and endure until the final result is achieved.",
+        "Possessing brilliant eloquence, but a lack of Earth's prudence risks self-sabotage through verbal errors. High sociability, low weight. Ideal as a <b>Broadcaster or Spokesperson</b>, your mission is to recognize that silence is sometimes the most powerful message.",
+        "Sharp and quick, but weak Wood growth energy leads to broad but shallow knowledge. Ideal as a <b>Trend Analyst or Journalist</b>, your mission is to 'dig one well' deeply and build an unshakeable domain of expertise.",
+        "Charming and persuasive, but a lack of Water's humility risks a reputation for arrogance. Good leadership, bad ego management. Ideal as a <b>Sales Leader or Politician</b>, your task is to establish authority through hard data while practicing humility.",
+        "Highly sensitive and artistic, but a lack of Metal's realism makes you financially fragile. Ideal as a <b>Pure Artist or Spiritualist</b>, your mission is to manage your own invoices and build a solid financial foundation for your creativity.",
+        "Adaptable and energetic, yet a lack of Earth's central axis leads to a nomadic, wandering identity. Talent exists, but purpose is blurry. Ideal as a <b>Freelancer or Travel Writer</b>, your task is to drop a firm philosophical anchor and define your baseline.",
+        "Possessing immortal will, but a lack of Wood's mercy risks making you a cold-blooded achiever who sacrifices others. High results, lonely surroundings. Ideal as a <b>Professional Manager or Fund Manager</b>, your mission is to prove that gaining hearts is the true success.",
+        "A prestige-centered life enlightening the world, but overheated Fire risks work addiction and health neglect. High status, inner burnout. Ideal as a <b>Public Official or Professor</b>, your mission is to master the 'Intentional Pause' to cool down your inner heat.",
+        "A master of communication with a vast network, yet a lack of Water's deep insight risks prioritizing flashy connections over sincere bonds. Ideal as an <b>Event Planner or PR Specialist</b>, your task is to find depth through contemplation and enjoy your own solitude.",
+        "Responsible and destined for the spotlight, but a lack of Metal's critique risks self-sabotage by falling for flattery. Ideal as a <b>Brand Director or Entertainer</b>, your task is to face cold evaluations as data and constantly reinvent yourself.",
+        "Combining charisma and intellect, but a lack of Earth's tolerance leads to excluding those who don't meet your standards. Ideal as a <b>Critic or Lawyer</b>, your final task is to become a magnanimous leader who nurtures the weak."
+    ],
+    "土": [
+        "Reliable and trustworthy, but a lack of Wood's pioneering spirit risks falling into stagnation or complacency. High stability, low innovation. Ideal in <b>Finance or Public Service</b>, your task is to try one new thing daily to prevent luck from expiring.",
+        "Possessing immense tolerance, but weak Water precision makes you a 'nice person' who neglects their own interests for others. Ideal as a <b>Social Worker or Counselor</b>, your task is to organize your own space first and practice 'Healthy Egoism.'",
+        "Connecting people with a warm heart, but a lack of Metal's decisiveness leads to carrying others' burdens alone. Ideal as a <b>Community Leader or HR Manager</b>, your mission is to set clear interpersonal boundaries and protect your own energy.",
+        "Prudence is your asset, but weak Fire execution leads to missing timing due to over-perfectionism. Ready but reluctant to start. Ideal as an <b>Archivist or Curator</b>, your task is to practice launching projects when they are 80% ready.",
+        "Acting as the pillar of an organization, but a lack of Wood's flexibility leads to a reputation for being stubborn or conservative. Ideal in <b>Audit or Security</b>, your mission is to accept new ideas without bias and become a mediator for organizational fluidity.",
+        "Excellent in resource allocation, but weak Water creativity keeps you stuck in maintaining old systems. Ideal as a <b>Logistics Expert or COO</b>, your mission is to read hidden trends behind the data and upgrade existing systems.",
+        "Possessing extraordinary persistence, but a lack of Fire's passion leads to working out of duty rather than joy, risking lethargy. Ideal as a <b>Long-term Project Manager or Artisan</b>, your mission is to reward yourself and find joy in the process.",
+        "Performing best in stable environments, but weak Metal drive makes you fear leaving your comfort zone. Ideal as a <b>Real Estate Expert or Controller</b>, your mission is to see uncertainty as opportunity and develop the courage to take calculated risks.",
+        "Possessing firm convictions, yet a lack of Water's communication risks being misunderstood or labeled as 'non-communicative.' Ideal as a <b>Strategist or Judge</b>, your mission is to share your philosophy through kind language and documentation.",
+        "Dignified and cautious, but a lack of Wood's drive risks losing out to competitors due to slow decision-making. Ideal as a <b>Wealth Manager or Appraiser</b>, your task is to train your 'animal instinct' to move rapidly at critical moments.",
+        "Precise in management and calculation, but a lack of Fire's emotional energy risks treating others like robots. High results, low loyalty. Ideal as an <b>Accountant or Data Analyst</b>, your task is to recognize the need for warmth and increase emotional investment.",
+        "Destined to embrace the world like the earth, but a lack of Metal's sharp discernment risks loss by failing to judge the quality of those nearby. Ideal for <b>Philanthropy or Foundation Management</b>, your final task is to seek advice from wise mentors and remain flexible."
+    ],
+    "金": [
+        "A natural competitor with unrivaled decisiveness, but a lack of Wood's mercy risks making you a cold-blooded loner. Ideal as a <b>Prosecutor or Pro Athlete</b>, your mission is to add a drop of humanity to your rigid principles to gain mass support.",
+        "Top-tier analytical skills, but weak Water embrace leads to sharp criticism of others, resulting in self-isolation. Ideal as an <b>Auditor or Critic</b>, your mission is to always provide constructive alternatives and use language that heals.",
+        "Possessing a heavy presence and strong justice, but a lack of Fire's sociability makes you a silent worker who struggles to express sincerity. Ideal as an <b>Engineer or Technical Official</b>, your mission is to raise the temperature with sincere praise and expression.",
+        "Master of organization and system building, but weak Earth buffer leads to over-sensitivity toward minor errors, stressing yourself out. Ideal as a <b>QA Specialist or Coder</b>, your mission is to accept the 10% of imperfection and find mental peace.",
+        "Righteous and rigid, but a lack of Water's flexibility makes you appear unyielding. Obsessed with right and wrong. Ideal as a <b>Lawyer or Activist</b>, your mission is to recognize and embrace the 'gray areas' of the world to achieve true justice.",
+        "Strict with yourself to achieve high success, but weak Wood growth energy risks staying stuck in past glory. Ideal as an <b>Artisan or Senior Technician</b>, your mission is to constantly learn new fields and sharpen your 'old blade' to stay relevant.",
+        "A charismatic leader, but excessive Fire-drive may stifle subordinates' creativity with your authority. Ideal as a <b>Military or Police Leader</b>, your mission is to master the leadership of 'softness concealing sharpness.'",
+        "A brilliant artisan strong in detail, but a lack of Earth's broad vision risks missing the forest for the trees. Ideal as a <b>Goldsmith or Precision Engineer</b>, your mission is to periodically step back and observe macro trends.",
+        "Noble and principled, yet a lack of Wood's flexibility makes you the core of organizational conflict. Ideal as a <b>Compliance Officer or Ethics Manager</b>, your task is to develop 'political sense' and compromise when necessary.",
+        "Possessing cold, rational intellect, but weak Fire empathy leads to dry relationships and an inability to comfort others. Ideal as a <b>Financial Analyst or Surgeon</b>, your task is to develop the skill to read and heal the human heart.",
+        "Reliable and solid, but a lack of Water's change energy risks rejecting innovation and remaining an isolated expert. Ideal as a <b>Security Designer or Metal Artist</b>, your mission is to digitize and modernize your classical values.",
+        "Destined to be a legendary blade, but weak Earth foundation risks self-harm or lack of purpose. Ideal as a <b>Niche Expert or Columnist</b>, your mission is to build a solid foundation first and use your sharpness for the greater good."
+    ],
+    "水": [
+        "A wise sage with deep insight, but weak Fire execution makes you a 'dreamer' who misses opportunities. Ideal as a <b>Scholar or Strategist</b>, your mission is to build a mechanical routine that turns thoughts into immediate action.",
+        "Naturally imaginative, yet a lack of Earth's grounding leads to immersion in unrealistic ideals and emotional anxiety. Ideal as a <b>Writer or Psychologist</b>, your mission is to set clear financial goals and keep your feet on the ground.",
+        "Enjoying philosophical thought, but weak Metal decisiveness leads to indecision in relationships and social friction. Ideal as a <b>Counselor or Humanist</b>, your mission is to document your thoughts and express them firmly.",
+        "Adaptable like liquid, but weak Wood conviction risks losing your identity to others' opinions. Ideal as a <b>Diplomat or Trader</b>, your mission is to set an unshakeable 'Anchor' of core values and stay centered.",
+        "Intuitive in reading invisible flows, yet weak Fire passion makes you reluctant to share your wisdom with the world. Ideal as an <b>Astrologer or Researcher</b>, your task is to structure your insights into concrete services or products.",
+        "Excellent at tuning and mediating, but excessive Water energy leads to burnout by taking on everyone else's burdens. Ideal as a <b>Conductor or Mediator</b>, your task is to delegate authority and master the art of 'unloading.'",
+        "Possessing deep reflection and noble spirit, but a lack of Earth realism risks financial hardship or detachment from reality. Ideal as a <b>Philosopher or Poet</b>, your mission is to maintain a strict daily routine and prioritize physical stability.",
+        "A delicate perfectionist doing valuable work, but weak Fire speed risks missing deadlines or harming health through over-thinking. Ideal as a <b>Senior Researcher or Archivist</b>, your mission is to prioritize 'Completion over Perfection.'",
+        "Leading with quiet charisma, but weak Wood communication makes you appear cold or unapproachable. Ideal as an <b>Isolated Leader or Specialist</b>, your task is to translate your vision into warm, accessible language.",
+        "Possessing an uncanny ability to read others' minds, but deep Water energy risks sinking to the bottom when depression hits. Ideal as a <b>Psychiatrist or Tarot Reader</b>, your mission is to engage in physical movement as a mechanical routine when mood drops.",
+        "Destined to share wisdom, but weak Metal self-management leads to neglecting your own life while solving others' problems. Ideal as a <b>Professor or Speaker</b>, your task is to monetize and systematize your knowledge for mutual growth.",
+        "A genius of wisdom with infinite potential, but a lack of Earth's discipline risks a disordered life or vulnerability to addiction. Ideal as an <b>Artist or Meditation Expert</b>, your final mission is to practice the 'Virtue of Moderation' and maintain life order."
+    ]
 };
 
 const sideEffects = ["'만성적 신중함' 주의", "무의식적으로 턱 괴는 습관", "월요일 오전의 일시적 무기력", "핸드폰을 들고 핸드폰 찾기", "칭찬 들으면 AI처럼 고장남", "근거 없는 자신감과 이불킥", "새벽 2시의 근거 없는 명석함", "디저트 무한 흡입 현상", "발표 직전 소음에 예민해짐", "상대의 오타를 정정하고픈 강박"];
