@@ -235,6 +235,7 @@ if ([2, 3].includes(birthMonth)) {
 
       if (mode === 'fortune') {
     const remedy = suriPrescription.getRemedy(session.num81, session.lackEls, currentLang);
+   const elKey = currentLang === 'ko' ? session.strongEl : { "목(木)":"Wood", "화(火)":"Fire", "토(土)":"Earth", "금(金)":"Metal", "수(水)":"Water" }[session.strongEl];
     body.innerHTML = `
       <div class="tab-content">
         <span class="section-title">${t.sec1}</span>
@@ -247,7 +248,7 @@ if ([2, 3].includes(birthMonth)) {
           
           <div style="padding:15px; background:#F9F8F6; border-radius:8px; border:1px solid #F0EAE3;">
             <b style="color:var(--accent);">${currentLang === 'ko' ? '📜 현생 과업' : '📜 Life Mission'}</b><br>
-            ${(currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12)[session.strongEl][(session.num81 + birthMonth) % 12]}
+           ${(currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12)[elKey][(session.num81 + birthMonth) % 12]}
           </div>
         </div>
 
