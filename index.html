@@ -150,25 +150,22 @@ function processData(name, birth) {
     const seed = nameVal + birthVal;
     const num81 = (seed % 81) + 1;
 
-    let sc = [30, 30, 30, 30, 30]; // 기본 기초
+    let sc = [30, 30, 30, 30, 30]; // 기본 에너지
 
-    /* processData 함수 내부 루프와 점수 부분만 이렇게 바꾸세요 */
+    // 1. 이름 가중치 (성명학 핵심: +75)
     for (let char of name) {
         const onset = /[a-zA-Z]/.test(char) ? char.toUpperCase() : getHangulOnset(char);
         const el = hangulElements[onset] || alphabetElements[onset];
         if (el) {
             const idx = elements.indexOf(el); 
-            if (idx !== -1) sc[idx] += 75; // ✅ 이름 가중치 강화 (+75)
+            if (idx !== -1) sc[idx] += 75; 
         }
     }
 
-    const monthIdx = [2, 0, 0, 2, 1, 1, 2, 3, 3, 2, 4, 4][month-1];
-    sc[monthIdx] += 40; // ✅ 탄생월 가중치 하향 (+40)
-  
-    // 2. 탄생 월 가중치 (+40) - 배경 역할
+    // 2. 탄생 월 가중치 (선천 배경: +40) - 한 번만 실행되도록 수정
     const month = parseInt(birth.substring(4, 6), 10);
-    const monthIdx = [2, 0, 0, 2, 1, 1, 2, 3, 3, 2, 4, 4][month-1];
-    sc[monthIdx] += 40;
+    const mIdx = [2, 0, 0, 2, 1, 1, 2, 3, 3, 2, 4, 4][month-1];
+    sc[mIdx] += 40;
 
     const strongEl = elements[sc.indexOf(Math.max(...sc))];
     const sIdx = sc.map((s, i) => i).sort((a, b) => sc[a] - sc[b]);
@@ -176,7 +173,7 @@ function processData(name, birth) {
     const sessionData = { 
         name, birth, num81, seed, 
         elementScores: sc, 
-        strongEl, // "목(木)" 같은 형태로 저장됨
+        strongEl, 
         lackEls: [elements[sIdx[0]], elements[sIdx[1]]] 
     };
     
@@ -186,7 +183,6 @@ function processData(name, birth) {
     document.getElementById('view-result').classList.remove('hidden');
     switchTab('fortune');
 }
-
     function renderSummary(data) {
       const month = parseInt(data.birth.substring(4, 6));
       // 언어에 따른 타이틀 설정
