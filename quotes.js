@@ -251,55 +251,102 @@ const epithetEnByElement = {
     "水": ["Possessing abyssal wisdom", "Possessing vast tolerance", "Possessing spring water divinity", "Possessing raindrop rhythm", "Possessing mist mystery", "Possessing waterfall spirit", "Possessing lake silence", "Possessing dew soul", "Possessing sea secrets", "Possessing river curiosity", "Possessing wave genius", "Possessing cloud flight"] 
 };
 
-/* [월간 데이터 - 운명 서사 확장판] */
-const birthMonthData = {
+const solarTermData = {
+    0: { 
+        ko: "만물이 생명의 불꽃을 깊은 곳에 응축하여 추위를 견디는 시기입니다. 이 시기에 태어난 당신은 어떤 극한의 환경에서도 본연의 빛을 잃지 않는 고결한 생존 본능과 집념을 부여받았습니다. 겉으로는 침착하고 고요해 보이지만 내면에는 거대한 판을 흔들 수 있는 뜨거운 에너지가 용트림하고 있는 외유내강의 전형입니다.", 
+        en: "A time when all things condense the flame of life deep within to endure the cold. Born during this period, you are endowed with a noble survival instinct and tenacity that never loses its brilliance. While appearing calm and poised, you are the epitome of inner strength, harboring a fiery energy capable of shifting grand scales." 
+    },
     1: { 
-        ko: "맹추위를 뚫고 솟아오르는 '동토의 생명력'을 가졌습니다. 겉으로는 고요하고 차가워 보일 수 있으나, 내면에는 가장 뜨거운 생존 의지가 용트림하고 있습니다. 어떤 역경 속에서도 결국 스스로의 길을 열어젖히는 강인한 개척자의 기운입니다.", 
-        en: "You possess the 'Vitality of Frozen Earth' that pierces through deep winter. While appearing calm and cold on the outside, a powerful will to survive stirs within. It is the energy of a resilient pioneer who eventually carves out their own path against all odds." 
+        ko: "차가운 땅을 뚫고 태초의 생명이 솟아오르는 시작의 기운이 지배하는 때입니다. 당신은 무(無)에서 유(有)를 설계하는 탁월한 선구자적 감각을 지녔으며, 남들이 보지 못하는 가능성을 먼저 발견하고 발을 내딛는 과감한 추진력이 삶의 모든 영역에 긍정적인 파동을 일으킵니다.", 
+        en: "A time dominated by the quickening of primordial life piercing through the frozen earth. You possess an exceptional pioneering sense for designing something from nothing, and your bold drive to discover and step into unseen possibilities creates positive waves in all areas of your life." 
     },
     2: { 
-        ko: "만물이 기지개를 켜는 '초봄의 유연함'을 품고 있습니다. 딱딱한 대지를 뚫고 나오는 새순처럼, 주변 환경에 부드럽게 적응하면서도 자신의 존재감을 확실히 드러냅니다. 변화를 두려워하지 않는 호기심과 무한한 잠재력이 당신의 무기입니다.", 
-        en: "You embody the 'Flexibility of Early Spring' as all things awaken. Like a sprout breaking through hard ground, you adapt gently to your surroundings while establishing a clear presence. Your curiosity and boundless potential are your greatest strengths." 
+        ko: "겨울의 얼음이 녹아 대지를 적시는 유연한 생명력이 흐르는 시기입니다. 이 기운을 타고난 당신은 굳어있는 상황을 부드럽게 해소하는 천부적인 중재 능력을 갖추었으며, 어떤 환경에서도 물처럼 유연하게 적응하여 최선의 결과를 도출해내는 탁월한 처세와 공감 능력이 돋보입니다.", 
+        en: "A period where the melting winter ice flows as flexible vital energy into the earth. Born with this vibration, you have a natural talent for resolving rigid situations and an outstanding ability to adapt like water in any environment, drawing out the best results through social wit and empathy." 
     },
     3: { 
-        ko: "대지를 적시는 봄비와 같은 '성장의 자양분'을 타고났습니다. 스스로 빛나기보다 타인과 세상을 성장시키는 데 탁월한 능력을 발휘하며, 그 과정에서 본인의 가치 또한 거대하게 확장됩니다. 생명력 넘치는 추진력으로 만물의 흐름을 주도하는 기운입니다.", 
-        en: "You were born with the 'Nutrient of Growth,' much like spring rain soaking the earth. You excel at nurturing others and the world, and in that process, your own value expands immensely. You possess the energy to lead the flow of existence with vibrant momentum." 
+        ko: "잠들었던 대지가 천둥소리에 깨어나 폭발적으로 도약하는 역동적인 때입니다. 당신은 정체된 분위기를 단숨에 반전시키는 강력한 혁신가적 기질을 가졌으며, 남들이 망설일 때 가장 먼저 행동으로 옮기는 용기는 주변 사람들을 이끌고 새로운 차원의 변화를 만들어내는 원동력이 됩니다.", 
+        en: "A dynamic time when the dormant earth awakens with a thunderous roar to take an explosive leap. You possess a powerful innovator's temperament that can reverse stagnation in an instant, and your courage to act while others hesitate serves as the engine that leads people and creates new dimensions of change." 
     },
     4: { 
-        ko: "화려하게 피어나는 '만개의 에너지'를 지녔습니다. 인생의 가장 찬란한 순간을 포착하고 표현하는 능력이 뛰어나며, 사람들의 시선을 사로잡는 선천적인 매력을 가졌습니다. 당신이 머무는 곳은 언제나 활기가 넘치고 새로운 가능성이 꽃피우게 됩니다.", 
-        en: "You carry the 'Energy of Full Bloom' radiating brilliance. You have an exceptional ability to capture and express life's most radiant moments, possessing an innate charm that draws people in. Wherever you go, vitality overflows and new possibilities begin to flower." 
+        ko: "밤과 낮의 길이가 같아지며 목(木)의 에너지가 가장 순수하고 균형 있게 집중되는 정점의 시기입니다. 당신은 굽히지 않는 소신과 타인을 성장시키는 고귀한 교육적 자질을 타고났으며, 본인의 가치관을 명확히 세워 흔들림 없이 나아가는 강직한 성품은 만인의 귀감이 됩니다.", 
+        en: "The peak moment when day and night are equal, and Wood energy is concentrated in its purest balance. You are born with unyielding convictions and a noble gift for nurturing growth in others, and your rigid integrity in pursuing clear values makes you a role model for all." 
     },
     5: { 
-        ko: "뜨거운 태양 아래 무르익는 '초여름의 열정'이 가득합니다. 이상향을 향한 추진력이 남다르며, 목표가 정해지면 뒤를 돌아보지 않고 전진하는 불꽃 같은 기질을 가졌습니다. 당신의 야망은 주변을 전염시키며 거대한 변화의 파동을 만들어냅니다.", 
-        en: "You are filled with the 'Passion of Early Summer' ripening under the sun. Your drive toward your ideals is extraordinary, and once a goal is set, you advance with a fiery spirit. Your ambition is contagious, creating vast waves of transformation." 
+        ko: "하늘과 땅이 맑아지며 만물의 형체가 선명해지는 청명한 이상이 펼쳐지는 때입니다. 당신은 티 없이 맑은 통찰력과 높은 도덕적 기준을 부여받았으며, 복잡한 세상의 본질을 꿰뚫어 보고 가장 정의로운 길을 제시하는 현명한 가이드로서의 역할을 수행하게 됩니다.", 
+        en: "A time of clear ideals when the sky and earth become lucid, and the forms of all things become distinct. Endowed with untainted insight and high moral standards, you act as a wise guide who pierces through the complexity of the world to show the most righteous path." 
     },
     6: { 
-        ko: "만물을 성장시키는 '풍요의 절정'에 서 있는 기운입니다. 에너지의 밀도가 가장 높은 시기에 태어나, 어떤 일을 하든 그 결과물의 완성도가 매우 높습니다. 세상을 따뜻하게 품는 포용력과 체계적으로 질서를 세우는 통찰력을 동시에 갖췄습니다.", 
-        en: "You stand at the 'Peak of Abundance' fueling the growth of all things. Born when energy is at its highest density, you achieve a remarkable level of completion in everything you do. You possess both the warmth to embrace the world and the insight to establish order." 
+        ko: "봄의 생명력이 대지의 풍요로 변모하며 실질적인 결실을 준비하는 지혜가 모이는 시기입니다. 당신은 성장의 에너지를 현실적인 자산과 성과로 바꾸는 탁월한 경영 능력을 가졌으며, 변화하는 환경에 맞춰 본인을 최적화하는 유연한 감각은 당신을 어떤 분야에서도 승리하게 만듭니다.", 
+        en: "A period where spring vitality transforms into earthly abundance, gathering the wisdom to prepare for practical fruits. You possess exceptional managerial skills to turn growth energy into realistic assets and achievements, and your flexible sense for optimizing yourself ensures victory in any field." 
     },
     7: { 
-        ko: "단단하게 굳어가는 '열매의 견고함'을 지닌 명식입니다. 화려한 겉모습보다는 실질적인 가치와 내실을 중시하며, 세월이 흐를수록 깊어지는 지혜를 가졌습니다. 어떠한 흔들림에도 흔들리지 않는 내면의 중심을 지탱하며 성과를 완성해가는 기운입니다.", 
-        en: "You possess the 'Firmness of Fruit' as it hardens with substance. You value practical worth and inner strength over flashy appearances, gaining wisdom that deepens over time. Your energy allows you to complete achievements while maintaining an unshakable inner center." 
+        ko: "초여름의 싱그러운 열기가 만물을 일깨우며 이상향을 향해 돌진하는 시기입니다. 당신은 주변의 기운을 한순간에 고조시키는 뜨거운 열정과 긍정적인 파동을 지녔으며, 존재만으로도 조직에 활력을 불어넣고 대중을 매료시키는 태양과 같은 강력한 존재감을 발휘합니다.", 
+        en: "A time when the fresh heat of early summer awakens all things to dash toward a utopia. You possess a burning passion and positive vibrations that instantly elevate the energy around you, commanding a powerful presence like the sun that energizes organizations and fascinates the masses." 
     },
     8: { 
-        ko: "황금빛 들판을 완성하는 '결실의 파동'이 흐릅니다. 노력에 대한 정당한 보상을 끌어당기는 힘이 강하며, 복잡한 상황 속에서도 핵심을 찾아내 결론을 짓는 능력이 탁월합니다. 수확의 기쁨을 주변과 나눌 줄 아는 고귀한 리더십의 소유자입니다.", 
-        en: "The 'Vibration of Harvest' flows through you, completing golden fields. You have a strong power to attract rightful rewards for your efforts and excel at finding the core of complex situations to bring them to a conclusion. You possess a noble leadership that shares the joy of harvest." 
+        ko: "만물이 자라나 조금씩 채워지기 시작하며 내실을 기하는 충만한 때입니다. 당신은 성급한 성공보다 차근차근 기초를 다져 거대한 성을 쌓는 신중함과 끈기를 가졌으며, 성실함을 바탕으로 쌓아 올린 당신의 명성과 자산은 세월이 흘러도 결코 흔들리지 않는 견고함을 자랑합니다.", 
+        en: "A fulfilling time when all things grow and begin to fill, focusing on internal substance. You possess the prudence and grit to build a grand castle by strengthening foundations step by step rather than seeking haste, and the reputation and assets you build on sincerity remain unshakeable over time." 
     },
     9: { 
-        ko: "서리발처럼 날카로운 '숙살(肅殺)의 기운'을 품고 있습니다. 불필요한 것을 쳐내고 본질만을 남기는 단호함과 냉철한 분석력이 당신의 천성입니다. 정의롭지 못한 것에 타협하지 않으며, 혼란스러운 세상 속에서 명확한 질서를 세우는 심판자의 기운입니다.", 
-        en: "You harbor the 'Energy of Frosty Resolution' as sharp as a blade. Your nature is defined by the decisiveness and cold analytical power to cut away the unnecessary and leave only the essence. You never compromise with injustice, acting as a judge who establishes clear order in a chaotic world." 
+        ko: "씨를 뿌리고 거둘 때를 아는 명확한 통찰과 몰입이 필요한 시기입니다. 당신은 한 가지 목표가 정해지면 놀라운 집중력을 발휘하여 정밀한 결과물을 만들어내는 전문가적 기질을 가졌으며, 본인의 분야에서 대체 불가능한 권위를 구축하여 세상을 이끄는 핵심 인재로 활동합니다.", 
+        en: "A period requiring clear insight and immersion, knowing exactly when to sow and reap. Once a goal is set, you demonstrate incredible focus and a professional temperament to produce precision results, establishing irreplaceable authority and acting as a core talent who leads the world." 
     },
     10: { 
-        ko: "만물이 저장되는 '창고의 지혜'를 지닌 기운입니다. 방대한 지식과 경험을 자신의 것으로 소화하여 내면의 자산으로 만드는 능력이 뛰어납니다. 겉으로 드러내지 않아도 깊이 있는 통찰을 지녔으며, 위기의 순간에 가장 결정적인 해답을 제시하는 인물입니다.", 
-        en: "You possess the 'Wisdom of Storage' where all things are gathered. You excel at digesting vast knowledge and experience, turning them into your own internal assets. Even when quiet, your insight is deep, and you are the one to provide the most decisive answers in times of crisis." 
+        ko: "태양의 에너지가 정점에 달해 세상을 가장 밝게 비추는 광채의 시기입니다. 당신은 화려한 자기표현과 빠른 상황 판단력으로 좌중을 압도하는 선천적인 스타성을 부여받았으며, 창의적인 시각으로 세상을 재해석하고 본인의 이름을 브랜드화하여 큰 명예를 얻는 운명을 타고났습니다.", 
+        en: "The moment of radiance when solar energy reaches its zenith, lighting up the world at its brightest. Endowed with innate star quality that overwhelms an audience through brilliant self-expression and fast judgment, you are destined to achieve grand honor by rebranding the world with your creative vision." 
     },
     11: { 
-        ko: "어둠 속에서 빛을 기다리는 '근원의 지혜'를 타고났습니다. 보이지 않는 가치를 탐구하고 인간의 심연을 이해하는 능력이 탁월합니다. 고독을 두려워하지 않고 사색을 통해 진리를 찾아내며, 세상에 새로운 영감의 불씨를 던지는 철학적인 기운입니다.", 
-        en: "You were born with 'Primal Wisdom' waiting for light in the dark. You excel at exploring invisible values and understanding the depths of the human psyche. Unafraid of solitude, you find truth through contemplation and cast sparks of new inspiration upon the world." 
+        ko: "본격적인 무더위 속에서 대지가 열기를 견디며 결실을 익혀가는 인내의 시기입니다. 당신은 어떤 극한의 압박 속에서도 평정심을 유지하며 장기적인 프로젝트를 완수해내는 무서운 집념을 가졌으며, 고난을 거칠수록 더욱 원숙해지는 인격은 많은 이들의 존경과 신뢰를 이끌어냅니다.", 
+        en: "A time of endurance where the earth bears the heat to ripen its fruits. You possess fearsome grit to complete long-term projects while maintaining composure under extreme pressure, and your character, which matures through hardship, draws deep respect and trust from those around you." 
     },
     12: { 
-        ko: "새로움을 준비하는 '침묵의 힘'이 서려 있습니다. 한 사이클의 마무리를 상징하며, 정화를 통해 과거를 정리하고 다음 차원으로 넘어가는 지혜를 상징합니다. 고요함 속에 가장 거대한 폭발력을 숨기고 있는, 만물의 끝이자 시작을 담당하는 신비로운 기운입니다.", 
-        en: "The 'Power of Silence' preparing for rebirth resides within you. Representing the conclusion of a cycle, you symbolize the wisdom of clearing the past through purification to leap into the next dimension. Yours is a mysterious energy that hides the greatest explosive potential within stillness—the end and the beginning of all things." 
+        ko: "뜨거운 열기가 단단한 대지를 구워 귀한 그릇을 만드는 형국입니다. 당신은 화려한 발산보다는 실질적인 가치를 보존하고 지키는 묵직한 힘을 가졌으며, 위기의 순간에 흩어진 에너지를 하나로 모으는 중재 능력이 탁월하여 공동체의 중심을 잡는 기둥 역할을 수행합니다.", 
+        en: "A state where intense heat bakes the hard earth into a precious vessel. You possess the heavy power to preserve and protect practical values rather than flashy expression, and your exceptional ability to unify scattered energy during crisis makes you the pillar that stabilizes your community." 
+    },
+    13: { 
+        ko: "서늘한 가을바람과 함께 불필요한 것을 쳐내고 본질만을 남기는 단호함의 시기입니다. 당신은 세상을 냉철하게 분석하여 자신만의 질서를 세우는 심판자의 기운을 타고났으며, 정의롭지 못한 것에 타협하지 않는 강직함은 당신을 어떤 유혹에도 흔들리지 않는 인물로 만듭니다.", 
+        en: "A time of decisiveness, where the cool autumn wind cuts away the unnecessary to leave only the essence. Born with the aura of a judge who establishes order through cold analysis, your rigid integrity and refusal to compromise with injustice make you unshakeable against any temptation." 
+    },
+    14: { 
+        ko: "더위가 가시고 만물이 평온을 찾으며 질서를 회복하는 시기입니다. 당신은 복잡한 감정에 휘둘리지 않는 차가운 이성과 정확한 판단력을 가졌으며, 흐트러진 시스템을 바로잡고 효율적인 환경을 구축하는 데 탁월한 능력을 발휘하여 조직의 효율을 극대화하는 브레인 역할을 합니다.", 
+        en: "A period when heat fades and all things find peace, restoring order. Possessing a cold rationality and accurate judgment detached from emotion, you excel at optimizing disorganized systems and building efficient environments, serving as the brain that maximizes organizational performance." 
+    },
+    15: { 
+        ko: "맑은 이슬이 맺히듯 고결한 정신과 도덕적 완벽함을 지향하는 때입니다. 당신은 섬세한 감수성과 높은 미적 안목으로 세상을 조율하는 예술적 기질을 가졌으며, 명품과 같은 완성도를 추구하는 당신의 손길은 평범한 것을 특별한 가치로 변화시키는 힘이 있습니다.", 
+        en: "A moment aiming for noble spirit and moral perfection, like the forming of pure dew. You possess an artistic temperament to harmonize the world with delicate sensitivity and a high aesthetic eye, and your pursuit of masterpiece-level quality has the power to transform the ordinary into the extraordinary." 
+    },
+    16: { 
+        ko: "금(金)의 기운이 가장 선명하게 집중되어 만물이 견고한 결실을 맺는 정점의 시기입니다. 당신은 약속을 생명처럼 여기는 강직한 신용과 티 없는 이성으로 완벽한 성취를 일구어내며, 본인의 전문성을 바탕으로 쌓아 올린 사회적 위치는 누구도 넘볼 수 없는 단단함을 가집니다.", 
+        en: "The peak moment when Metal energy is clearly concentrated, and all things bear solid fruit. You achieve perfect success through crystal-clear reason and integrity that treats promises as sacred, and the social status you build on your expertise possesses an impregnable solidity." 
+    },
+    17: { 
+        ko: "찬 이슬이 맺히며 지혜가 응축되어 사물의 깊은 속을 꿰뚫는 시기입니다. 당신은 인간의 내면을 깊이 있게 파고드는 분석력과 미래를 예측하는 통찰력을 부여받았으며, 세월이 흐를수록 깊어지는 당신의 내공은 주변 사람들에게 묵직하고 신비로운 카리스마로 다가갑니다.", 
+        en: "A time when wisdom condenses like cold dew, piercing through the hidden depths of all things. Endowed with the analytical power to dig deep into the human psyche and the foresight to predict the future, your internal power deepens over time, manifesting as a heavy and mysterious charisma." 
+    },
+    18: { 
+        ko: "서리가 내리기 전 만물을 갈무리하여 대지의 뿌리로 에너지를 모으는 시기입니다. 당신은 방대한 데이터를 분류하고 핵심적인 가치를 보존하는 능력이 탁월하며, 조직의 보이지 않는 뿌리 역할을 수행하며 세상을 지탱하는 전문가로서 명성을 떨치게 됩니다.", 
+        en: "A period of gathering all things before the frost hits, focusing energy into the roots of the earth. You excel at classifying vast data and preserving core values, earning fame as a specialist who serves as the invisible root and sustains the world from the shadows." 
+    },
+    19: { 
+        ko: "만물이 활동을 멈추고 깊은 휴식에 들어가는 수(水)의 태동기입니다. 당신은 조용하지만 심오한 지혜를 가졌으며, 보이지 않는 곳에서 거대한 판을 설계하는 전략가적 기질이 좋습니다. 당신의 생각은 깊고 넓어 위기의 순간에 모두를 구원할 결정적인 해답을 제시합니다.", 
+        en: "The quickening of Water energy, as all things stop activity to enter deep rest. Though quiet, you possess profound wisdom and a master strategist's temperament for designing grand schemes from the shadows. Your thoughts are so deep and vast that you provide the decisive answers to save everyone in times of crisis." 
+    },
+    20: { 
+        ko: "첫눈처럼 과거의 허물을 덮고 본질적인 가치에만 집중하게 하는 정화의 때입니다. 당신은 정적인 환경에서 최고의 창의력을 발휘하는 맑은 영혼을 가졌으며, 불필요한 군더더기를 제거하고 핵심만을 남기는 당신의 정리 능력은 세상을 더 단순하고 아름답게 변화시킵니다.", 
+        en: "A time of purification that covers the flaws of the past like the first snow, focusing only on essential values. You possess a pure soul that reaches its creative peak in quiet environments, and your ability to remove clutter to leave only the core transforms the world into something simpler and more beautiful." 
+    },
+    21: { 
+        ko: "세상을 하얗게 덮는 눈처럼 모든 차별을 없애고 만물을 품어 안는 자비의 시기입니다. 당신은 무한한 포용력과 인덕을 지녔으며, 보이지 않는 곳에서 묵묵히 선행을 실천하는 고귀한 성품은 상처받은 사람들의 마음을 치유하고 공동체를 하나로 묶는 강력한 힘이 됩니다.", 
+        en: "A time of compassion that embraces all without discrimination, like snow covering the landscape in white. Possessing infinite tolerance and social virtue, your noble nature of practicing good deeds from the shadows becomes a powerful force that heals wounded hearts and unifies communities." 
+    },
+    22: { 
+        ko: "어둠이 가장 깊은 곳에서 새로운 빛의 탄생을 예고하는 수(水)의 정점입니다. 당신은 인간의 심연을 꿰뚫는 철학적 사유와 위기 상황에서 정답을 찾아내는 비범한 능력을 타고났으며, 당신이 세상에 던지는 한마디는 길 잃은 영혼들에게 이정표가 되는 선구자적 가치를 지닙니다.", 
+        en: "The peak of Water, heralding the birth of a new light from the deepest darkness. Born with a philosophical mind that pierces the human abyss and an extraordinary ability to find answers in crisis, the words you cast upon the world serve as a pioneering lighthouse for lost souls." 
+    },
+    23: { 
+        ko: "맹추위 속에서도 봄의 시작을 준비하며 과거를 완전히 정돈하는 정화와 도약의 때입니다. 당신은 완숙한 지혜와 강인한 생명력을 동시에 보유하고 있으며, 한 사이클을 마무리하고 새로운 차원으로 넘어가기 위한 거대한 폭발력을 내면에 숨기고 있는 신비로운 존재입니다.", 
+        en: "A time of purification and leaps, preparing for the start of spring amidst the great cold while completely organizing the past. You possess both mature wisdom and resilient vitality, a mysterious being hiding a massive explosive potential to conclude one cycle and leap into the next dimension." 
     }
 };
 const luckyTitles81 = {
