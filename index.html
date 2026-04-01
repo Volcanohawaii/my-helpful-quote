@@ -415,7 +415,7 @@ if (mode === 'fortune') {
     } // switchTab 함수의 끝 (이 괄호가 꼭 있어야 startAnalysis 에러가 안 납니다!)
 
   
-  function copyLink() {
+function copyLink() {
       const url = window.location.href;
       navigator.clipboard.writeText(url).then(() => {
         alert(currentLang === 'ko' ? "복사가 완료되었습니다! ✨" : "Link copied! ✨");
@@ -423,5 +423,18 @@ if (mode === 'fortune') {
     }
     window.onload = () => { if (typeof i18n !== 'undefined') setLang('ko'); };
 </script>
+
+<footer style="margin-top: 80px; padding: 40px 20px; text-align: center; border-top: 1px solid #EEE; background-color: #FAFAFA;">
+    <div style="max-width: 600px; margin: 0 auto;">
+        <p style="color: #555; font-size: 0.85rem; font-weight: 700; margin: 0; letter-spacing: 0.05em;">
+            © 2026 <span style="color: var(--accent, #9A8467);">DESTINY LAB</span>. All rights reserved.
+        </p>
+        <p style="color: #999; font-size: 0.75rem; margin-top: 10px; line-height: 1.5; word-break: keep-all;">
+            본 서비스의 분석 로직 및 컨텐츠는 저작권법의 보호를 받으며, 무단 복제 및 도용 시 법적 책임을 물을 수 있습니다.<br>
+            Unauthorized copying of analysis logic and contents is strictly prohibited by law.
+        </p>
+    </div>
+</footer>
+
 </body>
 </html>
