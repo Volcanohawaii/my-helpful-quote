@@ -277,7 +277,7 @@ if (mode === 'fortune') {
     // 1. [매칭용 한자 추출] - 사용자님 데이터의 "목(木)"에서 "木"만 뽑아냅니다.
     const nameElKey = session.strongEl; 
     const elHanjaMap = { "목(木)": "木", "화(火)": "火", "토(土)": "土", "금(金)": "金", "수(水)": "水" };
-    const nameElHanja = elHanjaMap[nameElKey] || "木";
+    const nameElHanja = elHanjaMap[nameElKey] || "데이터오류";
 
     // 2. [탄생 배경 추출] - 태어난 달을 기준으로 배경 오행 설정
     let birthElHanja = "土";
