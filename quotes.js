@@ -142,7 +142,7 @@ const elementPrescriptions12 = {
 };
 
 const enPrescriptions12 = {
-    "Wood(木)": [
+    "목(木)": [
         "Born at the end of winter (Daehan), your name symbolizes a <b>powerful self-reliance</b> that pierces through frozen ground. Your pioneering spirit to pave your own way shines brightest as a <b>startup founder or new business developer</b>. Use the cold skepticism of others as fuel for growth, but make it your core task to flexibly accept constructive feedback.",
         "With the energy of Ipchun (Start of Spring) in your name, you are at the peak of <b>creative vitality</b>. Driven by endless curiosity, you excel as a <b>startup accelerator or PR content strategist</b>, leading the public's flow. The key to completing your destiny is the habit of systematizing your starts and seeing them through to the finish.",
         "Like the gentle rain of Usu, your name possesses a <b>harmonizing power</b> that softens rigid situations. Demonstrate your leadership as an <b>HR specialist or corporate culture expert</b>, establishing order between people. Your growth task is to clearly define boundaries between public and private life to protect your personal sovereignty.",
@@ -156,7 +156,7 @@ const enPrescriptions12 = {
         "Under the intense light of the Summer Solstice (Haji), your name provides <b>unshakeable analytical power</b> and organizational skills. Produce masterpiece-level results as an <b>urban planner or policy planning expert</b>. You need the determination to cut through flashy distractions and focus solely on the essence.",
         "Like creating a massive ecosystem in early summer, your name carries an <b>overwhelming scale</b>, marking you as a master coordinator of grand projects. Flourish as a <b>producer (PD) or exhibition curator</b>. Your prime time will truly arrive when you learn the patience to respect and wait for the pace of others."
     ],
-    "Fire(火)": [
+    "화(火)": [
         "Like a brazier melting the winter chill, your name symbolizes <b>PR expertise</b> that fascinates the masses. Stand at the center of trends as an <b>advertising planner or stylist</b>. Your core task for success is controlling your burning passion with a cold, disciplined routine and objective self-management.",
         "Like the warm sunlight announcing spring, you possess the expressive power to propose <b>new values</b> by visualizing your imagination. Build a unique world as a <b>video editor or webtoon creator</b>. The 'persistence' to record every idea and bring it to a conclusion will complete your soul.",
         "With the hazy energy of Usu in your name, you possess <b>brilliant eloquence</b> and a social presence that overwhelms an audience. Good fortune follows you when you stand before the public as an <b>MC or broadcaster</b>. Realize that silence can sometimes be a more powerful message; protecting your inner weight is your task.",
@@ -170,7 +170,7 @@ const enPrescriptions12 = {
         "At the peak of the Summer Solstice, you possess the <b>star quality</b> to turn yourself into a brand. Stand at the summit as a <b>brand director or fashion lead</b>. Your task is to constantly reinvent yourself through cold self-objectification, becoming an essence that transcends mere trends.",
         "As heat meets intellect, your weapon is the intellectual power to present <b>new standards</b> through a critical lens. Awaken the world as a <b>social critic or policy commentator</b>. Your final task is to cultivate a 'generous presence' that embraces others' shortcomings so your sharpness does not wound."
     ],
-    "Earth(土)": [
+    "토(土)": [
         "Born at the end of winter (Daehan), your name symbolizes a <b>reliable guardian</b> who embraces all life while waiting for spring. As an <b>administrative official, banker, or asset manager</b>, you shine brightest when building stable foundations. Your key task is to try small changes daily to prevent stagnation in your luck.",
         "The Earth energy in your name, starting with Ipchun, is like a <b>nurturing mother's heart</b>. Realize noble values as an <b>educational official, social welfare manager, or teacher</b>. You must learn to organize your own mind and space before helping others for your luck to truly open.",
         "With the flexibility of Usu in your name, you are tasked as a <b>warm mediator</b> who bridges people together. Become the center of interpersonal relationships as an <b>HR manager or community developer</b>. The secret to your success is drawing clear boundaries in relationships to protect your own energy.",
@@ -184,7 +184,7 @@ const enPrescriptions12 = {
         "Under the intense energy of the Summer Solstice, you possess the strength of a <b>meticulous administrator</b> who calculates with precision. Perform a core role as an <b>accountant, tax attorney, or budget official</b>. Do not forget that people's hearts also require warm emotional investment beyond just numbers.",
         "Like the early summer earth embracing all things, you are a <b>leader with a grand destiny</b> to nurture people. Become a pillar of the community as a <b>foundation head or social entrepreneur</b>. The key to true success is having the flexibility to listen to the advice of wise mentors."
     ],
-    "Metal(金)": [
+    "금(金)": [
         "Like steel that has endured the bitter cold of winter, your name symbolizes a <b>crisis solver</b>. You shine brightest in high-stakes roles as a <b>prosecutor, police official, or surgeon</b>. Your lifelong task is adding a warm human touch to your razor-sharp principles to win the sincere support of those around you.",
         "The sharp precision of your name, refining the new energy of Ipchun, manifests as a <b>perfectionist</b> streak. You will hold unrivaled authority as an <b>audit official, legal professional, or quality control lead</b>. Your luck rises when you offer constructive alternatives alongside your critiques.",
         "The Metal energy in your name, solidifying the flexibility of Usu, is the weapon of a <b>practical achiever</b>. Flourish as a <b>design engineer, technical official, or info-security expert</b> who proves value through action. The secret to your success is the small effort of warming your surroundings with a sincere word of praise.",
@@ -198,7 +198,7 @@ const enPrescriptions12 = {
         "Even amidst the flashiness of the Summer Solstice, you prove your value as a <b>solid system guardian</b>. Flourish as a <b>network security expert or hardware designer</b>. Your task is modernizing your know-how by actively embracing the latest technological trends.",
         "You are born with a <b>grand destiny</b> to solve the world's difficult problems with a talent like a legendary sword. Leave your mark as a <b>strategy advisor or highly skilled surgeon</b>. Your essential task is building a solid moral foundation first so you can use your sharpness for the greater good."
     ],
-    "Water(水)": [
+    "수(水)": [
         "Embodying the deep wisdom of winter, your name symbolizes a <b>wise strategist</b> who reads invisible flows. Disseminate wisdom as a <b>strategy consultant or policy planner</b>. Your core task for success is building a mechanical routine to instantly put your mental maps into action.",
         "Like water conceiving new life at Ipchun, you possess a brilliant ability to create <b>unique narratives</b> by piercing the human psyche. Realize your self-identity as an <b>author, screenwriter, or art therapist</b>. Setting clear economic goals to stay grounded is essential for your genius.",
         "The Water energy in your name, like the warm rain of Usu, serves as a <b>guide who heals the soul</b>. Tend to people's wounds as a <b>psychiatrist or professional counselor</b>. Your authority will be firmly established when you practice documenting your thoughts and expressing them with decisiveness.",
