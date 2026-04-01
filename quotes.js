@@ -539,13 +539,15 @@ const detailedDesc81En = {
 const nameNumerology = (() => {
     const out = {};
     for (let n = 1; n <= 81; n++) {
+        // quotes.js에 baseKo, stageKo 등이 있다는 가정하에
         const a = (n - 1) % 9;
         const b = Math.floor((n - 1) / 9);
+        
         out[n] = { 
-            title: `${luckyTitles81[n]} · ${baseKo[a].key}(${stageKo[b]})`, 
-            desc: `<b>[운명 격]</b> ${luckyTitles81[n]}<br><b>[상세 분석]</b> ${detailedDesc81[n]}`,
-            titleEn: `${luckyTitles81En[n]} · ${baseEn[a].key}(${stageEn[b]})`,
-            descEn: `<b>[Type]</b> ${luckyTitles81En[n]}<br><b>[Analysis]</b> ${detailedDesc81En[n]}`
+            title: luckyTitles81[n], // 굳이 복잡하게 조합하지 않고 제목만 깔끔하게
+            desc: detailedDesc81[n],
+            titleEn: luckyTitles81En[n],
+            descEn: detailedDesc81En[n]
         };
     }
     return out;
