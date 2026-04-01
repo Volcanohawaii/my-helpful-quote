@@ -14,19 +14,25 @@
     color: var(--text); 
     margin: 0; 
     display: flex; 
-    /* 🚩 아래 한 줄이 핵심입니다. 요소를 세로(아래)로 쌓아줍니다. */
-    flex-direction: column; 
-    justify-content: center; 
-    align-items: center; 
+    flex-direction: column;      /* 모든 요소를 위아래(세로)로 쌓음 */
+    align-items: center;         /* 가로 중앙 정렬 */
+    justify-content: flex-start; /* 위쪽부터 차례대로 배치 */
     min-height: 100vh; 
-    padding: 20px; 
+    padding: 60px 20px 20px 20px; /* 맨 위에 버튼이 들어갈 공간(60px) 확보 */
     overflow-x: hidden; 
     position: relative; 
 }
     body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at center, rgba(255, 255, 255, 1) 1.2px, transparent 2px), radial-gradient(circle at center, rgba(154, 132, 103, 0.9) 2px, transparent 4px); background-size: 60px 60px, 140px 140px; background-position: 0 0, 30px 30px; opacity: 1; animation: twinkle 4s ease-in-out infinite alternate; }
     @keyframes twinkle { 0% { opacity: 0.5; } 100% { opacity: 1; } }
     .container { width: 100%; max-width: 480px; position: relative; z-index: 1; }
-    .lang-toggle { position: absolute; top: -50px; right: 0; display: flex; gap: 15px; }
+    .lang-toggle { 
+    position: absolute; 
+    top: 20px;     /* 마이너스 값 제거! 위에서 20px 내려온 지점에 고정 */
+    right: 20px; 
+    display: flex; 
+    gap: 15px; 
+    z-index: 100;  /* 다른 요소보다 항상 위에 보이도록 설정 */
+}
     .flag { font-size: 1.6rem; cursor: pointer; opacity: 0.4; transition: 0.3s; }
     .flag.active { opacity: 1; transform: scale(1.2); }
     .report-card { background: var(--paper); padding: 55px 35px; box-shadow: 0 30px 60px rgba(0,0,0,0.1); border: 1px solid var(--border); text-align: center; position: relative; animation: fadeIn 0.8s ease-out; }
