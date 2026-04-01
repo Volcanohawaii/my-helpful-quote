@@ -150,9 +150,9 @@ function processData(name, birth) {
     const seed = nameVal + birthVal;
     const num81 = (seed % 81) + 1;
 
-    let sc = [30, 30, 30, 30, 30]; // 기본 에너지
+    let sc = [30, 30, 30, 30, 30]; // 기본 에너지 점수
 
-    // 1. 이름 가중치 (+75) - 이제 사전(hangulElements)과 리스트 글자가 일치하여 점수가 올라갑니다.
+    // 1. 이름 가중치 합산 (+75)
     for (let char of name) {
         const onset = /[a-zA-Z]/.test(char) ? char.toUpperCase() : getHangulOnset(char);
         const el = hangulElements[onset] || alphabetElements[onset];
@@ -162,31 +162,68 @@ function processData(name, birth) {
         }
     }
 
-    // 2. 탄생 월 가중치 (+40) - 중복 선언을 제거했습니다.
-    const mStr = birth.substring(4, 6);
-    const mVal = parseInt(mStr, 10);
-    const mIdx = [2, 0, 0, 2, 1, 1, 2, 3, 3, 2, 4, 4][mVal - 1];
-    sc[mIdx] += 40;
+    // 2. [핵심] 8자리 날짜를 절기 번호(0~23)로 직접 변환하여 'month'에 저장
+    const mm = parseInt(birth.substring(4, 6));
+    const dd = parseInt(birth.substring(6, 8));
+    const dateVal = mm * 100 + dd;
+    
+    let solarMonth; // 이것이 24절기 인덱스가 됩니다.
+    if (dateVal < 105) solarMonth = 22; // 동지
+    else if (dateVal < 120) solarMonth = 23; // 대한
+    else if (dateVal < 204) solarMonth = 0;  // 소한
+    else if (dateVal < 219) solarMonth = 1;  // 입춘
+    else if (dateVal < 305) solarMonth = 2;  // 우수
+    else if (dateVal < 321) solarMonth = 3;  // 경칩
+    else if (dateVal < 405) solarMonth = 4;  // 춘분
+    else if (dateVal < 420) solarMonth = 5;  // 청명
+    else if (dateVal < 505) solarMonth = 6;  // 곡우
+    else if (dateVal < 521) solarMonth = 7;  // 입하
+    else if (dateVal < 606) solarMonth = 8;  // 소만
+    else if (dateVal < 621) solarMonth = 9;  // 망종
+    else if (dateVal < 707) solarMonth = 10; // 하지
+    else if (dateVal < 723) solarMonth = 11; // 소서
+    else if (dateVal < 807) solarMonth = 12; // 대서
+    else if (dateVal < 823) solarMonth = 13; // 입추
+    else if (dateVal < 908) solarMonth = 14; // 처서
+    else if (dateVal < 923) solarMonth = 15; // 백로
+    else if (dateVal < 1008) solarMonth = 16; // 추분
+    else if (dateVal < 1023) solarMonth = 17; // 한로
+    else if (dateVal < 1107) solarMonth = 18; // 상강
+    else if (dateVal < 1122) solarMonth = 19; // 입동
+    else if (dateVal < 1207) solarMonth = 20; // 소설
+    else if (dateVal < 1222) solarMonth = 21; // 대설
+    else solarMonth = 22; // 동지
+
+    // 3. 절기별 오행 인덱스 매핑 (목:0, 화:1, 토:2, 금:3, 수:4)
+    // 24개 절기를 오행 순서에 맞게 배치 (전통 방식)
+    const termToEl = [4, 4, 0, 0, 0, 0, 2, 1, 1, 1, 1, 1, 2, 3, 3, 3, 3, 3, 2, 4, 4, 4, 4, 2];
+    const mIdx = termToEl[solarMonth];
+    sc[mIdx] += 45; // 선천운 가중치 부여
 
     const strongEl = elements[sc.indexOf(Math.max(...sc))];
     const sIdx = sc.map((s, i) => i).sort((a, b) => sc[a] - sc[b]);
     
     const sessionData = { 
-        name, birth, num81, seed, 
+        name, 
+        birth, 
+        num81, 
+        seed, 
         elementScores: sc, 
         strongEl, 
+        solarMonth, // 이제 1~12가 아니라 0~23이 저장됩니다.
         lackEls: [elements[sIdx[0]], elements[sIdx[1]]] 
     };
     
     localStorage.setItem('destinySession', JSON.stringify(sessionData));
-    renderSummary(sessionData);
+    renderSummary(sessionData); // 여기서 solarTermData[solarMonth]를 사용하게 됨
     document.getElementById('view-home').classList.add('hidden');
     document.getElementById('view-result').classList.remove('hidden');
     switchTab('fortune');
 }
-    function renderSummary(data) {
-      const month = parseInt(data.birth.substring(4, 6));
-      // 언어에 따른 타이틀 설정
+  
+   function renderSummary(data) {
+    // data.solarMonth는 이제 0~23 사이의 절기 번호입니다.
+    const termInfo = solarTermData[data.solarMonth][currentLang];
       document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `${data.name}님의 분석 리포트` : `${data.name}'s Analysis Report`;
       
       const labelSuri = currentLang === 'ko' ? '🔮수리 격 특징' : '🔮 Suri Character';
