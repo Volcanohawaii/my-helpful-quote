@@ -170,9 +170,16 @@ function processData(name, birth) {
     const seed = nameVal + birthVal;
     const num81 = (seed % 81) + 1;
 
-    let sc = [30, 30, 30, 30, 30]; // 기본 에너지 점수
+    let sc = [30, 30, 30, 30, 30]; // 기본 에너지 점수 초기화
 
-    // 1. 이름 가중치 합산 (+75)
+    // 🚩 1. [추가] 수리 번호 오행 가중치 합산 (+40)
+    // 전통 수리 오행 매핑: 끝자리 1,2(목), 3,4(화), 5,6(토), 7,8(금), 9,0(수)
+    // 인덱스 순서: 0:목, 1:화, 2:토, 3:금, 4:수
+    const suriToElIdx = [4, 0, 0, 1, 1, 2, 2, 3, 3, 4]; // 끝자리 0~9 대응
+    const suriIdx = suriToElIdx[num81 % 10]; 
+    sc[suriIdx] += 40; 
+
+    // 2. [기존] 이름 발음 가중치 합산 (+75)
     for (let char of name) {
         const onset = /[a-zA-Z]/.test(char) ? char.toUpperCase() : getHangulOnset(char);
         const el = hangulElements[onset] || alphabetElements[onset];
