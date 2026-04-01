@@ -141,7 +141,7 @@ const elementPrescriptions12 = {
     ]
 };
 
-const elementPrescriptions12En = {
+const enPrescriptions12 = {
     "Wood(木)": [
         "Born at the end of winter (Daehan), your name symbolizes a <b>powerful self-reliance</b> that pierces through frozen ground. Your pioneering spirit to pave your own way shines brightest as a <b>startup founder or new business developer</b>. Use the cold skepticism of others as fuel for growth, but make it your core task to flexibly accept constructive feedback.",
         "With the energy of Ipchun (Start of Spring) in your name, you are at the peak of <b>creative vitality</b>. Driven by endless curiosity, you excel as a <b>startup accelerator or PR content strategist</b>, leading the public's flow. The key to completing your destiny is the habit of systematizing your starts and seeing them through to the finish.",
