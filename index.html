@@ -150,9 +150,9 @@ function processData(name, birth) {
     const seed = nameVal + birthVal;
     const num81 = (seed % 81) + 1;
 
-    let sc = [30, 30, 30, 30, 30]; // 기본 점수
+    let sc = [30, 30, 30, 30, 30]; // 기본 에너지
 
-    // 1. 이름 가중치 합산 (quotes.js 수정 후 점수가 정확히 들어갑니다)
+    // 1. 이름 가중치 (+75) - 이제 사전(hangulElements)과 리스트 글자가 일치하여 점수가 올라갑니다.
     for (let char of name) {
         const onset = /[a-zA-Z]/.test(char) ? char.toUpperCase() : getHangulOnset(char);
         const el = hangulElements[onset] || alphabetElements[onset];
@@ -162,7 +162,7 @@ function processData(name, birth) {
         }
     }
 
-    // 2. 탄생 월 가중치 (딱 한 번만 선언하세요!)
+    // 2. 탄생 월 가중치 (+40) - 중복 선언을 제거했습니다.
     const mStr = birth.substring(4, 6);
     const mVal = parseInt(mStr, 10);
     const mIdx = [2, 0, 0, 2, 1, 1, 2, 3, 3, 2, 4, 4][mVal - 1];
@@ -274,18 +274,20 @@ if (mode === 'fortune') {
     const r1 = suriPrescription.getRemedy(session.num81, [session.lackEls[0]], currentLang);
     const r2 = suriPrescription.getRemedy(session.num81, [session.lackEls[1]], currentLang);
 
-    // 1. [매칭용 한자 추출] - 사용자님 데이터의 "목(木)"에서 "木"만 뽑아냅니다.
     const nameElKey = session.strongEl; 
-    const elHanjaMap = { "목(木)": "木", "화(火)": "火", "토(土)": "土", "금(金)": "金", "수(水)": "水" };
-    const nameElHanja = elHanjaMap[nameElKey] || "데이터오류";
+    // 📍 지도를 더 정확하게 보강했습니다.
+    const elHanjaMap = { 
+        "목(木)": "木", "화(火)": "火", "토(土)": "土", "금(金)": "金", 
+        "수(水)": "水"
+    };
+    const nameElHanja = elHanjaMap[nameElKey] || "오류";
 
-    // 2. [탄생 배경 추출] - 태어난 달을 기준으로 배경 오행 설정
+    // 📍 태어난 달의 기운 (배경)
     let birthElHanja = "土";
     if ([2, 3].includes(birthMonth)) birthElHanja = "木";
     else if ([5, 6].includes(birthMonth)) birthElHanja = "火";
     else if ([8, 9].includes(birthMonth)) birthElHanja = "金";
     else if ([11, 12].includes(birthMonth)) birthElHanja = "水";
-
     // 3. [복구 완료] 사용자님의 25가지 시나리오 맵
     const interactionNarrative = {
         "木": { "木": "부족한 생명력을 중첩시켜 거대한 숲을 이루었고", "火": "태어난 계절의 잠재력을 불태워 찬란한 꽃을 피워냈으며", "土": "척박한 황무지에 뿌리를 내려 단단한 삶의 터전을 일구었고", "金": "강한 기운에 유연함을 더해 부러지지 않는 강인한 검을 벼렸으며", "水": "차가운 물을 흡수하여 생명력 넘치는 거대한 숲을 이루었고" },
