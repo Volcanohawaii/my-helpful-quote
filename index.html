@@ -144,50 +144,40 @@
       return ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'][Math.floor(code / 588)];
     }
 
-   function processData(name, birth) {
+function processData(name, birth) {
     const nameVal = name.split('').reduce((a, ch) => a + ch.charCodeAt(0), 0);
     const birthVal = parseInt(birth, 10);
     const seed = nameVal + birthVal;
     const num81 = (seed % 81) + 1;
 
-    // 1. [신뢰성 강화] 81수리 번호의 끝자리를 이용한 정석 오행 배분
-    // 성명학에서 1,2는 木 / 3,4는 火 / 5,6은 土 / 7,8은 金 / 9,0은 水입니다.
-    const lastDigit = num81 % 10;
-    let baseScores = [30, 30, 30, 30, 30]; // 기본 30점씩 평등하게 시작
+    let sc = [30, 30, 30, 30, 30]; // 기본 기초
 
-    // 해당 수리가 상징하는 오행에 '본연의 기운' 가중치 부여
-    if ([1, 2].includes(lastDigit)) baseScores[0] += 20; // 木기운 수리
-    else if ([3, 4].includes(lastDigit)) baseScores[1] += 20; // 火기운 수리
-    else if ([5, 6].includes(lastDigit)) baseScores[2] += 20; // 土기운 수리
-    else if ([7, 8].includes(lastDigit)) baseScores[3] += 20; // 金기운 수리
-    else baseScores[4] += 20; // 水기운 수리
-
-    let sc = baseScores;
-
-    // 2. 이름 초성 가중치 (+50점) - 기존 로직 유지
+    // 1. 이름 가중치 (+75) - 이름이 지배력을 갖도록 설정
     for (let char of name) {
         const onset = /[a-zA-Z]/.test(char) ? char.toUpperCase() : getHangulOnset(char);
         const el = hangulElements[onset] || alphabetElements[onset];
         if (el) {
             const idx = elements.indexOf(el);
-            if (idx !== -1) sc[idx] += 50;
+            if (idx !== -1) sc[idx] += 75; 
         }
     }
 
-    // 3. 탄생 월 가중치 (+60점) - 기존 로직 유지
+    // 2. 탄생 월 가중치 (+40) - 배경 역할
     const month = parseInt(birth.substring(4, 6), 10);
     const monthIdx = [2, 0, 0, 2, 1, 1, 2, 3, 3, 2, 4, 4][month-1];
-    sc[monthIdx] += 60;
+    sc[monthIdx] += 40;
 
-    const scores = sc;
+    const strongEl = elements[sc.indexOf(Math.max(...sc))];
+    const sIdx = sc.map((s, i) => i).sort((a, b) => sc[a] - sc[b]);
     
-    const strongEl = elements[scores.indexOf(Math.max(...scores))];
-    const sIdx = scores.map((s, i) => i).sort((a, b) => scores[a] - scores[b]);
-    const lackEls = [elements[sIdx[0]], elements[sIdx[1]]];
+    const sessionData = { 
+        name, birth, num81, seed, 
+        elementScores: sc, 
+        strongEl, // "목(木)" 같은 형태로 저장됨
+        lackEls: [elements[sIdx[0]], elements[sIdx[1]]] 
+    };
     
-    const sessionData = { name, birth, num81, seed: seed, elementScores: scores, strongEl, lackEls };
     localStorage.setItem('destinySession', JSON.stringify(sessionData));
-    
     renderSummary(sessionData);
     document.getElementById('view-home').classList.add('hidden');
     document.getElementById('view-result').classList.remove('hidden');
@@ -284,19 +274,19 @@ if (mode === 'fortune') {
     const r1 = suriPrescription.getRemedy(session.num81, [session.lackEls[0]], currentLang);
     const r2 = suriPrescription.getRemedy(session.num81, [session.lackEls[1]], currentLang);
 
-    // 1. [데이터 표준화] "목(木)" 형태의 키값을 리스트와 정확히 매칭시킵니다.
-    const nameElKey = session.strongEl; // 이름의 주 에너지 (예: "목(木)")
+    // 1. [매칭용 한자 추출] - 사용자님 데이터의 "목(木)"에서 "木"만 뽑아냅니다.
+    const nameElKey = session.strongEl; 
     const elHanjaMap = { "목(木)": "木", "화(火)": "火", "토(土)": "土", "금(金)": "金", "수(水)": "水" };
     const nameElHanja = elHanjaMap[nameElKey] || "木";
 
-    // 2. [선천 배경 추출] 태어난 달의 기운을 한자로 변환 (서사용 조연 데이터)
+    // 2. [탄생 배경 추출] - 태어난 달을 기준으로 배경 오행 설정
     let birthElHanja = "土";
     if ([2, 3].includes(birthMonth)) birthElHanja = "木";
     else if ([5, 6].includes(birthMonth)) birthElHanja = "火";
     else if ([8, 9].includes(birthMonth)) birthElHanja = "金";
     else if ([11, 12].includes(birthMonth)) birthElHanja = "水";
 
-    // 3. [상호작용 서사] 이름(후천)이 계절(선천)을 어떻게 요리하는가? (25가지 시나리오)
+    // 3. [복구 완료] 사용자님의 25가지 시나리오 맵
     const interactionNarrative = {
         "木": { "木": "부족한 생명력을 중첩시켜 거대한 숲을 이루었고", "火": "태어난 계절의 잠재력을 불태워 찬란한 꽃을 피워냈으며", "土": "척박한 황무지에 뿌리를 내려 단단한 삶의 터전을 일구었고", "金": "강한 기운에 유연함을 더해 부러지지 않는 강인한 검을 벼렸으며", "水": "차가운 물을 흡수하여 생명력 넘치는 거대한 숲을 이루었고" },
         "火": { "木": "계절의 열기에 땔감을 더해 꺼지지 않는 불멸의 기상을 세웠고", "火": "치솟는 태양의 에너지를 모아 세상을 비추는 거대한 빛이 되었으며", "土": "뜨거운 열기로 대지를 구워 단단하고 견고한 성벽을 쌓았고", "金": "용암 같은 열기로 원석을 녹여 예리한 보검의 가치를 끌어냈으며", "水": "타오르는 열기를 냉철한 지성으로 다스려 평온한 오아시스를 완성했고" },
@@ -307,7 +297,7 @@ if (mode === 'fortune') {
 
     const actionText = interactionNarrative[nameElHanja][birthElHanja] || "선천적 기운을 이름의 주파수로 재배치하여";
 
-    // 4. 최종 리포트 생성 (이름의 오행인 nameElKey가 모든 텍스트의 기준이 됨)
+    // 4. 최종 출력 (nameElKey가 주인!)
     body.innerHTML = `
       <div class="tab-content">
         <span class="section-title">${t.sec1}</span>
@@ -315,8 +305,8 @@ if (mode === 'fortune') {
           <div id="radarChart" style="margin:10px auto; width:220px; height:220px;"></div>
           <p style="line-height:1.7; word-break:keep-all; margin-top:20px;">
             ${currentLang === 'ko' 
-              ? `당신은 <b>${seasonName}</b>의 기운을 배경 지표로 삼아 태어났습니다. 하지만 당신의 성명이 가진 <b>${nameElKey}</b>의 강력한 소리 주파수가 <b>${actionText}</b>, 결과적으로 <b>${nameElKey}</b> 중심의 독보적인 운명 시그니처를 구축해냈습니다. 이것이 바로 선천운을 후천적으로 지배하고 보완하는 성명학의 정수입니다.` 
-              : `Born with the backdrop of <b>${seasonName}</b>, the unique <b>${nameElKey}</b> frequency of your name has modulated your original energy, resulting in a signature profile centered on <b>${nameElKey}</b>. This demonstrates how a name governs its innate destiny.`
+              ? `당신은 <b>${seasonName}</b>의 기운을 배경 지표로 삼아 태어났습니다. 하지만 당신의 성명이 가진 <b>${nameElKey}</b>의 강력한 소리 주파수가 <b>${actionText}</b>, 결과적으로 <b>${nameElKey}</b> 중심의 독보적인 운명 시그니처를 구축해냈습니다.` 
+              : `Born with the backdrop of <b>${seasonName}</b>, the unique <b>${nameElKey}</b> frequency of your name has modulated your original energy, resulting in a signature profile centered on <b>${nameElKey}</b>.`
             }
           </p>
           <div style="padding:20px; background:#F9F8F6; border-radius:12px; border:1px solid #F0EAE3;">
