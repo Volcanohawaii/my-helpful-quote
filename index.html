@@ -221,15 +221,16 @@ function processData(name, birth) {
     switchTab('fortune');
 }
   
-   function renderSummary(data) {
-    // data.solarMonth는 이제 0~23 사이의 절기 번호입니다.
+    function renderSummary(data) {
+    // 1. 여기서 이미 data.solarMonth를 이용해 해당 언어의 텍스트를 가져왔습니다.
     const termInfo = solarTermData[data.solarMonth][currentLang];
-      document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `${data.name}님의 분석 리포트` : `${data.name}'s Analysis Report`;
+    
+    document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `${data.name}님의 분석 리포트` : `${data.name}'s Analysis Report`;
       
-      const labelSuri = currentLang === 'ko' ? '🔮수리 격 특징' : '🔮 Suri Character';
-      const labelMonth = currentLang === 'ko' ? '💫탄생 월 특징' : '💫 Birth Month Factor';
+    const labelSuri = currentLang === 'ko' ? '🔮수리 격 특징' : '🔮 Suri Character';
+    const labelMonth = currentLang === 'ko' ? '💫탄생 월 특징' : '💫 Birth Month Factor';
 
-      document.getElementById('dynamic-summary').innerHTML = `
+    document.getElementById('dynamic-summary').innerHTML = `
         <div class="info-box" style="background:#F9F8F6; border:1px solid #EEE; color:#000; font-size:0.95rem;">
           <div style="display:flex; justify-content:space-between; border-bottom:1px solid #000; padding-bottom:8px; margin-bottom:15px;">
               <span style="font-weight:800;">DESTINY_LAB_2026</span>
@@ -239,10 +240,10 @@ function processData(name, birth) {
           <p style="margin-top:0; margin-bottom:15px; line-height:1.7;">${currentLang === 'ko' ? detailedDesc81[data.num81] : detailedDesc81En[data.num81]}</p>
           <div style="border-top:1px dashed #DDD; padding-top:15px;">
             <b>${labelMonth}</b>
-            <p style="margin-top:0; line-height:1.7;">${birthMonthData[month][currentLang]}</p>
+            <p style="margin-top:0; line-height:1.7;">${termInfo}</p>
           </div>
         </div>`;
-    }
+}
 
 function renderChart(scores) {
   const container = document.getElementById('radarChart'); 
