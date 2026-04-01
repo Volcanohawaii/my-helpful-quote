@@ -152,16 +152,19 @@ function processData(name, birth) {
 
     let sc = [30, 30, 30, 30, 30]; // 기본 기초
 
-    // 1. 이름 가중치 (+75) - 이름이 지배력을 갖도록 설정
+    /* processData 함수 내부 루프와 점수 부분만 이렇게 바꾸세요 */
     for (let char of name) {
         const onset = /[a-zA-Z]/.test(char) ? char.toUpperCase() : getHangulOnset(char);
         const el = hangulElements[onset] || alphabetElements[onset];
         if (el) {
-            const idx = elements.indexOf(el);
-            if (idx !== -1) sc[idx] += 75; 
+            const idx = elements.indexOf(el); 
+            if (idx !== -1) sc[idx] += 75; // ✅ 이름 가중치 강화 (+75)
         }
     }
 
+    const monthIdx = [2, 0, 0, 2, 1, 1, 2, 3, 3, 2, 4, 4][month-1];
+    sc[monthIdx] += 40; // ✅ 탄생월 가중치 하향 (+40)
+  
     // 2. 탄생 월 가중치 (+40) - 배경 역할
     const month = parseInt(birth.substring(4, 6), 10);
     const monthIdx = [2, 0, 0, 2, 1, 1, 2, 3, 3, 2, 4, 4][month-1];
