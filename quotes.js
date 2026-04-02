@@ -16,7 +16,7 @@ const i18n = {
         pastHomework: "전생의 과업", 
         nextDest: "내세 활동 중심지", 
         nextObj: "내세의 직업", 
-        nextMission: "내세의 임무"
+        nextMission: "내세의 임무",
         logicTitle: "◈ Destiny Lab 분석 방법론",
         l1Title: "〰️ 소리 주파수 분석 (Name Vibrations)",
         l1Desc: "성명을 단순 문자가 아닌 고유 주파수를 가진 에너지로 변환합니다. 발음 오행이 개인의 기운에 간섭하는 데이터를 수치화했습니다.",
@@ -39,7 +39,7 @@ const i18n = {
         pastHomework: "Past Mission", 
         nextDest: "Future Domain", 
         nextObj: "Future Occupation", 
-        nextMission: "Future Assignment"
+        nextMission: "Future Assignment",
         logicTitle: "◈ Destiny Lab Methodology",
         l1Title: "〰️ Name Vibrations",
         l1Desc: "Converts names into energy with unique frequencies. We quantify how phonetic elements interfere with an individual's aura.",
