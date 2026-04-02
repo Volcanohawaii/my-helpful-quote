@@ -17,6 +17,13 @@ const i18n = {
         nextDest: "내세 활동 중심지", 
         nextObj: "내세의 직업", 
         nextMission: "내세의 임무"
+        logicTitle: "◈ Destiny Lab 분석 방법론",
+        l1Title: "〰️ 소리 주파수 분석 (Name Vibrations)",
+        l1Desc: "성명을 단순 문자가 아닌 고유 주파수를 가진 에너지로 변환합니다. 발음 오행이 개인의 기운에 간섭하는 데이터를 수치화했습니다.",
+        l2Title: "🗓️ 시계열 지표 대입 (Solar Term Time-series)",
+        l2Desc: "탄생 순간의 계절적 배경을 '선천적 변수'로 설정합니다. 24절기별 에너지 밀도를 분석하여 당신의 근원적 환경을 도출합니다.",
+        l3Title: "🧬 81수리 상호작용 엔진",
+        l3Desc: "선천적 절기 기운과 후천적 성명 에너지의 '상생·상극' 조합을 통해 도출된 알고리즘으로 전생과 내세의 시나리오를 연산합니다."
     },
     en: {
         title: "Suri Numerology Analysis", 
@@ -33,6 +40,13 @@ const i18n = {
         nextDest: "Future Domain", 
         nextObj: "Future Occupation", 
         nextMission: "Future Assignment"
+        logicTitle: "◈ Destiny Lab Methodology",
+        l1Title: "〰️ Name Vibrations",
+        l1Desc: "Converts names into energy with unique frequencies. We quantify how phonetic elements interfere with an individual's aura.",
+        l2Title: "🗓️ Solar Term Time-series",
+        l2Desc: "Sets the seasonal background at birth as an 'innate variable.' We derive your primal environment by analyzing 24 solar terms.",
+        l3Title: "🧬 81-Suri Interaction Engine",
+        l3Desc: "Calculates past and future scenarios using algorithms derived from the 'Harmony & Conflict' of innate and acquired energies."
     }
 };
 const elRelation = {
