@@ -579,43 +579,73 @@ const pastLifeData = Array.from({ length: 81 }, (_, i) => {
     const num = i + 1;
     const lastDigit = num % 10;
     
-    // [1] 오행 판별 데이터 - 서사 보강
-    let elInfo = "";
-    if ([1, 2].includes(lastDigit)) {
-        elInfo = { name: "목(木)", trait: "멈추지 않는 생명력과 개척 정신", reason: "황무지에 새로운 문명을 설계하거나, 멸종해가는 생명을 보존하기 위해 평생을 바쳤을 것입니다. 당신의 손길이 닿는 곳마다 새로운 질서가 태동했습니다." };
-    } else if ([3, 4].includes(lastDigit)) {
-        elInfo = { name: "화(火)", trait: "세상을 밝히는 명철함과 예술적 광기", reason: "지배층의 부조리를 붓과 예술로 고발하거나, 꺼져가는 문화의 불꽃을 다시 살리는 혁명가 혹은 계몽가로서 뜨거운 생을 살았을 것으로 보입니다." };
-    } else if ([5, 6].includes(lastDigit)) {
-        elInfo = { name: "토(土)", trait: "만물을 품는 거대한 중용과 응집력", reason: "거대 제국의 보이지 않는 기둥이 되어 법령을 정비하거나, 방대한 대륙의 지식을 집대성하여 후대에 전승하는 막중한 책임을 완수했을 것입니다." };
-    } else if ([7, 8].includes(lastDigit)) {
-        elInfo = { name: "금(金)", trait: "강직한 정의와 예리한 통찰력", reason: "혼란의 시대에 엄격한 심판관이 되어 정의를 수호하거나, 강철 같은 신념으로 무너져가는 공동체의 안전을 지키는 최후의 보루 역할을 수행했을 확률이 큽니다." };
-    } else {
-        elInfo = { name: "수(水)", trait: "심연의 지혜와 유연한 지성", reason: "금지된 영역의 진리를 탐구하는 학자였거나, 거친 바다 너머 미지의 대륙을 최초로 발견하고 소통의 길을 열었던 선구적인 항해사의 삶을 살았을 것입니다." };
-    }
+    const jobPool = {
+        "목(木)": [
+            { job: "황실 정원사", desc: "생명을 피워내는 에너지가 강해 제국의 비원을 설계했습니다." },
+            { job: "약초 치유사", desc: "생명 존중의 기운으로 험준한 산맥을 누비며 병자를 돌봤습니다." },
+            { job: "비밀 건축가", desc: "성장의 기운을 담아 세상에 없던 신비로운 사원을 세웠습니다." },
+            { job: "고대 서예가", desc: "붓 끝에 생명력을 담아 황제의 칙서를 기록하던 문장가였습니다." },
+            { job: "비단길 직조공", desc: "유연한 결을 다스려 대륙을 잇는 가장 아름다운 비단을 짰습니다." },
+            { job: "산맥의 수호자", desc: "거대한 숲의 기운을 받아 멸종해가는 영물들을 지켜냈습니다." },
+            { job: "마을의 훈장", desc: "교육의 기운으로 어린 인재들을 키워 나라의 기틀을 닦았습니다." },
+            { job: "목조 조각가", desc: "나무에 혼을 불어넣어 살아 움직이는 듯한 신상을 깎았습니다." },
+            { job: "유랑 약재상", desc: "대지의 생명력을 찾아 대륙 곳곳에 치유의 뿌리를 전했습니다." },
+            { job: "종이 제작자", desc: "지식의 바탕이 되는 종이를 만들어 문명의 전승을 도왔습니다." }
+        ],
+        "화(화)": [
+            { job: "광야의 예언자", desc: "타오르는 지성으로 대중의 갈 길을 비추는 등불이 되었습니다." },
+            { job: "유리 세공사", desc: "불의 기운으로 빛을 가두어 세상에서 가장 투명한 예술을 했습니다." },
+            { job: "유랑극단 단장", desc: "발산하는 에너지로 민중의 슬픔을 축제로 바꾼 예술가였습니다." },
+            { job: "태양의 사제", desc: "하늘의 열기를 빌려 가뭄을 막고 풍요를 기원하던 영적 리더였습니다." },
+            { job: "궁정 요리사", desc: "불을 자유자재로 다스려 황제의 입맛을 사로잡은 연금술사였습니다." },
+            { job: "전장의 신호수", desc: "치솟는 불꽃으로 아군의 사기를 높이고 승리의 길을 알렸습니다." },
+            { job: "등대지기", desc: "어둠 속에서 꺼지지 않는 불을 지켜 길 잃은 배들을 구원했습니다." },
+            { job: "불꽃놀이 장인", desc: "밤하늘에 찬란한 꽃을 피워 백성들에게 찰나의 기쁨을 주었습니다." },
+            { job: "제련소 감독관", desc: "거대한 용광로의 열기를 조율하여 문명의 도구들을 만들어냈습니다." },
+            { job: "화려한 무희", desc: "빛의 궤적처럼 움직이는 춤사위로 신전의 제사를 주관했습니다." }
+        ],
+        "토(土)": [
+            { job: "제국의 법관", desc: "묵직한 중용의 기운으로 만인의 시시비비를 공정히 가렸습니다." },
+            { job: "고대 서지학자", desc: "방대한 지식을 집대성하여 도서관의 기틀을 닦은 기록가였습니다." },
+            { job: "황금도시 통치자", desc: "포용의 리더십으로 흩어진 부족들을 하나로 묶은 지도자였습니다." },
+            { job: "도자기 장인", desc: "대지의 흙에 숨결을 불어넣어 천 년의 가치를 지닌 기물을 빚었습니다." },
+            { job: "성벽 설계자", desc: "흔들리지 않는 견고함으로 침략으로부터 제국을 지킨 공학자였습니다." },
+            { job: "대륙의 거상", desc: "신용과 무게감을 바탕으로 동서양의 물자를 연결한 무역가였습니다." },
+            { job: "역사 기록관", desc: "변치 않는 흙의 성질처럼 사실만을 기록하여 후대에 전했습니다." },
+            { job: "산소 파수꾼", desc: "조상의 안식처를 돌보며 가문의 뿌리와 예법을 수호했습니다." },
+            { job: "곡식 저장관", desc: "풍요로운 대지의 결실을 관리하여 기근으로부터 백성을 구했습니다." },
+            { job: "사막의 길잡이", desc: "모래바람 속에서도 대지의 방향을 읽어 상단을 인도했습니다." }
+        ],
+        "금(金)": [
+            { job: "전설적 대장장이", desc: "강직한 의지로 어떠한 악도 뚫지 못할 보검을 벼려냈습니다." },
+            { job: "비밀 정보관", desc: "예리한 판단력으로 적의 음모를 파헤치던 그림자 파수꾼이었습니다." },
+            { job: "심판의 사자", desc: "단호한 결단력으로 흐트러진 질서를 바로잡던 엄격한 관리였습니다." },
+            { job: "보석 감정사", desc: "투명한 통찰로 원석 속에 숨겨진 가치를 찾아내던 전문가였습니다." },
+            { job: "왕실 호위대장", desc: "강철 같은 충성심으로 황제의 안위를 지켜낸 최후의 보루였습니다." },
+            { job: "화폐 주조관", desc: "제국의 경제를 지탱하는 금속의 가치를 다루던 재무관이었습니다." },
+            { job: "철갑 기사", desc: "부러지지 않는 신념으로 전장의 최전선을 지키던 용사였습니다." },
+            { job: "금속 활자공", desc: "단단한 금속에 지식을 새겨 문명의 기록을 영원히 남겼습니다." },
+            { job: "암벽 등반가", desc: "가장 높은 곳의 정기를 받기 위해 험준한 바위산을 올랐습니다." },
+            { job: "조각 칼잡이", desc: "차가운 금속으로 부드러운 예술을 빚어낸 반전의 예술가였습니다." }
+        ],
+        "수(水)": [
+            { job: "심해의 항해사", desc: "유연한 지성으로 거친 바다를 다스리며 신대륙을 발견했습니다." },
+            { job: "신비주의 철학자", desc: "심오한 통찰로 세상의 근원적 질문에 답을 찾던 현자였습니다." },
+            { job: "비밀 전령사", desc: "물처럼 어디든 스며들어 차단된 소식을 전하던 정보원이었습니다." },
+            { job: "음유 시인", desc: "흐르는 노래에 세상의 지혜를 담아 마을마다 전파했습니다." },
+            { job: "수정구 점술가", desc: "투명한 물에 비친 미래의 잔상을 읽어내던 신비가였습니다." },
+            { job: "안개 속 자객", desc: "소리 없이 다가가 정의를 집행하던 물결 같은 존재였습니다." },
+            { job: "운하 설계자", desc: "물의 흐름을 바꾸어 메마른 대지에 생명력을 공급했습니다." },
+            { job: "심연의 잠수부", desc: "깊은 바닷속에 가라앉은 고대의 보물을 발굴하는 탐험가였습니다." },
+            { job: "달빛의 화가", desc: "밤의 감성을 화폭에 담아 영혼을 치유하던 예술가였습니다." },
+            { job: "지혜의 차사", desc: "생과 사의 강을 건너는 영혼들을 안내하던 신비로운 가이드였습니다." }
+        ]
+    };
 
-    // [2] 수식어(Mods) - 40개로 확장 (다양성 확보)
-    const mods = [
-        "달빛 아래 기도를 올리던", "금기된 고서를 해석하던", "별의 궤적을 쫓아 유랑하던", "무너진 왕국의 마지막 자존심이었던", "심연의 목소리에 귀를 기울이던", 
-        "치밀한 계산으로 세계를 설계하던", "자비로운 손길로 숲을 가꾸던", "얼어붙은 정의를 일깨우던", "운명의 수레바퀴를 돌리던", "비밀스러운 결사단의 수장이었던",
-        "순수한 영혼으로 영원을 노래하던", "철의 규율로 질서를 바로잡던", "광기 어린 천재성을 예술로 승화시킨", "태양의 전설을 수호하던", "그림자 속에서 역사를 움직이던",
-        "우아한 몸짓으로 신을 경배하던", "냉철한 이성으로 진실을 발굴하던", "흩어진 기억을 모아 기록하던", "용맹한 기개로 폭풍을 뚫던", "부드러운 카리스마로 군중을 이끌던",
-        "끊임없는 탐구심으로 경계를 넘나들던", "신비로운 직관에 인생을 걸었던", "침묵 속에 거대한 음모를 파헤치던", "가문의 명예를 위해 자신을 불태웠던", "평화를 위해 날카로운 검을 숨겼던",
-        "잊혀진 신전의 마지막 제관이었던", "대범한 기지로 위기를 반전시켰던", "성스러운 희생으로 제국을 구했던", "독보적인 감각으로 시대를 앞서갔던", "신중한 무게로 대륙을 다스렸던",
-        "영혼의 울림을 악보에 새기던", "황금빛 도시를 가슴에 품고 살던", "안개 너머의 진실을 예견하던", "강철 같은 의지로 한계를 부수던", "꽃 한 송이에 온 세상을 담아내던",
-        "천 년의 고독을 지혜로 승화시킨", "바람의 흐름을 읽고 길을 제시하던", "대지의 심장 소리를 듣고 치유하던", "꺼지지 않는 불꽃으로 앞길을 비추던", "거대한 바다의 품에서 통찰을 얻던"
-    ];
-
-    // [3] 직업(Jobs) - 40개로 확장
-    const jobs = [
-        "천문 기록관", "비밀 정원의 건축가", "비단길의 선구적 대상", "궁정 약초 치유사", "고대 유적의 파수꾼", 
-        "운명의 조율자", "황실 서지학자", "영혼의 안무가", "강철의 연금술사", "심해의 대항해사",
-        "그림자 정보 분석관", "은둔하는 성인(聖人)", "왕실 유리 세공사", "광야의 예언자", "전설적인 도검 제작자",
-        "수정구슬 점성술사", "동방의 궁정 악사", "제국의 대법관", "전설의 약재상", "천재 인형 제작자",
-        "금지된 고서 수집가", "정복 전쟁의 참모", "심연의 탐험가", "신의 정원을 돌보던 자", "대륙의 최고 외교관",
-        "보이지 않는 자객", "신전의 수석 조각가", "신비주의 철학자", "새벽의 파수꾼", "황금 도시의 통치자",
-        "시간의 기록관", "사막의 길잡이", "영혼의 조련사", "천상 문명의 관측자", "전설적인 대장장이",
-        "수정궁의 주인", "숲의 대변인", "얼음 왕국의 고문관", "불의 신전 사제", "대륙을 횡단하는 가객"
-    ];
+    const elKey = [1, 2].includes(lastDigit) ? "목(木)" : [3, 4].includes(lastDigit) ? "화(화)" : [5, 6].includes(lastDigit) ? "토(土)" : [7, 8].includes(lastDigit) ? "금(金)" : "수(水)";
+    const pool = jobPool[elKey];
+    const match = pool[i % pool.length];
+    const mods = ["달빛 아래 기도를 올리던", "금기된 고서를 해석하던", "별의 궤적을 쫓던", "침묵 속에 칼날을 갈던", "자비로운 마음으로 생명을 품던", "안개 너머 진실을 보던", "거친 파도를 잠재우던", "운명의 실타래를 풀던", "비밀스러운 전설을 기록하던", "정의로운 신념으로 맞서던"];
 
     // [4] 과업(Homework) - 30개로 확장
     const homeworks = [
@@ -639,51 +669,91 @@ const pastLifeData = Array.from({ length: 81 }, (_, i) => {
     };
 });
 
-/* [전생 데이터 영문: 서사 보강 버전] */
 const pastLifeDataEn = Array.from({ length: 81 }, (_, i) => {
     const num = i + 1;
     const lastDigit = num % 10;
     
-    let elInfoEn = "";
-    if ([1, 2].includes(lastDigit)) {
-        elInfoEn = { name: "Wood", trait: "unbreakable vitality and pioneering spirit", reason: "likely spent your life designing new civilizations in the wilderness or preserving endangered lives. Everywhere you touched, a new order began to sprout." };
-    } else if ([3, 4].includes(lastDigit)) {
-        elInfoEn = { name: "Fire", trait: "radiant passion and artistic madness", reason: "likely lived a burning life as a revolutionary or enlightener, denouncing social absurdities through art or rekindling the dying flames of culture." };
-    } else if ([5, 6].includes(lastDigit)) {
-        elInfoEn = { name: "Earth", trait: "vast balance and cohesive power", reason: "probably fulfilled the heavy responsibility of refining imperial laws or archiving vast continental knowledge to pass down to future generations." };
-    } else if ([7, 8].includes(lastDigit)) {
-        elInfoEn = { name: "Metal", trait: "sharp decisiveness and iron-clad integrity", reason: "likely served as the final bastion of safety for your community, upholding justice as a strict judge or a resolute guardian in times of chaos." };
-    } else {
-        elInfoEn = { name: "Water", trait: "profound wisdom and flexible intelligence", reason: "probably lived as a pioneering navigator who discovered unknown continents beyond rough seas or as a scholar exploring the truths of forbidden realms." };
-    }
+    const jobPool = {
+        "Wood": [
+            { job: "Royal Gardener", desc: "possessed strong vital energy and designed the secret gardens of the Empire." },
+            { job: "Herbal Healer", desc: "traversed rugged mountains to treat the sick with the energy of life and compassion." },
+            { job: "Secret Architect", desc: "built mysterious temples that never existed before, fueled by growth energy." },
+            { job: "Ancient Calligrapher", desc: "was a master who recorded imperial decrees with life in every brushstroke." },
+            { job: "Silk Road Weaver", desc: "wove the most beautiful silks connecting continents by mastering flexible grains." },
+            { job: "Mountain Guardian", desc: "protected endangered spiritual creatures with the vast energy of the forest." },
+            { job: "Village Schoolmaster", desc: "laid the foundation of the nation by nurturing young talents with educational energy." },
+            { job: "Wood Sculptor", desc: "carved statues that seemed alive by breathing soul into the timber." },
+            { job: "Wandering Herbalist", desc: "delivered healing roots across the continent, seeking the life force of the earth." },
+            { job: "Paper Maker", desc: "aided the transmission of civilization by producing the paper that became the base of knowledge." }
+        ],
+        "Fire": [
+            { job: "Prophet of the Wilderness", desc: "became a beacon of light for the masses with your radiant and burning intelligence." },
+            { job: "Glass Artisan", desc: "practiced the most transparent art by capturing light through the power of fire." },
+            { job: "Troupe Leader", desc: "was an artist who turned the sorrow of the people into a festival with your explosive energy." },
+            { job: "Solar Priest", desc: "was a spiritual leader who prayed for abundance and prevented drought by harnessing celestial heat." },
+            { job: "Court Chef", desc: "was an alchemist who captured the Emperor's palate by freely controlling the flames." },
+            { job: "Battlefield Signaler", desc: "boosted the morale of allies and signaled the path to victory with soaring flares." },
+            { job: "Lighthouse Keeper", desc: "saved lost ships by guarding the unquenchable fire in the deep darkness." },
+            { job: "Fireworks Master", desc: "gave momentary joy to the people by blooming brilliant flowers in the night sky." },
+            { job: "Smeltery Supervisor", desc: "created the tools of civilization by tuning the heat of a massive furnace." },
+            { job: "Brilliant Dancer", desc: "presided over temple rituals with movements that traced the trajectory of light." }
+        ],
+        "Earth": [
+            { job: "Imperial Judge", desc: "fairly judged the rights and wrongs of all people with a heavy sense of moderation." },
+            { job: "Ancient Bibliographer", desc: "was a recorder who laid the foundation for libraries by compiling vast amounts of knowledge." },
+            { job: "Golden City Ruler", desc: "was a leader who united scattered tribes through your inclusive leadership." },
+            { job: "Ceramic Artisan", desc: "crafted vessels of thousand-year value by breathing life into the clay of the earth." },
+            { job: "Fortress Architect", desc: "was an engineer who protected the empire from invasion with unshakable sturdiness." },
+            { job: "Continental Merchant", desc: "connected the goods of the East and West based on trust and a weighty presence." },
+            { job: "History Recorder", desc: "passed down facts to future generations, as constant as the nature of the soil." },
+            { job: "Ancestral Guardian", desc: "protected the roots and etiquette of the family by tending to ancestral resting places." },
+            { job: "Grain Manager", desc: "saved the people from famine by managing the fruits of the fertile earth." },
+            { job: "Desert Guide", desc: "led caravans by reading the direction of the earth even amidst sandstorms." }
+        ],
+        "Metal": [
+            { job: "Legendary Blacksmith", desc: "forged legendary swords that no evil could pierce, based on your iron will." },
+            { job: "Secret Agent", desc: "was a shadow sentinel who uncovered the plots of enemies with sharp judgment." },
+            { job: "Messenger of Judgment", desc: "was an upright official who restored broken order with decisive resolve." },
+            { job: "Gem Appraiser", desc: "was an expert who found hidden value within raw stones through transparent insight." },
+            { job: "Royal Guard Captain", desc: "was the final bastion who protected the Emperor's safety with iron-clad loyalty." },
+            { job: "Currency Minter", desc: "was a financial officer who handled the value of metals supporting the empire's economy." },
+            { job: "Ironclad Knight", desc: "was a warrior who guarded the front lines of the battlefield with unbreakable faith." },
+            { job: "Movable Type Printer", desc: "permanently left records of civilization by engraving knowledge into hard metal." },
+            { job: "Rock Climber", desc: "scaled rugged stone mountains to receive the spirit of the highest peaks." },
+            { job: "Carving Master", desc: "was an artist who crafted soft art out of cold metal, a master of irony." }
+        ],
+        "Water": [
+            { job: "Deep Sea Navigator", desc: "discovered new continents by commanding the rough seas with flexible intelligence." },
+            { job: "Mystic Philosopher", desc: "was a sage who sought answers to the fundamental questions of the world through deep insight." },
+            { job: "Secret Messenger", desc: "was an informant who delivered blocked news by permeating everywhere like water." },
+            { job: "Bard", desc: "spread the wisdom of the world to every village through songs that flowed like a river." },
+            { job: "Crystal Ball Diviner", desc: "was a mystic who read the residues of the future reflected in transparent water." },
+            { job: "Shadow Assassin", desc: "was a wave-like presence who approached silently to execute justice." },
+            { job: "Canal Designer", desc: "supplied life to the parched earth by changing the flow of water." },
+            { job: "Deep Sea Diver", desc: "was an explorer who excavated ancient treasures submerged in the deep ocean." },
+            { job: "Painter of Moonlight", desc: "was an artist who healed souls by capturing the sensitivity of the night on canvas." },
+            { job: "Guide of Wisdom", desc: "was a mysterious guide who led souls crossing the river of life and death." }
+        ]
+    };
 
-    const modsEn = [
-        "A Moon-blessed", "A Forbidden Scroll-decoding", "A Star-orbit-tracing", "A Fallen Kingdom-honoring", "An Abyss-whisper-listening", 
-        "A World-designing", "A Sacred Forest-nurturing", "A Frozen Justice-awakening", "A Fate-wheel-turning", "A Secret Society-leading",
-        "An Eternal Song-singing", "An Iron Discipline-upholding", "A Madly Genius-artistic", "A Sun-legend-protecting", "A History-shadow-moving",
-        "A Divine-worshipping", "A Truth-excavating", "A Scattered Memory-archiving", "A Storm-piercing", "A Crowd-guiding",
-        "A Boundary-crossing", "A Divinely-intuitive", "A Silent Conspiracy-uncovering", "An Honorable Family-preserving", "A Hidden Sword-bearing",
-        "A Lost Temple-serving", "A Strategic Crisis-reversing", "A Noble Sacrifice-making", "A Visionary Sense-possessing", "A Prudent Continent-ruling",
-        "A Soul-rhythm-recording", "A Golden City-dreaming", "A Fog-piercing", "A Limit-breaking", "A World-in-a-flower-containing",
-        "A Solitude-into-wisdom-transforming", "A Wind-reading", "An Earth-heart-healing", "An Unquenchable Flame-bearing", "An Ocean-insight-gaining"
-    ];
+    const elKey = [1, 2].includes(lastDigit) ? "Wood" : [3, 4].includes(lastDigit) ? "Fire" : [5, 6].includes(lastDigit) ? "Earth" : [7, 8].includes(lastDigit) ? "Metal" : "Water";
+    const elTraits = {
+        "Wood": "unbreakable vitality and pioneering spirit",
+        "Fire": "radiant passion and artistic madness",
+        "Earth": "vast balance and cohesive power",
+        "Metal": "sharp decisiveness and iron-clad integrity",
+        "Water": "profound wisdom and flexible intelligence"
+    };
 
-    const jobsEn = [
-        "Astronomer", "Empire Architect", "Silk Road Merchant", "Imperial Healer", "Ruins Sentinel", 
-        "Fate Arbiter", "Ancient Librarian", "Soul Choreographer", "Steel Alchemist", "Deep Sea Navigator",
-        "Secret Agent", "Devoted Monk", "Glass Artisan", "Desert Prophet", "Legendary Blacksmith",
-        "Crystal Astrologer", "Eastern Musician", "Imperial Judge", "Rich Herbalist", "Troupe Leader",
-        "Scroll Collector", "War Strategist", "Abyss Diver", "Palace Gardener", "Continental Diplomat",
-        "Shadow Assassin", "Temple Sculptor", "Mystic Philosopher", "Sentinel of Dawn", "Golden City Ruler",
-        "Time Archivist", "Desert Guide", "Soul Tamer", "Cosmic Observer", "Master Ironsmith",
-        "Crystal Palace Lord", "Forest Spokesperson", "Ice Kingdom Advisor", "Fire Temple Priest", "Continental Bard"
-    ];
-    
-    const homeworksEn = [
-        "The mission was to turn knowledge into compassion for the world.", "Devoted life to letting go of greed and finding inner peace.", "Sought to master true empathy for the suffering of others.",
-        "Tasked with returning personal talents back to social values.", "The challenge was to accept solitude and communicate with the world.", "Refined leadership through virtue rather than mere authority.",
+    const pool = jobPool[elKey];
+    const match = pool[i % pool.length];
+    const mods = ["Praying under the moonlight", "Decoding forbidden scrolls", "Chasing the trajectories of stars", "Sharpening blades in silence", "Embracing life with a compassionate heart", "Seeing the truth beyond the mist", "Calming the rough waves", "Unraveling the threads of fate", "Recording secretive legends", "Standing against with righteous conviction"];
+
+    const homeworks = [
+        "The mission was to turn knowledge into compassion.", "Devoted life to letting go of greed and finding inner peace.", "Sought to master true empathy for the suffering of others.",
+        "Tasked with returning personal talents back to social values.", "The challenge was to overcome solitude and communicate with the world.", "Refined leadership through virtue rather than mere authority.",
         "Focused on healing past wounds and staying in the present.", "Pursued spiritual completion over material wealth.", "Strived to control inner anger and learn forgiveness.",
-        "Aim was to acknowledge personal limits and remain humble.", "Practiced believing in invisible values and enduring to the end.", "Establishing true independence and a centered self.",
+        "Aim was to acknowledge personal limits and remain humble.", "Practiced believing in invisible values and enduring to the end.", "In the process of establishing true independence and identity.",
         "Took the role of mediating conflicts and protecting peace.", "Cultivated the wisdom to see the world without prejudice.", "Realizing the value of symbiosis by sharing what you possessed.",
         "Sought freedom of the soul through the courage to tell the truth.", "Learned the wisdom of living like flowing water without obsession.", "Fulfilled the noble duty of respecting and protecting all life.",
         "Proved how to bear glorious fruits through long endurance.", "Found personal value while empowering others' growth.",
@@ -694,9 +764,9 @@ const pastLifeDataEn = Array.from({ length: 81 }, (_, i) => {
     ];
 
     return { 
-        job: `${modsEn[i % modsEn.length]} ${jobsEn[i % jobsEn.length]}`, 
-        desc: `Based on Suri analysis, your name possesses powerful <b>${elInfoEn.name}</b> energy and <b>${elInfoEn.trait}</b>. Consequently, in your past life, you ${elInfoEn.reason}`, 
-        homework: homeworksEn[i % homeworksEn.length] 
+        job: `${mods[i % mods.length]} ${match.job}`, 
+        desc: `Based on Suri analysis, your name possesses powerful <b>${elKey}</b> energy and <b>${elTraits[elKey]}</b>. Consequently, in your past life, you ${match.desc}`, 
+        homework: homeworks[i % homeworks.length] 
     };
 });
 
@@ -705,21 +775,69 @@ const reincarnationData = Array.from({ length: 81 }, (_, i) => {
     const num = i + 1;
     const lastDigit = num % 10;
     
-    // [1] 미래 에너지 예측 데이터 (오행 기반) - 지구 & 개척행성 역할 보강
-    let elInfo = "";
-    if ([1, 2].includes(lastDigit)) {
-        elInfo = { name: "목(木)", trait: "생명 복원력과 무한한 확장성", role: "황폐해진 지구의 생태계를 재건하거나 신개척 행성의 바이오 돔을 설계하는" };
-    } else if ([3, 4].includes(lastDigit)) {
-        elInfo = { name: "화(火)", trait: "지성 가속화와 문명 전파", role: "다행성 정보 네트워크의 에너지를 최적화하거나 새로운 차원의 빛을 이용한 동력을 발굴하는" };
-    } else if ([5, 6].includes(lastDigit)) {
-        elInfo = { name: "토(土)", trait: "안정적 거주 체계와 관리력", role: "화성 거주구역의 기반 인프라를 구축하거나 다국적 연합의 시공간 데이터 센터를 관리하는" };
-    } else if ([7, 8].includes(lastDigit)) {
-        elInfo = { name: "금(金)", trait: "정밀 보안과 법질서 수호", role: "자율 주행 행성 방어 시스템의 중추를 설계하거나 차원 이동의 법적 정의를 심판하는" };
-    } else {
-        elInfo = { name: "수(水)", trait: "심오한 정보 분석과 연결력", role: "인류의 무의식 네트워크인 '뉴럴 링크'를 정화하거나 고대 지구의 데이터 파동을 복구하는" };
-    }
-
-    // [2] 미래적 장소(Places) - 지구 복원지 + 우주 개척지 (30개)
+    const futurePool = {
+        "목(木)": [
+            { role: "행성 테라포밍 설계자", job: "개척 행성의 바이오 돔에서 멸종 위기종을 복원하는 전문가" },
+            { role: "뉴럴 플랜트 가디언", job: "인간의 뇌파와 식물을 연결해 산소를 생성하는 시스템 관리자" },
+            { role: "가상 현실 정원사", job: "디지털 세계에 영혼이 안식할 수 있는 자연 지대를 구축하는 자" },
+            { role: "바이오 나노 공학자", job: "세포의 재생 능력을 극대화하여 인류의 수명을 연장하는 선구자" },
+            { role: "대기 정화 기술자", job: "오염된 지구의 대기를 숲의 기운으로 다시 정화하는 임무" },
+            { role: "은하계 씨앗 보관소장", job: "모든 행성의 생명 코드를 보관하고 전파하는 최종 보루" },
+            { role: "감정 수목 치유사", job: "사람의 슬픔을 양분 삼아 꽃을 피우는 식물을 기르는 힐러" },
+            { role: "양자 생태 학자", job: "차원 간의 생태적 균형을 연구하여 우주 공존을 돕는 학자" },
+            { role: "태초의 숲 전령", job: "지구의 기억을 품은 나무를 개척지로 운반하는 인도자" },
+            { role: "라이프 시퀀스 설계자", job: "새로운 생명체가 태어날 환경을 완벽하게 세팅하는 설계관" }
+        ],
+        "화(화)": [
+            { role: "에너지 주파수 조율사", job: "다차원 문명의 에너지를 하나로 묶어 증폭시키는 전도사" },
+            { role: "홀로그램 계몽가", job: "빛의 파동으로 잊혀진 인류의 지혜를 전파하는 미래의 교사" },
+            { role: "성운 동력 발굴가", job: "별이 폭발할 때 생기는 에너지를 문명의 동력으로 바꾸는 주역" },
+            { role: "차원간 빛의 전령", job: "서로 다른 차원에 메시지를 빛의 속도로 전달하는 통신 전문가" },
+            { role: "양자 태양 관리관", job: "스스로 빛을 내지 못하는 행성에 인공 태양을 띄우는 관리자" },
+            { role: "감정 데이터 조각가", job: "인간의 열정을 시각적인 빛의 예술로 승화시키는 거장" },
+            { role: "초고속 항로 설계자", job: "빛의 굴절을 이용해 성간 이동 시간을 단축하는 네비게이터" },
+            { role: "정신 가속 최적화원", job: "인류의 지능을 한 단계 업그레이드하는 에너지 관리자" },
+            { role: "지성 아카이브 수호자", job: "모든 문명의 찬란한 성취를 빛의 입자로 저장하는 기록관" },
+            { role: "은하 연합 홍보대사", job: "화려한 카리스마로 행성 간의 문화적 통합을 이끄는 리더" }
+        ],
+        "토(土)": [
+            { role: "화성 기반 인프라 국장", job: "개척지의 토양을 안정시키고 거주 구역을 구축하는 총책임자" },
+            { role: "시공간 데이터 보관소장", job: "우주의 방대한 정보를 묵직하게 지켜내는 최종 관리자" },
+            { role: "중력 밸런스 조정관", job: "행성의 중력을 조절하여 인류가 살기 가장 좋은 환경을 만드는 이" },
+            { role: "차원 통용 화폐 발행자", job: "은하 전체에서 신뢰받는 경제 체계를 구축하는 금융 가이드" },
+            { role: "우주 연합 법무 장관", job: "흔들리지 않는 원칙으로 행성 간의 법적 갈등을 심판하는 자" },
+            { role: "행성간 지각 공학자", job: "죽어가는 행성의 지질을 안정시켜 생명의 기틀을 다시 다지는 자" },
+            { role: "지구 유적 보존 관리인", job: "미래 문명 속에서 고대 지구의 유적을 발굴하고 보호하는 이" },
+            { role: "안전 거주구 설계자", job: "어떤 우주 재난에도 견딜 수 있는 견고한 쉘터를 만드는 설계관" },
+            { role: "다국적 연합 기록관", job: "모든 행성의 역사를 왜곡 없이 공정하게 기록하는 역사가" },
+            { role: "대륙간 수직도시 관리자", job: "지구의 좁은 영토를 극대화하여 평화로운 거주지를 관리하는 이" }
+        ],
+        "금(金)": [
+            { role: "행성 방어 시스템 사령관", job: "정밀한 판단으로 외부의 위협으로부터 문명을 지키는 파수꾼" },
+            { role: "사이버 법률 심판관", job: "가상과 현실 사이의 범죄를 단호하게 처단하는 정의의 화신" },
+            { role: "양자 보안 설계자", job: "해킹이 불가능한 단단한 정보 보호 체계를 구축하는 기술자" },
+            { role: "희귀 광물 탐사대장", job: "우주 깊은 곳에서 문명의 동력이 될 금속을 찾아내는 탐험가" },
+            { role: "안드로이드 윤리 감독", job: "기계 지성이 넘지 말아야 할 선을 결정하고 감찰하는 심판관" },
+            { role: "차원 게이트 수호자", job: "허가되지 않은 차원 이동을 차단하고 경계를 수호하는 파수꾼" },
+            { role: "강철 의지 멘토", job: "인류가 겪는 정신적 나약함을 강한 정신력으로 치유하는 리더" },
+            { role: "초전도체 소자 제작자", job: "미래 기술의 핵심이 되는 금속 소자를 정밀하게 빚는 장인" },
+            { role: "우주 함대 감사관", job: "모든 시스템의 규율 준수 여부를 예리하게 파악하는 감사 전문가" },
+            { role: "결단력 증폭 훈련관", job: "중요한 순간의 결단력을 높여주는 신경 훈련 시스템 운영자" }
+        ],
+        "수(水)": [
+            { role: "뉴럴 링크 정화 전문가", job: "오염된 인류의 무의식 네트워크를 맑게 씻어내는 정화자" },
+            { role: "딥스페이스 항해사", job: "심오한 통찰로 블랙홀 너머의 길을 찾아내는 선구적 도선사" },
+            { role: "정보 파동 분석가", job: "우주 전체에 흩어진 데이터 입자들을 모아 지혜를 완성하는 이" },
+            { role: "무의식 치료 상담사", job: "사람의 깊은 내면에 잠긴 트라우마를 유연하게 치유하는 힐러" },
+            { role: "행성간 수자원 조율사", job: "물 부족 행성에 수자원을 공급하는 거대 흐름의 관리자" },
+            { role: "꿈의 세계 가이드", job: "인류가 잠든 사이 무의식 속에서 안전하게 유영하도록 돕는 자" },
+            { role: "투명성 감사 위원", job: "정보의 흐름이 막힘없이 맑게 유지되는지 감시하는 투명성 수호자" },
+            { role: "데이터 복구 고고학자", job: "사라진 고대 지구의 서버를 복구하여 잃어버린 기억을 찾는 이" },
+            { role: "유연한 사고 교육가", job: "고정관념을 깨고 창의적인 사고를 흐르게 하는 미래의 스승" },
+            { role: "심연의 진리 전파자", job: "우주의 끝에서 발견한 근원적 비밀을 지혜로 승화시켜 전하는 이" }
+        ]
+    };
+ // [2] 미래적 장소(Places) - 지구 복원지 + 우주 개척지 (30개)
     const places = [
         "네오-판교 테크 밸리", "태평양 수중 도시 '아틀란티스'", "화성 제4 거주 돔", "달 후면부 에너지 기지", "바이칼 호수 복원 센터", 
         "안드로메다 연락 사무소", "성층권 부유 연구소", "뉴-교토 홀로그램 정원", "적도 위 우주 엘리베이터 허브", "남극 빙하 속 종자 보관소",
@@ -729,15 +847,9 @@ const reincarnationData = Array.from({ length: 81 }, (_, i) => {
         "침묵의 데이터 망루", "무지개 공명 광장", "코스모스 평화 센터", "미래 기후 설계실", "영혼 전송 정거장"
     ];
 
-    // [3] 미래적 직업(Jobs) - 기술 & 인문 융합형 (30개)
-    const jobs = [
-        "지구 생태계 복원 설계사", "테라포밍(행성 개척) 건축가", "뉴럴 네트워크 보안관", "양자 물류 최적화 전문가", "안드로이드 공감 프로그래머", 
-        "기상 제어 시스템 운용자", "다행성 문화 외교관", "고대 디지털 고고학자", "초전도체 에너지 조율사", "우주 항로 네비게이터",
-        "메타버스 역사 기록관", "정신 전이 시퀀스 관리자", "화성 거주구 행정관", "바이오 나노 치료사", "지능형 로봇 법률 전문가",
-        "은하계 소통 전문가", "성운 자원 탐사대장", "다차원 평화 유지군", "영적 주파수 설계자", "환생 데이터 엔지니어",
-        "빛의 입자 해석가", "우주 중력 조정 기술자", "에테르 문명 컨설턴트", "별빛 루트 가이드", "양자 얽힘 코디네이터",
-        "감정 데이터 정제 전문가", "평행 우주 감시 요원", "인류 진화 가이드", "공명 주파수 탐지관", "우주 근원 연구원"
-    ];
+    const elKey = [1, 2].includes(lastDigit) ? "목(木)" : [3, 4].includes(lastDigit) ? "화(화)" : [5, 6].includes(lastDigit) ? "토(토)" : [7, 8].includes(lastDigit) ? "금(金)" : "수(水)";
+    const pool = futurePool[elKey];
+    const match = pool[i % pool.length];
 
     // [4] 핵심 미션(Missions) - 개척과 공생 (30개)
     const missions = [
@@ -766,39 +878,80 @@ const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
     const num = i + 1;
     const lastDigit = num % 10;
     
-    let elInfoEn = "";
-    if ([1, 2].includes(lastDigit)) {
-        elInfoEn = { name: "Wood", trait: "limitless growth and ecological restoration", role: "restoring Earth's ecosystems or designing bio-domes for newly colonized planets" };
-    } else if ([3, 4].includes(lastDigit)) {
-        elInfoEn = { name: "Fire", trait: "accelerated intelligence and energy expansion", role: "optimizing multi-planetary information networks or discovering power sources from new dimensions of light" };
-    } else if ([5, 6].includes(lastDigit)) {
-        elInfoEn = { name: "Earth", trait: "stable infrastructure and moderation", role: "building infrastructure for Mars residential zones or managing multi-national spacetime data centers" };
-    } else if ([7, 8].includes(lastDigit)) {
-        elInfoEn = { name: "Metal", trait: "precise security and justice", role: "designing the core of autonomous planetary defense systems or adjudicating the legal order of dimensional travel" };
-    } else {
-        elInfoEn = { name: "Water", trait: "profound connectivity and intelligence", role: "purifying the 'Neural Link' network or restoring lost data frequencies from ancient Earth" };
-    }
+    const futurePoolEn = {
+        "Wood": [
+            { role: "Planetary Terraforming Architect", job: "specialist restoring endangered species in bio-domes on frontier planets" },
+            { role: "Neural Plant Guardian", job: "system manager connecting human brainwaves with plants to generate oxygen" },
+            { role: "Virtual Reality Gardener", job: "creator of natural zones in the digital world for souls to find rest" },
+            { role: "Bio-Nano Engineer", job: "pioneer extending human lifespan by maximizing cellular regeneration" },
+            { role: "Atmospheric Purification Technician", job: "expert purifying Earth's polluted air with the essence of forests" },
+            { role: "Galactic Seed Vault Manager", job: "the final bastion preserving and distributing life codes across all planets" },
+            { role: "Emotional Arboretum Healer", job: "healer growing plants that bloom by feeding on human sorrow" },
+            { role: "Quantum Ecologist", job: "scholar studying ecological balance between dimensions to aid cosmic coexistence" },
+            { role: "Messenger of the Primal Forest", job: "guide carrying trees possessing Earth's memories to new frontiers" },
+            { role: "Life Sequence Designer", job: "designer perfectly setting the environment for new life forms to be born" }
+        ],
+        "Fire": [
+            { role: "Energy Frequency Tuner", job: "evangelist who unites and amplifies the energies of multi-dimensional civilizations" },
+            { role: "Hologram Enlightener", job: "future teacher spreading forgotten human wisdom through light waves" },
+            { role: "Nebula Power Excavator", job: "key player converting the energy from exploding stars into civilizational power" },
+            { role: "Inter-dimensional Messenger of Light", job: "communication expert delivering messages between dimensions at the speed of light" },
+            { role: "Quantum Sun Manager", job: "manager launching artificial suns on planets that cannot produce their own light" },
+            { role: "Emotional Data Sculptor", job: "master who sublimates human passion into visual light art" },
+            { role: "Hyper-speed Route Designer", job: "navigator shortening interstellar travel time using light refraction" },
+            { role: "Mental Acceleration Optimizer", job: "energy manager upgrading human intelligence to the next level" },
+            { role: "Archivist of Intelligence", job: "recorder storing the brilliant achievements of all civilizations as light particles" },
+            { role: "Galactic Union Ambassador", job: "leader guiding cultural integration between planets with brilliant charisma" }
+        ],
+        "Earth": [
+            { role: "Director of Mars Infrastructure", job: "head official in charge of stabilizing soil and building residential zones" },
+            { role: "Spacetime Data Vault Manager", job: "final manager who heavily protects the vast information of the universe" },
+            { role: "Gravity Balance Coordinator", job: "one who creates the best environment for humanity by adjusting planetary gravity" },
+            { role: "Inter-dimensional Currency Issuer", job: "financial guide building a trusted economic system across the galaxy" },
+            { role: "Cosmic Union Attorney General", job: "judge who adjudicates legal conflicts between planets with unshakable principles" },
+            { role: "Inter-planetary Geological Engineer", job: "one who restabilizes the geology of dying planets to lay the foundation for life" },
+            { role: "Earth Relic Preservationist", job: "one who excavates and protects ancient Earth relics within future civilizations" },
+            { role: "Safe Habitation Zone Designer", job: "designer creating robust shelters that can withstand any cosmic disaster" },
+            { role: "Multi-national Union Historian", job: "historian who fairly records the history of all planets without distortion" },
+            { role: "Continental Vertical City Manager", job: "manager overseeing peaceful residences by maximizing Earth's narrow territory" }
+        ],
+        "Metal": [
+            { role: "Planetary Defense Commander", job: "sentinel protecting civilization from external threats with precise judgment" },
+            { role: "Cyber Law Adjudicator", job: "embodiment of justice who resolutely punishes crimes between virtual and reality" },
+            { role: "Quantum Security Architect", job: "technician building an unhackable, iron-clad information protection system" },
+            { role: "Rare Mineral Scout Leader", job: "explorer finding metals in deep space that will power civilization" },
+            { role: "Android Ethics Supervisor", job: "judge deciding and monitoring the lines that machine intelligence must not cross" },
+            { role: "Dimensional Gate Guardian", job: "sentinel blocking unauthorized dimensional travel and guarding the borders" },
+            { role: "Iron Will Mentor", job: "leader healing human mental weakness with strong willpower" },
+            { role: "Superconductor Component Crafter", job: "artisan precisely forging the metal components at the heart of future tech" },
+            { role: "Space Fleet Auditor", job: "audit expert who keenly identifies whether all systems comply with regulations" },
+            { role: "Decision-making Amplifier Trainer", job: "operator of neural training systems that enhance decision-making in critical moments" }
+        ],
+        "Water": [
+            { role: "Neural Link Purification Specialist", job: "purifier who cleanses the polluted subconscious networks of humanity" },
+            { role: "Deep Space Navigator", job: "pioneering pilot finding paths beyond black holes with profound insight" },
+            { role: "Information Wave Analyst", job: "one who completes wisdom by gathering data particles scattered across the universe" },
+            { role: "Subconscious Therapy Counselor", job: "healer who flexibly treats trauma submerged in the deep psyche" },
+            { role: "Inter-planetary Water Coordinator", job: "manager of massive flows supplying water resources to parched planets" },
+            { role: "Dreamworld Guide", job: "one who helps humanity swim safely through their subconscious while asleep" },
+            { role: "Transparency Audit Commissioner", job: "guardian of transparency monitoring the flow of information remains clear" },
+            { role: "Data Recovery Archeologist", job: "one finding lost memories by recovering ancient Earth servers" },
+            { role: "Flexible Thinking Educator", job: "future teacher who breaks stereotypes and lets creative thinking flow" },
+            { role: "Propagator of Primal Truth", job: "one who sublimates the ultimate secrets found at the edge of the universe into wisdom" }
+        ]
+    };
 
     const placesEn = [
-        "Neo-Pangyo Tech Valley", "Submerged City 'Atlantis'", "Mars Residential Dome 04", "Far Side Moon Base", "Lake Baikal Restoration Center", 
-        "Andromeda Liaison Office", "Stratospheric Floating Lab", "Neo-Kyoto Hologram Garden", "Space Elevator Hub", "Antarctic Seed Vault",
-        "Venus Cloud Terrace", "Quantum Resonance Chamber", "Europa Deep Sea Lab", "Sahara Vertical City", "Earth Orbit Station 'Dawn'",
-        "Silicon Valley 2.0 Ruins", "Alps Weather Control Center", "Amazon Smart Jungle", "Jupiter Ring Observation Deck", "Nano-Auto Factory",
-        "Unconscious Data Archive", "Multidimensional Gateway Terminal", "Memory Vault 'Memoria'", "Portal 11", "Emerald Forest Dome",
+        "Neo-Pangyo Tech Valley", "Underwater City 'Atlantis'", "Mars Residential Dome 04", "Far Side Lunar Energy Base", "Lake Baikal Restoration Center", 
+        "Andromeda Liaison Office", "Stratospheric Floating Lab", "Neo-Kyoto Hologram Garden", "Equatorial Space Elevator Hub", "Antarctic Seed Vault",
+        "Venus Cloud Terrace", "Quantum Computing Chamber", "Europa Deep Sea Lab", "Sahara Vertical City", "Earth Orbit Station 'Dawn'",
+        "Silicon Valley 2.0 Ruins", "Alpine Weather Control Station", "Amazon Smart Jungle", "Jupiter Ring Observation Deck", "Nano-Process Auto Factory",
+        "Unconscious Data Archive", "Multidimensional Gateway Terminal", "Memory Vault 'Memoria'", "Dimension Gate 11", "Emerald Forest Dome",
         "Silent Data Watchtower", "Rainbow Resonance Square", "Cosmos Peace Center", "Future Climate Design Lab", "Soul Transit Station"
     ];
 
-    const jobsEn = [
-        "Ecosystem Restorationist", "Terraforming Architect", "Neural Network Sheriff", "Quantum Logistics Specialist", "Android Empathy Programmer", 
-        "Weather System Operator", "Interplanetary Diplomat", "Digital Archeologist", "Superconductor Energy Tuner", "Space Route Navigator",
-        "Metaverse Historian", "Mind Transfer Manager", "Mars District Admin", "Bio-Nano Healer", "Robotic Ethics Lawyer",
-        "Galactic Communicator", "Nebula Resource Scout", "Multidimensional Peacekeeper", "Spiritual Frequency Designer", "Reincarnation Engineer",
-        "Light Particle Interpreter", "Space Gravity Technician", "Ether Consultant", "Starlight Route Guide", "Quantum Coordinator",
-        "Emotion Data Purifier", "Parallel Watcher", "Evolutionary Guide", "Resonance Detector", "Source Researcher"
-    ];
-    
     const missionsEn = [
-        "Transplant Earth's endangered plant genes to Planet X.", "Deliver ice-core technology to solve the water shortage on Mars.", "Sign a peace treaty between divided Moon colonies.",
+        "Transplant endangered Earth plant genes to Planet X.", "Deliver ice-core technology to solve water shortages on Mars.", "Sign a peace treaty between divided Lunar colonies.",
         "Mediate emotional conflicts between AI and humanity.", "Recover human digital memories lost 100 years ago.", "Select books for the first library on a newly colonized planet.",
         "Prevent atmospheric collapse by stabilizing Earth's magnetic field.", "Design a perfect oxygen supply system for future generations.", "Find frequencies to cure spacetime sickness during travel.",
         "Teach androids the 'warmth of humanity' through education.", "Purify polluted nano-particles in Earth's oceans.", "Construct giant energy panels using lunar dust.",
@@ -806,18 +959,31 @@ const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
         "Operate counseling systems for planetary explorers' mental health.", "Monitor unfair trade in interplanetary commerce.", "Redraw the map of the lost city 'New-New York'.",
         "Block unauthorized dimensional interference to protect the balance.", "Install light systems for new underground cities.", "Organize the first cultural exchange festival with extraterrestrials.",
         "Cultivate hybrid seeds that can grow in Martian soil.", "Restore ancient Earth songs by collecting cosmic sounds.", "Correct data errors in the reincarnation system.",
-        "Participate in igniting an artificial sun using nebula energy.", "Create content to heal the profound loneliness of future humans.", "Deliver the light of wisdom to dark colonies.",
-        "Block unidentified radiation coming from the edge of space.", "Rebuild the spirit of dome cities collapsing from emotional imbalance.", "Complete the scenario of eternal peace and coexistence."
+        "Participate in igniting an artificial sun using nebula energy.", "Create content to heal the profound loneliness of future humans.", "Deliver the flame of wisdom to dark colonies.",
+        "Block unidentified radiation coming from the edge of space.", "Rebuild the spirit of dome cities collapsing from emotional imbalance.", "Complete the cycle of eternal life."
     ];
+
+    const elKeyEn = [1, 2].includes(lastDigit) ? "Wood" : [3, 4].includes(lastDigit) ? "Fire" : [5, 6].includes(lastDigit) ? "Earth" : [7, 8].includes(lastDigit) ? "Metal" : "Water";
+    
+    // 오행 기운 특성 번역
+    const elTraitsEn = {
+        "Wood": "limitless scalability and vitality",
+        "Fire": "radiant intelligence and brilliance",
+        "Earth": "stable moderation and management",
+        "Metal": "precise judgment and justice",
+        "Water": "profound insight and purification"
+    };
+
+    const poolEn = futurePoolEn[elKeyEn];
+    const matchEn = poolEn[i % poolEn.length];
 
     return { 
         place: placesEn[i % placesEn.length], 
-        job: jobsEn[i % jobsEn.length], 
-        desc: `According to Suri analysis, your future energy is predicted to be dominated by <b>${elInfoEn.name}</b>'s <b>${elInfoEn.trait}</b>. Consequently, you will be tasked with <b>${elInfoEn.role}</b> in the afterlife.`, 
+        job: matchEn.role, 
+        desc: `According to Suri analysis, your future energy is predicted to be dominated by <b>${elKeyEn}</b>'s <b>${elTraitsEn[elKeyEn]}</b>. Consequently, in the afterlife, you will be <b>${matchEn.job}</b>.`, 
         mission: missionsEn[i % missionsEn.length] 
     };
 });
-
 
 /* [6. 정밀 처방전 & 헬퍼 함수] */
 const suriPrescription = {
