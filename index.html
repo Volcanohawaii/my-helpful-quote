@@ -79,46 +79,41 @@
     </div>
 
     <div class="report-card" id="view-home">
-      <div class="official-seal">운명공학<br>분석실</div>
-     <h1 id="ui-title">수리성명학 데이터 분석</h1> <!-- 이 줄 수정 -->
-  <p id="ui-desc" style="font-size:0.85rem; color:#888; margin-bottom:40px;">
-    성명의 파동과 탄생 시계열 지표를 바탕으로 81수리 체계를 분석합니다. 당신의 시그니처 에너지 구조가 도출됩니다.
-  </p>
-      <input type="text" id="userName" placeholder="성함" autocomplete="name">
-      <input type="text" id="userBirth" placeholder="양력 8자리 19901208" inputmode="numeric" autocomplete="bday">
-      <button class="btn-action" id="ui-btn" onclick="startAnalysis()">리포트 생성하기</button>
+    <div class="official-seal">운명공학<br>분석실</div>
+    <h1 id="ui-title">수리성명학 데이터 분석</h1>
+    <p id="ui-desc" style="font-size:0.85rem; color:#888; margin-bottom:40px;">
+        성명의 파동과 탄생 시계열 지표를 바탕으로 81수리 체계를 분석합니다. 당신의 시그니처 에너지 구조가 도출됩니다.
+    </p>
 
-
-      
-<div class="logic-info" style="text-align: left; margin-top: 40px; padding-top: 25px; border-top: 1px dashed var(--border);">
-    <h3 id="logic-title" style="font-family: 'Gowun Batang'; font-size: 0.85rem; color: var(--accent); margin-bottom: 15px;">◈ Destiny Lab 분석 방법론</h3>
+    <input type="text" id="userName" placeholder="성함" autocomplete="name">
+    <input type="text" id="userBirth" placeholder="양력 8자리 19901208" inputmode="numeric" autocomplete="bday">
     
-    <div style="margin-bottom: 12px;">
-        <b id="l1-title" style="font-size: 0.8rem; display: block; color: var(--primary);">〰️ 소리 주파수 분석 (Name Vibrations)</b>
-        <p id="l1-desc" style="font-size: 0.75rem; color: #888; margin: 3px 0 0 0; line-height: 1.5; word-break: keep-all;">성명을 단순 문자가 아닌 고유 주파수를 가진 에너지로 변환합니다. 발음 오행이 개인의 기운에 간섭하는 데이터를 수치화했습니다.</p>
+    <button class="btn-action" id="ui-btn" onclick="startAnalysis()">리포트 생성하기</button>
+
+    <div class="logic-info" style="text-align: left; margin-top: 35px; padding: 20px; background: #fcfbf9; border-radius: 8px; border: 1px dashed var(--border);">
+        <h3 id="logic-title" style="font-family: 'Gowun Batang'; font-size: 0.82rem; color: var(--accent); margin-top: 0; margin-bottom: 15px;">◈ Destiny Lab 분석 방법론</h3>
+        
+        <div style="margin-bottom: 12px;">
+            <b id="l1-title" style="font-size: 0.78rem; display: block; color: var(--primary);">〰️ 소리 주파수 분석 (Name Vibrations)</b>
+            <p id="l1-desc" style="font-size: 0.72rem; color: #888; margin: 3px 0 0 0; line-height: 1.5; word-break: keep-all;">성명을 고유 주파수를 가진 에너지로 변환하여 발음 오행의 간섭 데이터를 분석합니다.</p>
+        </div>
+
+        <div style="margin-bottom: 12px;">
+            <b id="l2-title" style="font-size: 0.78rem; display: block; color: var(--primary);">🗓️ 시계열 지표 대입 (Solar Term Time-series)</b>
+            <p id="l2-desc" style="font-size: 0.72rem; color: #888; margin: 3px 0 0 0; line-height: 1.5; word-break: keep-all;">탄생 순간의 24절기 에너지 밀도를 분석하여 당신의 근원적 환경 지표를 도출합니다.</p>
+        </div>
+
+        <div style="margin-bottom: 0;">
+            <b id="l3-title" style="font-size: 0.78rem; display: block; color: var(--primary);">🧬 81수리 상호작용 엔진</b>
+            <p id="l3-desc" style="font-size: 0.72rem; color: #888; margin: 3px 0 0 0; line-height: 1.5; word-break: keep-all;">선천적 절기 기운과 후천적 성명 에너지의 조합을 통해 입체적인 운명을 연산합니다.</p>
+        </div>
     </div>
 
-    <div style="margin-bottom: 12px;">
-        <b id="l2-title" style="font-size: 0.8rem; display: block; color: var(--primary);">🗓️ 시계열 지표 대입 (Solar Term Time-series)</b>
-        <p id="l2-desc" style="font-size: 0.75rem; color: #888; margin: 3px 0 0 0; line-height: 1.5; word-break: keep-all;">탄생 순간의 계절적 배경을 '선천적 변수'로 설정합니다. 24절기별 에너지 밀도를 분석하여 당신의 근원적 환경을 도출합니다.</p>
+    <div style="margin-top: 25px; min-height: 50px; display: flex; justify-content: center;">
+        <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-gySJpKsnNTQ1FIIF" data-ad-width="320" data-ad-height="50"></ins>
     </div>
-
-    <div style="margin-bottom: 5px;">
-        <b id="l3-title" style="font-size: 0.8rem; display: block; color: var(--primary);">🧬 81수리 상호작용 엔진</b>
-        <p id="l3-desc" style="font-size: 0.75rem; color: #888; margin: 3px 0 0 0; line-height: 1.5; word-break: keep-all;">선천적 절기 기운과 후천적 성명 에너지의 '상생·상극' 조합을 통해 도출된 알고리즘으로 전생과 내세의 시나리오를 연산합니다.</p>
-    </div>
+    <div class="visitor-counter">분석 완료된 운명: <span id="visit-count">...</span>건</div>
 </div>
-
-
-      
-      <!-- 메인 하단 광고 슬롯 -->
-      <div style="margin-top: 25px; min-height: 50px; display: flex; justify-content: center;">
-        <ins class="kakao_ad_area" style="display:none;" 
-             data-ad-unit="DAN-gySJpKsnNTQ1FIIF" 
-             data-ad-width="320" data-ad-height="50"></ins>
-      </div>
-      <div class="visitor-counter">분석 완료된 운명: <span id="visit-count">...</span>건</div>
-    </div>
 
     <div class="report-card hidden" id="view-result">
       <div class="official-seal">정식분석본</div>
