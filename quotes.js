@@ -469,7 +469,7 @@ const detailedDesc81 = {
     76: "<b>토(土)의 분산과 유출</b> 흙이 바람에 날리듯 실속 없이 에너지가 새어나가고 지출이 많은 불안정한 기운입니다. <b>장점</b>은 넓은 활동 범위와 대범한 씀씀이지만, <b>단점</b>으로는 수(水)의 응집력이 결여되어 버는 만큼 모이지 않는 고질적 병폐가 있습니다. 자산 관리 전문가의 도움을 받거나 강제적으로 돈을 묶어두는 시스템을 마련하십시오.",
     77: "<b>금(金)의 원칙과 투쟁</b> 칼과 칼이 부딪치듯 자신의 옳음만을 고집하여 외부와 끊임없이 마찰을 빚는 기운입니다. <b>장점</b>은 강직한 원칙 준수와 불의에 맞서는 용기지만, <b>단점</b>으로는 목(木)의 조화 기운이 약해 성패가 자주 엇갈립니다. '내가 옳다'는 생각보다 '함께 살아야 한다'는 상생의 가치를 제1원칙으로 삼으십시오.",
     78: "<b>금(金)의 신중과 예방</b> 칼을 칼집에 넣고 주변을 살피듯 극도의 조심성으로 초반 안정을 꾀하는 선길후흉의 기운입니다. <b>장점</b>은 완벽한 준비성과 리스크 관리력이지만, <b>단점</b>으로는 화(火)의 낙천적 에너지가 부족해 걱정만 하느라 도전하지 못합니다. 일어날 확률이 5% 미만인 걱정은 데이터로 삭제하고 과감히 세상 밖으로 나가십시오.",
-    79: "<b>수(수)의 은둔과 지혜</b> 깊은 골짜기의 샘물처럼 지혜는 깊으나 알아주는 이가 없어 고독하게 세월을 보내는 기운입니다. <b>장점</b>은 명예를 탐하지 않는 고결함과 전문 지식이지만, <b>단점</b>으로는 토(土)의 자기 홍보력이 약해 능력을 썩히기 쉽습니다. 당신의 깊은 통찰을 세상과 나누십시오. 적극적으로 홍보할 때 당신의 명성이 비로소 흐릅니다.",
+    79: "<b>수(水)의 은둔과 지혜</b> 깊은 골짜기의 샘물처럼 지혜는 깊으나 알아주는 이가 없어 고독하게 세월을 보내는 기운입니다. <b>장점</b>은 명예를 탐하지 않는 고결함과 전문 지식이지만, <b>단점</b>으로는 토(土)의 자기 홍보력이 약해 능력을 썩히기 쉽습니다. 당신의 깊은 통찰을 세상과 나누십시오. 적극적으로 홍보할 때 당신의 명성이 비로소 흐릅니다.",
     80: "<b>수(水)의 종말과 성찰</b> 모든 물이 바다 끝에서 고요해지듯 정신적 고결함은 높으나 세속적인 운세는 약해진 기운입니다. <b>장점</b>은 우주의 진리를 깨닫는 명상적 지혜지만, <b>단점</b>으로는 화(火)의 생기가 부족해 현실 세계와 유리될 리스크가 큽니다. 소소한 일상의 기쁨을 찾아 매일 햇볕을 쬐고 몸의 감각을 일깨우는 습관을 가지십시오.",
     81: "<b>환희의 대순환과 완성</b> 81수리의 마지막이자 다시 1로 돌아가는 오행의 대화합 지점으로, 완벽한 복덕을 누리는 숫자입니다. 당신의 이름이 도달한 이 지점은 새로운 차원의 운명을 여는 환희의 문입니다. <b>장점</b>은 만물과의 조화와 최상의 명예운이지만, <b>단점</b>으로는 성공에 취해 목(木)의 자만심이 생겨 시련을 자초할 수 있습니다. 얻은 성취를 사회에 환원하는 순환의 법칙을 실천할 때 당신의 운명은 영원히 빛날 것입니다."
 };
@@ -592,7 +592,7 @@ const pastLifeData = Array.from({ length: 81 }, (_, i) => {
             { job: "유랑 약재상", desc: "대지의 생명력을 찾아 대륙 곳곳에 치유의 뿌리를 전했습니다." },
             { job: "종이 제작자", desc: "지식의 바탕이 되는 종이를 만들어 문명의 전승을 도왔습니다." }
         ],
-        "화(화)": [
+        "화(火)": [
             { job: "광야의 예언자", desc: "타오르는 지성으로 대중의 갈 길을 비추는 등불이 되었습니다." },
             { job: "유리 세공사", desc: "불의 기운으로 빛을 가두어 세상에서 가장 투명한 예술을 했습니다." },
             { job: "유랑극단 단장", desc: "발산하는 에너지로 민중의 슬픔을 축제로 바꾼 예술가였습니다." },
@@ -642,7 +642,7 @@ const pastLifeData = Array.from({ length: 81 }, (_, i) => {
         ]
     };
 
-    const elKey = [1, 2].includes(lastDigit) ? "목(木)" : [3, 4].includes(lastDigit) ? "화(화)" : [5, 6].includes(lastDigit) ? "토(土)" : [7, 8].includes(lastDigit) ? "금(金)" : "수(水)";
+    const elKey = [1, 2].includes(lastDigit) ? "목(木)" : [3, 4].includes(lastDigit) ? "화(火)" : [5, 6].includes(lastDigit) ? "토(土)" : [7, 8].includes(lastDigit) ? "금(金)" : "수(水)";
     const pool = jobPool[elKey];
     const match = pool[i % pool.length];
     const mods = ["달빛 아래 기도를 올리던", "금기된 고서를 해석하던", "별의 궤적을 쫓던", "침묵 속에 칼날을 갈던", "자비로운 마음으로 생명을 품던", "안개 너머 진실을 보던", "거친 파도를 잠재우던", "운명의 실타래를 풀던", "비밀스러운 전설을 기록하던", "정의로운 신념으로 맞서던"];
@@ -662,9 +662,9 @@ const pastLifeData = Array.from({ length: 81 }, (_, i) => {
         "흔들리지 않는 평정심으로 극도의 혼란을 잠재웠습니다.", "자신의 명예보다는 타인의 안위를 먼저 살피는 고결함을 갖췄습니다."
     ];
 
-    return { 
-        job: `${mods[i % mods.length]} ${jobs[i % jobs.length]}`, 
-        desc: `성명학 분석 결과, 당신은 <b>${elInfo.name}</b>의 <b>${elInfo.trait}</b>이 두드러지는 명식입니다. 이로 인해 과거 생애에서 ${elInfo.reason}`, 
+   return { 
+        job: `${mods[i % mods.length]} ${match.job}`, 
+        desc: `성명학 분석 결과, 당신은 <b>${elKey}</b>의 <b>${elTraits[elKey]}</b>이 두드러지는 명식입니다. 이로 인해 과거 생애에서 ${match.desc}`, 
         homework: homeworks[i % homeworks.length] 
     };
 });
@@ -763,12 +763,12 @@ const pastLifeDataEn = Array.from({ length: 81 }, (_, i) => {
         "Quieted extreme chaos with an unshakable composure.", "Attained nobility by prioritizing others' safety over personal honor."
     ];
 
-    return { 
-        job: `${mods[i % mods.length]} ${match.job}`, 
-        desc: `Based on Suri analysis, your name possesses powerful <b>${elKey}</b> energy and <b>${elTraits[elKey]}</b>. Consequently, in your past life, you ${match.desc}`, 
-        homework: homeworks[i % homeworks.length] 
+return { 
+        job: `${modsEn[i % modsEn.length]} ${matchEn.job}`, 
+        desc: `Based on Suri analysis, your name possesses powerful <b>${elKeyEn}</b> energy and <b>${elTraitsEn[elKeyEn]}</b>. Consequently, in your past life, you ${matchEn.desc}`, 
+        homework: homeworksEn[i % homeworksEn.length] 
     };
-});
+});    
 
 /* [내세 데이터: 81개 수리별 미래/개척시대 버전] */
 const reincarnationData = Array.from({ length: 81 }, (_, i) => {
@@ -788,7 +788,7 @@ const reincarnationData = Array.from({ length: 81 }, (_, i) => {
             { role: "태초의 숲 전령", job: "지구의 기억을 품은 나무를 개척지로 운반하는 인도자" },
             { role: "라이프 시퀀스 설계자", job: "새로운 생명체가 태어날 환경을 완벽하게 세팅하는 설계관" }
         ],
-        "화(화)": [
+        "화(火)": [
             { role: "에너지 주파수 조율사", job: "다차원 문명의 에너지를 하나로 묶어 증폭시키는 전도사" },
             { role: "홀로그램 계몽가", job: "빛의 파동으로 잊혀진 인류의 지혜를 전파하는 미래의 교사" },
             { role: "성운 동력 발굴가", job: "별이 폭발할 때 생기는 에너지를 문명의 동력으로 바꾸는 주역" },
@@ -847,7 +847,7 @@ const reincarnationData = Array.from({ length: 81 }, (_, i) => {
         "침묵의 데이터 망루", "무지개 공명 광장", "코스모스 평화 센터", "미래 기후 설계실", "영혼 전송 정거장"
     ];
 
-    const elKey = [1, 2].includes(lastDigit) ? "목(木)" : [3, 4].includes(lastDigit) ? "화(화)" : [5, 6].includes(lastDigit) ? "토(토)" : [7, 8].includes(lastDigit) ? "금(金)" : "수(水)";
+    const elKey = [1, 2].includes(lastDigit) ? "목(木)" : [3, 4].includes(lastDigit) ? "화(火)" : [5, 6].includes(lastDigit) ? "토(土)" : [7, 8].includes(lastDigit) ? "금(金)" : "수(水)";
     const pool = futurePool[elKey];
     const match = pool[i % pool.length];
 
@@ -865,10 +865,10 @@ const reincarnationData = Array.from({ length: 81 }, (_, i) => {
         "우주의 끝에서 날아오는 정체불명의 방사능을 차단하십시오.", "감정의 불균형으로 무너지는 돔 도시의 정신을 재건하십시오.", "영원한 평화와 공존의 시나리오를 완성하십시오."
     ];
 
-    return { 
+   return { 
         place: places[i % places.length], 
-        job: jobs[i % jobs.length], 
-        desc: `성명학적 데이터 분석에 따르면 당신의 미래 에너지는 <b>${elInfo.name}</b>의 <b>${elInfo.trait}</b>이 지배적일 것으로 예측됩니다. 이로 인해 내세에서는 <b>${elInfo.role}</b> 임무를 맡게 될 것입니다.`, 
+        job: match.role, 
+        desc: `분석 결과 당신의 미래는 <b>${elKey}</b>의 기운이 주도합니다. 이 영향으로 내세에서는 <b>${match.job}</b>`, 
         mission: missions[i % missions.length] 
     };
 });
@@ -980,7 +980,7 @@ const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
     return { 
         place: placesEn[i % placesEn.length], 
         job: matchEn.role, 
-        desc: `According to Suri analysis, your future energy is predicted to be dominated by <b>${elKeyEn}</b>'s <b>${elTraitsEn[elKeyEn]}</b>. Consequently, in the afterlife, you will be <b>${matchEn.job}</b>.`, 
+        desc: `According to the analysis, your future will be driven by <b>${elKeyEn}</b> energy. Under this influence, in your afterlife, you will be <b>${matchEn.job}</b>.`, 
         mission: missionsEn[i % missionsEn.length] 
     };
 });
