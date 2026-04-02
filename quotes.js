@@ -827,7 +827,7 @@ const reincarnationData = Array.from({ length: 81 }, (_, i) => {
             { role: "꿈의 세계 가이드", job: "인류가 잠든 사이 무의식 속에서 안전하게 유영하도록 돕는 자" },
             { role: "투명성 감사 위원", job: "정보의 흐름이 막힘없이 맑게 유지되는지 감시하는 투명성 수호자" },
             { role: "데이터 복구 고고학자", job: "사라진 고대 지구의 서버를 복구하여 잃어버린 기억을 찾는 이" },
-            { role: "유연한 사고 교육가", job: "고정관념을 깨고 창의적인 사고를 흐르게 하는 미래의 스승" },
+            { role: "고차원의 교육가", job: "고정관념을 깨고 창의적인 사고를 흐르게 하는 미래의 스승" },
             { role: "심연의 진리 전파자", job: "우주의 끝에서 발견한 근원적 비밀을 지혜로 승화시켜 전하는 이" }
         ]
     };
@@ -862,7 +862,7 @@ const reincarnationData = Array.from({ length: 81 }, (_, i) => {
     return { 
         place: places[i % places.length], 
         job: match.role, 
-        desc: `분석 결과 당신의 미래는 <b>${elKey}</b>의 기운이 주도합니다. 이 영향으로 내세에서는 <b>${match.job}</b>`, 
+        desc: `분석 결과 당신의 미래는 <b>${elKey}</b>의 에너지가 주도합니다. 이 영향으로 내세에서는 <b>${match.job}</b>으로 활동할 운명입니다.`, 
         mission: missions[i % missions.length] 
     };
 });
