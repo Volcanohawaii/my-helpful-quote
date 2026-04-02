@@ -871,7 +871,7 @@ const reincarnationData = Array.from({ length: 81 }, (_, i) => {
 const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
     const num = i + 1;
     const lastDigit = num % 10;
-    const futurePoolEn = = {
+    const futurePoolEn  = {
         "Wood": [
             { role: "Planetary Terraforming Architect", job: "specialist restoring endangered species in bio-domes on frontier planets" },
             { role: "Neural Plant Guardian", job: "system manager connecting human brainwaves with plants to generate oxygen" },
