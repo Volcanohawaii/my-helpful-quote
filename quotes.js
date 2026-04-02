@@ -643,6 +643,7 @@ const pastLifeData = Array.from({ length: 81 }, (_, i) => {
     };
 
     const elKey = [1, 2].includes(lastDigit) ? "목(木)" : [3, 4].includes(lastDigit) ? "화(火)" : [5, 6].includes(lastDigit) ? "토(土)" : [7, 8].includes(lastDigit) ? "금(金)" : "수(水)";
+    const elTraits = { "목(木)": "강한 추진력과 생명력", "화(火)": "발산하는 열정과 에너지", "토(土)": "두터운 중용과 응집력", "금(金)": "예리한 결단과 강직함", "수(水)": "심오한 지혜와 유연함" };
     const pool = jobPool[elKey];
     const match = pool[i % pool.length];
     const mods = ["달빛 아래 기도를 올리던", "금기된 고서를 해석하던", "별의 궤적을 쫓던", "침묵 속에 칼날을 갈던", "자비로운 마음으로 생명을 품던", "안개 너머 진실을 보던", "거친 파도를 잠재우던", "운명의 실타래를 풀던", "비밀스러운 전설을 기록하던", "정의로운 신념으로 맞서던"];
@@ -736,20 +737,13 @@ const pastLifeDataEn = Array.from({ length: 81 }, (_, i) => {
         ]
     };
 
-    const elKey = [1, 2].includes(lastDigit) ? "Wood" : [3, 4].includes(lastDigit) ? "Fire" : [5, 6].includes(lastDigit) ? "Earth" : [7, 8].includes(lastDigit) ? "Metal" : "Water";
-    const elTraits = {
-        "Wood": "unbreakable vitality and pioneering spirit",
-        "Fire": "radiant passion and artistic madness",
-        "Earth": "vast balance and cohesive power",
-        "Metal": "sharp decisiveness and iron-clad integrity",
-        "Water": "profound wisdom and flexible intelligence"
-    };
+   const elKeyEn = [1, 2].includes(lastDigit) ? "Wood" : [3, 4].includes(lastDigit) ? "Fire" : [5, 6].includes(lastDigit) ? "Earth" : [7, 8].includes(lastDigit) ? "Metal" : "Water";
+    const elTraitsEn = { "Wood": "vitality", "Fire": "passion", "Earth": "balance", "Metal": "integrity", "Water": "wisdom" };
 
-    const pool = jobPool[elKey];
-    const match = pool[i % pool.length];
-    const mods = ["Praying under the moonlight", "Decoding forbidden scrolls", "Chasing the trajectories of stars", "Sharpening blades in silence", "Embracing life with a compassionate heart", "Seeing the truth beyond the mist", "Calming the rough waves", "Unraveling the threads of fate", "Recording secretive legends", "Standing against with righteous conviction"];
-
-    const homeworks = [
+    const poolEn = jobPoolEn[elKeyEn];
+    const matchEn = poolEn[i % poolEn.length];
+    const modsEn = ["Praying under the moonlight", "Decoding forbidden scrolls", "Chasing starlight", "Sharpening blades", "Embracing life", "Seeing the truth", "Calming the waves", "Unraveling fate", "Recording legends", "Standing righteous"];
+    const homeworksEn = [
         "The mission was to turn knowledge into compassion.", "Devoted life to letting go of greed and finding inner peace.", "Sought to master true empathy for the suffering of others.",
         "Tasked with returning personal talents back to social values.", "The challenge was to overcome solitude and communicate with the world.", "Refined leadership through virtue rather than mere authority.",
         "Focused on healing past wounds and staying in the present.", "Pursued spiritual completion over material wealth.", "Strived to control inner anger and learn forgiveness.",
@@ -765,10 +759,10 @@ const pastLifeDataEn = Array.from({ length: 81 }, (_, i) => {
 
 return { 
         job: `${modsEn[i % modsEn.length]} ${matchEn.job}`, 
-        desc: `Based on Suri analysis, your name possesses powerful <b>${elKeyEn}</b> energy and <b>${elTraitsEn[elKeyEn]}</b>. Consequently, in your past life, you ${matchEn.desc}`, 
+        desc: `Based on Suri analysis, your name possesses powerful <b>${elKeyEn}</b> energy. Consequently, in your past life, you ${matchEn.desc}`, 
         homework: homeworksEn[i % homeworksEn.length] 
     };
-});    
+});
 
 /* [내세 데이터: 81개 수리별 미래/개척시대 버전] */
 const reincarnationData = Array.from({ length: 81 }, (_, i) => {
@@ -846,12 +840,7 @@ const reincarnationData = Array.from({ length: 81 }, (_, i) => {
         "무의식 데이터 아카이브", "다차원 관문 터미널", "기억 저장소 '메모리아'", "차원 전송 게이트 11", "에메랄드 포레스트 돔",
         "침묵의 데이터 망루", "무지개 공명 광장", "코스모스 평화 센터", "미래 기후 설계실", "영혼 전송 정거장"
     ];
-
-    const elKey = [1, 2].includes(lastDigit) ? "목(木)" : [3, 4].includes(lastDigit) ? "화(火)" : [5, 6].includes(lastDigit) ? "토(土)" : [7, 8].includes(lastDigit) ? "금(金)" : "수(水)";
-    const pool = futurePool[elKey];
-    const match = pool[i % pool.length];
-
-    // [4] 핵심 미션(Missions) - 개척과 공생 (30개)
+ // [4] 핵심 미션(Missions) - 개척과 공생 (30개)
     const missions = [
         "지구의 멸종 위기 식물 유전자를 행성 X로 이식하십시오.", "화성의 물 부족 현상을 해결할 결빙 핵 기술을 전달하십시오.", "분열된 달 거주지들 사이의 평화 조약을 체결하십시오.",
         "인공지능과 인류 사이의 감정적 갈등을 중재하고 화해시키십시오.", "100년 전 손실된 인류의 디지털 기억을 복구하십시오.", "신개척 행성에 세워질 첫 번째 도서관의 책을 선별하십시오.",
@@ -865,7 +854,12 @@ const reincarnationData = Array.from({ length: 81 }, (_, i) => {
         "우주의 끝에서 날아오는 정체불명의 방사능을 차단하십시오.", "감정의 불균형으로 무너지는 돔 도시의 정신을 재건하십시오.", "영원한 평화와 공존의 시나리오를 완성하십시오."
     ];
 
-   return { 
+   const elKey = [1, 2].includes(lastDigit) ? "목(木)" : [3, 4].includes(lastDigit) ? "화(火)" : [5, 6].includes(lastDigit) ? "토(土)" : [7, 8].includes(lastDigit) ? "금(金)" : "수(水)";
+    const pool = futurePool[elKey];
+    const match = pool[i % pool.length];
+
+    // 🚩 return문에서 변수명 match와 elKey가 정확히 매칭됩니다.
+    return { 
         place: places[i % places.length], 
         job: match.role, 
         desc: `분석 결과 당신의 미래는 <b>${elKey}</b>의 기운이 주도합니다. 이 영향으로 내세에서는 <b>${match.job}</b>`, 
@@ -877,8 +871,7 @@ const reincarnationData = Array.from({ length: 81 }, (_, i) => {
 const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
     const num = i + 1;
     const lastDigit = num % 10;
-    
-    const futurePoolEn = {
+    const futurePoolEn = = {
         "Wood": [
             { role: "Planetary Terraforming Architect", job: "specialist restoring endangered species in bio-domes on frontier planets" },
             { role: "Neural Plant Guardian", job: "system manager connecting human brainwaves with plants to generate oxygen" },
@@ -962,8 +955,6 @@ const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
         "Participate in igniting an artificial sun using nebula energy.", "Create content to heal the profound loneliness of future humans.", "Deliver the flame of wisdom to dark colonies.",
         "Block unidentified radiation coming from the edge of space.", "Rebuild the spirit of dome cities collapsing from emotional imbalance.", "Complete the cycle of eternal life."
     ];
-
-    const elKeyEn = [1, 2].includes(lastDigit) ? "Wood" : [3, 4].includes(lastDigit) ? "Fire" : [5, 6].includes(lastDigit) ? "Earth" : [7, 8].includes(lastDigit) ? "Metal" : "Water";
     
     // 오행 기운 특성 번역
     const elTraitsEn = {
@@ -973,7 +964,7 @@ const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
         "Metal": "precise judgment and justice",
         "Water": "profound insight and purification"
     };
-
+const elKeyEn = [1, 2].includes(lastDigit) ? "Wood" : [3, 4].includes(lastDigit) ? "Fire" : [5, 6].includes(lastDigit) ? "Earth" : [7, 8].includes(lastDigit) ? "Metal" : "Water";
     const poolEn = futurePoolEn[elKeyEn];
     const matchEn = poolEn[i % poolEn.length];
 
