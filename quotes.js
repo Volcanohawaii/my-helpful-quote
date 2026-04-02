@@ -862,7 +862,7 @@ const reincarnationData = Array.from({ length: 81 }, (_, i) => {
     return { 
         place: places[i % places.length], 
         job: match.role, 
-        desc: `분석 결과 당신의 미래는 <b>${elKey}</b>의 에너지가 주도합니다. 이 영향으로 내세에서는 <b>${match.job}</b>으로 활동할 운명입니다.`, 
+        desc: `분석 결과 당신의 미래는 <b>${elKey}</b>의 에너지가 주도합니다. 이 영향으로 내세에서는 <b>${match.job}</b>(으)로 활동할 운명입니다.`, 
         mission: missions[i % missions.length] 
     };
 });
