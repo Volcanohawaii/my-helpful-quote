@@ -674,7 +674,7 @@ const pastLifeDataEn = Array.from({ length: 81 }, (_, i) => {
     const num = i + 1;
     const lastDigit = num % 10;
     
-    const jobPool = {
+    const jobPoolEn = {
         "Wood": [
             { job: "Royal Gardener", desc: "possessed strong vital energy and designed the secret gardens of the Empire." },
             { job: "Herbal Healer", desc: "traversed rugged mountains to treat the sick with the energy of life and compassion." },
