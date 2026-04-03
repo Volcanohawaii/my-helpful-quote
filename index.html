@@ -427,6 +427,15 @@ if (mode === 'fortune') {
     const narrativeKo = `당신은 <b>${seasonName}</b>이라는 선천적 환경을 바탕으로 태어났습니다. 여기에 당신의 성명이 가진 <b>${nameElKey}</b>의 에너지가 개입하여 <b>${baseAction}</b>, ${timeModifier} 최종적으로 <b>${finalSignature}</b> 중심의 독보적인 운명 시그니처를 구축하게 되었습니다.`;
     const narrativeEn = `You were born into the innate environment of <b>${seasonName}</b>. Your name's <b>${elMap[nameElKey] || nameElKey}</b> energy interfered with this base to <b>${baseAction}</b>. Additionally, ${timeModifier} this has resulted in a unique <b>${elMap[finalSignature] || finalSignature}</b> signature.`;
 
+const yVal = parseInt(session.birth.substring(0, 4)); // 연도 (1990)
+const dVal = parseInt(session.birth.substring(6, 8)); // 날짜 (08)
+const hVal = session.hour || 12;                      // 시간
+const sVal = session.num81;                           // 이름 수리번호
+const mVal = birthMonth;                              // 태어난 달
+
+
+const missionIndex = (yVal + mVal + dVal + hVal + sVal) % 12;
+/* --- 여기까지 복사해서 넣으세요 --- */
     // 6. 화면 출력
     body.innerHTML = `
       <div class="tab-content">
@@ -437,11 +446,12 @@ if (mode === 'fortune') {
             ${currentLang === 'ko' ? narrativeKo : narrativeEn}
           </p>
           <div style="padding:20px; background:#F9F8F6; border-radius:12px; border:1px solid #F0EAE3;">
-            <b style="color:var(--accent); font-size:0.95rem;">📜 도출된 시그니처의 과업</b><br>
-            <span style="font-size:0.9rem; color:#444; line-height:1.6;">
-                ${(currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12)[finalSignature][(session.num81 + birthMonth) % 12]}
-            </span>
-          </div>
+  <b style="color:var(--accent); font-size:0.95rem;">📜 현생의 과업</b><br>
+  <span style="font-size:0.9rem; color:#444; line-height:1.6;">
+      ${(currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12)[finalSignature][missionIndex]}
+  </span>
+</div>
+              
         </div>
         <span class="section-title">${t.sec2}</span>
         <div class="info-box" style="background:#fff;">
