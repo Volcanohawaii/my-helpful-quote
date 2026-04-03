@@ -276,8 +276,7 @@ function processData(name, birth) {
     const strongEl = elements[sc.indexOf(Math.max(...sc))];
     const sIdx = sc.map((s, i) => i).sort((a, b) => sc[a] - sc[b]);
     const nameVal = name.split('').reduce((a, ch) => a + ch.charCodeAt(0), 0);
-    const num81 = ((nameVal + birthVal + hour) % 81) + 1;
-
+    const num81 = (nameVal % 81) + 1;
     const sessionData = { 
         name, birth, num81, elementScores: sc, strongEl, solarMonth,
         lackEls: [elements[sIdx[0]], elements[sIdx[1]]] 
