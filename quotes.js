@@ -5,7 +5,7 @@ const i18n = {
     ko: {
         title: "수리성명학 데이터 분석", 
         desc: "81수리 체계 성명의 파동과 탄생 시계열 지표를 바탕으로 당신의 시그니처 에너지 구조가 도출됩니다.",
-        nameLabel: "성명", birthLabel: "양력 8자리(19901208)", btn: "리포트 생성하기",
+        nameLabel: "성명", birthLabel: "양력 8자리(19901208)", hourLabel: "생시(시간) 선택", btn: "리포트 생성하기",
         loadSeal: "분석중", loadTitle: "당신의 운명 에너지를 조합 중...", loadDesc: "잠시 기다려 주세요.",
         tab1Btn: "현생 분석", tab2Btn: "전생 기록", tab3Btn: "내세 예약",
         sec1: "에너지 분석 자료(성명+월 시너지)", sec2: "약점 보완 전략", advise: "현생 조언", practice: "실천 사항", 
@@ -28,7 +28,7 @@ const i18n = {
     en: {
         title: "Suri Numerology Analysis", 
         desc: "Analyzes the 81-numerology system based on name vibrations and birth indicators to derive your signature energy structure.",
-        nameLabel: "Name", birthLabel: "Birthdate (YYYYMMDD)", btn: "Generate Report",
+        nameLabel: "Name", birthLabel: "Birthdate (YYYYMMDD)", hourLabel: "Select Birth Hour", btn: "Generate Report",
         loadSeal: "Analyzing", loadTitle: "Combining your destiny energy...", loadDesc: "Please wait a moment.",
         tab1Btn: "Current Life", tab2Btn: "Past Life", tab3Btn: "Afterlife",
         sec1: "Five Elements Dynamics Profile", sec2: "Weakness Strategy", advise: "Life Advice", practice: "Action Plan", 
