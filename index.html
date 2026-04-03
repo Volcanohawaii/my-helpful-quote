@@ -107,6 +107,21 @@
     <div class="input-group" style="margin-bottom: 25px;">
         <input type="text" id="userName" placeholder="성함" autocomplete="name">
         <input type="text" id="userBirth" placeholder="양력 8자리 19901208" inputmode="numeric" autocomplete="bday">
+      <select id="userHour" style="width: 100%; padding: 15px; margin-bottom: 15px; border: none; border-bottom: 1px solid #DDD; font-size: 1.1rem; outline: none; background: transparent; color: #555;">
+    <option value="12" id="opt-hour-label">생시(시간) 선택</option>
+    <option value="0">자시 (23:30~01:29)</option>
+    <option value="2">축시 (01:30~03:29)</option>
+    <option value="4">인시 (03:30~05:29)</option>
+    <option value="6">묘시 (05:30~07:29)</option>
+    <option value="8">진시 (07:30~09:29)</option>
+    <option value="10">사시 (09:30~11:29)</option>
+    <option value="12">오시 (11:30~13:29)</option>
+    <option value="14">미시 (13:30~15:29)</option>
+    <option value="16">신시 (15:30~17:29)</option>
+    <option value="18">유시 (17:30~19:29)</option>
+    <option value="20">술시 (19:30~21:29)</option>
+    <option value="22">해시 (21:30~23:29)</option>
+</select>
         <button class="btn-action" id="ui-btn" onclick="startAnalysis()">리포트 생성하기</button>
     </div>
 
