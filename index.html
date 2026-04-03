@@ -195,6 +195,7 @@
     function startAnalysis() {
       const n = document.getElementById('userName').value.trim();
       const b = document.getElementById('userBirth').value.trim().replace(/\D/g, '');
+      const h = document.getElementById('userHour').value;
       if (!n || b.length !== 8) { alert(currentLang === 'ko' ? "정보를 확인해주세요." : "Check info."); return; }
       document.getElementById('loading-overlay').classList.add('show');
       setTimeout(() => {
