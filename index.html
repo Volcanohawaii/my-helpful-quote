@@ -392,15 +392,12 @@ if (mode === 'fortune') {
     const r1 = suriPrescription.getRemedy(session.num81, [session.lackEls[0]], currentLang);
     const r2 = suriPrescription.getRemedy(session.num81, [session.lackEls[1]], currentLang);
 
+    // 🚩 1. 모든 분석의 기준점을 '이름의 본래 기운'으로 고정
     const nameElKey = session.nameSuriEl; 
-    // 📍 지도를 더 정확하게 보강했습니다.
-    const elHanjaMap = { 
-        "목(木)": "木", "화(火)": "火", "토(土)": "土", "금(金)": "金", 
-        "수(水)": "水"
-    };
-    const nameElHanja = elHanjaMap[nameElKey] || "오류";
+    
+    const elHanjaMap = { "목(木)": "木", "화(火)": "火", "토(土)": "土", "금(金)": "金", "수(水)": "水" };
+    const nameElHanja = elHanjaMap[nameElKey] || "木";
 
-    // 📍 태어난 달의 기운 (배경)
     let birthElHanja = "土";
     if ([2, 3].includes(birthMonth)) birthElHanja = "木";
     else if ([5, 6].includes(birthMonth)) birthElHanja = "火";
@@ -417,7 +414,6 @@ if (mode === 'fortune') {
 
     const actionText = interactionNarrative[nameElHanja][birthElHanja] || "선천적 기운을 이름의 주파수로 재배치하여";
 
-    // 4. 최종 출력 (nameElKey가 주인!)
     body.innerHTML = `
       <div class="tab-content">
         <span class="section-title">${t.sec1}</span>
@@ -425,10 +421,11 @@ if (mode === 'fortune') {
           <div id="radarChart" style="margin:10px auto; width:220px; height:220px;"></div>
           <p style="line-height:1.7; word-break:keep-all; margin-top:20px;">
             ${currentLang === 'ko' 
-              ? `당신의 성명은 고유하게 <b>${nameElKey}</b>의 진동을 품고 있으며, <b>${seasonName}</b>의 기운을 배경으로 삼아 태어났습니다. 이 두 에너지가 결합하여 <b>${actionText}</b>, 결과적으로 <b>${session.strongEl}</b> 중심의 독보적인 운명 시그니처를 완성했습니다.` 
+              ? `당신의 성명은 고유하게 <b>${nameElKey}</b>의 진동을 품고 있으며, <b>${seasonName}</b>의 기운을 배경으로 삼아 태어났습니다. 이 두 에너지가 결합하여 <b>${actionText}</b>, 최종적으로 <b>${session.strongEl}</b> 중심의 독보적인 운명 시그니처를 완성했습니다.` 
               : `Your name inherently carries the vibration of <b>${elMap[nameElKey] || nameElKey}</b>, born against the backdrop of <b>${seasonName}</b>. These energies combine so that <b>${actionText}</b>, ultimately completing a signature profile centered on <b>${elMap[session.strongEl] || session.strongEl}</b>.`
             }
           </p>
+          
           <div style="padding:20px; background:#F9F8F6; border-radius:12px; border:1px solid #F0EAE3;">
             <b style="color:var(--accent); font-size:0.95rem;">📜 현생의 과업</b><br>
             ${(currentLang === 'ko' ? elementPrescriptions12 : enPrescriptions12)[nameElKey][(session.num81 + birthMonth) % 12]}
