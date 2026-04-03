@@ -434,7 +434,7 @@ const sVal = session.num81;                           // 이름 수리번호
 const mVal = birthMonth;                              // 태어난 달
 
 
-const missionIndex = (yVal + mVal + dVal + hVal + sVal) % 12;
+const missionIndex = (yVal + mVal + dVal + hVal + sVal) % 24;
 /* --- 여기까지 복사해서 넣으세요 --- */
     // 6. 화면 출력
     body.innerHTML = `
@@ -442,7 +442,7 @@ const missionIndex = (yVal + mVal + dVal + hVal + sVal) % 12;
         <span class="section-title">${t.sec1}</span>
         <div class="info-box" style="background:#fff;">
           <div id="radarChart" style="margin:10px auto; width:220px; height:220px;"></div>
-          <p style="line-height:1.7; word-break:keep-all; margin-top:20px;">
+          <p style="line-height:1.7; word-break:break-all; text-align:justify; text-justify:inter-character; margin-top:20px;">
             ${currentLang === 'ko' ? narrativeKo : narrativeEn}
           </p>
           <div style="padding:20px; background:#F9F8F6; border-radius:12px; border:1px solid #F0EAE3;">
