@@ -390,8 +390,28 @@ function renderChart(scores) {
     
     <polygon points="${poly}" fill="rgba(154, 132, 103, 0.4)" stroke="#9A8467" stroke-width="2.5" stroke-linejoin="round"/>
   </svg>`;
-  const finalSignature = session.strongEl || "오류"; 
-}
+  
+  unction switchTab(mode) {
+    const elMap = { "목(木)": "Wood", "화(火)": "Fire", "토(土)": "Earth", "금(金)": "Metal", "수(水)": "Water" };
+    const body = document.getElementById('reportDetail');
+    const session = JSON.parse(localStorage.getItem('destinySession'));
+    if (!session) return;
+
+    const t = i18n[currentLang]; 
+    const birthMonth = parseInt(session.birth.substring(4, 6));
+
+    // ✅ 에러의 원인이었던 시그니처 변수를 탭 밖으로 안전하게 꺼냈습니다!
+    const finalSignature = session.strongEl || "목(木)";
+
+    // 탭 활성화 로직
+    document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('active');
+        if (mode === 'fortune' && b.id === 'tab1') b.classList.add('active');
+        if (mode === 'past' && b.id === 'tab2') b.classList.add('active');
+        if (mode === 'next' && b.id === 'tab3') b.classList.add('active');
+    });
+
+    if (mode === 'fortune') {
 
     
 if (mode === 'fortune') {
