@@ -391,7 +391,7 @@ function renderChart(scores) {
     <polygon points="${poly}" fill="rgba(154, 132, 103, 0.4)" stroke="#9A8467" stroke-width="2.5" stroke-linejoin="round"/>
   </svg>`;
   
-  unction switchTab(mode) {
+  function switchTab(mode) {
     const elMap = { "목(木)": "Wood", "화(火)": "Fire", "토(土)": "Earth", "금(金)": "Metal", "수(水)": "Water" };
     const body = document.getElementById('reportDetail');
     const session = JSON.parse(localStorage.getItem('destinySession'));
