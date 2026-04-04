@@ -390,7 +390,7 @@ function renderChart(scores) {
     
     <polygon points="${poly}" fill="rgba(154, 132, 103, 0.4)" stroke="#9A8467" stroke-width="2.5" stroke-linejoin="round"/>
   </svg>`;
-  
+  }
   function switchTab(mode) {
     const elMap = { "목(木)": "Wood", "화(火)": "Fire", "토(土)": "Earth", "금(金)": "Metal", "수(水)": "Water" };
     const body = document.getElementById('reportDetail');
@@ -410,8 +410,6 @@ function renderChart(scores) {
         if (mode === 'past' && b.id === 'tab2') b.classList.add('active');
         if (mode === 'next' && b.id === 'tab3') b.classList.add('active');
     });
-
-    if (mode === 'fortune') {
 
     
 if (mode === 'fortune') {
