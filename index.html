@@ -490,13 +490,12 @@ if (mode === 'fortune') {
         const hVal = session.hour || 12;
         
         // 1. 이름의 파동 에너지 (81수리 번호)
-        const sVal = session.num81; 
+        // 기타 계산 (탄생 배경과 후천적 이름 주파수만의 정밀 융합)
+        const sVal = session.num81; // 이름 81수리
+        const mVal = session.solarMonth; // 24절기 (탄생 배경)
         
-        // 2. 이름의 오행 에너지 (목=1, 화=2, 토=3, 금=4, 수=5 로 환산)
-        const nameElIdx = elements.indexOf(nameElKey) + 1; 
-        
-        // 3. 최종 미션 인덱스 도출 (모든 변수를 더해 24가지 과업 중 하나를 정밀 타격)
-        const missionIndex = (yVal + mVal + dVal + hVal + sVal + nameElIdx) % 24;
+        // 24가지 과업 중, 유저의 '최종 시그니처 오행'에 완벽히 종속된 인덱스 도출
+        const missionIndex = (mVal + sVal) % 24;
   
         // 6. 화면 출력
         body.innerHTML = `
