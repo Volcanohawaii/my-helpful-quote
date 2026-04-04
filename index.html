@@ -330,8 +330,8 @@ function processData(name, birth) {
     document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `${data.name}님의 분석 리포트` : `${data.name}'s Analysis Report`;
       
     // 🌍 명칭을 수리 격 특징과 어울리도록 세련되게 변경
-    const labelSuri = currentLang === 'ko' ? '🔮 수리 격 특징' : '🔮 Suri Character';
-    const labelMonth = currentLang === 'ko' ? '🌍 선천적 코어 기질' : '🌍 Innate Core Temperament';
+    const labelSuri = currentLang === 'ko' ? '🔮 수리격 특징' : '🔮 Suri Character';
+    const labelMonth = currentLang === 'ko' ? '🌍 탄생일 특징' : '🌍 Innate Core Temperament';
 
     // 수리격의 '기본격-만사휴태' 처럼, 선천운에도 짧은 요약 타이틀을 달아줍니다 (예: 병오 - 거대한 태양)
     // 텍스트에 들어간 따옴표(' ')를 제거하여 깔끔하게 만듭니다.
@@ -471,18 +471,6 @@ if (mode === 'fortune') {
         // 🌟 전체 에너지 강/약 텍스트 불러오기 (이제 여기에만 딱 한 번 들어갑니다!)
         const strongText = strongTemplates[session.strongEl][currentLang];
         const weakText = weakTemplates[session.weakEl][currentLang];
-
-        // 🇰🇷 한국어 최종 출력문 (중복을 싹 지우고 하나로 깔끔하게 합쳤습니다!)
-        const finalNarrativeKo = `당신의 영혼은 <b>[${stemObj.ko}]</b>의 에너지를 코어로 품고 태어났습니다. 이 본질적인 기운에 <b>[${jeolgiKo}]</b>라는 <b>${bgStrengthKo} ${bgEl}</b>의 탄생 배경 에너지가 주어지고, 당신의 성명이 가진 <b>${nameElKey}</b>의 주파수가 개입하여 <b>${baseActionKo}</b>. ${timeModifierKo} 마침내 이 모든 에너지가 융합되어 최종적으로 <b>${finalSignature}</b> 중심의 독보적인 운명 시그니처가 완성되었습니다.
-        <br><br>
-        <b style="color:var(--accent);">[전체 에너지 밸런스 분석]</b><br>
-        ${strongText} ${weakText}`;
-        
-        // 🇺🇸 영문 최종 출력문
-        const finalNarrativeEn = `Your soul was born with the core energy of <b>[${stemObj.en}]</b>. To this innate essence, the background energy of <b>[${jeolgiEn}]</b> (<b>${bgStrengthEn} ${elMap[bgEl]}</b>) was added, and your name's <b>${elMap[nameElKey] || nameElKey}</b> frequency intervened to <b>${baseActionEn}</b>. ${timeModifierEn} finally, all these energies fused to complete a unique destiny signature centered on <b>${elMap[finalSignature] || finalSignature}</b>.
-        <br><br>
-        <b style="color:var(--accent);">[Overall Energy Balance]</b><br>
-        ${strongText} ${weakText}`;
 
         // 기타 계산
         const yVal = parseInt(session.birth.substring(0, 4));
