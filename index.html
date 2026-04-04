@@ -460,7 +460,6 @@ if (mode === 'fortune') {
         else if (h >= 16 && h < 22) { timeModifierKo = "저녁의 차분한 결실의 기운이 더해져"; timeModifierEn = "with the calm energy of evening,"; }
 
         // 5. 운명공학 완벽 서사 조립 (일주 코어 + 절기 배경 + 이름 작용 = 최종 시그니처)
-        const stemObj = stemTemplates[session.iljuData.stemId];
         const jeolgiKo = jeolgiNames[session.solarMonth] ? jeolgiNames[session.solarMonth].ko : ""; 
         const jeolgiEn = jeolgiNames[session.solarMonth] ? jeolgiNames[session.solarMonth].en : ""; 
         
@@ -468,9 +467,21 @@ if (mode === 'fortune') {
         const baseActionKo = (interactionNarrative[nameElHanja] && interactionNarrative[nameElHanja][bgElHanja]) || "선천적 기운을 이름의 주파수로 재배치하여";
         const baseActionEn = "rearranging the innate energy with the name's frequency"; 
         
-        // 🌟 전체 에너지 강/약 텍스트 불러오기 (이제 여기에만 딱 한 번 들어갑니다!)
+        // 🌟 전체 에너지 강/약 텍스트 불러오기 
         const strongText = strongTemplates[session.strongEl][currentLang];
         const weakText = weakTemplates[session.weakEl][currentLang];
+
+        // 💡 [추가됨] 일주(코어) 오행 강약 자동 판별 로직
+        const isYang = ['gap','byeong','mu','gyeong','im'].includes(session.iljuData.stemId);
+        const coreModifierKo = isYang ? "강력한" : "은은한";
+        const coreModifierEn = isYang ? "strong" : "subtle";
+        const coreElText = session.iljuData.el;
+
+        // 🇰🇷 한국어 최종 출력문 (대괄호 및 불필요한 볼드 제거, '(중간)' 같은 기계적 단어 자동 삭제!)
+        const finalNarrativeKo = `당신은 ${coreModifierKo} ${coreElText} 에너지를 품고 태어났습니다. 이 본질적인 기운에 ${jeolgiKo}라는 ${bgStrengthKo.replace(/\(.*\)/g, '')} ${bgEl}의 탄생 배경 에너지가 주어지고, 당신의 성명이 가진 ${nameElKey}의 주파수가 개입하여 ${baseActionKo}. ${timeModifierKo} 마침내 이 모든 에너지가 융합되어 최종적으로 <b>${finalSignature}</b> 중심의 독보적인 운명 시그니처가 완성되었습니다.<br><br><span style="color:var(--accent); font-weight:700;">에너지 밸런스</span><br>${strongText} ${weakText}`;
+        
+        // 🇺🇸 영문 최종 출력문
+        const finalNarrativeEn = `You were born with a ${coreModifierEn} ${elMap[coreElText]} energy as its core. To this innate essence, the background energy of ${jeolgiEn}, which is ${bgStrengthEn.replace(/\(.*\)/g, '')} ${elMap[bgEl]}, was added, and your name's ${elMap[nameElKey] || nameElKey} frequency intervened to ${baseActionEn}. ${timeModifierEn} finally, all these energies fused to complete a unique destiny signature centered on <b>${elMap[finalSignature] || finalSignature}</b>.<br><br><span style="color:var(--accent); font-weight:700;">Energy Balance</span><br>${strongText} ${weakText}`;
 
         // 기타 계산
         const yVal = parseInt(session.birth.substring(0, 4));
