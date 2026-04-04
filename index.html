@@ -315,8 +315,8 @@ function processData(name, birth) {
     const weakText = weakTemplates[data.weakEl][currentLang];
     
     // 2. 운명공학 서사 조립
-    const introKo = `당신은 <b>${jeolgiText} 데이터</b>를 배경으로, <b>[${branchObj.ko}]</b>이라는 환경 속에서 피어난 <b>[${stemObj.ko}]</b>의 기운을 영혼의 코어로 품고 태어났습니다.`;
-    const introEn = `You were born against the background of <b>${jeolgiText} data</b>. At the core of your soul is the energy of <b>[${stemObj.en}]</b> blooming within an environment of <b>[${branchObj.en}]</b>.`;
+    cconst introKo = `당신은 ${jeolgiText} 데이터를 배경으로, [${branchObj.ko}]이라는 환경 속에서 피어난 [${stemObj.ko}]의 기운을 영혼의 코어로 품고 태어났습니다.`;
+    const introEn = `You were born against the background of ${jeolgiText} data. At the core of your soul is the energy of [${stemObj.en}] blooming within an environment of [${branchObj.en}].`;
     
     const detailKo = descObj.ko;
     const detailEn = descObj.en;
@@ -324,46 +324,52 @@ function processData(name, birth) {
     const conclusionKo = `따라서 상대적으로 부족한 이 에너지를 이름의 주파수로 어떻게 보완하고 조율하는지가 당신의 운명공학적 핵심입니다.`;
     const conclusionEn = `Therefore, how you complement and tune this lacking energy with the frequency of your name is the core of your destiny engineering.`;
     
-    const termInfo = `${currentLang === 'ko' ? introKo : introEn} <br><br>${currentLang === 'ko' ? detailKo : detailEn} <br><br>${strongText} ${weakText} <br><br><b>${currentLang === 'ko' ? conclusionKo : conclusionEn}</b>`;
+    // <br><br>를 모두 지우고 띄어쓰기 한 칸으로 자연스럽게 하나의 문단으로 연결했습니다.
+    const termInfo = `${currentLang === 'ko' ? introKo : introEn} ${currentLang === 'ko' ? detailKo : detailEn} ${strongText} ${weakText} <b>${currentLang === 'ko' ? conclusionKo : conclusionEn}</b>`;
     
     document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `${data.name}님의 분석 리포트` : `${data.name}'s Analysis Report`;
       
+    // 🌍 명칭을 수리 격 특징과 어울리도록 세련되게 변경
     const labelSuri = currentLang === 'ko' ? '🔮 수리 격 특징' : '🔮 Suri Character';
-    const labelMonth = currentLang === 'ko' ? '🌍 절기(Solar Term) 기반 60갑자 코어' : '🌍 60-Gapja Core based on Solar Terms';
+    const labelMonth = currentLang === 'ko' ? '🌍 선천적 코어 기질' : '🌍 Innate Core Temperament';
+
+    // 수리격의 '기본격-만사휴태' 처럼, 선천운에도 짧은 요약 타이틀을 달아줍니다 (예: 병오 - 거대한 태양)
+    // 텍스트에 들어간 따옴표(' ')를 제거하여 깔끔하게 만듭니다.
+    const iljuTitleKo = `${data.iljuData.iljuName} - ${stemObj.ko.replace(/'/g, '')}`;
+    const iljuTitleEn = `${data.iljuData.iljuName} - ${stemObj.en.replace(/'/g, '')}`;
 
     document.getElementById('dynamic-summary').innerHTML = `
-        <div class="info-box" style="background:#F9F8F6; border:1px solid #EEE; color:#000; font-size:0.95rem;">
-          <div style="display:flex; justify-content:space-between; border-bottom:1px solid #000; padding-bottom:8px; margin-bottom:15px;">
+        <div class="info-box" style="background:#F9F8F6; border:1px solid #EEE; color:#000; font-size:0.88rem;"> <div style="display:flex; justify-content:space-between; border-bottom:1px solid #000; padding-bottom:8px; margin-bottom:15px;">
               <span style="font-weight:800;">DESTINY_LAB_2026</span>
               <span style="color:var(--accent); font-weight:800;">CODE: ${String(data.num81).padStart(2, '0')}</span>
           </div>
-          <b>${labelSuri}</b> ${currentLang === 'ko' ? luckyTitles81[data.num81] : luckyTitles81En[data.num81]}
-          <p style="margin-top:0; margin-bottom:15px; line-height:1.7;">${currentLang === 'ko' ? detailedDesc81[data.num81] : detailedDesc81En[data.num81]}</p>
-          <div style="border-top:1px dashed #DDD; padding-top:15px;">
-            <b>${labelMonth}</b>
-            <p style="margin-top:0; line-height:1.7;">${termInfo}</p>
+          
+          <div style="margin-bottom: 18px;">
+            <b>${labelSuri}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? luckyTitles81[data.num81] : luckyTitles81En[data.num81]}</span>
+            <p style="margin-top:6px; margin-bottom:0; line-height:1.7;">${currentLang === 'ko' ? detailedDesc81[data.num81] : detailedDesc81En[data.num81]}</p>
+          </div>
+          
+          <div style="border-top:1px dashed #DDD; padding-top:18px;">
+            <b>${labelMonth}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? iljuTitleKo : iljuTitleEn}</span>
+            <p style="margin-top:6px; margin-bottom:0; line-height:1.7;">${termInfo}</p>
           </div>
         </div>`;
-}
-
 function renderChart(scores) {
   const container = document.getElementById('radarChart'); 
   if (!container) return;
   const labels = currentLang === 'ko' ? ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"] : ["Wood", "Fire", "Earth", "Metal", "Water"];
   const cx = 110, cy = 110, r = 70;
   
-  // 전통 성명학의 '균형' 기준점 (이 점수 근처일 때 가장 안정적임)
-  const baseline = 100; 
-  
   let poly = ""; 
   labels.forEach((_, i) => { 
     const a = (Math.PI * 2 / 5) * i - (Math.PI / 2); 
     
-    // ✅ 성명학 공식 스케일링: 
-    // 점수가 100(기준)보다 높으면 밖으로 뻗어나가고, 낮으면 안으로 들어옵니다.
-    // 최대치와 최소치를 제한하여 그래프가 뚫고 나가거나 사라지는 것을 방지합니다.
-    let v = (scores[i] / 150) * r; 
-    v = Math.max(r * 0.2, Math.min(v, r * 1.1)); // 시각적 안정 범위 제한
+    // ✅ [수정됨] 60갑자 정밀 스코어링에 맞춘 동적 스케일링
+    // 기존 150 -> 175로 분모를 상향하여, 점수가 높아도 그래프가 천장을 뚫고 잘리는 현상을 방지합니다.
+    let v = (scores[i] / 175) * r; 
+    
+    // ✅ [수정됨] 시각적 한계치(최대 팽창률)를 1.1r -> 1.05r로 줄여서 텍스트와 겹치지 않게 깔끔하게 유지
+    v = Math.max(r * 0.2, Math.min(v, r * 1.05)); 
     
     poly += `${cx + v * Math.cos(a)},${cy + v * Math.sin(a)} `; 
   });
@@ -375,11 +381,12 @@ function renderChart(scores) {
     
     ${labels.map((l, i) => { 
       const a = (Math.PI * 2 / 5) * i - (Math.PI / 2); 
-      const tx = cx + (r + 25) * Math.cos(a), ty = cy + (r + 25) * Math.sin(a); 
+      // 텍스트 여백을 25 -> 27로 살짝 넓혀서 팽창한 그래프와 글씨가 닿지 않게 숨통을 틔워줍니다.
+      const tx = cx + (r + 27) * Math.cos(a), ty = cy + (r + 27) * Math.sin(a); 
       return `<text x="${tx}" y="${ty}" text-anchor="middle" dominant-baseline="middle" fill="#555" font-size="11" font-weight="700">${l}</text>`; 
     }).join('')}
     
-    <polygon points="${poly}" fill="rgba(154, 132, 103, 0.4)" stroke="#9A8467" stroke-width="3" stroke-linejoin="round"/>
+    <polygon points="${poly}" fill="rgba(154, 132, 103, 0.4)" stroke="#9A8467" stroke-width="2.5" stroke-linejoin="round"/>
   </svg>`;
 }
 
