@@ -390,9 +390,10 @@ function renderChart(scores) {
     
     <polygon points="${poly}" fill="rgba(154, 132, 103, 0.4)" stroke="#9A8467" stroke-width="2.5" stroke-linejoin="round"/>
   </svg>`;
+  const finalSignature = session.strongEl || "오류"; 
 }
 
-    const finalSignature = session.strongEl || "오류"; 
+    
 if (mode === 'fortune') {
         const r1 = suriPrescription.getRemedy(session.num81, [session.lackEls[0]], currentLang);
         const r2 = suriPrescription.getRemedy(session.num81, [session.lackEls[1]], currentLang);
