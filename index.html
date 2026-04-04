@@ -392,16 +392,15 @@ function renderChart(scores) {
   </svg>`;
 }
 
-    
+    const finalSignature = session.strongEl || "오류"; 
 if (mode === 'fortune') {
         const r1 = suriPrescription.getRemedy(session.num81, [session.lackEls[0]], currentLang);
         const r2 = suriPrescription.getRemedy(session.num81, [session.lackEls[1]], currentLang);
 
         // 1. 핵심 데이터 정의 (이름 기운 vs 최종 시그니처)
-        const nameElKey = session.nameSuriEl || "목(木)";      
-        const finalSignature = session.strongEl || "목(木)";  
+        const nameElKey = session.nameSuriEl || "오류";       
         const elHanjaMap = { "목(木)": "木", "화(火)": "火", "토(土)": "土", "금(金)": "金", "수(水)": "水" };
-        const nameElHanja = elHanjaMap[nameElKey] || "木";
+        const nameElHanja = elHanjaMap[nameElKey] || "오류";
 
         // 2. [공식 오류 해결!] 태어난 환경(배경) 오행 및 강약 추출
         // 기존의 단순 월(Month) 계산을 버리고, 실제 점수 배분에 쓰인 24절기 공식을 그대로 가져왔습니다.
@@ -451,10 +450,9 @@ if (mode === 'fortune') {
         const baseActionEn = "rearranging the innate energy with the name's frequency"; 
         
         // 🇰🇷 한국어 최종 출력문 (배경 오행 강약 및 이름 작용 포함)
-        const narrativeKo = `당신의 영혼은 <b>[${stemObj.ko}]</b>의 에너지를 코어로 품고 태어났습니다. 이 본질적인 기운에 <b>[${jeolgiKo}]</b>라는 <b>${bgStrengthKo} ${bgEl}</b>의 탄생 배경 에너지가 주어지고, 당신의 성명이 가진 <b>${nameElKey}</b>의 주파수가 개입하여 <b>${baseActionKo}</b>. ${timeModifierKo} 마침내 이 모든 에너지가 융합되어 최종적으로 <b>${finalSignature}</b> 중심의 독보적인 운명 시그니처가 완성되었습니다.`;
+        const narrativeKo = `당신의 영혼은 <b>[${stemObj.ko}]</b>의 에너지를 코어로 품고 태어났습니다. 이 본질적인 기운에 <b>[${jeolgiKo}]</b>라는 <b>${bgStrengthKo} ${bgEl}</b>의 탄생 배경 에너지가 주어지고, 당신의 성명이 가진 <b>${nameElKey}</b>의 주파수가 개입하여 <b>${baseActionKo}</b>. ${timeModifierKo} 마침내 이 모든 에너지가 융합되어 최종적으로 <b>${finalSignature}</b> 중심의 독보적인 운명 시그니처가 완성되었습니다.<br><br><b style="color:var(--accent);">[에너지 밸런스]</b><br>${strongText} ${weakText}`;
         
-        // 🇺🇸 영문 최종 출력문
-        const narrativeEn = `Your soul was born with the core energy of <b>[${stemObj.en}]</b>. To this innate essence, the background energy of <b>[${jeolgiEn}]</b> (<b>${bgStrengthEn} ${elMap[bgEl]}</b>) was added, and your name's <b>${elMap[nameElKey] || nameElKey}</b> frequency intervened to <b>${baseActionEn}</b>. ${timeModifierEn} finally, all these energies fused to complete a unique destiny signature centered on <b>${elMap[finalSignature] || finalSignature}</b>.`;
+        const narrativeEn = `Your soul was born with the core energy of <b>[${stemObj.en}]</b>. To this innate essence, the background energy of <b>[${jeolgiEn}]</b> (<b>${bgStrengthEn} ${elMap[bgEl]}</b>) was added, and your name's <b>${elMap[nameElKey] || nameElKey}</b> frequency intervened to <b>${baseActionEn}</b>. ${timeModifierEn} finally, all these energies fused to complete a unique destiny signature centered on <b>${elMap[finalSignature] || finalSignature}</b>.<br><br><b style="color:var(--accent);">[Energy Balance]</b><br>${strongText} ${weakText}`;
 
         // ✅ 누락되었던 전체 오행 강약 분석(strongText, weakText) 복구
         const strongText = strongTemplates[session.strongEl][currentLang];
