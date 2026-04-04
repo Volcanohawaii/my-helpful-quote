@@ -393,122 +393,119 @@ function renderChart(scores) {
 }
 
     
-   function switchTab(mode) {
-     const elMap = { 
+ function switchTab(mode) {
+    const elMap = { 
         "목(木)": "Wood", 
         "화(火)": "Fire", 
         "토(土)": "Earth", 
         "금(金)": "Metal", 
         "수(水)": "Water" 
     };
-  const body = document.getElementById('reportDetail');
+    const body = document.getElementById('reportDetail');
     const session = JSON.parse(localStorage.getItem('destinySession'));
     if (!session) return;
 
     const t = i18n[currentLang]; 
     const birthMonth = parseInt(session.birth.substring(4, 6));
-  
-  // 탭 활성화 로직
-  document.querySelectorAll('.tab-btn').forEach(b => {
-    b.classList.remove('active');
-    if (mode === 'fortune' && b.id === 'tab1') b.classList.add('active');
-    if (mode === 'past' && b.id === 'tab2') b.classList.add('active');
-    if (mode === 'next' && b.id === 'tab3') b.classList.add('active');
-  });
 
-const coreEl = session.iljuData.el;               // 나의 본질 오행
-    const coreName = session.iljuData.iljuName;       // 나의 본질 60갑자 (예: 병오)
-    const nameElKey = session.nameSuriEl || "목(木)";  // 이름 파동 오행
-    const finalSignature = session.strongEl || "목(木)"; // 최종 시그니처 오행
-    
-    // 영문 변환용 맵핑
-    const elMap = { "목(木)": "Wood", "화(火)": "Fire", "토(土)": "Earth", "금(金)": "Metal", "수(水)": "Water" };
-    const coreElEn = elMap[coreEl];
-    const nameElKeyEn = elMap[nameElKey];
-    const finalSignatureEn = elMap[finalSignature];
+    // 탭 활성화 로직
+    document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('active');
+        if (mode === 'fortune' && b.id === 'tab1') b.classList.add('active');
+        if (mode === 'past' && b.id === 'tab2') b.classList.add('active');
+        if (mode === 'next' && b.id === 'tab3') b.classList.add('active');
+    });
 
-    // 2. 시간대 환경 텍스트
-    const h = session.hour || 12;
-    let timeModifierKo = "고요한 밤의 기운이 더해져";
-    let timeModifierEn = "with the energy of the quiet night";
-    if (h >= 4 && h < 10) { timeModifierKo = "새벽의 깨어나는 생동감이 더해져"; timeModifierEn = "with the awakening vitality of dawn"; }
-    else if (h >= 10 && h < 16) { timeModifierKo = "한낮의 뜨거운 열기가 더해져"; timeModifierEn = "with the intense heat of midday"; }
-    else if (h >= 16 && h < 22) { timeModifierKo = "저녁의 차분한 결실의 기운이 더해져"; timeModifierEn = "with the calm energy of evening"; }
+    if (mode === 'fortune') {
+        const r1 = suriPrescription.getRemedy(session.num81, [session.lackEls[0]], currentLang);
+        const r2 = suriPrescription.getRemedy(session.num81, [session.lackEls[1]], currentLang);
 
-    // 3. 절기 환경 텍스트 (jeolgiNames 객체 활용, 에러 방지용 Fallback 추가)
-    const jeolgiKo = (typeof jeolgiNames !== 'undefined' && jeolgiNames[session.solarMonth]) ? jeolgiNames[session.solarMonth].ko : "특별한 절기";
-    const jeolgiEn = (typeof jeolgiNames !== 'undefined' && jeolgiNames[session.solarMonth]) ? jeolgiNames[session.solarMonth].en : "special solar term";
+        // 1. 핵심 데이터 정의 (이름 기운 vs 최종 시그니처)
+        const nameElKey = session.nameSuriEl || "목(木)";      
+        const finalSignature = session.strongEl || "목(木)";  
+        const elHanjaMap = { "목(木)": "木", "화(火)": "火", "토(土)": "土", "금(金)": "金", "수(水)": "水" };
+        const nameElHanja = elHanjaMap[nameElKey] || "木";
 
-    // 4. 운명공학 완벽 서사 조립 (일주 + 절기/시간 + 이름 = 시그니처)
-    const narrativeKo = `당신의 타고난 본질(일주)은 <b>[${coreName}]</b>의 <b>${coreEl}</b> 기운입니다. 당신은 <b>[${jeolgiKo}]</b>라는 우주적 환경 속에서 <b>${timeModifierKo}</b> 태어났습니다. 여기에 당신의 성명이 가진 <b>${nameElKey}</b>의 주파수가 개입하여 선천적 기질과 강렬하게 상호작용했습니다. 그 결과, 당신의 운명 데이터를 지배하는 최종 시그니처 에너지는 <b>${finalSignature}</b>(으)로 완성되었습니다.`;
-    
-    const narrativeEn = `Your innate core (Ilju) is the energy of <b>${coreElEn}</b> from <b>[${coreName}]</b>. You were born in the cosmic environment of <b>[${jeolgiEn}]</b>, <b>${timeModifierEn}</b>. Here, the frequency of your name's <b>${nameElKeyEn}</b> intervened and strongly interacted with your innate temperament. As a result, the final signature energy dominating your destiny data is completed as <b>${finalSignatureEn}</b>.`;
+        // 2. 태어난 환경(배경) 추출
+        let birthElHanja = "土";
+        if ([2, 3].includes(birthMonth)) birthElHanja = "木";
+        else if ([5, 6].includes(birthMonth)) birthElHanja = "火";
+        else if ([8, 9].includes(birthMonth)) birthElHanja = "金";
+        else if ([11, 12].includes(birthMonth)) birthElHanja = "水";
 
-    
-     
-   const h = session.hour || 12;
-    let timeModifierKo = "고요한 밤의 응축된 기운이 더해져";
-    let timeModifierEn = "with the condensed energy of the night,";
-    if (h >= 4 && h < 10) { timeModifierKo = "새벽의 깨어나는 생동감이 더해져"; timeModifierEn = "with the awakening vitality of dawn,"; }
-    else if (h >= 10 && h < 16) { timeModifierKo = "한낮의 뜨거운 열기가 더해져"; timeModifierEn = "with the intense heat of midday,"; }
-    else if (h >= 16 && h < 22) { timeModifierKo = "저녁의 차분한 결실의 기운이 더해져"; timeModifierEn = "with the calm energy of evening,"; }
+        // 3. 25가지 상호작용 시나리오 데이터
+        const interactionNarrative = {
+            "木": { "木": "부족한 생명력을 중첩시켜 거대한 숲을 이루었고", "火": "태어난 계절의 잠재력을 불태워 찬란한 꽃을 피워냈으며", "土": "척박한 황무지에 뿌리를 내려 단단한 삶의 터전을 일구었고", "金": "강한 기운에 유연함을 더해 부러지지 않는 강인한 검을 벼렸으며", "水": "차가운 물을 흡수하여 생명력 넘치는 거대한 숲을 이루었고" },
+            "火": { "木": "계절의 열기에 땔감을 더해 꺼지지 않는 불멸의 기상을 세웠고", "火": "치솟는 태양의 에너지를 모아 세상을 비추는 거대한 빛이 되었으며", "土": "뜨거운 열기로 대지를 구워 단단하고 견고한 성벽을 쌓았고", "金": "용암 같은 열기로 원석을 녹여 예리한 보검의 가치를 끌어냈으며", "水": "타오르는 열기를 냉철한 지성으로 다스려 평온한 오아시스를 완성했고" },
+            "土": { "木": "정체된 대지를 뚫고 솟아올라 변화와 혁신의 바람을 일으켰고", "火": "차분한 흙의 기운에 열정을 더해 비옥한 황금 벌판을 일궈냈으며", "土": "두터운 대지를 겹겹이 쌓아 흔들리지 않는 태산의 위엄을 세웠고", "金": "깊은 땅속에 감춰진 보석을 캐내어 세상에 그 빛을 드러냈으며", "水": "드넓은 대지로 흩어지는 물길을 잡아 거대한 호수의 지혜를 담았고" },
+            "金": { "木": "무성한 가지를 정밀하게 전지하여 명품 분재와 같은 가치를 완성했으며", "火": "냉철한 이성으로 과열된 기운을 씻어내어 투명한 보석의 가치를 드러냈고", "土": "바위산을 뚫고 나오는 광채처럼 압도적인 존재감을 증명했고", "金": "강철과 강철이 만나 뚫을 수 없는 무적의 방패와 같은 내실을 다졌으며", "水": "맑은 샘물에 바위의 기운을 더해 변치 않는 영원한 지혜를 새겼고" },
+            "水": { "木": "고인 물에 생명력을 불어넣어 끊임없이 흐르는 강물을 만들었고", "火": "치솟는 열기를 냉철한 지성으로 다스려 평온한 오아시스를 완성했으며", "土": "범람하는 물길에 제방을 쌓아 통제 가능한 거대한 에너지를 구축했고", "金": "차갑고 날카로운 기운을 씻어내어 맑고 투명한 보석의 가치를 드러냈으며", "水": "작은 물줄기들을 모아 끝이 보이지 않는 거대한 대양의 통찰을 완성했기에" }
+        };
 
-    // 5. 서사 조립 (대표님 맞춤형 공식 적용)
-    const coreName = session.iljuData.iljuName; // 예: 병오
-    const coreEl = session.iljuData.el;         // 예: 화(火)
-    const jeolgiText = jeolgiNames[session.solarMonth][currentLang]; // 24절기 온습도 데이터
-    
-    const baseActionKo = (interactionNarrative[nameElHanja] && interactionNarrative[nameElHanja][birthElHanja]) || "선천적 기운을 이름의 주파수로 재배치하여";
-    
-    // 🇰🇷 한국어 출력 (대표님 구조 완벽 반영)
-    const narrativeKo = `당신은 <b>${coreName}(${coreEl})</b> 에너지를 중심으로 태어났습니다. 그리고 <b>${jeolgiText}</b>라는 탄생 배경 에너지와 당신의 성명이 가진 <b>${nameElKey}</b>의 에너지가 개입하여 <b>${baseActionKo}</b>, ${timeModifierKo} 최종적으로 <b>${finalSignature}</b> 중심의 독보적인 운명 시그니처를 구축하게 되었습니다.`;
-    
-    // 🇺🇸 영문 변환용 맵핑 및 출력
-    const elMap = { "목(木)": "Wood", "화(火)": "Fire", "토(土)": "Earth", "금(金)": "Metal", "수(水)": "Water" };
-    const baseActionEn = "rearranging the innate energy with the name's frequency"; // 영문 상호작용 기본값
-    
-    const narrativeEn = `You were born centered around the energy of <b>${coreName}(${elMap[coreEl]})</b>. Then, the background energy of <b>${jeolgiText}</b> and your name's <b>${elMap[nameElKey] || nameElKey}</b> energy intervened to <b>${baseActionEn}</b>. ${timeModifierEn} this has ultimately built a unique destiny signature centered on <b>${elMap[finalSignature] || finalSignature}</b>.`;
+        // 4. 시간대 분석
+        const h = session.hour || 12;
+        let timeModifierKo = "고요한 밤의 응축된 기운이 더해져";
+        let timeModifierEn = "with the condensed energy of the night,";
+        if (h >= 4 && h < 10) { timeModifierKo = "새벽의 깨어나는 생동감이 더해져"; timeModifierEn = "with the awakening vitality of dawn,"; }
+        else if (h >= 10 && h < 16) { timeModifierKo = "한낮의 뜨거운 열기가 더해져"; timeModifierEn = "with the intense heat of midday,"; }
+        else if (h >= 16 && h < 22) { timeModifierKo = "저녁의 차분한 결실의 기운이 더해져"; timeModifierEn = "with the calm energy of evening,"; }
 
-     const yVal = parseInt(session.birth.substring(0, 4));  // 연도 (1990)
-const mVal = birthMonth;                               // 태어난 달 (이미 계산된 숫자 사용)
-const dVal = parseInt(session.birth.substring(6, 8));  // 🚩 날짜 (6번째 인덱스부터 8번 직전까지)
-const hVal = session.hour || 12;                       // 시간 (시각 데이터)
-const sVal = session.num81;                            // 이름 수리번호
+        // 5. 운명공학 완벽 서사 조립 (일주 + 배경 + 이름 = 시그니처)
+        const coreName = session.iljuData.iljuName; // 예: 병오
+        const coreEl = session.iljuData.el;         // 예: 화(火)
+        
+        // 절기 텍스트 추출
+        const jeolgiKo = jeolgiNames[session.solarMonth] ? jeolgiNames[session.solarMonth].ko : ""; 
+        const jeolgiEn = jeolgiNames[session.solarMonth] ? jeolgiNames[session.solarMonth].en : ""; 
+        
+        // 이름 상호작용 문구 도출
+        const baseActionKo = (interactionNarrative[nameElHanja] && interactionNarrative[nameElHanja][birthElHanja]) || "선천적 기운을 이름의 주파수로 재배치하여";
+        const baseActionEn = "rearranging the innate energy with the name's frequency"; 
+        
+        // 🇰🇷 한국어 최종 출력문 (대표님 맞춤형 문장 구조)
+        const narrativeKo = `당신은 <b>${coreName}(${coreEl})</b> 에너지를 중심으로 태어났습니다. 그리고 <b>${jeolgiKo}</b>라는 탄생 배경 에너지와 당신의 성명이 가진 <b>${nameElKey}</b>의 에너지가 개입하여 <b>${baseActionKo}</b>, ${timeModifierKo} 최종적으로 <b>${finalSignature}</b> 중심의 독보적인 운명 시그니처를 구축하게 되었습니다.`;
+        
+        // 🇺🇸 영문 최종 출력문
+        const narrativeEn = `You were born centered around the energy of <b>${coreName}(${elMap[coreEl]})</b>. Then, the background energy of <b>${jeolgiEn}</b> and your name's <b>${elMap[nameElKey] || nameElKey}</b> energy intervened to <b>${baseActionEn}</b>. ${timeModifierEn} this has ultimately built a unique destiny signature centered on <b>${elMap[finalSignature] || finalSignature}</b>.`;
 
-// 2. 24분할 정밀 인덱스 계산
-// 이름(sVal)과 환경(y+m+d+h)이 만나서 만들어내는 고유 좌표값
-const missionIndex = (yVal + mVal + dVal + hVal + sVal) % 24;
-    // 6. 화면 출력
-    body.innerHTML = `
-      <div class="tab-content">
-        <span class="section-title">${t.sec1}</span>
-        <div class="info-box" style="background:#fff;">
-          <div id="radarChart" style="margin:10px auto; width:220px; height:220px;"></div>
-          <p style="line-height:1.7; word-break:break-all; text-align:justify; text-justify:inter-character; margin-top:20px;">
-            ${currentLang === 'ko' ? narrativeKo : narrativeEn}
-          </p>
-          <div style="padding:20px; background:#F9F8F6; border-radius:12px; border:1px solid #F0EAE3;">
-  <b style="color:var(--accent); font-size:0.95rem;">📜 현생의 과업</b><br>
-  <span style="font-size:0.9rem; color:#444; line-height:1.6;">
-      ${(currentLang === 'ko' ? elementPrescriptions24 : enPrescriptions24)[finalSignature][session.solarMonth]}
-  </span>
-</div>
-              
-        </div>
-        <span class="section-title">${t.sec2}</span>
-        <div class="info-box" style="background:#fff;">
-          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-            <div><b style="color:var(--accent);">🎨 행운 컬러</b><br>${r1.color}<br>${r2.color}</div>
-            <div><b style="color:var(--accent);">🏃 실천 행동</b><br>${r1.action}<br>${r2.action}</div>
-            <div><b style="color:var(--accent);">👥 인적 정보</b><br>${r1.social}<br>${r2.social}</div>
-            <div><b style="color:var(--accent);">🥗 보충 음식</b><br>${r1.food}<br>${r2.food}</div>
-          </div>
-        </div>`;
-    renderChart(session.elementScores);
-}
-     
-  else if (mode === 'past') {
-        const p = (currentLang === 'ko') ? pastLifeData[session.num81-1] : pastLifeDataEn[session.num81-1];
+        // 기타 계산 (필요시 사용)
+        const yVal = parseInt(session.birth.substring(0, 4));
+        const mVal = birthMonth;
+        const dVal = parseInt(session.birth.substring(6, 8));
+        const hVal = session.hour || 12;
+        const sVal = session.num81;
+        const missionIndex = (yVal + mVal + dVal + hVal + sVal) % 24;
+
+        // 6. 화면 출력 (❗ 120개짜리 elementPrescriptions24 복구 완료 ❗)
+        body.innerHTML = `
+          <div class="tab-content">
+            <span class="section-title">${t.sec1}</span>
+            <div class="info-box" style="background:#fff;">
+              <div id="radarChart" style="margin:10px auto; width:220px; height:220px;"></div>
+              <p style="line-height:1.7; word-break:break-all; text-align:justify; text-justify:inter-character; margin-top:20px;">
+                ${currentLang === 'ko' ? narrativeKo : narrativeEn}
+              </p>
+              <div style="padding:20px; background:#F9F8F6; border-radius:12px; border:1px solid #F0EAE3;">
+                <b style="color:var(--accent); font-size:0.95rem;">📜 현생의 과업</b><br>
+                <span style="font-size:0.9rem; color:#444; line-height:1.6;">
+                  ${(currentLang === 'ko' ? elementPrescriptions24 : enPrescriptions24)[finalSignature][session.solarMonth]}
+                </span>
+              </div>
+            </div>
+            <span class="section-title">${t.sec2}</span>
+            <div class="info-box" style="background:#fff;">
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                <div><b style="color:var(--accent);">🎨 행운 컬러</b><br>${r1.color}<br>${r2.color}</div>
+                <div><b style="color:var(--accent);">🏃 실천 행동</b><br>${r1.action}<br>${r2.action}</div>
+                <div><b style="color:var(--accent);">👥 인적 정보</b><br>${r1.social}<br>${r2.social}</div>
+                <div><b style="color:var(--accent);">🥗 보충 음식</b><br>${r1.food}<br>${r2.food}</div>
+              </div>
+            </div>
+          </div>`;
+        renderChart(session.elementScores);
+    } 
+    else if (mode === 'past') {
+        const p = getPastLifeData(session.num81, finalSignature, currentLang);
         const era = (currentLang === 'ko' ? eraPastKo : eraPastEn)[session.num81 % (currentLang === 'ko' ? eraPastKo.length : eraPastEn.length)];
         const region = (currentLang === 'ko' ? regionPastKo : regionPastEn)[(session.num81 + birthMonth) % (currentLang === 'ko' ? regionPastKo.length : regionPastEn.length)];
 
@@ -525,9 +522,9 @@ const missionIndex = (yVal + mVal + dVal + hVal + sVal) % 24;
               <p><b>📜 ${t.pastHomework}:</b> ${p.homework}</p>
             </div>
           </div>`;
-      } 
-      else if (mode === 'next') {
-        const r = (currentLang === 'ko') ? reincarnationData[session.num81-1] : reincarnationDataEn[session.num81-1];
+    } 
+    else if (mode === 'next') {
+        const r = getNextLifeData(session.num81, finalSignature, currentLang);        
         const era = (currentLang === 'ko' ? eraNextKo : eraNextEn)[session.num81 % (currentLang === 'ko' ? eraNextKo.length : eraNextEn.length)];
         const region = (currentLang === 'ko' ? regionNextKo : regionNextEn)[(session.num81 + birthMonth) % (currentLang === 'ko' ? regionNextKo.length : regionNextEn.length)];
 
@@ -544,9 +541,8 @@ const missionIndex = (yVal + mVal + dVal + hVal + sVal) % 24;
               <p><b>📜 ${t.nextMission}:</b> ${r.mission}</p>
             </div>
           </div>`;
-      }
-    } // switchTab 함수의 끝 (이 괄호가 꼭 있어야 startAnalysis 에러가 안 납니다!)
-
+    }
+}
   
 function copyLink() {
       const url = window.location.href;
