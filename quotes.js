@@ -405,103 +405,124 @@ const epithetEnByElement = {
     "水": ["Possessing abyssal wisdom", "Possessing vast tolerance", "Possessing spring water divinity", "Possessing raindrop rhythm", "Possessing mist mystery", "Possessing waterfall spirit", "Possessing lake silence", "Possessing dew soul", "Possessing sea secrets", "Possessing river curiosity", "Possessing wave genius", "Possessing cloud flight"] 
 };
 
-const solarTermData = {
-    0: { 
-        ko: "수(水)의 침잠하는 기운이 토(土)의 절제력을 만나 생명의 불꽃을 깊은 곳에 응축하는 시기입니다. 당신은 어떤 극한의 환경에서도 본연의 빛을 잃지 않는 고결한 생존 본능과 집념을 가졌습니다. 겉으로는 고요한 호수 같으나 내면에는 거대한 지각 변동을 일으킬 뜨거운 화(火)의 에너지가 용트림하고 있는 외유내강의 전형입니다.", 
-        en: "A period where the sinking energy of Water meets the restraint of Earth to condense the flame of life deep within. You possess a noble survival instinct and tenacity that never loses its brilliance even in extremes. While calm like a still lake on the surface, you are the epitome of inner strength, harboring a fiery energy capable of shifting grand tectonic plates." 
-    },
-    1: { 
-        ko: "차가운 토(土)를 뚫고 목(木)의 생명력이 솟구치며 새로운 우주의 시작을 알리는 때입니다. 당신은 무(無)에서 유(U)를 설계하는 탁월한 선구자적 감각을 지녔습니다. 겨울의 시련을 이겨낸 강인한 목기(木氣)는 남들이 보지 못하는 가능성을 먼저 발견하며, 당신의 발걸음은 주변의 정체된 흐름을 깨우는 강력한 파동이 됩니다.", 
-        en: "A time when the vitality of Wood pierces through the frozen Earth, signaling the start of a new universe. You possess an exceptional pioneering sense for designing existence from nothingness. Your strong Wood energy, having endured winter, discovers possibilities unseen by others, and your every step creates a powerful wave that awakens stagnant surroundings." 
-    },
-    2: { 
-        ko: "수(水)의 유연함이 목(木)의 성장판을 적시며 대지를 부드럽게 녹이는 시기입니다. 이 기운을 타고난 당신은 굳어있는 상황을 유연하게 해소하는 천부적인 중재 능력을 갖추었습니다. 어떤 환경에서도 물처럼 스며들어 최선의 결과를 도출해내는 처세술과, 타인의 마음을 어루만지는 깊은 공감 능력이 당신의 가장 큰 무기입니다.", 
-        en: "A period where the flexibility of Water moistens the growth plates of Wood, gently melting the earth. Born with this vibration, you have a natural talent for resolving rigid situations. Your greatest weapons are the social wit to seep into any environment like water to draw out the best results, and a deep empathy that touches the hearts of others." 
-    },
-    3: { 
-        ko: "지하에 갇혔던 목(木)의 에너지가 화(火)의 섬광을 만나 폭발적으로 도약하는 역동적인 때입니다. 당신은 정체된 분위기를 단숨에 반전시키는 강력한 혁신가적 기질을 가졌습니다. 남들이 망설일 때 가장 먼저 행동으로 옮기는 용기는 주변을 이끌어 새로운 차원의 변화를 만들어내는 강력한 엔진이 됩니다.", 
-        en: "A dynamic time when the Wood energy trapped underground meets the flash of Fire to take an explosive leap. You possess a powerful innovator's temperament that can reverse stagnation in an instant. Your courage to act while others hesitate serves as a mighty engine that leads others to create new dimensions of change." 
-    },
-    4: { 
-        ko: "음과 양이 완벽한 균형을 이루며 목(木)의 에너지가 가장 순수하게 집중되는 정점의 시기입니다. 당신은 굽히지 않는 소신과 타인을 올바른 길로 인도하는 고귀한 교육적 자질을 타고났습니다. 본인의 가치관을 명확히 세워 흔들림 없이 나아가는 강직한 성품은 혼탁한 세상에서 만인의 귀감이 됩니다.", 
-        en: "The peak moment when Yin and Yang reach perfect balance, and Wood energy is concentrated in its purest form. You are born with unyielding convictions and a noble gift for guiding others onto the right path. Your rigid integrity in pursuing clear values makes you a role model for all in a turbulent world." 
-    },
-    5: { 
-        ko: "목(木)의 이상이 토(土)의 현실감을 만나 만물의 형체가 선명해지는 청명한 때입니다. 당신은 티 없이 맑은 통찰력과 높은 도덕적 기준을 부여받았습니다. 복잡한 세상의 본질을 꿰뚫어 보고 가장 정의로운 길을 제시하는 현명한 가이드로서, 당신이 머무는 곳은 언제나 질서와 밝은 기운이 충만합니다.", 
-        en: "A lucid time when the ideals of Wood meet the realism of Earth, making the forms of all things distinct. Endowed with untainted insight and high moral standards, you act as a wise guide who pierces through world complexities to show the most righteous path, filling wherever you stay with order and brilliance." 
-    },
-    6: { 
-        ko: "목(木)의 성장이 토(土)의 풍요로 변모하며 화(火)의 발산을 준비하는 지혜가 모이는 시기입니다. 당신은 성장의 에너지를 실질적인 자산과 성과로 바꾸는 탁월한 경영 능력을 가졌습니다. 변화하는 환경에 맞춰 자신을 최적화하는 유연한 감각은 당신을 어떤 경쟁 속에서도 최후의 승자로 만듭니다.", 
-        en: "A period where Wood's growth transforms into Earth's abundance, gathering wisdom to prepare for Fire's radiation. You possess exceptional managerial skills to turn growth energy into realistic assets. Your flexible sense for optimizing yourself according to the environment ensures you emerge as the ultimate victor in any competition." 
-    },
-    7: { 
-        ko: "목(木)의 생명력이 화(火)의 열기로 전이되어 이상향을 향해 돌진하는 에너지의 시기입니다. 당신은 주변의 기운을 한순간에 고조시키는 뜨거운 열정과 긍정적인 파동을 지녔습니다. 존재만으로도 조직에 활력을 불어넣고 대중을 매료시키는 태양과 같은 강력한 카리스마를 발휘하게 됩니다.", 
-        en: "A time of energy where Wood's vitality transfers into the heat of Fire, dashing toward a utopia. You possess a burning passion and positive vibrations that instantly elevate the energy around you. You command a powerful solar charisma that energizes organizations and fascinates the masses by your mere presence." 
-    },
-    8: { 
-        ko: "화(火)의 열기가 토(土)의 수용성을 만나 내실을 기하며 조금씩 채워지기 시작하는 충만한 때입니다. 당신은 성급한 성공보다 차근차근 기초를 다져 거대한 성을 쌓는 신중함과 끈기를 가졌습니다. 성실함을 바탕으로 쌓아 올린 당신의 명성과 자산은 세월의 풍파 속에서도 결코 흔들리지 않는 견고함을 자랑합니다.", 
-        en: "A fulfilling time when Fire's heat meets Earth's receptivity to begin filling with internal substance. You possess the prudence and grit to build a grand castle by strengthening foundations step by step. The reputation and assets you build on sincerity remain unshakeable even amidst the storms of time." 
-    },
-    9: { 
-        ko: "화(火)의 몰입도가 정점에 달해 금(金)의 결실을 준비하는 명확한 통찰이 필요한 시기입니다. 당신은 한 가지 목표가 정해지면 놀라운 집중력을 발휘하여 정밀한 결과물을 만들어내는 전문가적 기질을 가졌습니다. 본인의 분야에서 대체 불가능한 권위를 구축하여 세상을 이끄는 핵심 인재로 활약합니다.", 
-        en: "A period requiring clear insight as Fire's immersion peaks to prepare for the fruits of Metal. Once a goal is set, you demonstrate incredible focus and professional temperament to produce precision results. You act as a core talent, establishing irreplaceable authority in your field to lead the world." 
-    },
-    10: { 
-        ko: "양(陽)의 화(火) 에너지가 정점에 달해 세상을 밝게 비추나, 내면에는 음(陰)의 씨앗을 품기 시작하는 광채의 시기입니다. 당신은 화려한 자기표현과 빠른 판단력으로 좌중을 압도하는 천부적인 스타성을 지녔습니다. 창의적인 시각으로 세상을 재해석하여 큰 명예를 얻는 운명을 타고났습니다.", 
-        en: "The moment of radiance where Fire's Yang energy reaches its zenith, yet begins to harbor the seed of Yin within. Endowed with innate star quality that overwhelms an audience through brilliant self-expression, you are destined to achieve grand honor by reinterpreting the world with your creative vision." 
-    },
-    11: { 
-        ko: "화(火)의 무더위 속에서 토(土)가 기운을 갈무리하며 금(金)의 결실을 익혀가는 인내의 시기입니다. 당신은 극한의 압박 속에서도 평정심을 유지하며 장기적인 프로젝트를 완수해내는 무서운 집념을 가졌습니다. 고난을 거칠수록 더욱 원숙해지는 당신의 인격은 많은 이들의 존경과 신뢰를 자아냅니다.", 
-        en: "A time of endurance where Earth gathers energy amidst Fire's heat to ripen the fruits of Metal. You possess fearsome grit to complete long-term projects while maintaining composure under extreme pressure. Your character, maturing through hardship, draws deep respect and trust from those around you." 
-    },
-    12: { 
-        ko: "화(火)의 열기가 단단한 토(土)를 구워 금(金)이라는 귀한 그릇을 만드는 형국입니다. 당신은 화려한 발산보다는 실질적인 가치를 보존하고 지키는 묵직한 힘을 가졌습니다. 위기의 순간에 흩어진 에너지를 하나로 모으는 중재 능력이 탁월하여 공동체의 중심을 잡는 든든한 기둥 역할을 수행합니다.", 
-        en: "A state where Fire's heat bakes the hard Earth into a precious vessel of Metal. You possess the heavy power to preserve and protect practical values. Your exceptional ability to unify scattered energy during crisis makes you the reliable pillar that stabilizes the center of your community." 
-    },
-    13: { 
-        ko: "화(火)의 기운을 금(金)의 서늘함으로 쳐내어 본질만을 남기는 단호함의 시기입니다. 당신은 세상을 냉철하게 분석하여 자신만의 질서를 세우는 심판자의 기운을 타고났습니다. 정의롭지 못한 것에 타협하지 않는 강직함은 당신을 어떤 유혹에도 흔들리지 않는 완성된 인물로 만듭니다.", 
-        en: "A time of decisiveness where Fire's aura is cut away by Metal's coolness to leave only the essence. Born with the aura of a judge who establishes order through cold analysis, your rigid integrity and refusal to compromise with injustice make you an unshakeable and complete individual." 
-    },
-    14: { 
-        ko: "금(金)의 이성이 토(土)의 안정을 만나 만물이 평온을 되찾는 시기입니다. 당신은 복잡한 감정에 휘둘리지 않는 차가운 이성과 정확한 판단력을 가졌습니다. 흐트러진 시스템을 바로잡고 효율적인 환경을 구축하는 데 탁월한 능력을 발휘하여 조직을 승리로 이끄는 최고의 브레인 역할을 합니다.", 
-        en: "A period when Metal's rationality meets Earth's stability, restoring peace to all. Possessing a cold reason and accurate judgment detached from emotion, you excel at optimizing disorganized systems and building efficient environments, serving as the top brain that leads organizations to victory." 
-    },
-    15: { 
-        ko: "금(金)의 단단함이 수(水)의 이슬을 만나 고결한 정신적 완벽함을 지향하는 때입니다. 당신은 섬세한 감수성과 높은 미적 안목으로 세상을 조율하는 예술적 기질을 가졌습니다. 명품과 같은 완성도를 추구하는 당신의 손길은 평범한 소재를 특별한 가치의 유산으로 변화시키는 힘이 있습니다.", 
-        en: "A moment aiming for noble spiritual perfection as Metal's hardness meets the dew of Water. You possess an artistic temperament to harmonize the world with delicate sensitivity and a high aesthetic eye. Your pursuit of masterpiece-level quality has the power to transform ordinary materials into legacies of value." 
-    },
-    16: { 
-        ko: "양(陽)과 음(陰)이 다시 만나며 금(金)의 에너지가 가장 견고하게 집중되는 결실의 정점입니다. 당신은 약속을 생명처럼 여기는 강직한 신용과 티 없는 이성으로 완벽한 성취를 일구어냅니다. 본인의 전문성을 바탕으로 쌓아 올린 사회적 위치는 누구도 넘볼 수 없는 단단한 위엄을 가집니다.", 
-        en: "The peak of fruition when Yin and Yang meet again, concentrating Metal energy into its most solid form. You achieve perfect success through crystal-clear reason and integrity that treats promises as sacred. The social status built on your expertise commands an impregnable and solid dignity." 
-    },
-    17: { 
-        ko: "금(金)의 결실이 토(土)의 저장력을 만나 지혜가 응축되는 시기입니다. 당신은 인간의 심연을 꿰뚫는 분석력과 미래를 예측하는 신비로운 통찰력을 부여받았습니다. 세월이 흐를수록 깊어지는 당신의 내공은 주변 사람들에게 묵직하고 거부할 수 없는 카리스마로 다가갑니다.", 
-        en: "A time when wisdom condenses as Metal's fruit meets the storage power of Earth. Endowed with analytical power to pierce the human abyss and mysterious foresight, your internal power deepens over time, manifesting as a heavy and irresistible charisma to those around you." 
-    },
-    18: { 
-        ko: "금(金)의 결단력이 토(土)의 갈무리 기운을 만나 수(水)의 침잠을 준비하는 시기입니다. 당신은 방대한 데이터를 분류하고 핵심적인 가치를 보존하는 능력이 탁월합니다. 조직의 보이지 않는 뿌리 역할을 수행하며 세상을 지탱하는 전문가로서 누구보다 깊은 영향력을 행사합니다.", 
-        en: "A period where Metal's decisiveness meets Earth's gathering energy to prepare for Water's sinking. You excel at classifying vast data and preserving core values. Acting as the invisible root of an organization, you exercise a deeper influence than anyone as a specialist sustaining the world." 
-    },
-    19: { 
-        ko: "금(金)의 숙살지기가 수(水)의 지혜로 전환되어 깊은 휴식에 들어가는 태동기입니다. 당신은 조용하지만 심오한 지혜를 가졌으며, 보이지 않는 곳에서 거대한 판을 설계하는 전략가적 기질이 돋보입니다. 당신의 생각은 깊고 넓어 위기의 순간에 모두를 구할 결정적인 해답을 제시합니다.", 
-        en: "The quickening of Water energy as Metal's cutting force transforms into wisdom, entering deep rest. Though quiet, you possess profound wisdom and a master strategist's temperament for designing grand schemes from the shadows. Your thoughts provide the decisive answers to save everyone in times of crisis." 
-    },
-    20: { 
-        ko: "수(水)의 정화력이 금(金)의 결정을 덮어 본질적인 가치에만 집중하게 하는 때입니다. 당신은 정적인 환경에서 최고의 창의력을 발휘하는 맑은 영혼을 가졌습니다. 불필요한 군더더기를 제거하고 핵심만을 남기는 당신의 정리 능력은 복잡한 세상을 단순하고 아름답게 변화시킵니다.", 
-        en: "A time where Water's purification covers Metal's crystals to focus only on essential values. You possess a pure soul that reaches its creative peak in quiet environments. Your ability to remove clutter to leave only the core transforms a complex world into something simple and beautiful." 
-    },
-    21: { 
-        ko: "수(水)의 포용력이 극대화되어 모든 차별을 없애고 만물을 품어 안는 자비의 시기입니다. 당신은 무한한 포용력과 인덕을 지녔습니다. 보이지 않는 곳에서 묵묵히 선행을 실천하는 고귀한 성품은 상처받은 사람들의 마음을 치유하고 공동체를 하나로 묶는 강력한 접착제가 됩니다.", 
-        en: "A time of compassion where Water's tolerance is maximized, embracing all without discrimination. Possessing infinite tolerance and social virtue, your noble nature of practicing good deeds from the shadows becomes the powerful glue that heals wounded hearts and unifies communities." 
-    },
-    22: { 
-        ko: "수(水)의 응집력이 정점에 달해 어둠 속에서 화(火)의 씨앗을 잉태하는 전환점입니다. 당신은 인간의 심연을 꿰뚫는 철학적 사유와 위기에서 정답을 찾아내는 비범한 능력을 타고났습니다. 당신이 세상에 던지는 메시지는 길 잃은 영혼들에게 이정표가 되는 선구자적 가치를 가집니다.", 
-        en: "The turning point where Water's cohesion reaches its peak, conceiving the seed of Fire in the darkness. Born with a philosophical mind piercing the human abyss and an extraordinary ability to find answers in crisis, your messages serve as a pioneering lighthouse for lost souls." 
-    },
-    23: { 
-        ko: "수(水)의 지혜가 토(土)의 변화를 받아들여 목(木)의 도약을 준비하는 정화의 때입니다. 당신은 완숙한 지혜와 강인한 생명력을 동시에 보유하고 있습니다. 한 사이클을 완벽히 마무리하고 새로운 차원으로 넘어가기 위한 거대한 폭발력을 내면에 숨기고 있는 신비로운 존재입니다.", 
-        en: "A time of purification where Water's wisdom accepts Earth's change to prepare for Wood's leap. You possess both mature wisdom and resilient vitality, a mysterious being hiding a massive explosive potential to conclude one cycle perfectly and leap into the next dimension." 
-    }
+// [1. 정밀화된 60갑자 일주(日柱) 계산기]
+function getIlju(year, month, day) {
+    const stems = [
+        { name: "갑(甲)", el: "목(木)", id: "gap" }, { name: "을(乙)", el: "목(木)", id: "eul" },
+        { name: "병(丙)", el: "화(火)", id: "byeong" }, { name: "정(丁)", el: "화(火)", id: "jeong" },
+        { name: "무(戊)", el: "토(土)", id: "mu" }, { name: "기(己)", el: "토(土)", id: "gi" },
+        { name: "경(庚)", el: "금(金)", id: "gyeong" }, { name: "신(辛)", el: "금(金)", id: "sin" },
+        { name: "임(壬)", el: "수(水)", id: "im" }, { name: "계(癸)", el: "수(水)", id: "gye" }
+    ];
+    const branches = [
+        { name: "자(子)", id: "ja" }, { name: "축(丑)", id: "chuk" },
+        { name: "인(寅)", id: "in" }, { name: "묘(卯)", id: "myo" },
+        { name: "진(辰)", id: "jin" }, { name: "사(巳)", id: "sa" },
+        { name: "오(午)", id: "o" }, { name: "미(未)", id: "mi" },
+        { name: "신(申)", id: "shin" }, { name: "유(酉)", id: "yu" },
+        { name: "술(戌)", id: "sul" }, { name: "해(亥)", id: "hae" }
+    ];
+    
+    const baseDate = new Date(Date.UTC(1900, 0, 1));
+    const targetDate = new Date(Date.UTC(year, month - 1, day));
+    const diffDays = Math.floor((targetDate - baseDate) / (1000 * 60 * 60 * 24));
+    
+    let iljuIndex = (diffDays + 10) % 60;
+    if (iljuIndex < 0) iljuIndex += 60;
+    
+    const stem = stems[iljuIndex % 10];
+    const branch = branches[iljuIndex % 12];
+    
+    return {
+        stemName: stem.name, stemId: stem.id, el: stem.el,
+        branchName: branch.name, branchId: branch.id,
+        iljuName: stem.name[0] + branch.name[0]
+    };
+}
+
+// [2. 운명공학 레고 블록 모음]
+const stemTemplates = {
+    gap: { ko: "하늘을 향해 곧게 뻗어 올라가는 '거대한 고목'", en: "a 'Giant Ancient Tree' reaching straight up toward the sky" },
+    eul: { ko: "척박한 환경에서도 끈질기게 살아남는 '야생 덩굴'", en: "a 'Tenacious Wild Vine' surviving persistently even in harsh environments" },
+    byeong: { ko: "세상을 공평하게 비추는 한낮의 '거대한 태양'", en: "a 'Massive Midday Sun' shining fairly upon the world" },
+    jeong: { ko: "짙은 어둠을 따뜻하게 밝히는 '모닥불'", en: "a 'Warm Campfire' illuminating the deep darkness" },
+    mu: { ko: "묵묵히 만물을 품어주는 '거대한 산맥'", en: "a 'Majestic Mountain Range' silently harboring all things" },
+    gi: { ko: "수많은 생명을 정성껏 길러내는 '비옥한 정원'", en: "a 'Fertile Garden' carefully nurturing countless lives" },
+    gyeong: { ko: "아직 제련되지 않은 거대한 '무쇠와 암석'", en: "massive 'Unrefined Iron and Solid Bedrock'" },
+    sin: { ko: "장인의 손길로 정교하게 세공된 '빛나는 보석'", en: "a 'Shining Jewel' precisely crafted by a master artisan" },
+    im: { ko: "그 속을 알 수 없는 깊고 '거대한 바다'", en: "a 'Deep and Vast Ocean' whose depths cannot be known" },
+    gye: { ko: "메마른 만물을 조용히 적시는 '맑은 봄비'", en: "a 'Clear Spring Rain' quietly moistening all parched things" }
+};
+
+const branchTemplates = {
+    ja: { ko: "한겨울의 고요하고 깊은 호수", en: "a quiet, deep lake in midwinter" },
+    chuk: { ko: "생명을 품고 묵묵히 봄을 기다리는 언 땅", en: "frozen ground silently waiting for spring with life inside" },
+    in: { ko: "만물이 생동하기 시작하는 초봄의 숲", en: "an early spring forest where all things begin to come alive" },
+    myo: { ko: "생명력이 만발한 따뜻한 봄날의 들판", en: "a warm spring field blooming with vitality" },
+    jin: { ko: "풍요로운 비를 머금은 거대한 습지", en: "a massive wetland retaining abundant rain" },
+    sa: { ko: "태양이 작열하기 시작하는 초여름의 열기", en: "the early summer heat where the sun begins to scorch" },
+    o: { ko: "만물을 뜨겁게 달구는 한여름의 용광로", en: "a midsummer furnace heating up everything" },
+    mi: { ko: "열기를 가득 품은 건조하고 척박한 사막", en: "a dry and barren desert holding full heat" },
+    shin: { ko: "서늘한 기운이 감도는 초가을의 단단한 바위산", en: "a solid rocky mountain in early autumn with a cool breeze" },
+    yu: { ko: "찬 이슬이 맺히기 시작하는 예리한 가을 저녁", en: "a sharp autumn evening when cold dew begins to form" },
+    sul: { ko: "추수를 마치고 고요해진 쓸쓸한 가을 들판", en: "a lonely autumn field grown quiet after the harvest" },
+    hae: { ko: "만물을 깊은 곳으로 갈무리하는 겨울의 심해", en: "the winter deep sea storing all things deep within" }
+};
+
+const stemDescriptions = {
+    gap: { ko: "순수한 명예욕과 굽히지 않는 리더십이 당신의 뼈대입니다. 비바람이 몰아쳐도 쉽게 흔들리지 않는 굳건한 신념을 지녔으며, 주변 사람들에게 든든한 휴식처가 되어주는 외유내강의 기질을 발휘합니다.", en: "Pure desire for honor and unyielding leadership form your backbone. You possess a firm conviction that is not easily shaken by storms, displaying an inner strength that provides a sturdy resting place for those around you." },
+    eul: { ko: "뛰어난 환경 적응력과 질긴 생명력이 당신의 뼈대입니다. 사람과 사람 사이를 부드럽게 연결하는 네트워킹 능력이 탁월하며, 거친 세상 속에서도 낭만을 잃지 않고 끝끝내 살아남아 최후의 승자가 됩니다.", en: "Excellent adaptability and tough vitality form your backbone. You have outstanding networking skills that connect people smoothly, and you never lose romance in a rough world, ultimately surviving to become the final victor." },
+    byeong: { ko: "숨김없는 솔직함과 만물을 길러내는 압도적인 스케일이 당신의 뼈대입니다. 음침하거나 계산적인 것을 혐오하며, 매사에 열정적이고 뒤끝이 없는 시원한 성격으로 조직의 분위기를 주도합니다.", en: "Unhidden honesty and an overwhelming scale that nurtures all things form your backbone. You despise anything gloomy or calculating, leading the organization's atmosphere with a passionate and refreshing personality that holds no grudges." },
+    jeong: { ko: "좁고 깊게 파고드는 폭발적인 열정과 섬세한 영감이 당신의 뼈대입니다. 평소에는 다정하게 타인의 상처를 보듬지만, 한 번 집중한 일에는 자신의 모든 것을 불태우는 놀라운 몰입력을 보여줍니다.", en: "Explosive passion digging narrowly and deeply, along with delicate inspiration, form your backbone. Usually sweet in soothing others' wounds, you show amazing immersion, burning everything you have for a task once focused." },
+    mu: { ko: "쉽게 감정을 드러내지 않는 묵직한 포용력과 만인이 기대고 싶어 하는 강렬한 신뢰감이 당신의 뼈대입니다. 다양한 사람들의 사연을 묵묵히 들어주고 중재해 주며, 어떤 비바람에도 변치 않는 든든한 울타리가 되어줍니다.", en: "A heavy embrace that doesn't easily reveal emotions and an intense trustworthiness that everyone wants to lean on form your backbone. You silently listen to and mediate diverse stories, becoming an unchanging, sturdy fence in any storm." },
+    gi: { ko: "어머니 같은 온화함과 실속을 챙기는 치밀함이 당신의 뼈대입니다. 뜬구름 잡는 이상보다는 현실적이고 구체적인 결과를 만들어내는 감각이 탁월하며, 조직을 따뜻하게 윤활하는 역할을 완벽히 해냅니다.", en: "Motherly gentleness and the meticulousness to secure substance form your backbone. Rather than chasing vague ideals, you have an excellent sense for creating realistic results, perfectly lubricating the organization warmly." },
+    gyeong: { ko: "불의와 타협하지 않는 강직함과 한 번 결심한 것은 우직하게 밀어붙이는 단호한 결단력이 당신의 뼈대입니다. 얕은 잔머리를 극도로 혐오하며, 오직 원칙과 의리를 목숨처럼 여기는 투사의 기질을 지녔습니다.", en: "A rigid integrity that never compromises with injustice and a firm decisiveness that pushes forward stubbornly form your backbone. You strictly despise petty tricks, possessing a fighter's temperament valuing principles and loyalty." },
+    sin: { ko: "한 치의 오차도 허용하지 않는 예민한 완벽주의와 탁월한 미적 감각이 당신의 뼈대입니다. 대인관계에서 맺고 끊음이 칼같이 확실하며, 문제의 핵심을 단번에 찌르는 날카로운 통찰력을 발휘합니다.", en: "Sensitive perfectionism allowing no errors and an outstanding aesthetic sense form your backbone. You are razor-sharp in setting boundaries in relationships, displaying piercing insight that immediately hits the core of a problem." },
+    im: { ko: "방대한 지혜와 멈추지 않는 지적 호기심, 그리고 어떤 환경이나 사람도 거뜬히 수용해 내는 스케일이 당신의 뼈대입니다. 평소에는 잔잔하지만, 한계에 다다랐을 때는 모든 것을 뒤엎어버리는 무서운 폭발력을 감추고 있습니다.", en: "Boundless wisdom, unstoppable intellectual curiosity, and a scale that easily embraces any environment form your backbone. Usually tranquil, you hide a terrifying explosive power capable of overturning everything when pushed to the limit." },
+    gye: { ko: "타인의 닫힌 마음을 세밀하게 읽어내는 뛰어난 공감 능력과, 소리 없이 상황을 주도하는 치밀한 기획력이 당신의 뼈대입니다. 전면에 나서기보다는 뒤에서 조용히 영향력을 행사하며 완벽한 킹메이커의 역할을 해냅니다.", en: "Outstanding empathy carefully reading closed minds and meticulous planning that silently drives situations form your backbone. Rather than standing at the forefront, you quietly exercise influence from behind, acting as the perfect kingmaker." }
+};
+
+const strongTemplates = {
+    "목(木)": { ko: "전체적인 탄생 에너지를 보면 나무(木)의 기운이 지배적이라, 당신에게 꺾이지 않는 고집과 강한 개척 정신을 무기로 부여했습니다.", en: "Looking at your overall birth energy, Wood is dominant, endowing you with unyielding stubbornness and a strong pioneering spirit as your weapons." },
+    "화(火)": { ko: "전체적인 탄생 에너지를 보면 불(火)의 기운이 지배적이라, 폭발적인 추진력과 풍부한 감정 표현력을 무기로 부여했습니다.", en: "Looking at your overall birth energy, Fire is dominant, endowing you with explosive drive and rich emotional expression as your weapons." },
+    "토(土)": { ko: "전체적인 탄생 에너지를 보면 흙(土)의 기운이 지배적이라, 당신에게 뛰어난 중재 능력과 환경을 안정시키는 무거운 책임감을 부여했습니다.", en: "Looking at your overall birth energy, Earth is dominant, endowing you with excellent mediation skills and a heavy sense of responsibility to stabilize your environment." },
+    "금(金)": { ko: "전체적인 탄생 에너지를 보면 쇠(金)의 기운이 지배적이라, 당신에게 완벽주의적 성향과 차가운 이성을 무기로 부여했습니다.", en: "Looking at your overall birth energy, Metal is dominant, endowing you with perfectionist tendencies and cold rationality as your weapons." },
+    "수(水)": { ko: "전체적인 탄생 에너지를 보면 물(水)의 기운이 지배적이라, 당신에게 사물의 이면을 꿰뚫어 보는 통찰력과 넓은 포용력을 무기로 부여했습니다.", en: "Looking at your overall birth energy, Water is dominant, endowing you with the insight to pierce the hidden side of things and broad tolerance as your weapons." }
+};
+
+const weakTemplates = {
+    "목(木)": { ko: "다만, 나무(木)의 기운이 부족하여 새로운 일을 시작하는 결단력이나 스스로를 밀고 나가는 돌파력에서 종종 갈증을 느낄 수 있습니다.", en: "However, a lack of Wood energy may occasionally leave you thirsting for the decisiveness to start new things or the breakthrough power to push yourself forward." },
+    "화(火)": { ko: "다만, 불(火)의 기운이 부족하여 매사에 열정을 꾸준히 유지하거나 스스로를 세상에 화려하게 드러내는 데에 한계를 느낄 수 있습니다.", en: "However, a lack of Fire energy may make you feel limited in consistently maintaining passion or showing yourself brilliantly to the world." },
+    "토(土)": { ko: "다만, 흙(土)의 기운이 부족하여 삶의 무게중심을 굳건히 잡거나 주변을 안정적으로 포용하는 마음의 여유에서 갈증을 느낄 수 있습니다.", en: "However, a lack of Earth energy may leave you thirsting for the composure to firmly ground the center of your life or stably embrace your surroundings." },
+    "금(金)": { ko: "다만, 쇠(金)의 기운이 부족하여 맺고 끊음이 확실한 단호함이나 목표를 끝까지 관철하는 뚝심에서 한계를 느낄 수 있습니다.", en: "However, a lack of Metal energy may make you feel limited in clear decisiveness or the perseverance to see goals through to the end." },
+    "수(水)": { ko: "다만, 물(水)의 기운이 부족하여 유연하게 상황을 모면하거나 깊이 있는 사유로 돌파구를 찾는 지혜에서 갈증을 느낄 수 있습니다.", en: "However, a lack of Water energy may leave you thirsting for the wisdom to flexibly escape situations or find breakthroughs through deep thought." }
+};
+
+const jeolgiNames = {
+    0: { ko: "대한(大寒)의 극한으로 응축된 기후", en: "the extremely condensed climate of Daehan (Major Cold)" },
+    1: { ko: "입춘(立春)의 만물이 태동하는 생동감 넘치는 기후", en: "the vibrant climate of Ipchun (Beginning of Spring)" },
+    2: { ko: "우수(雨水)의 싹을 틔우는 부드러운 해빙의 기후", en: "the soft thawing climate of Usu (Rain Water)" },
+    3: { ko: "경칩(驚蟄)의 겨울잠을 깨우는 역동적인 기후", en: "the dynamic climate of Gyeongchip (Awakening of Insects)" },
+    4: { ko: "춘분(春分)의 음양 에너지가 완벽히 균형 잡힌 기후", en: "the perfectly balanced Yin-Yang climate of Chunbun (Spring Equinox)" },
+    5: { ko: "청명(淸明)의 생명력이 맑고 투명하게 뻗어가는 기후", en: "the clear and transparent growing climate of Cheongmyeong (Clear and Bright)" },
+    6: { ko: "곡우(穀雨)의 대지를 적시며 성장을 돕는 풍요로운 기후", en: "the abundant climate of Gogu (Grain Rain)" },
+    7: { ko: "입하(立夏)의 열기가 시작되며 위로 솟구치는 기후", en: "the surging climate of Ipha (Beginning of Summer)" },
+    8: { ko: "소만(小滿)의 생장이 만발하여 에너지가 차오르는 기후", en: "the energy-filling climate of Soman (Grain Full)" },
+    9: { ko: "망종(芒種)의 씨앗을 뿌리는 분주하고 폭발적인 기후", en: "the busy and explosive climate of Mangjong (Grain in Ear)" },
+    10: { ko: "하지(夏至)의 빛의 에너지가 절정에 달한 강렬한 기후", en: "the intense climate of Haji (Summer Solstice)" },
+    11: { ko: "소서(小暑)의 본격적인 맹위가 시작되는 뜨거운 기후", en: "the hot climate of Soseo (Minor Heat)" },
+    12: { ko: "대서(大暑)의 한계를 시험하는 극한의 폭염 기후", en: "the extremely scorching climate of Daeseo (Major Heat)" },
+    13: { ko: "입추(立秋)의 열기 속에서 서늘한 결실을 준비하는 기후", en: "the climate of Ipchu (Beginning of Autumn)" },
+    14: { ko: "처서(處暑)의 더위가 꺾이고 에너지가 수렴되는 기후", en: "the converging climate of Cheoseo (End of Heat)" },
+    15: { ko: "백로(白露)의 투명한 이슬이 맺히는 서늘하고 맑은 기후", en: "the cool and clear climate of Baekro (White Dew)" },
+    16: { ko: "추분(秋分)의 성장을 멈추고 거둬들이는 공정한 기후", en: "the fair climate of Chubun (Autumn Equinox)" },
+    17: { ko: "한로(寒露)의 찬 이슬이 맺히며 본질만 남기는 기후", en: "the climate of Hanro (Cold Dew)" },
+    18: { ko: "상강(霜降)의 서리가 내리며 불필요한 것을 소멸시키는 기후", en: "the eradicating climate of Sanggang (Frost Descent)" },
+    19: { ko: "입동(立冬)의 에너지를 깊은 곳으로 갈무리하는 기후", en: "the climate of Ipdong (Beginning of Winter)" },
+    20: { ko: "소설(小雪)의 고요함 속에서 내실을 다지는 기후", en: "the climate of Soseol (Minor Snow)" },
+    21: { ko: "대설(大雪)의 세상을 하얗게 덮으며 모든 것을 품는 기후", en: "the embracing climate of Daeseol (Major Snow)" },
+    22: { ko: "소한(小寒)의 차가운 압박 속에서 생명력을 지키는 기후", en: "the climate of Sohan (Minor Cold)" },
+    23: { ko: "소한(小寒)의 맹렬한 추위가 절정에 달한 기후", en: "the climate of Sohan (Minor Cold Peak)" }
 };
 const luckyTitles81 = {
     1: "기본격-만사휴태 (萬事休泰)", 2: "동요격-분리파란 (分離波瀾)", 3: "도약격-입신양명 (立身揚名)", 4: "부정격-파괴멸망 (破壞滅亡)", 5: "복덕격-성공발전 (成功發展)",
