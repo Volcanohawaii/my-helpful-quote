@@ -459,28 +459,30 @@ if (mode === 'fortune') {
         else if (h >= 10 && h < 16) { timeModifierKo = "한낮의 뜨거운 열기가 더해져"; timeModifierEn = "with the intense heat of midday,"; }
         else if (h >= 16 && h < 22) { timeModifierKo = "저녁의 차분한 결실의 기운이 더해져"; timeModifierEn = "with the calm energy of evening,"; }
 
-        // 5. 운명공학 완벽 서사 조립 (일주 + 배경 + 이름 = 시그니처)
+        // 5. 운명공학 완벽 서사 조립 (일주 코어 + 절기 배경 + 이름 작용 = 최종 시그니처)
         const stemObj = stemTemplates[session.iljuData.stemId];
         const jeolgiKo = jeolgiNames[session.solarMonth] ? jeolgiNames[session.solarMonth].ko : ""; 
         const jeolgiEn = jeolgiNames[session.solarMonth] ? jeolgiNames[session.solarMonth].en : ""; 
         
-        // 이름 상호작용 문구 도출 (배경 오행인 bgElHanja와 이름 오행 매칭으로 정확도 100%)
+        // 이름 상호작용 문구 도출
         const baseActionKo = (interactionNarrative[nameElHanja] && interactionNarrative[nameElHanja][bgElHanja]) || "선천적 기운을 이름의 주파수로 재배치하여";
         const baseActionEn = "rearranging the innate energy with the name's frequency"; 
         
-const strongText = strongTemplates[session.strongEl][currentLang];
-const weakText = weakTemplates[session.weakEl][currentLang];
+        // 🌟 전체 에너지 강/약 텍스트 불러오기 (이제 여기에만 딱 한 번 들어갑니다!)
+        const strongText = strongTemplates[session.strongEl][currentLang];
+        const weakText = weakTemplates[session.weakEl][currentLang];
 
-// ✅ 2. 그 다음에 문장을 조립해야 에러가 나지 않습니다!
-const narrativeKo = `당신의 영혼은 <b>[${stemObj.ko}]</b>의 에너지를 코어로 품고 태어났습니다. 이 본질적인 기운에 <b>[${jeolgiKo}]</b>라는 <b>${bgStrengthKo} ${bgEl}</b>의 탄생 배경 에너지가 주어지고, 당신의 성명이 가진 <b>${nameElKey}</b>의 주파수가 개입하여 <b>${baseActionKo}</b>. ${timeModifierKo} 마침내 이 모든 에너지가 융합되어 최종적으로 <b>${finalSignature}</b> 중심의 독보적인 운명 시그니처가 완성되었습니다.<br><br><b style="color:var(--accent);">[에너지 밸런스]</b><br>${strongText} ${weakText}`;
-
-const narrativeEn = `Your soul was born with the core energy of <b>[${stemObj.en}]</b>. To this innate essence, the background energy of <b>[${jeolgiEn}]</b> (<b>${bgStrengthEn} ${elMap[bgEl]}</b>) was added, and your name's <b>${elMap[nameElKey] || nameElKey}</b> frequency intervened to <b>${baseActionEn}</b>. ${timeModifierEn} finally, all these energies fused to complete a unique destiny signature centered on <b>${elMap[finalSignature] || finalSignature}</b>.<br><br><b style="color:var(--accent);">[Energy Balance]</b><br>${strongText} ${weakText}`;
+        // 🇰🇷 한국어 최종 출력문 (중복을 싹 지우고 하나로 깔끔하게 합쳤습니다!)
+        const finalNarrativeKo = `당신의 영혼은 <b>[${stemObj.ko}]</b>의 에너지를 코어로 품고 태어났습니다. 이 본질적인 기운에 <b>[${jeolgiKo}]</b>라는 <b>${bgStrengthKo} ${bgEl}</b>의 탄생 배경 에너지가 주어지고, 당신의 성명이 가진 <b>${nameElKey}</b>의 주파수가 개입하여 <b>${baseActionKo}</b>. ${timeModifierKo} 마침내 이 모든 에너지가 융합되어 최종적으로 <b>${finalSignature}</b> 중심의 독보적인 운명 시그니처가 완성되었습니다.
+        <br><br>
+        <b style="color:var(--accent);">[전체 에너지 밸런스 분석]</b><br>
+        ${strongText} ${weakText}`;
         
-        const balanceKo = `<br><br><b style="color:var(--accent);">[전체 에너지 밸런스 분석]</b><br>${strongText} ${weakText}`;
-        const balanceEn = `<br><br><b style="color:var(--accent);">[Overall Energy Balance]</b><br>${strongText} ${weakText}`;
-
-        const finalNarrativeKo = narrativeKo + balanceKo;
-        const finalNarrativeEn = narrativeEn + balanceEn;
+        // 🇺🇸 영문 최종 출력문
+        const finalNarrativeEn = `Your soul was born with the core energy of <b>[${stemObj.en}]</b>. To this innate essence, the background energy of <b>[${jeolgiEn}]</b> (<b>${bgStrengthEn} ${elMap[bgEl]}</b>) was added, and your name's <b>${elMap[nameElKey] || nameElKey}</b> frequency intervened to <b>${baseActionEn}</b>. ${timeModifierEn} finally, all these energies fused to complete a unique destiny signature centered on <b>${elMap[finalSignature] || finalSignature}</b>.
+        <br><br>
+        <b style="color:var(--accent);">[Overall Energy Balance]</b><br>
+        ${strongText} ${weakText}`;
 
         // 기타 계산
         const yVal = parseInt(session.birth.substring(0, 4));
@@ -489,7 +491,7 @@ const narrativeEn = `Your soul was born with the core energy of <b>[${stemObj.en
         const hVal = session.hour || 12;
         const sVal = session.num81;
         const missionIndex = (yVal + mVal + dVal + hVal + sVal) % 24;
-
+  
         // 6. 화면 출력
         body.innerHTML = `
           <div class="tab-content">
