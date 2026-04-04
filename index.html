@@ -484,17 +484,17 @@ if (mode === 'fortune') {
         const finalNarrativeEn = `You were born with a ${coreModifierEn} ${elMap[coreElText]} energy as its core. To this innate essence, the background energy of ${jeolgiEn}, which is ${bgStrengthEn.replace(/\(.*\)/g, '')} ${elMap[bgEl]}, was added, and your name's ${elMap[nameElKey] || nameElKey} frequency intervened to ${baseActionEn}. ${timeModifierEn} finally, all these energies fused to complete a unique destiny signature centered on <b>${elMap[finalSignature] || finalSignature}</b>.`;
 
         // 기타 계산
-       const yVal = parseInt(session.birth.substring(0, 4));
+        const yVal = parseInt(session.birth.substring(0, 4));
         const dVal = parseInt(session.birth.substring(6, 8));
         const hVal = session.hour || 12;
-        
+        const mVal = birthMonth;
         // 1. 이름의 파동 에너지 (81수리 번호)
         // 기타 계산 (탄생 배경과 후천적 이름 주파수만의 정밀 융합)
         const sVal = session.num81; // 이름 81수리
-        const mVal = session.solarMonth; // 24절기 (탄생 배경)
+        const mmVal = session.solarMonth; // 24절기 (탄생 배경)
         
         // 24가지 과업 중, 유저의 '최종 시그니처 오행'에 완벽히 종속된 인덱스 도출
-        const missionIndex = (mVal + sVal) % 24;
+        const missionIndex = (mmVal + sVal) % 24;
 
         // 6. 화면 출력
         body.innerHTML = `
