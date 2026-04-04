@@ -730,12 +730,11 @@ const nameNumerology = (() => {
     return out;
 })();
 
-/* [전생 데이터: 81개 수리별 고도화 버전] */
-const pastLifeData = Array.from({ length: 81 }, (_, i) => {
-    const num = i + 1;
-    const lastDigit = num % 10;
-    
-    const jobPool = {
+// ============================================================================
+// 1. [전생 데이터] 시그니처 오행 기반 동적 함수
+// ============================================================================
+function getPastLifeData(num, signature, lang) {
+    const jobPoolKo = {
         "목(木)": [
             { job: "황실 정원사", desc: "생명을 피워내는 에너지가 강해 제국의 비원을 설계했습니다." },
             { job: "약초 치유사", desc: "생명 존중의 기운으로 험준한 산맥을 누비며 병자를 돌봤습니다." },
@@ -798,40 +797,8 @@ const pastLifeData = Array.from({ length: 81 }, (_, i) => {
         ]
     };
 
-    const elKey = [1, 2].includes(lastDigit) ? "목(木)" : [3, 4].includes(lastDigit) ? "화(火)" : [5, 6].includes(lastDigit) ? "토(土)" : [7, 8].includes(lastDigit) ? "금(金)" : "수(水)";
-    const elTraits = { "목(木)": "강한 추진력과 생명력", "화(火)": "발산하는 열정과 에너지", "토(土)": "두터운 중용과 응집력", "금(金)": "예리한 결단과 강직함", "수(水)": "심오한 지혜와 유연함" };
-    const pool = jobPool[elKey];
-    const match = pool[i % pool.length];
-    const mods = ["달빛 아래 기도를 올리던", "금기된 고서를 해석하던", "별의 궤적을 쫓던", "침묵 속에 칼날을 갈던", "자비로운 마음으로 생명을 품던", "안개 너머 진실을 보던", "거친 파도를 잠재우던", "운명의 실타래를 풀던", "비밀스러운 전설을 기록하던", "정의로운 신념으로 맞서던"];
-
-    // [4] 과업(Homework) - 30개로 확장
-    const homeworks = [
-        "지식을 자비로 바꾸어 세상에 베푸는 것이었습니다.", "소유에 대한 집착을 버리고 내면의 평온을 찾는 일이었습니다.", "타인의 고통을 자신의 것처럼 느끼는 공감을 익히고자 했습니다.",
-        "자신의 천부적 재능을 공동체의 이익으로 환원하는 것이었습니다.", "고독을 정체성으로 받아들이고 세상과 당당히 소통하는 것이었습니다.", "권위보다 덕과 진심으로 사람을 이끄는 법을 연마했습니다.",
-        "과거의 기억에서 벗어나 오직 '현재'의 소중함을 깨닫는 과정이었습니다.", "물질적 가치를 넘어 정신적 완성의 기쁨을 증명하는 생이었습니다.", "내면의 들끓는 분노를 다스리고 용서의 미덕을 배웠습니다.",
-        "자신의 한계를 인정하고 낮은 곳으로 임하는 겸손을 닦았습니다.", "눈에 보이지 않는 진실된 가치를 위해 끝까지 인내했습니다.", "진정한 정신적 독립과 자아의 중심을 잡는 과정이었습니다.",
-        "갈등이 가득한 세상 속에서 중재자로 평화를 수호했습니다.", "모든 편견을 내려놓고 세상을 맑게 바라보는 법을 배웠습니다.", "가진 것을 아낌없이 나눔으로써 공생의 진리를 실현했습니다.",
-        "침묵을 깨고 진실을 말하는 용기를 통해 영혼의 자유를 얻었습니다.", "집착을 끊어내고 흐르는 물처럼 유연하게 사는 지혜를 익혔습니다.", "모든 생명을 평등하게 존중하고 보호하는 의무를 다했습니다.",
-        "기나긴 인내의 세월을 견뎌 마침내 영광의 결실을 맺었습니다.", "타인의 잠재력을 끌어올리고 그 안에서 자신의 보람을 찾았습니다.",
-        "진정한 사랑의 의미를 정의하고 이를 실천하는 삶이었습니다.", "창조적인 영감을 기록으로 남겨 인류에게 영원한 선물을 주었습니다.", "두려움을 극복하고 미지의 영역에 발을 들이는 용기를 증명했습니다.",
-        "복잡한 이해관계를 명쾌하게 풀이하여 상생의 길을 열었습니다.", "자신의 약점을 강점으로 승화시켜 불가능을 가능케 했습니다.",
-        "내면의 빛을 발견하고 어두운 세상을 비추는 등대가 되었습니다.", "말보다는 행동으로 자신의 가치를 증명하는 묵직한 삶이었습니다.", "자연의 순리를 깨닫고 인간과 자연의 다리가 되었습니다.",
-        "흔들리지 않는 평정심으로 극도의 혼란을 잠재웠습니다.", "자신의 명예보다는 타인의 안위를 먼저 살피는 고결함을 갖췄습니다."
-    ];
-
-   return { 
-        job: `${mods[i % mods.length]} ${match.job}`, 
-        desc: `성명학 분석 결과, 당신은 <b>${elKey}</b>의 <b>${elTraits[elKey]}</b>이 두드러지는 명식입니다. 이로 인해 과거 생애에서 ${match.desc}`, 
-        homework: homeworks[i % homeworks.length] 
-    };
-});
-
-const pastLifeDataEn = Array.from({ length: 81 }, (_, i) => {
-    const num = i + 1;
-    const lastDigit = num % 10;
-    
     const jobPoolEn = {
-        "Wood": [
+        "목(木)": [
             { job: "Royal Gardener", desc: "possessed strong vital energy and designed the secret gardens of the Empire." },
             { job: "Herbal Healer", desc: "traversed rugged mountains to treat the sick with the energy of life and compassion." },
             { job: "Secret Architect", desc: "built mysterious temples that never existed before, fueled by growth energy." },
@@ -843,7 +810,7 @@ const pastLifeDataEn = Array.from({ length: 81 }, (_, i) => {
             { job: "Wandering Herbalist", desc: "delivered healing roots across the continent, seeking the life force of the earth." },
             { job: "Paper Maker", desc: "aided the transmission of civilization by producing the paper that became the base of knowledge." }
         ],
-        "Fire": [
+        "화(火)": [
             { job: "Prophet of the Wilderness", desc: "became a beacon of light for the masses with your radiant and burning intelligence." },
             { job: "Glass Artisan", desc: "practiced the most transparent art by capturing light through the power of fire." },
             { job: "Troupe Leader", desc: "was an artist who turned the sorrow of the people into a festival with your explosive energy." },
@@ -855,7 +822,7 @@ const pastLifeDataEn = Array.from({ length: 81 }, (_, i) => {
             { job: "Smeltery Supervisor", desc: "created the tools of civilization by tuning the heat of a massive furnace." },
             { job: "Brilliant Dancer", desc: "presided over temple rituals with movements that traced the trajectory of light." }
         ],
-        "Earth": [
+        "토(土)": [
             { job: "Imperial Judge", desc: "fairly judged the rights and wrongs of all people with a heavy sense of moderation." },
             { job: "Ancient Bibliographer", desc: "was a recorder who laid the foundation for libraries by compiling vast amounts of knowledge." },
             { job: "Golden City Ruler", desc: "was a leader who united scattered tribes through your inclusive leadership." },
@@ -867,7 +834,7 @@ const pastLifeDataEn = Array.from({ length: 81 }, (_, i) => {
             { job: "Grain Manager", desc: "saved the people from famine by managing the fruits of the fertile earth." },
             { job: "Desert Guide", desc: "led caravans by reading the direction of the earth even amidst sandstorms." }
         ],
-        "Metal": [
+        "금(金)": [
             { job: "Legendary Blacksmith", desc: "forged legendary swords that no evil could pierce, based on your iron will." },
             { job: "Secret Agent", desc: "was a shadow sentinel who uncovered the plots of enemies with sharp judgment." },
             { job: "Messenger of Judgment", desc: "was an upright official who restored broken order with decisive resolve." },
@@ -879,7 +846,7 @@ const pastLifeDataEn = Array.from({ length: 81 }, (_, i) => {
             { job: "Rock Climber", desc: "scaled rugged stone mountains to receive the spirit of the highest peaks." },
             { job: "Carving Master", desc: "was an artist who crafted soft art out of cold metal, a master of irony." }
         ],
-        "Water": [
+        "수(水)": [
             { job: "Deep Sea Navigator", desc: "discovered new continents by commanding the rough seas with flexible intelligence." },
             { job: "Mystic Philosopher", desc: "was a sage who sought answers to the fundamental questions of the world through deep insight." },
             { job: "Secret Messenger", desc: "was an informant who delivered blocked news by permeating everywhere like water." },
@@ -893,12 +860,30 @@ const pastLifeDataEn = Array.from({ length: 81 }, (_, i) => {
         ]
     };
 
-   const elKeyEn = [1, 2].includes(lastDigit) ? "Wood" : [3, 4].includes(lastDigit) ? "Fire" : [5, 6].includes(lastDigit) ? "Earth" : [7, 8].includes(lastDigit) ? "Metal" : "Water";
-    const elTraitsEn = { "Wood": "vitality", "Fire": "passion", "Earth": "balance", "Metal": "integrity", "Water": "wisdom" };
+    const elTraitsKo = { "목(木)": "강한 추진력과 생명력", "화(火)": "발산하는 열정과 에너지", "토(土)": "두터운 중용과 응집력", "금(金)": "예리한 결단과 강직함", "수(水)": "심오한 지혜와 유연함" };
+    const elTraitsEn = { "목(木)": "vitality", "화(火)": "passion", "토(土)": "balance", "금(金)": "integrity", "수(水)": "wisdom" };
+    const elKeyEn = { "목(木)": "Wood", "화(火)": "Fire", "토(土)": "Earth", "금(金)": "Metal", "수(水)": "Water" }[signature];
 
-    const poolEn = jobPoolEn[elKeyEn];
-    const matchEn = poolEn[i % poolEn.length];
+    const pool = lang === 'ko' ? jobPoolKo[signature] : jobPoolEn[signature];
+    const match = pool[num % 10];
+    
+    const modsKo = ["달빛 아래 기도를 올리던", "금기된 고서를 해석하던", "별의 궤적을 쫓던", "침묵 속에 칼날을 갈던", "자비로운 마음으로 생명을 품던", "안개 너머 진실을 보던", "거친 파도를 잠재우던", "운명의 실타래를 풀던", "비밀스러운 전설을 기록하던", "정의로운 신념으로 맞서던"];
     const modsEn = ["Praying under the moonlight", "Decoding forbidden scrolls", "Chasing starlight", "Sharpening blades", "Embracing life", "Seeing the truth", "Calming the waves", "Unraveling fate", "Recording legends", "Standing righteous"];
+    const mod = lang === 'ko' ? modsKo[num % 10] : modsEn[num % 10];
+
+    const homeworksKo = [
+        "지식을 자비로 바꾸어 세상에 베푸는 것이었습니다.", "소유에 대한 집착을 버리고 내면의 평온을 찾는 일이었습니다.", "타인의 고통을 자신의 것처럼 느끼는 공감을 익히고자 했습니다.",
+        "자신의 천부적 재능을 공동체의 이익으로 환원하는 것이었습니다.", "고독을 정체성으로 받아들이고 세상과 당당히 소통하는 것이었습니다.", "권위보다 덕과 진심으로 사람을 이끄는 법을 연마했습니다.",
+        "과거의 기억에서 벗어나 오직 '현재'의 소중함을 깨닫는 과정이었습니다.", "물질적 가치를 넘어 정신적 완성의 기쁨을 증명하는 생이었습니다.", "내면의 들끓는 분노를 다스리고 용서의 미덕을 배웠습니다.",
+        "자신의 한계를 인정하고 낮은 곳으로 임하는 겸손을 닦았습니다.", "눈에 보이지 않는 진실된 가치를 위해 끝까지 인내했습니다.", "진정한 정신적 독립과 자아의 중심을 잡는 과정이었습니다.",
+        "갈등이 가득한 세상 속에서 중재자로 평화를 수호했습니다.", "모든 편견을 내려놓고 세상을 맑게 바라보는 법을 배웠습니다.", "가진 것을 아낌없이 나눔으로써 공생의 진리를 실현했습니다.",
+        "침묵을 깨고 진실을 말하는 용기를 통해 영혼의 자유를 얻었습니다.", "집착을 끊어내고 흐르는 물처럼 유연하게 사는 지혜를 익혔습니다.", "모든 생명을 평등하게 존중하고 보호하는 의무를 다했습니다.",
+        "기나긴 인내의 세월을 견뎌 마침내 영광의 결실을 맺었습니다.", "타인의 잠재력을 끌어올리고 그 안에서 자신의 보람을 찾았습니다.",
+        "진정한 사랑의 의미를 정의하고 이를 실천하는 삶이었습니다.", "창조적인 영감을 기록으로 남겨 인류에게 영원한 선물을 주었습니다.", "두려움을 극복하고 미지의 영역에 발을 들이는 용기를 증명했습니다.",
+        "복잡한 이해관계를 명쾌하게 풀이하여 상생의 길을 열었습니다.", "자신의 약점을 강점으로 승화시켜 불가능을 가능케 했습니다.",
+        "내면의 빛을 발견하고 어두운 세상을 비추는 등대가 되었습니다.", "말보다는 행동으로 자신의 가치를 증명하는 묵직한 삶이었습니다.", "자연의 순리를 깨닫고 인간과 자연의 다리가 되었습니다.",
+        "흔들리지 않는 평정심으로 극도의 혼란을 잠재웠습니다.", "자신의 명예보다는 타인의 안위를 먼저 살피는 고결함을 갖췄습니다."
+    ];
     const homeworksEn = [
         "The mission was to turn knowledge into compassion.", "Devoted life to letting go of greed and finding inner peace.", "Sought to master true empathy for the suffering of others.",
         "Tasked with returning personal talents back to social values.", "The challenge was to overcome solitude and communicate with the world.", "Refined leadership through virtue rather than mere authority.",
@@ -912,20 +897,29 @@ const pastLifeDataEn = Array.from({ length: 81 }, (_, i) => {
         "Became a lighthouse shining in a dark world by finding inner light.", "Lived a weighty life proving value through action rather than words.", "Became a bridge between humans and nature by realizing natural laws.",
         "Quieted extreme chaos with an unshakable composure.", "Attained nobility by prioritizing others' safety over personal honor."
     ];
+    const homework = lang === 'ko' ? homeworksKo[num % 30] : homeworksEn[num % 30];
 
-return { 
-        job: `${modsEn[i % modsEn.length]} ${matchEn.job}`, 
-        desc: `Based on Suri analysis, your name possesses powerful <b>${elKeyEn}</b> energy. Consequently, in your past life, you ${matchEn.desc}`, 
-        homework: homeworksEn[i % homeworksEn.length] 
-    };
-});
+    if (lang === 'ko') {
+        return {
+            job: `${mod} ${match.job}`,
+            desc: `운명공학 분석 결과, 당신은 <b>${signature}</b>의 <b>${elTraitsKo[signature]}</b>이 두드러지는 시그니처를 가졌습니다. 이로 인해 과거 생애에서 ${match.desc}`,
+            homework: homework
+        };
+    } else {
+        return {
+            job: `${mod} ${match.job}`,
+            desc: `Based on the destiny analysis, your signature energy is <b>${elKeyEn}</b>, characterized by <b>${elTraitsEn[signature]}</b>. Consequently, in your past life, you ${match.desc}`,
+            homework: homework
+        };
+    }
+}
 
-/* [내세 데이터: 81개 수리별 미래/개척시대 버전] */
-const reincarnationData = Array.from({ length: 81 }, (_, i) => {
-    const num = i + 1;
-    const lastDigit = num % 10;
-    
-    const futurePool = {
+
+// ============================================================================
+// 2. [내세 데이터] 시그니처 오행 기반 동적 함수
+// ============================================================================
+function getNextLifeData(num, signature, lang) {
+    const futurePoolKo = {
         "목(木)": [
             { role: "행성 테라포밍 설계자", job: "개척 행성의 바이오 돔에서 멸종 위기종을 복원하는 전문가" },
             { role: "뉴럴 플랜트 가디언", job: "인간의 뇌파와 식물을 연결해 산소를 생성하는 시스템 관리자" },
@@ -951,7 +945,7 @@ const reincarnationData = Array.from({ length: 81 }, (_, i) => {
             { role: "은하 연합 홍보대사", job: "화려한 카리스마로 행성 간의 문화적 통합을 이끄는 리더" }
         ],
         "토(土)": [
-            { role: "화성 기반 인프라 국장", job: "개척지의 토양을 안정시키고 거주 구역을 구축하는 총책임자" },
+            { role: "화성 기반 인프라 국장", job: "개척지의 토양을 안정시키고 거 거주 구역을 구축하는 총책임자" },
             { role: "시공간 데이터 보관소장", job: "우주의 방대한 정보를 묵직하게 지켜내는 최종 관리자" },
             { role: "중력 밸런스 조정관", job: "행성의 중력을 조절하여 인류가 살기 가장 좋은 환경을 만드는 이" },
             { role: "차원 통용 화폐 발행자", job: "은하 전체에서 신뢰받는 경제 체계를 구축하는 금융 가이드" },
@@ -987,48 +981,9 @@ const reincarnationData = Array.from({ length: 81 }, (_, i) => {
             { role: "심연의 진리 전파자", job: "우주의 끝에서 발견한 근원적 비밀을 지혜로 승화시켜 전하는 이" }
         ]
     };
- // [2] 미래적 장소(Places) - 지구 복원지 + 우주 개척지 (30개)
-    const places = [
-        "네오-판교 테크 밸리", "태평양 수중 도시 '아틀란티스'", "화성 제4 거주 돔", "달 후면부 에너지 기지", "바이칼 호수 복원 센터", 
-        "안드로메다 연락 사무소", "성층권 부유 연구소", "뉴-교토 홀로그램 정원", "적도 위 우주 엘리베이터 허브", "남극 빙하 속 종자 보관소",
-        "금성 구름 위 테라스", "양자 컴퓨팅 공명실", "유로파 심해 연구소", "사하라 수직 도시", "지구 궤도 정거장 '새벽'",
-        "실리콘 밸리 2.0 유적지", "알프스 산맥 기상 조절소", "아마존 스마트 밀림", "목성 고리 관측 데크", "나노 공정 자동화 공장",
-        "무의식 데이터 아카이브", "다차원 관문 터미널", "기억 저장소 '메모리아'", "차원 전송 게이트 11", "에메랄드 포레스트 돔",
-        "침묵의 데이터 망루", "무지개 공명 광장", "코스모스 평화 센터", "미래 기후 설계실", "영혼 전송 정거장"
-    ];
- // [4] 핵심 미션(Missions) - 개척과 공생 (30개)
-    const missions = [
-        "지구의 멸종 위기 식물 유전자를 행성 X로 이식하십시오.", "화성의 물 부족 현상을 해결할 결빙 핵 기술을 전달하십시오.", "분열된 달 거주지들 사이의 평화 조약을 체결하십시오.",
-        "인공지능과 인류 사이의 감정적 갈등을 중재하고 화해시키십시오.", "100년 전 손실된 인류의 디지털 기억을 복구하십시오.", "신개척 행성에 세워질 첫 번째 도서관의 책을 선별하십시오.",
-        "지구 자기장의 불균형을 막아 대기 붕괴를 저지하십시오.", "미래 세대를 위한 완벽한 산소 공급 시스템을 설계하십시오.", "행성 간 이동 중 발생하는 시공간 멀미를 치료하는 주파수를 찾으십시오.",
-        "안드로이드들에게 '인간의 따스함'을 가르치는 교육 프로그램을 완성하십시오.", "지구 바다의 오염된 나노 입자들을 정화하는 임무를 수행하십시오.", "달의 먼지를 이용해 거대한 에너지 패널을 건설하십시오.",
-        "다른 은하계에서 온 미지의 조난 신호를 최초로 수신하십시오.", "인류의 마지막 남은 천연 숲을 보존하는 파수꾼이 되십시오.", "우주 정거장의 노후된 중력 발생 장치를 교체하십시오.",
-        "지구형 행성 탐사대의 정신적 안정을 돕는 상담 시스템을 운영하십시오.", "행성 간 무역에서 발생하는 불공정 거래를 감시하십시오.", "사라진 미래 도시 '뉴-뉴욕'의 지도를 다시 그리십시오.",
-        "시공간 가속 장치의 과부하를 막아 차원의 균형을 지키십시오.", "인류가 거주할 새로운 지하 도시의 광원 시스템을 설치하십시오.", "외계 지성체와의 최초의 문화 교류 축제를 기획하십시오.",
-        "화성 토양에 자랄 수 있는 하이브리드 종자를 배양하십시오.", "우주의 모든 소리를 수집하여 지구의 옛 노래를 복원하십시오.", "환생 시스템의 데이터 오류를 수정하여 영혼들을 구제하십시오.",
-        "성운의 에너지를 모아 인공 태양을 점화하는 작업에 참여하십시오.", "미래의 인류가 겪을 지독한 고독을 치유할 콘텐츠를 제작하십시오.", "스스로 빛을 내지 못하는 개척지에 지혜의 빛을 전하십시오.",
-        "우주의 끝에서 날아오는 정체불명의 방사능을 차단하십시오.", "감정의 불균형으로 무너지는 돔 도시의 정신을 재건하십시오.", "영원한 평화와 공존의 시나리오를 완성하십시오."
-    ];
 
-   const elKey = [1, 2].includes(lastDigit) ? "목(木)" : [3, 4].includes(lastDigit) ? "화(火)" : [5, 6].includes(lastDigit) ? "토(土)" : [7, 8].includes(lastDigit) ? "금(金)" : "수(水)";
-    const pool = futurePool[elKey];
-    const match = pool[i % pool.length];
-
-    // 🚩 return문에서 변수명 match와 elKey가 정확히 매칭됩니다.
-    return { 
-        place: places[i % places.length], 
-        job: match.role, 
-        desc: `분석 결과 당신의 미래는 <b>${elKey}</b>의 에너지가 주도합니다. 이 영향으로 내세에서는 <b>${match.job}</b>(으)로 활동할 운명입니다.`, 
-        mission: missions[i % missions.length] 
-    };
-});
-
-/* [내세 데이터 영문: Future/Colonization Version] */
-const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
-    const num = i + 1;
-    const lastDigit = num % 10;
     const futurePoolEn = {
-        "Wood": [
+        "목(木)": [
             { role: "Planetary Terraforming Architect", job: "specialist restoring endangered species in bio-domes on frontier planets" },
             { role: "Neural Plant Guardian", job: "system manager connecting human brainwaves with plants to generate oxygen" },
             { role: "Virtual Reality Gardener", job: "creator of natural zones in the digital world for souls to find rest" },
@@ -1040,7 +995,7 @@ const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
             { role: "Messenger of the Primal Forest", job: "guide carrying trees possessing Earth's memories to new frontiers" },
             { role: "Life Sequence Designer", job: "designer perfectly setting the environment for new life forms to be born" }
         ],
-        "Fire": [
+        "화(火)": [
             { role: "Energy Frequency Tuner", job: "evangelist who unites and amplifies the energies of multi-dimensional civilizations" },
             { role: "Hologram Enlightener", job: "future teacher spreading forgotten human wisdom through light waves" },
             { role: "Nebula Power Excavator", job: "key player converting the energy from exploding stars into civilizational power" },
@@ -1052,7 +1007,7 @@ const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
             { role: "Archivist of Intelligence", job: "recorder storing the brilliant achievements of all civilizations as light particles" },
             { role: "Galactic Union Ambassador", job: "leader guiding cultural integration between planets with brilliant charisma" }
         ],
-        "Earth": [
+        "토(土)": [
             { role: "Director of Mars Infrastructure", job: "head official in charge of stabilizing soil and building residential zones" },
             { role: "Spacetime Data Vault Manager", job: "final manager who heavily protects the vast information of the universe" },
             { role: "Gravity Balance Coordinator", job: "one who creates the best environment for humanity by adjusting planetary gravity" },
@@ -1064,7 +1019,7 @@ const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
             { role: "Multi-national Union Historian", job: "historian who fairly records the history of all planets without distortion" },
             { role: "Continental Vertical City Manager", job: "manager overseeing peaceful residences by maximizing Earth's narrow territory" }
         ],
-        "Metal": [
+        "금(金)": [
             { role: "Planetary Defense Commander", job: "sentinel protecting civilization from external threats with precise judgment" },
             { role: "Cyber Law Adjudicator", job: "embodiment of justice who resolutely punishes crimes between virtual and reality" },
             { role: "Quantum Security Architect", job: "technician building an unhackable, iron-clad information protection system" },
@@ -1076,7 +1031,7 @@ const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
             { role: "Space Fleet Auditor", job: "audit expert who keenly identifies whether all systems comply with regulations" },
             { role: "Decision-making Amplifier Trainer", job: "operator of neural training systems that enhance decision-making in critical moments" }
         ],
-        "Water": [
+        "수(水)": [
             { role: "Neural Link Purification Specialist", job: "purifier who cleanses the polluted subconscious networks of humanity" },
             { role: "Deep Space Navigator", job: "pioneering pilot finding paths beyond black holes with profound insight" },
             { role: "Information Wave Analyst", job: "one who completes wisdom by gathering data particles scattered across the universe" },
@@ -1090,13 +1045,17 @@ const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
         ]
     };
 
-    const placesEn = [
-        "Neo-Pangyo Tech Valley", "Underwater City 'Atlantis'", "Mars Residential Dome 04", "Far Side Lunar Energy Base", "Lake Baikal Restoration Center", 
-        "Andromeda Liaison Office", "Stratospheric Floating Lab", "Neo-Kyoto Hologram Garden", "Equatorial Space Elevator Hub", "Antarctic Seed Vault",
-        "Venus Cloud Terrace", "Quantum Computing Chamber", "Europa Deep Sea Lab", "Sahara Vertical City", "Earth Orbit Station 'Dawn'",
-        "Silicon Valley 2.0 Ruins", "Alpine Weather Control Station", "Amazon Smart Jungle", "Jupiter Ring Observation Deck", "Nano-Process Auto Factory",
-        "Unconscious Data Archive", "Multidimensional Gateway Terminal", "Memory Vault 'Memoria'", "Dimension Gate 11", "Emerald Forest Dome",
-        "Silent Data Watchtower", "Rainbow Resonance Square", "Cosmos Peace Center", "Future Climate Design Lab", "Soul Transit Station"
+    const missionsKo = [
+        "지구의 멸종 위기 식물 유전자를 행성 X로 이식하십시오.", "화성의 물 부족 현상을 해결할 결빙 핵 기술을 전달하십시오.", "분열된 달 거주지들 사이의 평화 조약을 체결하십시오.",
+        "인공지능과 인류 사이의 감정적 갈등을 중재하고 화해시키십시오.", "100년 전 손실된 인류의 디지털 기억을 복구하십시오.", "신개척 행성에 세워질 첫 번째 도서관의 책을 선별하십시오.",
+        "지구 자기장의 불균형을 막아 대기 붕괴를 저지하십시오.", "미래 세대를 위한 완벽한 산소 공급 시스템을 설계하십시오.", "행성 간 이동 중 발생하는 시공간 멀미를 치료하는 주파수를 찾으십시오.",
+        "안드로이드들에게 '인간의 따스함'을 가르치는 교육 프로그램을 완성하십시오.", "지구 바다의 오염된 나노 입자들을 정화하는 임무를 수행하십시오.", "달의 먼지를 이용해 거대한 에너지 패널을 건설하십시오.",
+        "다른 은하계에서 온 미지의 조난 신호를 최초로 수신하십시오.", "인류의 마지막 남은 천연 숲을 보존하는 파수꾼이 되십시오.", "우주 정거장의 노후된 중력 발생 장치를 교체하십시오.",
+        "지구형 행성 탐사대의 정신적 안정을 돕는 상담 시스템을 운영하십시오.", "행성 간 무역에서 발생하는 불공정 거래를 감시하십시오.", "사라진 미래 도시 '뉴-뉴욕'의 지도를 다시 그리십시오.",
+        "시공간 가속 장치의 과부하를 막아 차원의 균형을 지키십시오.", "인류가 거주할 새로운 지하 도시의 광원 시스템을 설치하십시오.", "외계 지성체와의 최초의 문화 교류 축제를 기획하십시오.",
+        "화성 토양에 자랄 수 있는 하이브리드 종자를 배양하십시오.", "우주의 모든 소리를 수집하여 지구의 옛 노래를 복원하십시오.", "환생 시스템의 데이터 오류를 수정하여 영혼들을 구제하십시오.",
+        "성운의 에너지를 모아 인공 태양을 점화하는 작업에 참여하십시오.", "미래의 인류가 겪을 지독한 고독을 치유할 콘텐츠를 제작하십시오.", "스스로 빛을 내지 못하는 개척지에 지혜의 빛을 전하십시오.",
+        "우주의 끝에서 날아오는 정체불명의 방사능을 차단하십시오.", "감정의 불균형으로 무너지는 돔 도시의 정신을 재건하십시오.", "영원한 평화와 공존의 시나리오를 완성하십시오."
     ];
 
     const missionsEn = [
@@ -1111,26 +1070,27 @@ const reincarnationDataEn = Array.from({ length: 81 }, (_, i) => {
         "Participate in igniting an artificial sun using nebula energy.", "Create content to heal the profound loneliness of future humans.", "Deliver the flame of wisdom to dark colonies.",
         "Block unidentified radiation coming from the edge of space.", "Rebuild the spirit of dome cities collapsing from emotional imbalance.", "Complete the cycle of eternal life."
     ];
-    
-    // 오행 기운 특성 번역
-    const elTraitsEn = {
-        "Wood": "limitless scalability and vitality",
-        "Fire": "radiant intelligence and brilliance",
-        "Earth": "stable moderation and management",
-        "Metal": "precise judgment and justice",
-        "Water": "profound insight and purification"
-    };
-const elKeyEn = [1, 2].includes(lastDigit) ? "Wood" : [3, 4].includes(lastDigit) ? "Fire" : [5, 6].includes(lastDigit) ? "Earth" : [7, 8].includes(lastDigit) ? "Metal" : "Water";
-    const poolEn = futurePoolEn[elKeyEn];
-    const matchEn = poolEn[i % poolEn.length];
 
-    return { 
-        place: placesEn[i % placesEn.length], 
-        job: matchEn.role, 
-        desc: `According to the analysis, your future will be driven by <b>${elKeyEn}</b> energy. Under this influence, in your afterlife, you will be <b>${matchEn.job}</b>.`, 
-        mission: missionsEn[i % missionsEn.length] 
-    };
-});
+    const elKeyEn = { "목(木)": "Wood", "화(火)": "Fire", "토(土)": "Earth", "금(金)": "Metal", "수(水)": "Water" }[signature];
+
+    const pool = lang === 'ko' ? futurePoolKo[signature] : futurePoolEn[signature];
+    const match = pool[num % 10];
+    const mission = lang === 'ko' ? missionsKo[num % 30] : missionsEn[num % 30];
+
+    if (lang === 'ko') {
+        return {
+            job: match.role,
+            desc: `운명공학 분석 결과, 당신의 내세는 <b>${signature}</b>의 에너지가 주도합니다. 이 영향으로 <b>${match.job}</b>(으)로 활동할 운명입니다.`,
+            mission: mission
+        };
+    } else {
+        return {
+            job: match.role,
+            desc: `According to the destiny analysis, your afterlife will be driven by <b>${elKeyEn}</b> energy. Under this influence, you will be <b>${match.job}</b>.`,
+            mission: mission
+        };
+    }
+}
 
 /* [6. 정밀 처방전 & 헬퍼 함수] */
 const suriPrescription = {
