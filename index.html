@@ -322,7 +322,7 @@ function processData(name, birth) {
     const conclusionKo = `따라서 상대적으로 부족한 이 에너지를 이름의 주파수로 어떻게 보완하고 조율하는지가 당신의 운명공학적 핵심입니다.`;
     const conclusionEn = `Therefore, how you complement and tune this lacking energy with the frequency of your name is the core of your destiny engineering.`;
     
-    // <br><br>를 모두 지우고 띄어쓰기 한 칸으로 자연스럽게 하나의 문단으로 연결했습니다.
+  
 const termInfo = `${currentLang === 'ko' ? introKo : introEn} ${currentLang === 'ko' ? detailKo : detailEn} <b>${currentLang === 'ko' ? conclusionKo : conclusionEn}</b>`;
     
     document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `${data.name}님의 분석 리포트` : `${data.name}'s Analysis Report`;
@@ -331,8 +331,7 @@ const termInfo = `${currentLang === 'ko' ? introKo : introEn} ${currentLang === 
     const labelSuri = currentLang === 'ko' ? '🔮 수리격 특징' : '🔮 Suri Character';
     const labelMonth = currentLang === 'ko' ? '🌍 탄생일 특징' : '🌍 Innate Core Temperament';
 
-    // 수리격의 '기본격-만사휴태' 처럼, 선천운에도 짧은 요약 타이틀을 달아줍니다 (예: 병오 - 거대한 태양)
-    // 텍스트에 들어간 따옴표(' ')를 제거하여 깔끔하게 만듭니다.
+    
     const iljuTitleKo = `${data.iljuData.iljuName}`;
     const iljuTitleEn = `${data.iljuData.iljuName}`;
 
@@ -364,11 +363,10 @@ function renderChart(scores) {
   labels.forEach((_, i) => { 
     const a = (Math.PI * 2 / 5) * i - (Math.PI / 2); 
     
-    // ✅ [수정됨] 60갑자 정밀 스코어링에 맞춘 동적 스케일링
-    // 기존 150 -> 175로 분모를 상향하여, 점수가 높아도 그래프가 천장을 뚫고 잘리는 현상을 방지합니다.
+   
     let v = (scores[i] / 175) * r; 
     
-    // ✅ [수정됨] 시각적 한계치(최대 팽창률)를 1.1r -> 1.05r로 줄여서 텍스트와 겹치지 않게 깔끔하게 유지
+ 
     v = Math.max(r * 0.2, Math.min(v, r * 1.05)); 
     
     poly += `${cx + v * Math.cos(a)},${cy + v * Math.sin(a)} `; 
@@ -398,8 +396,8 @@ function renderChart(scores) {
     const t = i18n[currentLang]; 
     const birthMonth = parseInt(session.birth.substring(4, 6));
 
-    // ✅ 에러의 원인이었던 시그니처 변수를 탭 밖으로 안전하게 꺼냈습니다!
-    const finalSignature = session.strongEl || "목(木)";
+    
+    const finalSignature = session.strongEl || "오류";
 
     // 탭 활성화 로직
     document.querySelectorAll('.tab-btn').forEach(b => {
@@ -476,25 +474,24 @@ if (mode === 'fortune') {
         // 🇺🇸 영문 최종 출력문
         const finalNarrativeEn = `You were born with a ${coreModifierEn} ${elMap[coreElText]} energy as its core. To this innate essence, the background energy of ${jeolgiEn}, which is ${bgStrengthEn.replace(/\(.*\)/g, '')} ${elMap[bgEl]}, was added, and your name's ${elMap[nameElKey] || nameElKey} frequency intervened to ${baseActionEn}. ${timeModifierEn} finally, all these energies fused to complete a unique destiny signature centered on <b>${elMap[finalSignature] || finalSignature}</b>.`;
 
-        // 기타 계산 (유저의 모든 숫자를 융합하는 정밀 공식)
+      // 기타 계산 (생년월일시 + 성명 파동 + 성명 오행의 완벽한 수리 연산)
         const yVal = parseInt(session.birth.substring(0, 4));
         const mVal = birthMonth;
         const dVal = parseInt(session.birth.substring(6, 8));
         const hVal = session.hour || 12;
-        const sVal = session.num81; // 이름 81수리
-        const nameElIdx = elements.indexOf(nameElKey) + 1; // 이름 오행
-        
-        // 120개 DB 중 나만의 것을 뽑아내는 최종 번호 (0~23)
-        const missionIndex = (yVal + mVal + dVal + hVal + sVal + nameElIdx) % 24;
+        const sVal = session.num81; // 이름 81수리 에너지
+        const nameElIdx = elements.indexOf(nameElKey) + 1; // 이름 오행 수치화
 
-        // 🛡️ [에러 완벽 방어막] 파일이 늦게 로딩되거나 영문 버전이 없어도 절대 에러 안 남!
-        let missionText = "데이터를 불러오지 못했습니다. quotes.js 파일을 확인해주세요.";
-        if (typeof elementPrescriptions24 !== 'undefined' && elementPrescriptions24[finalSignature]) {
-            missionText = elementPrescriptions24[finalSignature][missionIndex];
-        }
-        if (currentLang === 'en' && typeof enPrescriptions24 !== 'undefined' && enPrescriptions24[finalSignature]) {
-            missionText = enPrescriptions24[finalSignature][missionIndex];
-        }
+        // quotes.js에 있는 30등분 데이터를 불러와서 정밀 매칭 인덱스 계산
+        const modIdx = (sVal + nameElIdx + hVal) % 30;
+        const dirIdx = (yVal + mVal + dVal + sVal) % 30;
+
+        // 외부 파일(quotes.js)의 텍스트를 조합하여 한 문단 완성 (한국어)
+        const missionTextKo = `당신의 최종 시그니처인 ${finalSignature} 에너지는 ${baseArchetypes[finalSignature] || "특별한"} 역할을 상징합니다. 여기에 ${nameModifiers[modIdx]} ${timeDirectives[dirIdx]}`;
+        
+        // 영문 버전 조합
+        const sigEn = elMap[finalSignature] || finalSignature;
+        const missionTextEn = `Your signature energy, ${sigEn}, symbolizes ${baseArchetypesEn[finalSignature] || "a special role"}. ${nameModifiersEn[modIdx]} ${timeDirectivesEn[dirIdx]}`;
 
         // 6. 화면 출력
         body.innerHTML = `
@@ -506,9 +503,9 @@ if (mode === 'fortune') {
                 ${currentLang === 'ko' ? finalNarrativeKo : finalNarrativeEn}
               </p>
               <div style="padding:20px; background:#F9F8F6; border-radius:12px; border:1px solid #F0EAE3;">
-                <b style="color:var(--accent); font-size:0.95rem;">📜 현생의 과업</b><br>
+                <b style="color:var(--accent); font-size:0.95rem;">📜 ${currentLang === 'ko' ? '현생의 과업' : 'Current Life Mission'}</b><br>
                 <span style="font-size:0.9rem; color:#444; line-height:1.6; display:block; margin-top:8px;">
-                  ${missionText}
+                  ${currentLang === 'ko' ? missionTextKo : missionTextEn}
                 </span>
               </div>
             </div>
