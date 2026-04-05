@@ -387,7 +387,7 @@ function renderChart(scores) {
     <polygon points="${poly}" fill="rgba(154, 132, 103, 0.4)" stroke="#9A8467" stroke-width="2.5" stroke-linejoin="round"/>
   </svg>`;
   }
-  function switchTab(mode) {
+ function switchTab(mode) {
     const elMap = { "목(木)": "Wood", "화(火)": "Fire", "토(土)": "Earth", "금(金)": "Metal", "수(水)": "Water" };
     const body = document.getElementById('reportDetail');
     const session = JSON.parse(localStorage.getItem('destinySession'));
@@ -395,11 +395,9 @@ function renderChart(scores) {
 
     const t = i18n[currentLang]; 
     const birthMonth = parseInt(session.birth.substring(4, 6));
-
-    
     const finalSignature = session.strongEl || "오류";
 
-    // 탭 활성화 로직
+    // 탭 활성화 UI 처리
     document.querySelectorAll('.tab-btn').forEach(b => {
         b.classList.remove('active');
         if (mode === 'fortune' && b.id === 'tab1') b.classList.add('active');
@@ -407,7 +405,7 @@ function renderChart(scores) {
         if (mode === 'next' && b.id === 'tab3') b.classList.add('active');
     });
 
-if (mode === 'fortune') {
+    if (mode === 'fortune') {
         const r1 = suriPrescription.getRemedy(session.num81, [session.lackEls[0]], currentLang);
         const r2 = suriPrescription.getRemedy(session.num81, [session.lackEls[1]], currentLang);
 
@@ -416,35 +414,59 @@ if (mode === 'fortune') {
         const mVal = birthMonth;
         const dVal = parseInt(session.birth.substring(6, 8));
         const hVal = session.hour || 12;
-        const sVal = session.num81; // 유저의 81수리 번호
+        const sVal = session.num81;
         const nameElIdx = elements.indexOf(nameElKey) + 1;
 
-        // 💡 [정밀 인덱스 연산] 
-        // 1. 코어 기질: 생년월일시 조합으로 30개 중 하나 추출 (0~29)
-        const coreIdx = (yVal + mVal + dVal + hVal) % 30;
-        // 2. 성명 시너지: 81수리 번호를 직접 매칭
-        const nameIdx = (sVal - 1); 
-
-        // [한국어 서사 조립] 
-        let missionTextKo = "데이터 분석 중...";
-        if (typeof birthCoreKo !== 'undefined' && birthCoreKo[finalSignature]) {
-            const core = birthCoreKo[finalSignature][coreIdx] || birthCoreKo[finalSignature][0];
-            const synergy = nameSynergyKo[nameIdx] || nameSynergyKo[0];
-            // 대표님이 요청하신 기승전결 (생년월일시 기질 -> 성명 시너지 -> 처방 연결)
-            missionTextKo = core + "\n\n" + synergy + "\n\n" + transitionKo;
+   
+        let introNarrative = "";
+        if (currentLang === 'ko') {
+            const coreEl = session.iljuData.el; // 한자 포함 (예: 목(木))
+            const jeolgi = jeolgiNames[session.solarMonth].ko;
+            const sig = finalSignature; // 한자 포함
+            const actionKo = ["재배치하여", "벼려내어", "융합시켜", "조율하여", "가속시켜"][(sVal + nameElIdx) % 5];
+            introNarrative = `당신은 ${coreEl}의 에너지를 품고 태어났습니다. 이 본질적인 기운에 ${jeolgi}라는 탄생 배경 에너지가 주어지고, 당신의 성명이 가진 주파수가 개입하여 선천적 기운을 ${actionKo}, 마침내 ${sig} 중심의 독보적인 운명 시그니처가 완성되었습니다.`;
+        } else {
+            const coreElEn = elMap[session.iljuData.el] || "Element"; // 한자 제외 (예: Wood)
+            const jeolgiEn = jeolgiNames[session.solarMonth].en;
+            const sigEn = elMap[finalSignature] || "Signature"; // 한자 제외
+            const actionEn = ["rearranging", "refining", "fusing", "tuning", "accelerating"][(sVal + nameElIdx) % 5];
+            introNarrative = `You were born with the energy of ${coreElEn}. To this primal spirit, the background energy of ${jeolgiEn} was added, and by ${actionEn} the innate flow through your name vibrations, a unique destiny signature centered on ${sigEn} has been completed.`;
         }
 
-        // [화면 출력] - 대표님의 기존 레이아웃 구조와 타이틀을 100% 복구했습니다.
+  
+        const coreIdx = (yVal + mVal + dVal + hVal) % 30;
+        const nameIdx = (sVal - 1); 
+
+        let missionText = "";
+        if (currentLang === 'ko') {
+            if (typeof birthCoreKo !== 'undefined' && birthCoreKo[finalSignature]) {
+                const core = birthCoreKo[finalSignature][coreIdx] || birthCoreKo[finalSignature][0];
+                const synergy = nameSynergyKo[nameIdx] || nameSynergyKo[0];
+                missionText = core + "\n\n" + synergy + "\n\n" + transitionKo;
+            }
+        } else {
+            if (typeof birthCoreEn !== 'undefined' && birthCoreEn[finalSignature]) {
+                const coreEn = birthCoreEn[finalSignature][coreIdx] || birthCoreEn[finalSignature][0];
+                const synergyEn = nameSynergyEn[nameIdx] || nameSynergyEn[0];
+                missionText = coreEn + "\n\n" + synergyEn + "\n\n" + transitionEn;
+            }
+        }
+
+    
         body.innerHTML = `
           <div class="tab-content">
             <span class="section-title">${t.sec1}</span>
             <div class="info-box" style="background:#fff;">
               <div id="radarChart" style="margin:10px auto; width:220px; height:220px;"></div>
               
+              <p style="line-height:1.7; color:#555; font-size:0.92rem; text-align:justify; margin-top:20px; word-break:keep-all;">
+                ${introNarrative}
+              </p>
+
               <div style="padding:20px; background:#F9F8F6; border-radius:12px; border:1px solid #F0EAE3; margin-top:25px;">
                 <b style="color:var(--accent); font-size:0.95rem;">📜 ${currentLang === 'ko' ? '현생의 과업' : 'Current Life Mission'}</b><br>
                 <span style="font-size:0.9rem; color:#444; line-height:1.7; display:block; margin-top:12px; white-space: pre-wrap;">
-                  ${currentLang === 'ko' ? missionTextKo : "English data loading..."}
+                  ${missionText}
                 </span>
               </div>
             </div>
@@ -461,6 +483,7 @@ if (mode === 'fortune') {
           </div>`;
         renderChart(session.elementScores);
     }
+}
     else if (mode === 'past') {
         const p = getPastLifeData(session.num81, finalSignature, currentLang);
         const era = (currentLang === 'ko' ? eraPastKo : eraPastEn)[session.num81 % (currentLang === 'ko' ? eraPastKo.length : eraPastEn.length)];
