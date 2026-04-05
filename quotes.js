@@ -1,238 +1,43 @@
-/* [Destiny Engineering Report - Global Final Dataset: 81 System] */
-
-// 1. i18n 라벨 업데이트 (전생/내세 활동 중심지 항목 추가)
 const i18n = {
     ko: {
-        title: "수리성명학 데이터 분석", 
-        desc: "81수리 체계 성명의 파동과 탄생 시계열 지표를 바탕으로 당신의 시그니처 에너지 구조가 도출됩니다.",
+        title: "수리성명학 데이터 분석", desc: "81수리 체계 성명의 파동과 탄생 시계열 지표를 바탕으로 당신의 시그니처 에너지 구조가 도출됩니다.",
         nameLabel: "성명", birthLabel: "양력 8자리(19901208)", hourLabel: "생시(시간) 선택", btn: "리포트 생성하기",
         loadSeal: "분석중", loadTitle: "당신의 운명 에너지를 조합 중...", loadDesc: "잠시 기다려 주세요.",
         tab1Btn: "현생 분석", tab2Btn: "전생 기록", tab3Btn: "내세 예약",
-        sec1: "에너지 분석 자료(성명+월 시너지)", sec2: "약점 보완 전략", advise: "현생 조언", practice: "실천 사항", 
-        sideEffect: "과한 보충은 다음의 부작용이 있습니다.",
-        tab2Title: "전생 분석 자료", tab3Title: "내세 분석 자료", 
-        pastDest: "전생 활동 중심지", // 추가
-        pastJob: "전생의 직업", 
-        pastHomework: "전생의 과업", 
-        nextDest: "내세 활동 중심지", 
-        nextObj: "내세의 직업", 
-        nextMission: "내세의 임무",
-        logicTitle: "◈ Destiny Lab 분석 방법론",
-        l1Title: "〰️ 소리 주파수 분석 (Name Vibrations)",
-        l1Desc: "성명을 고유 주파수를 가진 에너지로 변환합니다. 발음 오행이 개인의 기운에 간섭하는 데이터를 수치화했습니다.",
-        l2Title: "🗓️ 시계열 지표 대입 (Solar Term Time-series)",
-        l2Desc: "탄생 순간의 배경을 '선천적 변수'로 설정합니다. 탄생 순간의 에너지 밀도를 분석하여 당신의 근원을 도출합니다.",
-        l3Title: "🧬 81수리 상호작용 엔진",
-        l3Desc: "선천적 기운과 후천적 성명 에너지의 조합 알고리즘으로 현생-전생-내세의 데이터를 연산합니다."
+        sec1: "📊 운명 시그니처 분석", sec2: "💊 에너지 균형 처방",
+        pastDest: "전생 활동 중심지", pastJob: "전생의 직업", pastHomework: "전생의 과업",
+        nextDest: "내세 활동 중심지", nextObj: "내세의 직업", nextMission: "내세의 임무"
     },
     en: {
-        title: "Suri Numerology Analysis", 
-        desc: "Analyzes the 81-numerology system based on name vibrations and birth indicators to derive your signature energy structure.",
+        title: "Suri Numerology Analysis", desc: "Analyzes the 81-numerology system based on name vibrations and birth indicators.",
         nameLabel: "Name", birthLabel: "Birthdate (YYYYMMDD)", hourLabel: "Select Birth Hour", btn: "Generate Report",
         loadSeal: "Analyzing", loadTitle: "Combining your destiny energy...", loadDesc: "Please wait a moment.",
         tab1Btn: "Current Life", tab2Btn: "Past Life", tab3Btn: "Afterlife",
-        sec1: "Five Elements Dynamics Profile", sec2: "Weakness Strategy", advise: "Life Advice", practice: "Action Plan", 
-        sideEffect: "Note: Excessive compensation may cause side effects.",
-        tab2Title: "Past-Life Analysis", tab3Title: "Afterlife Reservations", 
-        pastDest: "Past Activity Center",
-        pastJob: "Past Occupation", 
-        pastHomework: "Past Mission", 
-        nextDest: "Future Domain", 
-        nextObj: "Future Occupation", 
-        nextMission: "Future Assignment",
-        logicTitle: "◈ Destiny Lab Methodology",
-        l1Title: "〰️ Name Vibrations",
-        l1Desc: "Converts names into energy with unique frequencies. We quantify how phonetic elements interfere with an individual's aura.",
-        l2Title: "🗓️ Solar Term Time-series",
-        l2Desc: "Sets the seasonal background at birth as an 'innate variable.' We derive your primal environment by analyzing 24 solar terms.",
-        l3Title: "🧬 81-Suri Interaction Engine",
-        l3Desc: "Calculates past and future scenarios using algorithms derived from the 'Harmony & Conflict' of innate and acquired energies."
+        sec1: "📊 Destiny Signature", sec2: "💊 Balance Remedy",
+        pastDest: "Past Activity Center", pastJob: "Past Occupation", pastHomework: "Past Mission",
+        nextDest: "Future Domain", nextObj: "Future Occupation", nextMission: "Future Assignment"
     }
 };
-const elRelation = {
-    "木": { sheng: "火", ke: "土", name: "목(木)" },
-    "火": { sheng: "土", ke: "金", name: "화(火)" },
-    "土": { sheng: "金", ke: "水", name: "토(土)" },
-    "金": { sheng: "水", ke: "木", name: "금(金)" },
-    "水": { sheng: "木", ke: "火", name: "수(水)" }
-};
-const hanjaMap = { "목(木)": "木", "화(火)": "火", "토(土)": "土", "금(金)": "金", "수(水)": "水" };
 
-/* [필수 데이터: 영문 성함 재료] */
-const nameRootEn = ["Al", "Be", "Ro", "Lu", "Ma", "E", "I", "Ka", "Kh", "Ph", "Ri", "Ni", "San", "Ben", "Pha", "Di", "Le", "Mi", "Nel", "Bel", "An", "El", "O", "U", "Cl", "Fl", "Br", "Te", "St", "Ke", "Me", "Jo", "Je", "Ca", "Pi", "Ba", "Sha", "Ta", "Na", "Whi", "Lin", "Ky", "Da", "On", "Yu", "Jun", "Yun", "Sul", "Ye", "Jin", "Hye"];
-const nameTailEn = ["to", "ra", "na", "a", "ri", "el", "on", "ro", "s", "nel", "d", "k", "te", "sha", "lu", "ni", "bel", "run", "in", "um", "tis", "ti", "na", "sia", "an", "더", "ell", "en", "i", "o", "a", "ta", "카", "de", "le", "mi", "pi", "st", "tr", "반", "sen", "kan", "yan", "lin", "ron", "rill", "lan", "le", "ra", "na", "no"];
-
-const hangulElements = { 
-    'ㄱ': '목(木)','ㄲ': '목(木)','ㅋ': '목(木)', 
-    'ㄴ': '화(火)','ㄷ': '화(火)','ㄸ': '화(火)','ㄹ': '화(火)','ㅌ': '화(火)', 
-    'ㅇ': '토(土)','ㅎ': '토(土)', 
-    'ㅅ': '금(金)','ㅆ': '금(金)','ㅈ': '금(金)','ㅉ': '금(金)','ㅊ': '금(金)', 
-    'ㅁ': '수(水)','ㅂ': '수(水)','ㅃ': '수(水)','ㅍ': '수(水)' 
-};
-const alphabetElements = { 
-    'A': '목(木)','E': '목(木)','I': '목(木)','O': '목(木)','U': '목(木)','Y': '목(木)', 
-    'B': '수(水)','P': '수(水)','M': '수(水)','F': '수(水)','W': '수(水)', 
-    'C': '화(火)','G': '화(火)','J': '화(火)','L': '화(火)','S': '화(火)', 
-    'D': '토(土)','N': '토(土)','T': '토(土)','H': '토(土)', 
-    'K': '금(金)','R': '금(金)','V': '금(金)','X': '금(金)','Q': '금(金)','Z': '금(金)' 
-};
-// 💡 [운명공학 4,500조합 동적 엔진 데이터]
-const baseArchetypes = {
-    "목(木)": "끊임없이 뻗어나가며 타인의 잠재력을 일깨우는 '성장과 개척의 선구자'",
-    "화(火)": "특유의 열정으로 어둠을 밝히고 대중에게 명확한 비전을 제시하는 '영감과 통찰의 등대'",
-    "토(土)": "흔들림 없는 신뢰를 바탕으로 사람과 사람을 연결하고 포용하는 '안정과 조화의 중재자'",
-    "금(金)": "날카로운 판단력으로 불필요한 것을 잘라내고 흔들리지 않는 원칙을 세우는 '질서와 규범의 설계자'",
-    "수(水)": "어떠한 환경에서도 유연하게 적응하며 막힌 곳을 뚫어내는 '지혜와 소통의 전략가'"
+const jeolgiNames = {
+    0: { ko: "대한(大寒)", en: "Daehan (Major Cold)" }, 1: { ko: "입춘(立春)", en: "Ipchun (Beginning of Spring)" },
+    2: { ko: "우수(雨水)", en: "Usu (Rain Water)" }, 3: { ko: "경칩(驚蟄)", en: "Gyeongchip (Awakening of Insects)" },
+    4: { ko: "춘분(春分)", en: "Chunbun (Spring Equinox)" }, 5: { ko: "청명(淸明)", en: "Cheongmyeong (Clear and Bright)" },
+    6: { ko: "곡우(穀雨)", en: "Gogu (Grain Rain)" }, 7: { ko: "입하(立夏)", en: "Ipha (Beginning of Summer)" },
+    8: { ko: "소만(小滿)", en: "Soman (Grain Full)" }, 9: { ko: "망종(芒種)", en: "Mangjong (Grain in Ear)" },
+    10: { ko: "하지(夏至)", en: "Haji (Summer Solstice)" }, 11: { ko: "소서(小暑)", en: "Soseo (Minor Heat)" },
+    12: { ko: "대서(大暑)", en: "Daeseo (Major Heat)" }, 13: { ko: "입추(立秋)", en: "Ipchu (Beginning of Autumn)" },
+    14: { ko: "처서(處暑)", en: "Cheoseo (End of Heat)" }, 15: { ko: "백로(白露)", en: "Baekro (White Dew)" },
+    16: { ko: "추분(秋分)", en: "Chubun (Autumn Equinox)" }, 17: { ko: "한로(寒露)", en: "Hanro (Cold Dew)" },
+    18: { ko: "상강(霜降)", en: "Sanggang (Frost Descent)" }, 19: { ko: "입동(立冬)", en: "Ipdong (Beginning of Winter)" },
+    20: { ko: "소설(小雪)", en: "Soseol (Minor Snow)" }, 21: { ko: "대설(大雪)", en: "Daeseol (Major Snow)" },
+    22: { ko: "소한(小寒)", en: "Sohan (Minor Cold)" }, 23: { ko: "소한(小寒)", en: "Sohan (Minor Cold Peak)" }
 };
 
-const baseArchetypesEn = {
-    "목(木)": "a 'Pioneer of Growth and Exploration' who constantly expands and awakens the potential of others",
-    "화(火)": "a 'Beacon of Inspiration and Insight' who illuminates the dark with unique passion and provides clear vision",
-    "토(土)": "a 'Mediator of Stability and Harmony' who connects and embraces people based on unwavering trust",
-    "금(金)": "an 'Architect of Order and Norms' who cuts away the unnecessary with sharp judgment and establishes unshakable principles",
-    "수(水)": "a 'Strategist of Wisdom and Communication' who flexibly adapts to any environment and clears blocked paths"
-};
+const hangulElements = { 'ㄱ':'목(木)','ㄲ':'목(木)','ㄴ':'화(火)','ㄷ':'화(火)','ㄸ':'화(火)','ㄹ':'화(火)','ㅁ':'토(土)','ㅂ':'토(土)','ㅃ':'토(土)','ㅅ':'금(金)','ㅆ':'금(金)','ㅇ':'토(土)','ㅈ':'금(金)','ㅉ':'금(金)','ㅊ':'금(金)','ㅋ':'목(木)','ㅌ':'화(火)','ㅍ':'토(土)','ㅎ':'토(土)' };
+const alphabetElements = { 'A':'목(木)','B':'목(木)','C':'화(火)','D':'화(火)','E':'토(土)','F':'토(土)','G':'금(金)','H':'금(金)','I':'수(水)','J':'수(水)','K':'목(木)','L':'목(木)','M':'화(火)','N':'화(火)','O':'토(土)','P':'토(土)','Q':'금(金)','R':'금(金)','S':'수(水)','T':'수(水)','U':'목(木)','V':'목(木)','W':'화(火)','X':'화(火)','Y':'토(土)','Z':'토(土)' };
 
-const nameModifiers = [
-    "이름의 주파수가 지닌 폭발적인 실행력이 더해져,",
-    "당신의 성명에 깃든 섬세하고 예리한 분석력이 개입하여,",
-    "이름이 뿜어내는 따뜻하고 부드러운 포용력이 시너지를 일으켜,",
-    "성명의 파동이 가진 냉철하고 흔들림 없는 이성이 중심을 잡아주어,",
-    "이름에 내재된 유연하고 감각적인 사교성이 날개를 달아주어,",
-    "당신의 성명이 지닌 타협을 모르는 완벽주의가 결합되어,",
-    "이름의 주파수가 부여하는 틀을 깨는 창의적 영감이 더해져,",
-    "성명의 기운에 담긴 불굴의 의지와 끈기가 동력을 제공하여,",
-    "이름이 이끄는 직관적이고 통찰력 있는 안목이 길을 밝혀주어,",
-    "당신의 성명에 깃든 대중을 사로잡는 흡입력이 증폭되어,",
-    "이름의 파동이 가진 치밀하고 전략적인 사고가 뼈대를 세워주어,",
-    "성명의 기운에 스며든 타인을 치유하는 깊은 공감 능력이 발현되어,",
-    "이름의 주파수가 만들어내는 압도적인 카리스마가 힘을 실어주어,",
-    "당신의 성명에 내재된 리스크를 두려워하지 않는 대담함이 더해져,",
-    "이름이 뿜어내는 순수하고 맑은 지적 호기심이 시야를 넓혀주어,",
-    "성명의 파동에 담긴 흔들림 없는 강직한 신념이 뿌리를 내려주어,",
-    "이름의 주파수가 지닌 만물을 조화롭게 엮어내는 융합력이 개입하여,",
-    "당신의 성명에 깃든 본질을 꿰뚫어 보는 예리한 심미안이 더해져,",
-    "이름이 이끄는 한계를 돌파하는 강인한 생명력이 시너지를 내어,",
-    "성명의 기운이 가진 위기를 기회로 바꾸는 순발력이 결합되어,",
-    "이름의 주파수가 부여하는 공정하고 투명한 도덕성이 중심을 잡아주어,",
-    "당신의 성명이 지닌 미래를 앞서 읽는 선견지명이 날개를 달아주어,",
-    "이름에 내재된 어떤 환경에도 스며드는 강한 적응력이 더해져,",
-    "성명의 파동이 만들어내는 무에서 유를 창조하는 기획력이 발현되어,",
-    "이름이 품고 있는 조용하지만 묵직한 배후의 통제력이 더해져,",
-    "성명에 깃든 남들이 보지 못하는 이면의 가치를 발굴하는 힘이 개입하여,",
-    "당신의 주파수가 지닌 한 번 물면 놓지 않는 지독한 집념이 동력이 되어,",
-    "이름이 발산하는 누구와도 적을 만들지 않는 처세술이 윤활유가 되어,",
-    "성명의 기운에 내재된 낡은 것을 부수고 새로 세우는 혁명적 기질이 더해져,",
-    "이름의 파동이 이끄는 스스로를 객관화하고 끊임없이 쇄신하는 지혜가 발현되어,"
-];
-
-const nameModifiersEn = [
-    "With the explosive execution power of your name's frequency,",
-    "Intervened by the delicate and sharp analytical skills imbued in your name,",
-    "Creating synergy with the warm and gentle embrace emitted by your name,",
-    "Centered by the cool-headed and unwavering rationality of your name's wave,",
-    "Given wings by the flexible and sensuous sociability inherent in your name,",
-    "Combined with the uncompromising perfectionism of your name,",
-    "Added with the groundbreaking creative inspiration granted by your name's frequency,",
-    "Powered by the indomitable will and perseverance contained in your name's energy,",
-    "Guided by the intuitive and insightful eye led by your name,",
-    "Amplified by the captivating charisma imbued in your name,",
-    "Framed by the meticulous and strategic thinking of your name's wave,",
-    "Manifesting the deep empathy to heal others permeated in your name's energy,",
-    "Empowered by the overwhelming charisma created by your name's frequency,",
-    "Added with the boldness that does not fear risks inherent in your name,",
-    "Broadened by the pure and clear intellectual curiosity emitted by your name,",
-    "Rooted by the firm and unwavering conviction contained in your name's wave,",
-    "Intervened by the harmonizing power of your name's frequency that weaves everything together,",
-    "Added with the sharp aesthetic sense that pierces through the essence imbued in your name,",
-    "Creating synergy with the strong vitality to break through limits led by your name,",
-    "Combined with the quick-wittedness to turn crises into opportunities of your name's energy,",
-    "Centered by the fair and transparent morality granted by your name's frequency,",
-    "Given wings by the foresight to read the future imbued in your name,",
-    "Added with the strong adaptability to permeate any environment inherent in your name,",
-    "Manifesting the planning ability to create something out of nothing generated by your name's wave,",
-    "Added with the quiet but heavy behind-the-scenes control harbored in your name,",
-    "Intervened by the power to unearth hidden values unseen by others imbued in your name,",
-    "Powered by the fierce tenacity of your frequency that never lets go once bitten,",
-    "Lubricated by the diplomacy emitting from your name that makes no enemies,",
-    "Added with the revolutionary temperament to destroy the old and build the new inherent in your name's energy,",
-    "Manifesting the wisdom to objectify and constantly renew oneself led by your name's wave,"
-];
-
-const timeDirectives = [
-    "탁상공론을 멈추고 현장에서 직접 발로 뛰며 실질적인 성과를 증명하는 것이 이번 생의 핵심 과업입니다.",
-    "타인의 숨겨진 감정을 어루만지고 보이지 않는 갈등을 해소하여 공동체의 온도를 높이는 것이 당신의 진정한 과업입니다.",
-    "기존의 낡은 관습과 비효율을 과감히 타파하고, 당신만의 합리적인 새로운 룰을 정립하는 것이 현생의 과업입니다.",
-    "흩어진 정보와 자원을 하나로 모아, 누구도 무너뜨릴 수 없는 견고하고 안전한 시스템을 구축하는 것입니다.",
-    "자신을 화려하게 드러내기보다 배후에서 치밀한 판을 짜고, 조직 전체를 성공으로 이끄는 킹메이커가 되는 것입니다.",
-    "자신의 지식과 경험을 매뉴얼화하여 후학을 양성하고, 다음 세대의 성장을 돕는 든든한 멘토가 되는 것입니다.",
-    "아무도 가지 않은 미지의 영역에 가장 먼저 깃발을 꽂고, 시대의 트렌드를 선도하는 개척자가 되는 것입니다.",
-    "소외되고 약한 자들의 목소리를 대변하며, 사회의 기울어진 운동장을 평평하게 만드는 정의의 수호자가 되는 것입니다.",
-    "머릿속의 영감을 시각적, 언어적 예술로 승화시켜 대중의 영혼에 깊은 울림을 주는 창작자가 되는 것입니다.",
-    "방대한 데이터를 냉철하게 분석하여 리스크를 차단하고, 조직의 자산을 가장 효율적으로 증식시키는 것입니다.",
-    "위기의 순간에 가장 먼저 나서서 혼란을 수습하고, 사람들에게 명확한 돌파구를 제시하는 구원자가 되는 것입니다.",
-    "서로 다른 이해관계를 가진 집단들을 하나로 연결하여, 모두가 만족하는 최적의 합의점을 이끌어내는 것입니다.",
-    "눈앞의 작은 이익에 연연하지 않고, 10년 뒤의 미래를 내다보는 거시적인 마스터플랜을 설계하는 것입니다.",
-    "자신만의 독보적인 기술이나 장인정신을 극한으로 연마하여, 대체 불가능한 분야의 최고 권위자가 되는 것입니다.",
-    "사람들의 재능과 장점을 단숨에 파악하여, 그들이 가장 빛날 수 있는 자리에 배치하는 안목을 발휘하는 것입니다.",
-    "거친 환경 속에서도 포기하지 않고 기어이 결실을 맺어, 인간 승리의 표본으로서 타인에게 희망을 주는 것입니다.",
-    "단순한 이윤 창출을 넘어, 철학과 가치가 담긴 브랜드를 구축하여 세상에 선한 영향력을 널리 퍼뜨리는 것입니다.",
-    "복잡하게 얽힌 문제의 핵심을 꿰뚫고, 군더더기 없는 가장 간결하고 명쾌한 해결책을 세상에 내놓는 것입니다.",
-    "국경과 언어, 문화의 장벽을 넘어 다양한 사람들과 교류하며 글로벌한 네트워크의 중심축이 되는 것입니다.",
-    "지켜야 할 소중한 전통과 본질적인 가치를 훼손되지 않게 보존하고, 이를 현대적으로 재해석하여 계승하는 것입니다.",
-    "자신의 약점마저 매력으로 승화시켜 대중의 사랑과 지지를 받는, 시대의 강력한 아이콘이자 인플루언서가 되는 것입니다.",
-    "감정에 휘둘리지 않는 차가운 이성으로 공과 사를 명확히 구분하여, 투명하고 공정한 잣대를 세상에 세우는 것입니다.",
-    "일상을 벗어난 자유로운 탐험과 경험을 통해 얻은 철학을 대중에게 친근하고 설득력 있는 언어로 전달하는 것입니다.",
-    "생사가 오가는 치열한 경쟁 속에서도 평정심을 유지하며, 결국 최후의 승리를 거머쥐는 승부사가 되는 것입니다.",
-    "세상의 소음에서 벗어나 스스로의 내면을 깊이 탐구하고, 타인에게 정신적 안식처를 제공하는 구도자가 되는 것입니다.",
-    "파편화된 지식들을 하나로 꿰어내어, 시대를 관통하는 거대한 통찰력과 학문적 지평을 완성하는 것입니다.",
-    "실패를 두려워하지 않는 과감한 투자와 베팅으로, 남들이 보지 못한 숨겨진 부의 흐름을 장악하는 것입니다.",
-    "단 하나의 목표를 향해 모든 에너지를 쏟아부어, 그 누구도 넘볼 수 없는 압도적인 성과를 기록하는 것입니다.",
-    "불필요한 인간관계를 과감히 정리하고, 진정으로 가치 있는 소수와의 깊은 신뢰를 통해 견고한 성을 쌓는 것입니다.",
-    "변화하는 시대의 흐름에 유연하게 올라타, 위기를 성장의 발판으로 바꾸는 탁월한 위기관리자가 되는 것입니다."
-];
-
-const timeDirectivesEn = [
-    "your ultimate mission in this life is to stop armchair theorizing and prove practical results by acting directly in the field.",
-    "your true mission is to soothe the hidden emotions of others and resolve unseen conflicts to raise the warmth of the community.",
-    "your mission in this life is to boldly break down old customs and inefficiencies, and establish your own rational new rules.",
-    "your mission is to gather scattered information and resources to build a solid and safe system that no one can tear down.",
-    "your mission is to be a kingmaker who meticulously plans behind the scenes and leads the entire organization to success, rather than showing off.",
-    "your mission is to become a reliable mentor who helps the next generation grow by documenting your knowledge and experience.",
-    "your mission is to be a pioneer who plants a flag in unknown territories and leads the trends of the times.",
-    "your mission is to be a guardian of justice who represents the voices of the marginalized and levels the playing field of society.",
-    "your mission is to be a creator who sublimates inspiration into visual and verbal art, giving deep resonance to the souls of the public.",
-    "your mission is to coldly analyze vast amounts of data to block risks and multiply the organization's assets most efficiently.",
-    "your mission is to be a savior who steps up first in moments of crisis to settle chaos and present clear breakthroughs.",
-    "your mission is to connect groups with different interests and draw the optimal consensus that satisfies everyone.",
-    "your mission is to design a macroscopic master plan that looks 10 years into the future, rather than clinging to small immediate gains.",
-    "your mission is to polish your unique skills or craftsmanship to the extreme, becoming an irreplaceable top authority in your field.",
-    "your mission is to exert the insight to instantly grasp people's talents and place them where they can shine the brightest.",
-    "your mission is to endure harsh environments and eventually bear fruit, giving hope to others as a model of human triumph.",
-    "your mission is to build a brand imbued with philosophy and value beyond simple profit generation, spreading good influence.",
-    "your mission is to pierce through the core of complexly intertwined problems and present the most concise and clear solutions.",
-    "your mission is to become a central axis of a global network, interacting with diverse people across borders, languages, and cultures.",
-    "your mission is to preserve precious traditions and essential values, and inherit them by reinterpreting them in a modern way.",
-    "your mission is to become a powerful icon and influencer of the times, sublimating even your weaknesses into charm to gain public love.",
-    "your mission is to set a transparent and fair standard in the world by clearly distinguishing public and private matters with cold rationality.",
-    "your mission is to deliver the philosophy gained through free exploration outside everyday life to the public in friendly and persuasive language.",
-    "your mission is to be a competitor who maintains composure even in fierce life-and-death competition, ultimately seizing the final victory.",
-    "your mission is to become a seeker who deeply explores your own inner self away from the noise of the world, providing a spiritual haven for others.",
-    "your mission is to weave fragmented knowledge into one, completing a massive insight and academic horizon that pierces through the times.",
-    "your mission is to dominate hidden flows of wealth that others cannot see through bold investments and betting without fearing failure.",
-    "your mission is to pour all your energy into a single goal, recording overwhelming achievements that no one else can match.",
-    "your mission is to boldly cut off unnecessary relationships and build a solid fortress through deep trust with a truly valuable few.",
-    "your mission is to flexibly ride the changing trends of the times, becoming an outstanding crisis manager who turns crises into stepping stones for growth."
-];
-// 💡 [Destiny Lab 정밀 엔진 DB - 한국어 전용 풀버전]
-
-/**
- * 💡 [Destiny Lab] 정밀 엔진 데이터베이스 (한국어 전용)
- * 1. birthCoreKo: 생년월일시 기반 선천 기질 (오행별 30종, 총 150문장)
- * 2. nameSynergyKo: 81수리 기반 성명 시너지 (81문장)
- * 3. transitionKo: 처방 연결 브릿지
- */
-
+// 2. [📜 현생의 과업] 핵심 기질 (한국어 30종 x 5오행)
 const birthCoreKo = {
     "목(木)": [
         "당신은 정체된 환경을 뚫고 솟아오르는 독립심과 자생력을 영혼의 코어로 품고 태어났습니다. 타인의 간섭을 싫어하며 스스로 주도권을 쥐고 개척하는 환경에서 최상의 능력을 발휘하지만, 지나친 독단은 주변과의 마찰을 부를 수 있습니다.",
@@ -244,7 +49,7 @@ const birthCoreKo = {
         "당신은 정보를 체계화하여 실용적 자산으로 전환하는 비즈니스적 지혜를 품고 있습니다. 가치 있는 정보를 선별하는 데 능하나, 실효성 없는 이론 공부에는 흥미를 느끼지 못합니다.",
         "당신은 고결한 이상을 실현하며 사회에 강력한 영향력을 주고자 하는 에너지를 가졌습니다. 명예를 중시하며 정의로운 아름다움을 추구하지만, 저속한 이기주의 앞에서는 분노를 숨기지 못합니다.",
         "당신의 에너지는 조직 전체의 흐름을 한눈에 장악하고 통제하는 거시적 리더십을 의미합니다. 큰 판을 짜는 데 능숙하지만, 사소한 잡무에 매몰되는 환경에서는 본연의 빛을 잃습니다.",
-        "당신은 찰나의 기회를 포착하여 승리로 이끄는 예리한 직관을 품고 태어났습니다. 리스크를 즐기는 승부사적 기질이 있으나, 결과가 느린 업무에서는 쉽게 인내심을 잃는 단점이 있습니다.",
+        "당신은 찰나의 기회를 포착하여 승리로 이끄는 예리한 직관을 품고 태어났습니다. 리스크를 즐기는 승부사적 기질이 있으나, 결과가 느린 업무에서 쉽게 인내심을 잃는 단점이 있습니다.",
         "당신의 기질은 흔들리지 않는 중심을 바탕으로 군더더기를 걷어내는 정밀 분석력을 의미합니다. 결점 없는 시스템을 선호하며, 적당히 타협하는 적당주의와는 절대 공존할 수 없습니다.",
         "당신은 보이지 않는 곳에서 거대한 시스템을 지탱하는 인내심의 소유자입니다. 내실 있는 성장을 추구하지만, 겉만 화려하고 기초가 부실한 환경에서는 심한 불안감을 느낍니다.",
         "당신은 극한의 역경을 견디고 기어이 성공의 싹을 틔우는 강인한 자생력을 가졌습니다. 시련 속에서 단단해지는 타입이나, 타인에게 지나치게 엄격한 잣대를 들이대는 경향이 있습니다.",
@@ -284,7 +89,7 @@ const birthCoreKo = {
         "당신은 감성이 풍부하고 드라마틱한 서사를 창조하는 스토리텔러입니다. 공감을 이끌어내는 힘이 크지만, 감정의 과잉으로 인해 객관적인 판단력을 잃을 때가 잦습니다.",
         "당신의 코어는 어떠한 역경도 빛으로 승화시키는 숭고한 희생 정신을 상징합니다. 공동체를 위해 헌신하지만, 자신의 희생이 당연시될 때 내면에서 조용히 무너집니다.",
         "당신은 날카로운 비판과 통찰로 사회의 모순을 꼬집는 지식인적 기질이 있습니다. 논쟁에서 지지 않는 예리함이 있으나, 정작 대안 없는 비난에 머무를 위험이 있습니다.",
-        "당신은 뜨거운 열정 속에 차가운 계산을 숨긴 지략가적 화(火) 에너지의 소유자입니다. 승부처를 아는 영리함이 있으나, 사람을 도구로 보는 태도가 주변을 떠나게 만듭니다.",
+        "당신은 뜨거운 열정 속에 차가운 계산을 숨긴 지략가적 화 에너지의 소유자입니다. 승부처를 아는 영리함이 있으나, 사람을 도구로 보는 태도가 주변을 떠나게 만듭니다.",
         "당신은 보이지 않는 주파수를 읽어내는 영적인 감각과 직관이 발달했습니다. 예지력이 뛰어나나, 현실 세계의 복잡한 절차와 행정에는 무관심하거나 무능하기 쉽습니다.",
         "당신의 기질은 차분하게 열기를 갈무리하여 결실로 인도하는 인내의 불꽃입니다. 성숙한 리더십을 보이지만, 변화가 필요한 시점에도 과거의 방식을 고수하려 합니다.",
         "당신은 한 번 정한 길을 끝까지 타오르게 하는 지독한 집념의 소유자입니다. 인간 승리의 주인공이 되기 좋으나, 주변 사람들을 자신의 속도에 맞추느라 혹사시킵니다.",
@@ -295,7 +100,7 @@ const birthCoreKo = {
         "당신의 에너지는 무에서 유를 창조하는 창조주의 불꽃과 같습니다. 기획력이 탁월하나, 아이디어 단계에서 멈추고 실행을 타인에게 떠넘기는 경향이 있습니다.",
         "당신은 소수 정예와 깊은 유대를 맺고 그들을 지키는 의리의 불꽃입니다. 내 편에게는 한없이 따뜻하나, 적이라고 판단되는 순간 무자비하게 태워버립니다.",
         "당신의 기질은 어떠한 환경에도 굴하지 않고 자신을 빛내는 자생적 스타성입니다. 밑바닥에서도 다시 일어서나, 자존심이 너무 강해 남의 도움을 받지 못합니다.",
-        "당신은 세상을 관조하며 진리를 전파하는 구도자적 화(火) 기운을 가졌습니다. 지혜의 깊이가 깊으나, 현실의 경제적 결핍에 무감각하여 주변을 힘들게 할 수 있습니다.",
+        "당신은 세상을 관조하며 진리를 전파하는 구도자적 화 기운을 가졌습니다. 지혜의 깊이가 깊으나, 현실의 경제적 결핍에 무감각하여 주변을 힘들게 할 수 있습니다.",
         "당신은 가장 어두운 순간에 태어난 희망의 불씨처럼 강인한 생명력을 가졌습니다. 시련이 클수록 빛나지만, 평온한 일상에서는 오히려 매너리즘에 빠져 방황합니다."
     ],
     "토(土)": [
@@ -363,7 +168,7 @@ const birthCoreKo = {
         "당신은 가장 차가운 땅에서 피어난 꽃처럼 극한의 환경에서 피어나는 강인한 인내의 소유자입니다. 시련 속에서 빛나나, 고난이 없는 편안한 삶에서는 오히려 기운을 못 씁니다."
     ],
     "수(水)": [
-        "당신은 보이지 않는 물자와 자본의 흐름을 읽어 부를 창출하는 지혜로운 수(水)의 기운을 코어로 가졌습니다. 글로벌 책사적 안목이 있으나, 생각이 너무 많아 실행 타이밍을 놓치기도 합니다.",
+        "당신은 보이지 않는 물자와 자본의 흐름을 읽어 부를 창출하는 지혜로운 수 기운을 코어로 가졌습니다. 글로벌 책사적 안목이 있으나, 생각이 너무 많아 실행 타이밍을 놓치기도 합니다.",
         "당신의 영혼은 만물의 성장을 돕는 생명의 근원이자 타인을 인도하는 자비로운 가이드의 성질입니다. 길잡이 역할에 능하나, 정작 자신의 삶의 방향은 갈팡질팡 정하지 못해 방황합니다.",
         "사주 데이터상 당신은 이해관계를 유연하게 조율하여 이익을 극대화하는 외교적 중재의 화신입니다. 화합에 능하나, 이득을 위해 박쥐처럼 입장을 바꾸는 기회주의자로 오해받기도 합니다.",
         "당신은 변화의 파도를 타고 가장 먼저 기회를 선점하는 시장의 선구자적 에너지를 가졌습니다. 선견지명이 탁월하나, 내면의 중심이 흔들릴 때 걷잡을 수 없이 방황하는 기복이 있습니다.",
@@ -377,13 +182,13 @@ const birthCoreKo = {
         "당신의 기질은 조직 내 갈등을 씻어내고 평화를 유지하는 정화와 치유의 힘을 의미합니다. 정서적 정화에 능하나, 부정적인 에너지를 다 받아주다가 본인이 먼저 병드는 약점이 있습니다.",
         "당신은 극한의 압박 속에서도 시원한 오아시스를 만들어 해답을 주는 지혜로운 지략가입니다. 수습 능력이 좋으나, 주변에 의지하려는 사람만 모여들어 독박 책임을 지는 경우가 많습니다.",
         "당신의 에너지는 가치 있는 지혜를 기록하여 미래의 이정표를 세우는 기록의 수호자입니다. 기록 보존에 능하나, 과거의 데이터에만 매몰되어 현실의 변화를 읽지 못할 위험이 있습니다.",
-        "당신은 소수 정예와 깊은 신뢰를 쌓고 하이엔드 자산을 증식시키는 럭셔리 보좌관입니다. 선별력이 좋으나, 일반 대중과의 소통을 거부하는 선민의식으로 인해 적이 생기기 쉽습니다.",
+        "당신은 소수 정예와 깊은 신뢰 쌓고 하이엔드 자산을 증식시키는 럭셔리 보좌관입니다. 선별력이 좋으나, 일반 대중과의 소통을 거부하는 선민의식으로 인해 적이 생기기 쉽습니다.",
         "당신은 시공간을 초월하는 영감으로 새로운 서사를 창조하는 신비로운 아티스트입니다. 영혼을 울리는 창작에 능하나, 현실의 경제적 계산이나 행정 절차에는 어린아이처럼 무능합니다.",
         "당신의 코어는 법의 자구를 넘어 그 정신을 해석하고 인권을 수호하는 법의 정수입니다. 인권 보호에 능하나, 법전의 논리보다 감성이 앞서 판결의 공정성을 의심받기도 합니다.",
         "당신은 인간 심리를 수학적으로 분석하여 디지털 시대의 지도를 그리는 데이터 전략가입니다. 프로파일링에 능하나, 차가운 수치에 매몰되어 사람의 따뜻한 체온을 잊기 쉽습니다.",
         "당신의 기질은 사라져가는 것들에 숨을 불어넣어 다시 살려내는 재생의 마법사입니다. 복원과 브랜딩에 능하나, 새것에만 열광하는 대중의 변화 속도를 따라가기 힘겨워합니다.",
         "당신의 에너지는 우주의 원리를 깨닫고 근본 해답을 탐구하는 지식의 구도자입니다. 철학적 깊이가 깊으나, 현실 세계의 세속적 성공을 비웃다가 스스로 빈곤의 늪에 빠집니다.",
-        "당신의 코어는 인생의 허무를 지혜로 승화시켜 사색의 가치를 전파하는 인문학적 스승입니다. 내면 탐구에 능하나, 쉼 없이 돌아가는 현대 사회에서 낙오자라는 불안감을 느낍니다.",
+        "당신의 코어는 인생의 허무를 지혜로 승화시켜 사색의 가치를 전파하는 인문학적 스승입니다. 내면 탐구에 능하나, 쉼 없이 돌아가는 현대 사회에서 낙오자라는 불안감을 느깁니다.",
         "당신은 인류의 지적 유산을 체계화하여 공유하는 지식의 대양이자 거물입니다. 백과사전적 지식이 풍부하나, 자신의 지식을 사리사욕을 위해 쓰려는 모리배들에게 이용당하기 쉽습니다.",
         "당신의 기질은 미지의 영역을 개척하여 세상을 놀라게 할 독창성의 소유자입니다. 천재적 영감이 있으나, 자신의 비범함을 이해하지 못하는 세상을 향해 벽을 쌓는 단절이 따릅니다.",
         "당신의 에너지는 국제 정세의 해답을 찾아내는 지략가이자 글로벌 유통 리더입니다. 판을 짜는 지휘 능력이 좋으나, 상황이 복잡해질수록 단순한 원칙을 놓쳐 대패할 위험이 있습니다.",
@@ -396,92 +201,21 @@ const birthCoreKo = {
     ]
 };
 
+// 3. [성명 시너지] 81개 풀 데이터 (한국어)
 const nameSynergyKo = [
-    "이름의 근원적인 파동이 당신의 기질에 강력한 자생력을 부여하여,", // 1
-    "성명의 분산된 에너지가 당신의 기운을 다각도로 흩어지게 만들어,", // 2
-    "만물 소생의 주파수가 당신의 잠재력을 찬란하게 꽃피워주어,", // 3
-    "위태로운 파동이 타고난 기운에 예기치 못한 풍파를 유발하여,", // 4
-    "조화로운 기운이 당신의 강한 기질을 부드럽게 중재하여,", // 5
-    "풍요로운 결실의 에너지가 당신의 삶에 강력한 동력이 되어,", // 6
-    "강직하고 단호한 기운이 당신의 중심을 무엇보다 강력하게 잡아주어,", // 7
-    "끈기 있는 주파수가 당신의 실행력에 지치지 않는 지구력을 더해,", // 8
-    "날카롭지만 불안정한 파동이 당신의 기운을 지나치게 예민하게 자극하여,", // 9
-    "공허한 주파수가 당신의 실천력을 일시적으로 억제하는 효과를 내어,", // 10
-    "새 시대를 여는 갱생의 기운이 삶에 새로운 활로를 열어주어,", // 11
-    "유약한 성질의 파동이 당신의 진취적인 기상을 다소 약화시켜,", // 12
-    "지혜롭고 영민한 파동이 당신의 지적 능력을 극한으로 끌어올려,", // 13
-    "흩어지는 기운의 파동이 타고난 집중력을 방해하는 요소로 작용하여,", // 14
-    "덕망과 인덕의 기운이 당신의 대인관계에 커다란 날개를 달아주어,", // 15
-    "대기만성형의 묵직한 에너지가 당신의 성공 기반을 단단히 다져주어,", // 16
-    "강한 신념과 투지의 주파수가 당신의 목표 의식을 더욱 예리하게 벼려,", // 17
-    "만능의 재주와 활력이 당신의 다재다능함을 실무적 성과로 연결하여,", // 18
-    "고독하고 날카로운 주파수가 주변과의 조화를 일시적으로 저해하여,", // 19
-    "정지된 기운의 파동이 당신의 역동적인 흐름을 가로막는 장애가 되어,", // 20
-    "강력한 지도자의 기운이 당신의 권위와 명예를 드높이는 동력이 되어,", // 21
-    "중도에 꺾이는 파동이 당신의 끈질긴 집념을 흔들어 놓는 부작용을 내어,", // 22
-    "태양 같은 열정의 에너지가 당신의 기질을 대중 앞에 화려하게 드러내어,", // 23
-    "점진적인 성장의 기운이 당신의 삶을 안정적인 궤도로 인도하여,", // 24
-    "예리한 지혜와 기교가 당신의 문제 해결 능력을 비약적으로 높여주어,", // 25
-    "영웅적이지만 굴곡진 파동이 삶에 극적인 반전을 수시로 불러와,", // 26
-    "독단적인 기운의 파동이 당신의 강한 자존심을 과도하게 부추겨,", // 27
-    "파란만장한 에너지의 파동이 당신의 평온한 일상을 수시로 뒤흔들어,", // 28
-    "지혜로운 전략가의 주파수가 당신의 사고방식에 날카로움을 더해,", // 29
-    "길과 흉이 교차하는 에너지가 당신의 운명에 예측 불가능성을 더해,", // 30
-    "자수성가의 강력한 의지가 당신의 자생력을 무엇보다 극대화하여,", // 31
-    "요행과 풍파의 파동이 당신의 성실한 노력을 허무하게 흩뜨려 놓아,", // 32
-    "승천하는 용의 기상이 당신의 기질에 압도적인 카리스마를 덧입혀,", // 33
-    "파괴적인 파동의 에너지가 타고난 재능을 한순간에 무너뜨릴 위험을 내포하여,", // 34
-    "평화와 조화의 주파수가 당신의 거친 삶을 평온하게 다독여주어,", // 35
-    "명예로운 파동의 에너지가 당신의 품격과 자부심을 한층 드높여주어,", // 36
-    "사람을 끄는 주파수가 당신 주변에 귀인을 불러 모으는 자석이 되어,", // 37
-    "문학적이고 예술적인 감수성이 당신의 창의적 영감을 크게 증폭시켜,", // 38
-    "쇠퇴의 기운이 가진 파동이 활기찬 에너지를 다소 무겁게 가라앉혀,", // 39
-    "변화무쌍한 에너지가 당신의 삶에 예상치 못한 잦은 변동을 유발하여,", // 40
-    "선견지명의 지혜가 당신의 안목을 미래 지향적으로 넓게 확장시켜,", // 41
-    "고난과 시련의 주파수가 당신의 강인한 기질을 아주 혹독하게 시험하여,", // 42
-    "명성을 떨치는 파동이 당신의 이름을 세상 널리 알리는 계기가 되어,", // 43
-    "중도에 부러지는 파동이 공들여 쌓은 탑을 위태롭게 자극하여,", // 44
-    "대박과 횡재의 에너지가 당신이 일군 결실을 더욱 풍성하게 만들어,", // 45
-    "불운의 씨앗이 당신의 밝은 기운을 일시적으로 가리우는 그늘이 되어,", // 46
-    "개척과 승리의 파동이 당신 앞에 놓인 장애물을 단숨에 격파하여,", // 47
-    "덕을 베푸는 주파수가 당신의 명예를 더욱 고결하고 아름답게 만들어,", // 48
-    "허망한 파동의 에너지가 실질적인 성과를 신기루처럼 흩어지게 만들어,", // 49
-    "고립과 중단의 에너지가 당신의 사회적 활동을 일시적으로 위축시켜,", // 50
-    "완벽한 성공의 기운이 당신의 삶을 최고의 위치로 밀어 올려주어,", // 51
-    "불완전한 파동의 기운이 당신의 확고한 계획에 잦은 수정을 강요하여,", // 52
-    "겉은 화려하나 속은 빈 기운이 실속보다는 겉치레에 치중하게 만들어,", // 53
-    "횡액과 고난의 주파수가 예기치 못한 암초를 삶의 도처에 배치하여,", // 54
-    "만사가 형통하는 길한 에너지가 당신의 앞길을 환하게 밝혀주어,", // 55
-    "미완의 기운이 당신의 성취를 결정적인 순간에 멈추게 하는 작용을 하여,", // 56
-    "강한 고집의 주파수가 당신의 유연함을 방해하는 날카로운 아집이 되어,", // 57
-    "후반의 길운이 당신의 초반 고난을 깨끗이 씻어내는 정화제가 되어,", // 58
-    "허영의 파동이 당신의 현실적인 판단력을 흐리게 만드는 요인이 되어,", // 59
-    "어둠 속의 방황 에너지가 당신의 목표를 일시적으로 상실하게 만들어,", // 60
-    "명예와 지위의 기운이 당신을 조직의 핵심적인 인물로 부상시켜,", // 61
-    "고독과 쇠퇴의 주파수가 당신의 활발한 기운을 쓸쓸하게 가라앉혀,", // 62
-    "성공과 번영의 파동이 당신의 노력을 반짝이는 결실로 바꿔놓아,", // 63
-    "파괴와 침체의 에너지가 타고난 생명력을 갉아먹는 독소가 되어,", // 64
-    "평온한 성공의 기운이 당신의 삶을 풍요로운 안식처로 인도하여,", // 65
-    "불안정한 영웅적 에너지가 당신을 잦은 시비와 구설에 휘말리게 하여,", // 66
-    "천부적인 재능의 주파수가 당신의 가치를 세상에 확실히 증명해주어,", // 67
-    "시비와 갈등의 파동이 당신의 소중한 인맥 관계에 잦은 균열을 내어,", // 68
-    "성공 뒤의 침체 파동이 당신의 안일함을 경고하는 따끔한 신호가 되어,", // 69
-    "고독과 허망의 에너지가 당신의 내면을 이유 없이 공허하게 만들어,", // 70
-    "불굴의 재기 기운이 어떤 절망 속에서도 당신을 다시 일으켜 세워,", // 71
-    "평범함 속의 불운 주파수가 당신의 비범한 재능을 무색하게 묻히게 하여,", // 72
-    "행운과 복록의 파동이 당신의 삶에 끊임없는 기회를 제공해주어,", // 73
-    "무능과 태만의 파동이 타고난 기획력을 실천으로 옮기지 못하게 하여,", // 74
-    "명예로운 성공의 기운이 당신의 노후를 빛나는 영광으로 가득 채워,", // 75
-    "이별과 고난의 에너지가 당신의 소중한 인연들을 멀어지게 하는 효과를 내어,", // 76
-    "강한 투지의 주파수가 당신을 해당 분야의 독보적인 대가로 성장시켜,", // 77
-    "길과 흉이 반반인 파동이 당신의 삶을 끊임없는 도전의 장으로 만들어,", // 78
-    "정신적 공허의 파동이 현실의 풍요로움을 한순간에 무색하게 만들어,", // 79
-    "급격한 변화의 기운이 당신의 운명을 극단적으로 요동치게 만들어,", // 80
-    "만물의 완성 에너지가 당신의 모든 과업을 찬란한 결말로 인도하여," // 81
+    "이름의 근원적인 파동이 당신의 기질에 강력한 자생력을 부여하여,", "성명의 분산된 에너지가 당신의 기운을 다각도로 흩어지게 만들어,", "만물 소생의 주파수가 당신의 잠재력을 찬란하게 꽃피워주어,", "위태로운 파동이 타고난 기운에 예기치 못한 풍파를 유발하여,", "조화로운 기운이 당신의 강한 기질을 부드럽게 중재하여,", "풍요로운 결실의 에너지가 당신의 삶에 강력한 동력이 되어,", "강직하고 단호한 기운이 당신의 중심을 무엇보다 강력하게 잡아주어,", "끈기 있는 주파수가 당신의 실행력에 지치지 않는 지구력을 더해,", "날카로운 파동이 당신의 기운을 지나치게 예민하게 자극하여,", "공허한 주파수가 당신의 실천력을 일시적으로 억제하는 효과를 내어,",
+    "새 시대를 여는 갱생의 기운이 삶에 새로운 활로를 열어주어,", "유약한 성질의 파동이 당신의 진취적인 기상을 다소 약화시켜,", "지혜롭고 영민한 파동이 당신의 지적 능력을 극한으로 끌어올려,", "흩어지는 기운의 파동이 타고난 집중력을 방해하는 요소로 작용하여,", "덕망과 인덕의 기운이 당신의 대인관계에 커다란 날개를 달아주어,", "대기만성형의 묵직한 에너지가 당신의 성공 기반을 단단히 다져주어,", "강한 신념과 투지의 주파수가 당신의 목표 의식을 더욱 예리하게 벼려,", "만능의 재주와 활력이 당신의 다재다능함을 실무적 성과로 연결하여,", "고독하고 날카로운 주파수가 주변과의 조화를 일시적으로 저해하여,", "정지된 기운의 파동이 당신의 역동적인 흐름을 가로막는 장애가 되어,",
+    "강력한 지도자의 기운이 당신의 권위와 명예를 드높이는 동력이 되어,", "중도에 꺾이는 파동이 당신의 끈질긴 집념을 흔들어 놓는 부작용을 내어,", "태양 같은 열정의 에너지가 당신의 기질을 대중 앞에 화려하게 드러내어,", "점진적인 성장의 기운이 당신의 삶을 안정적인 궤도로 인도하여,", "예리한 지혜와 기교가 당신의 문제 해결 능력을 비약적으로 높여주어,", "영웅적이지만 굴곡진 파동이 삶에 극적인 반전을 수시로 불러와,", "독단적인 기운의 파동이 당신의 강한 자존심을 과도하게 부추겨,", "파란만장한 에너지의 파동이 당신의 평온한 일상을 수시로 뒤흔들어,", "지혜로운 전략가의 주파수가 당신의 사고방식에 날카로움을 더해,", "길과 흉이 교차하는 에너지가 당신의 운명에 예측 불가능성을 더해,",
+    "자수성가의 강력한 의지가 당신의 자생력을 무엇보다 극대화하여,", "요행과 풍파의 파동이 당신의 성실한 노력을 허무하게 흩뜨려 놓아,", "승천하는 용의 기상이 당신의 기질에 압도적인 카리스마를 덧입혀,", "파괴적인 파동의 에너지가 타고난 재능을 한순간에 무너뜨릴 위험을 내포하여,", "평화와 조화의 주파수가 당신의 거친 삶을 평온하게 다독여주어,", "명예로운 파동의 에너지가 당신의 품격과 자부심을 한층 드높여주어,", "사람을 끄는 주파수가 당신 주변에 귀인을 불러 모으는 자석이 되어,", "문학적이고 예술적인 감수성이 당신의 창의적 영감을 크게 증폭시켜,", "쇠퇴의 기운이 가진 파동이 활기찬 에너지를 다소 무겁게 가라앉혀,", "변화무쌍한 에너지가 당신의 삶에 예상치 못한 잦은 변동을 유발하여,",
+    "선견지명의 지혜가 당신의 안목을 미래 지향적으로 넓게 확장시켜,", "고난과 시련의 주파수가 당신의 강인한 기질을 아주 혹독하게 시험하여,", "명성을 떨치는 파동이 당신의 이름을 세상 널리 알리는 계기가 되어,", "중도에 부러지는 파동이 공들여 쌓은 탑을 위태롭게 자극하여,", "대박과 횡재의 에너지가 당신이 일군 결실을 더욱 풍성하게 만들어,", "불운의 씨앗이 당신의 밝은 기운을 일시적으로 가리우는 그늘이 되어,", "개척과 승리의 파동이 당신 앞에 놓인 장애물을 단숨에 격파하여,", "덕을 베푸는 주파수가 당신의 명예를 더욱 고결하고 아름답게 만들어,", "허망한 파동의 에너지가 실질적인 성과를 신기루처럼 흩어지게 만들어,", "고립과 중단의 에너지가 당신의 사회적 활동을 일시적으로 위축시켜,",
+    "완벽한 성공의 기운이 당신의 삶을 최고의 위치로 밀어 올려주어,", "불완전한 파동의 기운이 당신의 확고한 계획에 잦은 수정을 강요하여,", "겉은 화려하나 속은 빈 기운이 실속보다는 겉치레에 치중하게 만들어,", "횡액과 고난의 주파수가 예기치 못한 암초를 삶의 도처에 배치하여,", "만사가 형통하는 길한 에너지가 당신의 앞길을 환하게 밝혀주어,", "미완의 기운이 당신의 성취를 결정적인 순간에 멈추게 하는 작용을 하여,", "강한 고집의 주파수가 당신의 유연함을 방해하는 날카로운 아집이 되어,", "후반의 길운이 당신의 초반 고난을 깨끗이 씻어내는 정화제가 되어,", "허영의 파동이 당신의 현실적인 판단력을 흐리게 만드는 요인이 되어,", "어둠 속의 방황 에너지가 당신의 목표를 일시적으로 상실하게 만들어,",
+    "명예와 지위의 기운이 당신을 조직의 핵심 인물로 부상시켜,", "고독과 쇠퇴의 주파수가 당신의 활발한 기운을 쓸쓸하게 가라앉혀,", "성공과 번영의 파동이 당신의 노력을 반짝이는 결실로 바꿔놓아,", "파괴와 침체의 에너지가 타고난 생명력을 갉아먹는 독소가 되어,", "평온한 성공의 기운이 당신의 삶을 풍요로운 안식처로 인도하여,", "불안정한 영웅적 에너지가 당신을 잦은 시비와 구설에 휘말리게 하여,", "천부적인 재능의 주파수가 당신의 가치를 세상에 확실히 증명해주어,", "시비와 갈등의 파동이 당신의 소중한 인맥 관계에 잦은 균열을 내어,", "성공 뒤의 침체 파동이 당신의 안일함을 경고하는 따끔한 신호가 되어,", "고독과 허망의 에너지가 당신의 내면을 이유 없이 공허하게 만들어,",
+    "불굴의 재기 기운이 어떤 절망 속에서도 당신을 다시 일으켜 세워,", "평범함 속의 불운 주파수가 당신의 비범한 재능을 무색하게 묻히게 하여,", "행운과 복록의 파동이 당신의 삶에 끊임없는 기회를 제공해주어,", "무능과 태만의 파동이 타고난 기획력을 실천으로 옮기지 못하게 하여,", "명예로운 성공의 기운이 당신의 노후를 빛나는 영광으로 가득 채워,", "이별과 고난의 에너지가 당신의 소중한 인연들을 멀어지게 하는 효과를 내어,", "강한 투지의 주파수가 당신을 해당 분야의 독보적인 대가로 성장시켜,", "길과 흉이 반반인 파동이 당신의 삶을 끊임없는 도전의 장으로 만들어,", "정신적 공허의 파동이 현실의 풍요로움을 한순간에 무색하게 만들어,", "급격한 변화의 기운이 당신의 운명을 극단적으로 요동치게 만들어,", "만물의 완성 에너지가 당신의 모든 과업을 찬란한 결말로 인도하여,"
 ];
 
 const transitionKo = "이처럼 당신의 성명은 선천적 기질에 강력한 시너지를 주지만, 동시에 예상치 못한 에너지의 편중이나 부작용을 유발하기도 합니다. 이러한 편중된 효과를 지혜롭게 다스리고 운명의 밸런스를 완성하기 위해, 아래 제시된 당신만의 약점 보완 처방을 적극적으로 실천하시기 바랍니다.";
 
+// 4. [📜 현생의 과업] 영문 기질 (Hanja 제거 완료)
 const birthCoreEn = {
     "목(木)": [
         "You were born with a core spirit of independence and self-reliance, like a tree breaking through a stagnant environment. You perform best in self-directed roles, but be wary of excessive dogmatism causing friction.",
@@ -645,91 +379,20 @@ const birthCoreEn = {
     ]
 };
 
+// 5. [성명 시너지] 영문 81개 풀 데이터 (Hanja 제거 완료)
 const nameSynergyEn = [
-    "The fundamental vibration of your name grants powerful self-reliance to your innate temperament,",
-    "The dispersed energy of your name's wave scatters your innate energy in multiple directions,",
-    "The frequency of resurrection within your name brings your potential into brilliant bloom,",
-    "The precarious vibrations of your name induce frequent fluctuations in your natural energy,",
-    "The harmonious energy inherent in your name gently mediates your strong temperament,",
-    "The energy of abundant harvest granted by your name's frequency becomes your driving force,",
-    "The rigid and resolute energy of your name's wave strongly anchors your inner center,",
-    "The persistent frequency within your name adds tireless endurance to your execution power,",
-    "The sharp but unstable vibrations of your name sensitively stimulate your spirit,",
-    "The empty frequency of your name's energy temporarily inhibits your practical actions,",
-    "The energy of renewal that opens a new era within your name opens a new path in your life,",
-    "The fragile nature of your name's frequency slightly weakens your progressive spirit,",
-    "The wise and clever vibrations of your name's energy maximize your intellectual capacity,",
-    "The dispersing energy within your name acts as an obstacle to your innate concentration,",
-    "The energy of virtue and human connection within your name gives wings to your relationships,",
-    "The heavy energy of late-bloomer success within your name solidifies your foundation,",
-    "The vibrations of strong conviction and fighting spirit sharpen your sense of purpose,",
-    "The versatile talent and vitality within your name connect your versatility to practice,",
-    "The lonely and sharp frequency of your name temporarily hinders harmony with others,",
-    "The stagnant energy within your name becomes an obstacle that blocks your dynamic flow,",
-    "The powerful leadership energy within your name elevates your authority and honor,",
-    "The vibration of stopping halfway shakes your persistent tenacity as a side effect,",
-    "The sun-like passion within your name's energy reveals your temperament brilliantly to the public,",
-    "The energy of gradual growth within your name leads your life onto a stable trajectory,",
-    "The sharp wisdom and technique within your name dramatically enhance your problem-solving skills,",
-    "The heroic but turbulent vibrations of your name frequently bring dramatic reversals to your life,",
-    "The dogmatic spirit within your name's frequency excessively fuels your strong pride,",
-    "The eventful vibrations within your name's energy frequently shake your peaceful daily life,",
-    "The frequency of a wise strategist within your name adds sharpness to your strategic thinking,",
-    "The energy where good and bad luck intersect adds unpredictability to your destiny,",
-    "The powerful will for self-made success within your name maximizes your self-reliance,",
-    "The vibrations of luck and turbulence within your name's energy scatter your sincere efforts,",
-    "The spirit of an ascending dragon within your name adds overwhelming charisma to your nature,",
-    "The destructive vibrations of your name carry the risk of collapsing your innate talent in an instant,",
-    "The energy of peace and harmony within your name calmly soothes your life,",
-    "The honorable vibrations of your name's energy further elevate your dignity and pride,",
-    "The magnetic frequency of your name's wave attracts noble people to your side,",
-    "The literary and artistic sensitivity inherent in your name amplifies your creative inspiration,",
-    "The energy of decline within your name heavily suppresses your vibrant energy,",
-    "The ever-changing energy within your name induces frequent fluctuations in your life,",
-    "The wisdom of foresight within your name expands your perspective toward the future,",
-    "The frequency of hardship and trial within your name severely tests your strong temperament,",
-    "The vibrations of gaining fame within your name spread your reputation far and wide,",
-    "The vibration of breaking halfway within your name precariously stimulates your hard-built tower,",
-    "The energy of big hits and windfalls within your name makes your achievements abundant,",
-    "The seeds of misfortune within your name become a shadow that temporarily hides your bright energy,",
-    "The vibrations of pioneering and victory within your name instantly crush obstacles before you,",
-    "The frequency of practicing virtue within your name makes your honor even more noble,",
-    "The vain vibrations of your name make practical achievements vanish like a mirage,",
-    "The energy of isolation and interruption within your name shrinks your social activities,",
-    "The energy of perfect success within your name pushes your life to the peak position,",
-    "The incomplete vibrations within your name force frequent corrections to your firm plans,",
-    "The energy of 'flashy outside, empty inside' makes you focus on appearances over substance,",
-    "The frequency of accidents and hardships within your name places unexpected reefs in your life,",
-    "The auspicious energy that makes everything go well within your name brightens your future,",
-    "The energy of being unfinished within your name stops your achievements at the decisive moment,",
-    "The frequency of strong stubbornness and subjectivity becomes an ego that hinders flexibility,",
-    "The late-life luck within your name's energy becomes a purifier that washes away early hardships,",
-    "The vibrations of vanity within your name become a factor that blurs realistic judgment,",
-    "The energy of wandering in the dark within your name temporarily causes you to lose your goal,",
-    "The energy of honor and status within your name makes you emerge as a key figure in organizations,",
-    "The frequency of loneliness and decline within your name sadly sinks your active energy,",
-    "The vibrations of success and prosperity within your name turn your efforts into golden fruit,",
-    "The energy of destruction and stagnation within your name becomes a toxin to your vitality,",
-    "The energy of peaceful success within your name leads your life to a haven of abundance,",
-    "The unstable heroic energy within your name leads you into frequent disputes,",
-    "The frequency of innate talent and success within your name proves your value to the world,",
-    "The vibrations of dispute and conflict within your name cause frequent cracks in your network,",
-    "The vibration of stagnation after temporary success warns you against complacency,",
-    "The energy of loneliness and futility within your name makes your inner self feel empty,",
-    "The energy of indomitable recovery within your name raises you again from any despair,",
-    "The frequency of misfortune amidst mediocrity causes your extraordinary talent to be buried,",
-    "The vibrations of luck and fortune within your name provide endless opportunities to your life,",
-    "The vibrations of incompetence and laziness within your name hinder your planning from action,",
-    "The honorable energy of success within your name fills your later years with glowing glory,",
-    "The energy of parting and hardship within your name distances you from precious relationships,",
-    "The frequency of strong fighting spirit and success grows you into an unrivaled master in your field,",
-    "The vibrations where luck is half-and-half make your life a field of endless challenges,",
-    "The vibrations of spiritual emptiness within your name make realistic abundance feel meaningless,",
-    "The energy of sudden change within your name causes your destiny to fluctuate extremely,",
-    "The energy of completion of all things within your name leads all your tasks to a brilliant finale,"
+    "The fundamental vibration of your name grants powerful self-reliance to your innate temperament,", "The dispersed energy of your name's wave scatters your innate energy in multiple directions,", "The frequency of resurrection within your name brings your potential into brilliant bloom,", "The precarious vibrations of your name induce frequent fluctuations in your natural energy,", "The harmonious energy inherent in your name gently mediates your strong temperament,", "The energy of abundant harvest granted by your name's frequency becomes your driving force,", "The rigid and resolute energy of your name's wave strongly anchors your inner center,", "The persistent frequency within your name adds tireless endurance to your execution power,", "The sharp but unstable vibrations of your name sensitively stimulate your spirit,", "The empty frequency of your name's energy temporarily inhibits your practical actions,",
+    "The energy of renewal that opens a new era within your name opens a new path in your life,", "The fragile nature of your name's frequency slightly weakens your progressive spirit,", "The wise and clever vibrations of your name's energy maximize your intellectual capacity,", "The dispersing energy within your name acts as an obstacle to your innate concentration,", "The energy of virtue and human connection within your name gives wings to your relationships,", "The heavy energy of late-bloomer success within your name solidifies your foundation,", "The vibrations of strong conviction and fighting spirit sharpen your sense of purpose,", "The versatile talent and vitality within your name connect your versatility to practice,", "The lonely and sharp frequency of your name temporarily hinders harmony with others,", "The stagnant energy within your name becomes an obstacle that blocks your dynamic flow,",
+    "The powerful leadership energy within your name elevates your authority and honor,", "The vibration of stopping halfway shakes your persistent tenacity as a side effect,", "The sun-like passion within your name's energy reveals your temperament brilliantly to the public,", "The energy of gradual growth within your name leads your life onto a stable trajectory,", "The sharp wisdom and technique within your name dramatically enhance your problem-solving skills,", "The heroic but turbulent vibrations of your name frequently bring dramatic reversals to your life,", "The dogmatic spirit within your name's frequency excessively fuels your strong pride,", "The eventful vibrations within your name's energy frequently shake your peaceful daily life,", "The frequency of a wise strategist within your name adds sharpness to your strategic thinking,", "The energy where good and bad luck intersect adds unpredictability to your destiny,",
+    "The powerful will for self-made success within your name maximizes your self-reliance,", "The vibrations of luck and turbulence within your name's energy scatter your sincere efforts,", "The spirit of an ascending dragon within your name adds overwhelming charisma to your nature,", "The destructive vibrations of your name carry the risk of collapsing your innate talent in an instant,", "The energy of peace and harmony within your name calmly soothes your life,", "The honorable vibrations of your name's energy further elevate your dignity and pride,", "The magnetic frequency of your name's wave attracts noble people to your side,", "The literary and artistic sensitivity inherent in your name amplifies your creative inspiration,", "The energy of decline within your name heavily suppresses your vibrant energy,", "The ever-changing energy within your name induces frequent fluctuations in your life,",
+    "The wisdom of foresight within your name expands your perspective toward the future,", "The frequency of hardship and trial within your name severely tests your strong temperament,", "The vibrations of gaining fame within your name spread your reputation far and wide,", "The vibration of breaking halfway within your name precariously stimulates your hard-built tower,", "The energy of big hits and windfalls within your name makes your achievements abundant,", "The seeds of misfortune within your name become a shadow that temporarily hides your bright energy,", "The vibrations of pioneering and victory within your name instantly crush obstacles before you,", "The frequency of practicing virtue within your name makes your honor even more noble,", "The vain vibrations of your name make practical achievements vanish like a mirage,", "The energy of isolation and interruption within your name shrinks your social activities,",
+    "The energy of perfect success within your name pushes your life to the peak position,", "The incomplete vibrations within your name force frequent corrections to your firm plans,", "The energy of 'flashy outside, empty inside' makes you focus on appearances over substance,", "The frequency of accidents and hardships within your name places unexpected reefs in your life,", "The auspicious energy that makes everything go well within your name brightens your future,", "The energy of being unfinished within your name stops your achievements at the decisive moment,", "The frequency of strong stubbornness and subjectivity becomes an ego that hinders flexibility,", "The late-life luck within your name's energy becomes a purifier that washes away early hardships,", "The vibrations of vanity within your name become a factor that blurs realistic judgment,", "The energy of wandering in the dark within your name temporarily causes you to lose your goal,",
+    "The energy of honor and status within your name makes you emerge as a key figure in organizations,", "The frequency of loneliness and decline within your name sadly sinks your active energy,", "The vibrations of success and prosperity within your name turn your efforts into golden fruit,", "The energy of destruction and stagnation within your name becomes a toxin to your vitality,", "The energy of peaceful success within your name leads your life to a haven of abundance,", "The unstable heroic energy within your name leads you into frequent disputes,", "The frequency of innate talent and success within your name proves your value to the world,", "The vibrations of dispute and conflict within your name cause frequent cracks in your network,", "The vibration of stagnation after temporary success warns you against complacency,", "The energy of loneliness and futility within your name makes your inner self feel empty,",
+    "The energy of indomitable recovery within your name raises you again from any despair,", "The frequency of misfortune amidst mediocrity causes your extraordinary talent to be buried,", "The vibrations of luck and fortune within your name provide endless opportunities to your life,", "The vibrations of incompetence and laziness within your name hinder your planning from action,", "The honorable energy of success within your name fills your later years with glowing glory,", "The energy of parting and hardship within your name distances you from precious relationships,", "The frequency of strong fighting spirit and success grows you into an unrivaled master in your field,", "The vibrations where luck is half-and-half make your life a field of endless challenges,", "The vibrations of spiritual emptiness within your name make realistic abundance feel meaningless,", "The energy of sudden change within your name causes your destiny to fluctuate extremely,", "The energy of completion of all things within your name leads all your tasks to a brilliant finale,"
 ];
 
 const transitionEn = "In this way, your name provides a powerful synergy to your innate temperament, but can also induce unexpected energy biases or side effects. To manage these effects and complete the balance of your destiny, please actively practice the weakness compensation prescriptions provided below.";
+
 
 
 const baseKo = [{key:"개척",core:"시작·독립·결단",risk:"독단·조급"},{key:"조화",core:"협력·중재·관계",risk:"우유부단·의존"},{key:"발전",core:"성장·표현·확장",risk:"산만·과시"},{key:"기반",core:"안정·축적·관리",risk:"정체·완고"},{key:"중심",core:"균형·통합·리더십",risk:"완벽주의·통제"},{key:"책임",core:"의무·봉사·신뢰",risk:"과부담·걱정"},{key:"탐구",core:"분석·통찰·전문성",risk:"고립·냉정"},{key:"성과",core:"현실화·재물·결실",risk:"집착·과욕"},{key:"완성",core:"마무리·지혜·전환",risk:"허무·미련"}];
@@ -737,8 +400,7 @@ const baseEn = [{key:"Pioneer",core:"start",risk:"rigidity"},{key:"Harmony",core
 const stageKo = ["발아","정립","강화","확장","정점","전환","정리","재도약","완결"];
 const stageEn = ["Sprout","Settle","Strengthen","Expand","Peak","Shift","Refine","Rebound","Complete"];
 
-const sideEffects = ["'만성적 신중함' 주의", "무의식적으로 턱 괴는 습관", "월요일 오전의 일시적 무기력", "핸드폰을 들고 핸드폰 찾기", "칭찬 들으면 AI처럼 고장남", "근거 없는 자신감과 이불킥", "새벽 2시의 근거 없는 명석함", "디저트 무한 흡입 현상", "발표 직전 소음에 예민해짐", "상대의 오타를 정정하고픈 강박"];
-const sideEffectsEn = ["Chronic deliberation", "Jaw-resting habit", "Monday lethargy", "Searching phone while holding it", "Freezing at compliments", "Late-night regrets", "2 AM enlightenment", "Sugar cravings", "Auditory sensitivity", "Typo correction urge"];
+
 
 /* [1] 글로벌 감성 음절 (알베르토, 루시아 등 외국인 느낌 한글이름) */
 const syllableKo1 = ["알", "베", "로", "루", "마", "에", "이", "카", "크", "프", "리", "니", "산", "벤", "파", "디", "레", "미", "넬", "벨", "아", "안", "엘", "오", "우", "클", "플", "브", "테", "스", "켈", "멜", "조", "제", "카", "피", "바", "샤", "타", "나", "휘", "린", "겸", "담", "온", "율", "준", "윤", "설", "예", "진", "현", "헤", "메", "세", "데", "게", "베", "페", "체", "제", "레", "네", "솔", "별", "얀", "실", "데", "모", "자", "바", "티", "피"];
