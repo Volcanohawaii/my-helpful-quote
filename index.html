@@ -474,7 +474,7 @@ if (mode === 'fortune') {
         // 🇺🇸 영문 최종 출력문
         const finalNarrativeEn = `You were born with a ${coreModifierEn} ${elMap[coreElText]} energy as its core. To this innate essence, the background energy of ${jeolgiEn}, which is ${bgStrengthEn.replace(/\(.*\)/g, '')} ${elMap[bgEl]}, was added, and your name's ${elMap[nameElKey] || nameElKey} frequency intervened to ${baseActionEn}. ${timeModifierEn} finally, all these energies fused to complete a unique destiny signature centered on <b>${elMap[finalSignature] || finalSignature}</b>.`;
 
-      // 기타 계산 (생년월일시 + 성명 파동 + 성명 오행의 완벽한 수리 연산)
+   
         const yVal = parseInt(session.birth.substring(0, 4));
         const mVal = birthMonth;
         const dVal = parseInt(session.birth.substring(6, 8));
@@ -482,17 +482,23 @@ if (mode === 'fortune') {
         const sVal = session.num81; // 이름 81수리 에너지
         const nameElIdx = elements.indexOf(nameElKey) + 1; // 이름 오행 수치화
 
-        // quotes.js에 있는 30등분 데이터를 불러와서 정밀 매칭 인덱스 계산
-        const modIdx = (sVal + nameElIdx + hVal) % 30;
-        const dirIdx = (yVal + mVal + dVal + sVal) % 30;
+      
+        const missionIndex = (yVal + mVal + dVal + hVal + sVal + nameElIdx) % 24;
 
-        // 외부 파일(quotes.js)의 텍스트를 조합하여 한 문단 완성 (한국어)
-        const missionTextKo = `당신의 최종 시그니처인 ${finalSignature} 에너지는 ${baseArchetypes[finalSignature] || "특별한"} 역할을 상징합니다. 여기에 ${nameModifiers[modIdx]} ${timeDirectives[dirIdx]}`;
-        
-        // 영문 버전 조합
-        const sigEn = elMap[finalSignature] || finalSignature;
-        const missionTextEn = `Your signature energy, ${sigEn}, symbolizes ${baseArchetypesEn[finalSignature] || "a special role"}. ${nameModifiersEn[modIdx]} ${timeDirectivesEn[dirIdx]}`;
+     
+        let missionTextKo = "운명 데이터를 해석 중입니다.";
+        if (typeof elementPrescriptions24 !== 'undefined' && elementPrescriptions24[finalSignature]) {
+            missionTextKo = elementPrescriptions24[finalSignature][missionIndex];
+        }
 
+        let missionTextEn = "Interpreting destiny data.";
+        if (typeof enPrescriptions24 !== 'undefined' && enPrescriptions24[finalSignature]) {
+            missionTextEn = enPrescriptions24[finalSignature][missionIndex];
+        } else {
+            missionTextEn = missionTextKo; // 영문이 없을 경우 한국어로 대체
+        }
+
+  
         // 6. 화면 출력
         body.innerHTML = `
           <div class="tab-content">
