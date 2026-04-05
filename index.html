@@ -403,24 +403,27 @@ function renderChart(scores) {
         if (mode === 'next' && b.id === 'tab3') b.classList.add('active');
     });
 
-   if (mode === 'fortune') {
-    // 1. 데이터 위치 설정 (30개 세트로 순환)
+  if (mode === 'fortune') {
+    // [1] 데이터 위치 설정 (30개 세트 순환)
     const coreIdx = (parseInt(session.birth.substring(0, 4)) + parseInt(session.birth.substring(4, 6)) + parseInt(session.birth.substring(6, 8)) + (session.hour || 12)) % 30;
     const nameIdx = (session.num81 - 1) % 30;
 
-    // 2. [📜 현생의 과업] 국문/영문 공식 (한자/영어 자연스럽게 연결)
-    let missionText = "";
+    // ✅ [2] introNarrative 정의 (이 부분이 추가되어야 에러가 안 납니다)
+    let introNarrative = "";
     if (currentLang === 'ko') {
-        missionText = birthCoreKo[finalSignature][coreIdx] + "\n" + 
-                      nameSynergyKo[finalSignature][nameIdx] + "\n" + 
-                      transitionKo[finalSignature][coreIdx];
+        const actionKo = ["재배치하여", "융합시켜", "벼려내어", "조율하여", "가속시켜"][(session.num81) % 5];
+        introNarrative = `당신은 ${session.iljuData.el}의 에너지를 품고 태어났습니다. 당신의 성명이 가진 주파수가 선천적 기운을 ${actionKo}, 마침내 ${finalSignature} 중심의 독보적인 운명 시그니처가 완성되었습니다.`;
     } else {
-        missionText = birthCoreEn[finalSignature][coreIdx] + "\n" + 
-                      nameSynergyEn[finalSignature][nameIdx] + "\n" + 
-                      transitionEn[finalSignature][coreIdx];
+        const elEn = {"목(木)":"Wood","화(火)":"Fire","토(土)":"Earth","금(金)":"Metal","수(水)":"Water"}[finalSignature];
+        introNarrative = `You were born with elemental depth. By tuning your innate flow through name vibrations, a unique destiny signature centered on ${elEn} has been completed.`;
     }
 
-    // 3. UI 출력 (기존 디자인 구조 유지)
+    // [3] missionText 조립 (4,500가지 조합 공식)
+    let missionText = (currentLang === 'ko')
+        ? `${birthCoreKo[finalSignature][coreIdx]}\n${nameSynergyKo[finalSignature][nameIdx]}\n${transitionKo[finalSignature][coreIdx]}`
+        : `${birthCoreEn[finalSignature][coreIdx]}\n${nameSynergyEn[finalSignature][nameIdx]}\n${transitionEn[finalSignature][coreIdx]}`;
+
+    // [4] UI 출력 (기존 디자인 유지)
     const r = suriPrescription.getRemedy(session.num81, [session.lackEls[0]], currentLang);
     body.innerHTML = `
       <div class="tab-content">
@@ -446,7 +449,6 @@ function renderChart(scores) {
       </div>`;
     renderChart(session.elementScores);
 }
-
     else if (mode === 'past') {
         const p = getPastLifeData(session.num81, finalSignature, currentLang);
         const era = (currentLang === 'ko' ? eraPastKo : eraPastEn)[session.num81 % (currentLang === 'ko' ? eraPastKo.length : eraPastEn.length)];
