@@ -416,24 +416,25 @@ if (mode === 'fortune') {
         const mVal = birthMonth;
         const dVal = parseInt(session.birth.substring(6, 8));
         const hVal = session.hour || 12;
-        const sVal = session.num81; // 81수리 번호
+        const sVal = session.num81; // 유저의 81수리 번호
         const nameElIdx = elements.indexOf(nameElKey) + 1;
 
-        // 💡 [정밀 인덱스 연산] 30종 기질과 81수리 시너지를 완벽하게 추출
+        // 💡 [정밀 인덱스 연산] 
+        // 1. 코어 기질: 생년월일시 조합으로 30개 중 하나 추출 (0~29)
         const coreIdx = (yVal + mVal + dVal + hVal) % 30;
-        const nameIdx = (sVal - 1); // 81수리 번호와 배열 인덱스 동기화
+        // 2. 성명 시너지: 81수리 번호를 직접 매칭
+        const nameIdx = (sVal - 1); 
 
-        // [서사 조립] 
-        // 외부 quotes.js에 들어갈 birthCoreKo, nameSynergyKo, transitionKo를 불러옵니다.
-        let missionTextKo = "데이터를 분석 중입니다.";
+        // [한국어 서사 조립] 
+        let missionTextKo = "데이터 분석 중...";
         if (typeof birthCoreKo !== 'undefined' && birthCoreKo[finalSignature]) {
             const core = birthCoreKo[finalSignature][coreIdx] || birthCoreKo[finalSignature][0];
             const synergy = nameSynergyKo[nameIdx] || nameSynergyKo[0];
-            // 대표님이 요청하신 기승전결 흐름 (생년월일시 -> 이름 시너지 -> 처방 연결)
+            // 대표님이 요청하신 기승전결 (생년월일시 기질 -> 성명 시너지 -> 처방 연결)
             missionTextKo = core + "\n\n" + synergy + "\n\n" + transitionKo;
         }
 
-        // [화면 출력] - 대표님의 기존 구조와 타이틀을 100% 복구했습니다.
+        // [화면 출력] - 대표님의 기존 레이아웃 구조와 타이틀을 100% 복구했습니다.
         body.innerHTML = `
           <div class="tab-content">
             <span class="section-title">${t.sec1}</span>
@@ -443,7 +444,7 @@ if (mode === 'fortune') {
               <div style="padding:20px; background:#F9F8F6; border-radius:12px; border:1px solid #F0EAE3; margin-top:25px;">
                 <b style="color:var(--accent); font-size:0.95rem;">📜 ${currentLang === 'ko' ? '현생의 과업' : 'Current Life Mission'}</b><br>
                 <span style="font-size:0.9rem; color:#444; line-height:1.7; display:block; margin-top:12px; white-space: pre-wrap;">
-                  ${currentLang === 'ko' ? missionTextKo : "English mission text will be loaded here."}
+                  ${currentLang === 'ko' ? missionTextKo : "English data loading..."}
                 </span>
               </div>
             </div>
