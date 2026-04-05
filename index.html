@@ -486,6 +486,16 @@ if (mode === 'fortune') {
         
         // 120개 DB 중 나만의 것을 뽑아내는 최종 번호 (0~23)
         const missionIndex = (yVal + mVal + dVal + hVal + sVal + nameElIdx) % 24;
+
+        // 🛡️ [에러 완벽 방어막] 파일이 늦게 로딩되거나 영문 버전이 없어도 절대 에러 안 남!
+        let missionText = "데이터를 불러오지 못했습니다. quotes.js 파일을 확인해주세요.";
+        if (typeof elementPrescriptions24 !== 'undefined' && elementPrescriptions24[finalSignature]) {
+            missionText = elementPrescriptions24[finalSignature][missionIndex];
+        }
+        if (currentLang === 'en' && typeof enPrescriptions24 !== 'undefined' && enPrescriptions24[finalSignature]) {
+            missionText = enPrescriptions24[finalSignature][missionIndex];
+        }
+
         // 6. 화면 출력
         body.innerHTML = `
           <div class="tab-content">
@@ -498,7 +508,7 @@ if (mode === 'fortune') {
               <div style="padding:20px; background:#F9F8F6; border-radius:12px; border:1px solid #F0EAE3;">
                 <b style="color:var(--accent); font-size:0.95rem;">📜 현생의 과업</b><br>
                 <span style="font-size:0.9rem; color:#444; line-height:1.6; display:block; margin-top:8px;">
-                  ${(currentLang === 'ko' ? elementPrescriptions24 : enPrescriptions24)[finalSignature][missionIndex]}
+                  ${missionText}
                 </span>
               </div>
             </div>
