@@ -35,20 +35,6 @@ const i18n = {
     }
 };
 
-const jeolgiNames = {
-    0: { ko: "대한(大寒)", en: "Daehan (Major Cold)" }, 1: { ko: "입춘(立春)", en: "Ipchun (Beginning of Spring)" },
-    2: { ko: "우수(雨水)", en: "Usu (Rain Water)" }, 3: { ko: "경칩(驚蟄)", en: "Gyeongchip (Awakening of Insects)" },
-    4: { ko: "춘분(春分)", en: "Chunbun (Spring Equinox)" }, 5: { ko: "청명(淸明)", en: "Cheongmyeong (Clear and Bright)" },
-    6: { ko: "곡우(穀雨)", en: "Gogu (Grain Rain)" }, 7: { ko: "입하(立夏)", en: "Ipha (Beginning of Summer)" },
-    8: { ko: "소만(小滿)", en: "Soman (Grain Full)" }, 9: { ko: "망종(芒種)", en: "Mangjong (Grain in Ear)" },
-    10: { ko: "하지(夏至)", en: "Haji (Summer Solstice)" }, 11: { ko: "소서(小暑)", en: "Soseo (Minor Heat)" },
-    12: { ko: "대서(大暑)", en: "Daeseo (Major Heat)" }, 13: { ko: "입추(立秋)", en: "Ipchu (Beginning of Autumn)" },
-    14: { ko: "처서(處暑)", en: "Cheoseo (End of Heat)" }, 15: { ko: "백로(白露)", en: "Baekro (White Dew)" },
-    16: { ko: "추분(秋分)", en: "Chubun (Autumn Equinox)" }, 17: { ko: "한로(寒露)", en: "Hanro (Cold Dew)" },
-    18: { ko: "상강(霜降)", en: "Sanggang (Frost Descent)" }, 19: { ko: "입동(立冬)", en: "Ipdong (Beginning of Winter)" },
-    20: { ko: "소설(小雪)", en: "Soseol (Minor Snow)" }, 21: { ko: "대설(大雪)", en: "Daeseol (Major Snow)" },
-    22: { ko: "소한(小寒)", en: "Sohan (Minor Cold)" }, 23: { ko: "소한(小寒)", en: "Sohan (Minor Cold Peak)" }
-};
 
 const hangulElements = { 'ㄱ':'목(木)','ㄲ':'목(木)','ㄴ':'화(火)','ㄷ':'화(火)','ㄸ':'화(火)','ㄹ':'화(火)','ㅁ':'토(土)','ㅂ':'토(土)','ㅃ':'토(土)','ㅅ':'금(金)','ㅆ':'금(金)','ㅇ':'토(土)','ㅈ':'금(金)','ㅉ':'금(金)','ㅊ':'금(金)','ㅋ':'목(木)','ㅌ':'화(火)','ㅍ':'토(土)','ㅎ':'토(土)' };
 const alphabetElements = { 'A':'목(木)','B':'목(木)','C':'화(火)','D':'화(火)','E':'토(土)','F':'토(土)','G':'금(金)','H':'금(金)','I':'수(水)','J':'수(水)','K':'목(木)','L':'목(木)','M':'화(火)','N':'화(火)','O':'토(土)','P':'토(土)','Q':'금(金)','R':'금(金)','S':'수(水)','T':'수(水)','U':'목(木)','V':'목(木)','W':'화(火)','X':'화(火)','Y':'토(土)','Z':'토(土)' };
