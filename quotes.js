@@ -1,3 +1,5 @@
+const elements = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
+
 const i18n = {
     ko: {
         title: "수리성명학 데이터 분석", desc: "81수리 체계 성명의 파동과 탄생 시계열 지표를 바탕으로 당신의 시그니처 에너지 구조가 도출됩니다.",
@@ -6,7 +8,14 @@ const i18n = {
         tab1Btn: "현생 분석", tab2Btn: "전생 기록", tab3Btn: "내세 예약",
         sec1: "📊 운명 시그니처 분석", sec2: "💊 에너지 균형 처방",
         pastDest: "전생 활동 중심지", pastJob: "전생의 직업", pastHomework: "전생의 과업",
-        nextDest: "내세 활동 중심지", nextObj: "내세의 직업", nextMission: "내세의 임무"
+        nextDest: "내세 활동 중심지", nextObj: "내세의 직업", nextMission: "내세의 임무",
+        logicTitle: "◈ Destiny Lab 분석 방법론",
+        l1Title: "〰️ 소리 주파수 분석 (Name Vibrations)",
+        l1Desc: "성명을 고유 주파수를 가진 에너지로 변환합니다. 발음 오행이 개인의 기운에 간섭하는 데이터를 수치화했습니다.",
+        l2Title: "🗓️ 시계열 지표 대입 (Solar Term Time-series)",
+        l2Desc: "탄생 순간의 배경을 '선천적 변수'로 설정합니다. 탄생 순간의 에너지 밀도를 분석하여 당신의 근원을 도출합니다.",
+        l3Title: "🧬 81수리 상호작용 엔진",
+        l3Desc: "선천적 기운과 후천적 성명 에너지의 조합 알고리즘으로 현생-전생-내세의 데이터를 연산합니다."
     },
     en: {
         title: "Suri Numerology Analysis", desc: "Analyzes the 81-numerology system based on name vibrations and birth indicators.",
@@ -15,7 +24,14 @@ const i18n = {
         tab1Btn: "Current Life", tab2Btn: "Past Life", tab3Btn: "Afterlife",
         sec1: "📊 Destiny Signature", sec2: "💊 Balance Remedy",
         pastDest: "Past Activity Center", pastJob: "Past Occupation", pastHomework: "Past Mission",
-        nextDest: "Future Domain", nextObj: "Future Occupation", nextMission: "Future Assignment"
+        nextDest: "Future Domain", nextObj: "Future Occupation", nextMission: "Future Assignment",
+        logicTitle: "◈ Destiny Lab Methodology",
+        l1Title: "〰️ Name Vibrations",
+        l1Desc: "Converts names into energy with unique frequencies. We quantify how phonetic elements interfere with an individual's aura.",
+        l2Title: "🗓️ Solar Term Time-series",
+        l2Desc: "Sets the seasonal background at birth as an 'innate variable.' We derive your primal environment by analyzing 24 solar terms.",
+        l3Title: "🧬 81-Suri Interaction Engine",
+        l3Desc: "Calculates past and future scenarios using algorithms derived from the 'Harmony & Conflict' of innate and acquired energies."
     }
 };
 
