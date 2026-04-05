@@ -311,9 +311,7 @@ function processData(name, birth) {
     const descObj = stemDescriptions[data.iljuData.stemId];
     const jeolgiText = jeolgiNames[data.solarMonth][currentLang];
     
-    const strongText = strongTemplates[data.strongEl][currentLang];
-    const weakText = weakTemplates[data.weakEl][currentLang];
-    
+   
     // 2. 운명공학 서사 조립
     const introKo = `당신은 ${jeolgiText} 데이터를 배경으로, ${branchObj.ko}이라는 환경 속에서 피어난 <b>${stemObj.ko}</b>의 기운을 영혼의 코어로 품고 태어났습니다.`;
     const introEn = `You were born against the background of ${jeolgiText} data. At the core of your soul is the energy of ${stemObj.en} blooming within an environment of <b>${branchObj.en}</b>.`;
@@ -421,13 +419,12 @@ if (mode === 'fortune') {
         const elHanjaMap = { "목(木)": "木", "화(火)": "火", "토(土)": "土", "금(金)": "金", "수(水)": "水" };
         const nameElHanja = elHanjaMap[nameElKey] || "오류";
 
-        // 2. [공식 오류 해결!] 태어난 환경(배경) 오행 및 강약 추출
-        // 기존의 단순 월(Month) 계산을 버리고, 실제 점수 배분에 쓰인 24절기 공식을 그대로 가져왔습니다.
+        // 2. 태어난 환경(배경) 오행 및 강약 추출
         const termToElIdx = [4, 4, 0, 0, 0, 0, 2, 1, 1, 1, 1, 1, 2, 3, 3, 3, 3, 3, 2, 4, 4, 4, 4, 2];
         const bgEl = elements[termToElIdx[session.solarMonth]]; 
         const bgElHanja = elHanjaMap[bgEl]; 
         
-        // 절기(24등분)에 따른 배경 에너지의 강약(제왕/장생/묘고) 판별 로직 추가
+        // 절기(24등분)에 따른 배경 에너지의 강약 판별
         let bgStrengthKo = "";
         let bgStrengthEn = "";
         const sm = session.solarMonth;
@@ -435,11 +432,11 @@ if (mode === 'fortune') {
             bgStrengthKo = "가장 강력하고 순수한";
             bgStrengthEn = "strong and pure";
         } else if ([1,2, 7,8, 13,14, 19,20].includes(sm)) {
-            bgStrengthKo = "역동적으로 뻗어나가는(중간)";
-            bgStrengthEn = "dynamic and growing (medium)";
+            bgStrengthKo = "역동적으로 뻗어나가는";
+            bgStrengthEn = "dynamic and growing";
         } else {
-            bgStrengthKo = "은은하게 갈무리하는(약한)";
-            bgStrengthEn = "subtly concluding (weak)";
+            bgStrengthKo = "은은하게 갈무리하는";
+            bgStrengthEn = "subtly concluding";
         }
 
         // 3. 25가지 상호작용 시나리오 데이터
@@ -459,7 +456,7 @@ if (mode === 'fortune') {
         else if (h >= 10 && h < 16) { timeModifierKo = "한낮의 뜨거운 열기가 더해져"; timeModifierEn = "with the intense heat of midday,"; }
         else if (h >= 16 && h < 22) { timeModifierKo = "저녁의 차분한 결실의 기운이 더해져"; timeModifierEn = "with the calm energy of evening,"; }
 
-        // 5. 운명공학 완벽 서사 조립 (일주 코어 + 절기 배경 + 이름 작용 = 최종 시그니처)
+        // 5. 운명공학 완벽 서사 조립
         const jeolgiKo = jeolgiNames[session.solarMonth] ? jeolgiNames[session.solarMonth].ko : ""; 
         const jeolgiEn = jeolgiNames[session.solarMonth] ? jeolgiNames[session.solarMonth].en : ""; 
         
@@ -467,35 +464,28 @@ if (mode === 'fortune') {
         const baseActionKo = (interactionNarrative[nameElHanja] && interactionNarrative[nameElHanja][bgElHanja]) || "선천적 기운을 이름의 주파수로 재배치하여";
         const baseActionEn = "rearranging the innate energy with the name's frequency"; 
         
-        // 🌟 전체 에너지 강/약 텍스트 불러오기 
-        const strongText = strongTemplates[session.strongEl][currentLang];
-        const weakText = weakTemplates[session.weakEl][currentLang];
-
-        // 💡 [추가됨] 일주(코어) 오행 강약 자동 판별 로직
+        // 일주(코어) 오행 강약 자동 판별 로직
         const isYang = ['gap','byeong','mu','gyeong','im'].includes(session.iljuData.stemId);
         const coreModifierKo = isYang ? "강력한" : "은은한";
         const coreModifierEn = isYang ? "strong" : "subtle";
         const coreElText = session.iljuData.el;
 
-       // 🇰🇷 한국어 최종 출력문 (에너지 밸런스 전체 덩어리 삭제 완료)
+        // 🇰🇷 한국어 최종 출력문
         const finalNarrativeKo = `당신은 ${coreModifierKo} ${coreElText} 에너지를 품고 태어났습니다. 이 본질적인 기운에 ${jeolgiKo}라는 ${bgStrengthKo.replace(/\(.*\)/g, '')} ${bgEl}의 탄생 배경 에너지가 주어지고, 당신의 성명이 가진 ${nameElKey}의 주파수가 개입하여 ${baseActionKo}. ${timeModifierKo} 마침내 이 모든 에너지가 융합되어 최종적으로 <b>${finalSignature}</b> 중심의 독보적인 운명 시그니처가 완성되었습니다.`;
         
-        // 🇺🇸 영문 최종 출력문 (에너지 밸런스 전체 덩어리 삭제 완료)
+        // 🇺🇸 영문 최종 출력문
         const finalNarrativeEn = `You were born with a ${coreModifierEn} ${elMap[coreElText]} energy as its core. To this innate essence, the background energy of ${jeolgiEn}, which is ${bgStrengthEn.replace(/\(.*\)/g, '')} ${elMap[bgEl]}, was added, and your name's ${elMap[nameElKey] || nameElKey} frequency intervened to ${baseActionEn}. ${timeModifierEn} finally, all these energies fused to complete a unique destiny signature centered on <b>${elMap[finalSignature] || finalSignature}</b>.`;
 
-        // 기타 계산
+        // 기타 계산 (유저의 모든 숫자를 융합하는 정밀 공식)
         const yVal = parseInt(session.birth.substring(0, 4));
+        const mVal = birthMonth;
         const dVal = parseInt(session.birth.substring(6, 8));
         const hVal = session.hour || 12;
-        const mVal = birthMonth;
-        // 1. 이름의 파동 에너지 (81수리 번호)
-        // 기타 계산 (탄생 배경과 후천적 이름 주파수만의 정밀 융합)
         const sVal = session.num81; // 이름 81수리
-        const mmVal = session.solarMonth; // 24절기 (탄생 배경)
+        const nameElIdx = elements.indexOf(nameElKey) + 1; // 이름 오행
         
-        // 24가지 과업 중, 유저의 '최종 시그니처 오행'에 완벽히 종속된 인덱스 도출
-        const missionIndex = (mmVal + sVal) % 24;
-
+        // 120개 DB 중 나만의 것을 뽑아내는 최종 번호 (0~23)
+        const missionIndex = (yVal + mVal + dVal + hVal + sVal + nameElIdx) % 24;
         // 6. 화면 출력
         body.innerHTML = `
           <div class="tab-content">
@@ -507,7 +497,7 @@ if (mode === 'fortune') {
               </p>
               <div style="padding:20px; background:#F9F8F6; border-radius:12px; border:1px solid #F0EAE3;">
                 <b style="color:var(--accent); font-size:0.95rem;">📜 현생의 과업</b><br>
-                <span style="font-size:0.9rem; color:#444; line-height:1.6;">
+                <span style="font-size:0.9rem; color:#444; line-height:1.6; display:block; margin-top:8px;">
                   ${(currentLang === 'ko' ? elementPrescriptions24 : enPrescriptions24)[finalSignature][missionIndex]}
                 </span>
               </div>
@@ -523,7 +513,7 @@ if (mode === 'fortune') {
             </div>
           </div>`;
         renderChart(session.elementScores);
-}
+    }
     else if (mode === 'past') {
         const p = getPastLifeData(session.num81, finalSignature, currentLang);
         const era = (currentLang === 'ko' ? eraPastKo : eraPastEn)[session.num81 % (currentLang === 'ko' ? eraPastKo.length : eraPastEn.length)];
