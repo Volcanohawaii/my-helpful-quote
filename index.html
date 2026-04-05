@@ -412,7 +412,6 @@ if (mode === 'fortune') {
         const r2 = suriPrescription.getRemedy(session.num81, [session.lackEls[1]], currentLang);
 
         const nameElKey = session.nameSuriEl || "오류";
-        // [1] 유저 데이터 수치화
         const yVal = parseInt(session.birth.substring(0, 4));
         const mVal = birthMonth;
         const dVal = parseInt(session.birth.substring(6, 8));
@@ -420,28 +419,34 @@ if (mode === 'fortune') {
         const sVal = session.num81;
         const nameElIdx = elements.indexOf(nameElKey) + 1;
 
-        // [2] 30등분 정밀 인덱스 연산 (날려버린 120개보다 10배 더 소름돋는 개인화)
+        // 💡 30등분 정밀 인덱스 연산 (150개 기질 x 30개 시너지 = 4,500개 조합)
         const coreIdx = (yVal + mVal + dVal + hVal) % 30;
         const nameIdx = (sVal + nameElIdx + hVal) % 30;
 
-        // [3] 서사 조립 (에러 방어막 및 한/영 완벽 대응)
-        let missionTextKo = "데이터를 분석 중입니다.";
-        if (typeof birthCoreKo !== 'undefined' && birthCoreKo[finalSignature]) {
-            const core = birthCoreKo[finalSignature][coreIdx] || birthCoreKo[finalSignature][0];
-            const synergy = nameSynergyKo[nameIdx] || nameSynergyKo[0];
-            missionTextKo = `${core}<br><br>${synergy} ${transitionKo}`;
-        }
+        // [핵심 서사 조립 로직] - 언어 설정에 따라 quotes.js의 데이터를 선택합니다.
+        let displayTitle = currentLang === 'ko' ? '운명 기질과 성명 시너지' : 'Destiny Core & Name Synergy';
+        let finalMissionText = "";
 
-        let missionTextEn = "Interpreting data...";
-        if (typeof birthCoreEn !== 'undefined' && birthCoreEn[finalSignature]) {
-            const coreEn = birthCoreEn[finalSignature][coreIdx] || birthCoreEn[finalSignature][0];
-            const synergyEn = nameSynergyEn[nameIdx] || nameSynergyEn[0];
-            missionTextEn = `${coreEn}<br><br>${synergyEn} ${transitionEn}`;
+        if (currentLang === 'ko') {
+            // 한국어 모드
+            if (typeof birthCoreKo !== 'undefined' && birthCoreKo[finalSignature]) {
+                const core = birthCoreKo[finalSignature][coreIdx] || birthCoreKo[finalSignature][0];
+                const synergy = nameSynergyKo[nameIdx] || nameSynergyKo[0];
+                finalMissionText = core + "\n\n" + synergy + "\n\n" + transitionKo;
+            }
         } else {
-            missionTextEn = missionTextKo;
+            // 영어 모드 (영문 버전 데이터를 호출)
+            if (typeof birthCoreEn !== 'undefined' && birthCoreEn[finalSignature]) {
+                const coreEn = birthCoreEn[finalSignature][coreIdx] || birthCoreEn[finalSignature][0];
+                const synergyEn = nameSynergyEn[nameIdx] || nameSynergyEn[0];
+                finalMissionText = coreEn + "\n\n" + synergyEn + "\n\n" + transitionEn;
+            } else {
+                // 영문 데이터가 아직 quotes.js에 없을 경우 한국어 노출 방지책
+                finalMissionText = "English data is being prepared.";
+            }
         }
 
-        // [4] 화면 출력
+        // [화면 출력]
         body.innerHTML = `
           <div class="tab-content">
             <span class="section-title">${t.sec1}</span>
@@ -449,9 +454,9 @@ if (mode === 'fortune') {
               <div id="radarChart" style="margin:10px auto; width:220px; height:220px;"></div>
               
               <div style="padding:20px; background:#F9F8F6; border-radius:12px; border:1px solid #F0EAE3; margin-top:25px;">
-                <b style="color:var(--accent); font-size:0.95rem;">📜 ${currentLang === 'ko' ? '운명 기질과 성명 시너지' : 'Destiny Core & Name Synergy'}</b><br>
-                <span style="font-size:0.9rem; color:#444; line-height:1.7; display:block; margin-top:12px;">
-                  ${currentLang === 'ko' ? missionTextKo : missionTextEn}
+                <b style="color:var(--accent); font-size:0.95rem;">📜 ${displayTitle}</b><br>
+                <span style="font-size:0.9rem; color:#444; line-height:1.7; display:block; margin-top:12px; white-space: pre-wrap;">
+                  ${finalMissionText}
                 </span>
               </div>
             </div>
