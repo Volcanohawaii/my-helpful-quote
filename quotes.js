@@ -226,10 +226,17 @@ const timeDirectivesEn = [
 ];
 // 💡 [Destiny Lab 정밀 엔진 DB - 한국어 전용 풀버전]
 
+/**
+ * 💡 [Destiny Lab] 정밀 엔진 데이터베이스 (한국어 전용)
+ * 1. birthCoreKo: 생년월일시 기반 선천 기질 (오행별 30종, 총 150문장)
+ * 2. nameSynergyKo: 81수리 기반 성명 시너지 (81문장)
+ * 3. transitionKo: 처방 연결 브릿지
+ */
+
 const birthCoreKo = {
     "목(木)": [
         "당신은 정체된 환경을 뚫고 솟아오르는 독립심과 자생력을 영혼의 코어로 품고 태어났습니다. 타인의 간섭을 싫어하며 스스로 주도권을 쥐고 개척하는 환경에서 최상의 능력을 발휘하지만, 지나친 독단은 주변과의 마찰을 부를 수 있습니다.",
-        "당신의 근본 에너지는 멈추지 않는 확장과 실전적 지도력을 상징합니다. 이론보다 현장에서 직접 발로 뛰며 성과를 내는 것을 즐기며, 완벽주의를 조금 내려놓을 때 비로소 유연한 성장이 가능합니다.",
+        "당신의 근본 에너지는 멈추지 않는 확장과 실전적 지도력을 상징합니다. 이론보다 현장에서 직접 발로 뛰며 성과를 내는 것을 즐기며, 탁상공론식 논쟁은 체질적으로 맞지 않습니다. 완벽주의를 조금 내려놓을 때 비로소 유연한 성장이 가능합니다.",
         "사주 시계열 데이터상 당신은 상황을 연결하여 질서를 잡는 강직한 중재 에너지를 타고났습니다. 명확한 기준을 세우는 능력이 탁월하지만, 규칙 없이 무질서하거나 감정적 호소에만 휘둘리는 상황에서는 큰 스트레스를 받습니다.",
         "당신은 극한의 압박 속에서도 해답을 찾아내는 강인한 생존력을 상징합니다. 시련을 성장의 발판으로 삼는 해결사적 기질이 있으나, 때로는 타인의 도움을 거부하는 고립된 사고에 갇히기도 합니다.",
         "당신의 코어는 사물의 본질을 설계하고 원칙을 고수하는 논리적 설계 능력을 의미합니다. 이성적 판단이 매우 빠르지만, 비논리적인 감정을 강요받는 상황에서는 체질적인 거부감을 느낍니다.",
@@ -365,7 +372,7 @@ const birthCoreKo = {
         "당신의 기질은 지식과 정보를 수집하여 부의 자산으로 바꾸는 지식의 연금술사입니다. 플랫폼 기획에 능하나, 머릿속 지식을 현실의 자본으로 바꾸는 실전 근육이 부족할 때가 많습니다.",
         "당신은 과열된 경쟁 속에서도 냉정을 유지하며 거대 자본을 주도하는 지략가입니다. 승부사적 기질이 좋으나, 사람의 마음보다 돈의 흐름에만 집착하여 고독한 부자가 되기 쉽습니다.",
         "당신의 에너지는 조직 전체의 품격과 인재의 흐름을 최적화하는 인자한 리더십입니다. 매니지먼트에 능하나, 비전을 대중의 언어로 번역하는 소통력이 부족해 소외될 수 있습니다.",
-        "당신은 전 세계를 잇는 거대한 유통 체계를 구축하고 시스템의 질서를 세우는 물류의 달인입니다. 공급망 설계에 능하나, 동선이 꼬인 상황을 보면 병적으로 예민해져 히스테리를 부립니다.",
+        "당신은 전 세계를 잇는 거대한 유통 체계를 구축하고 시스템의 질서를 세우는 물류의 달인입니다. 공급망 설계에 능하나, 동선이 고인 상황을 보면 병적으로 예민해져 히스테리를 부립니다.",
         "당신의 코어는 지혜의 빛으로 대중을 계몽하고 사회의 품격을 높이는 고결한 지식 리더입니다. 교육자적 성품이 좋으나, 지식이 부족한 대중을 무시하는 오만함이 나타날 수 있습니다.",
         "당신의 기질은 조직 내 갈등을 씻어내고 평화를 유지하는 정화와 치유의 힘을 의미합니다. 정서적 정화에 능하나, 부정적인 에너지를 다 받아주다가 본인이 먼저 병드는 약점이 있습니다.",
         "당신은 극한의 압박 속에서도 시원한 오아시스를 만들어 해답을 주는 지혜로운 지략가입니다. 수습 능력이 좋으나, 주변에 의지하려는 사람만 모여들어 독박 책임을 지는 경우가 많습니다.",
@@ -376,7 +383,7 @@ const birthCoreKo = {
         "당신은 인간 심리를 수학적으로 분석하여 디지털 시대의 지도를 그리는 데이터 전략가입니다. 프로파일링에 능하나, 차가운 수치에 매몰되어 사람의 따뜻한 체온을 잊기 쉽습니다.",
         "당신의 기질은 사라져가는 것들에 숨을 불어넣어 다시 살려내는 재생의 마법사입니다. 복원과 브랜딩에 능하나, 새것에만 열광하는 대중의 변화 속도를 따라가기 힘겨워합니다.",
         "당신의 에너지는 우주의 원리를 깨닫고 근본 해답을 탐구하는 지식의 구도자입니다. 철학적 깊이가 깊으나, 현실 세계의 세속적 성공을 비웃다가 스스로 빈곤의 늪에 빠집니다.",
-        "당신의 코어는 인생의 허무를 지혜로 승화시켜 사색의 가치를 전파하는 인문학적 스승입니다. 내면 탐구에 능하나, 쉼 없이 돌아가는 현대 사회에서 낙오자라는 불안감을 느깁니다.",
+        "당신의 코어는 인생의 허무를 지혜로 승화시켜 사색의 가치를 전파하는 인문학적 스승입니다. 내면 탐구에 능하나, 쉼 없이 돌아가는 현대 사회에서 낙오자라는 불안감을 느낍니다.",
         "당신은 인류의 지적 유산을 체계화하여 공유하는 지식의 대양이자 거물입니다. 백과사전적 지식이 풍부하나, 자신의 지식을 사리사욕을 위해 쓰려는 모리배들에게 이용당하기 쉽습니다.",
         "당신의 기질은 미지의 영역을 개척하여 세상을 놀라게 할 독창성의 소유자입니다. 천재적 영감이 있으나, 자신의 비범함을 이해하지 못하는 세상을 향해 벽을 쌓는 단절이 따릅니다.",
         "당신의 에너지는 국제 정세의 해답을 찾아내는 지략가이자 글로벌 유통 리더입니다. 판을 짜는 지휘 능력이 좋으나, 상황이 복잡해질수록 단순한 원칙을 놓쳐 대패할 위험이 있습니다.",
@@ -390,241 +397,341 @@ const birthCoreKo = {
 };
 
 const nameSynergyKo = [
-    "당신의 성명은 타고난 기질에 강력한 폭발력을 더해주는 가속기 역할을 합니다. 이는 빠른 성취를 돕지만, 과열될 경우 독단적인 결정을 내리게 할 수 있으니 주의하십시오.",
-    "이름의 주파수가 당신의 선천적 기운을 예리하게 벼려주는 정밀 제어 역할을 수행합니다. 논리적 인과관계를 명확히 해주나, 때로는 지나치게 냉소적인 태도를 유발할 수 있습니다.",
-    "성명의 파동이 당신의 강한 기운을 부드럽게 감싸는 완충재 역할을 합니다. 대인관계의 유연함을 높여주지만, 결정적인 순간에 우유부단함을 부를 수 있는 부작용이 있습니다.",
-    "성명의 파동은 당신이 가진 잠재력을 수면 위로 끌어올리는 각성제와 같습니다. 묻혀있던 재능을 발굴하게 하나, 평소보다 예민한 감각으로 인해 쉽게 지칠 수 있습니다.",
-    "이름의 에너지가 당신의 분산된 기운을 하나로 모으는 집속 렌즈 역할을 합니다. 목표 집중력을 극대화해주지만, 주변의 소중한 인연들을 놓치게 만드는 맹점이 있습니다.",
-    "당신의 이름은 어떤 환경에서도 유연하게 흐를 수 있도록 돕는 윤활유와 같은 에너지를 뿜어냅니다. 처세술을 높여주나, 자신의 본질적인 신념을 희석시킬 위험이 있습니다.",
-    "성명의 주파수는 보이지 않는 위협으로부터 당신을 보호하는 방어막 역할을 합니다. 안정감을 부여해주지만, 새로운 도전 앞에서 소극적으로 변하게 만드는 작용도 합니다.",
-    "당신의 이름은 낡은 것을 부수고 새로움을 창조하는 혁신적 파동을 가졌습니다. 변화를 주도하게 하나, 삶의 안정적인 기반마저 흔들리게 할 수 있는 양날의 검입니다.",
-    "이름의 에너지가 당신의 이성을 차갑게 식히는 냉각제 역할을 수행합니다. 냉철한 판단을 돕지만, 인간관계에서 차갑고 무정한 인상을 심어줄 우려가 있습니다.",
-    "성명의 파동은 대중을 사로잡는 강력한 흡입력과 카리스마를 부여합니다. 주목받는 삶을 살게 하나, 타인의 시선에 지나치게 얽매이게 하는 부작용이 있습니다.",
-    "당신의 이름은 흩어진 정보들을 하나로 꿰어내는 실과 같은 조율력을 제공합니다. 복합적인 업무 처리에 능하게 하나, 지나친 디테일 집착으로 속도가 느려질 수 있습니다.",
-    "성명의 주파수가 당신에게 흔들리지 않는 묵직한 무게감을 더해줍니다. 신뢰도를 높여주지만, 생각의 전환이 느려지고 고집이 강해질 수 있는 효과를 줍니다.",
-    "이름의 에너지가 당신의 감성을 자극하여 심미적 통찰력을 극대화합니다. 예술적 성취를 돕지만, 현실적인 경제 관념을 약화시킬 수 있는 맹점이 있습니다.",
-    "당신의 이름은 어떠한 난관도 정면 돌파하게 만드는 강력한 투지를 부여합니다. 승부욕을 자극하나, 이기기 위해 무리한 선택을 하게 만드는 압박으로 작용하기도 합니다.",
-    "성명의 파동이 당신의 내면에 평온과 안식을 주는 명상가적 기운을 더합니다. 정신적 성숙을 돕지만, 현실 세계에서의 경쟁력을 떨어뜨릴 우려가 공존합니다.",
-    "이름의 주파수는 타인과 깊이 공감하고 소통하게 만드는 가교 역할을 합니다. 인맥을 넓혀주나, 타인의 고통을 자신의 것처럼 떠안아 심리적 번아웃을 부를 수 있습니다.",
-    "성명의 에너지가 당신에게 철저한 원칙과 규율의 힘을 부여합니다. 조직 생활의 모범이 되게 하나, 창의적인 발상을 억누르는 틀이 될 수 있습니다.",
-    "당신의 이름은 끊임없이 새로운 지식을 갈구하게 만드는 학구적 주파수를 가졌습니다. 지적 성장을 견인하나, 행동보다 생각이 앞서 실천력을 약화시킬 수 있습니다.",
-    "이름의 파동이 당신에게 위기를 기회로 바꾸는 재치와 순발력을 더해줍니다. 임기응변에 능하게 하나, 장기적인 계획보다 단기 성과에 치중하게 할 수 있습니다.",
-    "성명의 에너지는 당신의 존재를 하나의 고유한 브랜드로 만드는 차별성을 부여합니다. 독보적 가치를 만들어주나, 고독한 길을 걷게 할 수 있는 운명적 고립감이 따릅니다.",
-    "당신의 이름은 타인을 치유하고 돌보는 자비로운 에너지를 발산합니다. 봉사와 헌신을 이끌어내나, 정작 자신의 건강과 이익을 챙기지 못하게 만드는 맹점이 있습니다.",
-    "성명의 주파수는 거대한 자본과 물자를 통제할 수 있는 비즈니스적 직관을 더합니다. 경제적 풍요를 돕지만, 인간적인 정보다 계산적인 태도가 앞서게 할 수 있습니다.",
-    "이름의 파동이 당신에게 시대를 앞서가는 선견지명과 통찰력을 부여합니다. 방향 제시자 역할을 수행하게 하나, 대중과의 공감대를 형성하는 데 어려움을 겪을 수 있습니다.",
-    "당신의 이름은 보이지 않는 위협을 감지하고 대비하는 예리한 경계심을 부여합니다. 안정 수호에 능하나, 주변 사람들을 쉽게 신뢰하지 못하게 만드는 심리적 장벽을 세웁니다.",
-    "성명의 에너지가 당신에게 군더더기를 제거하는 명쾌한 정리 능력을 더해줍니다. 효율성을 극대화하나, 과정의 즐거움과 여유를 앗아가는 차가운 칼날이 되기도 합니다.",
-    "이름의 주파수는 불가능해 보이는 꿈을 현실로 실현하는 집념의 파동을 가졌습니다. 인간 승리를 가능케 하나, 스스로를 혹사시키는 지독한 완벽주의를 부추깁니다.",
-    "당신의 이름은 사람들을 하나로 묶어 거대한 대의를 향해 나아가게 하는 결집력을 제공합니다. 공동체의 리더로 만드나, 개인의 사생활이 침해받는 결과를 초래할 수 있습니다.",
-    "성명의 파동이 당신에게 낡은 관습에 저항하고 새로운 질서를 제안하는 혁명가적 기운을 부여합니다. 변화의 중심에 서게 하나, 기존 사회 시스템과의 충돌은 불가피합니다.",
-    "이름의 에너지가 당신의 언어에 강력한 무게와 신뢰를 실어줍니다. 발언권과 권위를 높여주지만, 실언 하나에 모든 것을 잃을 수 있는 엄격한 도덕성을 요구받게 됩니다.",
-    "성명의 주파수는 당신에게 극한의 평정심과 인내의 에너지를 공급합니다. 어떤 풍파에도 흔들리지 않게 하나, 변화의 타이밍을 놓치고 고립되는 결과를 낳을 수 있습니다."
+    "이름의 근원적인 파동이 당신의 기질에 강력한 자생력을 부여하여,", // 1
+    "성명의 분산된 에너지가 당신의 기운을 다각도로 흩어지게 만들어,", // 2
+    "만물 소생의 주파수가 당신의 잠재력을 찬란하게 꽃피워주어,", // 3
+    "위태로운 파동이 타고난 기운에 예기치 못한 풍파를 유발하여,", // 4
+    "조화로운 기운이 당신의 강한 기질을 부드럽게 중재하여,", // 5
+    "풍요로운 결실의 에너지가 당신의 삶에 강력한 동력이 되어,", // 6
+    "강직하고 단호한 기운이 당신의 중심을 무엇보다 강력하게 잡아주어,", // 7
+    "끈기 있는 주파수가 당신의 실행력에 지치지 않는 지구력을 더해,", // 8
+    "날카롭지만 불안정한 파동이 당신의 기운을 지나치게 예민하게 자극하여,", // 9
+    "공허한 주파수가 당신의 실천력을 일시적으로 억제하는 효과를 내어,", // 10
+    "새 시대를 여는 갱생의 기운이 삶에 새로운 활로를 열어주어,", // 11
+    "유약한 성질의 파동이 당신의 진취적인 기상을 다소 약화시켜,", // 12
+    "지혜롭고 영민한 파동이 당신의 지적 능력을 극한으로 끌어올려,", // 13
+    "흩어지는 기운의 파동이 타고난 집중력을 방해하는 요소로 작용하여,", // 14
+    "덕망과 인덕의 기운이 당신의 대인관계에 커다란 날개를 달아주어,", // 15
+    "대기만성형의 묵직한 에너지가 당신의 성공 기반을 단단히 다져주어,", // 16
+    "강한 신념과 투지의 주파수가 당신의 목표 의식을 더욱 예리하게 벼려,", // 17
+    "만능의 재주와 활력이 당신의 다재다능함을 실무적 성과로 연결하여,", // 18
+    "고독하고 날카로운 주파수가 주변과의 조화를 일시적으로 저해하여,", // 19
+    "정지된 기운의 파동이 당신의 역동적인 흐름을 가로막는 장애가 되어,", // 20
+    "강력한 지도자의 기운이 당신의 권위와 명예를 드높이는 동력이 되어,", // 21
+    "중도에 꺾이는 파동이 당신의 끈질긴 집념을 흔들어 놓는 부작용을 내어,", // 22
+    "태양 같은 열정의 에너지가 당신의 기질을 대중 앞에 화려하게 드러내어,", // 23
+    "점진적인 성장의 기운이 당신의 삶을 안정적인 궤도로 인도하여,", // 24
+    "예리한 지혜와 기교가 당신의 문제 해결 능력을 비약적으로 높여주어,", // 25
+    "영웅적이지만 굴곡진 파동이 삶에 극적인 반전을 수시로 불러와,", // 26
+    "독단적인 기운의 파동이 당신의 강한 자존심을 과도하게 부추겨,", // 27
+    "파란만장한 에너지의 파동이 당신의 평온한 일상을 수시로 뒤흔들어,", // 28
+    "지혜로운 전략가의 주파수가 당신의 사고방식에 날카로움을 더해,", // 29
+    "길과 흉이 교차하는 에너지가 당신의 운명에 예측 불가능성을 더해,", // 30
+    "자수성가의 강력한 의지가 당신의 자생력을 무엇보다 극대화하여,", // 31
+    "요행과 풍파의 파동이 당신의 성실한 노력을 허무하게 흩뜨려 놓아,", // 32
+    "승천하는 용의 기상이 당신의 기질에 압도적인 카리스마를 덧입혀,", // 33
+    "파괴적인 파동의 에너지가 타고난 재능을 한순간에 무너뜨릴 위험을 내포하여,", // 34
+    "평화와 조화의 주파수가 당신의 거친 삶을 평온하게 다독여주어,", // 35
+    "명예로운 파동의 에너지가 당신의 품격과 자부심을 한층 드높여주어,", // 36
+    "사람을 끄는 주파수가 당신 주변에 귀인을 불러 모으는 자석이 되어,", // 37
+    "문학적이고 예술적인 감수성이 당신의 창의적 영감을 크게 증폭시켜,", // 38
+    "쇠퇴의 기운이 가진 파동이 활기찬 에너지를 다소 무겁게 가라앉혀,", // 39
+    "변화무쌍한 에너지가 당신의 삶에 예상치 못한 잦은 변동을 유발하여,", // 40
+    "선견지명의 지혜가 당신의 안목을 미래 지향적으로 넓게 확장시켜,", // 41
+    "고난과 시련의 주파수가 당신의 강인한 기질을 아주 혹독하게 시험하여,", // 42
+    "명성을 떨치는 파동이 당신의 이름을 세상 널리 알리는 계기가 되어,", // 43
+    "중도에 부러지는 파동이 공들여 쌓은 탑을 위태롭게 자극하여,", // 44
+    "대박과 횡재의 에너지가 당신이 일군 결실을 더욱 풍성하게 만들어,", // 45
+    "불운의 씨앗이 당신의 밝은 기운을 일시적으로 가리우는 그늘이 되어,", // 46
+    "개척과 승리의 파동이 당신 앞에 놓인 장애물을 단숨에 격파하여,", // 47
+    "덕을 베푸는 주파수가 당신의 명예를 더욱 고결하고 아름답게 만들어,", // 48
+    "허망한 파동의 에너지가 실질적인 성과를 신기루처럼 흩어지게 만들어,", // 49
+    "고립과 중단의 에너지가 당신의 사회적 활동을 일시적으로 위축시켜,", // 50
+    "완벽한 성공의 기운이 당신의 삶을 최고의 위치로 밀어 올려주어,", // 51
+    "불완전한 파동의 기운이 당신의 확고한 계획에 잦은 수정을 강요하여,", // 52
+    "겉은 화려하나 속은 빈 기운이 실속보다는 겉치레에 치중하게 만들어,", // 53
+    "횡액과 고난의 주파수가 예기치 못한 암초를 삶의 도처에 배치하여,", // 54
+    "만사가 형통하는 길한 에너지가 당신의 앞길을 환하게 밝혀주어,", // 55
+    "미완의 기운이 당신의 성취를 결정적인 순간에 멈추게 하는 작용을 하여,", // 56
+    "강한 고집의 주파수가 당신의 유연함을 방해하는 날카로운 아집이 되어,", // 57
+    "후반의 길운이 당신의 초반 고난을 깨끗이 씻어내는 정화제가 되어,", // 58
+    "허영의 파동이 당신의 현실적인 판단력을 흐리게 만드는 요인이 되어,", // 59
+    "어둠 속의 방황 에너지가 당신의 목표를 일시적으로 상실하게 만들어,", // 60
+    "명예와 지위의 기운이 당신을 조직의 핵심적인 인물로 부상시켜,", // 61
+    "고독과 쇠퇴의 주파수가 당신의 활발한 기운을 쓸쓸하게 가라앉혀,", // 62
+    "성공과 번영의 파동이 당신의 노력을 반짝이는 결실로 바꿔놓아,", // 63
+    "파괴와 침체의 에너지가 타고난 생명력을 갉아먹는 독소가 되어,", // 64
+    "평온한 성공의 기운이 당신의 삶을 풍요로운 안식처로 인도하여,", // 65
+    "불안정한 영웅적 에너지가 당신을 잦은 시비와 구설에 휘말리게 하여,", // 66
+    "천부적인 재능의 주파수가 당신의 가치를 세상에 확실히 증명해주어,", // 67
+    "시비와 갈등의 파동이 당신의 소중한 인맥 관계에 잦은 균열을 내어,", // 68
+    "성공 뒤의 침체 파동이 당신의 안일함을 경고하는 따끔한 신호가 되어,", // 69
+    "고독과 허망의 에너지가 당신의 내면을 이유 없이 공허하게 만들어,", // 70
+    "불굴의 재기 기운이 어떤 절망 속에서도 당신을 다시 일으켜 세워,", // 71
+    "평범함 속의 불운 주파수가 당신의 비범한 재능을 무색하게 묻히게 하여,", // 72
+    "행운과 복록의 파동이 당신의 삶에 끊임없는 기회를 제공해주어,", // 73
+    "무능과 태만의 파동이 타고난 기획력을 실천으로 옮기지 못하게 하여,", // 74
+    "명예로운 성공의 기운이 당신의 노후를 빛나는 영광으로 가득 채워,", // 75
+    "이별과 고난의 에너지가 당신의 소중한 인연들을 멀어지게 하는 효과를 내어,", // 76
+    "강한 투지의 주파수가 당신을 해당 분야의 독보적인 대가로 성장시켜,", // 77
+    "길과 흉이 반반인 파동이 당신의 삶을 끊임없는 도전의 장으로 만들어,", // 78
+    "정신적 공허의 파동이 현실의 풍요로움을 한순간에 무색하게 만들어,", // 79
+    "급격한 변화의 기운이 당신의 운명을 극단적으로 요동치게 만들어,", // 80
+    "만물의 완성 에너지가 당신의 모든 과업을 찬란한 결말로 인도하여," // 81
 ];
 
 const transitionKo = "이처럼 당신의 성명은 선천적 기질에 강력한 시너지를 주지만, 동시에 예상치 못한 에너지의 편중이나 부작용을 유발하기도 합니다. 이러한 편중된 효과를 지혜롭게 다스리고 운명의 밸런스를 완성하기 위해, 아래 제시된 당신만의 약점 보완 처방을 적극적으로 실천하시기 바랍니다.";
 
-/**
- * 🇺🇸 [Destiny Lab Precision Engine DB - English Full Version]
- */
-
 const birthCoreEn = {
     "목(木)": [
-        "You were born with a spirit of independence and self-reliance as your core, like a tree breaking through a stagnant environment. You perform best in a self-directed environment where you can take the lead, but excessive dogmatism may cause friction.",
-        "Your fundamental energy symbolizes unceasing expansion and practical leadership. You enjoy achieving results in the field rather than theory, and flexible growth is possible only when you let go of perfectionism.",
-        "Based on seasonal time-series data, you were born with strong mediating energy to connect situations and establish order. You are excellent at setting clear standards, but feel stressed in disordered or emotionally charged situations.",
-        "You symbolize strong survival power that finds answers even under extreme pressure. You have a problem-solver temperament using trials as stepping stones, but sometimes trap yourself in isolated thinking that rejects help.",
-        "Your core means logical design ability that grasps essence and adheres to principles. Rational judgment is fast, but you feel constitutional resistance when forced into illogical emotional situations.",
-        "You are a natural navigator who discovers potential in others and guides them. You instantly grasp strengths, but your energy drains quickly when dealing with people who have no will to change.",
-        "You possess business wisdom that systematizes information into practical assets. You are good at selecting valuable info, but feel no interest in theoretical studies without utility.",
-        "You possess energy to realize noble ideals and give strong social influence. You value honor and pursue righteous beauty, but cannot hide anger in the face of vulgar selfishness.",
-        "Your energy signifies macroscopic leadership that grasps and controls the flow of an entire organization. You are skilled at planning large projects, but lose your light when buried in petty tasks.",
-        "You were born with sharp intuition to seize fleeting opportunities for victory. You have a competitor's temperament enjoying risks, but tend to lose patience with slow-moving tasks.",
-        "Your temperament signifies precise analytical power to remove clutter based on an unwavering center. You prefer flawless systems and can never coexist with mediocre compromise.",
-        "You are an owner of patience who supports huge systems from behind the scenes. You pursue steady growth, but feel intense anxiety in flashy environments with weak foundations.",
-        "You have strong self-reliance to endure extreme adversity and sprout success. You are the type to harden in trials, but tend to apply overly strict standards to others.",
+        "You were born with a core spirit of independence and self-reliance, like a tree breaking through a stagnant environment. You perform best in self-directed roles, but be wary of excessive dogmatism causing friction.",
+        "Your fundamental energy symbolizes unceasing expansion and practical leadership. You thrive in the field rather than in theory, and flexible growth is possible only when you let go of perfectionism.",
+        "Based on seasonal time-series data, you possess a strong mediating energy to establish order. You excel at setting clear standards, but feel immense stress in disordered or overly emotional situations.",
+        "You symbolize resilience that finds answers under extreme pressure. You are a natural problem-solver, though you sometimes trap yourself in isolated thinking that rejects external help.",
+        "Your core signifies a logical design ability that adheres to principles. Rational judgment is your forte, but you feel constitutional resistance when forced into illogical emotional dynamics.",
+        "You are a natural navigator who discovers potential in others and guides them. You instantly grasp strengths, but your energy drains when dealing with those who lack the will to change.",
+        "You possess business wisdom that converts information into practical assets. You are skilled at selecting valuable info, but find no interest in theoretical studies without utility.",
+        "You possess the energy to realize noble ideals and exert social influence. You value honor and righteous beauty, yet cannot hide your disdain in the face of vulgar selfishness.",
+        "Your energy signifies macroscopic leadership that controls the flow of an entire organization. You are skilled at planning large projects, but lose your light when buried in petty tasks.",
+        "You were born with sharp intuition to seize fleeting opportunities. You have a competitor's temperament that enjoys risk, but tend to lose patience with slow-moving processes.",
+        "Your temperament signifies precise analytical power based on an unwavering center. You prefer flawless systems and cannot coexist with mediocre compromise or lack of ethics.",
+        "You are an owner of patience who supports massive systems from behind the scenes. You pursue steady growth, but feel intense anxiety in flashy environments with weak foundations.",
+        "You have the strength to endure extreme adversity and sprout success. You are the type to harden through trials, but tend to apply overly strict standards to those around you.",
         "You possess cool judgment to foresee the value of results and protect order. Your strong guardian nature makes it hard to endure organizations lacking transparency.",
-        "You are an owner of finishing ability that maximizes value by uniting fragmented info. You are good at finding rules in disorder and hate unclear job processing.",
-        "You were born with craftsmanship and high-end sense that misses not even a fine crack. You pursue error-free precision but cannot adapt to crude, detail-ignoring work.",
-        "Your energy symbolizes justice that protects social balance and practices fair values. You obey promises and rules, but suffer mentally when principles are damaged by power.",
+        "You are an owner of finishing ability that maximizes value by uniting fragmented info. You are good at finding rules in disorder and despise unclear job processing.",
+        "You were born with craftsmanship and a high-end sense that misses not even a fine crack. You pursue error-free precision but struggle with crude, detail-ignoring work styles.",
+        "Your energy symbolizes justice that protects social balance. You obey promises and rules, but suffer mentally when principles are compromised by those in power.",
         "You are a meticulous strategist who prepares for upcoming crises with cool intelligence. You excel at predicting risks but struggle communicating with groundless optimists.",
         "You have a guardian temperament protecting discipline and guarding against corruption. Your conviction is firm, but you feel deep self-reproach when forced to bend it.",
-        "You possess insight that sees through the hidden essence behind human affairs and business. You enjoy exploring root causes and avoid shallow relationships with empty talk.",
-        "You have the power of a delicate helper who moves hearts and gives hope in crisis. You value emotional connection but feel suffocated in cold, mechanical communication.",
-        "You harbor great educator energy that spreads knowledge and embraces. Your leadership in sharing wisdom is outstanding, but you feel skeptical in environments without desire to learn.",
-        "You have prophetic energy to discover potential in the dark and propose new paradigms. You excel at proposing creative alternatives but clash with conservative, stubborn groups.",
+        "You possess insight that sees through the hidden essence behind human affairs. You enjoy exploring root causes and avoid shallow relationships that offer only empty talk.",
+        "You have the power of a delicate helper who moves hearts and gives hope. You value emotional connection but feel suffocated in cold, mechanical communication environments.",
+        "You harbor great educator energy that spreads knowledge and embraces others. Your leadership in sharing wisdom is outstanding, but you feel skeptical when learning is absent.",
+        "You have prophetic energy to discover potential in the dark and propose new paradigms. You excel at creative alternatives but clash with conservative, stubborn groups.",
         "You are a persistent executor who achieves practical results even in extreme trials. You enjoy challenging the impossible but find collaborating with weak-willed people a chore.",
-        "You are a master of ambush who quietly but heavily observes the whole situation for opportunity. You have hidden strength but avoid positions requiring excessive self-promotion.",
-        "You have amazing learning ability to absorb surrounding energy. You adapt well, but always fear losing your own unique color.",
+        "You are a master of ambush who quietly observes the whole situation for opportunity. You have hidden strength but avoid positions requiring excessive self-promotion.",
+        "You have amazing learning ability to absorb surrounding energy. You adapt well to change, but always harbor a subtle fear of losing your own unique identity.",
         "You have a seeker's temperament to reach the peak of a field based on uncompromising purity. You value honor but feel disillusioned in places full of worldly desires.",
-        "You were born with modern sense to read the front of trends with sensuous intuition. You enjoy changing environments but find repetitive routines soul-crushing.",
+        "You were born with modern sense to read trends with sensuous intuition. You enjoy changing environments but find repetitive routines to be soul-crushing.",
         "You are an owner of deep mercy who feels others' pain as your own. You show sacrificial leadership but are deeply hurt by rude people exploiting your kindness.",
-        "You harbor entrepreneurial temperament to create something from nothing. You have pioneering spirit but feel boredom in well-established, stable organizations."
+        "You harbor an entrepreneurial temperament to create something from nothing. You have pioneering spirit but feel boredom in well-established, stable organizations."
     ],
     "화(火)": [
-        "You were born with the passion of the sun that awakens all things and an energy that expands. Your presence is clear, and your power to fascinate is strong, but you tend to burn yourself out when emotions are unchecked.",
-        "Your soul has the property of a flame that constantly changes and communicates. Your visual sense and intuition are excellent, leading trends, but you lose interest quickly if results are slow.",
-        "According to birth data, you were born with a brilliant intelligence that spreads wisdom like a lamp in the dark. You are good at logical debate and value etiquette, but feel extreme hatred for rude or ignorant people.",
-        "You possess a powerful explosive force that instantly reverses an overheated atmosphere. Your courage to step forward in a crisis is commendable, but sometimes your haste ruins the work.",
-        "Your temperament signifies a brilliant expressive power that makes civilization and art bloom. You have an outstanding aesthetic eye, but your lack of realistic economic sense may hide poverty behind a flashy exterior.",
-        "You are a master of sociability who adds warmth between people. You bring vitality to the center of a group, but often lose your true self by caring too much about others' opinions.",
+        "You were born with the passion of the sun that awakens all things and an energy that expands. Your presence is clear and fascinating, but you tend to burn out when emotions are unchecked.",
+        "Your soul has the property of a flame that constantly changes and communicates. Your visual sense and intuition are excellent, but you lose interest quickly if results are slow.",
+        "You were born with a brilliant intelligence that spreads wisdom like a lamp in the dark. You are good at logical debate, but feel extreme hatred for rude or ignorant people.",
+        "You possess a powerful explosive force that instantly reverses an overheated atmosphere. Your courage in a crisis is commendable, but your haste sometimes ruins the work.",
+        "Your temperament signifies a brilliant expressive power that makes art bloom. You have an outstanding aesthetic eye, but your lack of economic sense may hide poverty behind a flashy exterior.",
+        "You are a master of sociability who adds warmth between people. You bring vitality to a group, but often lose your true self by caring too much about others' opinions.",
         "You are like a candle with both intellectual curiosity and religious reverence. You are good at inner reflection but psychologically vulnerable to aggressive external stimuli.",
-        "Your core symbolizes the revolutionary heat that transforms the world. Your fighting spirit against injustice is strong, but your lack of flexibility can turn allies into enemies.",
-        "You are a lamp of the era with excellent media sense and information dissemination. You excel at processing news, but tend to stay in broad and shallow knowledge rather than deep contemplation.",
-        "You possess the focus to pursue a single goal with pure and transparent passion. Pure immersion is your strength, but the depth of emptiness and depression when the goal vanishes is very profound.",
-        "Your energy symbolizes stardom that dominates the stage and overwhelms the public. You have no hesitation in revealing yourself, but wander aimlessly when not in the spotlight.",
-        "You are like a heater with gentleness and inclusion that melts cold air. You make those around you comfortable, but often lose out by only yielding when you should claim your rights.",
-        "You are a visual leader with an outstanding ability to visualize imagination into reality. You are skilled at directing space and imagery, but tend to overlook the details of invisible systems.",
-        "Your temperament signifies a free soul that crosses boundaries like a burning flame. You hate restraint and pursue a dynamic life, but instability follows from not taking root.",
+        "Your core symbolizes the revolutionary heat that transforms the world. Your fighting spirit is strong, but your lack of flexibility can turn allies into enemies.",
+        "You are a lamp of the era with excellent media sense. You excel at processing news, but tend to stay in broad and shallow knowledge rather than deep contemplation.",
+        "You possess the focus to pursue a goal with pure passion. Pure immersion is your strength, but the emptiness when the goal vanishes can lead to profound depression.",
+        "Your energy symbolizes stardom that dominates the stage. You have no hesitation in revealing yourself, but wander aimlessly when you are not in the spotlight.",
+        "You are like a heater with gentleness that melts cold air. You make those around you comfortable, but often lose out by only yielding when you should claim your rights.",
+        "You are a visual leader with an outstanding ability to visualize imagination. You are skilled at directing space, but tend to overlook the details of invisible systems.",
+        "Your temperament signifies a free soul that crosses boundaries like a flame. You hate restraint and pursue a dynamic life, but instability follows from not taking root.",
         "You are a storyteller who creates dramatic narratives with rich sensitivity. Your power to draw empathy is great, but you often lose objective judgment due to emotional excess.",
-        "Your core symbolizes a noble sacrificial spirit that sublimates any adversity into light. You devote yourself to the community, but collapse quietly when your sacrifice is taken for granted.",
-        "You have an intellectual temperament that pinpoints social contradictions with sharp criticism. You have a sharpness that doesn't lose in debate, but risk staying in criticism without alternatives.",
-        "You possess strategist energy with cold calculation hidden in hot passion. You are smart enough to know the winning point, but a tendency to see people as tools drives them away.",
-        "You have developed a spiritual sense and intuition to read invisible frequencies. Your foresight is great, but you are likely to be indifferent or incompetent in the complex procedures of the real world.",
-        "Your temperament is a flame of patience that calmly wraps heat and leads to fruit. You show mature leadership, but try to stick to old ways even when change is needed.",
-        "You possess a fierce tenacity that keeps you burning on a chosen path to the end. You are likely to be the hero of human triumph, but you overwork those around you to match your speed.",
-        "You possess healer energy that melts frozen hearts with warm heat. You are good at counseling and comfort, but often neglect your own wounds, letting mental illness grow.",
-        "Your core signifies a noble artistic character that enjoys solitude amidst splendor. You have a unique worldview, but struggle to find a point of communication with the public.",
-        "You are a sensuous practitioner who captures fleeting inspiration and connects it to business. You have a bright eye for money flow, but are vulnerable to the temptation of putting profit before moral values.",
-        "You are an action leader who rectifies organizational discipline and spreads a passionate culture. Your drive is overwhelming, but you draw resentment for crude work in tasks requiring delicate coordination.",
-        "Your energy is like the flame of a creator that creates something from nothing. Your planning is excellent, but you tend to stop at the idea stage and pass the execution to others.",
-        "You are a flame of loyalty who forms deep bonds with a selected few and protects them. You are infinitely warm to your side, but burn them mercilessly once judged as an enemy.",
-        "Your temperament is a self-sustaining stardom that shines in any environment. You rise again even from the bottom, but your pride is too strong to accept help from others.",
-        "You possess a seeker's energy that contemplates the world and spreads truth. Your wisdom is deep, but you can make those around you suffer due to your indifference to realistic economic lack.",
-        "You possess strong vitality like an ember of hope born in the darkest moment. You shine more as trials grow, but wander in boredom during peaceful daily life."
+        "Your core symbolizes a noble sacrificial spirit that sublimates adversity into light. You devote yourself to the community, but collapse quietly when your sacrifice is taken for granted.",
+        "You have an intellectual temperament that pinpoints social contradictions with sharp criticism. You have a sharpness in debate, but risk staying in criticism without alternatives.",
+        "You possess strategist energy with cold calculation hidden in hot passion. You know the winning point, but a tendency to see people as tools may drive them away.",
+        "You have developed a spiritual intuition to read invisible frequencies. Your foresight is great, but you are likely to be incompetent in the complex procedures of the real world.",
+        "Your temperament is a flame of patience that leads to fruit. You show mature leadership, but try to stick to old ways even when change is urgently needed.",
+        "You possess a fierce tenacity that keeps you burning on a chosen path. You are likely to be the hero of human triumph, but you overwork those around you to match your speed.",
+        "You possess healer energy that melts frozen hearts. You are good at comfort, but often neglect your own wounds, letting mental fatigue grow in silence.",
+        "Your core signifies a noble artistic character that enjoys solitude. You have a unique worldview, but struggle to find a point of communication with the general public.",
+        "You are a sensuous practitioner who captures fleeting inspiration for business. You have a bright eye for money flow, but are vulnerable to the temptation of profit over values.",
+        "You are an action leader who rectifies discipline and spreads a passionate culture. Your drive is overwhelming, but you draw resentment for crude work in delicate tasks.",
+        "Your energy is like the flame of a creator that creates something from nothing. Your planning is excellent, but you tend to stop at the idea stage and pass execution to others.",
+        "You are a flame of loyalty who forms deep bonds and protects them. You are infinitely warm to your side, but burn them mercilessly once judged as an enemy.",
+        "Your temperament is a self-sustaining stardom that shines anywhere. You rise again even from the bottom, but your pride is too strong to accept help from others.",
+        "You possess a seeker's energy that contemplates the world and spreads truth. Your wisdom is deep, but you can make others suffer due to your indifference to economic reality.",
+        "You possess strong vitality like an ember of hope born in the dark. You shine more as trials grow, but wander in boredom during peaceful, repetitive daily life."
     ],
     "토(土)": [
-        "You possess the core energy of a heavy earth that embraces all life and maintains balance. You value credit as life and act as a solid pillar of the organization, but conservatism that hates change holds you back.",
-        "Your soul has the property of fertile soil that nurtures all things and grows people. Inclusion and patience are strengths, but you suffer by carrying others' burdens because you cannot refuse.",
-        "According to birth data, you are a designer who lays the foundation for huge projects with unshakable conviction. Your planning is thorough, but you freeze when sudden situations arise.",
-        "You have a very strong mediator temperament that absorbs conflict and settles peace. You lead harmony, but sometimes miss your rights by remaining silent when you should speak up.",
-        "Your core is a master of practical management who removes inefficiency and operates systems stably. You are good at internal substance but conservative in introducing new technologies or trends.",
-        "You are born with a persistent expert temperament that digs one well to completion. Your responsibility is overwhelming, but your vision narrows, making you miss the overall flow.",
-        "You are a resourceful person with an eye for reading the hidden value of assets and laying the foundation for wealth. Your economic sense is good, but you miss big opportunities by choosing stability over adventure.",
-        "Your temperament is a heavy mentor who establishes their own philosophy and becomes a compass for the public. You pursue a respected life, but sometimes show dogmatism by insisting your thought is the only answer.",
-        "You are an insightful guardian who preserves traditional values and protects the era's heritage. You are good at protecting essence, but are often criticized as outdated for clinging to old ways.",
-        "Your energy is a meticulous brain that manages resources without error, unaffected by emotion. You are strong in numbers and statistics, but have a coldness that ignores human emotional variables.",
-        "You are a warm social innovator who embraces the marginalized and raises the world's temperature. You are philanthropic, but tend to neglect your family or close people.",
+        "You possess the core energy of a heavy earth that embraces all life and maintains balance. You value credit as life, but conservatism that hates change often holds you back.",
+        "Your soul has the property of fertile soil that nurtures all things. Inclusion and patience are strengths, but you suffer by carrying others' burdens because you cannot refuse.",
+        "Based on birth data, you are a designer who lays the foundation for huge projects with conviction. Your planning is thorough, but you freeze when sudden situations arise.",
+        "You have a strong mediator temperament that settles peace. You lead harmony, but sometimes miss your rights by remaining silent when you should speak up.",
+        "Your core is a master of practical management who removes inefficiency. You are good at internal substance but conservative in introducing new technologies or trends.",
+        "You are born with a persistent expert temperament that digs one well to completion. Your responsibility is overwhelming, but your vision narrows, missing the overall flow.",
+        "You are a resourceful person with an eye for reading the hidden value of assets. Your economic sense is good, but you miss big opportunities by choosing stability over adventure.",
+        "Your temperament is a heavy mentor who becomes a compass for the public. You pursue a respected life, but sometimes show dogmatism by insisting your thought is the only answer.",
+        "You are an insightful guardian who preserves traditional values. You are good at protecting essence, but are often criticized as outdated for clinging to old ways.",
+        "Your energy is a meticulous brain that manages resources without error. You are strong in numbers, but have a coldness that ignores human emotional variables.",
+        "You are a warm social innovator who embraces the marginalized. You are philanthropic, but tend to neglect your own family or close people in the process.",
         "Your core is an unshakable will and a guardian of safety. You feel a mission in maintaining order, but show a nearly obsessive attitude toward regulation violations.",
-        "You possess logistical wisdom that optimizes the flow of goods and dominates supply chains. You are good at maximizing efficiency, but cause conflict by failing to calculate the emotional fatigue of colleagues.",
-        "You are a warehouse keeper of knowledge who systematizes vast amounts of data and preserves it permanently. Your archiving is outstanding, but execution is often delayed because you are buried in data collection.",
-        "You are a craftsman-like housekeeper who creates value with delicate hands and gifts beauty. Technical perfection is high, but you tend to prioritize your own satisfaction over public marketability.",
-        "Your temperament is a master of peace negotiation who leads sharp interests to a path of coexistence. You value fair distribution, but often end up sacrificing only yourself while trying to satisfy everyone.",
-        "You possess an outstanding aesthetic and value judgment, like finding jewels in the earth. Your appraisal eye is good, but you miss good relationships or opportunities because you are too suspicious.",
-        "Your energy is a guardian of the rule of law that rectifies the foundations of nations and organizations. You are good at establishing discipline, but often hear complaints of being inflexible due to exception-free application.",
-        "You are a scholarly seeker who explores fundamental principles and builds the foundation of knowledge. Your intellectual depth is great, but you risk financial hardship due to indifference to realistic economic activities.",
-        "Your core is a spiritual haven that soothes people's anxiety and provides peace. You are good at healing and counseling, but catch others' negative emotions easily and suffer burnout.",
-        "You are a pillar of a huge educational community that teaches and grows many people. You are good at infrastructure building, but must guard against becoming a 'Kkondae' who forces their philosophy.",
-        "Your temperament is an outstanding strategist who plans and succeeds in huge projects behind the scenes. You are good at back-end design, but often have your merits stolen because you cannot step forward.",
-        "You are a guardian who protects the organization's roots based on unwavering trust even in trials. Your loyalty is deep, but the hit you take from being betrayed by someone you trusted is dozens of times greater than others.",
-        "Your energy is a practical economist who tills the land to create real wealth. Diligent sincerity is your weapon, but you have a limit of focusing only on the value of labor rather than creative ideas.",
+        "You possess logistical wisdom that optimizes the flow of goods. You are good at maximizing efficiency, but cause conflict by failing to calculate the emotional fatigue of others.",
+        "You are a warehouse keeper of knowledge who systematizes vast data. Your archiving is outstanding, but execution is often delayed because you are buried in data collection.",
+        "You are a craftsman-like housekeeper who creates value with delicate hands. Technical perfection is high, but you tend to prioritize your own satisfaction over marketability.",
+        "Your temperament is a master of peace negotiation who leads to coexistence. You value fair distribution, but often end up sacrificing only yourself while trying to satisfy everyone.",
+        "You possess an outstanding aesthetic, like finding jewels in the earth. Your appraisal eye is good, but you miss good opportunities because you are too suspicious.",
+        "Your energy is a guardian of the rule of law that rectifies the foundations of organizations. You are good at discipline, but often hear complaints of being inflexible.",
+        "You are a scholarly seeker who builds the foundation of knowledge. Your intellectual depth is great, but you risk financial hardship due to indifference to economic activities.",
+        "Your core is a spiritual haven that soothes anxiety. You are good at healing and counseling, but catch others' negative emotions easily and suffer burnout.",
+        "You are a pillar of an educational community that grows many people. You are good at infrastructure building, but must guard against becoming a stubborn traditionalist.",
+        "Your temperament is an outstanding strategist who plans huge projects behind the scenes. You are good at back-end design, but often have your merits stolen by others.",
+        "You are a guardian who protects the organization's roots based on trust. Your loyalty is deep, but the hit you take from betrayal is dozens of times greater than others.",
+        "Your energy is a practical economist who tills the land to create wealth. Diligent sincerity is your weapon, but you have a limit of focusing only on labor over ideas.",
         "You are the epitome of 'soft outside, hard inside.' You show your true value in a crisis, but tend to be undervalued because you lower yourself too much in normal times.",
-        "Your core is a calm problem solver who maintains composure even in chaos and organizes situations. Your cleanup ability is good, but you have a laziness of not moving until a problem occurs.",
-        "You are a leader who extracts the most modern values within a conservative framework. Your harmony ability is good, but decision-making is delayed because you care too much about both sides.",
-        "Your temperament is a cautious competitor who silently keeps their place and waits for the right time. You know the aesthetics of waiting, but sometimes wait too long and miss the bus.",
-        "You possess a humble but strong vitality that creates great value from small things. You are good at managing substance, but tend to settle for the immediate reality rather than a great spirit.",
-        "Your energy is the noble character of the earth that absorbs all pain and turns it into fertilizer. You show sacrificial leadership, but carry a great risk of losing health by not taking care of yourself."
+        "Your core is a calm problem solver who organizes situations in chaos. Your cleanup ability is good, but you have a laziness of not moving until a problem occurs.",
+        "You are a leader who extracts modern values within a conservative framework. Your harmony ability is good, but decision-making is delayed because you care too much.",
+        "Your temperament is a cautious competitor who waits for the right time. You know the aesthetics of waiting, but sometimes wait too long and miss the opportunity.",
+        "You possess a humble but strong vitality that creates great value from small things. You are good at managing substance, but tend to settle for immediate reality.",
+        "Your energy is the noble character of the earth that turns pain into fertilizer. You show sacrificial leadership, but carry a risk of losing health by not taking care of yourself."
     ],
     "금(金)": [
-        "You were born with a sharp core of determination and resolution hardened in trials. You are a problem solver who settles chaos and restores order, but your coldness can hurt those around you.",
-        "Your soul symbolizes a perfectionist sense of justice that organizes new energy and filters out the corrupt. Integrity is your weapon, but you have a weakness of making many enemies due to your critical view.",
-        "According to birth data, you possess the weapon of a practitioner who proves value through action rather than words. Practical ability is overwhelming, but you cause conflict by only pushing principles in places where emotional communication is needed.",
-        "You possess logical analytical power to find core rules in disorder. You are good at system maintenance, but easily become a non-communicating leader because you despise those making groundless emotional claims.",
-        "Your core is an unshakable guardian of justice who strictly keeps social promises. You feel a mission in protecting honor, but tire those around you with black-and-white logic that ignores gray areas.",
-        "You were born with the energy of a skilled craftsman and a delicate hand that misses no error. You are good at completing luxury, but collapse in self-destruction in low-quality environments that don't know the value of skill.",
-        "Your temperament is a charismatic commander who efficiently leads an organization to victory. You are good at establishing discipline, but have a sharp-tongued tendency to publicly embarrass indecisive subordinates.",
-        "You are the incarnation of detail who finds even minute flaws to complete perfection. Microscopic precision is your weapon, but you risk missing the big picture by risking your life on small things.",
-        "Your energy is a noble inspector who corrects organizational contradictions and protects integrity. You refuse corrupt practices, but are likely to be pushed out of power or promotion for not compromising with the top.",
-        "You are a cold strategist who analyzes vast amounts of numerical data to predict risk. Your tactics to seize victory are good, but you lose people's hearts by failing to read the human heart behind the numbers.",
-        "Your core symbolizes a strong security defense that protects the essence of a system despite any storm. You are good at technical protection, but can be closed to the influx of new tech trends.",
-        "You possess an indomitable will and strong mental power, pushing yourself and challenging limits. You have a fighter's temperament, but can become a tyrant who forces your painful standards on others.",
-        "You are a decisive problem solver who saves lives in crisis and settles chaos. You shine in tension, but wander aimlessly in peaceful and boring daily life, unable to find the meaning of life.",
-        "Your temperament is a fair evaluator who correctly distinguishes jewels from stones and invests in potential. You are good at unearthing future jewels, but show a cold side turning away from values that don't yield immediate profit.",
-        "Your energy is a wise innovator who simplifies complex phenomena and presents clear solutions. You are good at process improvement, but frequently clash with organizations for not following bureaucratic procedures.",
-        "You possess a strong independence to carry out your conviction without being swayed by anyone. Pioneering spirit is thorough, but your rigidity risks building an isolated empire of dogmatism.",
-        "Your core is the energy of a noble public official who strictly executes law and justice to protect social dignity. You are good at establishing order, but risk missing humanism by being buried in the wording of the law.",
-        "You are a talent who pursues logical perfection to solve the world's difficult problems mathematically. You are good at algorithm design, but show a near-seizure reaction when seeing contradictory situations.",
-        "Your temperament is a profiler who distinguishes truth from lies and finds clues to cases in a labyrinth. You are good at truth clarification, but easily become emotionally dry because you look too much into others' dark inner selves.",
-        "Your energy is a security talent who strictly protects core secrets and secretly completes missions. Secret maintenance is outstanding, but a loneliness follows from the difficulty of sincere communication even with family due to too many secrets.",
-        "You are a sharp editorialist who pinpoints social contradictions with cold sensitivity and checks power. Your writing is sharp, but you must constantly guard against your pen being used only for destructive criticism.",
-        "Your core is the capacity of a general designer who establishes organizational discipline and designs national visions. You are good at national design, but sometimes choose seclusion when your pride is hurt by partisan politics.",
-        "You are a legendary master who realizes unique achievements and absolute value recorded in history. You are good at creating immortal value, but can make those around you suffer by ignoring realistic worldly desires.",
-        "Your temperament is a sword and guardian that rushes first to save an organization in moments of crisis. You risk your life for justice, but also cause loss to public assets through procedural neglect and dogmatic judgment.",
-        "Your energy signifies pure intelligence like a clear spring rising from a cold rock. Insight is deep, but you show fastidious tendencies because you cannot endure the muddy human relationships of reality.",
-        "You are a precision-strike talent who flies like a missile toward a set goal and hits it. Execution is top-tier, but you cause major accidents by being unable to stop when the direction is wrongly set.",
-        "Your core prefers clear communication like solid metals clashing to make sound. You have the clarity to speak from the conclusion, but also lose networks due to a lack of consideration in speech.",
-        "Your temperament is one of integrity and loyalty, like a jewel that never changes once refined. Loyalty is strong, but there is a risk of being buried in past obligations and failing to keep pace with the changing times.",
-        "Your energy is a flawless personality that removes unnecessary emotions and operates perfectly like a machine. Error-free perfection is a strength, but you are judged as a machine-like person without human warmth.",
-        "You possess a strong patience that blooms in extreme environments, like a flower in the coldest ground. You shine in trials, but cannot use your energy well in a comfortable life without hardship."
+        "You were born with a sharp core of determination hardened in trials. You are a problem solver who restores order, but your coldness can hurt those around you.",
+        "Your soul symbolizes a perfectionist sense of justice that filters out the corrupt. Integrity is your weapon, but you make many enemies due to your critical view.",
+        "You possess the weapon of a practitioner who proves value through action. Practical ability is overwhelming, but you cause conflict by only pushing principles.",
+        "You possess logical analytical power to find core rules in disorder. You are good at system maintenance, but easily become a non-communicating leader.",
+        "Your core is an unshakable guardian of justice who strictly keeps social promises. You protect honor, but tire those around you with black-and-white logic.",
+        "You were born with the energy of a skilled craftsman and a delicate hand. You are good at completing luxury, but collapse in low-quality environments.",
+        "Your temperament is a charismatic commander who efficiently leads an organization. You establish discipline, but have a sharp-tongued tendency toward subordinates.",
+        "You are the incarnation of detail who finds even minute flaws. Microscopic precision is your weapon, but you risk missing the big picture by risking life on small things.",
+        "Your energy is a noble inspector who corrects contradictions. You refuse corrupt practices, but are likely to be pushed out for not compromising with the top.",
+        "You are a cold strategist who analyzes numerical data to predict risk. Your tactics are good, but you lose people's hearts by failing to read the human heart.",
+        "Your core symbolizes a strong security defense that protects essence. You are good at technical protection, but can be closed to the influx of new tech trends.",
+        "You possess an indomitable will and strong mental power, challenging limits. You have a fighter's temperament, but can become a tyrant who forces standards on others.",
+        "You are a decisive problem solver who saves lives in crisis. You shine in tension, but wander aimlessly in boring daily life, unable to find the meaning of life.",
+        "Your temperament is a fair evaluator who correctly distinguishes potential. You are good at unearthing future jewels, but show a cold side to values without profit.",
+        "Your energy is a wise innovator who simplifies complex phenomena. You are good at process improvement, but frequently clash with organizations over procedures.",
+        "You possess a strong independence to carry out your conviction. Pioneering spirit is thorough, but your rigidity risks building an isolated empire of dogmatism.",
+        "Your core is the energy of a noble public official who strictly executes justice. You are good at order, but risk missing humanism by being buried in the law.",
+        "You are a talent who pursues logical perfection to solve difficult problems. You are good at algorithm design, but show a strong reaction to contradictory situations.",
+        "Your temperament is a profiler who distinguishes truth from lies in a labyrinth. You are good at truth clarification, but easily become emotionally dry.",
+        "Your energy is a security talent who strictly protects core secrets. Secret maintenance is outstanding, but a loneliness follows from the difficulty of communication.",
+        "You are a sharp editorialist who pinpoints social contradictions. Your writing is sharp, but you must guard against your pen being used only for destructive criticism.",
+        "Your core is the capacity of a general designer who establishes discipline. You are good at design, but sometimes choose seclusion when your pride is hurt by politics.",
+        "You are a legendary master who realizes achievements recorded in history. You are good at creating value, but can make others suffer by ignoring worldly desires.",
+        "Your temperament is a sword and guardian that rushes first to save an organization. You risk your life for justice, but also cause loss through procedural neglect.",
+        "Your energy signifies pure intelligence like a clear spring from a cold rock. Insight is deep, but you show fastidious tendencies in human relationships.",
+        "You are a precision-strike talent who flies like a missile toward a set goal. Execution is top-tier, but you cause accidents by not stopping when the direction is wrong.",
+        "Your core prefers clear communication like solid metals clashing. You have the clarity to speak from the conclusion, but also lose networks due to lack of consideration.",
+        "Your temperament is one of integrity, like a jewel that never changes. Loyalty is strong, but there is a risk of being buried in past obligations over change.",
+        "Your energy is a flawless personality that operates perfectly like a machine. Error-free perfection is a strength, but you are judged as a machine-like person.",
+        "You possess a strong patience that blooms in extreme environments. You shine in trials, but cannot use your energy well in a comfortable life without hardship."
     ],
     "수(水)": [
-        "You possess the core energy of a wise Water that reads the flow of goods and capital to create wealth. You have the eye of a global strategist, but sometimes miss the timing for execution due to overthinking.",
-        "Your soul has the property of a benevolent guide who helps the growth of all things and leads others. You are good at the guide role, but wander aimlessly, unable to decide your own life's direction.",
-        "According to birth data, you are the incarnation of diplomatic mediation who flexibly adjusts interests to maximize profit. You are good at harmony, but often misunderstood as an opportunist who changes sides like a bat for gain.",
-        "You possess the entrepreneurial energy to catch the wave of change and seize opportunities first. Your foresight is outstanding, but you experience fluctuations of intense wandering when your inner center is shaken.",
-        "Your core is a strategic intelligence that precisely calculates risks and designs resource paths. Your design is good, but you suffer losses by ignoring intuition and trying to see the world only through numbers.",
-        "You are a transparent analyst who pierces through the essence of events and delivers raw truth. You are good at truth uncovering, but make many unnecessary enemies in the process of exposing secrets.",
-        "Your temperament is an alchemist of knowledge who collects info and turns it into wealth assets. You are good at platform planning, but often lack the practical muscle to turn head knowledge into capital.",
-        "You are a strategist who maintains composure even in overheated competition and leads massive capital. Your competitor temperament is good, but you risk becoming a lonely rich person by obsessing over money flow rather than people's hearts.",
-        "Your energy is a benevolent leadership that optimizes the flow of an entire organization and its talents. You are good at management, but may be alienated due to a lack of communication to translate vision into the public's language.",
-        "You are a master of logistics who builds huge distribution systems and establishes order. You are good at supply chain design, but become pathologically sensitive and hysterical when seeing a tangled flow.",
-        "Your core is a noble knowledge leader who enlightens the public with the light of wisdom and raises social dignity. Your educator nature is good, but arrogance toward the unlearned public may appear.",
-        "Your temperament signifies the power of purification and healing that washes away conflicts and maintains peace. You are good at emotional purification, but catch illness first by accepting all negative energy.",
-        "You are a wise strategist who creates a cool oasis even under extreme pressure. Your cleanup ability is good, but you often take all responsibility because only people who want to depend on you gather around.",
-        "Your energy is a guardian of records who records valuable wisdom to set up milestones for the future. You are good at preservation, but risk failing to read current changes by being buried in past data.",
-        "You are a luxury aide who builds deep trust with a selected few and multiplies high-end assets. Your selection eye is good, but you easily make enemies due to an elitism that rejects communication with the general public.",
-        "You are a mysterious artist who creates new narratives with inspiration that transcends time and space. You are good at soul-stirring creation, but are as incompetent as a child in realistic economic calculations or procedures.",
-        "Your core is the essence of law that transcends wording to interpret its spirit and protect human rights. You are good at protection, but the fairness of your judgment is doubted because emotion precedes legal logic.",
-        "You are a data strategist who mathematically analyzes human psychology to draw the map of the digital age. Profiling is good, but you easily forget human warmth while buried in cold statistics.",
-        "Your temperament is a master of regeneration who breathes life into vanishing things. You are good at restoration and branding, but struggle to keep up with the speed of a public that only loves the new.",
-        "Your energy is a seeker of knowledge who realizes the principles of the universe and explores fundamental answers. Your philosophical depth is great, but you fall into a pit of poverty while laughing at worldly success.",
-        "Your core is an intellectual mentor who sublimates the futility of life into wisdom and spreads the value of contemplation. Good at inner exploration, but feel anxiety as an outcast in a non-stop modern society.",
-        "You are a giant and ocean of knowledge who systematizes and shares the human intellectual heritage. Encyclopedic knowledge is rich, but you are easily exploited by schemers who want to use your knowledge for private gain.",
-        "Your temperament is an owner of originality who will surprise the world by exploring unknown territories. You have genius inspiration, but a disconnection follows as you build a wall toward a world that doesn't understand you.",
-        "Your energy is a strategist and global distribution leader who finds answers in international politics. Your directing power is good, but you risk major defeat by missing simple principles as situations become complex.",
-        "You are a person of mysteriousness and huge potential, like the deep sea. Prudence is your weapon, but you experience loneliness from being alienated even from close ones due to excessive secrecy.",
-        "You have a spy temperament, penetrating anywhere to extract info and shake the board. Agility is good, but your identity becomes unclear, leading to frequent confusion about who you are.",
-        "Your core is a symbol of patience and hope, like moisture waiting for spring under frozen ground. Your power to wait is great, but indecisiveness often lets opportunities rot by waiting too long.",
-        "You are a trend wizard who creates huge fads by stimulating people's desires. You are good at parsing public psychology, but your own life risks flowing away pointlessly like a fad.",
-        "Your temperament is like a purifying spring that washes all filth and makes it clear. You pursue moral noble-mindedness, but can show hysterical tendencies because you can't stand the dirty sights of the world.",
-        "Your energy is a lonely philosopher who crafts pearls of wisdom in extreme solitude. Spiritual achievement is great, but life is precarious because realistic ties and economic foundations are always weak."
+        "You possess the core energy of a wise Water that reads the flow of capital to create wealth. You have a global strategist's eye, but sometimes miss the timing.",
+        "Your soul has the property of a benevolent guide who helps the growth of all things. You are good at the guide role, but wander aimlessly in your own life.",
+        "You are the incarnation of diplomatic mediation who flexibly adjusts interests. You are good at harmony, but often misunderstood as an opportunist for gain.",
+        "You possess the entrepreneurial energy to catch the wave of change first. Your foresight is outstanding, but you experience fluctuations when your center is shaken.",
+        "Your core is a strategic intelligence that precisely calculates risks. Your design is good, but you suffer losses by trying to see the world only through numbers.",
+        "You are a transparent analyst who delivers raw truth. You are good at truth uncovering, but make many unnecessary enemies in the process of exposing secrets.",
+        "Your temperament is an alchemist of knowledge who turns info into wealth. You are good at planning, but often lack the practical muscle to turn knowledge into capital.",
+        "You are a strategist who maintains composure in competition. Your competitor temperament is good, but you risk becoming a lonely rich person by obsessing over money.",
+        "Your energy is a benevolent leadership that optimizes the flow of talents. You are good at management, but may be alienated due to a lack of communication skills.",
+        "You are a master of logistics who builds huge distribution systems. You are good at supply chain design, but become pathologically sensitive when seeing a tangled flow.",
+        "Your core is a noble knowledge leader who enlightens the public. Your educator nature is good, but arrogance toward the unlearned public may sometimes appear.",
+        "Your temperament signifies the power of healing that washes away conflicts. You are good at emotional purification, but catch illness by accepting all negative energy.",
+        "You are a wise strategist who creates an oasis under extreme pressure. Your cleanup ability is good, but you often take all responsibility for those who depend on you.",
+        "Your energy is a guardian of records who sets up milestones for the future. You are good at preservation, but risk failing to read current changes by being buried in data.",
+        "You are a luxury aide who builds deep trust with a selected few. Your selection eye is good, but you easily make enemies due to an elitism that rejects others.",
+        "You are a mysterious artist who creates narratives with inspiration. You are good at soul-stirring creation, but are as incompetent as a child in realistic procedures.",
+        "Your core is the essence of law that protects human rights beyond wording. You are good at protection, but the fairness of your judgment is sometimes doubted.",
+        "You are a data strategist who mathematically analyzes human psychology. Profiling is good, but you easily forget human warmth while buried in cold statistics.",
+        "Your temperament is a master of regeneration who breathes life into vanishing things. You are good at restoration, but struggle to keep up with the public's speed.",
+        "Your energy is a seeker of knowledge who explores fundamental answers. Your philosophical depth is great, but you fall into poverty while laughing at worldly success.",
+        "Your core is an intellectual mentor who spreads the value of contemplation. Good at inner exploration, but feel anxiety as an outcast in a fast-paced society.",
+        "You are a giant of knowledge who shares the human intellectual heritage. Encyclopedic knowledge is rich, but you are easily exploited by schemers for private gain.",
+        "Your temperament is an owner of originality who will surprise the world. You have genius inspiration, but a disconnection follows as you build a wall toward others.",
+        "Your energy is a strategist and global leader who finds answers in politics. Your directing power is good, but you risk defeat by missing simple principles.",
+        "You are a person of mysteriousness and huge potential, like the deep sea. Prudence is your weapon, but you experience loneliness from excessive secrecy.",
+        "You have a spy temperament, penetrating anywhere to extract info. Agility is good, but your identity becomes unclear, leading to frequent confusion.",
+        "Your core is a symbol of patience, like moisture waiting for spring. Your power to wait is great, but indecisiveness often lets opportunities rot by waiting too long.",
+        "You are a trend wizard who creates huge fads by stimulating desires. You are good at parsing public psychology, but your own life risks flowing away pointlessly.",
+        "Your temperament is like a purifying spring that washes all filth. You pursue moral noble-mindedness, but can show hysterical tendencies toward the dirty world.",
+        "Your energy is a lonely philosopher who crafts pearls of wisdom in solitude. Spiritual achievement is great, but life is precarious because economic foundations are weak."
     ]
 };
 
 const nameSynergyEn = [
-    "Your name acts as an accelerator that adds explosive power to your innate temperament. It helps fast achievement, but be careful as overheating may lead to dogmatic decisions.",
-    "Your name's frequency performs a precision control role, sharpening your innate energy. It clarifies logical causality, but can sometimes cause an overly cynical attitude.",
-    "Your name's wave acts as a buffer, gently wrapping your strong energy. It increases flexibility in relationships, but may cause indecisiveness at crucial moments.",
-    "Your name's wave is like a stimulant, bringing your potential to the surface. It unearths hidden talents, but you may tire easily due to sharper-than-usual senses.",
-    "Your name's energy acts as a focusing lens, uniting your scattered spirit. It maximizes goal focus, but has a blind spot of making you miss precious relationships nearby.",
-    "Your name emits energy like a lubricant, helping you flow flexibly in any environment. It improves social skills, but carries a risk of diluting your essential convictions.",
-    "Your name's frequency acts as a shield, protecting you from unseen threats. It provides stability, but also makes you passive in the face of new challenges.",
-    "Your name has innovative vibrations to break the old and create the new. It leads change, but is a double-edged sword that can shake the stable foundations of life.",
-    "Your name's energy performs as a coolant, chilling your rationality. it aids cool judgment, but risks giving a cold and heartless impression in relationships.",
-    "Your name's wave grants powerful suction and charisma to captivate the public. It leads to a life of attention, but makes you overly dependent on others' opinions.",
-    "Your name provides coordinating power like a thread that weaves scattered info together. It aids complex task handling, but may slow speed due to detail obsession.",
-    "Your name's frequency adds an unshakable weightiness to you. It increases reliability, but has the effect of slowing thought transitions and strengthening stubbornness.",
-    "Your name's energy stimulates your sensitivity, maximizing aesthetic insight. It aids artistic achievement, but has a blind spot of weakening realistic economic sense.",
-    "Your name grants strong fighting spirit to break through any obstacle. It stimulates competitive desire, but may act as pressure leading to reckless choices to win.",
-    "Your name's wave adds meditative energy, giving peace and rest to your inner self. It aids spiritual growth, but risks lowering competitiveness in the real world.",
-    "Your name's frequency acts as a bridge to deeply empathize and communicate. It widens networks, but can cause burnout by taking on others' pain as your own.",
-    "Your name's energy grants power of thorough principles and discipline. It makes you a model for group life, but can be a frame that suppresses creative ideas.",
-    "Your name has academic frequency, making you constantly crave new knowledge. It drives intellectual growth, but may weaken execution as thought precedes action.",
-    "Your name's wave adds wit and quickness to turn crises into opportunities. It aids improvisation, but may lead to focusing on short-term gains over long-term plans.",
-    "Your name's energy grants differentiation, making your existence a unique brand. It creates unrivaled value, but follows with fateful isolation of walking a lonely path.",
-    "Your name radiates benevolent energy to heal and care for others. It draws out sacrifice and devotion, but has a blind spot of neglecting your own health and interests.",
-    "Your name's frequency adds business intuition to control massive capital and goods. It aids economic abundance, but may let calculating attitude precede human warmth.",
-    "Your name's wave grants foresight and insight that leads the era. it performs as a direction-giver, but you may struggle to find common ground with the public.",
-    "Your name grants sharp vigilance to detect and prepare for unseen threats. It aids stability, but sets up psychological barriers making it hard to trust others.",
-    "Your name's energy adds clear organizing ability to remove clutter. It maximizes efficiency, but can be a cold blade that takes away the joy and leisure of process.",
-    "Your name's frequency has vibrations of tenacity to realize impossible dreams. It enables human triumph, but encourages toxic perfectionism that overworks yourself.",
-    "Your name provides cohesive power to unite people toward a great cause. It makes you a community leader, but can result in infringement of personal privacy.",
-    "Your name's wave grants revolutionary energy to resist old customs and propose new order. It places you at the center of change, but clashing with old systems is inevitable.",
-    "Your name's energy adds powerful weight and trust to your language. It raises speaking power and authority, but demands strict morality where one slip can lose all.",
-    "Your name's frequency supplies extreme composure and patient energy. It keeps you unshaken by any storm, but may result in missing the timing for change and being isolated."
+    "The fundamental vibration of your name grants powerful self-reliance to your innate temperament,",
+    "The dispersed energy of your name's wave scatters your innate energy in multiple directions,",
+    "The frequency of resurrection within your name brings your potential into brilliant bloom,",
+    "The precarious vibrations of your name induce frequent fluctuations in your natural energy,",
+    "The harmonious energy inherent in your name gently mediates your strong temperament,",
+    "The energy of abundant harvest granted by your name's frequency becomes your driving force,",
+    "The rigid and resolute energy of your name's wave strongly anchors your inner center,",
+    "The persistent frequency within your name adds tireless endurance to your execution power,",
+    "The sharp but unstable vibrations of your name sensitively stimulate your spirit,",
+    "The empty frequency of your name's energy temporarily inhibits your practical actions,",
+    "The energy of renewal that opens a new era within your name opens a new path in your life,",
+    "The fragile nature of your name's frequency slightly weakens your progressive spirit,",
+    "The wise and clever vibrations of your name's energy maximize your intellectual capacity,",
+    "The dispersing energy within your name acts as an obstacle to your innate concentration,",
+    "The energy of virtue and human connection within your name gives wings to your relationships,",
+    "The heavy energy of late-bloomer success within your name solidifies your foundation,",
+    "The vibrations of strong conviction and fighting spirit sharpen your sense of purpose,",
+    "The versatile talent and vitality within your name connect your versatility to practice,",
+    "The lonely and sharp frequency of your name temporarily hinders harmony with others,",
+    "The stagnant energy within your name becomes an obstacle that blocks your dynamic flow,",
+    "The powerful leadership energy within your name elevates your authority and honor,",
+    "The vibration of stopping halfway shakes your persistent tenacity as a side effect,",
+    "The sun-like passion within your name's energy reveals your temperament brilliantly to the public,",
+    "The energy of gradual growth within your name leads your life onto a stable trajectory,",
+    "The sharp wisdom and technique within your name dramatically enhance your problem-solving skills,",
+    "The heroic but turbulent vibrations of your name frequently bring dramatic reversals to your life,",
+    "The dogmatic spirit within your name's frequency excessively fuels your strong pride,",
+    "The eventful vibrations within your name's energy frequently shake your peaceful daily life,",
+    "The frequency of a wise strategist within your name adds sharpness to your strategic thinking,",
+    "The energy where good and bad luck intersect adds unpredictability to your destiny,",
+    "The powerful will for self-made success within your name maximizes your self-reliance,",
+    "The vibrations of luck and turbulence within your name's energy scatter your sincere efforts,",
+    "The spirit of an ascending dragon within your name adds overwhelming charisma to your nature,",
+    "The destructive vibrations of your name carry the risk of collapsing your innate talent in an instant,",
+    "The energy of peace and harmony within your name calmly soothes your life,",
+    "The honorable vibrations of your name's energy further elevate your dignity and pride,",
+    "The magnetic frequency of your name's wave attracts noble people to your side,",
+    "The literary and artistic sensitivity inherent in your name amplifies your creative inspiration,",
+    "The energy of decline within your name heavily suppresses your vibrant energy,",
+    "The ever-changing energy within your name induces frequent fluctuations in your life,",
+    "The wisdom of foresight within your name expands your perspective toward the future,",
+    "The frequency of hardship and trial within your name severely tests your strong temperament,",
+    "The vibrations of gaining fame within your name spread your reputation far and wide,",
+    "The vibration of breaking halfway within your name precariously stimulates your hard-built tower,",
+    "The energy of big hits and windfalls within your name makes your achievements abundant,",
+    "The seeds of misfortune within your name become a shadow that temporarily hides your bright energy,",
+    "The vibrations of pioneering and victory within your name instantly crush obstacles before you,",
+    "The frequency of practicing virtue within your name makes your honor even more noble,",
+    "The vain vibrations of your name make practical achievements vanish like a mirage,",
+    "The energy of isolation and interruption within your name shrinks your social activities,",
+    "The energy of perfect success within your name pushes your life to the peak position,",
+    "The incomplete vibrations within your name force frequent corrections to your firm plans,",
+    "The energy of 'flashy outside, empty inside' makes you focus on appearances over substance,",
+    "The frequency of accidents and hardships within your name places unexpected reefs in your life,",
+    "The auspicious energy that makes everything go well within your name brightens your future,",
+    "The energy of being unfinished within your name stops your achievements at the decisive moment,",
+    "The frequency of strong stubbornness and subjectivity becomes an ego that hinders flexibility,",
+    "The late-life luck within your name's energy becomes a purifier that washes away early hardships,",
+    "The vibrations of vanity within your name become a factor that blurs realistic judgment,",
+    "The energy of wandering in the dark within your name temporarily causes you to lose your goal,",
+    "The energy of honor and status within your name makes you emerge as a key figure in organizations,",
+    "The frequency of loneliness and decline within your name sadly sinks your active energy,",
+    "The vibrations of success and prosperity within your name turn your efforts into golden fruit,",
+    "The energy of destruction and stagnation within your name becomes a toxin to your vitality,",
+    "The energy of peaceful success within your name leads your life to a haven of abundance,",
+    "The unstable heroic energy within your name leads you into frequent disputes,",
+    "The frequency of innate talent and success within your name proves your value to the world,",
+    "The vibrations of dispute and conflict within your name cause frequent cracks in your network,",
+    "The vibration of stagnation after temporary success warns you against complacency,",
+    "The energy of loneliness and futility within your name makes your inner self feel empty,",
+    "The energy of indomitable recovery within your name raises you again from any despair,",
+    "The frequency of misfortune amidst mediocrity causes your extraordinary talent to be buried,",
+    "The vibrations of luck and fortune within your name provide endless opportunities to your life,",
+    "The vibrations of incompetence and laziness within your name hinder your planning from action,",
+    "The honorable energy of success within your name fills your later years with glowing glory,",
+    "The energy of parting and hardship within your name distances you from precious relationships,",
+    "The frequency of strong fighting spirit and success grows you into an unrivaled master in your field,",
+    "The vibrations where luck is half-and-half make your life a field of endless challenges,",
+    "The vibrations of spiritual emptiness within your name make realistic abundance feel meaningless,",
+    "The energy of sudden change within your name causes your destiny to fluctuate extremely,",
+    "The energy of completion of all things within your name leads all your tasks to a brilliant finale,"
 ];
 
 const transitionEn = "In this way, your name provides a powerful synergy to your innate temperament, but can also induce unexpected energy biases or side effects. To manage these effects and complete the balance of your destiny, please actively practice the weakness compensation prescriptions provided below.";
+
+
 const baseKo = [{key:"개척",core:"시작·독립·결단",risk:"독단·조급"},{key:"조화",core:"협력·중재·관계",risk:"우유부단·의존"},{key:"발전",core:"성장·표현·확장",risk:"산만·과시"},{key:"기반",core:"안정·축적·관리",risk:"정체·완고"},{key:"중심",core:"균형·통합·리더십",risk:"완벽주의·통제"},{key:"책임",core:"의무·봉사·신뢰",risk:"과부담·걱정"},{key:"탐구",core:"분석·통찰·전문성",risk:"고립·냉정"},{key:"성과",core:"현실화·재물·결실",risk:"집착·과욕"},{key:"완성",core:"마무리·지혜·전환",risk:"허무·미련"}];
 const baseEn = [{key:"Pioneer",core:"start",risk:"rigidity"},{key:"Harmony",core:"cooperation",risk:"dependency"},{key:"Growth",core:"expansion",risk:"scattered"},{key:"Foundation",core:"stability",risk:"stagnation"},{key:"Center",core:"balance",risk:"control"},{key:"Duty",core:"responsibility",risk:"overload"},{key:"Research",core:"analysis",risk:"isolation"},{key:"Result",core:"wealth",risk:"greed"},{key:"Completion",core:"closure",risk:"emptiness"}];
 const stageKo = ["발아","정립","강화","확장","정점","전환","정리","재도약","완결"];
