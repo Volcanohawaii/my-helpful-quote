@@ -390,10 +390,6 @@ function switchTab(mode, element) {
     const session = JSON.parse(localStorage.getItem('destinySession')); // ✅ 데이터 불러오기 추가
     if (!body || !session) return;
 
-    // 2. [데이터 불러오기] 분석된 데이터를 기억장치에서 꺼내옵니다.
-    const session = JSON.parse(localStorage.getItem('destinySession'));
-    if (!session) return;
-
     // 3. [탭 버튼 불 켜기] .tab -> .tab-btn (대표님 HTML에 있는 진짜 클래스명)
     const tabs = document.querySelectorAll('.tab-btn');
     tabs.forEach(t => t.classList.remove('active'));
