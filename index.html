@@ -450,17 +450,24 @@ if (mode === 'fortune') {
         };
         const relType = relations[coreS][envS];
         let relationBridge = "";
-        if (relType === "생") relationBridge = "당신의 본질이 주변 환경을 위해 에너지를 쏟아붓고 있어, 때로는 번아웃과 허무함이 찾아오기도 할 것입니다.";
-        else if (relType === "극") relationBridge = "당신은 주어진 환경을 통제하고 정복하려는 의지가 강해, 늘 긴장감 속에 자신을 채찍질하고 계시군요.";
-        else if (relType === "피생") relationBridge = "환경의 지원을 받고 있으나 기대치가 너무 높아, 오히려 자유로운 성장을 방해받는 답답함이 큽니다.";
-        else if (relType === "피극") relationBridge = "주변 환경이 당신을 강하게 억누르고 있어, 본연의 재능보다는 세상의 틀에 맞추느라 고군분투 중이시군요.";
-        else relationBridge = "나와 똑같은 기운이 가득한 환경이라 주관은 뚜렷하지만, 늘 경쟁하거나 고독한 기분이 드실 겁니다.";
+        iif (relType === "생") relationBridge = "이러한 본질적 에너지가 주변 환경을 향해 쉼 없이 흐르고 있어, 때로는 스스로의 기운이 소진되는 허무함을 느끼기도 합니다.";
+else if (relType === "극") relationBridge = "주어진 환경을 적극적으로 통제하고 다스리려는 의지가 강하므로, 늘 긴장감 속에 자신을 단련하는 치열한 삶을 살게 됩니다.";
+else if (relType === "피생") relationBridge = "환경의 전폭적인 지원이 오히려 보이지 않는 기대치로 작용하여, 본연의 자유로운 성장이 억눌리는 답답함을 겪을 수 있습니다.";
+else if (relType === "피극") relationBridge = "주변의 강한 압박으로 인해 본래의 재능을 펼치기보다 세상의 틀에 자신을 맞추어야 하는 고충이 따르기도 합니다.";
+else relationBridge = "나와 닮은 에너지가 가득한 환경이라 주관은 뚜렷해지나, 끊임없는 경쟁 속에서 남모를 고독함과 싸워야 하는 구조입니다.";
 
         // [6] 최종 과업 텍스트 조립
-        let missionText = (currentLang === 'ko')
-            ? `${birthCoreKo[coreEl][coreIdx]}\n\n${relationBridge}\n\n${nameSynergyKo[envEl][nameIdx]}\n\n${transitionKo[coreEl][coreIdx]}`
-            : `${birthCoreEn[coreEl][coreIdx]}\n\n${nameSynergyEn[envEl][nameIdx]}\n\n${transitionEn[coreEl][coreIdx]}`;
-
+       let missionText = "";
+if (currentLang === 'ko') {
+    // 1. 기질(birthCore)의 마지막 '입니다.'를 '있으며,'로 살짝 바꿔서 연결감을 줍니다.
+    const coreStory = birthCoreKo[coreEl][coreIdx].replace(/입니다\./g, "이며,");
+    
+    // 2. 이름 시너지와 활약 분야를 유기적으로 연결
+    // 줄바꿈을 \n\n에서 \n으로 줄여 한 덩어리로 보이게 합니다.
+    missionText = `${coreStory}\n${relationBridge}\n${nameSynergyKo[envEl][nameIdx]}\n${transitionKo[coreEl][coreIdx]}`;
+} else {
+    missionText = `${birthCoreEn[coreEl][coreIdx]} ${nameSynergyEn[envEl][nameIdx]} ${transitionEn[coreEl][coreIdx]}`;
+}
         // [7] UI 출력 (기존 틀 유지)
         body.innerHTML = `
           <div class="tab-content">
