@@ -404,27 +404,72 @@ function renderChart(scores) {
     });
 
   if (mode === 'fortune') {
-    // [1] 데이터 위치 설정 (30개 세트 순환)
-    const coreIdx = (parseInt(session.birth.substring(0, 4)) + parseInt(session.birth.substring(4, 6)) + parseInt(session.birth.substring(6, 8)) + (session.hour || 12)) % 30;
-    const nameIdx = (session.num81 - 1) % 30;
+        const r = suriPrescription.getRemedy(session.num81, [session.lackEls[0]], currentLang);
+        const yVal = parseInt(session.birth.substring(0, 4));
+        const mm = parseInt(session.birth.substring(4, 6));
+        const dd = parseInt(session.birth.substring(6, 8));
+        
+        // 💡 [해결 1] 명리학적 주체 분리 (진짜 나 vs 환경 무기)
+        // session.iljuData.el에서 첫 글자를 따와 DB와 완벽히 매칭시킵니다.
+        const elKeyMap = { "목": "목(木)", "화": "화(火)", "토": "토(土)", "금": "금(金)", "수": "수(水)" };
+        const coreEl = elKeyMap[session.iljuData.el.charAt(0)] || finalSignature; 
 
-    // ✅ [2] introNarrative 정의 (이 부분이 추가되어야 에러가 안 납니다)
-    let introNarrative = "";
-    if (currentLang === 'ko') {
-        const actionKo = ["재배치하여", "융합시켜", "벼려내어", "조율하여", "가속시켜"][(session.num81) % 5];
-        introNarrative = `당신은 ${session.iljuData.el}의 에너지를 품고 태어났습니다. 당신의 성명이 가진 주파수가 선천적 기운을 ${actionKo}, 마침내 ${finalSignature} 중심의 독보적인 운명 시그니처가 완성되었습니다.`;
-    } else {
-        const elEn = {"목(木)":"Wood","화(火)":"Fire","토(土)":"Earth","금(金)":"Metal","수(水)":"Water"}[finalSignature];
-        introNarrative = `You were born with elemental depth. By tuning your innate flow through name vibrations, a unique destiny signature centered on ${elEn} has been completed.`;
-    }
+        // 💡 [해결 2] 인덱스 고도화 (단순 덧셈 제거, 생일 고유 패턴 반영)
+        const coreIdx = ((mm * 31) + dd) % 30;
+        const nameIdx = (session.num81 - 1) % 30;
 
-    // [3] missionText 조립 (4,500가지 조합 공식)
-    let missionText = (currentLang === 'ko')
-        ? `${birthCoreKo[finalSignature][coreIdx]}\n${nameSynergyKo[finalSignature][nameIdx]}\n${transitionKo[finalSignature][coreIdx]}`
-        : `${birthCoreEn[finalSignature][coreIdx]}\n${nameSynergyEn[finalSignature][nameIdx]}\n${transitionEn[finalSignature][coreIdx]}`;
+       // ✅ 수정 후: [본질 vs 환경의 갈등]을 짚어주는 소름 돋는 도입부
+        const coreElFull = session.iljuData.el; // 진짜 나 (예: 목(木))
+        const envElFull = finalSignature;       // 나를 둘러싼 가장 강한 기운 (예: 금(金))
 
-    // [4] UI 출력 (기존 디자인 유지)
-    const r = suriPrescription.getRemedy(session.num81, [session.lackEls[0]], currentLang);
+        let introNarrative = "";
+        if (currentLang === 'ko') {
+            const action = ["완벽하게 재배치하여", "강력하게 융합시켜", "정교하게 벼려내어", "절묘하게 조율하여", "폭발적으로 가속시켜"][(session.num81) % 5];
+            
+            if (coreElFull === envElFull) {
+                // 케이스 1: 일간과 가장 강한 기운이 같을 때 (에너지 과다 집중)
+                introNarrative = `당신은 본래 <b>${coreElFull}</b>의 순수한 기질을 품고 태어났으나, 사주 전반에 걸쳐 또다시 <b>${envElFull}</b>의 기운이 너무나도 압도적으로 집중되어 있습니다. 이 거대한 에너지는 당신을 비범하게 만들지만, 동시에 스스로도 통제하기 힘든 감정의 편중이나 극단적인 피로감을 낳기도 합니다. 다행히 당신의 성명 주파수가 이 넘치고 위태로운 기운을 ${action}, 마침내 운명의 폭주를 막아낸 당신만의 독보적인 시그니처가 완성되었습니다.`;
+            } else {
+                // 케이스 2: 일간과 가장 강한 기운이 다를 때 (본질과 환경의 충돌)
+                introNarrative = `당신은 본래 <b>${coreElFull}</b>의 순수한 기질을 품고 태어났습니다. 하지만 사주 전반을 지배하며 당신을 억누르거나 자극하는 가장 강력한 환경은 <b>${envElFull}</b>의 기운입니다. 내면의 본질(${coreElFull})과 외부의 압도적 환경(${envElFull})이 쉴 새 없이 부딪히며, 그동안 알 수 없는 내적 갈등이나 원인 모를 억눌림을 겪으셨을 것입니다. 바로 이때, 당신의 성명 파동이 이 두 기운 사이의 불균형을 ${action}, 마침내 운명의 약점을 무기로 뒤바꾼 당신만의 시그니처가 완성되었습니다.`;
+            }
+        } else {
+            // 영문 버전도 동일한 갈등 구조 적용
+            const elEnMap = {"목(木)":"Wood","화(火)":"Fire","토(土)":"Earth","금(金)":"Metal","수(水)":"Water"};
+            const coreEn = elEnMap[coreElFull] || "Nature";
+            const envEn = elEnMap[envElFull] || "Balance";
+            
+            if (coreElFull === envElFull) {
+                introNarrative = `You were born with the pure essence of <b>${coreEn}</b>, but your destiny is overwhelmingly dominated by this exact same <b>${envEn}</b> energy. This massive concentration grants you extraordinary power but also causes extreme inner turbulence. Fortunately, your name's vibration tunes this overflowing flow, forging a uniquely powerful destiny signature.`;
+            } else {
+                introNarrative = `You were born with the pure essence of <b>${coreEn}</b>, yet your surrounding destiny is heavily dominated by the opposing energy of <b>${envEn}</b>. This clash between your inner self and your outer environment may have caused unexplained restlessness or suppression in your life. To resolve this, your name's vibration intervenes, tuning the imbalance and forging your ultimate destiny signature.`;
+            }
+        }
+        // 💡 [해결 3] 현생의 과업 조립 (일간과 시그니처의 소름 돋는 크로스 매칭)
+       // ✅ 수정 후: [본질 -> 환경 -> 본질]의 완벽한 논리적 조립
+
+// 1. 명리학적 주체 분리 (진짜 나 vs 환경)
+const elKeyMap = { "목": "목(木)", "화": "화(火)", "토": "토(土)", "금": "금(金)", "수": "수(水)" };
+const coreEl = elKeyMap[session.iljuData.el.charAt(0)] || finalSignature; // 진짜 나 (일간)
+const envEl = finalSignature; // 내가 처한 환경/무기 (가장 강한 기운)
+
+// 2. 고유 인덱스 세팅 (단순 덧셈 방지)
+const mm = parseInt(session.birth.substring(4, 6));
+const dd = parseInt(session.birth.substring(6, 8));
+const coreIdx = ((mm * 31) + dd) % 30; // 생일 패턴을 반영한 고유 인덱스
+const nameIdx = (session.num81 - 1) % 30; // 이름 수리 인덱스
+
+// 3. [현생의 과업] 조립 엔진 (국문/영문 통합)
+let missionText = "";
+if (currentLang === 'ko') {
+    missionText = birthCoreKo[coreEl][coreIdx] + "\n" +    // 1. 기질: '진짜 나(coreEl)' 상자에서 꺼냄
+                  nameSynergyKo[envEl][nameIdx] + "\n" +   // 2. 개입: '환경(envEl)' 상자에서 꺼냄
+                  transitionKo[coreEl][coreIdx];           // 3. 결론: '진짜 나(coreEl)' 상자에서 꺼냄
+} else {
+    missionText = birthCoreEn[coreEl][coreIdx] + "\n" + 
+                  nameSynergyEn[envEl][nameIdx] + "\n" + 
+                  transitionEn[coreEl][coreIdx];
+}
     body.innerHTML = `
       <div class="tab-content">
         <span class="section-title">${t.sec1}</span>
