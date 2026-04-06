@@ -417,8 +417,17 @@ function renderChart(scores) {
         // 💡 3. 인덱스 고도화 (생일 고유 패턴 반영)
         const mm = parseInt(session.birth.substring(4, 6));
         const dd = parseInt(session.birth.substring(6, 8));
-        const coreIdx = ((mm * 31) + dd) % 30;
-        const nameIdx = (session.num81 - 1) % 30;
+        const baseIdx = (session.num81 % 9 === 0) ? 8 : (session.num81 % 9) - 1;
+const coreData = baseKo[baseIdx];
+
+// ✅ 2. 뱃지(Badge) 형태의 HTML 생성
+const badgeHTML = `
+    <div style="display:flex; gap:8px; margin: 20px 0 10px 0; flex-wrap:wrap; justify-content:center;">
+        <span style="background:var(--accent); color:#fff; padding:5px 14px; border-radius:30px; font-size:0.85rem; font-weight:bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">#${coreData.key}</span>
+        <span style="background:#F0F7FF; color:#007AFF; padding:5px 14px; border-radius:30px; font-size:0.85rem; font-weight:600;">✨ ${coreData.core}</span>
+        <span style="background:#FFF0F0; color:#FF3B30; padding:5px 14px; border-radius:30px; font-size:0.85rem; font-weight:600;">⚠️ ${coreData.risk}</span>
+    </div>
+`;
 
         // 💡 4. [도입부] 성명 오행 명시 및 갈등 서사 도입
         let introNarrative = "";
@@ -447,12 +456,16 @@ function renderChart(scores) {
             : `${birthCoreEn[coreEl][coreIdx]}\n${nameSynergyEn[envEl][nameIdx]}\n${transitionEn[coreEl][coreIdx]}`;
 
         // 6. UI 출력 (기존 틀 절대 보존)
-        body.innerHTML = `
+body.innerHTML = `
           <div class="tab-content">
             <span class="section-title">${t.sec1}</span>
             <div class="info-box" style="background:#fff;">
               <div id="radarChart" style="margin:10px auto; width:220px; height:220px;"></div>
+              
+              ${badgeHTML} 
+
               <p style="line-height:1.7; color:#555; font-size:0.92rem; text-align:justify; margin-top:20px; word-break:keep-all;">${introNarrative}</p>
+              
               <div style="padding:20px; background:#F9F8F6; border-radius:12px; border:1px solid #F0EAE3; margin-top:25px;">
                 <b style="color:var(--accent); font-size:0.95rem;">📜 ${currentLang === 'ko' ? '현생의 과업' : 'Current Life Mission'}</b><br>
                 <span style="font-size:0.9rem; color:#444; line-height:1.7; display:block; margin-top:12px; white-space: pre-wrap;">${missionText}</span>
