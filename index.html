@@ -481,11 +481,7 @@ function switchTab(mode, element) {
         renderChart(session.elementScores);
 
     } 
-    else if (mode === 'past' || mode === 'next') {
-        // 전생과 내세는 아직 건드리지 않으셨으니, 기존 디자인대로 간단히 출력되게 해두었습니다.
-        body.innerHTML = `<div class="tab-content" style="padding:40px; text-align:center; color:#888;">${mode === 'past' ? '전생' : '내세'} 데이터 분석 중...</div>`;
-    }
-
+  
     else if (mode === 'past') {
         const p = getPastLifeData(session.num81, finalSignature, currentLang);
         const era = (currentLang === 'ko' ? eraPastKo : eraPastEn)[session.num81 % (currentLang === 'ko' ? eraPastKo.length : eraPastEn.length)];
