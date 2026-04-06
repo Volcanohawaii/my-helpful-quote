@@ -447,9 +447,7 @@ function switchTab(mode, element) {
                              (relType === "피극") ? "주변의 강한 압박으로 인해 본래의 재능을 펼치기보다 세상의 틀에 자신을 맞추어야 하는 고충이 따르기도 합니다." :
                              "나와 닮은 에너지가 가득한 환경이라 주관은 뚜렷해지나, 끊임없는 경쟁 속에서 남모를 고독함과 싸워야 하는 구조입니다.";
 
-        const coreStory = birthCoreKo[coreEl][coreIdx].replace(/입니다\./g, "이며,");
-        const synergyStory = nameSynergyKo[envEl][nameIdx].replace(/합니다\./g, "함으로써,");
-        const missionText = `${coreStory}\n${relationBridge}\n${synergyStory}\n${transitionKo[coreEl][coreIdx]}`;
+        const missionText = `${birthCoreKo[coreEl][coreIdx]} ${relationBridge}\n${nameSynergyKo[envEl][nameIdx]} ${transitionKo[coreEl][coreIdx]}`;
 
         const action = ["절묘하게 조율하여", "강력하게 융합시켜", "정교하게 벼려내어", "조화롭게 순환시켜", "폭발적으로 가속시켜"][(session.num81) % 5];
         const introNarrative = (coreEl === envEl) 
