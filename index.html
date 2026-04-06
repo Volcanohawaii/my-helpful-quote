@@ -385,22 +385,34 @@ function renderChart(scores) {
     <polygon points="${poly}" fill="rgba(154, 132, 103, 0.4)" stroke="#9A8467" stroke-width="2.5" stroke-linejoin="round"/>
   </svg>`;
   }
-function switchTab(mode) {
-    const body = document.getElementById('modalBody');
-    if (!body) return; // 💡 안전장치 1: modalBody가 없으면 실행 중단
+function switchTab(mode, element) {
+    // 1. [상자 이름 수정] modalBody -> reportDetail (대표님 HTML에 있는 진짜 이름)
+    const body = document.getElementById('reportDetail');
+    if (!body) return;
 
-    // [1] 탭 활성화 로직 (에러 방지 강화)
-    const tabs = document.querySelectorAll('.tab');
+    // 2. [데이터 불러오기] 분석된 데이터를 기억장치에서 꺼내옵니다.
+    const session = JSON.parse(localStorage.getItem('destinySession'));
+    if (!session) return;
+
+    // 3. [탭 버튼 불 켜기] .tab -> .tab-btn (대표님 HTML에 있는 진짜 클래스명)
+    const tabs = document.querySelectorAll('.tab-btn');
     tabs.forEach(t => t.classList.remove('active'));
-
-    // 💡 안전장치 2: 해당 모드의 탭 버튼이 있을 때만 active 클래스 추가
-    const targetTab = document.querySelector(`.tab[onclick*="${mode}"]`);
-    if (targetTab) {
-        targetTab.classList.add('active');
+    
+    // 클릭된 버튼(element)이 있으면 불을 켜고, 없으면 글자로 찾아서 켭니다.
+    if (element) {
+        element.classList.add('active');
+    } else {
+        const targetTab = document.querySelector(`.tab-btn[onclick*="${mode}"]`);
+        if (targetTab) targetTab.classList.add('active');
     }
 
+    // --- 여기서부터는 기존에 우리가 정교하게 만든 '서사 로직'입니다 ---
+    const currentLang = window.currentLang || 'ko';
+    const t = i18n[currentLang];
+    const finalSignature = session.strongEl;
+    const birthMonth = parseInt(session.birth.substring(4, 6));
+
     if (mode === 'fortune') {
-        // 데이터 준비 (기존 로직 유지)
         const r = suriPrescription.getRemedy(session.num81, [session.lackEls[0]], currentLang);
         const elKeyMap = { "목": "목(木)", "화": "화(火)", "토": "토(土)", "금": "금(金)", "수": "수(수)" };
         const coreEl = elKeyMap[session.iljuData.el.charAt(0)] || finalSignature;
@@ -415,16 +427,14 @@ function switchTab(mode) {
         const baseIdx = (session.num81 % 9 === 0) ? 8 : (session.num81 % 9) - 1;
         const coreData = baseKo[baseIdx];
 
-        // 뱃지 생성
         const badgeHTML = `
             <div style="display:flex; gap:8px; margin: 20px 0 10px 0; flex-wrap:wrap; justify-content:center;">
-                <span style="background:#8B7355; color:#fff; padding:5px 14px; border-radius:30px; font-size:0.85rem; font-weight:bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">#${coreData.key}</span>
+                <span style="background:#8B7355; color:#fff; padding:5px 14px; border-radius:30px; font-size:0.85rem; font-weight:bold;">#${coreData.key}</span>
                 <span style="background:#EBF5FF; color:#0056B3; padding:5px 14px; border-radius:30px; font-size:0.85rem; font-weight:600;">✨ ${coreData.core}</span>
                 <span style="background:#FFF0F0; color:#C82333; padding:5px 14px; border-radius:30px; font-size:0.85rem; font-weight:600;">⚠️ ${coreData.risk}</span>
             </div>
         `;
 
-        // 관계성 브릿지
         const coreS = coreEl.charAt(0);
         const envS = envEl.charAt(0);
         const relations = {
@@ -435,44 +445,35 @@ function switchTab(mode) {
             "수": { "목": "생", "화": "극", "토": "피극", "금": "피생", "수": "동" }
         };
         const relType = relations[coreS][envS];
-        let relationBridge = "";
-        if (relType === "생") relationBridge = "이러한 본질적 에너지가 주변 환경을 향해 쉼 없이 흐르고 있어, 때로는 스스로의 기운이 소진되는 허무함을 느끼기도 합니다.";
-        else if (relType === "극") relationBridge = "주어진 환경을 적극적으로 통제하고 다스리려는 의지가 강하므로, 늘 긴장감 속에 자신을 단련하는 치열한 삶을 살게 됩니다.";
-        else if (relType === "피생") relationBridge = "환경의 전폭적인 지원이 오히려 보이지 않는 기대치로 작용하여, 본연의 자유로운 성장이 억눌리는 답답함을 겪을 수 있습니다.";
-        else if (relType === "피극") relationBridge = "주변의 강한 압박으로 인해 본래의 재능을 펼치기보다 세상의 틀에 자신을 맞추어야 하는 고충이 따르기도 합니다.";
-        else relationBridge = "나와 닮은 에너지가 가득한 환경이라 주관은 뚜렷해지나, 끊임없는 경쟁 속에서 남모를 고독함과 싸워야 하는 구조입니다.";
+        let relationBridge = (relType === "생") ? "이러한 본질적 에너지가 주변 환경을 향해 쉼 없이 흐르고 있어, 때로는 스스로의 기운이 소진되는 허무함을 느끼기도 합니다." :
+                             (relType === "극") ? "주어진 환경을 적극적으로 통제하고 다스리려는 의지가 강하므로, 늘 긴장감 속에 자신을 단련하는 치열한 삶을 살게 됩니다." :
+                             (relType === "피생") ? "환경의 전폭적인 지원이 오히려 보이지 않는 기대치로 작용하여, 본연의 자유로운 성장이 억눌리는 답답함을 겪을 수 있습니다." :
+                             (relType === "피극") ? "주변의 강한 압박으로 인해 본래의 재능을 펼치기보다 세상의 틀에 자신을 맞추어야 하는 고충이 따르기도 합니다." :
+                             "나와 닮은 에너지가 가득한 환경이라 주관은 뚜렷해지나, 끊임없는 경쟁 속에서 남모를 고독함과 싸워야 하는 구조입니다.";
 
-        // 서사 조립
-        let missionText = "";
-        if (currentLang === 'ko') {
-            const coreStory = birthCoreKo[coreEl][coreIdx].replace(/입니다\./g, "이며,");
-            const synergyStory = nameSynergyKo[envEl][nameIdx].replace(/합니다\./g, "함으로써,");
-            missionText = `${coreStory}\n${relationBridge}\n${synergyStory}\n${transitionKo[coreEl][coreIdx]}`;
-        } else {
-            missionText = `${birthCoreEn[coreEl][coreIdx]}\n${nameSynergyEn[envEl][nameIdx]}\n${transitionEn[coreEn][coreIdx]}`;
-        }
+        const coreStory = birthCoreKo[coreEl][coreIdx].replace(/입니다\./g, "이며,");
+        const synergyStory = nameSynergyKo[envEl][nameIdx].replace(/합니다\./g, "함으로써,");
+        const missionText = `${coreStory}\n${relationBridge}\n${synergyStory}\n${transitionKo[coreEl][coreIdx]}`;
 
-        // 도입부
         const action = ["절묘하게 조율하여", "강력하게 융합시켜", "정교하게 벼려내어", "조화롭게 순환시켜", "폭발적으로 가속시켜"][(session.num81) % 5];
-        let introNarrative = (coreEl === envEl) 
+        const introNarrative = (coreEl === envEl) 
             ? `당신은 본래 <b>${coreEl}</b>의 기질을 타고났으나, 삶의 무대조차 동일한 <b>${envEl}</b>의 기운이 압도적으로 집중되어 있습니다. 다행히 <b>${nameEl}</b>의 성명이 이 기운을 ${action}, 마침내 안정을 찾은 당신만의 시그니처가 완성되었습니다.`
             : `당신은 본래 <b>${coreEl}</b>의 기질을 품었으나, 삶을 지배하는 강력한 환경은 <b>${envEl}</b>입니다. 이때 <b>${nameEl}</b>의 성명이 이 불균형을 ${action}, 운명의 약점을 무기로 뒤바꾼 당신만의 시그니처가 완성되었습니다.`;
 
-        // 화면 출력
         body.innerHTML = `
           <div class="tab-content">
-            <span class="section-title">${t.sec1}</span>
-            <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+            <span class="section-title">${t.tab1Btn}</span>
+            <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; border-left:none; box-shadow:0 4px 12px rgba(0,0,0,0.05);">
               <div id="radarChart" style="margin:10px auto; width:220px; height:220px;"></div>
               ${badgeHTML} 
               <p style="line-height:1.7; color:#555; font-size:0.92rem; text-align:justify; margin-top:20px; word-break:keep-all;">${introNarrative}</p>
               <div style="padding:20px; background:#F9F8F6; border-radius:12px; border:1px solid #F0EAE3; margin-top:25px;">
-                <b style="color:var(--accent); font-size:0.95rem;">📜 ${currentLang === 'ko' ? '현생의 과업' : 'Current Life Mission'}</b><br>
+                <b style="color:var(--accent); font-size:0.95rem;">📜 현생의 과업</b><br>
                 <span style="font-size:0.9rem; color:#444; line-height:1.7; display:block; margin-top:12px; white-space: pre-wrap;">${missionText}</span>
               </div>
             </div>
             <span class="section-title" style="margin-top:30px;">${t.sec2}</span>
-            <div class="info-box" style="background:#fff;">
+            <div class="info-box" style="background:#fff; border-left:none;">
               <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
                 <div><b style="color:var(--accent);">🎨 행운 컬러</b><br>${r.color}</div>
                 <div><b style="color:var(--accent);">🏃 실천 행동</b><br>${r.action}</div>
@@ -482,8 +483,10 @@ function switchTab(mode) {
             </div>
           </div>`;
         renderChart(session.elementScores);
-    } else if (mode === 'details') {
-        body.innerHTML = `<div class="tab-content" style="padding:20px; text-align:center; color:#888;">상세 분석 리포트 준비 중...</div>`;
+
+    } else if (mode === 'past' || mode === 'next') {
+        // 전생과 내세는 아직 건드리지 않으셨으니, 기존 디자인대로 간단히 출력되게 해두었습니다.
+        body.innerHTML = `<div class="tab-content" style="padding:40px; text-align:center; color:#888;">${mode === 'past' ? '전생' : '내세'} 데이터 분석 중...</div>`;
     }
 }
     else if (mode === 'past') {
