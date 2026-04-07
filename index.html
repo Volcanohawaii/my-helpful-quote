@@ -264,7 +264,8 @@ function processData(name, birth) {
 
     const hourEls = [4, 2, 0, 0, 2, 1, 1, 2, 3, 3, 2, 4]; 
     sc[hourEls[Math.floor(hour / 2)]] += 20; // 시지(활동) 가중치
-
+const baseScores = [...sc];
+  
     // B. 후천운 (성명 파동)
     for (let char of name) {
         const onset = /[a-zA-Z]/.test(char) ? char.toUpperCase() : getHangulOnset(char);
@@ -287,6 +288,7 @@ function processData(name, birth) {
 
     const sessionData = { 
         name, birth, num81, 
+        baseScores: baseScores, 
         elementScores: sc, 
         strongEl, weakEl, 
         iljuData, // 60갑자 데이터 저장
@@ -351,23 +353,27 @@ const termInfo = `${currentLang === 'ko' ? introKo : introEn} ${currentLang === 
         </div>`;
   }
   
-function renderChart(scores) {
+function renderChart(baseScores, finalScores) {
   const container = document.getElementById('radarChart'); 
   if (!container) return;
   const labels = currentLang === 'ko' ? ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"] : ["Wood", "Fire", "Earth", "Metal", "Water"];
   const cx = 110, cy = 110, r = 70;
   
-  let poly = ""; 
+  let polyBase = ""; 
+  let polyFinal = ""; 
+
   labels.forEach((_, i) => { 
     const a = (Math.PI * 2 / 5) * i - (Math.PI / 2); 
     
-   
-    let v = (scores[i] / 175) * r; 
-    
- 
-    v = Math.max(r * 0.2, Math.min(v, r * 1.05)); 
-    
-    poly += `${cx + v * Math.cos(a)},${cy + v * Math.sin(a)} `; 
+    // 💡 Before (순수 사주 점수)
+    let vBase = (baseScores[i] / 175) * r; 
+    vBase = Math.max(r * 0.2, Math.min(vBase, r * 1.05)); 
+    polyBase += `${cx + vBase * Math.cos(a)},${cy + vBase * Math.sin(a)} `; 
+
+    // 💡 After (이름 보완 후 최종 점수)
+    let vFinal = (finalScores[i] / 175) * r; 
+    vFinal = Math.max(r * 0.2, Math.min(vFinal, r * 1.05)); 
+    polyFinal += `${cx + vFinal * Math.cos(a)},${cy + vFinal * Math.sin(a)} `; 
   });
   
   container.innerHTML = `<svg width="220" height="220" style="overflow:visible; display:block; margin:0 auto;">
@@ -375,16 +381,22 @@ function renderChart(scores) {
     <circle cx="${cx}" cy="${cy}" r="${r * 0.7}" fill="none" stroke="#E0E0E0" stroke-width="1"/>
     <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#EEE"/>
     
+    <polygon points="${polyBase}" fill="rgba(200, 200, 200, 0.15)" stroke="#B0B0B0" stroke-width="1.5" stroke-dasharray="4,4" stroke-linejoin="round"/>
+
+    <polygon points="${polyFinal}" fill="rgba(154, 132, 103, 0.4)" stroke="#9A8467" stroke-width="2.5" stroke-linejoin="round"/>
+    
     ${labels.map((l, i) => { 
       const a = (Math.PI * 2 / 5) * i - (Math.PI / 2); 
-      // 텍스트 여백을 25 -> 27로 살짝 넓혀서 팽창한 그래프와 글씨가 닿지 않게 숨통을 틔워줍니다.
       const tx = cx + (r + 27) * Math.cos(a), ty = cy + (r + 27) * Math.sin(a); 
       return `<text x="${tx}" y="${ty}" text-anchor="middle" dominant-baseline="middle" fill="#555" font-size="11" font-weight="700">${l}</text>`; 
     }).join('')}
-    
-    <polygon points="${poly}" fill="rgba(154, 132, 103, 0.4)" stroke="#9A8467" stroke-width="2.5" stroke-linejoin="round"/>
-  </svg>`;
-  }
+  </svg>
+  
+  <div style="text-align:center; margin-top:10px; font-size:0.75rem; color:#888;">
+    <span style="display:inline-block; width:12px; height:2px; border-top:2px dashed #B0B0B0; margin-right:4px; vertical-align:middle;"></span> 선천운(사주)
+    <span style="display:inline-block; width:10px; height:10px; background:rgba(154, 132, 103, 0.4); border:1.5px solid #9A8467; margin-left:12px; margin-right:4px; vertical-align:middle; border-radius:2px;"></span> 후천운(성명 보완)
+  </div>`;
+}
 function switchTab(mode, element) {
     const body = document.getElementById('reportDetail'); // ✅ 진짜 상자 이름인 reportDetail로 수정
     const session = JSON.parse(localStorage.getItem('destinySession')); // ✅ 데이터 불러오기 추가
@@ -881,7 +893,7 @@ function switchTab(mode, element) {
               </div>
             </div>
           </div>`;
-        renderChart(session.elementScores);
+        renderChart(session.baseScores, session.elementScores);
 
     } 
   
