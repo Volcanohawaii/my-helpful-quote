@@ -539,7 +539,12 @@ function switchTab(mode, element) {
         const blockA = `당신은 본래 ${coreTraits[coreEl.charAt(0)][intensity]}을 타고났으며, 후천적인 성명의 파동에는 ${themeNames[themeIdx]}의 테마가 강하게 깃들어 있습니다.`;
       
       // 🧱 [Block B] 결핍 극복 서사 (결핍 오행 25가지 × 이름 파동 25가지 = 625가지 조합)
-        const lackS = session.lackEls[0].charAt(0);
+       const baseScoresForLack = session.baseScores || session.elementScores;
+        const minBaseVal = Math.min(...baseScoresForLack);
+        const minBaseIdx = baseScoresForLack.indexOf(minBaseVal);
+        const trueLackS = ["목", "화", "토", "금", "수"][minBaseIdx]; // 진짜 선천적 결핍 오행
+        
+        const lackS = trueLackS; 
         const nameS = nameEl.charAt(0);
 
         // 💡 다채로운 서사를 위한 Block B 전용 주사위 (0~4)
