@@ -455,7 +455,11 @@ function switchTab(mode, element) {
                              (relType === "피극") ? "주변의 강한 압박으로 인해 본래의 재능을 펼치기보다 세상의 틀에 자신을 맞추어야 하는 고충이 따르기도 합니다." :
                              "나와 닮은 에너지가 가득한 환경이라 주관은 뚜렷해지나, 끊임없는 경쟁 속에서 남모를 고독함과 싸워야 하는 구조입니다.";
 
-        const missionText = `${coreStory}\n${relationBridge}\n${synergyStory}\n${transitionKo[coreEl][transitionIdx]}`;
+        const coreStory = birthCoreKo[coreEl][coreIdx];
+        const synergyStory = nameSynergyKo[envEl][nameIdx];
+        
+        // 💡 [여백의 미] \n\n을 넣어 문단 사이를 띄워주어 숨 막히는 글자 벽을 해결합니다.
+        const missionText = `${coreStory}\n\n${relationBridge}\n\n${synergyStory}\n\n${transitionKo[coreEl][transitionIdx]}`;
 
         // 💡 [경우의 수 10배 확장] 수리 파동에 따라 10가지 변형 인덱스 도출
         const varIdx = session.num81 % 10;
