@@ -467,7 +467,7 @@ function switchTab(mode, element) {
                              (relType === "피극") ? "주변의 강한 압박으로 인해 본래의 재능을 펼치기보다 세상의 틀에 자신을 맞추어야 하는 고충이 따르기도 합니다." :
                              "나와 닮은 에너지가 가득한 환경이라 주관은 뚜렷해지나, 끊임없는 경쟁 속에서 남모를 고독함과 싸워야 하는 구조입니다.";
 
- // 🧱 [Block A] 기질 강약(3) × 오행(5) × 수리 테마(9) = 135가지 조합으로 대폭 확장
+// 🧱 [Block A] 기질 강약 (5점 척도 + 이름 점수 제외 순수 선천운 기준!)
         const themeIdx = session.num81 % 9;
         const themeNames = [
             "만물을 포용하고 끝을 맺는 완성(지혜)", "새로운 길을 여는 개척(리더)", "주변을 돕고 인내하는 조력(안정)", 
@@ -475,29 +475,29 @@ function switchTab(mode, element) {
             "대립을 조율하는 화합(희생)", "예리하게 결단하는 혁신(독립)", "유연하게 스며드는 처세(융통)"
         ];
         
-      
-      // 💡 [새로운 로직] 코어 오행의 실제 점수를 확인하여 5점 척도로 초정밀 판별
+        // 💡 [치명적 버그 수정] 이름 점수가 섞인 elementScores가 아니라, 순수 사주 점수인 baseScores를 읽어옵니다!
         const elNamesForScore = ["목", "화", "토", "금", "수"];
         const coreIdxForScore = elNamesForScore.indexOf(coreEl.charAt(0));
-        const coreScore = session.elementScores[coreIdxForScore];
-        const maxScore = Math.max(...session.elementScores); 
+        const baseScoresForIntensity = session.baseScores || session.elementScores; // 에러 방지
+        const coreScore = baseScoresForIntensity[coreIdxForScore]; // 순수 선천운 점수
+        const maxScore = Math.max(...baseScoresForIntensity); // 순수 선천운 중 1등 점수
         
         let intensity = "보통";
         
-        // 💡 5점 척도 시스템 적용 (명리학의 태과-발달-중화-불급-태약 기준)
+        // 💡 5점 척도 시스템
         if (coreScore >= 120) {
-            intensity = "극강"; // 사방이 해당 오행으로 도배된 상태 (폭발 위험)
+            intensity = "극강"; 
         } else if (coreScore >= 90) {
-            intensity = "강함"; // 주변의 든든한 지원을 받아 주도권을 쥔 상태
+            intensity = "강함"; 
         } else if (coreScore >= 70) {
-            intensity = "보통"; // 적절한 조화를 이룬 중화된 상태
+            intensity = "보통"; 
         } else if (coreScore <= 60 && maxScore >= 100) {
-            intensity = "극약"; // 내 점수는 바닥인데 다른 오행이 너무 세서 완전히 짓눌린 상태
+            intensity = "극약"; 
         } else {
-            intensity = "약함"; // 다른 지원 없이 간신히 생명력만 유지하는 상태
+            intensity = "약함"; 
         }
 
-        // 💡 오행별 + 5점 척도별 초정밀 기질 묘사 (5오행 × 5강도 = 25가지)
+        // 💡 오행별 + 5점 척도별 초정밀 기질 묘사 (25가지)
         const coreTraits = {
             "목": {
                 "극강": "걷잡을 수 없이 빽빽하게 얽혀 주변을 덮어버리는 과잉된 목(木)의 기질",
@@ -537,7 +537,7 @@ function switchTab(mode, element) {
         };
 
         const blockA = `당신은 본래 ${coreTraits[coreEl.charAt(0)][intensity]}을 타고났으며, 후천적인 성명의 파동에는 ${themeNames[themeIdx]}의 테마가 강하게 깃들어 있습니다.`;
-
+      
       // 🧱 [Block B] 결핍 극복 서사 (결핍 오행 25가지 × 이름 파동 25가지 = 625가지 조합)
         const lackS = session.lackEls[0].charAt(0);
         const nameS = nameEl.charAt(0);
