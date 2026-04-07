@@ -533,7 +533,7 @@ function switchTab(mode, element) {
         const graphNarrativeEn = `Looking at the <b style="color:#A0A0A0;">grey dotted line (Innate Luck)</b> on the radar chart, you were born with an imbalanced structure. <br>However, as the <b style="color:var(--accent);">brown solid line (Acquired Luck)</b> shows, ${dynamicNarrativeEn[0]} finally completing your own special energy.`;
 
         const graphPart = currentLang === 'ko' ? graphNarrativeKo : graphNarrativeEn;
-
+const graphNarrative = graphPart;
       
         // 🧱 [Block A] 기질 강약 (5점 척도 + 다국어 지원)
         const themeIdx = session.num81 % 9;
