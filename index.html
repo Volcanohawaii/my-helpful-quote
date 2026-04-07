@@ -463,14 +463,21 @@ function switchTab(mode, element) {
             "대립을 조율하는 화합(희생)", "예리하게 결단하는 혁신(독립)", "유연하게 스며드는 처세(융통)"
         ];
         
-        // 💡 [새로운 로직] 코어 오행의 실제 점수를 확인하여 강/중/약 판별
+      
+      // 💡 [새로운 로직] 코어 오행의 실제 점수를 확인하여 강/중/약 판별
         const elNamesForScore = ["목", "화", "토", "금", "수"];
         const coreIdxForScore = elNamesForScore.indexOf(coreEl.charAt(0));
         const coreScore = session.elementScores[coreIdxForScore];
+        const maxScore = Math.max(...session.elementScores); // 내 사주에서 가장 높은 점수 
         
         let intensity = "보통";
-        if (coreScore >= 70) intensity = "강함"; // 기운이 과도하게 쏠린 상태
-        else if (coreScore <= 40) intensity = "약함"; // 기운이 부족하거나 억눌린 상태
+        
+        // 💡 커트라인을 70에서 90으로 대폭 올리고, 상대적 우위를 확인합니다.
+        if (coreScore >= 90 || (coreScore >= 80 && coreScore === maxScore)) {
+            intensity = "강함"; // 환경이나 이름에서 엄청난 화(火)의 지원을 받았을 때만 '강함'
+        } else if (coreScore <= 60) {
+            intensity = "약함"; // 일간(60점) 외에 월/시/이름에서 전혀 지원을 못 받았을 때 '약함'
+        }
 
         // 💡 오행별 + 강약별 정밀 기질 묘사 (5오행 × 3강도 = 15가지)
         const coreTraits = {
