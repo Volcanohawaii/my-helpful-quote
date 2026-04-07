@@ -713,15 +713,13 @@ const graphNarrative = graphPart;
 
         // 💡 뒤에 [lackS] 가 반드시 붙어야 '어떤 오행'의 결핍인지 찾아옵니다.
         const currentLackDesc = currentLang === 'ko' ? lackDescKo[lackS] : lackDescEn[lackS];
-        
         const currentNameAction = currentLang === 'ko' ? nameActionKo[nameS] : nameActionEn[nameS];
 
         const blockBKo = `자칫 ${currentLackDesc} 운명의 사각지대를, 성명이 가진 ${currentNameAction} 당신의 약점을 보완했습니다.`;
         const blockBEn = `The vibration of your name, by ${currentNameAction}, has transformed the blind spot of your destiny—where you were ${currentLackDesc}—into a weapon.`;
-        const lackPart = currentLang === 'ko' ? blockBKo : blockBEn;
 
-// 💡 두 가지 설명을 자연스럽게 줄바꿈(<br><br>)으로 이어 붙여서 진짜 blockB를 만듭니다!
-const blockB = `${graphPart}<br><br>${lackPart}`;
+        // 💡 [원상복구] 레이더 차트 같은 헛소리 다 빼고 결핍 서사만 담습니다.
+        const blockB = currentLang === 'ko' ? blockBKo : blockBEn;
      
         
         const weaknessMapKo = {
