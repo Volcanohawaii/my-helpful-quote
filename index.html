@@ -745,36 +745,114 @@ function switchTab(mode, element) {
             "수": ["So, lead the flow by flexibly permeating even when hitting massive walls,", "So, exert the wisdom to see the deep truth beyond appearing phenomena,", "So, adapt by naturally changing your form like water in any strange environment,", "So, harbor the persistent and tenacious patience like a drop of water piercing rock,", "So, with the ambition to eventually reach the vast ocean beyond narrow valleys,"]
         };
 
-        const cEndKo = [
-            ["세상의 이치를 깨닫고 다음 세대에게 깊은 영감을 전수하는 것이 현생의 과업입니다.", "아무도 풀지 못한 삶의 난제들에 당신만의 지혜로운 해답을 제시하는 것이 과업입니다.", "지식과 경험을 완성하여 흔들림 없는 정신적 스승의 자리에 오르는 것이 과업입니다.", "눈앞의 성취를 넘어 영혼의 깊이를 더하고 삶의 진정한 의미를 완성하는 것이 과업입니다.", "당신이 깨달은 철학을 세상에 널리 퍼뜨려 사람들의 의식을 깨우는 것이 과업입니다."],
-            ["아무도 걷지 않은 길을 거침없이 개척하여 새로운 룰을 세우는 것이 현생의 과업입니다.", "혼란에 빠진 무리를 이끌고 당신만의 거대한 비전을 현실로 만들어내는 것이 과업입니다.", "주어진 한계를 돌파하고 누구도 넘볼 수 없는 최정상의 자리를 쟁취하는 것이 과업입니다.", "스스로 운명의 주인이 되어 타인들이 우러러보는 압도적인 이정표를 세우는 것이 과업입니다.", "기존의 판을 뒤엎고 당신의 이름이 곧 새로운 기준이 되도록 만드는 것이 과업입니다."],
-            ["흩어진 사람들의 마음을 하나로 모아 든든한 공동체를 구축하는 것이 현생의 과업입니다.", "위기에 처한 이들에게 기댈 곳이 되어주며 평화로운 균형을 찾아주는 것이 과업입니다.", "화려함보다는 실속을 챙기며 어떤 비바람에도 무너지지 않는 성벽을 쌓는 것이 과업입니다.", "사람과 사람을 부드럽게 엮어내어 모두가 상생할 수 있는 터전을 마련하는 것이 과업입니다.", "신뢰와 성실을 무기로 당신이 속한 곳을 가장 안전한 요새로 만들어내는 것이 과업입니다."],
-            ["당신만의 독창적인 철학과 매력을 세상에 남김없이 증명하는 것이 현생의 과업입니다.", "가슴속에 품은 창조적 영감을 현실의 작품으로 빚어내어 대중의 찬사를 받는 것이 과업입니다.", "당신의 목소리와 표현력으로 잠들어 있는 사람들의 감각을 강렬하게 깨우는 것이 과업입니다.", "어디서도 볼 수 없었던 당신만의 독보적인 스타일로 세상의 트렌드를 주도하는 것이 과업입니다.", "자신의 재능을 아낌없이 발산하여 주변을 당신의 무대로 만들어버리는 것이 과업입니다."],
-            ["어떤 위기에도 무너지지 않는 견고한 부와 신뢰의 성벽을 쌓는 것이 현생의 과업입니다.", "작은 기회를 헛되이 낭비하지 않고 눈덩이처럼 굴려 거대한 자산을 형성하는 것이 과업입니다.", "누구에게나 인정받는 빈틈없는 일 처리로 당신만의 대체 불가능한 가치를 입증하는 것이 과업입니다.", "막연한 꿈이 아닌 손에 잡히는 현실적인 성과를 내어 삶의 완벽한 풍요를 누리는 것이 과업입니다.", "뿌리 깊은 나무처럼 세월이 흐를수록 더욱 견고해지는 명예와 부를 성취하는 것이 과업입니다."],
-            ["혼란 속에서 질서를 창조하고 당신만의 확고한 왕국을 건설하는 것이 현생의 과업입니다.", "타인의 지배를 받지 않고 당신이 직접 세상을 쥐락펴락하는 막강한 영향력을 쥐는 것이 과업입니다.", "위기와 시련을 권력을 다지는 발판으로 삼아 끝내 절대적인 지위를 획득하는 것이 과업입니다.", "모두가 불가능하다고 여겼던 거대한 스케일의 일을 완벽한 통제력으로 성사시키는 것이 과업입니다.", "당신의 말 한마디가 곧 법이 되는 강력하고 영광스러운 권위를 쟁취하는 것이 과업입니다."],
-            ["대립하는 가치들을 조율하고 널리 사람을 이롭게 하는 선한 영향력을 펼치는 것이 과업입니다.", "타인의 아픔을 깊이 이해하고 치유하며 세상에 따뜻한 빛을 퍼뜨리는 것이 현생의 과업입니다.", "자신의 이익을 넘어 더 큰 대의를 위해 헌신하며 사람들의 마음속에 영원히 기억되는 것이 과업입니다.", "서로 다른 생각과 에너지를 둥글게 깎아내어 완벽한 조화를 이루어내는 중재자가 되는 것이 과업입니다.", "결핍과 갈등이 있는 곳에 당신의 에너지를 쏟아부어 마침내 평온을 되찾아주는 것이 과업입니다."],
-            ["과거의 낡은 관습을 부수고 시대가 요구하는 파격적인 혁신을 이루어내는 것이 현생의 과업입니다.", "아무도 흉내 낼 수 없는 기발한 발상으로 꽉 막힌 세상에 거대한 균열을 내는 것이 과업입니다.", "타인의 도움에 의존하지 않고 오직 당신만의 힘으로 눈부신 독립적 성취를 이뤄내는 것이 과업입니다.", "모두가 당연하게 여기는 것에 끊임없이 물음표를 던져 진정한 해답을 쟁취하는 것이 과업입니다.", "기존의 틀에 스스로를 맞추지 않고, 당신에게 맞는 새로운 틀을 세상에 강요하는 것이 과업입니다."],
-            ["변화하는 흐름의 최전선에서 위기를 기회로 뒤바꾸는 탁월한 승부사가 되는 것이 과업입니다.", "절망적인 상황에서도 기가 막힌 묘수를 찾아내어 끝내 승리를 거머쥐는 것이 과업입니다.", "어떤 척박한 환경에서도 살아남는 지독한 생존력으로 최후의 승자가 되는 것이 과업입니다.", "사람과 상황을 당신에게 유리한 방향으로 교묘하고 지혜롭게 이끌어가는 것이 과업입니다.", "바람의 방향을 정확히 읽어내어 가장 빠르고 정확하게 당신의 목적지에 도달하는 것이 과업입니다."]
-        ];
 
+      const cEndKo = [
+            // 0-1: 완성(지혜) - 강(强): 시스템의 지배자
+            ["당신은 본능적으로 복잡한 현상의 핵심 줄기를 찾아내어 거대한 시스템의 질서를 설계하는 능력을 타고났습니다. 현장의 소소한 업무보다는 전체의 판을 짜고 구조적 결함을 예방하는 거시적 전략이 체질에 맞습니다. 솔루션 아키텍트, 도시/공간 기획가, 혹은 대규모 공공 정책 설계 분야에 도전하여 누구도 넘볼 수 없는 업계의 기준점이 되어보십시오."],
+            // 0-2: 완성(지혜) - 약(弱): 정밀한 지식 분석가
+            ["겉으로 드러나지 않은 데이터의 이면과 논리적 허점을 찾아내는 데 당신을 따라올 자가 없습니다. 화려한 무대 뒤에서 치밀한 증거와 논리로 조직의 승패를 결정짓는 결정적 단서를 제공하는 전문가의 삶이 적합합니다. 기술 가치 평가사, 전문 리서처, 혹은 고위급 법률 분석가 분야에서 당신만의 날카로운 통찰력을 무기로 성공을 거머쥐십시오."],
+            
+            // 1-1: 개척(리더) - 강(强): 무한 확장의 창업주
+            ["남들이 불가능하다고 고개를 저을 때 가장 먼저 신발 끈을 묶고 전장으로 뛰어드는 야전 사령관의 기질입니다. 기존의 판을 뒤엎고 당신의 이름 자체가 곧 브랜드가 되는 새로운 제국을 건설해야 직성이 풀리는 운명입니다. 벤처 기업 창업, 혁신적 서비스 런칭, 혹은 해외 시장 개척 총괄 분야에서 가장 앞장서 성과를 증명하는 독보적인 선구자가 되십시오."],
+            // 1-2: 개척(리더) - 약(弱): 감각적 트렌드 메이커
+            ["세상의 흐름이 바뀌는 미세한 신호를 남들보다 한발 앞서 포착하여 대중에게 새로운 라이프스타일을 제안하는 천부적인 감각이 있습니다. 덩치 큰 조직의 부품이 되기보다 당신만의 고유한 취향과 철학을 상품화하여 팬덤을 이끄는 삶이 풍요롭습니다. 1인 지식 컨텐츠 디렉터, 트렌드 세터, 혹은 뉴미디어 브랜딩 전문가 분야에서 당신의 감각을 수익으로 증명해 보십시오."],
+
+            // 2-1: 조력(안정) - 강(强): 철옹성의 운영 총괄
+            ["조직의 빈틈을 완벽하게 메우고 리스크를 사전에 차단하여 어떤 풍파에도 흔들리지 않는 요새를 만드는 운영의 귀재입니다. 화려한 주인공보다 실권을 쥐고 살림을 도맡아 조직을 실제로 굴러가게 만드는 핵심 실세로서의 역량이 탁월합니다. 전문 경영 지원(COO), 대형 프로젝트 운영 총괄, 혹은 글로벌 공급망(SCM) 관리 전문가 분야에서 당신의 대체 불가능한 가치를 입증하십시오."],
+            // 2-2: 조력(안정) - 약(弱): 무결점의 퀄리티 가드
+            ["남들이 귀찮아하며 놓치는 아주 작은 디테일까지 집요하게 파고들어 프로젝트의 완성도를 극상으로 끌어올리는 정교함의 상징입니다. 당신의 손을 거치지 않은 결과물은 신뢰할 수 없다는 말이 업계의 공식이 되도록 스스로를 연마하십시오. 전문 에디터, 퀄리티 컨트롤(QC) 전문가, 혹은 최상위 비서관 분야에서 당신의 치밀함이 곧 최고의 권위가 되는 경험을 하게 될 것입니다."],
+
+            // 3-1: 열정(표현) - 강(强): 시대의 아이콘
+            ["당신이 가진 압도적인 에너지와 표현력은 수만 명의 대중을 단숨에 매료시키고 열광적인 팬덤을 형성하는 마력을 지녔습니다. 평범한 사무직보다는 당신의 목소리와 몸짓이 곧 가치가 되는 무대의 중심에서 존재감을 드러낼 때 영혼이 충만해집니다. 대중 예술가, 전문 강연가, 혹은 초대형 이벤트 호스트 분야에 도전하여 세상의 중심에서 당신의 이름을 강렬하게 각인시키십시오."],
+            // 3-2: 열정(표현) - 약(弱): 시각적 스토리텔러
+            ["사람들의 숨겨진 욕망과 감성을 시각적, 언어적 미학으로 자극하여 무의식적으로 지갑을 열게 만드는 섬세한 기획력이 돋보입니다. 투박한 직설법보다 은유와 세련된 감각을 무기로 브랜드의 가치를 예술의 경지로 올리는 작업이 천직입니다. 광고 카피라이터, 비주얼 머천다이저(VMD), 혹은 브랜드 공간 디자이너 분야에서 당신만의 색깔로 세상을 색칠해 보십시오."],
+
+            // 4-1: 신용(기반) - 강(强): 영속적 시스템 자산가
+            ["숫자로 증명되는 실질적인 성과를 중시하며, 한 번 형성한 자본을 눈덩이처럼 굴려 영속적인 부의 시스템을 구축하는 능력이 동물적으로 발달해 있습니다. 막연한 꿈이 아닌 손에 잡히는 자산과 실물 경제의 흐름을 장악하여 가문의 경제적 토대를 완성하는 것이 숙명입니다. 부동산 시행/개발, 금융 홀딩스 운영, 혹은 제조업 기반의 사업가로서 부의 정점에 오르십시오."],
+            // 4-2: 신용(기반) - 약(弱): 정밀한 재무 전략가
+            ["단 1원의 오차도 허용하지 않는 완벽한 업무 처리와 철저한 자기관리로 업계에서 '가장 신뢰할 수 있는 이름'이라는 평판을 얻게 됩니다. 리스크를 분석하고 자산의 효율성을 극대화하는 냉철한 머리가 당신의 가장 강력한 무기입니다. 전문 회계/세무사, 사모펀드 운용역(PE), 혹은 전문 투자 분석가 분야에서 신용 하나로 세상을 움직이는 자산 전문가가 되십시오."],
+
+            // 5-1: 제왕(권력) - 강(强): 절대적 의사결정권자
+            ["누구의 눈치도 보지 않고 당신의 가치관과 철학대로 조직을 재편하며, 수많은 사람의 운명을 결정짓는 인사권과 최종 결정권을 행사할 때 진정한 빛이 납니다. 작은 조직의 우두머리에 만족하지 말고 더 큰 무대로 나가 당신만의 확고한 왕국을 건설해야 합니다. 기업 CEO, 정치권 리더, 혹은 거대 조직의 의사결정권자 분야에 도전하여 압도적인 지배력을 현실 위에 구현하십시오."],
+            // 5-2: 제왕(권력) - 약(弱): 권력의 핵심 참모
+            ["권력의 가장 가까운 곳에서 결정적인 묘수를 제시하고 흐트러진 질서를 바로잡는 지략가이자 해결사의 면모가 매우 강합니다. 당신의 말 한마디가 정책이 되고 법이 되는 구조적 권위를 선호하며, 핵심 전략을 설계하는 지적 우월감이 당신을 움직이는 동력입니다. 정부 고위 관직, 기업 전략 이사(CSO), 혹은 특수 전문 법조인 분야에서 당신만의 명예로운 자리를 확보하십시오."],
+
+            // 6-1: 화합(희생) - 강(强): 인류애적 교육 리더
+            ["개인의 성공을 넘어 타인의 잠재력을 깨우고 결핍을 채워 인류의 삶을 질적으로 개선하는 숭고한 에너지를 지녔습니다. 사람을 키우고 세상을 이롭게 하는 거대한 가치를 실현할 때 당신의 명예는 하늘을 찌를 것입니다. 교육 재단 이사장, 글로벌 NGO 수장, 혹은 대규모 기업 교육(HRD) 분야의 리더가 되어 당신만의 성역을 구축하고 존경받는 삶을 사십시오."],
+            // 6-2: 화합(희생) - 약(弱): 치유와 공감의 멘토
+            ["상처받은 사람들의 마음을 깊이 어루만지고 갈등의 골을 평화롭게 중재하여 세상을 더 따뜻한 곳으로 만드는 등불 같은 존재입니다. 당신과 대화하는 것만으로도 사람들은 치유를 얻으며, 그 관계 속에서 당신 또한 진정한 삶의 가치를 발견하게 됩니다. 전문 심리 상담가, 인사 노무 중재자, 혹은 하이엔드 라이프 코치 분야에서 사람들의 인생을 바꿔주는 기적을 만드십시오."],
+
+            // 7-1: 혁신(독립) - 강(强): 독보적인 기술 명장
+            ["기존의 상식과 관습을 파괴하고 오직 당신만의 고집스러운 장인 정신으로 세상에 없던 새로운 기술적 문법을 창조하는 혁신가입니다. 타협을 거부하는 까다로운 안목으로 완벽한 결과물을 만들어내어 대중이 당신을 찾아오게 만드는 기술적 권위를 쟁취하십시오. 특수 기술 명장(Meister), 파괴적 혁신 개발자, 혹은 독창적 건축 설계 분야에서 정점에 오르십시오."],
+            // 7-2: 혁신(독립) - 약(弱): 자유로운 영혼의 전문가
+            ["조직의 규율과 억압을 혐오하며 오직 실력 하나로 홀로 서서 세상의 거센 풍파를 즐기는 콧대 높은 프로 프리랜서입니다. 시간과 장소에 얽매이지 않고 당신의 재능을 비싼 값에 파는 전문가적 삶이 당신의 자존감을 지켜줍니다. 독립 큐레이터, 고부가가치 프리랜서 전문가, 혹은 특수 분야 기술 컨설턴트로서 당신만의 자유롭고 화려한 성공을 만끽하십시오."],
+
+            // 8-1: 처세(융통) - 강(强): 승부사적 사업가
+            ["시장의 흐름을 동물적으로 포착하여 어떤 최악의 조건에서도 수익을 뽑아내고야 마는 집요한 생존 본능의 소유자입니다. 적을 아군으로 만들고 위기를 기회로 뒤바꾸는 탁월한 지략으로 비즈니스의 판도를 당신의 뜻대로 주무르는 승부사의 삶을 사십시오. 기업 M&A 전문가, 글로벌 무역업, 혹은 거대 유통망 장악 분야에서 최후의 승리자가 되어 자본의 정점에 서십시오."],
+            // 8-2: 처세(융통) - 약(弱): 전천후 협상 전문가
+            ["상대방이 무엇을 원하는지 귀신같이 읽어내어 상황을 당신이 설계한 시나리오대로 유도하는 유연하고 영리한 지략가입니다. 직접 칼을 휘두르기보다 타협과 절충을 통해 실리를 챙기는 영리함이 당신의 가장 무서운 무기입니다. 전문 에이전트, 대외 협력 전문가(PR), 혹은 외교/국제 관계 전문가 분야에서 당신의 수완을 유감없이 발휘하여 성공하십시오."]
+        ];
         const cEndEn = [
-            ["it is your life's task to realize the laws of the world and pass on deep inspiration to the next generation.", "it is your task to present your own wise answers to life's difficult problems that no one has solved.", "it is your task to complete your knowledge and experience and rise to a position of an unshakable spiritual mentor.", "it is your task to go beyond immediate achievements to deepen your soul and complete the true meaning of life.", "it is your task to spread your realized philosophy widely and awaken people's consciousness."],
-            ["it is your life's task to fearlessly pioneer paths no one has walked and set new rules.", "it is your task to lead groups in chaos and make your massive vision a reality.", "it is your task to break through given limits and seize the position of the ultimate peak that no one can contest.", "it is your task to become the master of your own destiny and set an overwhelming milestone for others to look up to.", "it is your task to overturn existing boards and make your name the new standard."],
-            ["it is your life's task to gather scattered hearts and build a solid community.", "it is your task to be a place for those in crisis to lean on and find peaceful balance.", "it is your task to build a fortress that doesn't break in any storm, prioritizing substance over glamour.", "it is your task to smoothly weave people together and create a ground where everyone can coexist.", "it is your task to make your place the safest fortress using trust and sincerity as your weapons."],
-            ["it is your life's task to fully prove your unique philosophy and charm to the world.", "it is your task to shape the creative inspiration in your heart into works of reality and receive public acclaim.", "it is your task to intensely awaken people's dormant senses with your voice and expression.", "it is your task to lead world trends with your own unique style that couldn't be seen anywhere else.", "it is your task to generously release your talents and make the surroundings your stage."],
-            ["it is your life's task to build a solid fortress of wealth and trust that doesn't break in any crisis.", "it is your task to not waste small opportunities but roll them like a snowball to form massive assets.", "it is your task to prove your irreplaceable value with flawless work recognized by everyone.", "it is your task to achieve hand-held realistic results rather than vague dreams and enjoy perfect abundance.", "it is your task to achieve honor and wealth that grows stronger over time like a deep-rooted tree."],
-            ["it is your life's task to create order out of chaos and build your own firm kingdom.", "it is your task to not be ruled by others and hold powerful influence to manage the world yourself.", "it is your task to use crises and trials as stepping stones to solidify power and eventually gain absolute status.", "it is your task to successfully complete massive-scale tasks everyone deemed impossible with perfect control.", "it is your task to seize strong and glorious authority where your every word becomes law."],
-            ["it is your life's task to mediate opposing values and spread a good influence that benefits people widely.", "it is your life's task to deeply understand and heal others' pain, spreading a warm light through the world.", "it is your task to devote yourself to a greater cause beyond self-interest and be remembered forever in people's hearts.", "it is your task to be a mediator who rounds out different thoughts and energies to achieve perfect harmony.", "it is your task to pour your energy into places of lack and conflict to finally restore peace."],
-            ["it is your life's task to break old customs and achieve the bold innovations demanded by the era.", "it is your task to create massive cracks in a stuck world with original ideas no one can imitate.", "it is your task to achieve eye-opening independent success solely with your own strength without relying on others.", "it is your task to constantly question what everyone takes for granted and seize true answers.", "it is your task not to fit yourself into existing frames but to impose a new frame on the world that fits you."],
-            ["it is your life's task to be an excellent gambler at the forefront of changing flows, turning crises into opportunities.", "it is your task to find brilliant moves even in desperate situations and eventually seize victory.", "it is your task to be the final winner with a tenacious survival ability to endure any barren environment.", "it is your task to lead people and situations toward a direction favorable to you wisely and cleverly.", "it is your task to accurately read the direction of the wind and reach your destination fastest and most accurately."]
+            // 0-1: Wisdom - Strong: Master of Systems
+            ["Your innate strength lies in architecting order within complex systems. Rather than minor tasks, you thrive in macro-strategies that prevent structural flaws. Challenge yourself as a Solution Architect, Urban Planner, or Public Policy Designer to become an immovable industry standard."],
+            // 0-2: Wisdom - Weak: Precise Knowledge Analyst
+            ["You possess an unrivaled talent for uncovering hidden logic and data discrepancies. You are suited for a career as a specialist providing decisive insights behind the scenes. Aim for success as a Technology Valuer, Research Specialist, or Senior Legal Analyst."],
+            
+            // 1-1: Pioneer - Strong: Empire Builder
+            ["You are a field commander who thrives when others say 'impossible.' Your destiny is to build a new empire where your name becomes the brand. Become an unstoppable pioneer in Tech Startups, Innovative Service Launching, or Overseas Market Expansion."],
+            // 1-2: Pioneer - Weak: Sensual Trend Maker
+            ["You have an instinctive sense for capturing subtle shifts in global trends before anyone else. Rather than being a gear in a large machine, monetize your unique philosophy. Succeed as a Content Director, Professional Trendsetter, or New Media Branding Expert."],
+
+            // 2-1: Assistant - Strong: Fortress Operations Head
+            ["You are an operational genius who builds fortresses unyielding to any storm by perfecting every detail. You excel as the power behind the throne, making organizations actually function. Prove your value as a COO (Chief Operating Officer), Project Lead, or SCM Specialist."],
+            // 2-2: Assistant - Weak: Flawless Quality Guard
+            ["You are the symbol of precision, diving into the tiny details others find tedious to elevate project quality to the absolute peak. Refine yourself so that your touch becomes a guarantee of trust. Excel as a Professional Editor, QC Specialist, or Executive Secretary."],
+
+            // 3-1: Passion - Strong: Icon of the Era
+            ["Your overwhelming energy and expressiveness have the magic to captivate thousands and build a fervent fandom. Your soul is fulfilled when you stand center stage where your voice becomes value. Impact the world as a Performance Artist, Keynote Speaker, or Large-scale Event Host."],
+            // 3-2: Passion - Weak: Visual Storyteller
+            ["You have a delicate planning ability that stimulates hidden desires through visual and linguistic aesthetics. Elevating a brand's value to the level of art is your true calling. Paint the world with your colors as an Ad Copywriter, VMD, or Brand Space Designer."],
+
+            // 4-1: Trust - Strong: Perpetual System Wealth Builder
+            ["You focus on tangible results and have an animalistic instinct for turning capital into a perpetual wealth system. Dominating the flow of the real economy is your destiny. Reach the pinnacle of wealth as a Real Estate Developer, Financial Holding Manager, or Industrial Entrepreneur."],
+            // 4-2: Trust - Weak: Precise Financial Strategist
+            ["With flawless execution that allows for zero error, you will gain a reputation as the 'most trusted name.' Your sharp mind for maximizing asset efficiency is your strongest weapon. Become a Tax/Accounting Specialist, Private Equity Manager, or Investment Analyst."],
+
+            // 5-1: Emperor - Strong: Absolute Decision Maker
+            ["You shine brightest when reshaping organizations according to your values and exercising final approval over the fates of many. Build your own kingdom on a grand scale. Implement your dominance as a CEO, Political Leader, or Head of a Major Institution."],
+            // 5-2: Emperor - Weak: Core Power Advisor
+            ["You are a strategist and fixer who provides the decisive move at the heart of power. Intellectual superiority in designing core strategies is what drives you. Secure your honorable place as a High-ranking Government Official, Chief Strategy Officer (CSO), or Specialist Attorney."],
+
+            // 6-1: Harmony - Strong: Humanitarian Education Leader
+            ["You possess a noble energy to awaken human potential and improve quality of life beyond individual success. Your honor will reach the heavens when realizing grand social values. Lead as a Foundation Chairman, Head of a Global NGO, or HRD (Human Resources Development) Leader."],
+            // 6-2: Harmony - Weak: Mentor of Healing & Empathy
+            ["You are a beacon of light, healing hearts and mediating deep conflicts to make the world warmer. People find healing just by speaking with you. Create miracles as a Psychological Counselor, Industrial Mediator, or High-end Life Coach."],
+
+            // 7-1: Innovation - Strong: Peerless Technical Master
+            ["You are an innovator who destroys common sense to create new technical grammars through stubborn craftsmanship. Gain authority that makes the public come to you. Reach the top as a Technical Meister, Disruptive Developer, or Original Architect."],
+            // 7-2: Innovation - Weak: Free-Spirited Expert
+            ["You are a proud professional freelancer who loathes rigid discipline and thrives on pure skill. A life selling your talent at a high price without being bound by time is your pride. Enjoy free success as an Independent Curator, High-value Freelancer, or Technical Consultant."],
+
+            // 8-1: Survival - Strong: Strategic Entrepreneur
+            ["You possess a relentless survival instinct to extract profit under even the worst conditions. Control the board of business by turning enemies into allies. Stand at the peak of capital as an M&A Specialist, Global Trader, or Distribution Network Mogul."],
+            // 8-2: Survival - Weak: All-weather Negotiator
+            ["You are a flexible and clever strategist who reads exactly what the opponent wants and guides the situation to your scenario. Cleverness in securing gains through compromise is your most fearsome weapon. Succeed as a Talent Agent, Public Relations (PR) Expert, or Diplomat."]
         ];
 
-        const currentCStart = currentLang === 'ko' ? cStartKo[nameS][varIdxC1] : cStartEn[nameS][varIdxC1];
-        const currentCEnd = currentLang === 'ko' ? cEndKo[themeIdx][varIdxC2] : cEndEn[themeIdx][varIdxC2];
+       const currentCStart = currentLang === 'ko' ? cStartKo[nameS][varIdxC1] : cStartEn[nameS][varIdxC1];
+
+        // 💡 18가지 페르소나 매칭 로직 (강/약에 따라 인덱스 변환)
+        let detailIdx = themeIdx * 2; 
+        if (intensity === "약함" || intensity === "극약") {
+            detailIdx += 1; 
+        }
+
+        // 💡 [수정 포인트] 뒤에 [0]을 붙여서 배열 안의 '글자'만 쏙 빼옵니다.
+        const currentCEnd = currentLang === 'ko' ? cEndKo[detailIdx][0] : cEndEn[detailIdx][0];
 
         const blockC = `${currentCStart} ${currentCEnd}`;
 
-        // 💡 3개의 블록을 하나의 거대한 서사로 조립합니다. (두 줄 띄우기 제거 로직 유지)
+        // 💡 3개의 블록을 하나의 거대한 서사로 조립합니다.
         const missionText = `${blockA}\n${blockB}\n${blockC}`;
       
   
