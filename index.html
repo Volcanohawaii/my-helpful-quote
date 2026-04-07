@@ -417,8 +417,18 @@ function switchTab(mode, element) {
 
         const mm = parseInt(session.birth.substring(4, 6));
         const dd = parseInt(session.birth.substring(6, 8));
-        const coreIdx = ((mm * 31) + dd) % 30;
-        const nameIdx = (session.num81 - 1) % 30;
+        const mm = parseInt(session.birth.substring(4, 6));
+        const dd = parseInt(session.birth.substring(6, 8));
+        
+        // 1. 선천적 기질 인덱스 (생일 기반) -> birthCoreKo에 사용
+        const coreIdx = ((mm * 31) + dd) % 30; 
+        
+        // 2. 후천적 이름 인덱스 (수리 파동 기반) -> nameSynergyKo에 사용
+        const nameIdx = (session.num81 - 1) % 30; 
+        
+        // 💡 3. [새로 추가된 핵심 공식] 현생의 과업 인덱스 (생일 + 이름의 융합)
+        // 선천운(coreIdx)과 후천운(num81)을 더해 완벽히 개인화된 결론을 도출합니다.
+        const transitionIdx = (coreIdx + session.num81) % 30;
 
         const baseIdx = (session.num81 % 9 === 0) ? 8 : (session.num81 % 9) - 1;
         const coreData = baseKo[baseIdx];
@@ -447,7 +457,7 @@ function switchTab(mode, element) {
                              (relType === "피극") ? "주변의 강한 압박으로 인해 본래의 재능을 펼치기보다 세상의 틀에 자신을 맞추어야 하는 고충이 따르기도 합니다." :
                              "나와 닮은 에너지가 가득한 환경이라 주관은 뚜렷해지나, 끊임없는 경쟁 속에서 남모를 고독함과 싸워야 하는 구조입니다.";
 
-        const missionText = `${birthCoreKo[coreEl][coreIdx]} ${relationBridge}\n${nameSynergyKo[envEl][nameIdx]} ${transitionKo[coreEl][coreIdx]}`;
+        const missionText = `${coreStory}\n${relationBridge}\n${synergyStory}\n${transitionKo[coreEl][transitionIdx]}`;
 
         // 💡 [경우의 수 10배 확장] 수리 파동에 따라 10가지 변형 인덱스 도출
         const varIdx = session.num81 % 10;
