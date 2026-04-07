@@ -422,7 +422,7 @@ function switchTab(mode, element) {
 
     if (mode === 'fortune') {
         const r = suriPrescription.getRemedy(session.num81, [session.lackEls[0]], currentLang);
-        const elKeyMap = { "목": "목(木)", "화": "화(火)", "토": "토(土)", "금": "금(金)", "수": "수(수)" };
+        const elKeyMap = { "목": "목(木)", "화": "화(火)", "토": "토(土)", "금": "금(金)", "수": "수(水)" };
         const coreEl = elKeyMap[session.iljuData.el.charAt(0)] || finalSignature;
         const envEl = finalSignature;
         const nameEl = ["수(水)", "목(木)", "목(木)", "화(火)", "화(火)", "토(土)", "토(土)", "금(金)", "금(金)", "수(水)"][session.num81 % 10];
@@ -491,20 +491,20 @@ function switchTab(mode, element) {
         
         // 💡 [그래프 정밀 분석 엔진] 시작점(baseVal)을 읽어 5단계 서사 중 하나를 선택합니다.
       // 💡 [새로 만드는 구간] 최종 점수 중에서 가장 높은 값(뾰족한 부분)을 찾는 과정입니다.
-        const finalScoresArray = session.elementScores; 
+         
         const maxVal = Math.max(...finalScoresArray);
         const topIdx = finalScoresArray.indexOf(maxVal);
         
         // 🌍 다국어 이름표 (대표님 코드의 elNamesKo를 그대로 활용)
-        const elNamesKoForGraph = ["목(木)", "화(火)", "토(土)", "금(金)", "수(수)"];
+        const elNamesKoForGraph = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
         const elNamesEnForGraph = ["Wood", "Fire", "Earth", "Metal", "Water"];
         const topElName = currentLang === 'ko' ? elNamesKoForGraph[topIdx] : elNamesEnForGraph[topIdx];
 
         const baseVal = baseScoresForGraph[topIdx]; // 원래 점수
         const finalVal = finalScoresArray[topIdx];  // 최종 점수 (뾰족한 부분)
         
-        let dynamicNarrativeKo = "";
-        let dynamicNarrativeEn = "";
+        let dynamicNarrativeKo = [];
+        let dynamicNarrativeEn = [];
 
         // 💡 [5단계 판독] 대표님 사진의 '금(金)'처럼 뾰족하게 튀어나온 상황을 1순위로 체크!
         if (baseVal > 110 && finalVal > baseVal) { 
