@@ -678,7 +678,9 @@ function switchTab(mode, element) {
             ][varIdxB2]
         };
 
-        const currentLackDesc = currentLang === 'ko' ? lackDescKo : lackDescEn;
+        // 💡 뒤에 [lackS] 가 반드시 붙어야 '어떤 오행'의 결핍인지 찾아옵니다.
+        const currentLackDesc = currentLang === 'ko' ? lackDescKo[lackS] : lackDescEn[lackS];
+        
         const currentNameAction = currentLang === 'ko' ? nameActionKo[nameS] : nameActionEn[nameS];
 
         const blockBKo = `자칫 ${currentLackDesc} 운명의 사각지대를, 성명이 가진 ${currentNameAction} 당신의 약점을 완벽한 무기로 바꾸어 놓았습니다.`;
