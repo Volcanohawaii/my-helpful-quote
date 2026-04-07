@@ -508,29 +508,29 @@ function switchTab(mode, element) {
 
         // 💡 [5단계 판독] 대표님 사진의 '금(金)'처럼 뾰족하게 튀어나온 상황을 1순위로 체크!
         if (baseVal > 110 && finalVal > baseVal) { 
-            dynamicNarrativeKo = `이미 타고난 강점인 <b>${topElName}</b>의 기운에 성명의 파동이 예리한 날을 더해주었습니다. 안주하지 않고 강점을 극한으로 벼려냄으로써, 특정 분야에서 그 누구도 범접할 수 없는 '절대적 전문성'을 확보하게 되었습니다.`;
-            dynamicNarrativeEn = `the vibration of your name has further sharpened your innate strength in <b>${topElName}</b>. By refining your greatest asset to its limit, you have secured an 'absolute expertise' that no one else can challenge.`;
+            dynamicNarrativeKo = [`이미 타고난 강점인 <b>${topElName}</b>의 기운에 성명의 파동이 예리한 날을 더해주었습니다. 안주하지 않고 강점을 극한으로 벼려냄으로써, 특정 분야에서 그 누구도 범접할 수 없는 '절대적 전문성'을 확보하게 되었습니다.`];
+            dynamicNarrativeEn = [`the vibration of your name has further sharpened your innate strength in <b>${topElName}</b>. By refining your greatest asset to its limit, you have secured an 'absolute expertise' that no one else can challenge.`];
         } 
         else if (baseVal <= 50) {
-            dynamicNarrativeKo = `소멸 직전이었던 <b>${topElName}</b>의 에너지를 성명의 파동이 기적적으로 심폐소생하여 보통 수준으로 끌어올렸습니다. 치명적이었던 운명의 구멍이 메워지며 이제야 안정적인 삶의 궤도에 진입하게 되었습니다.`;
-            dynamicNarrativeEn = `the vibration of your name has miraculously revived the nearly depleted <b>${topElName}</b> energy...`;
+            dynamicNarrativeKo = [`소멸 직전이었던 <b>${topElName}</b>의 에너지를 성명의 파동이 기적적으로 심폐소생하여 보통 수준으로 끌어올렸습니다. 치명적이었던 운명의 구멍이 메워지며 이제야 안정적인 삶의 궤도에 진입하게 되었습니다.`];
+            dynamicNarrativeEn = [`the vibration of your name has miraculously revived the nearly depleted <b>${topElName}</b> energy...`];
         } 
         else if (baseVal > 50 && baseVal <= 80) {
-            dynamicNarrativeKo = `부족했던 <b>${topElName}</b>의 에너지를 성명의 파동이 폭발적으로 증폭시켜 당신의 새로운 주무기로 탈바꿈시켰습니다. 가장 취약했던 부분이 이제는 가장 강력한 경쟁력이 되는 '역전의 서사'가 완성되었습니다.`;
-            dynamicNarrativeEn = `the vibration of your name has explosively amplified the lacking <b>${topElName}</b> energy...`;
+            dynamicNarrativeKo = [`부족했던 <b>${topElName}</b>의 에너지를 성명의 파동이 폭발적으로 증폭시켜 당신의 새로운 주무기로 탈바꿈시켰습니다. 가장 취약했던 부분이 이제는 가장 강력한 경쟁력이 되는 '역전의 서사'가 완성되었습니다.`];
+            dynamicNarrativeEn = [`the vibration of your name has explosively amplified the lacking <b>${topElName}</b> energy...`];
         } 
         else if (baseVal > 80 && baseVal <= 110) {
-            dynamicNarrativeKo = `적당한 수준에 머물던 <b>${topElName}</b>의 잠재력을 성명의 파동이 극한까지 자극하여 압도적인 정점으로 이끌었습니다. 평범한 재능이 이제는 업계를 리드할 수 있는 독보적인 전문성으로 완벽히 진화하였습니다.`;
-            dynamicNarrativeEn = `the vibration of your name has stimulated your latent <b>${topElName}</b> energy...`;
+            dynamicNarrativeKo = [`적당한 수준에 머물던 <b>${topElName}</b>의 잠재력을 성명의 파동이 극한까지 자극하여 압도적인 정점으로 이끌었습니다. 평범한 재능이 이제는 업계를 리드할 수 있는 독보적인 전문성으로 완벽히 진화하였습니다.`];
+            dynamicNarrativeEn = [`the vibration of your name has stimulated your latent <b>${topElName}</b> energy...`];
         } 
         else {
-            dynamicNarrativeKo = `성명의 파동이 <b>${topElName}</b>의 에너지를 정교하게 미세 조정하여 운명의 전체적인 밸런스를 최적의 상태로 맞추어 주었습니다. 과함은 덜어내고 부족함은 메워, 에너지를 가장 효율적으로 쓸 수 있는 완벽한 조율이 이루어졌습니다.`;
-            dynamicNarrativeEn = `the vibration of your name has precisely fine-tuned the <b>${topElName}</b> energy...`;
+            dynamicNarrativeKo = [`성명의 파동이 <b>${topElName}</b>의 에너지를 정교하게 미세 조정하여 운명의 전체적인 밸런스를 최적의 상태로 맞추어 주었습니다. 과함은 덜어내고 부족함은 메워, 에너지를 가장 효율적으로 쓸 수 있는 완벽한 조율이 이루어졌습니다.`];
+            dynamicNarrativeEn = [`the vibration of your name has precisely fine-tuned the <b>${topElName}</b> energy...`];
         }
 
         // 💡 [최종 조립] 
-        const graphNarrativeKo = `위 레이더 차트의 <b style="color:#A0A0A0;">회색 점선(선천운)</b>을 보면, 당신은 본래 <b>${baseStrongText}</b> 기운이 가장 강하고 <b>${baseWeakText}</b> 기운이 부족하여 밸런스가 한쪽으로 쏠린 불균형한 구조로 태어났습니다.<br>하지만 <b style="color:var(--accent);">갈색 실선(후천운)</b>이 보여주듯, ${dynamicNarrativeKo} 마침내 당신만의 강력하고 특별한 무기가 완성되었습니다.`;
-        const graphNarrativeEn = `Looking at the <b style="color:#A0A0A0;">grey dotted line (Innate Luck)</b> on the radar chart, you were born with an imbalanced structure. <br>However, as the <b style="color:var(--accent);">brown solid line (Acquired Luck)</b> shows, ${dynamicNarrativeEn} finally completing your own powerful weapon.`;
+        const graphNarrativeKo = `위 레이더 차트의 <b style="color:#A0A0A0;">회색 점선(선천운)</b>을 보면, 당신은 본래 <b>${baseStrongText}</b> 기운이 가장 강하고 <b>${baseWeakText}</b> 기운이 부족하여 밸런스가 한쪽으로 쏠린 불균형한 구조로 태어났습니다.<br>하지만 <b style="color:var(--accent);">갈색 실선(후천운)</b>이 보여주듯, ${dynamicNarrativeKo[0]} 마침내 당신만의 강력하고 특별한 무기가 완성되었습니다.`;
+        const graphNarrativeEn = `Looking at the <b style="color:#A0A0A0;">grey dotted line (Innate Luck)</b> on the radar chart, you were born with an imbalanced structure. <br>However, as the <b style="color:var(--accent);">brown solid line (Acquired Luck)</b> shows, ${dynamicNarrativeEn[0]} finally completing your own powerful weapon.`;
 
         const graphNarrative = currentLang === 'ko' ? graphNarrativeKo : graphNarrativeEn;
 
