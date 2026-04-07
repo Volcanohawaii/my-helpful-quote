@@ -415,16 +415,14 @@ function switchTab(mode, element) {
         const envEl = finalSignature;
         const nameEl = ["수(水)", "목(木)", "목(木)", "화(火)", "화(火)", "토(土)", "토(土)", "금(金)", "금(金)", "수(水)"][session.num81 % 10];
 
+         = parseInt(session.birth.substring(4, 6));
         const mm = parseInt(session.birth.substring(4, 6));
         const dd = parseInt(session.birth.substring(6, 8));
-        const mm = parseInt(session.birth.substring(4, 6));
-        const dd = parseInt(session.birth.substring(6, 8));
+        const coreIdx = ((mm * 31) + dd) % 30;
+        const nameIdx = (session.num81 - 1) % 30;
         
-        // 1. 선천적 기질 인덱스 (생일 기반) -> birthCoreKo에 사용
-        const coreIdx = ((mm * 31) + dd) % 30; 
-        
-        // 2. 후천적 이름 인덱스 (수리 파동 기반) -> nameSynergyKo에 사용
-        const nameIdx = (session.num81 - 1) % 30; 
+        // 💡 현생의 과업(결론)을 위한 새로운 융합 인덱스
+        const transitionIdx = (coreIdx + session.num81) % 30;
         
         // 💡 3. [새로 추가된 핵심 공식] 현생의 과업 인덱스 (생일 + 이름의 융합)
         // 선천운(coreIdx)과 후천운(num81)을 더해 완벽히 개인화된 결론을 도출합니다.
