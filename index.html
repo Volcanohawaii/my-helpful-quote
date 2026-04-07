@@ -864,25 +864,44 @@ function switchTab(mode, element) {
             ][varIdx]
         };
 
-        // 💡 서사 조립 로직 (경우의 수를 바탕으로 소름 돋는 결과 도출)
-        let introNarrative = "";
-        if (coreEl === envEl) {
-            introNarrative = `당신은 본래 <b>${coreEl}</b>의 기질을 타고났으나, 삶의 무대조차 동일한 <b>${envEl}</b>의 기운이 압도적으로 집중되어 <b>[${weaknessMap[envEl]}]</b>에 빠지기 쉬운 구조입니다. 다행히 <b>${nameEl}</b>의 성명이 이 과열된 기운을 ${action}, <b>[${weaponMap[nameEl]}]</b>이라는 강력한 무기로 승화시킨 당신만의 시그니처가 완성되었습니다.`;
-        } else {
-            introNarrative = `당신은 본래 <b>${coreEl}</b>의 기질을 품었으나, 삶을 지배하는 <b>${envEl}</b>의 환경과 부딪히며 <b>[${weaknessMap[envEl]}]</b>이라는 운명의 약점을 안고 있습니다. 이때 <b>${nameEl}</b>의 성명이 이 불균형을 ${action}, 이를 <b>[${weaponMap[nameEl]}]</b>이라는 당신만의 강력한 무기로 뒤바꾼 시그니처가 완성되었습니다.`;
-        }
+       // 💡 [그래프 정밀 해석 로직] 뻔한 문장을 버리고, 그래프의 데이터(Before/After)를 직접 읽어옵니다.
+        const elNamesKo = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
+        const baseScores = session.baseScores || session.elementScores; // 에러 방지용
+        const diffScores = session.elementScores.map((score, i) => score - baseScores[i]);
+        
+        // 1. 선천적으로 가장 강/약한 기운 찾기 (회색 점선 기준)
+        const maxBase = Math.max(...baseScores);
+        const minBase = Math.min(...baseScores);
+        const baseStrongText = elNamesKo.filter((_, i) => baseScores[i] === maxBase).join(" 및 ");
+        const baseWeakText = elNamesKo.filter((_, i) => baseScores[i] === minBase).join(" 및 ");
+        
+        // 2. 이름으로 가장 많이 채워진 기운 찾기 (갈색 실선의 팽창분 기준)
+        const maxDiff = Math.max(...diffScores);
+        const boostedText = maxDiff > 0 ? elNamesKo.filter((_, i) => diffScores[i] === maxDiff).join(" 및 ") : nameEl;
+
+        // 3. 완벽한 인과관계의 서사 조립 (weaponMap은 위에 정의된 것을 그대로 사용)
+        const graphNarrative = `위 레이더 차트의 <b style="color:#A0A0A0;">회색 점선(선천운)</b>을 보면, 당신은 본래 <b>${baseStrongText}</b> 기운이 가장 강하고 <b>${baseWeakText}</b> 기운이 부족하여 밸런스가 한쪽으로 쏠린 불균형한 구조로 태어났습니다.<br><br>하지만 <b style="color:var(--accent);">갈색 실선(후천운)</b>이 보여주듯, 성명의 파동이 부족했던 <b>${boostedText}</b>의 에너지를 든든하게 채워주었습니다. 이 절묘한 보완 작용을 통해 운명의 약점이 지워지고, 마침내 <b>[${weaponMap[nameEl]}]</b>이라는 당신만의 강력하고 특별한 무기가 완성되었습니다.`;
+
+        // 💡 [화면 출력부 수정] 글자 겹침 버그(height)를 해결하고, 새로운 그래프 해석을 삽입합니다.
         body.innerHTML = `
           <div class="tab-content">
             <span class="section-title">${t.tab1Btn}</span>
             <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; border-left:none; box-shadow:0 4px 12px rgba(0,0,0,0.05);">
-              <div id="radarChart" style="margin:10px auto; width:220px; height:220px;"></div>
-              ${badgeHTML} 
-              <p style="line-height:1.7; color:#555; font-size:0.92rem; text-align:justify; margin-top:20px; word-break:keep-all;">${introNarrative}</p>
+              
+              <div id="radarChart" style="margin:10px auto; width:100%; height:auto; min-height:260px;"></div>
+              
+              <div style="margin-top: 15px;">${badgeHTML}</div> 
+              
+              <p style="line-height:1.75; color:#444; font-size:0.93rem; text-align:left; word-break:keep-all; margin-top:25px; padding: 18px; background: #faf9f7; border-radius: 8px; border: 1px dashed #e8e4de;">
+                ${graphNarrative}
+              </p>
+              
               <div style="padding:20px; background:#F9F8F6; border-radius:12px; border:1px solid #F0EAE3; margin-top:25px;">
                 <b style="color:var(--accent); font-size:0.95rem;">📜 현생의 과업</b><br>
-                <span style="font-size:0.9rem; color:#444; line-height:1.7; display:block; margin-top:12px; white-space: pre-wrap;">${missionText}</span>
+                <div style="font-size:0.9rem; color:#444; line-height:1.7; display:block; margin-top:12px; white-space: pre-wrap;">${missionText}</div>
               </div>
             </div>
+            
             <span class="section-title" style="margin-top:30px;">${t.sec2}</span>
             <div class="info-box" style="background:#fff; border-left:none;">
               <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
@@ -893,8 +912,9 @@ function switchTab(mode, element) {
               </div>
             </div>
           </div>`;
+          
+        // 💡 재료 2개(Before, After)를 그래프 그리는 함수로 던져줍니다!
         renderChart(session.baseScores, session.elementScores);
-
     } 
   
     else if (mode === 'past') {
