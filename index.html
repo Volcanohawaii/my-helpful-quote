@@ -478,7 +478,7 @@ function switchTab(mode, element) {
         
         const maxBase = Math.max(...baseScoresForGraph);
         const minBase = Math.min(...baseScoresForGraph);
-        const joinText = currentLang === 'ko' ? " 및 " : " & ";
+        const joinText = currentLang === 'ko' ? ", " : " & ";
         
         const baseStrongText = currentElNames.filter((_, i) => baseScoresForGraph[i] === maxBase).join(joinText);
         const baseWeakText = currentElNames.filter((_, i) => baseScoresForGraph[i] === minBase).join(joinText);
