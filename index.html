@@ -450,7 +450,8 @@ function switchTab(mode, element) {
                 <span style="background:#FFF0F0; color:#C82333; padding:5px 14px; border-radius:30px; font-size:0.85rem; font-weight:600;">⚠️ ${coreData.risk}</span>
             </div>
         `;
-
+        const varIdx = session.num81 % 10;
+      
         const coreS = coreEl.charAt(0);
         const envS = envEl.charAt(0);
         const relations = {
@@ -775,7 +776,7 @@ function switchTab(mode, element) {
         const missionText = `${blockA}\n${blockB}\n${blockC}`;
       
   
-        const varIdx = session.num81 % 10;
+
 
         // 💡 연결 동작 (10가지로 확장)
         const action = [
