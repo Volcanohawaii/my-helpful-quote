@@ -486,7 +486,7 @@ function switchTab(mode, element) {
         const boostedText = maxDiff > 0 ? currentElNames.filter((_, i) => diffScores[i] === maxDiff).join(joinText) : (currentLang === 'ko' ? nameEl : elNamesEn[elNamesKo.indexOf(nameEl)]);
 
         // 3. 완벽한 인과관계의 서사 조립 (다국어 지원)
-        const weaponText = currentLang === 'ko' ? weaponMap[nameEl] : weaponMapEn[nameEl]; // (참고: weaponMapEn은 다음 스텝에서 넣을 예정입니다)
+        
         
         const graphNarrativeKo = `위 레이더 차트의 <b style="color:#A0A0A0;">회색 점선(선천운)</b>을 보면, 당신은 본래 <b>${baseStrongText}</b> 기운이 가장 강하고 <b>${baseWeakText}</b> 기운이 부족하여 밸런스가 한쪽으로 쏠린 불균형한 구조로 태어났습니다.<br>하지만 <b style="color:var(--accent);">갈색 실선(후천운)</b>이 보여주듯, 성명의 파동이 부족했던 <b>${boostedText}</b>의 에너지를 든든하게 채워주었습니다. 이 절묘한 보완 작용을 통해 운명의 약점이 지워지고, 마침내 당신만의 강력하고 특별한 무기가 완성되었습니다.`;
         
