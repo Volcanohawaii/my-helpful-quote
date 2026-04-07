@@ -393,8 +393,8 @@ function renderChart(baseScores, finalScores) {
   </svg>
   
   <div style="text-align:center; margin-top:10px; font-size:0.75rem; color:#888;">
-    <span style="display:inline-block; width:12px; height:2px; border-top:2px dashed #B0B0B0; margin-right:4px; vertical-align:middle;"></span> 선천운(사주)
-    <span style="display:inline-block; width:10px; height:10px; background:rgba(154, 132, 103, 0.4); border:1.5px solid #9A8467; margin-left:12px; margin-right:4px; vertical-align:middle; border-radius:2px;"></span> 후천운(성명 보완)
+    <span style="display:inline-block; width:12px; height:2px; border-top:2px dashed #B0B0B0; margin-right:4px; vertical-align:middle;"></span> 선천 에너지
+    <span style="display:inline-block; width:10px; height:10px; background:rgba(154, 132, 103, 0.4); border:1.5px solid #9A8467; margin-left:12px; margin-right:4px; vertical-align:middle; border-radius:2px;"></span> 후천 에너지
   </div>`;
 }
 function switchTab(mode, element) {
@@ -529,8 +529,8 @@ function switchTab(mode, element) {
         }
 
         // 💡 [최종 조립] 
-        const graphNarrativeKo = `위 레이더 차트의 <b style="color:#A0A0A0;">회색 점선(선천운)</b>을 보면, 당신은 본래 <b>${baseStrongText}</b> 기운이 가장 강하고 <b>${baseWeakText}</b> 기운이 부족하여 밸런스가 한쪽으로 쏠린 불균형한 구조로 태어났습니다.<br>하지만 <b style="color:var(--accent);">갈색 실선(후천운)</b>이 보여주듯, ${dynamicNarrativeKo[0]} 마침내 당신만의 강력하고 특별한 무기가 완성되었습니다.`;
-        const graphNarrativeEn = `Looking at the <b style="color:#A0A0A0;">grey dotted line (Innate Luck)</b> on the radar chart, you were born with an imbalanced structure. <br>However, as the <b style="color:var(--accent);">brown solid line (Acquired Luck)</b> shows, ${dynamicNarrativeEn[0]} finally completing your own powerful weapon.`;
+        const graphNarrativeKo = `위 레이더 차트의 <b style="color:#A0A0A0;">회색 점선(선천운)</b>을 보면, 당신은 본래 <b>${baseStrongText}</b> 기운이 가장 강하고 <b>${baseWeakText}</b> 기운이 부족하여 밸런스가 한쪽으로 쏠린 불균형한 구조로 태어났습니다.<br>하지만 <b style="color:var(--accent);">갈색 실선(후천운)</b>이 보여주듯, ${dynamicNarrativeKo[0]} 마침내 당신만의 특별한 에너지가 완성되었습니다.`;
+        const graphNarrativeEn = `Looking at the <b style="color:#A0A0A0;">grey dotted line (Innate Luck)</b> on the radar chart, you were born with an imbalanced structure. <br>However, as the <b style="color:var(--accent);">brown solid line (Acquired Luck)</b> shows, ${dynamicNarrativeEn[0]} finally completing your own special energy.`;
 
         const graphNarrative = currentLang === 'ko' ? graphNarrativeKo : graphNarrativeEn;
 
@@ -722,8 +722,8 @@ function switchTab(mode, element) {
         
         const currentNameAction = currentLang === 'ko' ? nameActionKo[nameS] : nameActionEn[nameS];
 
-        const blockBKo = `자칫 ${currentLackDesc} 운명의 사각지대를, 성명이 가진 ${currentNameAction} 당신의 약점을 완벽한 무기로 바꾸어 놓았습니다.`;
-        const blockBEn = `The vibration of your name, by ${currentNameAction}, has transformed the blind spot of your destiny—where you were ${currentLackDesc}—into a perfect weapon.`;
+        const blockBKo = `자칫 ${currentLackDesc} 운명의 사각지대를, 성명이 가진 ${currentNameAction} 당신의 약점을 보완했습니다.`;
+        const blockBEn = `The vibration of your name, by ${currentNameAction}, has transformed the blind spot of your destiny—where you were ${currentLackDesc}—into a weapon.`;
         const blockB = currentLang === 'ko' ? blockBKo : blockBEn;
 
       // 💡 [데이터 통합] 오행별 약점 및 무기 (한국어/영어 통합)
@@ -1048,7 +1048,7 @@ function switchTab(mode, element) {
 </p>
               
               <div style="padding:20px; background:#F9F8F6; border-radius:12px; border:1px solid #F0EAE3; margin-top:25px;">
-                <b style="color:var(--accent); font-size:0.95rem;">📜 현생의 과업</b><br>
+                <b style="color:var(--accent); font-size:0.95rem;">📜 현생의 과업</b>
                 <div style="font-size:0.9rem; color:#444; line-height:1.7; display:block; margin-top:12px; white-space: pre-wrap;">${missionText}</div>
               </div>
             </div>
