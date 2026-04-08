@@ -797,8 +797,6 @@ const graphNarrative = graphPart;
             dynamicNarrativeEn_C = [`Your final destiny is shaped as a <b>'Versatile Problem Solver'</b>, achieving a golden ratio of <b>${top1NameEn_C}</b> (${key1En_C}), <b>${top2NameEn_C}</b> (${key2En_C}), and <b>${top3NameEn_C}</b> (${key3En_C}). You build true wealth by designing big pictures and operating systems rather than shining alone. Based on this solid balance, your realistic life task is to become <b>${recommendedJobsEn_C}</b>.`];
         }
 
-        // 💡 3개의 블록을 하나의 거대한 서사로 조립합니다.
-        const missionText = `${blockA}\n\n${blockB}\n\n${blockC}`;
       
       let blockC = "";
         if (currentLang === 'ko') {
@@ -808,6 +806,8 @@ const graphNarrative = graphPart;
         }
   
 
+        // 💡 3개의 블록을 하나의 거대한 서사로 조립합니다.
+        const missionText = `${blockA}\n\n${blockB}\n\n${blockC}`;
 
         // 💡 연결 동작 (10가지로 확장)
         const action = [
