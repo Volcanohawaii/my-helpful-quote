@@ -586,303 +586,162 @@ const graphNarrative = graphPart;
         const blockAEn = `You were originally born with ${currentTrait}, and the acquired vibration of your name carries a strong theme of ${currentTheme}.`;
         const blockA = currentLang === 'ko' ? blockAKo : blockAEn;
       
-     // 🧱 [Block B] 결핍 극복 서사 (결핍 오행 25가지 × 이름 파동 25가지 = 625가지 조합 + 다국어)
-    const nameS = nameEl.charAt(0);
-        const lackS = session.lackEls[0].charAt(0);
-        const varIdxB1 = (session.num81 + dd) % 5;
-        const varIdxB2 = transitionIdx % 5;
+    
+        // 🌟 Block B : 가장 약했던 기운(약점)의 정밀 분석 (강/중/하 + 5단계)
+        // =========================================================
         
+        // 💡 1. 선천적으로 가장 점수가 낮았던 오행 찾기
+        const minBaseScore = Math.min(...baseScoresForGraph);
+        const weakIdx = baseScoresForGraph.indexOf(minBaseScore);
         
-     
-
-        // 1. 운명의 사각지대 (한국어)
-        const lackDescKo = {
-            "목": [
-                "의욕이 꺾이고 성장이 정체되기 쉬운", "스스로를 틀에 가두고 새로운 도전을 주저하게 되는",
-                "타인에게 의존하다 주도권을 잃어버릴 수 있는", "시작하는 힘이 부족해 늘 제자리에 머물기 쉬운",
-                "생기가 시들어 매사에 무기력함을 느끼기 쉬운"
-            ][varIdxB1],
-            "화": [
-                "열정이 식고 깊은 우울감이나 무기력에 빠지기 쉬운", "자신을 드러내지 못해 늘 무대 뒤편으로 밀려나는",
-                "순간적인 폭발력이 없어 결정적인 기회를 놓치기 쉬운", "마음속 온기가 부족해 타인과의 관계가 단절되기 쉬운",
-                "목표를 잃고 어둠 속에서 방향을 헤매기 쉬운"
-            ][varIdxB1],
-            "토": [
-                "안정감을 잃고 삶의 기반이 모래성처럼 흔들리기 쉬운", "마음의 중심을 잡지 못해 주변의 말에 쉽게 휩쓸리는",
-                "어디에도 정착하지 못하고 끝없이 방황하게 될 수 있는", "모든 것을 포용할 여유가 없어 스스로를 고립시키는",
-                "결실을 맺을 토양이 부족해 노력만큼의 성과가 없는"
-            ][varIdxB1],
-            "금": [
-                "결단력이 흐려지고 맺음이 불확실해지기 쉬운", "불필요한 관계와 감정을 끊어내지 못해 질질 끌려다니는",
-                "자신만의 확고한 원칙이 없어 타인의 기준에 맞춰 사는", "가치 있는 것을 골라내는 통찰력이 둔해져 손해를 보는",
-                "과감한 승부수를 던지지 못해 늘 평범함에 머무르는"
-            ][varIdxB1],
-            "수": [
-                "유연성이 떨어져 작은 변화에도 쉽게 부러지고 마는", "상황을 깊이 꿰뚫어 보는 직관과 통찰력이 닫혀버리는",
-                "메마른 감정으로 인해 삶의 윤택함과 여유를 잃어버리는", "막힌 생각에 갇혀 새로운 돌파구를 찾지 못하는",
-                "생명력의 근원이 마르며 끈기와 인내심이 바닥나기 쉬운"
-            ][varIdxB1]
-        };
-
-        // 1. 운명의 사각지대 (영어)
-        const lackDescEn = {
-            "목": [
-                "prone to losing motivation and experiencing stunted growth", "tending to confine yourself and hesitate in the face of new challenges",
-                "likely to lose initiative by relying too much on others", "prone to staying stagnant due to a lack of starting power",
-                "prone to feeling lethargic as your vitality fades"
-            ][varIdxB1],
-            "화": [
-                "prone to cooling passion and falling into deep lethargy", "often pushed to the background, unable to reveal yourself",
-                "likely to miss crucial opportunities due to a lack of explosive energy", "prone to severed relationships due to a lack of inner warmth",
-                "likely to wander in the dark, losing sight of your goals"
-            ][varIdxB1],
-            "토": [
-                "prone to losing stability, with the foundation of your life shaking like a sandcastle", "easily swayed by others' words, unable to find an inner center",
-                "likely to wander endlessly without settling down anywhere", "isolating yourself due to a lack of capacity to embrace things",
-                "lacking the soil to bear fruit, yielding results disproportionate to your efforts"
-            ][varIdxB1],
-            "금": [
-                "prone to clouded judgment and uncertain conclusions", "dragging along unnecessary relationships and unable to cut them off",
-                "living by others' standards due to a lack of firm personal principles", "suffering losses due to dulled insight in selecting what is valuable",
-                "always remaining mediocre by failing to make bold moves"
-            ][varIdxB1],
-            "수": [
-                "lacking flexibility and easily breaking at minor changes", "closing off the intuition and insight to see deeply into situations",
-                "losing life's richness and relaxation due to dry emotions", "trapped in blocked thoughts, unable to find new breakthroughs",
-                "prone to running out of persistence as the source of your vitality dries up"
-            ][varIdxB1]
-        };
-
-        // 2. 이름의 구원 (한국어)
-        const nameActionKo = {
-            "목": [
-                "목(木)의 솟아오르는 파동으로 강인한 생명력을 불어넣어", "어떤 척박한 땅에서도 뿌리내리는 목(木)의 의지를 부여하여",
-                "사방으로 가지를 뻗는 목(木)의 기운으로 돌파구를 열어", "위로 곧게 자라나는 목(木)의 에너지로 무너진 자존감을 세워",
-                "얼어붙은 땅을 뚫고 나오는 목(木)의 진취성으로 활로를 개척하여"
-            ][varIdxB2],
-            "화": [
-                "화(火)의 뜨거운 파동으로 심장 깊은 곳의 활력을 폭발시켜", "어둠을 가르는 화(火)의 맹렬한 빛으로 당신의 존재감을 드러내어",
-                "모든 것을 태워버릴 듯한 화(火)의 열정으로 한계를 녹여버리고", "꺼져가던 불씨를 살려내는 화(火)의 동기부여를 통해",
-                "태양처럼 세상을 밝히는 화(火)의 에너지로 당신의 무대를 확장시켜"
-            ][varIdxB2],
-            "토": [
-                "토(土)의 단단한 파동으로 흔들리지 않는 삶의 방파제를 세워", "모든 것을 묵묵히 품어내는 토(土)의 기운으로 든든한 기반을 다져",
-                "결코 변치 않는 토(土)의 신뢰감으로 당신의 중심을 단단히 잡아", "비옥한 토양과 같은 토(土)의 에너지로 결실을 맺을 터전을 마련해",
-                "어떤 풍파에도 끄떡없는 토(土)의 무게감으로 당신의 권위를 지켜내어"
-            ][varIdxB2],
-            "금": [
-                "금(金)의 정밀한 파동으로 당신의 삶에 날카로운 기준을 세워", "불필요한 곁가지를 단칼에 베어내는 금(金)의 예리함으로 본질만 남겨",
-                "강철처럼 단단한 금(金)의 기운으로 흔들리는 당신의 결단력을 벼려내어", "불순물을 걸러내는 금(金)의 순수함으로 맑고 투명한 지성을 부여하여",
-                "한 치의 오차도 용납하지 않는 금(金)의 완벽주의로 흠집 없는 성과를 만들어"
-            ][varIdxB2],
-            "수": [
-                "수(水)의 깊은 파동으로 막힌 흐름을 원활하게 뚫어내어", "어떤 형태에도 맞춰 스며드는 수(水)의 유연함으로 꽉 막힌 상황을 타개하고",
-                "보이지 않는 이면까지 꿰뚫어 보는 수(水)의 직관력으로 치명적인 실수를 막아", "메마른 대지를 적시는 수(水)의 윤택함으로 잃어버린 마음의 여유를 되찾아",
-                "끝내 바다에 이르고야 마는 수(水)의 끈질긴 인내심으로 목표 지점에 도달하게 이끌어"
-            ][varIdxB2]
-        };
-
-        // 2. 이름의 구원 (영어)
-        const nameActionEn = {
-            "목": [
-                "infusing strong vitality with the rising vibration of Wood", "granting the will of Wood to take root in any barren land",
-                "opening a breakthrough with the energy of Wood spreading its branches everywhere", "rebuilding collapsed self-esteem with the upward-growing energy of Wood",
-                "pioneering a path with the enterprising spirit of Wood breaking through frozen ground"
-            ][varIdxB2],
-            "화": [
-                "exploding vitality deep in your heart with the hot vibration of Fire", "revealing your presence with the fierce light of Fire cutting through the darkness",
-                "melting limitations with the passion of Fire that seems to burn everything", "providing motivation like Fire reviving a dying ember",
-                "expanding your stage with the energy of Fire brightening the world like the sun"
-            ][varIdxB2],
-            "토": [
-                "building an unshakable breakwater for your life with the solid vibration of Earth", "laying a solid foundation with the embracing energy of Earth",
-                "firmly holding your center with the unchanging reliability of Earth", "preparing a ground to bear fruit with the energy of Earth like fertile soil",
-                "protecting your authority with the weight of Earth unyielding to any storm"
-            ][varIdxB2],
-            "금": [
-                "establishing a sharp standard in your life with the precise vibration of Metal", "leaving only the essence with the sharpness of Metal cutting away unnecessary branches",
-                "forging your wavering resolve with the steel-like energy of Metal", "granting clear and transparent intellect with the purity of Metal filtering impurities",
-                "creating flawless results with the perfectionism of Metal that tolerates no errors"
-            ][varIdxB2],
-            "수": [
-                "smoothly clearing blocked flows with the deep vibration of Water", "overcoming deadlocks with the flexibility of Water that permeates into any shape",
-                "preventing fatal mistakes with the intuition of Water seeing through the unseen", "regaining lost peace of mind with the richness of Water moisturizing the dry earth",
-                "guiding you to your goal with the relentless patience of Water that ultimately reaches the sea"
-            ][varIdxB2]
-        };
-
-        // 💡 뒤에 [lackS] 가 반드시 붙어야 '어떤 오행'의 결핍인지 찾아옵니다.
-        const currentLackDesc = currentLang === 'ko' ? lackDescKo[lackS] : lackDescEn[lackS];
-        const currentNameAction = currentLang === 'ko' ? nameActionKo[nameS] : nameActionEn[nameS];
-
-        const blockBKo = `자칫 ${currentLackDesc} 운명의 사각지대를, 성명이 가진 ${currentNameAction} 당신의 약점을 보완했습니다.`;
-        const blockBEn = `The vibration of your name, by ${currentNameAction}, has transformed the blind spot of your destiny—where you were ${currentLackDesc}—into a weapon.`;
-
-        // 💡 [원상복구] 레이더 차트 같은 헛소리 다 빼고 결핍 서사만 담습니다.
-        const blockB = currentLang === 'ko' ? blockBKo : blockBEn;
-     
+        // 💡 2. 선천적 수준(강/중/하) 판독 (하: 50 이하, 중: 51~80, 강: 81 이상)
+        let levelIdx = 0; 
+        if (minBaseScore > 80) {
+            levelIdx = 2; // 강
+        } else if (minBaseScore > 50) {
+            levelIdx = 1; // 중
+        } else {
+            levelIdx = 0; // 하
+        }
         
-        const weaknessMapKo = {
-            "목(木)": ["부러지기 쉬운 고집과 압박감", "타인과 타협하기 힘든 독단성", "지나친 이상주의로 인한 현실 도피", "유연성 부족으로 빚어지는 마찰", "완벽을 기하다 시기를 놓치는 망설임", "목표만 바라보다 주변을 놓치는 무심함", "꺾일지언정 굽히지 않으려는 오만함", "시작은 창대하나 마무리가 부족한 용두사미", "타인의 조언을 간섭으로 여기는 폐쇄성", "스스로 정한 한계에 갇히는 강박증"][varIdx],
-            "화(火)": ["통제하기 힘든 감정의 기복과 조급함", "쉽게 타오르고 금방 식어버리는 끈기 부족", "지나친 자기주장으로 인한 구설수", "순간의 충동으로 인한 잦은 후회", "타인의 속도를 기다려주지 못하는 독선", "화려함만 좇다 실속을 놓치는 허영심", "에너지를 너무 빨리 소진하는 번아웃", "작은 비판에도 쉽게 발끈하는 예민함", "과정을 무시하고 결과만 탐하는 결과주의", "맹목적인 열정으로 주변을 피곤하게 하는 과열"][varIdx],
-            "토(土)": ["변화를 두려워하는 정체된 에너지", "타인의 짐까지 떠안는 과도한 오지랖", "우유부단함으로 잃게 되는 타이밍", "지나친 신중함으로 인한 실행력 저하", "과거의 상처를 쉽게 잊지 못하는 미련", "고집스럽게 옛 방식을 고수하는 보수성", "속마음을 털어놓지 않아 쌓이는 스트레스", "타인의 시선을 너무 의식하는 체면주의", "묵묵히 참다가 한 번에 터뜨리는 분노", "새로운 도전을 지레 포기하는 안일함"][varIdx],
-            "금(金)": ["자신을 찌르는 강박과 고립감", "지나치게 날카로운 비판과 냉소", "융통성 없는 원칙주의로 인한 마찰", "감정을 억누르다 찾아오는 번아웃", "타인의 온기를 밀어내는 방어기제", "한 치의 오차도 용납하지 않는 결벽증", "사람보다 규칙을 우선시하는 냉정함", "한 번 틀어지면 영원히 돌아서는 단절", "자신의 잣대로만 세상을 평가하는 편협함", "너무 베기만 하여 주변을 다치게 하는 날카로움"][varIdx],
-            "수(水)": ["정착하지 못하고 부유하는 불안감", "깊은 감정의 수렁에 빠지는 우울감", "현실을 직시하지 않으려는 도피성", "속을 내비치지 않아 생기는 오해", "주변 환경에 지나치게 휩쓸리는 의존성", "생각만 많고 행동으로 옮기지 못하는 공상", "지나친 비밀주의로 인한 관계의 단절", "음지로만 숨으려는 소극적인 태도", "작은 파문에도 크게 흔들리는 유리멘탈", "모든 것을 수용하려다 자신을 잃는 무경계성"][varIdx]
-        };
-
-        const weaknessMapEn = {
-            "목(木)": ["stubbornness and pressure that breaks easily", "dogmatism that finds it hard to compromise", "escapism due to excessive idealism", "friction caused by lack of flexibility", "hesitation that misses the timing by being too perfect", "indifference to surroundings while only looking at goals", "arrogance of refusing to bend even if it means breaking", "a grand start but a weak finish", "closed-mindedness that sees advice as interference", "compulsion trapped within self-imposed limits"][varIdx],
-            "화(火)": ["uncontrollable emotional swings and impatience", "lack of persistence that cools as fast as it burns", "trouble caused by excessive self-assertion", "frequent regrets from momentary impulses", "self-righteousness that cannot wait for others", "vanity that chases glamour but misses substance", "burnout from consuming energy too quickly", "sensitivity that reacts easily to minor criticism", "result-oriented mindset that ignores the process", "overheating that tires others with blind passion"][varIdx],
-            "토(土)": ["stagnant energy that fears change", "excessive meddling that takes on others' burdens", "indecisiveness that misses the right timing", "reduced execution due to over-caution", "lingering regrets over past wounds", "conservatism that stubbornly sticks to old ways", "stress built up by not sharing inner thoughts", "face-saving mindset too conscious of others' eyes", "anger that explodes after being held in for too long", "complacency that gives up on new challenges easily"][varIdx],
-            "금(金)": ["compulsion and isolation that pierces oneself", "excessively sharp criticism and cynicism", "friction due to inflexible principled behavior", "burnout from suppressing emotions", "defense mechanism that pushes away warmth", "perfectionism that tolerates no margin for error", "coldness that prioritizes rules over people", "severance that never turns back once broken", "narrow-mindedness that judges by one's own standards", "sharpness that hurts others by cutting too much"][varIdx],
-            "수(水)": ["anxiety that floats without settling", "depression from falling into deep emotional pits", "escapism that avoids facing reality", "misunderstandings from not showing one's true heart", "dependency easily swayed by the environment", "daydreaming that lacks action despite many thoughts", "severance of relationships due to excessive secrecy", "passive attitude of hiding in the shadows", "fragile mentality shaken by minor ripples", "lack of boundaries, losing oneself while accepting everything"][varIdx]
-        };
-
-        const weaponMapKo = {
-            "목(木)": ["뻗어나가는 유연한 기획력", "어떤 환경에서도 뿌리내리는 생명력", "타인을 이끄는 따뜻한 리더십", "끊임없이 성장하는 자기 계발 능력", "새로운 길을 개척하는 창조적 에너지", "척박한 땅에서도 싹을 틔우는 불굴의 의지", "주변 사람을 성장시키는 탁월한 멘토링", "곧은 신념으로 밀고 나가는 추진력", "작은 아이디어를 거대하게 키워내는 확장성", "사람과 사람을 엮어 숲을 만드는 포용력"][varIdx],
-            "화(火)": ["목표를 향한 폭발적인 추진력", "주변을 밝히는 압도적인 카리스마", "어둠을 가르는 직관적인 판단력", "대중의 마음을 사로잡는 강력한 호소력", "위기 상황을 뒤집는 승부사 기질", "얼어붙은 분위기를 녹이는 탁월한 친화력", "순식간에 판을 장악하는 무대 장악력", "남들이 주저할 때 앞장서는 선구자적 용기", "꺼져가는 불씨도 살려내는 동기부여 능력", "어떤 시련도 태워버리는 뜨거운 긍정 에너지"][varIdx],
-            "토(土)": ["모든 것을 품어내는 단단한 포용력", "어떤 흔들림에도 중심을 잡는 안정감", "사람과 사람을 잇는 탁월한 중재력", "주어진 환경을 비옥하게 만드는 생산성", "변함없는 신뢰를 주는 굳건한 태도", "흩어진 에너지를 하나로 모으는 결속력", "끝까지 약속을 지켜내는 우직한 책임감", "보이지 않는 곳에서 기반을 다지는 헌신", "누구와도 적을 만들지 않는 둥근 성품", "오랜 시간 축적된 경험을 활용하는 지혜"][varIdx],
-            "금(金)": ["불필요한 것을 잘라내는 예리한 결단력", "흐트러짐 없이 목표를 관철하는 집념", "정확하고 공정한 상황 분석력", "혼란 속에서 질서를 부여하는 통제력", "단호함으로 스스로를 지키는 독립성", "쓸데없는 감정에 휘둘리지 않는 평정심", "핵심만 꿰뚫어 보는 날카로운 직관", "한 번 뱉은 말은 무조건 지키는 결실의 에너지", "불의와 타협하지 않는 강직한 신념", "거친 원석을 보석으로 가공하는 정밀함"][varIdx],
-            "수(水)": ["상황에 맞게 스며드는 깊은 통찰력", "막힌 길도 돌아가는 지혜로운 처세술", "어떤 형태에도 맞추는 유연한 적응력", "보이지 않는 이면을 읽어내는 직관력", "끝내 바다에 도달하는 멈추지 않는 끈기", "메마른 곳을 적시는 뛰어난 공감 능력", "겉은 부드러우나 속은 강인한 외유내강", "다양한 지식을 흡수하는 스펀지 같은 수용력", "소리 없이 만물을 길러내는 생명력의 원천", "끊임없이 새로움을 추구하는 맑은 에너지"][varIdx]
-        };
-
-        const weaponMapEn = {
-            "목(木)": ["flexible planning ability that expands", "vitality to take root in any environment", "warm leadership that guides others", "constant self-development ability", "creative energy to pioneer new paths", "unyielding will to sprout even in barren land", "excellent mentoring to grow people", "driving force with straight beliefs", "scalability to grow small ideas into giant forests", "inclusiveness to weave people into a forest"][varIdx],
-            "화(火)": ["explosive driving force toward goals", "overwhelming charisma that brightens the surroundings", "intuitive judgment that pierces the dark", "powerful appeal that captures the public's heart", "gambler's spirit to turn crises around", "excellent friendliness that melts frozen atmospheres", "stage presence that instantly dominates the scene", "pioneer's courage to step forward when others hesitate", "motivational ability to revive dying embers", "hot positive energy that burns through any trial"][varIdx],
-            "토(土)": ["solid inclusiveness that embraces everything", "stability that maintains the center through any shake", "excellent mediation that connects people", "productivity that makes environments fertile", "unwavering attitude of trust", "cohesive force that gathers scattered energies", "honest responsibility to keep promises to the end", "devotion to laying foundations out of sight", "well-rounded personality that makes no enemies", "wisdom that utilizes long-accumulated experience"][varIdx],
-            "금(金)": ["sharp decisiveness that cuts away unnecessary things", "tenacity to pursue goals without distraction", "accurate and fair situation analysis", "control that brings order out of chaos", "independence to protect oneself with firmness", "composure unmoved by useless emotions", "sharp intuition that pierces the core", "fruiting energy to keep every word spoken", "rigid conviction that doesn't compromise with injustice", "precision that refines raw stones into jewels"][varIdx],
-            "수(水)": ["deep insight that permeates according to the situation", "wise survival tactics that go around blocked paths", "flexible adaptability to any form", "intuitive ability to read the unseen side", "endless persistence to eventually reach the sea", "excellent empathy that moisturizes dry places", "inner strength within a soft exterior", "sponge-like acceptance of diverse knowledge", "source of vitality that nurtures all things silently", "pure energy that constantly pursues novelty"][varIdx]
-        };
-
-        const currentWeakness = currentLang === 'ko' ? weaknessMapKo[coreEl] : weaknessMapEn[coreEl];
-        const currentWeapon = currentLang === 'ko' ? weaponMapKo[nameEl] : weaponMapEn[nameEl];
-
-        // 🧱 [Block C] 행동 지침 (다국어 지원 - 1,125가지 조합)
-        const varIdxC1 = transitionIdx % 5;
-        const varIdxC2 = (session.num81 + birthMonth) % 5;
-
-        const cStartKo = {
-            "목": ["그러니 두려움 없이 새로운 영역으로 끝없이 가지를 뻗어나가며,", "그러니 척박한 환경 속에서도 흔들림 없이 당신만의 뿌리를 깊게 내리며,", "그러니 타인의 시선에 갇히지 말고 당신만의 독창적인 성장을 멈추지 않으며,", "그러니 비바람이 몰아쳐도 꺾이지 않는 유연하고 강인한 태도를 견지하며,", "그러니 작게 시작한 아이디어를 거대한 숲으로 키워내는 인내심을 품고,"],
-            "화": ["그러니 눈치 보지 말고 당신의 가슴속 뜨거운 열정을 남김없이 불태우며,", "그러니 누구도 흉내 낼 수 없는 당신만의 압도적인 에너지를 뿜어내며,", "그러니 어둠 속에서 길을 잃은 자들에게 환한 빛이 되어주는 마음으로,", "그러니 주저하거나 망설이지 말고 목표를 향해 폭발적으로 돌진하며,", "그러니 한 번 시작한 일은 재가 될 때까지 몰입하는 집념을 발휘하여,"],
-            "토": ["그러니 주변의 소음이나 유혹에 흔들리지 않는 굳건한 신념으로 자리를 지키며,", "그러니 어떤 시련이 와도 모든 것을 묵묵히 품어내는 대지의 넓은 마음으로,", "그러니 섣불리 움직이기보다 보이지 않는 곳에서 당신만의 단단한 기반을 다지며,", "그러니 흩어진 사람들의 에너지를 하나로 모아주는 든든한 중심축이 되어,", "그러니 한순간의 요행을 바라지 않고 우직하게 당신만의 길을 걸어가며,"],
-            "금": ["그러니 불필요한 감정 소모와 타협을 과감히 잘라내고 오직 본질에 집중하며,", "그러니 남들이 놓치는 미세한 빈틈까지 꿰뚫어 보는 예리한 직관을 믿고,", "그러니 정에 이끌려 스스로의 원칙을 훼손하지 않는 단호함을 무기로 삼아,", "그러니 혼란스러운 상황 속에서도 흐트러지지 않는 완벽한 통제력을 유지하며,", "그러니 외부의 간섭을 차단하고 스스로를 다듬어 빛나는 보석으로 완성하며,"],
-            "수": ["그러니 거대한 장벽에 부딪히더라도 멈추지 않고 유연하게 스며들어 흐름을 주도하며,", "그러니 겉으로 드러나는 현상 너머의 깊은 진실을 꿰뚫어 보는 지혜를 발휘하여,", "그러니 어떤 낯선 환경에도 물처럼 자연스럽게 형태를 바꾸며 적응해 나가며,", "그러니 단단한 바위를 뚫는 물방울처럼 끈질기고 집요한 인내심을 품고,", "그러니 좁은 계곡에 머물지 않고 끝내 넓은 바다로 나아가려는 포부를 안고,"]
-        };
-
-        const cStartEn = {
-            "목": ["So, fearlessly stretch your branches into new territories,", "So, firmly strike your roots even in barren environments,", "So, do not stop your unique growth without being confined by others' eyes,", "So, maintain a flexible yet strong attitude that doesn't break in storms,", "So, harbor the patience to grow small ideas into massive forests,"],
-            "화": ["So, burn the hot passion in your heart without worrying about others,", "So, exude your overwhelming energy that no one can imitate,", "So, with a heart that becomes a bright light for those lost in the dark,", "So, charge explosively toward your goals without hesitation,", "So, exert the tenacity to immerse yourself until your work turns to ash,"],
-            "토": ["So, stand your ground with a firm conviction unmoved by noise or temptation,", "So, with the broad heart of the earth that silently embraces all trials,", "So, lay your solid foundation out of sight rather than moving rashly,", "So, become a reliable pillar that gathers the energy of scattered people,", "So, walk your path honestly without wishing for momentary luck,"],
-            "금": ["So, cut away unnecessary emotional waste and focus only on the essence,", "So, trust your sharp intuition that sees fine gaps others miss,", "So, use firmness that doesn't compromise principles for affection as your weapon,", "So, maintain perfect control without faltering in chaotic situations,", "So, block external interference and refine yourself into a shining jewel,"],
-            "수": ["So, lead the flow by flexibly permeating even when hitting massive walls,", "So, exert the wisdom to see the deep truth beyond appearing phenomena,", "So, adapt by naturally changing your form like water in any strange environment,", "So, harbor the persistent and tenacious patience like a drop of water piercing rock,", "So, with the ambition to eventually reach the vast ocean beyond narrow valleys,"]
-        };
-
-
-      const cEndKo = [
-            // 0-1: 완성(지혜) - 강(强): 전략 기획의 브레인
-            ["복잡한 사업 구조를 한눈에 파악해 매뉴얼을 만들거나 효율적인 시스템을 설계하는 데 능숙합니다. 전사 전략 기획, 경영 진단, 혹은 IT 서비스 기계 설계 분야에 도전한다면 조직의 핵심 브레인으로 성공할 것입니다."],
-            // 0-2: 완성(지혜) - 약(弱): 정밀 데이터 분석가
-            ["눈에 띄지 않는 사소한 오류나 데이터의 허점을 찾아내는 정밀함이 당신의 무기입니다. 시장 조사 리서처, 법무 검토 전문가, 혹은 품질 관리(QC) 분야에서 실력을 발휘해 업계의 인정을 받아보십시오."],
-            
-            // 1-1: 개척(리더) - 강(强): 야전 사령관 영업 리더
-            ["없는 길도 만들어내는 돌파력이 있어 신규 영업이나 시장 개척에서 독보적인 성과를 냅니다. 프랜차이즈 본부장, 신사업 TF 팀장, 혹은 해외 영업 선구자로서 당신만의 성취를 증명해 보십시오."],
-            // 1-2: 개척(리더) - 약(弱): 트렌디한 지식 노동자
-            ["대중의 취향 변화를 읽는 감각이 빨라 새로운 컨텐츠나 서비스를 제안하는 데 능합니다. 컨텐츠 디렉터, 디지털 마케터, 혹은 1인 지식 창업가로서 작지만 강한 성공을 일궈내 보십시오."],
-
-            // 2-1: 조력(안정) - 강(强): 조직의 든든한 안살림꾼
-            ["조직의 리스크를 관리하고 내부 결속을 다지는 운영 역량이 매우 뛰어납니다. 인사 총무 팀장, 대규모 행사 운영 총괄, 혹은 SCM(물류/공급망) 관리 분야에서 대체 불가능한 실세가 되어보십시오."],
-            // 2-2: 조력(안정) - 약(弱): 완벽주의 서포트 전문가
-            ["상사가 놓치는 세세한 일정과 서류의 디테일을 챙겨 프로젝트의 완성도를 높이는 능력이 탁월합니다. 전문 비서직, 편집/교정 전문가, 혹은 사내 정책 운영 지원 분야에서 승부를 보십시오."],
-
-            // 3-1: 열정(표현) - 강(强): 분위기 메이커 홍보맨
-            ["사람들의 마음을 움직이는 에너지가 있어 홍보나 교육 등 무대 앞에 서는 일에 적합합니다. 사내 강사, 대외 홍보 전문가, 혹은 커뮤니티 매니저 분야에 도전하여 당신의 존재감을 발휘하십시오."],
-            // 3-2: 열정(표현) - 약(弱): 감성 브랜딩 전문가
-            ["시각적 미학과 세련된 언어를 조합해 브랜드의 가치를 높이는 기획력이 돋보입니다. VMD(디스플레이), 카피라이터, 혹은 SNS 비주얼 디렉터 분야에서 당신만의 색깔을 입증해 보십시오."],
-
-            // 4-1: 신용(기반) - 강(强): 실속파 자산 관리자
-            ["현금 흐름과 실질적인 자산 가치를 판단하는 감각이 매우 현실적입니다. 부동산 시행, 투자 운용 총괄, 혹은 실무 중심의 제조 사업가로 활약하여 가문의 경제적 기반을 닦아보십시오."],
-            // 4-2: 신용(기반) - 약(弱): 꼼꼼한 재무 설계사
-            ["단 1원의 오차도 용납하지 않는 정직함과 치밀함으로 금전적인 신뢰를 얻습니다. 세무 회계 법인, 은행 자산 관리사(PB), 혹은 기업 재무팀 분야에서 탄탄한 커리어를 쌓아 정점에 오르십시오."],
-
-            // 5-1: 제왕(권력) - 강(强): 카리스마 결정권자
-            ["조직의 방향을 결정하고 사람들을 일사불란하게 움직이는 통솔력이 본능적으로 탑재되어 있습니다. 기업 임원, 정치적 리더, 혹은 거대 조직의 의사결정권자로서 당신의 영향력을 증명해 보십시오."],
-            // 5-2: 제왕(권력) - 약(弱): 핵심 전략 비서실장
-            ["권력자의 곁에서 가장 냉철한 조언을 건네며 실무 질서를 바로잡는 지략가의 기운이 강합니다. 고위 공직자, 기업 전략 본부, 혹은 전문직 법조인 분야에서 당신만의 명예를 쟁취하십시오."],
-
-            // 6-1: 화합(희생) - 강(强): 인재 육성 전문가
-            ["후배들의 잠재력을 끌어올리고 조직의 문화를 따뜻하게 만드는 인품과 역량이 있습니다. HRD(교육훈련), 복지 재단 리더, 혹은 교육 기관 운영자로서 존경받는 사회적 성공을 거머쥐십시오."],
-            // 6-2: 화합(희생) - 약(弱): 마음을 어루만지는 상담가
-            ["갈등을 중재하고 상대방의 고민을 들어주는 것만으로도 주변을 변화시키는 힘이 있습니다. 전문 심리 상담사, 노사 협력 중재자, 혹은 라이프 코치 분야에서 당신의 가치를 전파해 보십시오."],
-
-            // 7-1: 혁신(독립) - 강(强): 기술 중심의 독보적 장인
-            ["기존 방식을 거부하고 본인만의 노하우로 최고의 결과물을 내는 장인 정신이 강합니다. 전문 기술 명장, 파괴적 혁신 개발자, 혹은 인테리어 건축 설계 분야에서 독보적 권위를 확보하십시오."],
-            // 7-2: 혁신(독립) - 약(弱): 스마트한 독립 전문가
-            ["조직의 규율보다 자유로운 환경에서 오직 실력으로 승부할 때 가장 빛이 납니다. 고부가가치 프리랜서, 독립 큐레이터, 혹은 특수 기술 컨설턴트로서 나다운 성공을 마음껏 누려보십시오."],
-
-            // 8-1: 처세(융통) - 강(强): 기민한 비즈니스맨
-            ["시장의 냄새를 잘 맡고 위기를 기회로 바꾸는 순발력과 생존력이 엄청납니다. 무역 사업, 유통 총괄, 혹은 스타트업 투자 분야에서 최후의 승자가 되어 자본의 흐름을 장악해 보십시오."],
-            // 8-2: 처세(융통) - 약(弱): 능구렁이 협상가
-            ["상대방의 의중을 간파하고 원하는 결과를 얻어내는 유연한 대처 능력이 일품입니다. 엔터테인먼트 에이전트, 대관 홍보(PR), 혹은 국제 협력 전문가 분야에서 성공의 가도를 달려보십시오."]
-        ];
-       const cEndEn = [
-            // 0-1: Wisdom - Strong: Solution Architect
-            ["You excel at conceptualizing macro-strategies and designing complex infrastructures. Your strength lies in systematic planning rather than daily operations. Aim for success as a Solution Architect, Strategic Consultant, or Urban Policy Planner."],
-            // 0-2: Wisdom - Weak: Data Analyst & Auditor
-            ["You have a unique talent for spotting logical fallacies and data discrepancies others overlook. A career focused on precision and evidence is ideal. Excel as a Market Research Analyst, Legal Reviewer, or Quality Assurance Specialist."],
-            
-            // 1-1: Pioneer - Strong: Entrepreneurial Leader
-            ["You are a natural 'Go-getter' who breaks through obstacles to dominate new markets. You thrive as a founder or a high-stakes decision-maker. Pursue a career in Tech Startups, Venture Capital, or Business Development."],
-            // 1-2: Pioneer - Weak: Creative Content Director
-            ["Your ability to capture cultural shifts and present new lifestyles is your greatest asset. Rather than a rigid office job, monetize your vision. Thrive as a Content Strategist, Digital Trendsetter, or Media Branding Expert."],
-
-            // 2-1: Assistant - Strong: Operational Excellence Manager
-            ["You are an operations master who stabilizes organizations and mitigates risks before they occur. You thrive as a COO or a project head. Lead in Operations Management, Global Supply Chain (SCM), or Crisis Management."],
-            // 2-2: Assistant - Weak: Precision Support Specialist
-            ["You ensure project success through meticulous attention to detail and high-level administrative coordination. Your work is a guarantee of quality. Excel as an Executive Assistant, Professional Editor, or Project Coordinator."],
-
-            // 3-1: Passion - Strong: Public Speaker & Influencer
-            ["You have the charismatic energy to captivate audiences and build a strong personal brand. Your voice is your greatest currency. Impact the world as a Keynote Speaker, PR Specialist, or Large-scale Event Host."],
-            // 3-2: Passion - Weak: Visual Brand Storyteller
-            ["Your delicate aesthetic sense allows you to influence consumer behavior through visual and linguistic art. Professionalizing your taste is your calling. Paint the world as an Art Director, Copywriter, or Brand Designer."],
-
-            // 4-1: Trust - Strong: Asset & Wealth Manager
-            ["You focus on tangible results and have a sharp instinct for scaling capital into long-term wealth systems. Dominating the flow of the real economy is your destiny. Rise as a Real Estate Developer, Private Equity Manager, or Industrialist."],
-            // 4-2: Trust - Weak: Financial Compliance Expert
-            ["Your reputation is built on integrity and flawless financial execution. You are the 'Trust Standard' in any financial field. Build your career as a Tax Accountant, Financial Advisor (PB), or Corporate Controller."],
-
-            // 5-1: Emperor - Strong: CEO & Managing Director
-            ["You shine when setting the organizational vision and exercising final authority over the fates of many. Do not settle for middle management. Implement your dominance as a CEO, Managing Director, or Institutional Leader."],
-            // 5-2: Emperor - Weak: Chief Strategy Staff
-            ["You are a brilliant strategist who provides the decisive move behind the throne. Designing core systems with intellectual superiority is your driver. Secure your place as a Chief Strategy Officer (CSO), Senior Advisor, or Specialist Attorney."],
-
-            // 6-1: Harmony - Strong: HRD & Education Leader
-            ["Beyond individual success, you possess a noble energy to awaken human potential and build organizational culture. You find fulfillment in social impact. Lead as an HRD Director, NGO Executive, or Educational Foundation Head."],
-            // 6-2: Harmony - Weak: Mental Health & Life Coach
-            ["You have the power to heal hearts and mediate deep conflicts through empathy. People find clarity through you. Create change as a Professional Counselor, Industrial Mediator, or High-end Life Coach."],
-
-            // 7-1: Innovation - Strong: Technical Specialist & Architect
-            ["You reject conventional wisdom in favor of peerless craftsmanship and original technical solutions. Gain authority through your unique expertise. Reach the top as a Lead Developer, R&D Engineer, or Architectural Designer."],
-            // 7-2: Innovation - Weak: Independent Consultant
-            ["You loathe rigid structures and perform best when working on high-value projects with total autonomy. Freedom and pure skill are your pride. Enjoy success as an Independent Consultant, Specialist Freelancer, or Curator."],
-
-            // 8-1: Survival - Strong: M&A & Trading Specialist
-            ["You have an animalistic instinct for market trends and extracting profit under any circumstances. You are a 'Survivor' in the world of high-level business. Excel in M&A, Global Trading, or Logistics Expansion."],
-            // 8-2: Survival - Weak: Strategic Talent Agent
-            ["Your ability to read intentions and negotiate favorable terms through compromise is your greatest weapon. Influence the board as a Talent Agent, Public Relations (PR) Expert, or Diplomatic Representative."]
+        // 💡 3. 이름표 및 강중하 상태 사전 (한국어/영어)
+        const elNamesKoForB = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
+        const elNamesEnForB = ["Wood", "Fire", "Earth", "Metal", "Water"];
+        
+        const elPropsKo = [
+            [ "웅크린 씨앗과 같던", "자라나는 새싹과 같은", "거대한 숲처럼 뻗어나가는" ], // 목
+            [ "꺼져가는 불씨와 같던", "따뜻한 온기를 품은", "태양처럼 타오르는" ], // 화
+            [ "메말라 갈라진 흙과 같던", "만물을 품어주는", "흔들림 없는 광활한 대지와 같은" ], // 토
+            [ "무뎌진 쇳조각과 같던", "단단하게 제련되어 가는", "세상을 베는 예리한 명검과 같은" ], // 금
+            [ "말라붙은 우물과 같던", "잔잔하게 흐르는 시냇물 같은", "깊이를 알 수 없는 바다와 같은" ] // 수
         ];
 
-       const currentCStart = currentLang === 'ko' ? cStartKo[nameS][varIdxC1] : cStartEn[nameS][varIdxC1];
+        const elPropsEn = [
+            [ "like a dormant seed", "like a growing sprout", "expanding like a vast forest" ],
+            [ "like a fading ember", "holding a warm glow", "blazing like the sun" ],
+            [ "like parched, cracked soil", "embracing all things", "like an unshakable, vast land" ],
+            [ "like a dulled piece of iron", "being forged into shape", "like a sharp, legendary sword" ],
+            [ "like a dried-up well", "like a gently flowing stream", "like an unfathomably deep ocean" ]
+        ];
 
-        // 💡 18가지 페르소나 매칭 로직 (강/약에 따라 인덱스 변환)
-        let detailIdx = themeIdx * 2; 
-        if (intensity === "약함" || intensity === "극약") {
-            detailIdx += 1; 
+        // 💡 4. 알맞은 단어 꺼내기
+        const weakNameKo = elNamesKoForB[weakIdx];
+        const weakNameEn = elNamesEnForB[weakIdx];
+        const propKo = elPropsKo[weakIdx][levelIdx];
+        const propEn = elPropsEn[weakIdx][levelIdx];
+
+        // 💡 5. 이름이 더해진 최종 점수 확인
+        const weakFinal = session.elementScores[weakIdx]; 
+
+        // 💡 6. 충돌 방지용 고유 이름표 준비 (글자 쪼개짐 방지용 [])
+        let dynamicNarrativeKo_B = [""];
+        let dynamicNarrativeEn_B = [""];
+
+        // 💡 7. 5단계 최종 서사 판독 
+        if (weakFinal <= 50) {
+            // 1단계: 미세 보완
+            dynamicNarrativeKo_B = [`운명의 빈틈이었던 ${propKo} <b>${weakNameKo}</b>의 에너지를 채우기 시작했으나, 아직은 세심한 관리가 필요한 단계입니다. 무리한 확장보다는 내실을 다지는 주의가 필요합니다.`];
+            dynamicNarrativeEn_B = [`The <b>${weakNameEn}</b> energy, ${propEn}, has begun to flow but still requires careful management. Focus on internal stability rather than aggressive expansion.`];
+        } 
+        else if (weakFinal > 50 && weakFinal <= 85) {
+            // 2단계: 적정 보완
+            dynamicNarrativeKo_B = [`치명적인 약점이었던 ${propKo} <b>${weakNameKo}</b>의 기운이 보완되어 드디어 안정적인 궤도에 올라섰습니다. 막혀있던 흐름이 뚫리면서 어떤 풍파에도 쉽게 무너지지 않는 현실적인 기반이 완성되었습니다.`];
+            dynamicNarrativeEn_B = [`Your critical weakness in <b>${weakNameEn}</b>, ${propEn}, has reached a stable trajectory. The blockage has been cleared, establishing a solid foundation.`];
+        }
+        else if (weakFinal > 85 && weakFinal <= 110) {
+            // 3단계: 역전 보완
+            dynamicNarrativeKo_B = [`취약했던 ${propKo} <b>${weakNameKo}</b>의 기운이 이제는 당신을 이끄는 강력한 무기로 변모했습니다. 단점이 장점이 되는 이 역전의 서사는 당신의 운명을 비약적으로 도약시키는 핵심 경쟁력이 될 것입니다.`];
+            dynamicNarrativeEn_B = [`What was once your vulnerability in <b>${weakNameEn}</b>, ${propEn}, has been transformed into a powerful asset. This turnaround will serve as a key competitive advantage.`];
+        }
+        else if (weakFinal > 110 && weakFinal <= 130) {
+            // 4단계: 독보적 진화
+            dynamicNarrativeKo_B = [`${propKo} <b>${weakNameKo}</b>의 잠재력에 날카로운 날을 더해 독보적인 무기로 완성했습니다. 약점 보완을 넘어, 이 분야에서 압도적인 우위를 점할 수 있는 천부적인 능력을 얻게 되었습니다.`];
+            dynamicNarrativeEn_B = [`You have added a sharp edge to your latent <b>${weakNameEn}</b> potential, ${propEn}, achieving unparalleled expertise. You have acquired a natural weapon granting an overwhelming advantage.`];
+        }
+        else {
+            // 5단계: 최적화 조율 (점수가 130을 초과할 정도로 너무 강해졌을 때)
+            dynamicNarrativeKo_B = [`${propKo} <b>${weakNameKo}</b>의 넘치는 에너지를 정교하게 다듬어 최적의 밸런스로 조율했습니다. 에너지가 낭비 없이 적재적소에 쓰일 수 있는 완벽한 균형점은 평생을 지탱할 건강한 엔진이 됩니다.`];
+            dynamicNarrativeEn_B = [`Your abundant <b>${weakNameEn}</b> energy, ${propEn}, has been finely tuned for maximum efficiency. This perfect balance ensures your resources are utilized effectively.`];
         }
 
-        // 💡 [수정 포인트] 뒤에 [0]을 붙여서 배열 안의 '글자'만 쏙 빼옵니다.
-        const currentCEnd = currentLang === 'ko' ? cEndKo[detailIdx][0] : cEndEn[detailIdx][0];
+     // =========================================================
+        // 🌟 Block C : 최종 상위 3대 기운 종합 및 현실적 과업(직업) 추천
+        // =========================================================
 
-        const blockC = `${currentCStart} ${currentCEnd}`;
+        // 💡 1. 5개 오행 중 최종 점수(finalVal) 1, 2, 3위 추출하기
+        const finalScoresWithIdx_C = session.elementScores.map((score, index) => {
+            return { score: score, index: index };
+        });
+        
+        finalScoresWithIdx_C.sort((a, b) => b.score - a.score);
+
+        const top1Idx_C = finalScoresWithIdx_C[0].index;
+        const top2Idx_C = finalScoresWithIdx_C[1].index;
+        const top3Idx_C = finalScoresWithIdx_C[2].index;
+
+        const top1Score_C = finalScoresWithIdx_C[0].score;
+        const top2Score_C = finalScoresWithIdx_C[1].score;
+
+        // 💡 2. 이름표 및 오행별 핵심 키워드 세팅
+        const elNamesKo_C = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
+        const elNamesEn_C = ["Wood", "Fire", "Earth", "Metal", "Water"];
+
+        const keywordsKo_C = ["성장과 기획력", "열정과 표현력", "안정감과 포용력", "냉철한 결단력", "깊은 통찰과 유연함"];
+        const keywordsEn_C = ["Growth and Planning", "Passion and Expression", "Stability and Embrace", "Cold Decision-making", "Deep Insight and Flexibility"];
+
+        const top1NameKo_C = elNamesKo_C[top1Idx_C]; const key1Ko_C = keywordsKo_C[top1Idx_C];
+        const top2NameKo_C = elNamesKo_C[top2Idx_C]; const key2Ko_C = keywordsKo_C[top2Idx_C];
+        const top3NameKo_C = elNamesKo_C[top3Idx_C]; const key3Ko_C = keywordsKo_C[top3Idx_C];
+
+        const top1NameEn_C = elNamesEn_C[top1Idx_C]; const key1En_C = keywordsEn_C[top1Idx_C];
+        const top2NameEn_C = elNamesEn_C[top2Idx_C]; const key2En_C = keywordsEn_C[top2Idx_C];
+        const top3NameEn_C = elNamesEn_C[top3Idx_C]; const key3En_C = keywordsEn_C[top3Idx_C];
+
+        // 💡 3. 유형 판독 (장인형 vs 올라운더형)
+        const isSpecialist_C = (top1Score_C - top2Score_C) > 25;
+
+        // 💡 4. 대한민국 현실 맞춤형 직업 사전 (통문장형)
+        const jobsKo_C = [
+            [ "IT 및 신규사업 기획자, 건축 및 인테리어 설계사, 혹은 전문 연구 개발자(R&D)", 
+              "HR 인재 관리 및 헤드헌터, 교육 서비스 및 학원 경영, 혹은 B2B 플랫폼 영업 총괄" ],
+            [ "뉴미디어 콘텐츠 크리에이터, 전문 강사 및 프리젠터, 혹은 영상 및 시각 예술 디렉터", 
+              "온라인 커머스 및 쇼핑몰 운영, 브랜드 마케팅 총괄 디렉터, 혹은 대형 행사 및 이벤트 기획자" ],
+            [ "공인중개사 및 부동산 전문가, 신탁 및 프라이빗 자산 관리인, 혹은 행정 및 법무/노무 전문가", 
+              "프랜차이즈 및 자영업 경영, 숙박 및 대형 공간 대여업, 혹은 지역 기반 커뮤니티 사업가" ],
+            [ "세무사 및 전문 회계직, 정밀 기계 및 데이터 사이언티스트, 혹은 금융 펀드 및 투자 분석가", 
+              "기업 재무 및 경영 최고관리자(CFO), 유통 및 물류 시스템 총괄, 혹은 품질 관리 및 평가 전문가" ],
+            [ "심리 상담사 및 정신과 전문의, 기업 전략 컨설턴트, 혹은 전문 통역 및 번역가", 
+              "해외 무역 및 글로벌 영업, 트렌드 분석 및 연구소장, 혹은 데이터 기반 유통 플랫폼 기획" ]
+        ];
+
+        const jobsEn_C = [
+            [ "an IT and new business planner, an architect and interior designer, or an R&D specialist", 
+              "an HR manager and headhunter, an education service and academy director, or a B2B platform sales manager" ],
+            [ "a new media content creator, a professional instructor and presenter, or a visual and art director", 
+              "an online commerce and store operator, a brand marketing director, or an event and exhibition planner" ],
+            [ "a real estate expert and realtor, a private asset and trust manager, or an administrative and legal specialist", 
+              "a franchise and business owner, a hospitality and space rental operator, or a community-based entrepreneur" ],
+            [ "a tax accountant and financial auditor, a precision engineer and data scientist, or a financial investment analyst", 
+              "a Chief Financial Officer (CFO), a logistics and supply chain director, or a quality assurance and evaluation expert" ],
+            [ "a psychologist and psychiatrist, a corporate strategy consultant, or a professional translator and interpreter", 
+              "an international trade and global sales manager, a trend analyst and research director, or a data-driven platform planner" ]
+        ];
+
+        const jobTypeIdx_C = isSpecialist_C ? 0 : 1;
+        const recommendedJobsKo_C = jobsKo_C[top1Idx_C][jobTypeIdx_C];
+        const recommendedJobsEn_C = jobsEn_C[top1Idx_C][jobTypeIdx_C];
+
+        // 💡 5. 최종 서사 조립 (이름표 충돌 방지 완료)
+        let dynamicNarrativeKo_C = [""];
+        let dynamicNarrativeEn_C = [""];
+
+        if (isSpecialist_C) {
+            dynamicNarrativeKo_C = [`당신의 최종 운명은 압도적인 <b>${top1NameKo_C}</b>(${key1Ko_C})을 중심으로, <b>${top2NameKo_C}</b>(${key2Ko_C})와 <b>${top3NameKo_C}</b>(${key3Ko_C})가 보좌하는 <b>'독보적 장인'</b>의 형상입니다. 한 분야의 정점을 향해 칼날을 벼려낼 때 가장 큰 부와 명예를 거머쥡니다. 여러 일을 벌이기보다 당신만의 전문 성벽을 높이 쌓고 세상을 내려다보십시오. 이름이 벼려낸 이 예리한 감각을 실전에 활용할 수 있는 당신의 현실적인 현생 과업은 <b>${recommendedJobsKo_C}</b>입니다.`];
+            dynamicNarrativeEn_C = [`Your final destiny takes the form of an <b>'Unrivaled Specialist'</b>, centered around overwhelming <b>${top1NameEn_C}</b> (${key1En_C}), supported by <b>${top2NameEn_C}</b> (${key2En_C}) and <b>${top3NameEn_C}</b> (${key3En_C}). You achieve the greatest wealth when honing your skills toward the pinnacle of a single field. Your realistic life task based on this keen sense is to become <b>${recommendedJobsEn_C}</b>.`];
+        } else {
+            dynamicNarrativeKo_C = [`당신의 최종 운명은 어느 한 곳에 치우치지 않고 <b>${top1NameKo_C}</b>(${key1Ko_C}), <b>${top2NameKo_C}</b>(${key2Ko_C}), <b>${top3NameKo_C}</b>(${key3Ko_C})가 황금 비율을 이루는 <b>'다재다능 해결사'</b>의 형상입니다. 혼자 돋보이기보다 거대한 판을 짜고 시스템을 운영할 때 진정한 거부가 됩니다. 이름이 선물한 이 단단한 균형감을 바탕으로 능력을 십분 발휘할 당신의 현실적인 현생 과업은 <b>${recommendedJobsKo_C}</b>입니다.`];
+            dynamicNarrativeEn_C = [`Your final destiny is shaped as a <b>'Versatile Problem Solver'</b>, achieving a golden ratio of <b>${top1NameEn_C}</b> (${key1En_C}), <b>${top2NameEn_C}</b> (${key2En_C}), and <b>${top3NameEn_C}</b> (${key3En_C}). You build true wealth by designing big pictures and operating systems rather than shining alone. Based on this solid balance, your realistic life task is to become <b>${recommendedJobsEn_C}</b>.`];
+        }
 
         // 💡 3개의 블록을 하나의 거대한 서사로 조립합니다.
         const missionText = `${blockA}\n${blockB}\n${blockC}`;
