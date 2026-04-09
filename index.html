@@ -508,23 +508,23 @@ function switchTab(mode, element) {
 
         // 💡 [5단계 판독] 대표님 사진의 '금(金)'처럼 뾰족하게 튀어나온 상황을 1순위로 체크!
         if (baseVal > 110 && finalVal > baseVal) { 
-            dynamicNarrativeKo = [`이미 타고난 강점인 <b>${topElName}</b>의 기운에 성명의 파동이 예리한 날을 더해주었습니다. 안주하지 않고 강점을 극한으로 벼려냄으로써, 특정 분야에서 그 누구도 범접할 수 없는 '절대적 전문성'을 확보하게 되었습니다.`];
+            dynamicNarrativeKo = [`이미 강한 <b>${topElName}</b>의 기운에 성명의 파동이 예리한 날을 더해주었습니다. 안주하지 않고 강점을 극한으로 벼려냄으로써, 특정 분야에서 범접할 수 없는 '절대적 전문성'을 확보하게 되었습니다.`];
             dynamicNarrativeEn = [`the vibration of your name has further sharpened your innate strength in <b>${topElName}</b>. By refining your greatest asset to its limit, you have secured an 'absolute expertise' that no one else can challenge.`];
         } 
         else if (baseVal <= 50) {
-            dynamicNarrativeKo = [`소멸 직전이었던 <b>${topElName}</b>의 에너지를 성명의 파동이 기적적으로 심폐소생하여 보통 수준으로 끌어올렸습니다. 치명적이었던 운명의 구멍이 메워지며 이제야 안정적인 삶의 궤도에 진입하게 되었습니다.`];
+            dynamicNarrativeKo = [`소멸 직전이었던 <b>${topElName}</b>의 에너지를 성명의 파동이 기적적으로 심폐소생하여 적절한 수준으로 끌어올렸습니다. 치명적이었던 운명의 구멍이 메워지며 이제야 안정적인 궤도에 진입하게 되었습니다.`];
             dynamicNarrativeEn = [`the vibration of your name has miraculously revived the nearly depleted <b>${topElName}</b> energy...`];
         } 
         else if (baseVal > 50 && baseVal <= 80) {
-            dynamicNarrativeKo = [`부족했던 <b>${topElName}</b>의 에너지를 성명의 파동이 폭발적으로 증폭시켜 당신의 새로운 주무기로 탈바꿈시켰습니다. 가장 취약했던 부분이 이제는 가장 강력한 경쟁력이 되는 '역전의 서사'가 완성되었습니다.`];
+            dynamicNarrativeKo = [`약간 모자랐던 <b>${topElName}</b>의 에너지를 성명의 파동이 폭발적으로 증폭시켜 당신의 새로운 주무기로 탈바꿈시켰습니다. 다소 약했던 부분이 가장 강력한 경쟁력이 되는 '역전의 서사'가 완성되었습니다.`];
             dynamicNarrativeEn = [`the vibration of your name has explosively amplified the lacking <b>${topElName}</b> energy...`];
         } 
         else if (baseVal > 80 && baseVal <= 110) {
-            dynamicNarrativeKo = [`적당한 수준에 머물던 <b>${topElName}</b>의 잠재력을 성명의 파동이 극한까지 자극하여 압도적인 정점으로 이끌었습니다. 평범한 재능이 이제는 업계를 리드할 수 있는 독보적인 전문성으로 완벽히 진화하였습니다.`];
+            dynamicNarrativeKo = [`적당한 수준에 머물던 <b>${topElName}</b>의 잠재력을 성명의 파동이 극한까지 자극하여 압도적인 정점으로 이끌었습니다. 평범한 재능이 업계를 리드할 수 있는 '독보적인 전문성'으로 진화하였습니다.`];
             dynamicNarrativeEn = [`the vibration of your name has stimulated your latent <b>${topElName}</b> energy...`];
         } 
         else {
-            dynamicNarrativeKo = [`성명의 파동이 <b>${topElName}</b>의 에너지를 정교하게 미세 조정하여 운명의 전체적인 밸런스를 최적의 상태로 맞추어 주었습니다. 과함은 덜어내고 부족함은 메워, 에너지를 가장 효율적으로 쓸 수 있는 완벽한 조율이 이루어졌습니다.`];
+            dynamicNarrativeKo = [`성명의 파동이 <b>${topElName}</b>의 에너지를 정교하게 조정하여 운명의 전체적인 밸런스를 최적의 상태로 맞추어 주었습니다. 과함은 덜어내고 부족함은 메워, '완벽한 조율'이 이루어졌습니다.`];
             dynamicNarrativeEn = [`the vibration of your name has precisely fine-tuned the <b>${topElName}</b> energy...`];
         }
 
@@ -615,8 +615,8 @@ function switchTab(mode, element) {
             bridgeEn = `The vibration of your name is equipped with the energies of <b>${boostedTextEn}</b>, refining your strengths. These vibrations fuse with your innate energies to create the completed theme of <b>[${currentTheme}]</b>.`;
         }
 
-        const blockAKo = `당신은 본래 ${currentTrait}을 타고났습니다.\n${bridgeKo}\n결과적으로 ${dynamicNarrativeKo[0]}`;
-        const blockAEn = `You were originally born with ${currentTrait}.\n${bridgeEn}\nAs a result, ${dynamicNarrativeEn[0]}`;
+        const blockAKo = `당신은 본래 ${currentTrait}을 타고났습니다.\n${bridgeKo}\n또한 ${dynamicNarrativeKo[0]}`;
+        const blockAEn = `You were originally born with ${currentTrait}.\n${bridgeEn}\nAlso, ${dynamicNarrativeEn[0]}`;
         
         // 💡 [Block A 마무리]
         const blockA = currentLang === 'ko' ? blockAKo : blockAEn;
@@ -658,31 +658,31 @@ function switchTab(mode, element) {
         let dynamicNarrativeKo_B = [""];
         let dynamicNarrativeEn_B = [""];
 
-        // 4) [초정밀 판독 엔진] 점수대별 시나리오 분기
+// 4) [초정밀 판독 엔진] 점수대별 시나리오 분기
         if (minBaseScoreB >= 40) {
             // Case 1: 무결점 황금 밸런스 (원래 약점이 없는 사람)
-            dynamicNarrativeKo_B = [`당신의 명식은 선천적으로 가장 약한 기운조차 안정적인 수치를 유지하는 <b>'황금 밸런스'</b>를 띠고 있습니다. 치명적인 결핍이 없기에, 당신의 성명 파동은 운명의 구멍을 메우기보다는 타고난 장점들을 더욱 화려하고 단단하게 꽃피우는 데 집중하고 있습니다.`];
+            dynamicNarrativeKo_B = [`당신은 가장 약한 기운조차 안정적인 수치를 유지하는 <b>'황금 밸런스'</b>를 띠고 있습니다. 결핍이 없기에, 당신의 성명 파동은 운명의 구멍을 메우기보다는 타고난 장점들을 더욱 화려하고 단단하게 꽃피우는 데 집중하고 있습니다.`];
             
-            dynamicNarrativeEn_B = [`Your innate destiny holds a <b>'Golden Balance'</b> where even your weakest energy maintains a stable level. Without critical flaws, your name's vibration focuses on blooming your strengths rather than filling voids.`];
+            dynamicNarrativeEn_B = [`You possess a <b>'Golden Balance'</b> where even your weakest energy maintains a stable level. Since there is no deficiency, your name's vibration focuses on blooming your innate strengths more brilliantly and solidly rather than filling the voids of your destiny.`];
         } else {
             // Case 2: 결핍이 있는 사람 -> 이름이 약을 발라주었는가?
             if (boostAmountB > 0 && finalWeakScoreB >= 40) {
                 // 2-A. 완벽한 치료 (이름이 적정 수준 이상으로 채워줌)
-                dynamicNarrativeKo_B = [`당신의 명식에서 가장 취약한 고리는 <b>${weakElKoB}</b>이었습니다. 이로 인해 본래 <b>[${lackSymptomsKo[weakIdxB]}]</b> 고충을 겪기 쉬웠습니다. 그러나 다행히 후천적 이름 파동이 이 빈틈을 정확히 타겟팅하여 수혈해주었습니다. 이름이 채워준 에너지가 선천적 결핍을 안정적인 궤도로 끌어올렸으며, 이제 이 약점은 위기 상황에서 신중함을 더해주는 훌륭한 안전장치로 작동할 것입니다.`];
+                dynamicNarrativeKo_B = [`다른 에너지에 비해 약한 에너지는 <b>${weakElKoB}</b> 여서 <b>${lackSymptomsKo[weakIdxB]}</b> 고충이 있었을 것입니다. 다행히 성명의 파동이 운명의 빈틈을 정확히 타겟팅하여 안정적인 궤도로 끌어올렸으며, 위기 상황에서 신중함을 더해주는 훌륭한 안전장치로 작동할 것입니다.`];
                 
-                dynamicNarrativeEn_B = [`The weakest link in your destiny was <b>${weakElEnB}</b>, which could have made you prone to <b>[${lackSymptomsEn[weakIdxB]}]</b>. Fortunately, your acquired name successfully targeted and replenished this void. The energy from your name has elevated your innate deficit to a stable orbit, turning this weakness into a reliable safety mechanism.`];
+                dynamicNarrativeEn_B = [`Your weakest energy compared to others is <b>${weakElEnB}</b>, which likely caused you the hardship of <b>${lackSymptomsEn[weakIdxB]}</b>. Fortunately, the vibration of your name has accurately targeted and elevated this void in your destiny to a stable orbit, and it will operate as an excellent safety mechanism that adds prudence in times of crisis.`];
                 
             } else if (boostAmountB > 0 && finalWeakScoreB < 40) {
                 // 2-B. 절반의 치료 (조금 채워주긴 했으나 여전히 부족함)
-                dynamicNarrativeKo_B = [`당신의 명식에서 가장 취약한 고리는 <b>${weakElKoB}</b>이었습니다. 후천적 이름 파동이 이 부분에 에너지를 보충해주고는 있으나, 여전히 <b>[${lackSymptomsKo[weakIdxB]}]</b> 아쉬움을 완전히 지우기엔 세심한 관리가 필요합니다. 일상에서 스스로의 의식적인 노력을 더해 이 기운을 꾸준히 길러내야만 합니다.`];
+                dynamicNarrativeKo_B = [`당신의 약한 에너지는 <b>${weakElKoB}</b>입니다. 성명의 파동이 에너지를 보충해주고는 있으나, 여전히 <b>[${lackSymptomsKo[weakIdxB]}]</b> 운명의 아쉬움을 지우기 위해 일상에서 의식적인 노력을 더해야 합니다.`];
                 
-                dynamicNarrativeEn_B = [`Your most vulnerable element was <b>${weakElEnB}</b>. Although your name provides some energy to this area, it requires careful management to fully overcome the tendency of <b>[${lackSymptomsEn[weakIdxB]}]</b>. You must consciously work to cultivate this energy in your daily life.`];
+                dynamicNarrativeEn_B = [`Your weak energy is <b>${weakElEnB}</b>. Although the vibration of your name provides some energy to it, you must still add conscious effort in your daily life to clear the lingering regret of <b>[${lackSymptomsEn[weakIdxB]}]</b> in your destiny.`];
                 
             } else {
                 // 2-C. 치료 실패 (이름이 약점을 전혀 안 채워줌)
-                dynamicNarrativeKo_B = [`선천적으로 <b>${weakElKoB}</b>의 기운이 몹시 허약하여 <b>[${lackSymptomsKo[weakIdxB]}]</b> 고충을 겪기 쉬운 구조입니다. 아쉽게도 현재의 이름 역시 이 빈틈을 채워주지 못하고 있습니다. 따라서 현실에서 의식적으로 관련 에너지를 보충하는 행동 지침을 실천하여 스스로 운명의 구멍을 메워야만 합니다.`];
+                dynamicNarrativeKo_B = [`선천적으로 <b>${weakElKoB}</b>의 기운이 몹시 허약하여 <b>[${lackSymptomsKo[weakIdxB]}]</b> 고충을 겪기 쉬운 구조입니다. 아쉽게도 현재의 이름 역시 이 빈틈을 채워주지 못하고 있습니다. 따라서 현실에서 관련 에너지를 보충하는 행동 지침을 실천하여 운명의 구멍을 메워야만 합니다.`];
                 
-                dynamicNarrativeEn_B = [`You have a severe innate deficiency in <b>${weakElEnB}</b>, making you prone to <b>[${lackSymptomsEn[weakIdxB]}]</b>. Unfortunately, your current name does not compensate for this gap. You must actively practice behavioral guidelines in reality to fill this void in your destiny.`];
+                dynamicNarrativeEn_B = [`You have a severely weak innate energy of <b>${weakElEnB}</b>, making you prone to the hardship of <b>[${lackSymptomsEn[weakIdxB]}]</b>. Unfortunately, your current name also does not fill this gap. Therefore, you must practice behavioral guidelines in reality to supplement the related energy and fill the void in your destiny.`];
             }
         }
 
