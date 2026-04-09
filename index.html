@@ -697,6 +697,7 @@ const graphNarrative = graphPart;
         } else {
             blockB = dynamicNarrativeEn_B[0];
         }
+      
         // 🌟 Block C : 최종 상위 3대 기운 종합 및 현실적 과업(직업)
         // 💡 1. 5개 오행 중 최종 점수(finalVal) 1, 2, 3위 추출하기
         const finalScoresWithIdx_C = session.elementScores.map((score, index) => {
@@ -831,7 +832,7 @@ const graphNarrative = graphPart;
   
 
         // 💡 3개의 블록을 하나의 거대한 서사로 조립합니다.
-        const missionText = `${blockA}\n\n${blockB}\n\n${blockC}`;
+        const missionText = `${blockA}\n${blockB}\n${blockC}`;
 
         // 💡 연결 동작 (10가지로 확장)
         const action = [
