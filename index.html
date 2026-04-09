@@ -489,47 +489,101 @@ function switchTab(mode, element) {
         // 3. 완벽한 인과관계의 서사 조립 (다국어 지원)
         
         
-        // 💡 [그래프 정밀 분석 엔진] 시작점(baseVal)을 읽어 5단계 서사 중 하나를 선택합니다.
-      // 💡 [새로 만드는 구간] 최종 점수 중에서 가장 높은 값(뾰족한 부분)을 찾는 과정입니다.
-         const finalScoresArray = session.elementScores;
+// 💡 [그래프 정밀 분석 엔진] 시작점(baseVal)을 읽어 5단계 서사 중 하나를 선택합니다.
+        const finalScoresArray = session.elementScores;
         const maxVal = Math.max(...finalScoresArray);
         const topIdx = finalScoresArray.indexOf(maxVal);
-        
-        // 🌍 다국어 이름표 (대표님 코드의 elNamesKo를 그대로 활용)
-        const elNamesKoForGraph = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
-        const elNamesEnForGraph = ["Wood", "Fire", "Earth", "Metal", "Water"];
-        const topElName = currentLang === 'ko' ? elNamesKoForGraph[topIdx] : elNamesEnForGraph[topIdx];
 
-        const baseVal = baseScoresForGraph[topIdx]; // 원래 점수
-        const finalVal = finalScoresArray[topIdx];  // 최종 점수 (뾰족한 부분)
-        
-        let dynamicNarrativeKo = [];
-        let dynamicNarrativeEn = [];
+        const baseScoresForGraph_A = session.baseScores || session.elementScores; 
+        const baseVal = baseScoresForGraph_A[topIdx]; // 원래 점수
 
-        // 💡 [5단계 판독] 대표님 사진의 '금(金)'처럼 뾰족하게 튀어나온 상황을 1순위로 체크!
-        if (baseVal > 110 && finalVal > baseVal) { 
-            dynamicNarrativeKo = [`이미 강한 <b>${topElName}</b>의 기운에 성명의 파동이 예리한 날을 더해주었습니다. 안주하지 않고 강점을 극한으로 벼려냄으로써, 특정 분야에서 범접할 수 없는 '절대적 전문성'을 확보하게 되었습니다.`];
-            dynamicNarrativeEn = [`the vibration of your name has further sharpened your innate strength in <b>${topElName}</b>. By refining your greatest asset to its limit, you have secured an 'absolute expertise' that no one else can challenge.`];
-        } 
-        else if (baseVal <= 50) {
-            dynamicNarrativeKo = [`소멸 직전이었던 <b>${topElName}</b>의 에너지를 성명의 파동이 기적적으로 심폐소생하여 적절한 수준으로 끌어올렸습니다. 치명적이었던 운명의 구멍이 메워지며 이제야 안정적인 궤도에 진입하게 되었습니다.`];
-            dynamicNarrativeEn = [`the vibration of your name has miraculously revived the nearly depleted <b>${topElName}</b> energy...`];
-        } 
-        else if (baseVal > 50 && baseVal <= 80) {
-            dynamicNarrativeKo = [`약간 모자랐던 <b>${topElName}</b>의 에너지를 성명의 파동이 폭발적으로 증폭시켜 당신의 새로운 주무기로 탈바꿈시켰습니다. 다소 약했던 부분이 가장 강력한 경쟁력이 되는 '역전의 서사'가 완성되었습니다.`];
-            dynamicNarrativeEn = [`the vibration of your name has explosively amplified the lacking <b>${topElName}</b> energy...`];
-        } 
-        else if (baseVal > 80 && baseVal <= 110) {
-            dynamicNarrativeKo = [`적당한 수준에 머물던 <b>${topElName}</b>의 잠재력을 성명의 파동이 극한까지 자극하여 압도적인 정점으로 이끌었습니다. 평범한 재능이 업계를 리드할 수 있는 '독보적인 전문성'으로 진화하였습니다.`];
-            dynamicNarrativeEn = [`the vibration of your name has stimulated your latent <b>${topElName}</b> energy...`];
-        } 
-        else {
-            dynamicNarrativeKo = [`성명의 파동이 <b>${topElName}</b>의 에너지를 정교하게 조정하여 운명의 전체적인 밸런스를 최적의 상태로 맞추어 주었습니다. 과함은 덜어내고 부족함은 메워, '완벽한 조율'이 이루어졌습니다.`];
-            dynamicNarrativeEn = [`the vibration of your name has precisely fine-tuned the <b>${topElName}</b> energy...`];
-        }
+        // 💡 [초정밀 B타입 은유 매트릭스] 오행(5) x 점수(5) = 25가지 스토리
+        let narrLevel = 0;
+        if (baseVal <= 50) narrLevel = 0; // 기적적 소생
+        else if (baseVal > 50 && baseVal <= 80) narrLevel = 1; // 역전의 서사
+        else if (baseVal > 80 && baseVal <= 110) narrLevel = 2; // 잠재력 만개
+        else if (baseVal > 110 || baseVal === Math.max(...baseScoresForGraph_A)) narrLevel = 3; // 절대적 정점
+        else narrLevel = 4; // 완벽한 조율
 
-        
-      
+        const poeticKo = [
+            [ // 0: 목(木)
+                "메말라가던 <b>목(木)</b>의 기운에 성명의 파동이 단비를 내려, 꺾였던 성장의 의지를 거대한 숲의 생명력으로 다시 피워냈습니다.",
+                "뻗어나가지 못하고 주저하던 <b>목(木)</b>의 가지에 파동이 휘몰아쳐, 어떤 시련에도 굴하지 않고 목표를 향해 파고드는 압도적인 추진력으로 탈바꿈시켰습니다.",
+                "조용히 자라나던 <b>목(木)</b>의 싹에 성명의 파동이 강렬한 생기를 불어넣어, 세상을 뒤덮을 만큼 울창하고 독보적인 통찰력으로 만개하게 하였습니다.",
+                "이미 거목으로 자라난 <b>목(木)</b>의 기운에 파동이 한 치의 흔들림 없는 단단함을 더했습니다. 하늘을 찌를 듯한 절대적 기획력으로 누구도 넘볼 수 없는 성벽을 구축했습니다.",
+                "얽히고설킨 <b>목(木)</b>의 가지들을 성명의 파동이 정교하게 다듬어, 당신의 기획력이 가장 조화롭고 아름다운 형태로 세상에 뻗어나가도록 완벽한 균형을 맞추었습니다."
+            ],
+            [ // 1: 화(火)
+                "꺼져가던 <b>화(火)</b>의 잿더미에 성명의 파동이 강렬한 불씨를 던져, 잃어버렸던 삶의 열정을 다시금 눈부신 불꽃으로 타오르게 만들었습니다.",
+                "쉽게 타오르고 식어버리던 <b>화(火)</b>의 온기에 파동이 마르지 않는 장작을 더해, 세상을 완벽하게 매료시키는 지치지 않는 압도적 카리스마로 탈바꿈시켰습니다.",
+                "조용히 빛나던 온화한 <b>화(火)</b>의 불빛에 성명의 파동이 거대한 바람을 불어넣어, 어둠을 단숨에 가르고 업계를 리드하는 눈부신 통찰력으로 진화시켰습니다.",
+                "세상을 집어삼킬 듯 맹렬한 <b>화(火)</b>의 열정에 파동이 영원히 꺼지지 않는 생명력을 부여했습니다. 독보적인 무대 장악력으로 절대적인 빛의 위치를 확보했습니다.",
+                "걷잡을 수 없이 번지던 <b>화(火)</b>의 불길을 성명의 파동이 따뜻하고 안정적인 난로처럼 제어하여, 사람들을 끌어모으는 가장 완벽하고 매력적인 온기로 조율해 냈습니다."
+            ],
+            [ // 2: 토(土)
+                "바스라지기 쉬운 모래알 같던 <b>토(土)</b>의 기운에 파동이 단단한 결속력을 부여하여, 어떤 풍파에도 흔들리지 않는 견고한 대지의 안정감을 기적적으로 되찾았습니다.",
+                "뿌리내릴 곳을 찾지 못해 방황하던 <b>토(土)</b>의 기운을 성명의 파동이 단단하게 굳혀, 타인의 절대적인 신뢰를 한 몸에 받는 든든한 거목의 땅으로 탈바꿈시켰습니다.",
+                "묵묵히 자리를 지키던 <b>토(土)</b>의 기운에 성명의 파동이 비옥한 에너지를 더해, 만물을 길러내고 거대한 시스템을 굴러가게 만드는 독보적인 포용력으로 진화시켰습니다.",
+                "이미 거대한 산맥처럼 굳건한 <b>토(土)</b>의 기운에 파동이 웅장함을 더했습니다. 어떤 변화에도 미동조차 하지 않는 절대적인 신뢰감으로 세상의 중심이 되었습니다.",
+                "한곳에 뭉쳐 고여있던 <b>토(土)</b>를 성명의 파동이 부드럽게 고르고 다듬어, 가장 비옥하고 생명력 넘치는 황금빛 대지로 완벽하게 조율해 냈습니다."
+            ],
+            [ // 3: 금(金)
+                "뜨거운 열기에 녹아내려 형태를 잃어가던 <b>금(金)</b>의 기운을 성명의 파동이 차갑게 식혀, 다시금 날카롭고 단단한 결단력의 검으로 벼려냈습니다.",
+                "결정적인 순간마다 머뭇거리며 무뎌지던 <b>금(金)</b>의 날을 성명의 파동이 예리하게 갈아, 불필요한 것을 단칼에 베어내는 무자비한 통찰력으로 탈바꿈시켰습니다.",
+                "정제되지 않은 원석이던 <b>금(金)</b>의 기운을 성명의 파동이 세밀하게 가공하여, 세상 어디에도 없는 가장 눈부시고 단호한 독보적 전문성으로 진화시켰습니다.",
+                "이미 예리하게 벼려진 <b>금(金)</b>의 칼날에 파동이 절대 부러지지 않는 강인함을 더했습니다. 누구도 이의를 제기할 수 없는 절대적인 권위와 냉철함을 확보했습니다.",
+                "스스로를 다치게 할 만큼 과하게 날이 서 있던 <b>금(金)</b>의 기운을 성명의 파동이 매끄럽게 다듬어, 찌르지 않고도 세상을 압도하는 완벽한 카리스마로 조율해 냈습니다."
+            ],
+            [ // 4: 수(水)
+                "작은 가뭄에도 말라붙어 고갈되려던 <b>수(水)</b>의 기운에 파동이 깊은 샘물을 터뜨려, 마르지 않는 지혜와 유연함이 흐르는 기적적인 소생을 이뤄냈습니다.",
+                "갈 곳을 잃고 고여있던 <b>수(水)</b>에 성명의 파동이 거친 물길을 열어주어, 어떤 장애물도 거침없이 뚫고 바다로 나아가는 압도적 적응력으로 탈바꿈시켰습니다.",
+                "잔잔하게 흐르던 <b>수(水)</b>의 강물에 성명의 파동이 거대한 깊이를 더해, 속을 알 수 없는 심연의 통찰력으로 업계를 이끄는 독보적 전문가로 진화시켰습니다.",
+                "이미 거대한 해일처럼 압도적인 <b>수(水)</b>의 기운에 파동이 모든 것을 삼킬 듯한 웅장함을 더했습니다. 깊고 넓은 포용력으로 막을 자 없는 절대적 위치를 확보했습니다.",
+                "이리저리 흩어지며 범람하려던 <b>수(水)</b>의 물결을 성명의 파동이 정교한 제방으로 감싸 안아, 만물을 가장 윤택하게 적시는 완벽한 생명수로 조율해 냈습니다."
+            ]
+        ];
+
+        const poeticEn = [
+            [ // Wood
+                "The vibration of your name brought sweet rain to your withering <b>Wood</b> energy, reviving your broken will to grow into the immense vitality of a vast forest.",
+                "A powerful wave swept through your once-hesitant branches of <b>Wood</b>, transforming them into an overwhelming driving force that pierces toward its goal without yielding to any ordeal.",
+                "The vibration breathed intense vitality into the quietly sprouting seed of your <b>Wood</b> energy, letting it bloom into an exclusively profound insight thick enough to cover the world.",
+                "To your <b>Wood</b> energy, already grown into a massive tree, the vibration added unshakeable solidity. With absolute planning skills that pierce the sky, you have built an impenetrable fortress.",
+                "The vibration precisely pruned your tangled branches of <b>Wood</b>, perfectly balancing your planning ability so that it reaches out to the world in its most harmonious and beautiful form."
+            ],
+            [ // Fire
+                "The vibration threw a fierce ember into the dying ashes of your <b>Fire</b> energy, reigniting your lost passion for life into a dazzling, roaring flame.",
+                "To your <b>Fire</b> energy that used to flare up and fade easily, the vibration added inexhaustible firewood, transforming it into an overwhelming, tireless charisma that perfectly captivates the world.",
+                "The vibration blew a massive wind into your quietly shining gentle light of <b>Fire</b>, evolving it into a blinding insight that instantly cuts through the darkness and leads the industry.",
+                "To your already ferocious <b>Fire</b> energy that seemed ready to consume the world, the vibration granted eternally burning vitality. With unrivaled stage presence, you have secured the position of absolute light.",
+                "The vibration controlled the wildly spreading flames of your <b>Fire</b> into a warm and stable hearth, tuning it into the most perfectly attractive warmth that draws people in."
+            ],
+            [ // Earth
+                "To your <b>Earth</b> energy that crumbled like frail sand, the vibration granted solid cohesion, miraculously restoring the unshakeable stability of firm ground.",
+                "The vibration firmly solidified your wandering <b>Earth</b> energy that couldn't find a place to root, transforming it into the reliable ground of a great tree that receives absolute trust from others.",
+                "To your silently enduring <b>Earth</b> energy, the vibration added fertile power, evolving it into an exclusive embrace that nurtures all things and keeps massive systems rolling.",
+                "To your <b>Earth</b> energy, already steadfast as a massive mountain range, the vibration added grandeur. With absolute reliability that doesn't flinch at any change, you have become the center of the world.",
+                "The vibration gently raked and refined your stagnant, clumped <b>Earth</b>, perfectly tuning it into the most fertile and vibrantly alive golden land."
+            ],
+            [ // Metal
+                "The vibration coldly cooled down your <b>Metal</b> energy that was melting and losing shape in the intense heat, forging it once again into a sharp, solid sword of decisive action.",
+                "The vibration sharply honed your blade of <b>Metal</b> that used to dull and hesitate at crucial moments, transforming it into a ruthless insight that cuts away the unnecessary with a single strike.",
+                "The vibration meticulously processed your <b>Metal</b> energy, once an unrefined gemstone, evolving it into the most dazzling, resolute, and unrivaled expertise found nowhere else.",
+                "To your already sharply forged blade of <b>Metal</b>, the vibration added unbendable toughness. You have secured absolute authority and cool-headedness that no one can dare question.",
+                "The vibration smoothly polished your <b>Metal</b> energy, which was excessively sharp enough to hurt itself, tuning it into a perfect charisma that overwhelms the world without needing to pierce it."
+            ],
+            [ // Water
+                "The vibration burst a deep spring into your <b>Water</b> energy that was about to dry up from a minor drought, achieving a miraculous revival overflowing with inexhaustible wisdom and flexibility.",
+                "The vibration opened a wild channel for your stagnant, aimless <b>Water</b>, transforming it into an overwhelming adaptability that breaks through any obstacle to reach the sea.",
+                "To your calmly flowing river of <b>Water</b>, the vibration added immense depth, evolving you into a peerless expert leading the industry with the unfathomable insight of an abyss.",
+                "To your <b>Water</b> energy, already overwhelming like a massive tsunami, the vibration added a grandeur that seems to swallow everything. With deep and wide embrace, you have secured an unstoppable, absolute position.",
+                "The vibration embraced your wildly dispersing and overflowing waves of <b>Water</b> with a precise levee, tuning it into the perfect water of life that optimally enriches all things."
+            ]
+        ];
+
+        let dynamicNarrativeKo = [poeticKo[topIdx][narrLevel]];
+        let dynamicNarrativeEn = [poeticEn[topIdx][narrLevel]];
+
         // 🧱 [Block A] 기질 강약 (5점 척도 + 다국어 지원)
         const themeIdx = session.num81 % 9;
         const themeNamesKo = [
@@ -575,7 +629,7 @@ function switchTab(mode, element) {
             "수": { "극강": "an overflowing Water energy that breaks levees and sweeps everything away", "강함": "an overwhelming Water energy that surges fiercely like an unfathomable deep ocean", "보통": "a wise Water energy that flows flexibly around obstacles, enriching all things", "약함": "a shrinking Water energy that easily dries up and stops flowing even in a minor drought", "극약": "a severely depleted Water energy that scatters as if evaporating without a trace" }
         };
 
-       const currentTrait = currentLang === 'ko' ? coreTraitsKo[coreEl.charAt(0)][intensity] : coreTraitsEn[coreEl.charAt(0)][intensity];
+        const currentTrait = currentLang === 'ko' ? coreTraitsKo[coreEl.charAt(0)][intensity] : coreTraitsEn[coreEl.charAt(0)][intensity];
         
         // 💡 [핵심 추가] 후천적 파동(이름+수리)으로 보완된 실제 오행 데이터 추출
         const elNamesKoForA = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
@@ -607,20 +661,18 @@ function switchTab(mode, element) {
         let bridgeEn = "";
 
         if (isWeakBoosted) {
-            bridgeKo = `성명의 파동에는 <b>${boostedTextKo}</b>의 기운이 높게 배치되어 있습니다. 타고난 에너지 중 결핍된 <b>${weakElKoA}</b>의 에너지를 직접적으로 수혈함으로써, 운명의 빈틈을 채우고 <b>${currentTheme}</b>의 당신만의 특별함이 완성되었습니다.`;
-            bridgeEn = `The vibration of your name is highly equipped with the energies of <b>${boostedTextEn}</b>. By directly transfusing the energy of <b>${weakElEnA}</b>, which is the most lacking among your innate energies, it closely fills the voids of your destiny and creates your speciality of <b>${currentTheme}</b>.`;
+            bridgeKo = `성명의 파동에는 ${boostedTextKo}의 기운이 높게 배치되어 있습니다. 타고난 에너지 중 결핍된 <b>${weakElKoA}</b>의 에너지를 직접적으로 수혈함으로써, 운명의 빈틈을 채우고 <b>${currentTheme}</b>의 당신만의 특별함이 완성되었습니다.`;
+            bridgeEn = `The vibration of your name is highly equipped with the energies of ${boostedTextEn}. By directly transfusing the energy of <b>${weakElEnA}</b>, which is the most lacking among your innate energies, it closely fills the voids of your destiny and creates your speciality of <b>${currentTheme}</b>.`;
         } else {
-           
             bridgeKo = `성명의 파동에는 <b>${boostedTextKo}</b>의 기운이 배치되어 당신의 강점을 벼려냅니다. 이 파동들이 타고난 에너지와 융합하여 <b>${currentTheme}</b>의 완성된 테마를 만들어냅니다.`;
             bridgeEn = `The vibration of your name is equipped with the energies of <b>${boostedTextEn}</b>, refining your strengths. These vibrations fuse with your innate energies to create the completed theme of <b>${currentTheme}</b>.`;
         }
 
-        const blockAKo = `당신은 본래 ${currentTrait}을 타고났습니다.\n${bridgeKo}\n또한 ${dynamicNarrativeKo[0]}`;
-        const blockAEn = `You were originally born with ${currentTrait}.\n${bridgeEn}\nAlso, ${dynamicNarrativeEn[0]}`;
+        const blockAKo = `당신은 본래 ${currentTrait}을 타고났습니다.\n${bridgeKo}\n${dynamicNarrativeKo[0]}`;
+        const blockAEn = `You were originally born with ${currentTrait}.\n${bridgeEn}\n${dynamicNarrativeEn[0]}`;
         
         // 💡 [Block A 마무리]
         const blockA = currentLang === 'ko' ? blockAKo : blockAEn;
-      
     
 // =========================================================
         // 🌟 Block B : 약점 진단 및 이름의 보완 성적표 평가
@@ -980,7 +1032,7 @@ function switchTab(mode, element) {
             <div style="line-height:1.75; color:#444; font-size:0.93rem; text-align:justify; word-break:break-all; margin-top:20px; white-space:pre-wrap;">${analysisText}</div>
               
             <div style="padding:20px; background:#F9F8F6; border-radius:12px; border:1px solid #F0EAE3; margin-top:25px;">
-                <b style="color:var(--accent); font-size:0.95rem; display:block; margin-bottom:10px;">📜 현생의 과업</b>
+                <b style="color:var(--accent); font-size:0.95rem; display:block; margin-bottom:2px;">📜 현생의 과업</b>
                 <div style="line-height:1.75; color:#444; font-size:0.93rem; text-align:justify; word-break:break-all; white-space:pre-wrap; margin:0;">${missionText}</div>
             </div>
             </div>
