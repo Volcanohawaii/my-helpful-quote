@@ -528,12 +528,7 @@ function switchTab(mode, element) {
             dynamicNarrativeEn = [`the vibration of your name has precisely fine-tuned the <b>${topElName}</b> energy...`];
         }
 
-        // 💡 [최종 조립] 
-        const graphNarrativeKo = `위 레이더 차트의 <b style="color:#A0A0A0;">회색 점선(선천운)</b>을 보면, 당신은 본래 <b>${baseStrongText}</b> 기운이 가장 강하고 <b>${baseWeakText}</b> 기운이 부족하여 밸런스가 한쪽으로 쏠린 불균형한 구조로 태어났습니다.<br>하지만 <b style="color:var(--accent);">갈색 실선(후천운)</b>이 보여주듯, ${dynamicNarrativeKo[0]} 마침내 당신만의 특별한 에너지가 완성되었습니다.`;
-        const graphNarrativeEn = `Looking at the <b style="color:#A0A0A0;">grey dotted line (Innate Luck)</b> on the radar chart, you were born with an imbalanced structure. <br>However, as the <b style="color:var(--accent);">brown solid line (Acquired Luck)</b> shows, ${dynamicNarrativeEn[0]} finally completing your own special energy.`;
-
-        const graphPart = currentLang === 'ko' ? graphNarrativeKo : graphNarrativeEn;
-const graphNarrative = graphPart;
+        
       
         // 🧱 [Block A] 기질 강약 (5점 척도 + 다국어 지원)
         const themeIdx = session.num81 % 9;
@@ -619,8 +614,8 @@ const graphNarrative = graphPart;
             bridgeEn = `And your acquired name is equipped with the energies of <b>${boostedTextEn}</b>, sharpening your weapons even further. These vibrations fuse with your innate traits to create the completed theme of <b>[${currentTheme}]</b>.`;
         }
 
-        const blockAKo = `당신은 본래 ${currentTrait}을 타고났습니다.\n\n${bridgeKo}`;
-        const blockAEn = `You were originally born with ${currentTrait}.\n\n${bridgeEn}`;
+        const blockAKo = `당신은 본래 ${currentTrait}을 타고났습니다.\n${bridgeKo}\n결과적으로 ${dynamicNarrativeKo[0]}`;
+        const blockAEn = `You were originally born with ${currentTrait}.\n${bridgeEn}\nAs a result, ${dynamicNarrativeEn[0]}`;
         
         // 💡 [Block A 마무리]
         const blockA = currentLang === 'ko' ? blockAKo : blockAEn;
@@ -832,7 +827,8 @@ const graphNarrative = graphPart;
   
 
         // 💡 3개의 블록을 하나의 거대한 서사로 조립합니다.
-        const missionText = `${blockA}\n${blockB}\n${blockC}`;
+      const analysisText = `${blockA}\n${blockB}`;  
+      const missionText = `${blockC}`;
 
         // 💡 연결 동작 (10가지로 확장)
         const action = [
@@ -980,15 +976,12 @@ const graphNarrative = graphPart;
               
               <div style="margin-top: 15px;">${badgeHTML}</div> 
               
-            <p style="line-height:1.75; color:#444; font-size:0.93rem; text-align:left; word-break:keep-all; margin-top:20px;">
-  ${graphNarrative}
-</p>
+            <div style="line-height:1.75; color:#444; font-size:0.93rem; text-align:left; word-break:keep-all; margin-top:20px; white-space:pre-wrap;">${analysisText}</div>
               
-             <div style="padding:20px; background:#F9F8F6; border-radius:12px; border:1px solid #F0EAE3; margin-top:25px; line-height:1.7;">
-    <b style="color:var(--accent); font-size:0.95rem; display:block; margin:0;">📜 현생의 과업</b>
-    
-    <div style="font-size:0.9rem; color:#444; white-space: pre-wrap; margin:0;">${missionText}</div>
-</div>
+            <div style="padding:20px; background:#F9F8F6; border-radius:12px; border:1px solid #F0EAE3; margin-top:25px;">
+                <b style="color:var(--accent); font-size:0.95rem; display:block; margin-bottom:10px;">📜 현생의 과업</b>
+                <div style="line-height:1.75; color:#444; font-size:0.93rem; text-align:left; word-break:keep-all; white-space:pre-wrap; margin:0;">${missionText}</div>
+            </div>
             </div>
             
             <span class="section-title" style="margin-top:30px;">${t.sec2}</span>
