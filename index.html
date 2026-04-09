@@ -580,98 +580,123 @@ const graphNarrative = graphPart;
             "수": { "극강": "an overflowing Water energy that breaks levees and sweeps everything away", "강함": "an overwhelming Water energy that surges fiercely like an unfathomable deep ocean", "보통": "a wise Water energy that flows flexibly around obstacles, enriching all things", "약함": "a shrinking Water energy that easily dries up and stops flowing even in a minor drought", "극약": "a severely depleted Water energy that scatters as if evaporating without a trace" }
         };
 
-        const currentTrait = currentLang === 'ko' ? coreTraitsKo[coreEl.charAt(0)][intensity] : coreTraitsEn[coreEl.charAt(0)][intensity];
+       const currentTrait = currentLang === 'ko' ? coreTraitsKo[coreEl.charAt(0)][intensity] : coreTraitsEn[coreEl.charAt(0)][intensity];
         
-        const blockAKo = `당신은 본래 ${currentTrait}을 타고났으며, 후천적인 성명의 파동에는 ${currentTheme}의 테마가 강하게 깃들어 있습니다.`;
-        const blockAEn = `You were originally born with ${currentTrait}, and the acquired vibration of your name carries a strong theme of ${currentTheme}.`;
+        // 💡 [핵심 추가] 후천적 파동(이름+수리)으로 보완된 실제 오행 데이터 추출
+        const elNamesKoForA = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
+        const elNamesEnForA = ["Wood", "Fire", "Earth", "Metal", "Water"];
+        
+        // 1) 선천적으로 가장 약했던 오행 찾기
+        const minBaseScoreA = Math.min(...baseScoresForIntensity);
+        const weakIdxA = baseScoresForIntensity.indexOf(minBaseScoreA);
+        const weakElKoA = elNamesKoForA[weakIdxA];
+        const weakElEnA = elNamesEnForA[weakIdxA];
+
+        // 2) 이름이 채워준 오행 찾기 (최종점수 - 선천점수 > 0)
+        const diffScoresA = session.elementScores.map((score, i) => score - baseScoresForIntensity[i]);
+        const boostedElsKo = [];
+        const boostedElsEn = [];
+        diffScoresA.forEach((diff, i) => {
+            if (diff > 0) {
+                boostedElsKo.push(elNamesKoForA[i]);
+                boostedElsEn.push(elNamesEnForA[i]);
+            }
+        });
+        const boostedTextKo = boostedElsKo.join(", ");
+        const boostedTextEn = boostedElsEn.join(", ");
+
+        // 3) 내 약점을 이름이 제대로 보완해 줬는지 판독
+        const isWeakBoosted = diffScoresA[weakIdxA] > 0;
+
+        let bridgeKo = "";
+        let bridgeEn = "";
+
+        if (isWeakBoosted) {
+            bridgeKo = `그러나 당신의 후천적 이름(발음과 81수리)에는 <b>${boostedTextKo}</b>의 기운이 강력하게 배치되어 있습니다. 특히 선천적으로 가장 결핍되었던 <b>${weakElKoA}</b>의 에너지를 직접적으로 수혈함으로써, 운명의 빈틈을 촘촘히 채우고 <b>[${currentTheme}]</b>의 완성된 테마를 만들어냅니다.`;
+            bridgeEn = `However, your acquired name is powerfully equipped with the energies of <b>${boostedTextEn}</b>. By directly transfusing the energy of <b>${weakElEnA}</b>, which was your most lacking innate element, it fills the voids of your destiny and creates the completed theme of <b>[${currentTheme}]</b>.`;
+        } else {
+            bridgeKo = `그리고 당신의 후천적 이름(발음과 81수리)에는 <b>${boostedTextKo}</b>의 기운이 배치되어 당신의 무기를 더욱 날카롭게 벼려냅니다. 이 파동들이 당신의 타고난 기질과 융합하여 <b>[${currentTheme}]</b>의 완성된 테마를 만들어냅니다.`;
+            bridgeEn = `And your acquired name is equipped with the energies of <b>${boostedTextEn}</b>, sharpening your weapons even further. These vibrations fuse with your innate traits to create the completed theme of <b>[${currentTheme}]</b>.`;
+        }
+
+        const blockAKo = `당신은 본래 ${currentTrait}을 타고났습니다.\n\n${bridgeKo}`;
+        const blockAEn = `You were originally born with ${currentTrait}.\n\n${bridgeEn}`;
+        
+        // 💡 [Block A 마무리]
         const blockA = currentLang === 'ko' ? blockAKo : blockAEn;
       
     
-        // 🌟 Block B : 가장 약했던 기운(약점)의 정밀 분석 (강/중/하 + 5단계)
+// =========================================================
+        // 🌟 Block B : 약점 진단 및 이름의 보완 성적표 평가
         // =========================================================
         
-        // 💡 1. 선천적으로 가장 점수가 낮았던 오행 찾기
-        const minBaseScore = Math.min(...baseScoresForGraph);
-        const weakIdx = baseScoresForGraph.indexOf(minBaseScore);
+        // 1) 선천적으로 가장 점수가 낮았던 오행 찾기
+        const minBaseScoreB = Math.min(...baseScoresForIntensity);
+        const weakIdxB = baseScoresForIntensity.indexOf(minBaseScoreB);
         
-        // 💡 2. 선천적 수준(강/중/하) 판독 (하: 50 이하, 중: 51~80, 강: 81 이상)
-        let levelIdx = 0; 
-        if (minBaseScore > 80) {
-            levelIdx = 2; // 강
-        } else if (minBaseScore > 50) {
-            levelIdx = 1; // 중
-        } else {
-            levelIdx = 0; // 하
-        }
-        
-        // 💡 3. 이름표 및 강중하 상태 사전 (한국어/영어)
-        const elNamesKoForB = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
-        const elNamesEnForB = ["Wood", "Fire", "Earth", "Metal", "Water"];
-        
-        const elPropsKo = [
-            [ "웅크린 씨앗과 같던", "자라나는 새싹과 같은", "거대한 숲처럼 뻗어나가는" ], // 목
-            [ "꺼져가는 불씨와 같던", "따뜻한 온기를 품은", "태양처럼 타오르는" ], // 화
-            [ "메말라 갈라진 흙과 같던", "만물을 품어주는", "흔들림 없는 광활한 대지와 같은" ], // 토
-            [ "무뎌진 쇳조각과 같던", "단단하게 제련되어 가는", "세상을 베는 예리한 명검과 같은" ], // 금
-            [ "말라붙은 우물과 같던", "잔잔하게 흐르는 시냇물 같은", "깊이를 알 수 없는 바다와 같은" ] // 수
+        // 2) 이름표 및 결핍 시 겪는 현실적 고충(증상) 사전
+        const elNamesKoB = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
+        const elNamesEnB = ["Wood", "Fire", "Earth", "Metal", "Water"];
+        const weakElKoB = elNamesKoB[weakIdxB];
+        const weakElEnB = elNamesEnB[weakIdxB];
+
+        const lackSymptomsKo = [
+            "시작을 망설이고 추진력이 떨어져 기회를 놓치는", // 목
+            "열정이 쉽게 식고 감정 기복이 심해 끝맺음이 아쉬운", // 화
+            "변화를 두려워하고 맺고 끊음이 약해 타인에게 휘둘리는", // 토
+            "결단력이 부족하고 맺고 끊음이 흐지부지되는", // 금
+            "불안감이 높고 상황에 유연하게 대처하지 못하는" // 수
+        ];
+        const lackSymptomsEn = [
+            "hesitating to start and losing opportunities due to lack of drive",
+            "losing passion easily and struggling with emotional swings",
+            "fearing change and being swayed by others due to weak boundaries",
+            "lacking decisiveness and failing to bring things to a clear conclusion",
+            "feeling highly anxious and lacking adaptability in situations"
         ];
 
-        const elPropsEn = [
-            [ "like a dormant seed", "like a growing sprout", "expanding like a vast forest" ],
-            [ "like a fading ember", "holding a warm glow", "blazing like the sun" ],
-            [ "like parched, cracked soil", "embracing all things", "like an unshakable, vast land" ],
-            [ "like a dulled piece of iron", "being forged into shape", "like a sharp, legendary sword" ],
-            [ "like a dried-up well", "like a gently flowing stream", "like an unfathomably deep ocean" ]
-        ];
+        // 3) 이름이 얼마나 채워줬는지 계산 (최종점수 - 선천점수)
+        const finalWeakScoreB = session.elementScores[weakIdxB]; 
+        const boostAmountB = finalWeakScoreB - minBaseScoreB;
 
-        // 💡 4. 알맞은 단어 꺼내기
-        const weakNameKo = elNamesKoForB[weakIdx];
-        const weakNameEn = elNamesEnForB[weakIdx];
-        const propKo = elPropsKo[weakIdx][levelIdx];
-        const propEn = elPropsEn[weakIdx][levelIdx];
-
-        // 💡 5. 이름이 더해진 최종 점수 확인
-        const weakFinal = session.elementScores[weakIdx]; 
-
-        // 💡 6. 충돌 방지용 고유 이름표 준비 (글자 쪼개짐 방지용 [])
         let dynamicNarrativeKo_B = [""];
         let dynamicNarrativeEn_B = [""];
 
-        // 💡 7. 5단계 최종 서사 판독 
-        if (weakFinal <= 50) {
-            // 1단계: 미세 보완
-            dynamicNarrativeKo_B = [`운명의 빈틈이었던 ${propKo} <b>${weakNameKo}</b>의 에너지를 채우기 시작했으나, 아직은 세심한 관리가 필요한 단계입니다. 무리한 확장보다는 내실을 다지는 주의가 필요합니다.`];
-            dynamicNarrativeEn_B = [`The <b>${weakNameEn}</b> energy, ${propEn}, has begun to flow but still requires careful management. Focus on internal stability rather than aggressive expansion.`];
-        } 
-        else if (weakFinal > 50 && weakFinal <= 85) {
-            // 2단계: 적정 보완
-            dynamicNarrativeKo_B = [`치명적인 약점이었던 ${propKo} <b>${weakNameKo}</b>의 기운이 보완되어 드디어 안정적인 궤도에 올라섰습니다. 막혀있던 흐름이 뚫리면서 어떤 풍파에도 쉽게 무너지지 않는 현실적인 기반이 완성되었습니다.`];
-            dynamicNarrativeEn_B = [`Your critical weakness in <b>${weakNameEn}</b>, ${propEn}, has reached a stable trajectory. The blockage has been cleared, establishing a solid foundation.`];
-        }
-        else if (weakFinal > 85 && weakFinal <= 110) {
-            // 3단계: 역전 보완
-            dynamicNarrativeKo_B = [`취약했던 ${propKo} <b>${weakNameKo}</b>의 기운이 이제는 당신을 이끄는 강력한 무기로 변모했습니다. 단점이 장점이 되는 이 역전의 서사는 당신의 운명을 비약적으로 도약시키는 핵심 경쟁력이 될 것입니다.`];
-            dynamicNarrativeEn_B = [`What was once your vulnerability in <b>${weakNameEn}</b>, ${propEn}, has been transformed into a powerful asset. This turnaround will serve as a key competitive advantage.`];
-        }
-        else if (weakFinal > 110 && weakFinal <= 130) {
-            // 4단계: 독보적 진화
-            dynamicNarrativeKo_B = [`${propKo} <b>${weakNameKo}</b>의 잠재력에 날카로운 날을 더해 독보적인 무기로 완성했습니다. 약점 보완을 넘어, 이 분야에서 압도적인 우위를 점할 수 있는 천부적인 능력을 얻게 되었습니다.`];
-            dynamicNarrativeEn_B = [`You have added a sharp edge to your latent <b>${weakNameEn}</b> potential, ${propEn}, achieving unparalleled expertise. You have acquired a natural weapon granting an overwhelming advantage.`];
-        }
-        else {
-            // 5단계: 최적화 조율 (점수가 130을 초과할 정도로 너무 강해졌을 때)
-            dynamicNarrativeKo_B = [`${propKo} <b>${weakNameKo}</b>의 넘치는 에너지를 정교하게 다듬어 최적의 밸런스로 조율했습니다. 에너지가 낭비 없이 적재적소에 쓰일 수 있는 완벽한 균형점은 평생을 지탱할 건강한 엔진이 됩니다.`];
-            dynamicNarrativeEn_B = [`Your abundant <b>${weakNameEn}</b> energy, ${propEn}, has been finely tuned for maximum efficiency. This perfect balance ensures your resources are utilized effectively.`];
+        // 4) [초정밀 판독 엔진] 점수대별 시나리오 분기
+        if (minBaseScoreB >= 40) {
+            // Case 1: 무결점 황금 밸런스 (원래 약점이 없는 사람)
+            dynamicNarrativeKo_B = [`당신의 명식은 선천적으로 가장 약한 기운조차 안정적인 수치를 유지하는 <b>'황금 밸런스'</b>를 띠고 있습니다. 치명적인 결핍이 없기에, 당신의 성명 파동은 운명의 구멍을 메우기보다는 타고난 장점들을 더욱 화려하고 단단하게 꽃피우는 데 집중하고 있습니다.`];
+            
+            dynamicNarrativeEn_B = [`Your innate destiny holds a <b>'Golden Balance'</b> where even your weakest energy maintains a stable level. Without critical flaws, your name's vibration focuses on blooming your strengths rather than filling voids.`];
+        } else {
+            // Case 2: 결핍이 있는 사람 -> 이름이 약을 발라주었는가?
+            if (boostAmountB > 0 && finalWeakScoreB >= 40) {
+                // 2-A. 완벽한 치료 (이름이 적정 수준 이상으로 채워줌)
+                dynamicNarrativeKo_B = [`당신의 명식에서 가장 취약한 고리는 <b>${weakElKoB}</b>이었습니다. 이로 인해 본래 <b>[${lackSymptomsKo[weakIdxB]}]</b> 고충을 겪기 쉬웠습니다. 그러나 다행히 후천적 이름 파동이 이 빈틈을 정확히 타겟팅하여 수혈해주었습니다. 이름이 채워준 에너지가 선천적 결핍을 안정적인 궤도로 끌어올렸으며, 이제 이 약점은 위기 상황에서 신중함을 더해주는 훌륭한 안전장치로 작동할 것입니다.`];
+                
+                dynamicNarrativeEn_B = [`The weakest link in your destiny was <b>${weakElEnB}</b>, which could have made you prone to <b>[${lackSymptomsEn[weakIdxB]}]</b>. Fortunately, your acquired name successfully targeted and replenished this void. The energy from your name has elevated your innate deficit to a stable orbit, turning this weakness into a reliable safety mechanism.`];
+                
+            } else if (boostAmountB > 0 && finalWeakScoreB < 40) {
+                // 2-B. 절반의 치료 (조금 채워주긴 했으나 여전히 부족함)
+                dynamicNarrativeKo_B = [`당신의 명식에서 가장 취약한 고리는 <b>${weakElKoB}</b>이었습니다. 후천적 이름 파동이 이 부분에 에너지를 보충해주고는 있으나, 여전히 <b>[${lackSymptomsKo[weakIdxB]}]</b> 아쉬움을 완전히 지우기엔 세심한 관리가 필요합니다. 일상에서 스스로의 의식적인 노력을 더해 이 기운을 꾸준히 길러내야만 합니다.`];
+                
+                dynamicNarrativeEn_B = [`Your most vulnerable element was <b>${weakElEnB}</b>. Although your name provides some energy to this area, it requires careful management to fully overcome the tendency of <b>[${lackSymptomsEn[weakIdxB]}]</b>. You must consciously work to cultivate this energy in your daily life.`];
+                
+            } else {
+                // 2-C. 치료 실패 (이름이 약점을 전혀 안 채워줌)
+                dynamicNarrativeKo_B = [`선천적으로 <b>${weakElKoB}</b>의 기운이 몹시 허약하여 <b>[${lackSymptomsKo[weakIdxB]}]</b> 고충을 겪기 쉬운 구조입니다. 아쉽게도 현재의 이름 역시 이 빈틈을 채워주지 못하고 있습니다. 따라서 현실에서 의식적으로 관련 에너지를 보충하는 행동 지침을 실천하여 스스로 운명의 구멍을 메워야만 합니다.`];
+                
+                dynamicNarrativeEn_B = [`You have a severe innate deficiency in <b>${weakElEnB}</b>, making you prone to <b>[${lackSymptomsEn[weakIdxB]}]</b>. Unfortunately, your current name does not compensate for this gap. You must actively practice behavioral guidelines in reality to fill this void in your destiny.`];
+            }
         }
 
-      let blockB = "";
+        // 💡 [Block B 마무리] 
+        let blockB = "";
         if (currentLang === 'ko') {
             blockB = dynamicNarrativeKo_B[0];
         } else {
             blockB = dynamicNarrativeEn_B[0];
         }
-
-     // =========================================================
         // 🌟 Block C : 최종 상위 3대 기운 종합 및 현실적 과업(직업)
         // 💡 1. 5개 오행 중 최종 점수(finalVal) 1, 2, 3위 추출하기
         const finalScoresWithIdx_C = session.elementScores.map((score, index) => {
