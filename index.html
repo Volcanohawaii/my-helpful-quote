@@ -668,7 +668,7 @@ function switchTab(mode, element) {
             bridgeEn = `The vibration of your name is equipped with the energies of <b>${boostedTextEn}</b>, refining your strengths. These vibrations fuse with your innate energies to create the completed theme of <b>${currentTheme}</b>.`;
         }
 
-        const blockAKo = `당신은 본래 ${currentTrait}을 타고났습니다.${bridgeKo}\n최종적으로 조율된 후천적 강점은 다음과 같이 발현됩니다.\n${dynamicNarrativeKo[0]}`;
+        const blockAKo = `당신은 본래 ${currentTrait}을 타고났습니다.${bridgeKo}\n최종적으로 조율된 강점과 약점의 에너지는 다음과 같은 방향으로 발현됩니다.\n먼저, ${dynamicNarrativeKo[0]}`;
         const blockAEn = `You were originally born with ${currentTrait}.${bridgeEn}\n\nThrough this tuning of destiny, your ultimately completed acquired strengths manifest as follows:\n${dynamicNarrativeEn[0]}`;
         
         // 💡 [Block A 마무리]
@@ -696,7 +696,7 @@ function switchTab(mode, element) {
             [ // 0: 목(木)
                 "소멸 직전이던 <b>목(木)</b>의 메마른 땅에 이름의 파동이 거대한 단비를 내려, 이제는 누구도 꺾을 수 없는 강인한 추진력의 숲으로 역전되었습니다.",
                 "심각하게 결핍되었던 <b>목(木)</b>의 에너지가 성명의 보완을 통해 단단한 뿌리를 내리며, 목표를 향해 거침없이 전진하는 주도적인 운명으로 변모했습니다.",
-                "다소 허약했던 <b>목(목)</b>의 기운이 이름의 생명력을 얻어 안정적인 궤도에 진입함으로써, 최소한의 기획력과 실행력을 갖춘 균형 잡힌 기반을 완성했습니다.",
+                "다소 허약했던 <b>목(木)</b>의 기운이 이름의 생명력을 얻어 안정적인 궤도에 진입함으로써, 최소한의 기획력과 실행력을 갖춘 균형 잡힌 기반을 완성했습니다.",
                 "이미 안정적이던 <b>목(木)</b>의 흐름에 성명의 파동이 화려한 기상을 더해, 당신이 구상하는 모든 계획이 막힘없이 현실화되는 독보적 성장판을 마련했습니다.",
                 "천성적으로 완벽한 <b>목(木)</b>의 밸런스 위에 파동의 우아함이 얹어지니, 주변과 조화를 이루며 세상을 이끄는 가장 이상적인 리더의 품격을 갖추게 되었습니다."
             ],
@@ -709,7 +709,7 @@ function switchTab(mode, element) {
             ],
             [ // 2: 토(土)
                 "무너지던 <b>토(土)</b>의 모래알 같은 기반이 이름의 응집력을 만나, 이제는 수만 명의 신뢰를 담아낼 수 있는 거대한 대지이자 웅장한 산맥으로 역전되었습니다.",
-                "불안정하던 <b>토(토)</b>의 기운이 이름의 보완으로 단단하게 굳어져, 당신의 삶을 지탱하는 가장 강력한 안정감이자 신뢰의 원천이 되었습니다.",
+                "불안정하던 <b>토(土)</b>의 기운이 이름의 보완으로 단단하게 굳어져, 당신의 삶을 지탱하는 가장 강력한 안정감이자 신뢰의 원천이 되었습니다.",
                 "푸석했던 <b>토(土)</b>의 대지에 이름이 비옥한 기운을 더함으로써, 치우침 없이 중심을 잡고 현실적인 성취를 이루어낼 수 있는 단단한 토대를 마련했습니다.",
                 "안정적이던 <b>토(土)</b>의 기반 위에 성명의 파동이 웅장함을 더해, 흔들리지 않는 자기 중심을 바탕으로 큰 업적을 쌓아 올릴 제왕의 기상을 갖추었습니다.",
                 "천성적으로 완벽한 <b>토(土)</b>의 밸런스 위에 파동의 신용이 얹어지니, 만인이 믿고 따르는 든든한 안식처이자 세상의 중심이 되는 운명을 완성했습니다."
@@ -873,7 +873,7 @@ function switchTab(mode, element) {
   
 
         // 💡 3개의 블록을 하나의 거대한 서사로 조립합니다.
-      const analysisText = `${blockA}\n${blockB}`;  
+      const analysisText = `${blockA}${blockB}`;  
       const missionText = `${blockC}`;
 
         // 💡 연결 동작 (10가지로 확장)
