@@ -668,8 +668,8 @@ function switchTab(mode, element) {
             bridgeEn = `The vibration of your name is equipped with the energies of <b>${boostedTextEn}</b>, refining your strengths. These vibrations fuse with your innate energies to create the completed theme of <b>${currentTheme}</b>.`;
         }
 
-        const blockAKo = `당신은 본래 ${currentTrait}을 타고났습니다.\n${bridgeKo}\n최종적으로 조율된 후천적 강점은 다음과 같이 발현됩니다.\n${dynamicNarrativeKo[0]}`;
-        const blockAEn = `You were originally born with ${currentTrait}.\n${bridgeEn}\n\nThrough this tuning of destiny, your ultimately completed acquired strengths manifest as follows:\n${dynamicNarrativeEn[0]}`;
+        const blockAKo = `당신은 본래 ${currentTrait}을 타고났습니다.${bridgeKo}\n최종적으로 조율된 후천적 강점은 다음과 같이 발현됩니다.\n${dynamicNarrativeKo[0]}`;
+        const blockAEn = `You were originally born with ${currentTrait}.${bridgeEn}\n\nThrough this tuning of destiny, your ultimately completed acquired strengths manifest as follows:\n${dynamicNarrativeEn[0]}`;
         
         // 💡 [Block A 마무리]
         const blockA = currentLang === 'ko' ? blockAKo : blockAEn;
