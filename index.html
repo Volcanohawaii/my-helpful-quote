@@ -607,12 +607,12 @@ function switchTab(mode, element) {
         let bridgeEn = "";
 
         if (isWeakBoosted) {
-            bridgeKo = `성명의 파동에는 <b>${boostedTextKo}</b>의 기운이 높게 배치되어 있습니다. 타고난 에너지 중 가장 결핍된 <b>${weakElKoA}</b>의 에너지를 직접적으로 수혈함으로써, 운명의 빈틈을 채우고 <b>${currentTheme}</b>의 완성된 테마를 만들어냅니다.`;
-            bridgeEn = `The vibration of your name is highly equipped with the energies of <b>${boostedTextEn}</b>. By directly transfusing the energy of <b>${weakElEnA}</b>, which is the most lacking among your innate energies, it closely fills the voids of your destiny and creates the completed theme of <b>[${currentTheme}]</b>.`;
+            bridgeKo = `성명의 파동에는 <b>${boostedTextKo}</b>의 기운이 높게 배치되어 있습니다. 타고난 에너지 중 가장 결핍된 <b>${weakElKoA}</b>의 에너지를 직접적으로 수혈함으로써, 운명의 빈틈을 채우고 <b>${currentTheme}</b>의 시그니처 에너지를 만들어냅니다.`;
+            bridgeEn = `The vibration of your name is highly equipped with the energies of <b>${boostedTextEn}</b>. By directly transfusing the energy of <b>${weakElEnA}</b>, which is the most lacking among your innate energies, it closely fills the voids of your destiny and creates the completed signiture energy of <b>${currentTheme}</b>.`;
         } else {
            
             bridgeKo = `성명의 파동에는 <b>${boostedTextKo}</b>의 기운이 배치되어 당신의 강점을 벼려냅니다. 이 파동들이 타고난 에너지와 융합하여 <b>${currentTheme}</b>의 완성된 테마를 만들어냅니다.`;
-            bridgeEn = `The vibration of your name is equipped with the energies of <b>${boostedTextEn}</b>, refining your strengths. These vibrations fuse with your innate energies to create the completed theme of <b>[${currentTheme}]</b>.`;
+            bridgeEn = `The vibration of your name is equipped with the energies of <b>${boostedTextEn}</b>, refining your strengths. These vibrations fuse with your innate energies to create the completed theme of <b>${currentTheme}</b>.`;
         }
 
         const blockAKo = `당신은 본래 ${currentTrait}을 타고났습니다.\n${bridgeKo}\n또한 ${dynamicNarrativeKo[0]}`;
@@ -668,7 +668,7 @@ function switchTab(mode, element) {
             // Case 2: 결핍이 있는 사람 -> 이름이 약을 발라주었는가?
             if (boostAmountB > 0 && finalWeakScoreB >= 40) {
                 // 2-A. 완벽한 치료 (이름이 적정 수준 이상으로 채워줌)
-                dynamicNarrativeKo_B = [`다른 에너지에 비해 약한 에너지는 <b>${weakElKoB}</b> 여서 <b>${lackSymptomsKo[weakIdxB]}</b> 고충이 있었을 것입니다. 다행히 성명의 파동이 운명의 빈틈을 정확히 타겟팅하여 안정적인 궤도로 끌어올렸으며, 위기 상황에서 신중함을 더해주는 훌륭한 안전장치로 작동할 것입니다.`];
+                dynamicNarrativeKo_B = [`다른 에너지에 비해 약한 <b>${weakElKoB}</b> 때문에 가끔 <b>${lackSymptomsKo[weakIdxB]}</b> 고충이 있었을 것입니다. 다행히 성명의 파동이 운명의 빈틈을 정확히 타겟팅하여 안정적인 궤도로 끌어올렸으며, 위기 상황에서 신중함을 더해주는 훌륭한 안전장치로 작동할 것입니다.`];
                 
                 dynamicNarrativeEn_B = [`Your weakest energy compared to others is <b>${weakElEnB}</b>, which likely caused you the hardship of <b>${lackSymptomsEn[weakIdxB]}</b>. Fortunately, the vibration of your name has accurately targeted and elevated this void in your destiny to a stable orbit, and it will operate as an excellent safety mechanism that adds prudence in times of crisis.`];
                 
