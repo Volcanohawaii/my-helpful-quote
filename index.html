@@ -668,8 +668,8 @@ function switchTab(mode, element) {
             bridgeEn = `The vibration of your name is equipped with the energies of <b>${boostedTextEn}</b>, refining your strengths. These vibrations fuse with your innate energies to create the completed theme of <b>${currentTheme}</b>.`;
         }
 
-        const blockAKo = `당신은 본래 ${currentTrait}을 타고났습니다.${bridgeKo}\n최종적으로 조율된 강점과 약점의 에너지는 다음과 같은 방향으로 발현됩니다.\n먼저, ${dynamicNarrativeKo[0]}`;
-        const blockAEn = `You were originally born with ${currentTrait}.${bridgeEn}\n\nThrough this tuning of destiny, your ultimately completed acquired strengths manifest as follows:\n${dynamicNarrativeEn[0]}`;
+        const blockAKo = `당신은 본래 ${currentTrait}을 타고났습니다.${bridgeKo}\n최종적으로 조율된 강점과 약점의 에너지는 다음과 같은 방향으로 발현됩니다. 먼저, ${dynamicNarrativeKo[0]}`;
+        const blockAEn = `You were originally born with ${currentTrait}.${bridgeEn}\n\nThrough this tuning of destiny, your ultimately completed acquired strengths manifest as follows: ${dynamicNarrativeEn[0]}`;
         
         // 💡 [Block A 마무리]
         const blockA = currentLang === 'ko' ? blockAKo : blockAEn;
@@ -855,11 +855,11 @@ function switchTab(mode, element) {
         let dynamicNarrativeEn_C = [""];
 
        if (isSpecialist_C) {
-            dynamicNarrativeKo_C = [`당신의 최종 운명은 압도적인 <b>${top1NameKo_C}</b>(${key1Ko_C})을 중심으로, <b>${top2NameKo_C}</b>(${key2Ko_C})와 <b>${top3NameKo_C}</b>(${key3Ko_C})가 보좌하는 <b>'독보적 장인'</b>의 형상입니다. 한 분야의 정점을 향해 칼날을 벼려낼 때 가장 큰 부와 명예를 거머쥡니다. 여러 일을 벌이기보다 당신만의 전문 성벽을 높이 쌓고 세상을 내려다보십시오. 이름이 벼려낸 이 예리한 감각을 실전에 활용할 수 있는 당신의 현실적인 현생 과업은 <b>${recommendedJobsKo_C}</b>입니다.`];
+            dynamicNarrativeKo_C = [`당신의 시그니처 에너지로부터의 운명은 압도적인 <b>${top1NameKo_C}</b>-${key1Ko_C}을 중심으로, <b>${top2NameKo_C}</b>-${key2Ko_C}와 <b>${top3NameKo_C}</b>-${key3Ko_C}가 보좌하는 <b>'독보적 장인'</b>의 형상입니다. 한 분야의 정점을 향해 칼날을 벼려낼 때 가장 큰 부와 명예를 거머쥡니다. 여러 일을 벌이기보다 당신만의 전문 성벽을 높이 쌓고 세상을 내려다보십시오. 이름이 벼려낸 이 예리한 감각을 실전에 활용할 수 있는 당신의 현실적인 현생 과업은 <b>${recommendedJobsKo_C}</b>입니다.`];
             
             dynamicNarrativeEn_C = [`Your final destiny takes the form of an <b>'Unrivaled Specialist'</b>, centered around overwhelming <b>${top1NameEn_C}</b> (${key1En_C}), supported by <b>${top2NameEn_C}</b> (${key2En_C}) and <b>${top3NameEn_C}</b> (${key3En_C}). You achieve the greatest wealth when honing your skills toward the pinnacle of a single field. Focus on building your own fortress of expertise. Your realistic life task based on this keen sense is to become <b>${recommendedJobsEn_C}</b>.`];
         } else {
-            dynamicNarrativeKo_C = [`당신의 최종 운명은 어느 한 곳에 치우치지 않고 <b>${top1NameKo_C}</b>(${key1Ko_C}), <b>${top2NameKo_C}</b>(${key2Ko_C}), <b>${top3NameKo_C}</b>(${key3Ko_C})가 황금 비율을 이루는 <b>'다재다능 해결사'</b>의 형상입니다. 혼자 돋보이기보다 거대한 판을 짜고 시스템을 운영할 때 진정한 거부가 됩니다. 이름이 선물한 이 단단한 균형감을 바탕으로 능력을 십분 발휘할 당신의 현실적인 현생 과업은 <b>${recommendedJobsKo_C}</b>입니다.`];
+            dynamicNarrativeKo_C = [`당신의 시그니처 에너지로부터의 운명은 어느 한 곳에 치우치지 않고 <b>${top1NameKo_C}</b>-${key1Ko_C}, <b>${top2NameKo_C}</b>-${key2Ko_C}, <b>${top3NameKo_C}</b>-${key3Ko_C}가 황금 비율을 이루는 <b>'다재다능 해결사'</b>의 형상입니다. 혼자 돋보이기보다 거대한 판을 짜고 시스템을 운영할 때 진정한 거부가 됩니다. 이름이 선물한 이 단단한 균형감을 바탕으로 능력을 십분 발휘할 당신의 현실적인 현생 과업은 <b>${recommendedJobsKo_C}</b>입니다.`];
             
             dynamicNarrativeEn_C = [`Your final destiny is shaped as a <b>'Versatile Problem Solver'</b>, achieving a golden ratio of <b>${top1NameEn_C}</b> (${key1En_C}), <b>${top2NameEn_C}</b> (${key2En_C}), and <b>${top3NameEn_C}</b> (${key3En_C}). You build true wealth by designing big pictures and operating systems rather than shining alone. Based on this solid balance, your realistic life task is to become <b>${recommendedJobsEn_C}</b>.`];
         }
