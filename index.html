@@ -676,105 +676,67 @@ function switchTab(mode, element) {
     
 // =========================================================
         // 🌟 Block B : 약점 진단 및 이름의 보완 성적표 평가
-        // =========================================================
-        
-        // 1) 선천적으로 가장 점수가 낮았던 오행 찾기
-        const minBaseScoreB = Math.min(...baseScoresForIntensity);
-        const weakIdxB = baseScoresForIntensity.indexOf(minBaseScoreB);
-        
-        // 2) 이름표 및 결핍 시 겪는 현실적 고충(증상) 사전
+// 1) 데이터 준비
         const elNamesKoB = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
         const elNamesEnB = ["Wood", "Fire", "Earth", "Metal", "Water"];
-        const weakElKoB = elNamesKoB[weakIdxB];
-        const weakElEnB = elNamesEnB[weakIdxB];
-
-        const lackSymptomsKo = [
-            "시작을 망설이고 추진력이 떨어져 기회를 놓치는", // 목
-            "열정이 쉽게 식고 감정 기복이 심해 끝맺음이 아쉬운", // 화
-            "변화를 두려워하고 맺고 끊음이 약해 타인에게 휘둘리는", // 토
-            "결단력이 부족하고 맺고 끊음이 흐지부지되는", // 금
-            "불안감이 높고 상황에 유연하게 대처하지 못하는" // 수
-        ];
-        const lackSymptomsEn = [
-            "hesitating to start and losing opportunities due to lack of drive",
-            "losing passion easily and struggling with emotional swings",
-            "fearing change and being swayed by others due to weak boundaries",
-            "lacking decisiveness and failing to bring things to a clear conclusion",
-            "feeling highly anxious and lacking adaptability in situations"
-        ];
-
-        // 3) 이름이 얼마나 채워줬는지 계산 (최종점수 - 선천점수)
-        const finalWeakScoreB = session.elementScores[weakIdxB]; 
-        const boostAmountB = finalWeakScoreB - minBaseScoreB;
-
-        let dynamicNarrativeKo_B = [""];
-        let dynamicNarrativeEn_B = [""];
-
-// 4) [초정밀 판독 엔진] 점수대별 시나리오 분기
-      const cureNamesKo = [
-            "새로운 시작을 여는 과감한 실행력", "지치지 않는 열정과 끝까지 몰입하는 끈기", 
-            "흔들리지 않는 자기 중심과 단단한 포용력", "단호하게 맺고 끊는 냉철한 결단력", 
-            "어떤 상황에도 스며드는 유연함과 통찰력"
-        ];
-        const cureNamesEn = [
-            "bold execution power", "tireless passion and persistence", 
-            "unwavering self-center", "cold decisiveness", "flexibility and insight"
-        ];
-
-        // 💡 [황금 밸런스 5점 척도 사전] 오행(5) x 1등 기운(topIdx)의 강도(5) = 25가지 스토리
-        // topIdx는 위에서 이미 Math.max로 계산된 1등 오행의 번호입니다.
-        const maxScoreForGolden = session.elementScores[topIdx]; 
+        const minBaseScoreB = Math.min(...baseScoresForIntensity); // 선천 최저점
+        const weakIdxB = baseScoresForIntensity.indexOf(minBaseScoreB); // 선천 약점 인덱스
+        const finalWeakScoreB = session.elementScores[weakIdxB]; // 이름 보완 후 최종점수
         
-        let goldenLevel = 2; // 보통(Default)
-        if (maxScoreForGolden >= 120) goldenLevel = 0;      // 극강
-        else if (maxScoreForGolden >= 90) goldenLevel = 1;  // 강함
-        else if (maxScoreForGolden >= 70) goldenLevel = 2;  // 보통
-        else if (maxScoreForGolden >= 40) goldenLevel = 3;  // 약함
-        else goldenLevel = 4;                               // 극약
+        // 2) 💡 선천적 결핍 강도 판독 (5단계)
+        let baseLevelB = 0;
+        if (minBaseScoreB < 20) baseLevelB = 0;      // 0~19: 소멸 직전
+        else if (minBaseScoreB < 40) baseLevelB = 1; // 20~39: 심각한 결핍
+        else if (minBaseScoreB < 60) baseLevelB = 2; // 40~59: 다소 허약
+        else if (minBaseScoreB < 80) baseLevelB = 3; // 60~79: 안정적 흐름
+        else baseLevelB = 4;                         // 80+: 천성적 황금밸런스
 
-        const goldenBloomKo = [
+        // 3) 💡 [초정밀 25종 일체형 서사 매트릭스] - 과거-현재-미래 통합
+        const finalNarrativeMatrixKo = [
             [ // 0: 목(木)
-                "하늘을 뚫고 오를 듯 웅장하게 만개한 목(木)의 압도적 창조성을",
-                "숲을 아우르며 거침없이 뻗어나가는 목(木)의 탁월한 기획력을",
-                "주변과 조화를 이루며 올곧게 자라나는 목(木)의 안정적인 성장판을",
-                "척박한 땅에서도 끝내 싹을 틔워내는 목(木)의 끈기 있는 생명력을",
-                "주변의 거센 기운 속에서도 조용히 내실을 다지는 목(木)의 잠재력을"
+                "소멸 직전이던 <b>목(木)</b>의 메마른 땅에 이름의 파동이 거대한 단비를 내려, 이제는 누구도 꺾을 수 없는 강인한 추진력의 숲으로 역전되었습니다.",
+                "심각하게 결핍되었던 <b>목(木)</b>의 에너지가 성명의 보완을 통해 단단한 뿌리를 내리며, 목표를 향해 거침없이 전진하는 주도적인 운명으로 변모했습니다.",
+                "다소 허약했던 <b>목(목)</b>의 기운이 이름의 생명력을 얻어 안정적인 궤도에 진입함으로써, 최소한의 기획력과 실행력을 갖춘 균형 잡힌 기반을 완성했습니다.",
+                "이미 안정적이던 <b>목(木)</b>의 흐름에 성명의 파동이 화려한 기상을 더해, 당신이 구상하는 모든 계획이 막힘없이 현실화되는 독보적 성장판을 마련했습니다.",
+                "천성적으로 완벽한 <b>목(木)</b>의 밸런스 위에 파동의 우아함이 얹어지니, 주변과 조화를 이루며 세상을 이끄는 가장 이상적인 리더의 품격을 갖추게 되었습니다."
             ],
             [ // 1: 화(火)
-                "어둠을 단숨에 불태워버리는 화(火)의 압도적인 열정과 카리스마를",
-                "세상을 환하게 밝히며 시선을 사로잡는 화(火)의 탁월한 매력을",
-                "따뜻한 온기로 주변을 데우며 빛을 발하는 화(火)의 온화함을",
-                "작은 불씨를 지켜내며 기회를 기다리는 화(火)의 신중한 에너지를",
-                "차갑게 가라앉은 곳에 미세한 온기를 불어넣는 화(火)의 섬세함을"
+                "사그라지던 <b>화(火)</b>의 불씨가 이름의 파동을 만나 뜨거운 용광로로 폭발하며, 세상을 압도하고 대중을 매료시키는 눈부신 태양의 카리스마로 역전되었습니다.",
+                "결핍되었던 <b>화(火)</b>의 열정이 이제는 이름의 연료를 얻어 지치지 않는 추진력으로 변모하여, 당신의 존재감을 증명하는 가장 강력한 무기가 되었습니다.",
+                "허약했던 <b>화(火)</b>의 기운이 성명의 온기를 통해 회복됨으로써, 대인관계와 일상의 열정이 조화롭게 유지되는 평온한 운명의 온도를 얻었습니다.",
+                "안정적이던 <b>화(火)</b>의 빛에 성명의 파동이 화려함을 더해, 당신의 매력과 표현력이 정점에 도달하여 어디서든 주목받는 주인공의 삶을 완성했습니다.",
+                "천성적으로 완벽한 <b>화(火)</b>의 밸런스 위에 파동의 카리스마가 더해지니, 사람들에게 영감을 주고 어둠을 밝히는 독보적인 빛의 리더로 거듭났습니다."
             ],
             [ // 2: 토(土)
-                "거대한 산맥처럼 절대 흔들리지 않는 토(토)의 압도적인 웅장함을",
-                "드넓은 대지처럼 만물을 굳건하게 품어내는 토(土)의 탁월한 포용력을",
-                "치우침 없이 묵묵히 중심을 잡아주는 토(土)의 안정된 균형감을",
-                "흩어진 모래알을 모아 기반을 다지는 토(土)의 성실한 응집력을",
-                "메마른 땅 밑에서 묵묵히 기회를 기다리는 토(土)의 인내심을"
+                "무너지던 <b>토(土)</b>의 모래알 같은 기반이 이름의 응집력을 만나, 이제는 수만 명의 신뢰를 담아낼 수 있는 거대한 대지이자 웅장한 산맥으로 역전되었습니다.",
+                "불안정하던 <b>토(토)</b>의 기운이 이름의 보완으로 단단하게 굳어져, 당신의 삶을 지탱하는 가장 강력한 안정감이자 신뢰의 원천이 되었습니다.",
+                "푸석했던 <b>토(土)</b>의 대지에 이름이 비옥한 기운을 더함으로써, 치우침 없이 중심을 잡고 현실적인 성취를 이루어낼 수 있는 단단한 토대를 마련했습니다.",
+                "안정적이던 <b>토(土)</b>의 기반 위에 성명의 파동이 웅장함을 더해, 흔들리지 않는 자기 중심을 바탕으로 큰 업적을 쌓아 올릴 제왕의 기상을 갖추었습니다.",
+                "천성적으로 완벽한 <b>토(土)</b>의 밸런스 위에 파동의 신용이 얹어지니, 만인이 믿고 따르는 든든한 안식처이자 세상의 중심이 되는 운명을 완성했습니다."
             ],
             [ // 3: 금(金)
-                "누구도 범접할 수 없는 예리함으로 무장한 금(金)의 압도적인 통찰력을",
-                "불필요한 것을 단칼에 베어내는 금(金)의 탁월한 결단력을",
-                "불순물을 걸러내고 자신만의 가치를 다듬는 금(金)의 정교한 감각을",
-                "무딘 날을 갈아 세우며 힘을 비축하는 금(金)의 내면적 강인함을",
-                "외부의 압박에도 부러지지 않고 유연함을 찾는 금(金)의 회복력을"
+                "녹아내리던 <b>금(金)</b>의 기운이 이름의 차가운 파동을 만나, 불필요한 것을 단칼에 베어내는 전설적인 통찰력과 결단력의 검으로 완벽하게 역전되었습니다.",
+                "결핍되었던 <b>금(金)</b>의 단호함이 이름의 정교한 가공을 거쳐 예리한 무기가 됨으로써, 중요한 순간마다 당신의 가치를 증명하는 냉철한 승부사로 변모했습니다.",
+                "허약했던 <b>금(金)</b>의 기운이 성명의 보조를 받아 안정권에 진입하여, 불순물을 걸러내고 자신을 지킬 수 있는 명확한 원칙과 방어 기제를 확보했습니다.",
+                "안정적이던 <b>금(金)</b>의 기운에 성명의 예리함이 더해져, 핵심을 꿰뚫어 보는 탁월한 감각으로 업계를 선도하는 독보적 전문성을 갖추게 되었습니다.",
+                "천성적으로 완벽한 <b>금(金)</b>의 밸런스 위에 파동의 품격이 더해지니, 티 없이 맑은 고결함과 단호한 카리스마로 세상의 질서를 세우는 수호자가 되었습니다."
             ],
             [ // 4: 수(水)
-                "깊은 심연의 바다처럼 모든 것을 수용하는 수(水)의 압도적인 장악력을",
-                "막힌 길도 스며들어 결국 뚫어내는 수(水)의 탁월한 지혜를",
-                "장애물을 피해 유연하게 흘러가는 수(水)의 현명한 적응력을",
-                "가뭄 속에서도 끊기지 않고 이어지는 수(水)의 끈질긴 생명력을",
-                "보이지 않는 이면의 진실을 읽어내는 수(水)의 고요한 직관력을"
+                "말라붙었던 <b>수(水)</b>의 샘터가 이름의 깊은 파동을 만나 분출되며, 이제는 만물을 적시고 지혜를 뿜어내는 깊은 심연의 바다이자 지혜의 정점으로 역전되었습니다.",
+                "흐름이 끊겼던 <b>수(水)</b>의 기운이 이름이라는 물길을 만나, 어떤 장애물도 유연하게 넘어서는 노련한 처세와 통찰력을 갖춘 강점으로 자리 잡았습니다.",
+                "메말랐던 <b>수(水)</b>의 에너지가 성명의 수혈을 통해 보통의 흐름을 회복함으로써, 지적인 균형을 유지하고 상황에 대처하는 유연한 태도를 완성했습니다.",
+                "안정적이던 <b>수(水)</b>의 흐름에 성명의 깊이가 더해져, 세상의 보이지 않는 이면까지 읽어내는 남다른 안목과 지혜를 갖춘 전략가로 거듭났습니다.",
+                "천성적으로 완벽한 <b>수(水)</b>의 밸런스 위에 파동의 유연함이 얹어지니, 멈추지 않는 지혜의 샘물처럼 세상에 해답을 제시하는 스승의 위상을 갖추게 되었습니다."
             ]
         ];
-        // 💡 [Block B 마무리] 
+
+        // 4) 💡 최종 결과 바인딩 (영어는 우선 핵심 키워드로 구성)
         let blockB = "";
         if (currentLang === 'ko') {
-            blockB = dynamicNarrativeKo_B[0];
+            blockB = finalNarrativeMatrixKo[weakIdxB][baseLevelB];
         } else {
-            blockB = dynamicNarrativeEn_B[0];
+            const statusEn = ["Miraculously Revived", "Successfully Supplemented", "Stably Balanced", "Powerfully Enhanced", "Perfectly Refined"];
+            blockB = `Through the vibration of your name, your innate <b>${elNamesEnB[weakIdxB]}</b> energy has been <b>${statusEn[baseLevelB]}</b>.`;
         }
       
         // 🌟 Block C : 최종 상위 3대 기운 종합 및 현실적 과업(직업)
