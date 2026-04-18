@@ -738,173 +738,246 @@ function switchTab(mode, element) {
             blockB = `Through the vibration of your name, your innate <b>${elNamesEnB[weakIdxB]}</b> energy has been <b>${statusEn[baseLevelB]}</b>.`;
         }
       
-     // 🌟 Block C : 5차원 에너지 분포 기반 직업/과업 도출 엔진
-        // 💡 1. 5개 오행 중 최종 점수 1위, 2위, 5위(꼴찌) 추출하기
-        const finalScoresWithIdx_C = session.elementScores.map((score, index) => {
-            return { score: score, index: index };
-        });
-        
-        finalScoresWithIdx_C.sort((a, b) => b.score - a.score);
+// 💡 1. 5개 오행 중 최종 점수 1위, 2위, 5위(꼴찌) 추출하기
+    const finalScoresWithIdx_C = session.elementScores.map((score, index) => {
+        return { score: score, index: index };
+    });
+    
+    finalScoresWithIdx_C.sort((a, b) => b.score - a.score);
 
-        const top1Idx_C = finalScoresWithIdx_C[0].index;
-        const top2Idx_C = finalScoresWithIdx_C[1].index;
-        const top5Idx_C = finalScoresWithIdx_C[4].index; // 극복해야 할 아킬레스건
+    const top1Idx_C = finalScoresWithIdx_C[0].index;
+    const top2Idx_C = finalScoresWithIdx_C[1].index;
+    const top5Idx_C = finalScoresWithIdx_C[4].index; // 극복해야 할 아킬레스건
 
-        const top1Score_C = finalScoresWithIdx_C[0].score;
-        const top2Score_C = finalScoresWithIdx_C[1].score;
-        const top5Score_C = finalScoresWithIdx_C[4].score;
+    const top1Score_C = finalScoresWithIdx_C[0].score;
+    const top2Score_C = finalScoresWithIdx_C[1].score;
+    const top5Score_C = finalScoresWithIdx_C[4].score;
 
-        // 💡 2. 에너지 분포도(Shape) 판독 : 4대 성공 시나리오
-        let energyShapeKo = "";
-        let energyShapeEn = "";
-        
-        if (top1Score_C - top2Score_C >= 30) {
-            energyShapeKo = "한 우물만 파서 세상을 평정할 <b>'독보적 장인(Master)'</b>";
-            energyShapeEn = "an <b>'Unrivaled Master'</b> who will conquer the world by focusing on a single path";
-        } else if (top1Score_C >= 90 && top5Score_C < 50) {
-            energyShapeKo = "거친 위기를 기회로 바꾸며 파도를 타는 <b>'역전의 승부사(Game Changer)'</b>";
-            energyShapeEn = "a <b>'Game Changer'</b> who rides the waves, turning crises into opportunities";
-        } else if (top5Score_C >= 60) {
-            energyShapeKo = "어떤 환경에서도 묵묵히 중심이 되어 판을 관리하는 <b>'거대한 시스템 운영자(System Director)'</b>";
-            energyShapeEn = "a <b>'System Director'</b> who silently manages the board in any environment";
-        } else {
-            energyShapeKo = "실무의 최전선보다 사람과 자본을 연결하여 거대한 실리를 챙기는 <b>'전략적 네트워커(Strategic Networker)'</b>";
-            energyShapeEn = "a <b>'Strategic Networker'</b> who gains massive practical benefits by connecting people and capital";
-        }
+    // 💡 2. 에너지 분포도(Shape) 판독 : 4대 성공 시나리오
+    let energyShapeKo = "";
+    let energyShapeEn = "";
+    
+    if (top1Score_C - top2Score_C >= 30) {
+        energyShapeKo = "한 우물만 파서 세상을 평정할 <b>'독보적 장인'</b>의";
+        energyShapeEn = "an <b>'Unrivaled Master'</b> who conquers the world by focusing on a single path";
+    } else if (top1Score_C >= 90 && top5Score_C < 50) {
+        energyShapeKo = "거친 위기를 기회로 바꾸며 파도를 타는 <b>'역전의 승부사'</b>의";
+        energyShapeEn = "a <b>'Game Changer'</b> who rides waves and turns crises into opportunities";
+    } else if (top5Score_C >= 60) {
+        energyShapeKo = "어떤 환경에서도 묵묵히 중심이 되어 판을 관리하는 <b>'시스템 운영자'</b>의";
+        energyShapeEn = "a <b>'System Director'</b> who silently manages the board in any environment";
+    } else {
+        energyShapeKo = "사람과 자본을 연결하여 거대한 실리를 챙기는 <b>'전략적 네트워커'</b>의";
+        energyShapeEn = "a <b>'Strategic Networker'</b> who gains benefits by connecting people and capital";
+    }
 
-       // 💡 3. 조립식 서사 사전 세팅 (데이터 25배 폭발적 확장)
-        
-        // [1] 제1기운의 특징 (1위 기운 x 2위 기운 = 25가지 시너지 매트릭스)
-        const top1FeatureKo = [
-            /* 1위 목 */ ["한계를 모르는 폭발적 확장성을", "세상을 매료시키는 화려한 기획력을", "거대 시스템을 구축하는 웅장한 창조성을", "허점을 날카롭게 찌르는 혁신적 돌파력을", "어떤 환경에도 스며드는 유연한 성장판을"],
-            /* 1위 화 */ ["새로운 시장을 태워버릴 듯한 추진력을", "모든 시선을 압도하는 태양의 카리스마를", "대중의 신뢰를 바탕으로 한 폭넓은 장악력을", "불필요한 것을 태워버리는 단호한 열정을", "어둠 속에서도 길을 찾는 번뜩이는 통찰력을"],
-            /* 1위 토 */ ["무에서 유를 창조하는 비옥한 기획력을", "만인을 내 편으로 만드는 따뜻한 리더십을", "어떤 풍파에도 흔들리지 않는 절대적 포용력을", "명확한 원칙으로 세상을 다스리는 통제력을", "모든 지식을 흡수하고 포용하는 거대한 대지를"],
-            /* 1위 금 */ ["날카롭게 뻗어나가는 승부사적 기질을", "대중의 마음을 베어내는 예리한 매력을", "단단한 기반 위에서 빛나는 완벽주의를", "한 치의 오차도 허용하지 않는 절대적 결단력을", "보이지 않는 본질까지 꿰뚫어 보는 통찰의 검을"],
-            /* 1위 수 */ ["거침없이 뻗어 나가는 지혜의 폭포수를", "열정과 냉정을 자유롭게 오가는 전략적 마인드를", "모든 것을 수용하며 중심을 잡는 유연성을", "위기 앞에서도 평정심을 잃지 않는 냉철함을", "속을 알 수 없는 심연의 바다 같은 장악력을"]
-        ];
+    // 💡 3. 조립식 서사 사전 세팅 (2,250종 확장 데이터)
+    
+    // [1] 제1기운의 특징 (1위 x 2위 융합)
+    const top1FeatureKo = [
+        /* 1위 목 */ ["한계를 모르는 폭발적 확장성을", "세상을 매료시키는 화려한 기획력을", "거대 시스템을 구축하는 웅장한 창조성을", "허점을 날카롭게 찌르는 혁신적 돌파력을", "어떤 환경에도 스며드는 유연한 성장판을"],
+        /* 1위 화 */ ["새로운 시장을 태워버릴 듯한 추진력을", "모든 시선을 압도하는 태양의 카리스마를", "대중의 신뢰를 바탕으로 한 폭넓은 장악력을", "불필요한 것을 태워버리는 단호한 열정을", "어둠 속에서도 길을 찾는 번뜩이는 통찰력을"],
+        /* 1위 토 */ ["무에서 유를 창조하는 비옥한 기획력을", "만인을 내 편으로 만드는 따뜻한 리더십을", "어떤 풍파에도 흔들리지 않는 절대적 포용력을", "명확한 원칙으로 세상을 다스리는 통제력을", "모든 지식을 흡수하고 포용하는 거대한 대지를"],
+        /* 1위 금 */ ["날카롭게 뻗어나가는 승부사적 기질을", "대중의 마음을 베어내는 예리한 매력을", "단단한 기반 위에서 빛나는 완벽주의를", "한 치의 오차도 허용하지 않는 절대적 결단력을", "보이지 않는 본질까지 꿰뚫어 보는 통찰의 검을"],
+        /* 1위 수 */ ["거침없이 뻗어 나가는 지혜의 폭포수를", "열정과 냉정을 자유롭게 오가는 전략적 마인드를", "모든 것을 수용하며 중심을 잡는 유연성을", "위기 앞에서도 평정심을 잃지 않는 냉철함을", "속을 알 수 없는 심연의 바다 같은 장악력을"]
+    ];
 
-        const top1FeatureEn = [
-            /* Wood */ ["explosive scalability without limits", "brilliant planning that captivates the world", "grand creativity that builds massive systems", "innovative breakthrough power piercing loopholes", "flexible growth plate permeating any environment"],
-            /* Fire */ ["drive that seems to burn down new markets", "sun-like charisma overwhelming all eyes", "broad dominance based on public trust", "resolute passion burning away the unnecessary", "flashing insight finding paths even in darkness"],
-            /* Earth */ ["fertile planning creating something from nothing", "warm leadership bringing everyone to your side", "absolute embrace unshaken by any storm", "control ruling the world with clear principles", "massive land absorbing and embracing all knowledge"],
-            /* Metal */ ["sharply extending competitive temperament", "keen charm cutting through people's hearts", "perfectionism shining on a solid foundation", "absolute decisiveness allowing no margin of error", "sword of insight piercing unseen essences"],
-            /* Water */ ["relentlessly flowing waterfall of wisdom", "strategic mind freely crossing passion and coolness", "flexibility embracing everything and holding the center", "cool-headedness never losing composure before crises", "unfathomable abyss-like dominance"]
-        ];
+    const top1FeatureEn = [
+        ["explosive scalability without limits", "brilliant planning that captivates", "grand creativity building systems", "innovative breakthrough power", "flexible growth plate"],
+        ["drive that burns down new markets", "sun-like charisma overwhelming eyes", "broad dominance based on trust", "resolute passion burning the unnecessary", "flashing insight finding paths"],
+        ["fertile planning creating from nothing", "warm leadership bringing everyone", "absolute embrace unshaken by storms", "control ruling with clear principles", "massive land absorbing knowledge"],
+        ["sharply extending competitive temper", "keen charm cutting through hearts", "perfectionism on a solid foundation", "absolute decisiveness with no error", "sword of insight piercing essence"],
+        ["relentlessly flowing waterfall of wisdom", "strategic mind crossing passion and cool", "flexibility holding the center", "cool-headedness keeping composure", "unfathomable abyss-like dominance"]
+    ];
 
-        // [2] 제1기운의 강도 (유지)
-        let top1ScaleKo = ""; let top1ScaleEn = "";
-        if (top1Score_C >= 120) { top1ScaleKo = "세상의 판도를 뒤바꿀 거대한 스케일로"; top1ScaleEn = "on a massive scale that changes the world"; }
-        else if (top1Score_C >= 90) { top1ScaleKo = "업계를 선도하는 압도적인 파급력으로"; top1ScaleEn = "with overwhelming impact leading the industry"; }
-        else if (top1Score_C >= 70) { top1ScaleKo = "조직의 핵심을 담당하는 단단한 안정감으로"; top1ScaleEn = "with solid stability managing the core of the organization"; }
-        else { top1ScaleKo = "남들이 보지 못하는 틈새를 공략하는 날카로움으로"; top1ScaleEn = "with sharpness targeting unseen niches"; }
+    // [2] 제1기운의 강도 (5점 척도 기반 스케일)
+    let top1ScaleKo = ""; let top1ScaleEn = "";
+    if (top1Score_C >= 120) { top1ScaleKo = "시장의 룰을 재정의하는 대체 불가능한 스케일로"; top1ScaleEn = "on an irreplaceable scale redefining market rules"; }
+    else if (top1Score_C >= 90) { top1ScaleKo = "조직과 업계를 선도하는 압도적인 파급력으로"; top1ScaleEn = "with overwhelming impact leading the industry"; }
+    else if (top1Score_C >= 70) { top1ScaleKo = "핵심 프로젝트를 완벽하게 주도하는 탄탄한 전문성으로"; top1ScaleEn = "with solid expertise perfectly leading core projects"; }
+    else if (top1Score_C >= 40) { top1ScaleKo = "남들이 놓치는 빈틈을 정확히 파고드는 예리한 전략으로"; top1ScaleEn = "with sharp strategy targeting gaps others miss"; }
+    else { top1ScaleKo = "특정 니치 마켓을 독점하는 고도의 정밀한 타겟팅으로"; top1ScaleEn = "with highly precise targeting monopolizing niche markets"; }
 
-        // [3] 제2기운의 기술 (2위 기운 x 5위 약점 방어 = 25가지 매트릭스)
-        const top2SkillKo = [
-            /* 2위 목 */ ["스스로 동기를 부여하는 돌파력의", "지치지 않고 에너지를 재생산하는 생명력의", "낡은 관습을 부수고 나아가는 개척의", "관계의 벽을 허물고 다가가는 친화력의", "고착된 상황에 유연함을 불어넣는 기획의"],
-            /* 2위 화 */ ["주저할 때 과감히 방아쇠를 당기는 열정의", "어둠 속에서 확신을 주는 카리스마의", "대중의 이목을 집중시켜 판을 키우는 매력의", "맺고 끊음을 명확히 하여 손실을 막는 결단력의", "보이지 않는 마음의 벽을 녹이는 공감의"],
-            /* 2위 토 */ ["흔들리는 목표를 굳건히 잡아주는 안정감의", "들뜬 감정을 차분히 가라앉히는 평정심의", "흩어진 자원을 하나로 모으는 응집력의", "예리한 갈등을 부드럽게 무마하는 포용의", "급변하는 상황 속에서 중심을 지키는 무게감의"],
-            /* 2위 금 */ ["복잡한 문제를 단칼에 정리하는 분석력의", "불필요한 감정 소모를 차단하는 냉철함의", "느슨해진 조직에 긴장감을 부여하는 규율의", "손해를 과감히 잘라내는 리스크 관리의", "원칙을 세워 무질서를 바로잡는 통제력의"],
-            /* 2위 수 */ ["상황에 맞게 태도를 바꾸는 유연한 처세의", "막힌 길을 우회하여 결국 도달하는 지혜의", "드러나지 않게 판을 움직이는 전략적", "대립하는 에너지를 조화롭게 섞어내는 융화의", "먼 미래를 내다보고 대비하는 깊은 통찰의"]
-        ];
+    // [3] 제2기운의 기술 (2위 x 5위 약점 방어)
+    const top2SkillKo = [
+        /* 2위 목 */ ["스스로 동기를 부여하는 돌파력의", "지치지 않고 에너지를 재생산하는 생명력의", "낡은 관습을 부수고 나아가는 개척의", "관계의 벽을 허물고 다가가는 친화력의", "고착된 상황에 유연함을 불어넣는 기획의"],
+        /* 2위 화 */ ["주저할 때 과감히 방아쇠를 당기는 열정의", "어둠 속에서 확신을 주는 카리스마의", "대중의 이목을 집중시켜 판을 키우는 매력의", "맺고 끊음을 명확히 하여 손실을 막는 결단력의", "보이지 않는 마음의 벽을 녹이는 공감의"],
+        /* 2위 토 */ ["흔들리는 목표를 굳건히 잡아주는 안정감의", "들뜬 감정을 차분히 가라앉히는 평정심의", "흩어진 자원을 하나로 모으는 응집력의", "예리한 갈등을 부드럽게 무마하는 포용의", "급변하는 상황 속에서 중심을 지키는 무게감의"],
+        /* 2위 금 */ ["복잡한 문제를 단칼에 정리하는 분석력의", "불필요한 감정 소모를 차단하는 냉철함의", "느슨해진 조직에 긴장감을 부여하는 규율의", "손해를 과감히 잘라내는 리스크 관리의", "원칙을 세워 무질서를 바로잡는 통제력의"],
+        /* 2위 수 */ ["상황에 맞게 태도를 바꾸는 유연한 처세의", "막힌 길을 우회하여 결국 도달하는 지혜의", "드러나지 않게 판을 움직이는 전략적", "대립하는 에너지를 조화롭게 섞어내는 융화의", "먼 미래를 내다보고 대비하는 깊은 통찰의"]
+    ];
 
-        const top2SkillEn = [
-            ["breakthrough power of self-motivation", "vitality of tirelessly reproducing energy", "pioneering skill of breaking old customs", "sociability of breaking down relationship walls", "planning skill of infusing flexibility into deadlocks"],
-            ["passion of boldly pulling the trigger when hesitating", "charisma of giving certainty in the dark", "charm of scaling up by drawing public attention", "decisiveness of preventing loss with clear boundaries", "empathy of melting unseen mental walls"],
-            ["stability of firmly holding shaking goals", "composure of calming excited emotions", "cohesion of gathering scattered resources into one", "embrace of softly smoothing out sharp conflicts", "weight of holding the center in rapidly changing situations"],
-            ["analytical skill of cleanly organizing complex problems", "cool-headedness of blocking unnecessary emotional drain", "discipline of imparting tension to loose organizations", "risk management of boldly cutting losses", "control of correcting disorder by setting principles"],
-            ["flexible tact of changing attitudes to fit situations", "wisdom of eventually reaching the goal by bypassing blocked paths", "strategic skill of moving the board unseen", "harmony of smoothly blending opposing energies", "deep insight of foreseeing and preparing for the distant future"]
-        ];
+    const top2SkillEn = [
+        ["breakthrough power of self-motivation", "vitality of reproducing energy", "pioneering skill breaking customs", "sociability breaking walls", "planning skill infusing flexibility"],
+        ["passion pulling the trigger", "charisma giving certainty", "charm scaling up by attention", "decisiveness preventing loss", "empathy melting mental walls"],
+        ["stability holding shaking goals", "composure calming emotions", "cohesion gathering resources", "embrace smoothing conflicts", "weight holding the center in change"],
+        ["analytical skill organizing problems", "cool-headedness blocking emotional drain", "discipline imparting tension", "risk management cutting losses", "control correcting disorder"],
+        ["flexible tact changing attitudes", "wisdom reaching the goal by bypass", "strategic skill moving the board", "harmony blending opposing energies", "insight foreseeing the distant future"]
+    ];
 
-        // [4] 제5기운의 위험 (아킬레스건)
-        const top5RiskKo = ["시작만 하고 끝을 맺지 못하는 조급함", "쉽게 타오르고 금방 식어버리는 번아웃", "현실에 안주하여 정체되려는 불안정성", "감정에 치우쳐 맺고 끊지 못하는 우유부단함", "변화에 적응하지 못하고 시야가 좁아지는 경직성"];
-        const top5RiskEn = ["impatience of starting without finishing", "burnout from easily flaring up and cooling down", "instability of stagnating by settling for reality", "indecisiveness of failing to cut ties due to emotions", "rigidity of narrowing vision and failing to adapt"];
+    // [4] 제5기운의 위험 (꼴찌 오행 x 점수대 5단계 = 25종 초정밀 진단)
+    let top5Severity = top5Score_C < 20 ? 0 : (top5Score_C < 40 ? 1 : (top5Score_C < 60 ? 2 : (top5Score_C < 80 ? 3 : 4)));
+    const top5RiskKo = [
+        /* 목 약점 */ ["시작조차 두려워하는 극도의 실행력 부족", "계획만 세우고 실천하지 못하는 만성적 미루기", "마무리가 흐지부지되는 용두사미의 함정", "속도를 내다가 중요한 디테일을 놓치는 조급함", "성장만 추구하다 주변을 피곤하게 하는 과열"],
+        /* 화 약점 */ ["아무런 의욕을 느끼지 못하는 심각한 번아웃", "작은 난관에도 쉽게 포기해버리는 뒷심 부족", "감정 기복으로 인해 스스로 기회를 걷어차는 충동성", "타인의 시선에 지나치게 얽매이는 체면치레", "과도한 열정으로 인한 페이스 조절 실패"],
+        /* 토 약점 */ ["어떤 결정도 내리지 못하고 표류하는 극도의 우유부단함", "작은 변화에도 크게 흔들리는 불안정한 기반", "과거의 성공 방식에 얽매여 정체되는 고집", "거절하지 못해 불필요한 짐까지 떠안는 오지랖", "지나친 신중함으로 인해 타이밍을 놓치는 만만디"],
+        /* 금 약점 */ ["상처받는 것이 두려워 모든 관계를 차단하는 고립감", "맺고 끊지 못해 손실을 눈덩이처럼 키우는 미련", "비판에 과도하게 예민해져 방어적으로 변하는 태도", "원칙만 따지다 융통성을 잃고 고립되는 깐깐함", "타인의 작은 실수조차 용납하지 못하는 완벽주의"],
+        /* 수 약점 */ ["변화에 적응하지 못하고 완전히 도태되는 경직성", "상황에 휩쓸려 자신의 주관을 잃어버리는 수동성", "생각이 너무 많아 행동으로 옮기지 못하는 공상", "비밀주의로 인해 타인의 오해를 사는 소통 부재", "모든 것을 수용하려다 정체성을 잃는 무경계성"]
+    ];
+    const top5RiskEn = [
+        ["extreme lack of execution fearing the start", "chronic procrastination without action", "trap of an anti-climactic ending", "impatience of missing details while rushing", "overheating of exhausting others"],
+        ["severe burnout feeling no motivation", "lack of persistence giving up at minor hurdles", "impulsiveness kicking away opportunities", "obsession with saving face", "failure to pace oneself due to passion"],
+        ["extreme indecisiveness drifting without decisions", "unstable foundation shaken by minor changes", "stubbornness stagnating by past success", "meddling by taking on unnecessary burdens", "missing timing due to excessive caution"],
+        ["isolation blocking relationships out of fear", "lingering attachment snowballing losses", "defensive attitude overly sensitive to criticism", "strictness losing flexibility by principles", "perfectionism unable to tolerate minor mistakes"],
+        ["rigidity falling behind unable to adapt", "passivity losing principles swept by situations", "daydreaming unable to act due to overthinking", "lack of communication causing misunderstandings", "boundlessness losing identity"]
+    ];
 
-        // 💡 4. [초정밀 250종 하이브리드 직업 매트릭스]
-        // 수식어 10종 (varIdx 활용)
+    // 💡 4. [초정밀 2,250종 하이브리드 직업 매트릭스]
+    const varIdx30 = session.num81 % 30; // 30개의 수식어 로테이션
+    const varIdx3 = session.num81 % 3;   // 셀당 3개의 직업 로테이션
+    const varIdx = session.num81 % 10;   // 하단 weaponMap 등을 위한 기본 인덱스 유지
+
+  // 💡 오행의 본질(목·화·토·금·수)을 담은 30가지 초정밀 범용 수식어
         const jobModifiersKo = [
-            "글로벌 시장을 리드하는", "파괴적 혁신을 이끄는", "데이터와 로직 기반의", "사람의 마음을 꿰뚫는", "하이엔드 럭셔리 타겟의",
-            "지속 가능한 미래를 그리는", "위기 상황에 특화된", "초정밀 분석에 기반한", "거대 자본을 움직이는", "새로운 표준(Standard)을 만드는"
-        ];
-        const jobModifiersEn = [
-            "Global market-leading", "Disruptive innovation-driving", "Data & logic-based", "Mind-penetrating", "High-end luxury-targeted",
-            "Sustainable future-designing", "Crisis-specialized", "Ultra-precision analysis-based", "Massive capital-moving", "New standard-setting"
+            /* 목(木)의 기운: 비전, 창조, 개척 */
+            "시대의 흐름을 읽고 새로운 비전을 제시하는", "무에서 유를 창조하며 시장의 판도를 바꾸는", "멈추지 않는 도전 정신으로 한계를 돌파하는", "보이지 않는 가치를 발굴하여 혁신을 이끄는", "한계를 뛰어넘는 상상력으로 새로운 가치를 부여하는", "낡은 관습을 부수고 파괴적 혁신을 주도하는",
+            /* 화(火)의 기운: 열정, 확산, 매력 */
+            "사람의 마음을 움직여 거대한 팬덤을 구축하는", "압도적인 성과로 업계의 표준을 재정의하는", "대중의 숨은 니즈를 꿰뚫고 트렌드를 선도하는", "흩어진 에너지를 모아 폭발적인 시너지를 내는", "누구도 모방할 수 없는 독보적 매력으로 판을 장악하는", "실패를 두려워하지 않는 과감한 실행력을 갖춘",
+            /* 토(土)의 기운: 신뢰, 조율, 기반 */
+            "다양한 이해관계를 조율하며 최적의 합의점을 찾는", "거대한 자본과 인프라를 가장 안정적으로 운용하는", "흔들림 없는 원칙으로 조직의 퀀텀 점프를 이끄는", "대체 불가능한 신뢰를 바탕으로 생태계를 구축하는", "지속 가능한 가치를 창출하며 사회적 영향력을 미치는", "고도의 협상력과 정무적 감각으로 거대한 판을 움직이는",
+            /* 금(金)의 기운: 정밀, 결단, 완벽 */
+            "치밀한 데이터 분석과 로직으로 승률을 극대화하는", "타협하지 않는 완벽주의로 최고의 결과물을 벼려내는", "냉철한 판단력으로 치열한 생존 경쟁에서 승리하는", "핵심을 꿰뚫는 통찰로 불확실성의 리스크를 통제하는", "가장 효율적인 시스템을 설계하여 이윤을 극대화하는", "초격차 경쟁력을 창출하여 시장의 패권을 장악하는",
+            /* 수(水)의 기운: 지혜, 전략, 유연성 */
+            "위기를 기회로 바꾸는 탁월한 전략과 처세술을 지닌", "글로벌 스탠다드를 확립하며 경계를 유연하게 허무는", "본질에 집중하여 복잡한 문제를 단숨에 해결하는", "거시적인 안목으로 10년 후의 미래를 미리 준비하는", "어떤 상황에서도 흔들리지 않는 깊은 내공을 지닌", "소리 없이 판도를 뒤집는 치밀하고 정교한 설계력을 갖춘"
         ];
 
-        // 베이스 직업 25종
+        const jobModifiersEn = [
+            /* Wood */
+            "Visionary & Forward-thinking", "Game-changing & Disruptive", "Limit-breaking & Challenging", "Value-innovating", "Limitlessly Imaginative", "Convention-breaking & Pioneering",
+            /* Fire */
+            "Heart-moving & Fandom-building", "Industry-redefining", "Trend-leading & Insightful", "Explosive & Synergy-creating", "Unrivaled & Charismatic", "Fearless & Boldly Executing",
+            /* Earth */
+            "Optimal Consensus-building", "Highly Stable & Resource-optimizing", "Principle-driven & Quantum-jump Leading", "Trust-based Ecosystem-building", "Sustainable & High-impact", "Tactical & Board-moving",
+            /* Metal */
+            "Data-driven & Analytical", "Uncompromisingly Perfection-driven", "Cool-headed & Victorious", "Uncertainty & Risk-controlling", "Efficiency & Profit-maximizing", "Super-gap Market-dominating",
+            /* Water */
+            "Highly Strategic & Crisis-resilient", "Flexible & Boundary-breaking", "Essence-focused & Problem-solving", "Macro-perspective & Future-proofing", "Deeply Profound & Resilient", "Meticulously Designing"
+        ];
+
+        // 베이스 직업 (5x5 매트릭스, 셀당 3개)
         const fusionJobsKo = [
-            /* 목 */ [ "차세대 IT 인프라 최고기술책임자(CTO)", "글로벌 혁신 브랜드 총괄 디렉터 (CBO)", "친환경 스마트시티 총괄 아키텍트", "딥테크/AI 벤처 창업자 및 CEO", "글로벌 에듀테크 및 미래 전략 R&D 센터장" ],
-            /* 화 */ [ "뉴미디어 콘텐츠 제국 창립자", "엔터테인먼트 최고비전책임자(CVO)", "대형 복합 문화공간 기획 총괄 (CDO)", "글로벌 하이엔드 럭셔리 브랜드 마케팅 총괄 (CMO)", "퍼포먼스 마케팅 컨설팅 파트너" ],
-            /* 토 */ [ "대규모 부동산 개발 및 ESG 경영 총괄", "글로벌 프랜차이즈 및 F&B 제국 설립자", "초거대 인프라 건설 및 국책 사업 총괄 위원장", "투자 은행(IB) 파트너 및 대형 자산 운용사 대표", "B2B 플랫폼 비즈니스 총괄 및 SCM 디렉터" ],
-            /* 금 */ [ "벤처 캐피탈(VC) 심사역 및 테크 투자 거물", "기업 M&A 총괄 및 구조조정 전문 파트너", "다국적 기업 최고재무책임자(CFO)", "최고 사법 기관 및 감사/컴플라이언스 총괄", "글로벌 핀테크/블록체인 아키텍트 및 보안 총괄" ],
-            /* 수 */ [ "헬스케어/바이오 벤처 창업자 및 임상 연구 총괄", "글로벌 트렌드 분석가 및 여론/정치 킹메이커", "크로스보더(Cross-border) 글로벌 물류 총괄", "최고데이터책임자(CDO) 및 AI 알고리즘 설계자", "인간 심리를 다루는 정신 분석학 권위자 및 연구소장" ]
+            /* 1위 목 */ [ 
+                ["국내 톱티어 IT 플랫폼 최고기술책임자(CTO)", "대기업 기획조정실 신사업 총괄 임원", "K-에듀테크/HR 플랫폼 대표"], 
+                ["대형 방송/콘텐츠 제작사 비전 책임자", "트렌드 리딩 브랜드 마케팅 디렉터", "스타트업 그로스 해킹/퍼포먼스 리더"], 
+                ["국내 대형 유통 플랫폼 비즈니스 총괄", "전국망 프랜차이즈 기획/개발 본부장", "지역 인프라 및 스마트시티 설계자"], 
+                ["데이터/AI 기반 SaaS 프로덕트 오너", "탑티어 경영 전략 컨설팅 펌 파트너", "판교 테크/IT 유니콘 창업가"], 
+                ["K-브랜드 해외 수출 및 영업 총괄", "국내 1위 앱 사용자 경험(UX) 디렉터", "국내외 소비 트렌드 및 인사이트 연구소장"] 
+            ],
+            /* 1위 화 */ [ 
+                ["국내 최고 권위의 크리에이티브 디렉터", "스타트업 전문 투자 및 액셀러레이터", "종편/뉴미디어 방송국 편성 총괄"], 
+                ["대형 K-팝 엔터테인먼트 기획/제작 총괄", "글로벌 세일즈 및 무역 총괄 본부장", "기업/정치인 퍼스널 브랜딩 스페셜리스트"], 
+                ["성수/한남 핫플레이스 공간 기획 디렉터", "대형 박람회(MICE) 및 이벤트 총괄", "프리미엄 커뮤니티/멤버십 플랫폼 대표"], 
+                ["백화점 VIP 및 럭셔리 브랜드 총괄", "대기업 위기 관리 및 언론 대응(PR) 임원", "고객 데이터 기반 초정밀 마케팅 디렉터"], 
+                ["대선/총선 등 굵직한 선거 캠프 전략가", "소비자 심리 분석 및 행동 경제학 권위자", "K-콘텐츠(웹툰/드라마) IP 사업 총괄 대표"] 
+            ],
+            /* 1위 토 */ [ 
+                ["국내 대기업 ESG 및 지속가능경영 리더", "직원 수 천 명 규모의 대기업 인사(HR) 임원", "지방 자치 단체 및 로컬 비즈니스 마스터"], 
+                ["5성급 호텔/프리미엄 리조트 총괄 지배인", "기업 사내 문화 및 조직 소통 혁신 리더", "대중 타겟 식음료(F&B)/소비재 사업부장"], 
+                ["여의도 톱티어 부동산 자산 운용(AMC) 본부장", "강남권 알짜 부지 1군 건설/시행사 대표", "수조 원대 국책/공공 사업 총괄 위원장"], 
+                ["상장사 재무/회계 총괄 파트너(CFO)", "기업 인수합병(M&A) 및 재무 구조조정 전략가", "국내 최대 규모 물류/공급망(SCM) 총괄"], 
+                ["대형 B2B 플랫폼 제휴 및 영업 총괄", "초고령화 시대 대비 하이엔드 실버 타운 디렉터", "다국적 기업 한국 지사장(Country Manager)"] 
+            ],
+            /* 1위 금 */ [ 
+                ["특허청 출신 기술 지식재산권 전문 파트너", "딥테크/반도체 전문 벤처 캐피탈(VC) 심사역", "부실 기업 턴어라운드 및 구조조정 총괄"], 
+                ["기업 법무 및 리스크 매니지먼트 전담 임원", "국내 최고 수준의 하이엔드 옥션/미술품 딜러", "정밀 의료 기기 및 바이오 제약 마케팅 디렉터"], 
+                ["김앤장 등 대형 법무법인 시니어 파트너", "여의도 대형 증권사 투자은행(IB) 부문장", "대기업 품질 관리(QC) 및 컴플라이언스 총괄"], 
+                ["금융권 최고 정보 보안 책임자(CISO)", "국가급 데이터 사이언스 및 AI 권위자", "수천억 단위 퀀트 투자 및 알고리즘 트레이딩 헤드"], 
+                ["국세청 출신 대형 회계법인 조세 전략 파트너", "블록체인/가상자산 거래소 시스템 설계자", "2차전지/반도체 등 국가 핵심 산업 수석 연구원"] 
+            ],
+            /* 1위 수 */ [ 
+                ["국내 대형 출판/콘텐츠 퍼블리싱 총괄", "서울대/카이스트 급 뇌과학 및 인체 공학 연구소장", "해외 직접 투자(FDI) 및 외자 유치 전략가"], 
+                ["국내 1위 여론 조사 기관 및 데이터 저널리즘 데스크", "국내 최고 권위의 심리 상담 및 임상 센터장", "방송/영화 글로벌 판권 수출입 디렉터"], 
+                ["국제 기구(UN 등) 및 대형 NGO 한국 대표", "해외 자원 개발 및 신재생 에너지 사업 총괄", "K-의료 기반 글로벌 헬스케어 플랫폼 설립자"], 
+                ["국제 분쟁 중재 및 크로스보더(Cross-border) 전문 변호사", "빅데이터 기반 대기업 경영 전략 자문 컨설턴트", "대형 제약사 신약 개발 및 바이오 임상 데이터 총괄"], 
+                ["국내 초거대 AI 모델 및 머신러닝 개발 총괄", "항공우주/해양 등 미래 국가 핵심 산업 R&D 수석", "정부 주도 거시 경제 및 미래학 싱크탱크 수장"] 
+            ]
         ];
 
         const fusionJobsEn = [
-            [ "Next-Gen IT Infrastructure CTO", "Global Innovative Brand Director (CBO)", "Eco-friendly Smart City Chief Architect", "Deep Tech/AI Venture Founder & CEO", "Global Edutech & Future Strategy R&D Head" ],
-            [ "New Media Content Empire Founder", "Entertainment Chief Vision Officer (CVO)", "Large Complex Cultural Space Director (CDO)", "Global High-end Luxury Brand CMO", "Performance Marketing Partner" ],
-            [ "Large-scale Real Estate & ESG Management Head", "Global Franchise & F&B Empire Founder", "Mega Infrastructure & National Project Chairman", "Investment Banking (IB) Partner & Asset Management CEO", "B2B Platform Business Head & SCM Director" ],
-            [ "Venture Capital (VC) Partner & Tech Investor", "Corporate M&A & Restructuring Expert Partner", "Multinational Corporate CFO", "Supreme Judicial & Compliance General Director", "Global Fintech/Blockchain Architect & Security Head" ],
-            [ "Healthcare/Bio Venture Founder & Clinical Research Head", "Global Trend Analyst & Political Kingmaker", "Cross-border Global Logistics CEO", "Chief Data Officer (CDO) & AI Algorithm Architect", "Psychoanalysis Authority & Research Institute Director" ]
+            /* Wood */ [ 
+                ["Silicon Valley Principal Architect (CTO)", "Fortune 500 New Biz Dev Executive", "National EdTech/HR Platform CEO"], 
+                ["Madison Avenue Creative Director", "Trend-leading Brand Marketing Head (CBO)", "Tech Startup Growth Hacking Leader"], 
+                ["National E-commerce Platform Head", "Nationwide Franchise Planning Director", "Smart City & Regional Infrastructure Designer"], 
+                ["Data/AI-driven SaaS Product Owner", "Top-tier Management Consulting Partner", "Silicon Valley Tech Unicorn Founder"], 
+                ["Global Export & Overseas Sales Head", "Top-tier App UX/UI Director", "Global Consumer Trend Research Institute Head"] 
+            ],
+            /* Fire */ [ 
+                ["Top-tier Industry Creative Director", "Startup Specialized Investor & Accelerator", "National Broadcasting/Media General Director"], 
+                ["Hollywood Executive Producer", "Global Sales & Trade Head (CSO)", "Corporate/Political Personal Branding Specialist"], 
+                ["High-end Commercial Space (F&B) Director", "Mega Convention (MICE) & Event Head", "Premium Community/Membership Platform CEO"], 
+                ["Luxury Department Store VIP Brand Head", "Corporate Crisis Management & PR Executive", "Customer Data-driven Precision Marketing Director"], 
+                ["Presidential/Congressional Campaign Strategist", "Consumer Psychology & Behavioral Economics Authority", "Global Media IP Business CEO"] 
+            ],
+            /* Earth */ [ 
+                ["Fortune 500 ESG & Sustainability Leader", "Large-scale Enterprise HR Executive", "Municipal/Local Business Master Developer"], 
+                ["5-Star Hotel/Premium Resort General Manager", "Corporate Internal Comm. & Culture Leader", "Mass Market FMCG Business Division Head"], 
+                ["Top-tier Wall Street Asset Management (AMC) Head", "Premium Commercial Real Estate Developer", "Multi-Billion Dollar Public Project Chairman"], 
+                ["Publicly Traded Company CFO Partner", "Corporate M&A & Financial Restructuring Strategist", "National Supply Chain/Logistics (SCM) Chief"], 
+                ["Large B2B Platform Partnership Head", "High-end Senior/Silver Industry Director", "Multinational Corporation Country Manager"] 
+            ],
+            /* Metal */ [ 
+                ["Tech Patent/IP Specialized Partner", "Deep Tech/Semiconductor VC Analyst", "Distressed Company Turnaround Expert"], 
+                ["Corporate Legal & Risk Management Executive", "High-end Auction House/Art Dealer", "Precision Medical Device & Pharma Marketing Director"], 
+                ["Big Law (Top-tier Law Firm) Senior Partner", "Wall Street Investment Banking (IB) Director", "Fortune 500 QC & Compliance General Director"], 
+                ["Financial Sector Chief Info Security Officer (CISO)", "National-level Data Science & AI Authority", "Multi-Million Dollar Quant & Algo-Trading Head"], 
+                ["Big Four Accounting Firm Tax Strategy Partner", "Blockchain/Crypto Exchange System Designer", "National Core Industry (EV/Semi) Chief Researcher"] 
+            ],
+            /* Water */ [ 
+                ["Major Publishing/Content General Director", "Ivy League-level Brain Science Institute Head", "Foreign Direct Investment (FDI) Strategist"], 
+                ["Top Polling Agency & Data Journalism Desk", "Top-tier Psychotherapy & Clinical Center Head", "Global Broadcasting/Film Rights Import/Export Director"], 
+                ["UN/Major International NGO Regional Representative", "Overseas Resource & Renewable Energy Business Head", "Global Healthcare Platform Founder"], 
+                ["Intl. Dispute Arbitration & Cross-border Lawyer", "Big Data-based Corporate Strategy Consultant", "Big Pharma Clinical Data & Drug Dev Head"], 
+                ["Hyper-scale AI Model & ML Development Head", "Future Industry (Aerospace/Marine) R&D Chief", "Government Macroeconomics Think Tank Head"] 
+            ]
         ];
 
-        // 수식어 + 직업 결합 = 250가지 결과 도출
-        const finalJobKo = jobModifiersKo[varIdx] + " " + fusionJobsKo[top1Idx_C][top2Idx_C];
-        const finalJobEn = jobModifiersEn[varIdx] + " " + fusionJobsEn[top1Idx_C][top2Idx_C];
+    const finalJobKo = jobModifiersKo[varIdx30] + " " + fusionJobsKo[top1Idx_C][top2Idx_C][varIdx3];
+    const finalJobEn = jobModifiersEn[varIdx30] + " " + fusionJobsEn[top1Idx_C][top2Idx_C][varIdx3];
 
-        // 💡 5. 최종 운명 서사 조립 (완벽한 한 문장 공식)
-        const blockCKo = `당신의 전체적인 에너지 분포는 ${energyShapeKo} 형상을 띠고 있습니다. <br>결론적으로 당신은 <b>${top1FeatureKo[top1Idx_C][top2Idx_C]}</b> <b>${top1ScaleKo}</b> 사용하며, <b>${top2SkillKo[top2Idx_C][top5Idx_C]}</b> 기술을 더해 <b>${top5RiskKo[top5Idx_C]}</b>의 치명적 위험을 스스로 극복해 내는 현실적인 현생 과업인 <b>${finalJobKo}</b>의 숙명을 가졌습니다.`;
-        
-        const blockCEn = `Your overall energy distribution takes the shape of ${energyShapeEn}. <br><br>Ultimately, your realistic life task is to become <b>${finalJobEn}</b>. You utilize the <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> <b>${top1ScaleEn}</b>, adding <b>${top2SkillEn[top2Idx_C][top5Idx_C]}</b> to independently overcome the fatal risk of <b>${top5RiskEn[top5Idx_C]}</b>.`;
+    // 💡 5. 최종 운명 서사 조립 (에러의 원인이었던 부분 완벽 수정)
+    const blockCKo = `당신의 전체적인 에너지 분포는 ${energyShapeKo} 형상을 띠고 있습니다. 당신은 <b>${top1FeatureKo[top1Idx_C][top2Idx_C]}</b> <b>${top1ScaleKo}</b> 발휘하며, <b>${top2SkillKo[top2Idx_C][top5Idx_C]}</b> 기술을 더해 <b>${top5RiskKo[top5Idx_C][top5Severity]}</b>의 치명적 위험을 스스로 극복해 내야 합니다. 이름이 벼려낸 이 예리한 감각을 실전에 활용할 수 있는 당신의 현실적인 현생 과업은 <b>${finalJobKo}</b>입니다.`;
+    
+    const blockCEn = `Your overall energy distribution takes the shape of ${energyShapeEn}. You manifest the <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> <b>${top1ScaleEn}</b>, adding <b>${top2SkillEn[top2Idx_C][top5Idx_C]}</b> to independently overcome the fatal risk of <b>${top5RiskEn[top5Idx_C][top5Severity]}</b>. Your realistic life task to fully utilize this keen sense is to become a <b>${finalJobEn}</b>.`;
 
-        let blockC = currentLang === 'ko' ? blockCKo : blockCEn;
-      
-        // 💡 3개의 블록을 하나의 거대한 서사로 조립합니다.
-        const analysisText = `${blockA}${blockB}`;  
-        const missionText = `${blockC}`;
+    let blockC = currentLang === 'ko' ? blockCKo : blockCEn;
 
-        // 💡 연결 동작 (10가지로 확장)
-        const action = [
-            "절묘하게 조율하여", "강력하게 융합시켜", "정교하게 벼려내어", "조화롭게 순환시켜", "폭발적으로 가속시켜",
-            "부드럽게 포용하여", "예리하게 각성시켜", "단단하게 결속시켜", "새로운 차원으로 이끌어", "완벽한 균형으로 맞춰"
-        ][varIdx];
-        
-        // 💡 오행별 약점 (10배 확장)
-        const weaknessMap = {
-            "목(木)": [
-                "부러지기 쉬운 고집과 압박감", "타인과 타협하기 힘든 독단성", "지나친 이상주의로 인한 현실 도피", "유연성 부족으로 빚어지는 마찰", "완벽을 기하다 시기를 놓치는 망설임", "목표만 바라보다 주변을 놓치는 무심함", "꺾일지언정 굽히지 않으려는 오만함", "시작은 창대하나 마무리가 부족한 용두사미", "타인의 조언을 간섭으로 여기는 폐쇄성", "스스로 정한 한계에 갇히는 강박증"
-            ][varIdx],
-            "화(火)": [
-                "통제하기 힘든 감정의 기복과 조급함", "쉽게 타오르고 금방 식어버리는 끈기 부족", "지나친 자기주장으로 인한 구설수", "순간의 충동으로 인한 잦은 후회", "타인의 속도를 기다려주지 못하는 독선", "화려함만 좇다 실속을 놓치는 허영심", "에너지를 너무 빨리 소진하는 번아웃", "작은 비판에도 쉽게 발끈하는 예민함", "과정을 무시하고 결과만 탐하는 결과주의", "맹목적인 열정으로 주변을 피곤하게 하는 과열"
-            ][varIdx],
-            "토(土)": [
-                "변화를 두려워하는 정체된 에너지", "타인의 짐까지 떠안는 과도한 오지랖", "우유부단함으로 잃게 되는 타이밍", "지나친 신중함으로 인한 실행력 저하", "과거의 상처를 쉽게 잊지 못하는 미련", "고집스럽게 옛 방식을 고수하는 보수성", "속마음을 털어놓지 않아 쌓이는 스트레스", "타인의 시선을 너무 의식하는 체면주의", "묵묵히 참다가 한 번에 터뜨리는 분노", "새로운 도전을 지레 포기하는 안일함"
-            ][varIdx],
-            "금(金)": [
-                "자신을 찌르는 강박과 고립감", "지나치게 날카로운 비판과 냉소", "융통성 없는 원칙주의로 인한 마찰", "감정을 억누르다 찾아오는 번아웃", "타인의 온기를 밀어내는 방어기제", "한 치의 오차도 용납하지 않는 결벽증", "사람보다 규칙을 우선시하는 냉정함", "한 번 틀어지면 영원히 돌아서는 단절", "자신의 잣대로만 세상을 평가하는 편협함", "너무 베기만 하여 주변을 다치게 하는 날카로움"
-            ][varIdx],
-            "수(水)": [
-                "정착하지 못하고 부유하는 불안감", "깊은 감정의 수렁에 빠지는 우울감", "현실을 직시하지 않으려는 도피성", "속을 내비치지 않아 생기는 오해", "주변 환경에 지나치게 휩쓸리는 의존성", "생각만 많고 행동으로 옮기지 못하는 공상", "지나친 비밀주의로 인한 관계의 단절", "음지로만 숨으려는 소극적인 태도", "작은 파문에도 크게 흔들리는 유리멘탈", "모든 것을 수용하려다 자신을 잃는 무경계성"
-            ][varIdx]
-        };
+    // 💡 3개의 블록 조립
+    const analysisText = `${blockA}${blockB}`;  
+    const missionText = `${blockC}`;
 
-        // 💡 오행별 무기 (10배 확장)
-        const weaponMap = {
-            "목(木)": [
-                "뻗어나가는 유연한 기획력", "어떤 환경에서도 뿌리내리는 생명력", "타인을 이끄는 따뜻한 리더십", "끊임없이 성장하는 자기 계발 능력", "새로운 길을 개척하는 창조적 에너지", "척박한 땅에서도 싹을 틔우는 불굴의 의지", "주변 사람을 성장시키는 탁월한 멘토링", "곧은 신념으로 밀고 나가는 추진력", "작은 아이디어를 거대하게 키워내는 확장성", "사람과 사람을 엮어 숲을 만드는 포용력"
-            ][varIdx],
-            "화(火)": [
-                "목표를 향한 폭발적인 추진력", "주변을 밝히는 압도적인 카리스마", "어둠을 가르는 직관적인 판단력", "대중의 마음을 사로잡는 강력한 호소력", "위기 상황을 뒤집는 승부사 기질", "얼어붙은 분위기를 녹이는 탁월한 친화력", "순식간에 판을 장악하는 무대 장악력", "남들이 주저할 때 앞장서는 선구자적 용기", "꺼져가는 불씨도 살려내는 동기부여 능력", "어떤 시련도 태워버리는 뜨거운 긍정 에너지"
-            ][varIdx],
-            "토(土)": [
-                "모든 것을 품어내는 단단한 포용력", "어떤 흔들림에도 중심을 잡는 안정감", "사람과 사람을 잇는 탁월한 중재력", "주어진 환경을 비옥하게 만드는 생산성", "변함없는 신뢰를 주는 굳건한 태도", "흩어진 에너지를 하나로 모으는 결속력", "끝까지 약속을 지켜내는 우직한 책임감", "보이지 않는 곳에서 기반을 다지는 헌신", "누구와도 적을 만들지 않는 둥근 성품", "오랜 시간 축적된 경험을 활용하는 지혜"
-            ][varIdx],
-            "금(金)": [
-                "불필요한 것을 잘라내는 예리한 결단력", "흐트러짐 없이 목표를 관철하는 집념", "정확하고 공정한 상황 분석력", "혼란 속에서 질서를 부여하는 통제력", "단호함으로 스스로를 지키는 독립성", "쓸데없는 감정에 휘둘리지 않는 평정심", "핵심만 꿰뚫어 보는 날카로운 직관", "한 번 뱉은 말은 무조건 지키는 결실의 에너지", "불의와 타협하지 않는 강직한 신념", "거친 원석을 보석으로 가공하는 정밀함"
-            ][varIdx],
-            "수(水)": [
-                "상황에 맞게 스며드는 깊은 통찰력", "막힌 길도 돌아가는 지혜로운 처세술", "어떤 형태에도 맞추는 유연한 적응력", "보이지 않는 이면을 읽어내는 직관력", "끝내 바다에 도달하는 멈추지 않는 끈기", "메마른 곳을 적시는 뛰어난 공감 능력", "겉은 부드러우나 속은 강인한 외유내강", "다양한 지식을 흡수하는 스펀지 같은 수용력", "소리 없이 만물을 길러내는 생명력의 원천", "끊임없이 새로움을 추구하는 맑은 에너지"
-            ][varIdx]
-        };
+    // 💡 연결 동작 (10가지)
+    const action = [
+        "절묘하게 조율하여", "강력하게 융합시켜", "정교하게 벼려내어", "조화롭게 순환시켜", "폭발적으로 가속시켜",
+        "부드럽게 포용하여", "예리하게 각성시켜", "단단하게 결속시켜", "새로운 차원으로 이끌어", "완벽한 균형으로 맞춰"
+    ][varIdx];
+    
+    // 💡 오행별 약점 (10배 확장)
+    const weaknessMap = {
+        "목(木)": [ "부러지기 쉬운 고집과 압박감", "타인과 타협하기 힘든 독단성", "지나친 이상주의로 인한 현실 도피", "유연성 부족으로 빚어지는 마찰", "완벽을 기하다 시기를 놓치는 망설임", "목표만 바라보다 주변을 놓치는 무심함", "꺾일지언정 굽히지 않으려는 오만함", "시작은 창대하나 마무리가 부족한 용두사미", "타인의 조언을 간섭으로 여기는 폐쇄성", "스스로 정한 한계에 갇히는 강박증" ][varIdx],
+        "화(火)": [ "통제하기 힘든 감정의 기복과 조급함", "쉽게 타오르고 금방 식어버리는 끈기 부족", "지나친 자기주장으로 인한 구설수", "순간의 충동으로 인한 잦은 후회", "타인의 속도를 기다려주지 못하는 독선", "화려함만 좇다 실속을 놓치는 허영심", "에너지를 너무 빨리 소진하는 번아웃", "작은 비판에도 쉽게 발끈하는 예민함", "과정을 무시하고 결과만 탐하는 결과주의", "맹목적인 열정으로 주변을 피곤하게 하는 과열" ][varIdx],
+        "토(土)": [ "변화를 두려워하는 정체된 에너지", "타인의 짐까지 떠안는 과도한 오지랖", "우유부단함으로 잃게 되는 타이밍", "지나친 신중함으로 인한 실행력 저하", "과거의 상처를 쉽게 잊지 못하는 미련", "고집스럽게 옛 방식을 고수하는 보수성", "속마음을 털어놓지 않아 쌓이는 스트레스", "타인의 시선을 너무 의식하는 체면주의", "묵묵히 참다가 한 번에 터뜨리는 분노", "새로운 도전을 지레 포기하는 안일함" ][varIdx],
+        "금(金)": [ "자신을 찌르는 강박과 고립감", "지나치게 날카로운 비판과 냉소", "융통성 없는 원칙주의로 인한 마찰", "감정을 억누르다 찾아오는 번아웃", "타인의 온기를 밀어내는 방어기제", "한 치의 오차도 용납하지 않는 결벽증", "사람보다 규칙을 우선시하는 냉정함", "한 번 틀어지면 영원히 돌아서는 단절", "자신의 잣대로만 세상을 평가하는 편협함", "너무 베기만 하여 주변을 다치게 하는 날카로움" ][varIdx],
+        "수(水)": [ "정착하지 못하고 부유하는 불안감", "깊은 감정의 수렁에 빠지는 우울감", "현실을 직시하지 않으려는 도피성", "속을 내비치지 않아 생기는 오해", "주변 환경에 지나치게 휩쓸리는 의존성", "생각만 많고 행동으로 옮기지 못하는 공상", "지나친 비밀주의로 인한 관계의 단절", "음지로만 숨으려는 소극적인 태도", "작은 파문에도 크게 흔들리는 유리멘탈", "모든 것을 수용하려다 자신을 잃는 무경계성" ][varIdx]
+    };
+
+    // 💡 오행별 무기 (10배 확장)
+    const weaponMap = {
+        "목(木)": [ "뻗어나가는 유연한 기획력", "어떤 환경에서도 뿌리내리는 생명력", "타인을 이끄는 따뜻한 리더십", "끊임없이 성장하는 자기 계발 능력", "새로운 길을 개척하는 창조적 에너지", "척박한 땅에서도 싹을 틔우는 불굴의 의지", "주변 사람을 성장시키는 탁월한 멘토링", "곧은 신념으로 밀고 나가는 추진력", "작은 아이디어를 거대하게 키워내는 확장성", "사람과 사람을 엮어 숲을 만드는 포용력" ][varIdx],
+        "화(火)": [ "목표를 향한 폭발적인 추진력", "주변을 밝히는 압도적인 카리스마", "어둠을 가르는 직관적인 판단력", "대중의 마음을 사로잡는 강력한 호소력", "위기 상황을 뒤집는 승부사 기질", "얼어붙은 분위기를 녹이는 탁월한 친화력", "순식간에 판을 장악하는 무대 장악력", "남들이 주저할 때 앞장서는 선구자적 용기", "꺼져가는 불씨도 살려내는 동기부여 능력", "어떤 시련도 태워버리는 뜨거운 긍정 에너지" ][varIdx],
+        "토(土)": [ "모든 것을 품어내는 단단한 포용력", "어떤 흔들림에도 중심을 잡는 안정감", "사람과 사람을 잇는 탁월한 중재력", "주어진 환경을 비옥하게 만드는 생산성", "변함없는 신뢰를 주는 굳건한 태도", "흩어진 에너지를 하나로 모으는 결속력", "끝까지 약속을 지켜내는 우직한 책임감", "보이지 않는 곳에서 기반을 다지는 헌신", "누구와도 적을 만들지 않는 둥근 성품", "오랜 시간 축적된 경험을 활용하는 지혜" ][varIdx],
+        "금(金)": [ "불필요한 것을 잘라내는 예리한 결단력", "흐트러짐 없이 목표를 관철하는 집념", "정확하고 공정한 상황 분석력", "혼란 속에서 질서를 부여하는 통제력", "단호함으로 스스로를 지키는 독립성", "쓸데없는 감정에 휘둘리지 않는 평정심", "핵심만 꿰뚫어 보는 날카로운 직관", "한 번 뱉은 말은 무조건 지키는 결실의 에너지", "불의와 타협하지 않는 강직한 신념", "거친 원석을 보석으로 가공하는 정밀함" ][varIdx],
+        "수(水)": [ "상황에 맞게 스며드는 깊은 통찰력", "막힌 길도 돌아가는 지혜로운 처세술", "어떤 형태에도 맞추는 유연한 적응력", "보이지 않는 이면을 읽어내는 직관력", "끝내 바다에 도달하는 멈추지 않는 끈기", "메마른 곳을 적시는 뛰어난 공감 능력", "겉은 부드러우나 속은 강인한 외유내강", "다양한 지식을 흡수하는 스펀지 같은 수용력", "소리 없이 만물을 길러내는 생명력의 원천", "끊임없이 새로움을 추구하는 맑은 에너지" ][varIdx]
+    };
        
 
      
