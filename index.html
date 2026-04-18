@@ -836,110 +836,100 @@ function switchTab(mode, element) {
     const varIdx30 = session.num81 % 30; // 30개의 수식어 로테이션
     const varIdx3 = session.num81 % 3;   // 셀당 3개의 직업 로테이션
    
-  // 💡 오행의 본질(목·화·토·금·수)을 담은 30가지 초정밀 범용 수식어
+ 
         const jobModifiersKo = [
-            /* 목(木)의 기운: 비전, 창조, 개척 */
-            "시대의 흐름을 읽고 새로운 비전을 제시하는", "무에서 유를 창조하며 시장의 판도를 바꾸는", "멈추지 않는 도전 정신으로 한계를 돌파하는", "보이지 않는 가치를 발굴하여 혁신을 이끄는", "한계를 뛰어넘는 상상력으로 새로운 가치를 부여하는", "낡은 관습을 부수고 파괴적 혁신을 주도하는",
-            /* 화(火)의 기운: 열정, 확산, 매력 */
-            "사람의 마음을 움직여 거대한 팬덤을 구축하는", "압도적인 성과로 업계의 표준을 재정의하는", "대중의 숨은 니즈를 꿰뚫고 트렌드를 선도하는", "흩어진 에너지를 모아 폭발적인 시너지를 내는", "누구도 모방할 수 없는 독보적 매력으로 판을 장악하는", "실패를 두려워하지 않는 과감한 실행력을 갖춘",
-            /* 토(土)의 기운: 신뢰, 조율, 기반 */
-            "다양한 이해관계를 조율하며 최적의 합의점을 찾는", "거대한 자본과 인프라를 가장 안정적으로 운용하는", "흔들림 없는 원칙으로 조직의 퀀텀 점프를 이끄는", "대체 불가능한 신뢰를 바탕으로 생태계를 구축하는", "지속 가능한 가치를 창출하며 사회적 영향력을 미치는", "고도의 협상력과 정무적 감각으로 거대한 판을 움직이는",
-            /* 금(金)의 기운: 정밀, 결단, 완벽 */
-            "치밀한 데이터 분석과 로직으로 승률을 극대화하는", "타협하지 않는 완벽주의로 최고의 결과물을 벼려내는", "냉철한 판단력으로 치열한 생존 경쟁에서 승리하는", "핵심을 꿰뚫는 통찰로 불확실성의 리스크를 통제하는", "가장 효율적인 시스템을 설계하여 이윤을 극대화하는", "초격차 경쟁력을 창출하여 시장의 패권을 장악하는",
-            /* 수(水)의 기운: 지혜, 전략, 유연성 */
-            "위기를 기회로 바꾸는 탁월한 전략과 처세술을 지닌", "글로벌 스탠다드를 확립하며 경계를 유연하게 허무는", "본질에 집중하여 복잡한 문제를 단숨에 해결하는", "거시적인 안목으로 10년 후의 미래를 미리 준비하는", "어떤 상황에서도 흔들리지 않는 깊은 내공을 지닌", "소리 없이 판도를 뒤집는 치밀하고 정교한 설계력을 갖춘"
+            "시대를 앞서가는 비전으로", "파괴적 혁신을 주도하는", "치밀한 데이터 분석을 기반으로", "대중의 숨은 니즈를 꿰뚫는", "대체 불가능한 가치를 창출하는",
+            "지속 가능한 성장을 이끄는", "위기 속에서도 기회를 포착하는", "한 치의 오차도 없는 정밀함으로", "거대한 자본과 인프라를 움직이는", "업계의 새로운 표준(Standard)을 만드는",
+            "글로벌 시장의 경계를 허무는", "최적의 사용자 경험(UX)을 설계하는", "첨단 기술 생태계를 구축하는", "공간과 라이프스타일을 혁신하는", "조직의 체질을 근본적으로 바꾸는",
+            "미래 산업의 패권을 장악하는", "복잡한 시스템을 효율적으로 최적화하는", "프리미엄 브랜드의 품격을 높이는", "뉴미디어와 트렌드의 최전선에서", "사람과 조직의 잠재력을 일깨우는",
+            "지식과 지적 자산을 폭발적으로 확장하는", "인간의 삶의 질을 근본적으로 높이는", "거대 프로젝트를 성공적으로 매니징하는", "AI 및 첨단 기술의 상용화를 주도하는", "새로운 비즈니스 모델을 개척하는",
+            "기업의 구조적인 혁신을 지휘하는", "대중의 여론과 마음을 움직이는", "차세대 지식 플랫폼을 구축하는", "마이크로 타겟팅으로 시장을 점유하는", "고도의 전략으로 핵심 자산을 운용하는"
         ];
-
         const jobModifiersEn = [
-            /* Wood */
-            "Visionary & Forward-thinking", "Game-changing & Disruptive", "Limit-breaking & Challenging", "Value-innovating", "Limitlessly Imaginative", "Convention-breaking & Pioneering",
-            /* Fire */
-            "Heart-moving & Fandom-building", "Industry-redefining", "Trend-leading & Insightful", "Explosive & Synergy-creating", "Unrivaled & Charismatic", "Fearless & Boldly Executing",
-            /* Earth */
-            "Optimal Consensus-building", "Highly Stable & Resource-optimizing", "Principle-driven & Quantum-jump Leading", "Trust-based Ecosystem-building", "Sustainable & High-impact", "Tactical & Board-moving",
-            /* Metal */
-            "Data-driven & Analytical", "Uncompromisingly Perfection-driven", "Cool-headed & Victorious", "Uncertainty & Risk-controlling", "Efficiency & Profit-maximizing", "Super-gap Market-dominating",
-            /* Water */
-            "Highly Strategic & Crisis-resilient", "Flexible & Boundary-breaking", "Essence-focused & Problem-solving", "Macro-perspective & Future-proofing", "Deeply Profound & Resilient", "Meticulously Designing"
+            "With a vision ahead of its time,", "Driving disruptive innovation,", "Based on meticulous data analysis,", "Penetrating the hidden needs of the public,", "Creating irreplaceable value,",
+            "Leading sustainable growth,", "Seizing opportunities even in crises,", "With error-free precision,", "Moving massive capital and infrastructure,", "Setting new industry standards,",
+            "Breaking the boundaries of the global market,", "Designing optimal user experiences (UX),", "Building high-tech ecosystems,", "Innovating spaces and lifestyles,", "Fundamentally transforming organizational culture,",
+            "Dominating the future industry,", "Efficiently optimizing complex systems,", "Elevating the prestige of premium brands,", "At the forefront of new media and trends,", "Awakening the potential of people and organizations,",
+            "Explosively expanding knowledge and intellectual assets,", "Fundamentally improving the quality of human life,", "Successfully managing mega-projects,", "Leading the commercialization of AI and high-tech,", "Pioneering new business models,",
+            "Directing structural corporate innovation,", "Moving public opinion and hearts,", "Building next-generation knowledge platforms,", "Dominating the market with micro-targeting,", "Operating core assets with advanced strategy,"
         ];
 
-        // 베이스 직업 (5x5 매트릭스, 셀당 3개)
+        // 💡 4-2. 베이스 직업 (5x5 매트릭스, 억지스러운 콕 집기 배제, 누구나 공감하는 범용적 하이레벨)
         const fusionJobsKo = [
-            /* 1위 목 */ [ 
-                ["국내 톱티어 IT 플랫폼 최고기술책임자(CTO)", "대기업 기획조정실 신사업 총괄 임원", "K-에듀테크/HR 플랫폼 대표"], 
-                ["대형 방송/콘텐츠 제작사 비전 책임자", "트렌드 리딩 브랜드 마케팅 디렉터", "스타트업 그로스 해킹/퍼포먼스 리더"], 
-                ["국내 대형 유통 플랫폼 비즈니스 총괄", "전국망 프랜차이즈 기획/개발 본부장", "지역 인프라 및 스마트시티 설계자"], 
-                ["데이터/AI 기반 SaaS 프로덕트 오너", "탑티어 경영 전략 컨설팅 펌 파트너", "판교 테크/IT 유니콘 창업가"], 
-                ["K-브랜드 해외 수출 및 영업 총괄", "국내 1위 앱 사용자 경험(UX) 디렉터", "국내외 소비 트렌드 및 인사이트 연구소장"] 
+            /* 1위 목(기획/성장/IT) */ [ 
+                ["IT 최고기술책임자(CTO)", "신사업 기획 및 개발 총괄 임원", "최고인사책임자(CHO) 및 HR 리더"], 
+                ["브랜드 마케팅 총괄 디렉터", "크리에이티브 기획 리더", "미디어 및 콘텐츠 전략가"], 
+                ["플랫폼 비즈니스 총괄", "대형 프랜차이즈 기획 본부장", "지역 인프라 및 스마트시티 설계자"], 
+                ["데이터 기반 프로덕트 오너(PO)", "경영 전략 컨설팅 펌 파트너", "기술 기반 스타트업 창업가"], 
+                ["글로벌 비즈니스 개척 및 해외영업 총괄", "사용자 경험(UX/UI) 리서치 디렉터", "미래 트렌드 및 인사이트 연구소장"] 
             ],
-            /* 1위 화 */ [ 
-                ["국내 최고 권위의 크리에이티브 디렉터", "스타트업 전문 투자 및 액셀러레이터", "종편/뉴미디어 방송국 편성 총괄"], 
-                ["대형 K-팝 엔터테인먼트 기획/제작 총괄", "글로벌 세일즈 및 무역 총괄 본부장", "기업/정치인 퍼스널 브랜딩 스페셜리스트"], 
-                ["성수/한남 핫플레이스 공간 기획 디렉터", "대형 박람회(MICE) 및 이벤트 총괄", "프리미엄 커뮤니티/멤버십 플랫폼 대표"], 
-                ["백화점 VIP 및 럭셔리 브랜드 총괄", "대기업 위기 관리 및 언론 대응(PR) 임원", "고객 데이터 기반 초정밀 마케팅 디렉터"], 
-                ["대선/총선 등 굵직한 선거 캠프 전략가", "소비자 심리 분석 및 행동 경제학 권위자", "K-콘텐츠(웹툰/드라마) IP 사업 총괄 대표"] 
+            /* 1위 화(열정/표현/미디어) */ [ 
+                ["혁신적인 아트 디렉터", "스타트업 액셀러레이터 및 벤처 투자자", "방송 및 뉴미디어 기획 총괄"], 
+                ["엔터테인먼트 비전 책임자(CVO)", "글로벌 세일즈 및 영업 총괄 본부장", "퍼스널 브랜딩 및 PR 스페셜리스트"], 
+                ["복합 문화공간 기획 디렉터", "대규모 박람회 및 이벤트(MICE) 총괄", "커뮤니티 및 멤버십 플랫폼 리더"], 
+                ["프리미엄 럭셔리 브랜드 매니저", "위기 관리 및 언론 대응 총괄 임원", "고객 데이터 기반 마케팅 디렉터"], 
+                ["여론 조사 및 선거 캠페인 전략가", "소비자 행동 심리 분석 전문가", "지식재산권(IP) 비즈니스 사업 총괄"] 
             ],
-            /* 1위 토 */ [ 
-                ["국내 대기업 ESG 및 지속가능경영 리더", "직원 수 천 명 규모의 대기업 인사(HR) 임원", "지방 자치 단체 및 로컬 비즈니스 마스터"], 
-                ["5성급 호텔/프리미엄 리조트 총괄 지배인", "기업 사내 문화 및 조직 소통 혁신 리더", "대중 타겟 식음료(F&B)/소비재 사업부장"], 
-                ["여의도 톱티어 부동산 자산 운용(AMC) 본부장", "강남권 알짜 부지 1군 건설/시행사 대표", "수조 원대 국책/공공 사업 총괄 위원장"], 
-                ["상장사 재무/회계 총괄 파트너(CFO)", "기업 인수합병(M&A) 및 재무 구조조정 전략가", "국내 최대 규모 물류/공급망(SCM) 총괄"], 
-                ["대형 B2B 플랫폼 제휴 및 영업 총괄", "초고령화 시대 대비 하이엔드 실버 타운 디렉터", "다국적 기업 한국 지사장(Country Manager)"] 
+            /* 1위 토(안정/기반/관리) */ [ 
+                ["ESG 및 지속가능경영 리더", "대규모 조직 문화 혁신 임원", "지역 기반(로컬) 비즈니스 기획자"], 
+                ["호스피탈리티(호텔/리조트) 총괄 지배인", "기업 사내 커뮤니케이션 리더", "대중 타겟 소비재(FMCG) 사업부장"], 
+                ["부동산 및 자산 운용(AMC) 본부장", "대형 건설 및 개발 프로젝트 총괄", "국책 사업 및 공공 인프라 매니저"], 
+                ["재무/회계 총괄 파트너(CFO)", "기업 인수합병(M&A) 전략가", "공급망 및 물류(SCM) 최고책임자"], 
+                ["대형 B2B 파트너십 총괄", "시니어 및 실버 산업 비즈니스 디렉터", "다국적 기업 총괄 지사장"] 
             ],
-            /* 1위 금 */ [ 
-                ["특허청 출신 기술 지식재산권 전문 파트너", "딥테크/반도체 전문 벤처 캐피탈(VC) 심사역", "부실 기업 턴어라운드 및 구조조정 총괄"], 
-                ["기업 법무 및 리스크 매니지먼트 전담 임원", "국내 최고 수준의 하이엔드 옥션/미술품 딜러", "정밀 의료 기기 및 바이오 제약 마케팅 디렉터"], 
-                ["김앤장 등 대형 법무법인 시니어 파트너", "여의도 대형 증권사 투자은행(IB) 부문장", "대기업 품질 관리(QC) 및 컴플라이언스 총괄"], 
-                ["금융권 최고 정보 보안 책임자(CISO)", "국가급 데이터 사이언스 및 AI 권위자", "수천억 단위 퀀트 투자 및 알고리즘 트레이딩 헤드"], 
-                ["국세청 출신 대형 회계법인 조세 전략 파트너", "블록체인/가상자산 거래소 시스템 설계자", "2차전지/반도체 등 국가 핵심 산업 수석 연구원"] 
+            /* 1위 금(결단/분석/금융/법) */ [ 
+                ["기술 특허 및 지식재산권 전략 파트너", "신기술 벤처 캐피탈리스트(VC)", "부실 기업 턴어라운드 및 구조조정 총괄"], 
+                ["기업 법무 및 리스크 매니지먼트 임원", "하이엔드 옥션 및 예술품 딜러", "정밀 의료 및 헬스케어 마케팅 디렉터"], 
+                ["대형 법무법인 시니어 파트너", "금융사 투자은행(IB) 디렉터", "품질 관리(QC) 및 컴플라이언스 헤드"], 
+                ["최고 정보 보안 책임자(CISO)", "데이터 사이언스 및 AI 권위자", "퀀트 투자 및 알고리즘 트레이딩 리더"], 
+                ["글로벌 조세 및 재무 전략 파트너", "블록체인 및 가상자산 생태계 설계자", "정밀 공학 및 첨단 산업 수석 연구원"] 
             ],
-            /* 1위 수 */ [ 
-                ["국내 대형 출판/콘텐츠 퍼블리싱 총괄", "서울대/카이스트 급 뇌과학 및 인체 공학 연구소장", "해외 직접 투자(FDI) 및 외자 유치 전략가"], 
-                ["국내 1위 여론 조사 기관 및 데이터 저널리즘 데스크", "국내 최고 권위의 심리 상담 및 임상 센터장", "방송/영화 글로벌 판권 수출입 디렉터"], 
-                ["국제 기구(UN 등) 및 대형 NGO 한국 대표", "해외 자원 개발 및 신재생 에너지 사업 총괄", "K-의료 기반 글로벌 헬스케어 플랫폼 설립자"], 
-                ["국제 분쟁 중재 및 크로스보더(Cross-border) 전문 변호사", "빅데이터 기반 대기업 경영 전략 자문 컨설턴트", "대형 제약사 신약 개발 및 바이오 임상 데이터 총괄"], 
-                ["국내 초거대 AI 모델 및 머신러닝 개발 총괄", "항공우주/해양 등 미래 국가 핵심 산업 R&D 수석", "정부 주도 거시 경제 및 미래학 싱크탱크 수장"] 
+            /* 1위 수(지혜/유연성/전략) */ [ 
+                ["지식 및 콘텐츠 퍼블리싱 총괄", "뇌과학 및 인체 공학 연구소장", "해외 직접 투자(FDI) 전략가"], 
+                ["데이터 저널리즘 및 여론 조사 리더", "심리 상담 및 임상 치료 센터장", "미디어 판권 글로벌 수출입 디렉터"], 
+                ["국제 기구 및 NGO 한국 대표", "해외 자원 개발 및 에너지 사업 총괄", "글로벌 헬스케어 플랫폼 설립자"], 
+                ["국제 분쟁 중재 및 크로스보더 변호사", "빅데이터 기반 경영 전략 컨설턴트", "제약 및 바이오 임상 연구 총괄"], 
+                ["초거대 AI 및 머신러닝 디렉터", "미래 첨단 산업 R&D 수석", "거시 경제 및 미래학 싱크탱크 수장"] 
             ]
         ];
 
         const fusionJobsEn = [
             /* Wood */ [ 
-                ["Silicon Valley Principal Architect (CTO)", "Fortune 500 New Biz Dev Executive", "National EdTech/HR Platform CEO"], 
-                ["Madison Avenue Creative Director", "Trend-leading Brand Marketing Head (CBO)", "Tech Startup Growth Hacking Leader"], 
-                ["National E-commerce Platform Head", "Nationwide Franchise Planning Director", "Smart City & Regional Infrastructure Designer"], 
-                ["Data/AI-driven SaaS Product Owner", "Top-tier Management Consulting Partner", "Silicon Valley Tech Unicorn Founder"], 
-                ["Global Export & Overseas Sales Head", "Top-tier App UX/UI Director", "Global Consumer Trend Research Institute Head"] 
+                ["Chief Technology Officer (CTO)", "New Business Development Executive", "Chief Human Resources Officer (CHO)"], 
+                ["Brand Marketing Director", "Creative Planning Leader", "Media & Content Strategist"], 
+                ["Platform Business General Manager", "Franchise Planning Director", "Smart City & Regional Infrastructure Designer"], 
+                ["Data-driven Product Owner (PO)", "Management Strategy Consulting Partner", "Tech Startup Founder"], 
+                ["Global Business & Overseas Sales Head", "UX/UI Research Director", "Future Trend & Insight Institute Head"] 
             ],
             /* Fire */ [ 
-                ["Top-tier Industry Creative Director", "Startup Specialized Investor & Accelerator", "National Broadcasting/Media General Director"], 
-                ["Hollywood Executive Producer", "Global Sales & Trade Head (CSO)", "Corporate/Political Personal Branding Specialist"], 
-                ["High-end Commercial Space (F&B) Director", "Mega Convention (MICE) & Event Head", "Premium Community/Membership Platform CEO"], 
-                ["Luxury Department Store VIP Brand Head", "Corporate Crisis Management & PR Executive", "Customer Data-driven Precision Marketing Director"], 
-                ["Presidential/Congressional Campaign Strategist", "Consumer Psychology & Behavioral Economics Authority", "Global Media IP Business CEO"] 
+                ["Innovative Art Director", "Startup Accelerator & VC Investor", "Broadcasting & New Media General Director"], 
+                ["Entertainment Chief Vision Officer (CVO)", "Global Sales & Trade Head", "Personal Branding & PR Specialist"], 
+                ["Cultural Space Planning Director", "Mega Convention (MICE) & Event Head", "Community & Membership Platform Leader"], 
+                ["Premium Luxury Brand Manager", "Crisis Management & Communications Executive", "Customer Data-driven Marketing Director"], 
+                ["Polling & Campaign Strategist", "Consumer Behavior Psychology Expert", "Intellectual Property (IP) Business Head"] 
             ],
             /* Earth */ [ 
-                ["Fortune 500 ESG & Sustainability Leader", "Large-scale Enterprise HR Executive", "Municipal/Local Business Master Developer"], 
-                ["5-Star Hotel/Premium Resort General Manager", "Corporate Internal Comm. & Culture Leader", "Mass Market FMCG Business Division Head"], 
-                ["Top-tier Wall Street Asset Management (AMC) Head", "Premium Commercial Real Estate Developer", "Multi-Billion Dollar Public Project Chairman"], 
-                ["Publicly Traded Company CFO Partner", "Corporate M&A & Financial Restructuring Strategist", "National Supply Chain/Logistics (SCM) Chief"], 
-                ["Large B2B Platform Partnership Head", "High-end Senior/Silver Industry Director", "Multinational Corporation Country Manager"] 
+                ["ESG & Sustainability Leader", "Organizational Culture Innovation Executive", "Local-based Business Planner"], 
+                ["Hospitality & Resort General Manager", "Corporate Internal Communications Leader", "FMCG Business Division Head"], 
+                ["Real Estate & Asset Management Director", "Mega Construction & Development Project Head", "Public Project & Infrastructure Manager"], 
+                ["Chief Financial Officer (CFO)", "Corporate M&A Strategist", "Chief Supply Chain Officer (CSCM)"], 
+                ["Large B2B Partnership Head", "Senior & Silver Industry Business Director", "Multinational Corporation Country Manager"] 
             ],
             /* Metal */ [ 
-                ["Tech Patent/IP Specialized Partner", "Deep Tech/Semiconductor VC Analyst", "Distressed Company Turnaround Expert"], 
-                ["Corporate Legal & Risk Management Executive", "High-end Auction House/Art Dealer", "Precision Medical Device & Pharma Marketing Director"], 
-                ["Big Law (Top-tier Law Firm) Senior Partner", "Wall Street Investment Banking (IB) Director", "Fortune 500 QC & Compliance General Director"], 
-                ["Financial Sector Chief Info Security Officer (CISO)", "National-level Data Science & AI Authority", "Multi-Million Dollar Quant & Algo-Trading Head"], 
-                ["Big Four Accounting Firm Tax Strategy Partner", "Blockchain/Crypto Exchange System Designer", "National Core Industry (EV/Semi) Chief Researcher"] 
+                ["Tech Patent & IP Strategy Partner", "Deep Tech Venture Capitalist (VC)", "Corporate Turnaround & Restructuring Head"], 
+                ["Corporate Legal & Risk Management Executive", "High-end Auction & Art Dealer", "Precision Medical & Healthcare Marketing Director"], 
+                ["Major Law Firm Senior Partner", "Investment Banking (IB) Director", "Quality Control (QC) & Compliance Head"], 
+                ["Chief Information Security Officer (CISO)", "Data Science & AI Authority", "Quant Investment & Algo-Trading Leader"], 
+                ["Global Tax & Financial Strategy Partner", "Blockchain & Crypto Ecosystem Designer", "Precision Engineering & High-tech Chief Researcher"] 
             ],
             /* Water */ [ 
-                ["Major Publishing/Content General Director", "Ivy League-level Brain Science Institute Head", "Foreign Direct Investment (FDI) Strategist"], 
-                ["Top Polling Agency & Data Journalism Desk", "Top-tier Psychotherapy & Clinical Center Head", "Global Broadcasting/Film Rights Import/Export Director"], 
-                ["UN/Major International NGO Regional Representative", "Overseas Resource & Renewable Energy Business Head", "Global Healthcare Platform Founder"], 
-                ["Intl. Dispute Arbitration & Cross-border Lawyer", "Big Data-based Corporate Strategy Consultant", "Big Pharma Clinical Data & Drug Dev Head"], 
-                ["Hyper-scale AI Model & ML Development Head", "Future Industry (Aerospace/Marine) R&D Chief", "Government Macroeconomics Think Tank Head"] 
+                ["Knowledge & Content Publishing Head", "Brain Science & Ergonomics Institute Head", "Foreign Direct Investment (FDI) Strategist"], 
+                ["Data Journalism & Polling Leader", "Psychotherapy & Clinical Center Head", "Global Media Rights Import/Export Director"], 
+                ["International Organization/NGO Regional Rep", "Overseas Resource & Energy Business Head", "Global Healthcare Platform Founder"], 
+                ["Intl. Dispute Arbitration & Cross-border Lawyer", "Big Data-based Management Strategy Consultant", "Pharma & Bio Clinical Research Head"], 
+                ["Hyper-scale AI & Machine Learning Director", "Future High-tech Industry R&D Chief", "Macroeconomics & Futurology Think Tank Head"] 
             ]
         ];
-
     const finalJobKo = jobModifiersKo[varIdx30] + " " + fusionJobsKo[top1Idx_C][top2Idx_C][varIdx3];
     const finalJobEn = jobModifiersEn[varIdx30] + " " + fusionJobsEn[top1Idx_C][top2Idx_C][varIdx3];
 
