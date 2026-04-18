@@ -320,11 +320,10 @@ const baseScores = [...sc];
     const detailKo = descObj.ko;
     const detailEn = descObj.en;
 
-    const conclusionKo = `따라서 상대적으로 부족한 이 에너지를 이름의 주파수로 어떻게 보완하고 조율하는지가 당신의 운명공학적 핵심입니다.`;
-    const conclusionEn = `Therefore, how you complement and tune this lacking energy with the frequency of your name is the core of your destiny engineering.`;
+  
     
   
-const termInfo = `${currentLang === 'ko' ? introKo : introEn} ${currentLang === 'ko' ? detailKo : detailEn} <b>${currentLang === 'ko' ? conclusionKo : conclusionEn}</b>`;
+const termInfo = `${currentLang === 'ko' ? introKo : introEn} ${currentLang === 'ko' ? detailKo : detailEn}`;
     
     document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `${data.name}님의 분석 리포트` : `${data.name}'s Analysis Report`;
       
