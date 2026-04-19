@@ -890,83 +890,82 @@ function switchTab(mode, element) {
             "opening the future of cutting-edge AI and data industries", "leading fundamental corporate restructuring", "dominating the next-gen fintech and financial markets", "maximizing the value of global IP", "leading innovations that improve human quality of life"
         ];
 
-        // 💡 4-4. [3단] 융합 직업군 매트릭스 (셀당 4개로 확장 = 총 100개 직업)
+       // 💡 4-4. [3단] 융합 직업군 매트릭스 (스타트업병/허세 수식어 완벽 제거, 현실의 톱티어 실무 직함 100종)
         const fusionJobsKo = [
-            /* 1위 목 */ [ 
-                ["IT 최고기술책임자(CTO)", "신사업 기획/개발 임원", "최고인사책임자(CHO)", "에듀테크 지식 플랫폼 창업자"], 
-                ["브랜드 마케팅 총괄 디렉터", "크리에이티브 기획 리더", "미디어 콘텐츠 전략가", "글로벌 PR 커뮤니케이션 최고책임자"], 
-                ["플랫폼 비즈니스 총괄", "대형 프랜차이즈 기획 본부장", "지역 인프라 및 스마트시티 설계자", "초대형 상업공간 기획 디렉터"], 
-                ["데이터 기반 프로덕트 오너(PO)", "경영 전략 컨설팅 파트너", "기술 기반 스타트업 창업가", "디지털 핀테크 혁신 리더"], 
-                ["해외영업 및 시장 개척 총괄", "사용자 경험(UX/UI) 리서치 디렉터", "미래 트렌드 연구소장", "글로벌 비전 전략 기획(CSO) 임원"] 
+            /* 1위 목(기획/성장) */ [ 
+                ["소프트웨어 엔지니어", "신사업 기획자", "인사(HR) 담당자", "에듀테크 기획자"], 
+                ["브랜드 마케터", "크리에이티브 디렉터", "콘텐츠 기획자", "PR 커뮤니케이터"], 
+                ["플랫폼 프로덕트 매니저(PM)", "프랜차이즈 개발 담당자", "도시 계획가", "공간 기획자"], 
+                ["프로덕트 오너(PO)", "경영 전략 컨설턴트", "IT 솔루션 아키텍트", "핀테크 서비스 기획자"], 
+                ["해외 사업 개발자", "UX/UI 리서처", "미래 트렌드 분석가", "글로벌 세일즈 매니저"] 
             ],
-            /* 1위 화 */ [ 
-                ["혁신적인 아트 디렉터", "벤처 투자 및 액셀러레이터", "방송/뉴미디어 기획 총괄", "디지털 크리에이터 및 인플루언서 네트워크 총괄"], 
-                ["엔터테인먼트 최고비전책임자(CVO)", "글로벌 세일즈 총괄 본부장", "퍼스널 브랜딩/PR 스페셜리스트", "대형 K-콘텐츠 IP 기획 제작자"], 
-                ["복합 문화공간 기획 디렉터", "대규모 박람회(MICE) 총괄", "커뮤니티/멤버십 플랫폼 리더", "프리미엄 호스피탈리티 마케팅 리더"], 
-                ["프리미엄 럭셔리 브랜드 매니저", "위기 관리 언론 대응 임원", "고객 데이터 기반 마케팅 디렉터", "대형 유통 플랫폼 퍼포먼스 마케팅 파트너"], 
-                ["여론 조사/선거 캠페인 전략가", "소비자 행동 심리 분석 전문가", "지식재산권(IP) 비즈니스 총괄", "인간 공학 및 감성 컴퓨팅 연구원"] 
+            /* 1위 화(매력/미디어) */ [ 
+                ["디지털 미디어 기획자", "아트 디렉터", "방송 프로그램 PD", "엔터테인먼트 A&R"], 
+                ["공연 기획자", "글로벌 무역 담당자", "퍼스널 브랜드 컨설턴트", "K-콘텐츠 기획자"], 
+                ["복합 문화공간 디렉터", "MICE(전시/박람회) 기획자", "커뮤니티 매니저", "호텔/리조트 마케터"], 
+                ["명품 패션 MD", "기업 홍보(PR) 담당자", "퍼포먼스 마케터", "이커머스 MD"], 
+                ["선거 전략 컨설턴트", "소비자 심리 분석가", "지식재산권(IP) 관리자", "리서치 애널리스트"] 
             ],
-            /* 1위 토 */ [ 
-                ["ESG 및 지속가능경영 리더", "조직 문화 혁신 임원", "로컬 비즈니스 기획자", "국내외 대형 NGO/비영리재단 사무총장"], 
-                ["프리미엄 리조트 총괄 지배인", "사내 커뮤니케이션 리더", "대중 타겟 소비재(FMCG) 사업부장", "글로벌 프랜차이즈 가맹 총괄 본부장"], 
-                ["부동산 자산 운용(AMC) 본부장", "건설/개발 프로젝트 총괄", "국책 사업 공공 인프라 매니저", "초고령화 타겟 시니어/실버 타운 디렉터"], 
-                ["재무/회계 총괄 파트너(CFO)", "기업 인수합병(M&A) 전략가", "공급망/물류(SCM) 최고책임자", "상업 은행/기업 금융 총괄 본부장"], 
-                ["대형 B2B 파트너십 총괄", "시니어 비즈니스 디렉터", "다국적 기업 한국 지사장", "정부 주도 글로벌 자원 개발 총괄"] 
+            /* 1위 토(안정/기반) */ [ 
+                ["ESG 경영 컨설턴트", "조직 문화 담당자", "로컬 비즈니스 기획자", "비영리재단(NGO) 활동가"], 
+                ["호텔 지배인", "사내 소통(인터널 커뮤니케이션) 담당자", "소비재(FMCG) 영업 매니저", "프랜차이즈 매니저"], 
+                ["부동산 디벨로퍼", "건축 설계사", "공공 인프라 기획자", "시니어타운 개발자"], 
+                ["기업 재무/회계 관리자", "M&A 자문역", "공급망 관리(SCM) 전문가", "기업 금융 애널리스트"], 
+                ["B2B 영업 대표", "다국적 기업 지사장", "자원 개발 프로젝트 매니저", "실버 산업 기획자"] 
             ],
-            /* 1위 금 */ [ 
-                ["특허/지식재산권 전략 파트너", "딥테크 벤처 캐피탈리스트(VC)", "부실 기업 턴어라운드/구조조정 총괄", "하이엔드 옥션 및 예술품 전문 딜러"], 
-                ["기업 법무/리스크 매니지먼트 임원", "정밀 의료 마케팅 디렉터", "최고 정보 보안 책임자(CISO)", "대기업 컴플라이언스(준법감시) 최고책임자"], 
-                ["대형 법무법인 시니어 파트너", "투자은행(IB) 디렉터", "품질 관리(QC) 컴플라이언스 헤드", "거시 경제 데이터 분석 및 리스크 매니저"], 
-                ["데이터 사이언스/AI 권위자", "퀀트 투자 알고리즘 트레이딩 리더", "글로벌 조세/재무 전략 파트너", "초정밀 반도체/하드웨어 수석 엔지니어"], 
-                ["블록체인 가상자산 생태계 설계자", "정밀 공학 첨단 산업 수석 연구원", "대규모 국책 사업 감사/평가 위원장", "우주/항공 등 미래 정밀 산업 기술 이사"] 
+            /* 1위 금(결단/분석) */ [ 
+                ["특허 변리사", "벤처캐피탈(VC) 심사역", "기업 구조조정 전문가", "미술품 경매사/딜러"], 
+                ["기업 사내 변호사", "의료기기 영업 대표", "정보 보안 전문가", "컴플라이언스(준법감시) 담당자"], 
+                ["법무법인 파트너 변호사", "투자은행(IB) 애널리스트", "품질 관리(QA) 엔지니어", "리스크 관리(RM) 전문가"], 
+                ["데이터 사이언티스트", "퀀트 투자 애널리스트", "공인회계사(CPA)", "반도체 하드웨어 엔지니어"], 
+                ["블록체인 엔지니어", "정밀 공학 연구원", "감정평가사", "항공우주 R&D 연구원"] 
             ],
-            /* 1위 수 */ [ 
-                ["지식/콘텐츠 퍼블리싱 총괄", "뇌과학/인체 공학 연구소장", "해외 직접 투자(FDI) 전략가", "대형 제약사 신약 개발 R&D 총괄"], 
-                ["데이터 저널리즘 리더", "심리 상담/임상 치료 센터장", "미디어 판권 글로벌 수출입 디렉터", "빅데이터 기반 고객 관리(CRM) 총괄"], 
-                ["국제 기구(UN 등) 한국 대표", "해외 자원 개발/에너지 사업 총괄", "글로벌 헬스케어 플랫폼 설립자", "글로벌 해운/항만 물류 네트워크 총괄"], 
-                ["국제 분쟁 중재 크로스보더 변호사", "경영 전략 자문 컨설턴트", "바이오 임상 연구 데이터 총괄", "초국적 M&A 및 글로벌 세무 전략가"], 
-                ["초거대 AI/머신러닝 디렉터", "미래 첨단 산업 R&D 수석", "거시 경제/미래학 싱크탱크 수장", "스마트 물류 및 자율주행 모빌리티 기획자"] 
+            /* 1위 수(지혜/유연성) */ [ 
+                ["출판 편집 기획자", "뇌과학 연구원", "해외 투자 자문역", "제약/바이오 임상 연구원"], 
+                ["데이터 저널리스트", "임상 심리 상담사", "글로벌 콘텐츠 바이어", "고객 데이터(CRM) 관리자"], 
+                ["국제기구 종사자", "신재생 에너지 기획자", "헬스케어 서비스 기획자", "해운/항만 물류 담당자"], 
+                ["국제 분쟁 중재 변호사", "경영 컨설턴트", "바이오 데이터 분석가", "국제 세무사"], 
+                ["AI 머신러닝 엔지니어", "미래 산업 연구원", "거시경제 애널리스트", "자율주행 모빌리티 기획자"] 
             ]
         ];
 
         const fusionJobsEn = [
             /* Wood */ [ 
-                ["Chief Technology Officer (CTO)", "New Business Development Exec", "Chief HR Officer (CHO)", "Edutech Platform Founder"], 
-                ["Brand Marketing Director", "Creative Planning Leader", "Media Content Strategist", "Global PR & Communications Head"], 
-                ["Platform Business General Manager", "Franchise Planning Director", "Smart City Designer", "Mega Commercial Space Planning Director"], 
-                ["Data-driven Product Owner (PO)", "Management Consulting Partner", "Tech Startup Founder", "Digital Fintech Innovation Leader"], 
-                ["Global Overseas Sales Head", "UX/UI Research Director", "Future Trend Institute Head", "Global Vision & Strategy (CSO) Exec"] 
+                ["Software Engineer", "New Business Developer", "HR Manager", "EdTech Planner"], 
+                ["Brand Marketer", "Creative Director", "Content Planner", "PR Communicator"], 
+                ["Platform Product Manager (PM)", "Franchise Developer", "Urban Planner", "Spatial Planner"], 
+                ["Product Owner (PO)", "Management Strategy Consultant", "IT Solution Architect", "Fintech Service Planner"], 
+                ["Overseas Business Developer", "UX/UI Researcher", "Future Trend Analyst", "Global Sales Manager"] 
             ],
             /* Fire */ [ 
-                ["Innovative Art Director", "Venture Investor & Accelerator", "Broadcasting & New Media Head", "Digital Creator Network Head"], 
-                ["Entertainment Chief Vision Officer", "Global Sales General Manager", "Personal Branding Specialist", "Mega K-Content IP Producer"], 
-                ["Cultural Space Planning Director", "Mega Convention (MICE) Head", "Community Platform Leader", "Premium Hospitality Marketing Leader"], 
-                ["Premium Luxury Brand Manager", "Crisis Management Exec", "Customer Data-driven Marketing Director", "Large Retail Performance Marketing Partner"], 
-                ["Polling & Campaign Strategist", "Consumer Behavior Expert", "IP Business Head", "Ergonomics & Affective Computing Researcher"] 
+                ["Digital Media Planner", "Art Director", "Broadcast Producer (PD)", "Entertainment A&R"], 
+                ["Event Planner", "Global Trade Specialist", "Personal Brand Consultant", "K-Content Planner"], 
+                ["Cultural Space Director", "MICE Planner", "Community Manager", "Hotel/Resort Marketer"], 
+                ["Luxury Fashion MD", "Corporate PR Manager", "Performance Marketer", "E-commerce MD"], 
+                ["Election Strategy Consultant", "Consumer Psychologist", "IP Manager", "Research Analyst"] 
             ],
             /* Earth */ [ 
-                ["ESG & Sustainability Leader", "Culture Innovation Exec", "Local Business Planner", "Large NGO/Non-profit Secretary General"], 
-                ["Resort General Manager", "Internal Comm Leader", "FMCG Business Division Head", "Global Franchise Operations Head"], 
-                ["Asset Management (AMC) Director", "Construction Project Head", "Public Infrastructure Manager", "Senior/Silver Town Director"], 
-                ["Chief Financial Officer (CFO)", "Corporate M&A Strategist", "Chief Supply Chain Officer (CSCM)", "Commercial/Corporate Banking Head"], 
-                ["Large B2B Partnership Head", "Senior Business Director", "Multinational Country Manager", "Govt Global Resource Development Head"] 
+                ["ESG Consultant", "Organizational Culture Manager", "Local Business Planner", "NGO Activist"], 
+                ["Hotel General Manager", "Internal Comm Manager", "FMCG Sales Manager", "Franchise Manager"], 
+                ["Real Estate Developer", "Architect", "Public Infrastructure Planner", "Senior Town Developer"], 
+                ["Corporate Finance/Accounting Manager", "M&A Advisor", "SCM Expert", "Corporate Financial Analyst"], 
+                ["B2B Sales Representative", "Multinational Country Manager", "Resource Development PM", "Silver Industry Planner"] 
             ],
             /* Metal */ [ 
-                ["Tech Patent & IP Partner", "Deep Tech VC", "Corporate Restructuring Head", "High-end Auction/Art Dealer"], 
-                ["Corporate Legal & Risk Exec", "Precision Medical Marketing Director", "Chief Info Security Officer (CISO)", "Chief Compliance Officer"], 
-                ["Major Law Firm Senior Partner", "Investment Banking (IB) Director", "QC & Compliance Head", "Macro Data Analysis & Risk Manager"], 
-                ["Data Science/AI Authority", "Quant Investment Leader", "Global Tax/Financial Partner", "Precision Hardware Chief Engineer"], 
-                ["Blockchain Ecosystem Designer", "Precision Engineering Chief Researcher", "National Project Audit Chairman", "Aerospace/Future Tech Director"] 
+                ["Patent Attorney", "VC Analyst", "Corporate Turnaround Expert", "Art Auctioneer/Dealer"], 
+                ["In-house Counsel", "Medical Device Sales Rep", "Info Security Expert", "Compliance Manager"], 
+                ["Law Firm Partner", "IB Analyst", "QA Engineer", "Risk Management (RM) Expert"], 
+                ["Data Scientist", "Quant Analyst", "Certified Public Accountant (CPA)", "Semiconductor Hardware Engineer"], 
+                ["Blockchain Engineer", "Precision Engineering Researcher", "Appraiser", "Aerospace R&D Researcher"] 
             ],
             /* Water */ [ 
-                ["Knowledge Publishing Head", "Brain Science Institute Head", "Foreign Direct Investment (FDI) Strategist", "Big Pharma R&D Head"], 
-                ["Data Journalism Leader", "Clinical Therapy Center Head", "Global Media Rights Import/Export Director", "Big Data CRM Head"], 
-                ["International Org Regional Rep", "Overseas Energy Business Head", "Global Healthcare Platform Founder", "Global Shipping/Logistics Network Head"], 
-                ["Intl Dispute Arbitration Lawyer", "Management Strategy Consultant", "Bio Clinical Research Head", "Transnational M&A Tax Strategist"], 
-                ["Hyper-scale AI/ML Director", "Future Tech R&D Chief", "Macroeconomics Think Tank Head", "Smart Logistics & Autonomous Mobility Planner"] 
+                ["Publishing Editor", "Brain Science Researcher", "Overseas Investment Advisor", "Pharma Clinical Researcher"], 
+                ["Data Journalist", "Clinical Psychologist", "Global Content Buyer", "CRM Manager"], 
+                ["International Organization Officer", "Renewable Energy Planner", "Healthcare Service Planner", "Shipping/Logistics Manager"], 
+                ["Intl Dispute Arbitration Lawyer", "Management Consultant", "Bio Data Analyst", "Intl Tax Accountant"], 
+                ["AI Machine Learning Engineer", "Future Industry Researcher", "Macroeconomic Analyst", "Autonomous Mobility Planner"] 
             ]
         ];
-
         // 💡 4-5. 3단 조립 완성 (역량 + 무대 + 직업)
         const finalJobKo = jobMod1Ko[mod1Idx] + " " + jobMod2Ko[varIdx20] + " <b>" + fusionJobsKo[top1Idx_C][top2Idx_C][varIdx4] + "</b>";
         const finalJobEn = jobMod1En[mod1Idx] + " " + jobMod2En[varIdx20] + " as a <b>" + fusionJobsEn[top1Idx_C][top2Idx_C][varIdx4] + "</b>";
