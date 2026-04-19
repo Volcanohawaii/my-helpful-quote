@@ -862,22 +862,22 @@ function switchTab(mode, element) {
         // 🚨 [핵심 수정] 무대는 약점(top5)이 아니라 '제2 강점(top2)'으로 세팅해야 사주 명리의 정석입니다.
         const mod2Idx = (top2Idx_C * 5) + varIdx5; // 2단: 나의 2위 강점 기반 (가장 잘 활약할 수 있는 산업 무대)
 
-        // 💡 4-2. [1단: 내적 역량] 제1 강점(top1)에 호환되는 현실적이고 예리한 재능 (25종)
+       // 💡 4-2. [1단: 내적 역량] 제1 강점(top1)에 호환되며 직업명을 자연스럽게 수식하는 형용사구 (25종)
         const jobMod1Ko = [
-            /* 목(木) 강점 */ "무에서 유를 창조하는 탁월한 기획력으로", "아무도 보지 못한 가능성을 먼저 찾아내는 안목으로", "정체된 상황을 돌파하는 강인한 추진력으로", "흩어진 아이디어를 실체 있는 결과물로 엮어내는", "지치지 않고 끊임없이 한계를 넓혀가는 에너지로",
-            /* 화(火) 강점 */ "본질을 꿰뚫고 사람들의 마음을 움직이는 매력으로", "어둠 속에서 명확한 방향을 제시하는 직관으로", "정체된 판에 활력을 불어넣어 흐름을 주도하는", "타인의 숨은 니즈를 정확히 읽어내는 예리한 감각으로", "순식간에 대중의 이목을 사로잡는 압도적인 표현력으로",
-            /* 토(土) 강점 */ "복잡한 이해관계를 조율하여 최적의 합의점을 찾는", "어떤 위기에도 흔들리지 않는 단단한 시스템을 구축하는", "사람과 자본을 안정적으로 연결하고 관리하는 무게감으로", "모두가 수긍할 수밖에 없는 대체 불가능한 신뢰감으로", "다양한 의견을 하나로 모아내는 탁월한 포용력으로",
-            /* 금(金) 강점 */ "감정을 배제한 냉철한 분석으로 최적의 효율을 설계하는", "불필요한 과정을 잘라내고 핵심만 정확하게 타격하는", "타협하지 않는 완벽주의로 최고의 결과물을 벼려내는", "보이지 않는 리스크를 사전에 차단하는 예리한 결단력으로", "객관적인 데이터와 로직으로 흔들림 없는 기준을 세우는",
-            /* 수(水) 강점 */ "변화하는 시대의 흐름에 유연하게 스며드는 처세술로", "눈앞의 현상보다 이면의 거시적인 패턴을 읽어내는", "위기를 기회로 뒤바꾸는 치밀하고 전략적인 사고로", "다양한 지식을 스펀지처럼 흡수하여 응용하는 지혜로", "소리 없이 판도를 읽고 미래를 미리 대비하는 안목으로"
-        ];
-        const jobMod1En = [
-            /* Wood */ "With outstanding planning skills that create from nothing,", "With an eye for finding unseen possibilities,", "With strong drive breaking through stagnant situations,", "Weaving scattered ideas into tangible results,", "With energy expanding limits without tiring,",
-            /* Fire */ "With charm that penetrates the essence and moves hearts,", "With intuition providing clear direction in the dark,", "Leading the flow by energizing stagnant boards,", "With a keen sense for accurately reading hidden needs,", "With overwhelming expression that instantly captures attention,",
-            /* Earth */ "Finding optimal agreements by coordinating complex interests,", "Building solid systems unshaken by any crisis,", "With gravity stably connecting and managing people and capital,", "With irreplaceable trust everyone must acknowledge,", "With excellent embrace gathering diverse opinions into one,",
-            /* Metal */ "Designing optimal efficiency with cool-headed, emotionless analysis,", "Accurately striking the core by cutting out unnecessary processes,", "Forging the best results with uncompromising perfectionism,", "With sharp decisiveness blocking unseen risks in advance,", "Setting unshakeable standards with objective data and logic,",
-            /* Water */ "With tact smoothly adapting to changing times,", "Reading macro patterns behind immediate phenomena,", "With meticulous strategic thinking turning crisis into opportunity,", "With wisdom absorbing and applying diverse knowledge like a sponge,", "With an eye silently reading the board and preparing for the future,"
+            /* 목(木) */ "무에서 유를 창조하는 탁월한 기획력을 지닌", "아무도 보지 못한 가능성을 찾아내는 안목을 갖춘", "정체된 상황을 돌파하는 강인한 추진력의", "흩어진 아이디어를 실체 있는 결과물로 엮어내는", "지치지 않고 끊임없이 한계를 넓혀가는 에너지의",
+            /* 화(火) */ "사람들의 마음을 움직이는 압도적인 매력을 지닌", "어둠 속에서 명확한 방향을 제시하는 예리한 직관의", "정체된 판에 활력을 불어넣어 흐름을 주도하는", "타인의 숨은 니즈를 정확히 읽어내는 예리한 감각의", "순식간에 대중의 이목을 사로잡는 독보적인 표현력을 갖춘",
+            /* 토(土) */ "복잡한 이해관계를 조율하여 최적의 합의점을 찾는", "어떤 위기에도 흔들리지 않는 단단한 시스템을 구축하는", "사람과 자본을 안정적으로 연결하고 관리하는", "모두가 수긍할 수밖에 없는 대체 불가능한 신뢰감을 주는", "다양한 의견을 하나로 모아내는 탁월한 포용력의",
+            /* 금(金) */ "감정을 배제한 냉철한 분석으로 최적의 효율을 설계하는", "불필요한 과정을 잘라내고 핵심만 정확하게 타격하는", "타협하지 않는 완벽주의로 최고의 결과물을 벼려내는", "보이지 않는 리스크를 사전에 차단하는 예리한 결단력의", "객관적인 데이터와 로직으로 흔들림 없는 기준을 세우는",
+            /* 수(水) */ "변화하는 시대의 흐름에 유연하게 스며드는 처세술을 지닌", "눈앞의 현상보다 이면의 거시적인 패턴을 읽어내는", "위기를 기회로 뒤바꾸는 치밀하고 전략적인 사고의", "다양한 지식을 스펀지처럼 흡수하여 응용하는 지혜를 갖춘", "소리 없이 판도를 읽고 미래를 미리 대비하는 안목의"
         ];
 
+        const jobMod1En = [
+            /* Wood */ "who creates from nothing with outstanding planning skills", "who finds unseen possibilities with a keen eye", "who breaks through stagnant situations with strong drive", "who weaves scattered ideas into tangible results", "who continuously pushes boundaries with tireless energy",
+            /* Fire */ "who moves hearts with overwhelming charm", "who provides clear direction in the dark with intuition", "who leads the flow by energizing stagnant boards", "who accurately reads hidden needs with a sharp sense", "who instantly captures attention with unrivaled expression",
+            /* Earth */ "who finds optimal agreements by coordinating complex interests", "who builds solid systems unshaken by any crisis", "who stably connects and manages people and capital", "who provides irreplaceable trust that everyone acknowledges", "who gathers diverse opinions with excellent embrace",
+            /* Metal */ "who designs optimal efficiency with cool-headed analysis", "who accurately strikes the core by cutting out the unnecessary", "who forges the best results with uncompromising perfectionism", "who proactively blocks unseen risks with sharp decisiveness", "who sets unshakeable standards with objective data and logic",
+            /* Water */ "who flexibly adapts to changing times with smooth tact", "who reads macro patterns behind immediate phenomena", "who turns crisis into opportunity with strategic thinking", "who absorbs and applies diverse knowledge with wisdom", "who silently reads the board and prepares for the future"
+        ];
       // 💡 4-3. [2단: 활약 무대] 나의 제2 강점(top2)을 완벽하게 펼칠 수 있는 전통 사주 명리 기반 산업군 (25종)
         const jobMod2Ko = [
             /* 목(木) 강점 무대 - 교육, 출판, 기획, 농림 */ "교육 및 인재 양성 분야의", "출판 및 문학 창작 교류의", "기획 및 아이디어 창출 영역의", "농림 및 친환경 자연 산업의", "디자인 및 조경 예술 시장의",
@@ -894,7 +894,7 @@ function switchTab(mode, element) {
             /* Water */ "in the trade and logistics sector", "on the profound stage of academic research and education", "in the fields of diplomacy and international relations", "in the hospitality and tourism industry", "in the study of deep philosophy and destiny"
         ];
 
-        // 💡 4-4. [3단: 최종 직업] 제1 강점 x 제2 강점 융합 (사주 명리학의 클래식 전문/사무직 100종)
+       // 💡 4-4. [최종 직업] 제1 강점 x 제2 강점 융합 (사주 명리학의 클래식 전문/사무직 100종)
         const fusionJobsKo = [
             /* 1위 목(성장/교육/기획) */ [ 
                 ["교육자/교사", "대학교수", "작가/칼럼니스트", "출판 기획자"], 
@@ -970,9 +970,12 @@ function switchTab(mode, element) {
                 ["Basic Scientist", "Astronomer/Meteorologist", "Logistics Expert", "Deep-sea Fisher"] 
             ]
         ];
-       // 💡 4-5. 3단 조립 완성 (역량 + 무대 + 직업)
-        const finalJobKo = jobMod1Ko[mod1Idx] + " " + jobMod2Ko[mod2Idx] + " <b>" + fusionJobsKo[top1Idx_C][top2Idx_C][varIdx4] + "</b>";
-        const finalJobEn = jobMod1En[mod1Idx] + " " + jobMod2En[mod2Idx] + " as a <b>" + fusionJobsEn[top1Idx_C][top2Idx_C][varIdx4] + "</b>";
+      
+    // 💡 4-5. 최종 조립 완성 (무대 수식어 제거, 2단 직결 결합)
+        const finalJobKo = jobMod1Ko[mod1Idx] + " <b>" + fusionJobsKo[top1Idx_C][top2Idx_C][varIdx4] + "</b>";
+        
+        // 영문은 문법에 맞게 직업명 뒤에 관계대명사(who)로 수식어가 붙도록 처리
+        const finalJobEn = "<b>" + fusionJobsEn[top1Idx_C][top2Idx_C][varIdx4] + "</b> " + jobMod1En[mod1Idx];
       
    // 💡 5. 최종 운명 서사 조립 (맥락 충돌 방지 및 5점 척도 완벽 연동)
         const elNamesKo_C = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
