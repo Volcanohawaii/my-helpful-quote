@@ -853,122 +853,127 @@ function switchTab(mode, element) {
         ["rigidity falling behind unable to adapt", "passivity losing principles swept by situations", "daydreaming unable to act due to overthinking", "lack of communication causing misunderstandings", "boundlessness losing identity"]
     ];
 
-// 💡 4-1. [3단 콤보 조립기] 인덱스 세팅
-        const varIdx6 = session.num81 % 6;   // 1단: 1위 오행에 맞는 핵심 역량 (6개 중 1개)
-        const varIdx20 = session.num81 % 20; // 2단: 활약할 범용 비즈니스 무대 (20개 중 1개)
-        const varIdx4 = session.num81 % 4;   // 3단: 융합 베이스 직업 (셀당 4개 중 1개)
+/// 💡 4-1. [운명공학 3단 조립기] 1위, 2위 강점과 81수리를 교차 계산하는 알고리즘
+        const varIdx5 = session.num81 % 5; // 5개 중 1개 미세조정
+        const varIdx4 = session.num81 % 4; // 4개 중 1개 미세조정
         
-        const mod1Idx = (top1Idx_C * 6) + varIdx6;
+        const mod1Idx = (top1Idx_C * 5) + varIdx5; // 1단: 나의 1위 강점 기반 (핵심 무기)
+        
+        // 🚨 [핵심 수정] 무대는 약점(top5)이 아니라 '제2 강점(top2)'으로 세팅해야 사주 명리의 정석입니다.
+        const mod2Idx = (top2Idx_C * 5) + varIdx5; // 2단: 나의 2위 강점 기반 (가장 잘 활약할 수 있는 산업 무대)
 
-        // 💡 4-2. [1단] 제1 강점(오행)에 완벽히 호환되는 핵심 역량 (30종)
+        // 💡 4-2. [1단: 내적 역량] 제1 강점(top1)에 호환되는 현실적이고 예리한 재능 (25종)
         const jobMod1Ko = [
-            /* 목(0~5) */ "시대를 앞서가는 비전으로", "무에서 유를 창조하는 기획력으로", "한계를 돌파하는 추진력으로", "파괴적 혁신을 이끄는 아이디어로", "끊임없는 성장을 추구하는 에너지로", "새로운 패러다임을 제시하는 창조성으로",
-            /* 화(6~11) */ "사람의 마음을 움직이는 매력으로", "대중의 니즈를 꿰뚫는 직관으로", "압도적인 퍼포먼스와 카리스마로", "폭발적인 시너지를 창출하는 열정으로", "어둠을 밝히는 선구자적 인사이트로", "트렌드의 최전선을 이끄는 감각으로",
-            /* 토(12~17) */ "다양한 이해관계를 조율하는 협상력으로", "거대 자본을 안정적으로 운용하는 무게감으로", "흔들림 없는 원칙과 포용력으로", "대체 불가능한 신뢰감을 무기로", "지속 가능한 가치를 창출하는 혜안으로", "조직의 중심을 잡아주는 탁월한 균형감으로",
-            /* 금(18~23) */ "치밀한 데이터 분석과 로직으로", "타협하지 않는 완벽주의를 바탕으로", "치열한 경쟁에서 살아남는 냉철함으로", "리스크를 완벽히 통제하는 통찰력으로", "가장 효율적인 구조를 설계하는 정밀함으로", "불필요한 것을 잘라내는 예리한 결단력으로",
-            /* 수(24~29) */ "위기를 기회로 바꾸는 전략적 사고로", "경계를 유연하게 넘나드는 처세술로", "복잡한 문제의 본질을 꿰뚫는 안목으로", "10년 후의 미래를 내다보는 거시적 시야로", "어떤 상황에도 스며드는 탁월한 적응력으로", "소리 없이 판도를 뒤집는 치밀한 설계로"
+            /* 목(木) 강점 */ "무에서 유를 창조하는 탁월한 기획력으로", "아무도 보지 못한 가능성을 먼저 찾아내는 안목으로", "정체된 상황을 돌파하는 강인한 추진력으로", "흩어진 아이디어를 실체 있는 결과물로 엮어내는", "지치지 않고 끊임없이 한계를 넓혀가는 에너지로",
+            /* 화(火) 강점 */ "본질을 꿰뚫고 사람들의 마음을 움직이는 매력으로", "어둠 속에서 명확한 방향을 제시하는 직관으로", "정체된 판에 활력을 불어넣어 흐름을 주도하는", "타인의 숨은 니즈를 정확히 읽어내는 예리한 감각으로", "순식간에 대중의 이목을 사로잡는 압도적인 표현력으로",
+            /* 토(土) 강점 */ "복잡한 이해관계를 조율하여 최적의 합의점을 찾는", "어떤 위기에도 흔들리지 않는 단단한 시스템을 구축하는", "사람과 자본을 안정적으로 연결하고 관리하는 무게감으로", "모두가 수긍할 수밖에 없는 대체 불가능한 신뢰감으로", "다양한 의견을 하나로 모아내는 탁월한 포용력으로",
+            /* 금(金) 강점 */ "감정을 배제한 냉철한 분석으로 최적의 효율을 설계하는", "불필요한 과정을 잘라내고 핵심만 정확하게 타격하는", "타협하지 않는 완벽주의로 최고의 결과물을 벼려내는", "보이지 않는 리스크를 사전에 차단하는 예리한 결단력으로", "객관적인 데이터와 로직으로 흔들림 없는 기준을 세우는",
+            /* 수(水) 강점 */ "변화하는 시대의 흐름에 유연하게 스며드는 처세술로", "눈앞의 현상보다 이면의 거시적인 패턴을 읽어내는", "위기를 기회로 뒤바꾸는 치밀하고 전략적인 사고로", "다양한 지식을 스펀지처럼 흡수하여 응용하는 지혜로", "소리 없이 판도를 읽고 미래를 미리 대비하는 안목으로"
         ];
         const jobMod1En = [
-            "With a vision ahead of its time,", "With planning skills that create from nothing,", "With driving force that breaks limits,", "With ideas that lead disruptive innovation,", "With energy pursuing endless growth,", "With creativity presenting new paradigms,",
-            "With charm that moves people's hearts,", "With intuition penetrating public needs,", "With overwhelming performance and charisma,", "With passion creating explosive synergy,", "With pioneering insight lighting the dark,", "With senses leading the forefront of trends,",
-            "With negotiation skills coordinating various interests,", "With gravity to stably manage massive capital,", "With unwavering principles and embrace,", "Armed with irreplaceable trust,", "With an eye for creating sustainable value,", "With exceptional balance holding the organization's center,",
-            "With meticulous data analysis and logic,", "Based on uncompromising perfectionism,", "With cool-headedness surviving fierce competition,", "With insight perfectly controlling risks,", "With precision designing the most efficient structures,", "With sharp decisiveness cutting out the unnecessary,",
-            "With strategic thinking turning crises into opportunities,", "With tact flexibly crossing boundaries,", "With an eye penetrating the essence of complex problems,", "With a macro perspective foreseeing 10 years ahead,", "With exceptional adaptability permeating any situation,", "With meticulous design quietly turning the tide,"
+            /* Wood */ "With outstanding planning skills that create from nothing,", "With an eye for finding unseen possibilities,", "With strong drive breaking through stagnant situations,", "Weaving scattered ideas into tangible results,", "With energy expanding limits without tiring,",
+            /* Fire */ "With charm that penetrates the essence and moves hearts,", "With intuition providing clear direction in the dark,", "Leading the flow by energizing stagnant boards,", "With a keen sense for accurately reading hidden needs,", "With overwhelming expression that instantly captures attention,",
+            /* Earth */ "Finding optimal agreements by coordinating complex interests,", "Building solid systems unshaken by any crisis,", "With gravity stably connecting and managing people and capital,", "With irreplaceable trust everyone must acknowledge,", "With excellent embrace gathering diverse opinions into one,",
+            /* Metal */ "Designing optimal efficiency with cool-headed, emotionless analysis,", "Accurately striking the core by cutting out unnecessary processes,", "Forging the best results with uncompromising perfectionism,", "With sharp decisiveness blocking unseen risks in advance,", "Setting unshakeable standards with objective data and logic,",
+            /* Water */ "With tact smoothly adapting to changing times,", "Reading macro patterns behind immediate phenomena,", "With meticulous strategic thinking turning crisis into opportunity,", "With wisdom absorbing and applying diverse knowledge like a sponge,", "With an eye silently reading the board and preparing for the future,"
         ];
 
-        // 💡 4-3. [2단] 활약할 거대한 글로벌/비즈니스 무대 (20종 범용)
+      // 💡 4-3. [2단: 활약 무대] 나의 제2 강점(top2)을 완벽하게 펼칠 수 있는 전통 사주 명리 기반 산업군 (25종)
         const jobMod2Ko = [
-            "글로벌 B2B 시장의 패권을 장악하는", "차세대 테크/IT 생태계를 주도하는", "하이엔드 프리미엄 업계를 선도하는", "미래 라이프스타일 문화를 혁신하는", "거대 투자 자본의 흐름을 지휘하는",
-            "크로스보더(Cross-border) 비즈니스를 개척하는", "초경쟁 시장의 새로운 표준을 만드는", "ESG 및 지속가능경영을 이끄는", "국내외 대형 프로젝트를 성공적으로 매니징하는", "뉴미디어와 콘텐츠 산업의 판도를 바꾸는",
-            "혁신적인 디지털 트랜스포메이션(DX)을 지휘하는", "최상위 VVIP 타겟의 비즈니스를 총괄하는", "스타트업 및 벤처 생태계의 성장을 견인하는", "복잡한 글로벌 SCM/물류망을 최적화하는", "공공 및 국책 사업의 핵심 의사결정을 내리는",
-            "최첨단 AI 및 데이터 산업의 미래를 여는", "기업의 근본적인 체질 개선을 이끄는", "차세대 핀테크 및 금융 시장을 장악하는", "글로벌 지식재산권(IP) 가치를 극대화하는", "인간의 삶의 질을 높이는 혁신을 주도하는"
+            /* 목(木) 강점 무대 - 교육, 출판, 기획, 농림 */ "교육 및 인재 양성 분야의", "출판 및 문학 창작 교류의", "기획 및 아이디어 창출 영역의", "농림 및 친환경 자연 산업의", "디자인 및 조경 예술 시장의",
+            /* 화(火) 강점 무대 - 방송, 예술, 빛, 에너지 */ "미디어 및 방송 언론 분야의", "문화 예술 및 엔터테인먼트 시장의", "뷰티 및 패션 트렌드 영역의", "에너지 및 화학/전기 산업의", "스포츠 및 역동적인 무대의",
+            /* 토(土) 강점 무대 - 부동산, 공직, 상담, 종교 */ "부동산 및 건축 개발 비즈니스의", "공직 및 행정 서비스 분야의", "상담 및 심리 치유 영역의", "종교 및 철학적 통찰의", "토목 및 자원 관리 산업의",
+            /* 금(金) 강점 무대 - 금융, 사법, 의료, 군경 */ "금융 및 재무 자산 관리 섹터의", "사법 및 공권력(군/경) 분야의", "기계 및 정밀 가공 산업의", "의료 및 외과 수술 영역의", "귀금속 및 광물 세공 시장의",
+            /* 수(水) 강점 무대 - 무역, 학문, 유통, 지혜 */ "무역 및 유통 물류 섹터의", "학문 연구 및 교육의 깊은 무대의", "외교 및 국제 교류 분야의", "숙박 및 관광 호스피탈리티 산업의", "심연의 철학과 명리 연구의"
         ];
         const jobMod2En = [
-            "dominating the global B2B market", "leading the next-gen tech/IT ecosystem", "pioneering the high-end premium industry", "innovating future lifestyle culture", "directing the flow of massive investment capital",
-            "pioneering cross-border businesses", "setting new standards in hyper-competitive markets", "leading ESG and sustainable management", "successfully managing large-scale domestic/international projects", "changing the landscape of new media and content industries",
-            "directing innovative digital transformation (DX)", "overseeing businesses targeting top-tier VVIPs", "driving the growth of startup and venture ecosystems", "optimizing complex global SCM/logistics networks", "making core decisions for public and national projects",
-            "opening the future of cutting-edge AI and data industries", "leading fundamental corporate restructuring", "dominating the next-gen fintech and financial markets", "maximizing the value of global IP", "leading innovations that improve human quality of life"
+            /* Wood */ "in the fields of education and talent development", "in publishing and literary creation", "in the area of planning and ideation", "in agriculture, forestry, and eco-friendly industries", "in the design and landscaping art market",
+            /* Fire */ "in the media and broadcasting fields", "in the culture, arts, and entertainment market", "in the realm of beauty and fashion trends", "in the energy, chemical, and electrical industries", "on the dynamic stages of sports",
+            /* Earth */ "in the real estate and architectural development business", "in the public service and civil administration fields", "in the area of counseling and psychological healing", "in the realm of religion and philosophical insight", "in the civil engineering and resource management industries",
+            /* Metal */ "in the finance and asset management sector", "in the fields of justice, military, and police", "in the machinery and precision manufacturing industry", "in the realm of medical and surgical operations", "in the jewelry and mineral crafting market",
+            /* Water */ "in the trade and logistics sector", "on the profound stage of academic research and education", "in the fields of diplomacy and international relations", "in the hospitality and tourism industry", "in the study of deep philosophy and destiny"
         ];
 
-       // 💡 4-4. [3단] 융합 직업군 매트릭스 (스타트업병/허세 수식어 완벽 제거, 현실의 톱티어 실무 직함 100종)
+        // 💡 4-4. [3단: 최종 직업] 제1 강점 x 제2 강점 융합 (사주 명리학의 클래식 전문/사무직 100종)
         const fusionJobsKo = [
-            /* 1위 목(기획/성장) */ [ 
-                ["소프트웨어 엔지니어", "신사업 기획자", "인사(HR) 담당자", "에듀테크 기획자"], 
-                ["브랜드 마케터", "크리에이티브 디렉터", "콘텐츠 기획자", "PR 커뮤니케이터"], 
-                ["플랫폼 프로덕트 매니저(PM)", "프랜차이즈 개발 담당자", "도시 계획가", "공간 기획자"], 
-                ["프로덕트 오너(PO)", "경영 전략 컨설턴트", "IT 솔루션 아키텍트", "핀테크 서비스 기획자"], 
-                ["해외 사업 개발자", "UX/UI 리서처", "미래 트렌드 분석가", "글로벌 세일즈 매니저"] 
+            /* 1위 목(성장/교육/기획) */ [ 
+                ["교육자/교사", "대학교수", "작가/칼럼니스트", "출판 기획자"], 
+                ["방송 작가", "언론인/기자", "시각 디자이너", "광고 기획자"], 
+                ["교육 행정가", "조경 설계사", "농업 경영인", "임업 전문가"], 
+                ["건축 설계사", "기계 설계 엔지니어", "의류 및 직물 전문가", "정밀 목공 장인"], 
+                ["유학/진학 상담사", "교육/학문 연구원", "무역 기획자", "철학 및 인문학자"] 
             ],
-            /* 1위 화(매력/미디어) */ [ 
-                ["디지털 미디어 기획자", "아트 디렉터", "방송 프로그램 PD", "엔터테인먼트 A&R"], 
-                ["공연 기획자", "글로벌 무역 담당자", "퍼스널 브랜드 컨설턴트", "K-콘텐츠 기획자"], 
-                ["복합 문화공간 디렉터", "MICE(전시/박람회) 기획자", "커뮤니티 매니저", "호텔/리조트 마케터"], 
-                ["명품 패션 MD", "기업 홍보(PR) 담당자", "퍼포먼스 마케터", "이커머스 MD"], 
-                ["선거 전략 컨설턴트", "소비자 심리 분석가", "지식재산권(IP) 관리자", "리서치 애널리스트"] 
+            /* 1위 화(표현/예술/빛) */ [ 
+                ["예술 교육가", "문학 평론가", "화훼 전문가/플로리스트", "인테리어 디자이너"], 
+                ["연예인/방송인", "무용가/안무가", "셰프/요리 연구가", "뷰티 아티스트"], 
+                ["도예가", "문화재 복원가", "공간 조명 디자이너", "종교인/명상가"], 
+                ["전기/전자 엔지니어", "사진/영상 기자", "화학/소재 연구원", "금속 공예가"], 
+                ["외교관", "항공 승무원", "해양/수산 연구원", "글로벌 마케터"] 
             ],
-            /* 1위 토(안정/기반) */ [ 
-                ["ESG 경영 컨설턴트", "조직 문화 담당자", "로컬 비즈니스 기획자", "비영리재단(NGO) 활동가"], 
-                ["호텔 지배인", "사내 소통(인터널 커뮤니케이션) 담당자", "소비재(FMCG) 영업 매니저", "프랜차이즈 매니저"], 
-                ["부동산 디벨로퍼", "건축 설계사", "공공 인프라 기획자", "시니어타운 개발자"], 
-                ["기업 재무/회계 관리자", "M&A 자문역", "공급망 관리(SCM) 전문가", "기업 금융 애널리스트"], 
-                ["B2B 영업 대표", "다국적 기업 지사장", "자원 개발 프로젝트 매니저", "실버 산업 기획자"] 
+            /* 1위 토(기반/중개/공직) */ [ 
+                ["유아 교육자", "부동산 개발업자", "원예 치료사", "목장/농장 운영자"], 
+                ["웨딩 플래너", "문화 이벤트 기획자", "외식 프랜차이즈 운영자", "미술관/갤러리 큐레이터"], 
+                ["국가 공무원", "공인중개사", "토목 공학자", "직업 상담사"], 
+                ["세무사/회계사", "건축 감리사", "광산/자원 개발자", "자산 신탁 관리인"], 
+                ["숙박업/호텔 운영자", "지적 측량사", "심리 상담사", "해운/항만 관리자"] 
             ],
-            /* 1위 금(결단/분석) */ [ 
-                ["특허 변리사", "벤처캐피탈(VC) 심사역", "기업 구조조정 전문가", "미술품 경매사/딜러"], 
-                ["기업 사내 변호사", "의료기기 영업 대표", "정보 보안 전문가", "컴플라이언스(준법감시) 담당자"], 
-                ["법무법인 파트너 변호사", "투자은행(IB) 애널리스트", "품질 관리(QA) 엔지니어", "리스크 관리(RM) 전문가"], 
-                ["데이터 사이언티스트", "퀀트 투자 애널리스트", "공인회계사(CPA)", "반도체 하드웨어 엔지니어"], 
-                ["블록체인 엔지니어", "정밀 공학 연구원", "감정평가사", "항공우주 R&D 연구원"] 
+            /* 1위 금(사법/의료/금융) */ [ 
+                ["제지 및 펄프 전문가", "교육 감찰관", "가구 디자이너", "농기계 엔지니어"], 
+                ["경찰/소방관", "방송 장비 엔지니어", "스포츠 감독", "성형외과 의사"], 
+                ["판사/검사", "감정평가사", "건축 구조 기술사", "세관 공무원"], 
+                ["은행원/금융인", "직업 군인/장교", "외과 의사", "자동차/기계 공학자"], 
+                ["치과 의사", "항공기 조종사", "선박 기관사", "무기/방위산업 연구원"] 
             ],
-            /* 1위 수(지혜/유연성) */ [ 
-                ["출판 편집 기획자", "뇌과학 연구원", "해외 투자 자문역", "제약/바이오 임상 연구원"], 
-                ["데이터 저널리스트", "임상 심리 상담사", "글로벌 콘텐츠 바이어", "고객 데이터(CRM) 관리자"], 
-                ["국제기구 종사자", "신재생 에너지 기획자", "헬스케어 서비스 기획자", "해운/항만 물류 담당자"], 
-                ["국제 분쟁 중재 변호사", "경영 컨설턴트", "바이오 데이터 분석가", "국제 세무사"], 
-                ["AI 머신러닝 엔지니어", "미래 산업 연구원", "거시경제 애널리스트", "자율주행 모빌리티 기획자"] 
+            /* 1위 수(지혜/무역/유통) */ [ 
+                ["사주/명리학자", "특수 교육 교사", "출판 번역가", "수자원 관리자"], 
+                ["심리학자", "관광 가이드", "동시통역사", "주류/음료 사업가"], 
+                ["사서 및 기록물 관리자", "수산물 유통업자", "온천/사우나 운영자", "사회복지사"], 
+                ["해군/해경", "해양 금융 전문가", "수력 발전 엔지니어", "국제 무역사"], 
+                ["기초 과학자", "천문/기상학자", "유통/물류 전문가", "원양 어업인"] 
             ]
         ];
 
         const fusionJobsEn = [
             /* Wood */ [ 
-                ["Software Engineer", "New Business Developer", "HR Manager", "EdTech Planner"], 
-                ["Brand Marketer", "Creative Director", "Content Planner", "PR Communicator"], 
-                ["Platform Product Manager (PM)", "Franchise Developer", "Urban Planner", "Spatial Planner"], 
-                ["Product Owner (PO)", "Management Strategy Consultant", "IT Solution Architect", "Fintech Service Planner"], 
-                ["Overseas Business Developer", "UX/UI Researcher", "Future Trend Analyst", "Global Sales Manager"] 
+                ["Educator/Teacher", "University Professor", "Writer/Columnist", "Publishing Planner"], 
+                ["Broadcast Writer", "Journalist", "Visual Designer", "Advertising Planner"], 
+                ["Education Administrator", "Landscape Architect", "Agricultural Manager", "Forestry Expert"], 
+                ["Architect", "Mechanical Design Engineer", "Textile Expert", "Precision Carpenter"], 
+                ["Study Abroad Counselor", "Educational Researcher", "Trade Planner", "Philosopher/Humanist"] 
             ],
             /* Fire */ [ 
-                ["Digital Media Planner", "Art Director", "Broadcast Producer (PD)", "Entertainment A&R"], 
-                ["Event Planner", "Global Trade Specialist", "Personal Brand Consultant", "K-Content Planner"], 
-                ["Cultural Space Director", "MICE Planner", "Community Manager", "Hotel/Resort Marketer"], 
-                ["Luxury Fashion MD", "Corporate PR Manager", "Performance Marketer", "E-commerce MD"], 
-                ["Election Strategy Consultant", "Consumer Psychologist", "IP Manager", "Research Analyst"] 
+                ["Arts Educator", "Literary Critic", "Florist", "Interior Designer"], 
+                ["Entertainer/Broadcaster", "Choreographer", "Chef/Culinary Researcher", "Beauty Artist"], 
+                ["Ceramic Artist", "Cultural Heritage Restorer", "Lighting Designer", "Religious Leader/Meditator"], 
+                ["Electrical Engineer", "Photo/Video Journalist", "Chemical Researcher", "Metal Crafter"], 
+                ["Diplomat", "Flight Attendant", "Marine Researcher", "Global Marketer"] 
             ],
             /* Earth */ [ 
-                ["ESG Consultant", "Organizational Culture Manager", "Local Business Planner", "NGO Activist"], 
-                ["Hotel General Manager", "Internal Comm Manager", "FMCG Sales Manager", "Franchise Manager"], 
-                ["Real Estate Developer", "Architect", "Public Infrastructure Planner", "Senior Town Developer"], 
-                ["Corporate Finance/Accounting Manager", "M&A Advisor", "SCM Expert", "Corporate Financial Analyst"], 
-                ["B2B Sales Representative", "Multinational Country Manager", "Resource Development PM", "Silver Industry Planner"] 
+                ["Early Childhood Educator", "Real Estate Developer", "Horticultural Therapist", "Ranch Operator"], 
+                ["Wedding Planner", "Cultural Event Planner", "Restaurant Operator", "Gallery Curator"], 
+                ["Civil Servant", "Real Estate Agent", "Civil Engineer", "Vocational Counselor"], 
+                ["Tax Accountant", "Construction Supervisor", "Mining Developer", "Asset Trust Manager"], 
+                ["Lodging/Hotel Operator", "Cadastral Surveyor", "Psychological Counselor", "Port Manager"] 
             ],
             /* Metal */ [ 
-                ["Patent Attorney", "VC Analyst", "Corporate Turnaround Expert", "Art Auctioneer/Dealer"], 
-                ["In-house Counsel", "Medical Device Sales Rep", "Info Security Expert", "Compliance Manager"], 
-                ["Law Firm Partner", "IB Analyst", "QA Engineer", "Risk Management (RM) Expert"], 
-                ["Data Scientist", "Quant Analyst", "Certified Public Accountant (CPA)", "Semiconductor Hardware Engineer"], 
-                ["Blockchain Engineer", "Precision Engineering Researcher", "Appraiser", "Aerospace R&D Researcher"] 
+                ["Paper/Pulp Expert", "Education Inspector", "Furniture Designer", "Agricultural Machinery Engineer"], 
+                ["Police/Firefighter", "Broadcast Equipment Engineer", "Sports Coach", "Plastic Surgeon"], 
+                ["Judge/Prosecutor", "Appraiser", "Structural Engineer", "Customs Officer"], 
+                ["Banker/Financier", "Military Officer", "Surgeon", "Automotive/Mechanical Engineer"], 
+                ["Dentist", "Airline Pilot", "Marine Engineer", "Defense Industry Researcher"] 
             ],
             /* Water */ [ 
-                ["Publishing Editor", "Brain Science Researcher", "Overseas Investment Advisor", "Pharma Clinical Researcher"], 
-                ["Data Journalist", "Clinical Psychologist", "Global Content Buyer", "CRM Manager"], 
-                ["International Organization Officer", "Renewable Energy Planner", "Healthcare Service Planner", "Shipping/Logistics Manager"], 
-                ["Intl Dispute Arbitration Lawyer", "Management Consultant", "Bio Data Analyst", "Intl Tax Accountant"], 
-                ["AI Machine Learning Engineer", "Future Industry Researcher", "Macroeconomic Analyst", "Autonomous Mobility Planner"] 
+                ["Saju/Myungri Scholar", "Special Education Teacher", "Publishing Translator", "Water Resources Manager"], 
+                ["Psychologist", "Tour Guide", "Simultaneous Interpreter", "Liquor/Beverage Entrepreneur"], 
+                ["Librarian/Archivist", "Seafood Distributor", "Spa/Sauna Operator", "Social Worker"], 
+                ["Navy/Coast Guard", "Marine Finance Expert", "Hydroelectric Engineer", "International Trade Specialist"], 
+                ["Basic Scientist", "Astronomer/Meteorologist", "Logistics Expert", "Deep-sea Fisher"] 
             ]
         ];
-        // 💡 4-5. 3단 조립 완성 (역량 + 무대 + 직업)
-        const finalJobKo = jobMod1Ko[mod1Idx] + " " + jobMod2Ko[varIdx20] + " <b>" + fusionJobsKo[top1Idx_C][top2Idx_C][varIdx4] + "</b>";
-        const finalJobEn = jobMod1En[mod1Idx] + " " + jobMod2En[varIdx20] + " as a <b>" + fusionJobsEn[top1Idx_C][top2Idx_C][varIdx4] + "</b>";
+       // 💡 4-5. 3단 조립 완성 (역량 + 무대 + 직업)
+        const finalJobKo = jobMod1Ko[mod1Idx] + " " + jobMod2Ko[mod2Idx] + " <b>" + fusionJobsKo[top1Idx_C][top2Idx_C][varIdx4] + "</b>";
+        const finalJobEn = jobMod1En[mod1Idx] + " " + jobMod2En[mod2Idx] + " as a <b>" + fusionJobsEn[top1Idx_C][top2Idx_C][varIdx4] + "</b>";
+      
    // 💡 5. 최종 운명 서사 조립 (맥락 충돌 방지 및 5점 척도 완벽 연동)
         const elNamesKo_C = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
         const elNamesEn_C = ["Wood", "Fire", "Earth", "Metal", "Water"];
