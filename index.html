@@ -885,9 +885,12 @@ function switchTab(mode, element) {
         ["rigidity falling behind unable to adapt", "passivity losing principles swept by situations", "daydreaming unable to act due to overthinking", "lack of communication causing misunderstandings", "boundlessness losing identity"]
     ];
 
-    // 💡 4. [초정밀 2,250종 하이브리드 직업 매트릭스]
-    const varIdx30 = session.num81 % 30; // 30개의 수식어 로테이션
-    const varIdx3 = session.num81 % 3;   // 셀당 3개의 직업 로테이션
+    // 💡 4-3. [직업 도출 로직 업그레이드] 무작위 추출 방지 및 강점 100% 연동
+        // 오행별 6개의 수식어 중, 나의 제1 강점(top1Idx_C) 그룹에 속한 수식어만 정확히 타겟팅하여 뽑아옵니다.
+        const varIdx6 = session.num81 % 6; // 6개 중 하나 선택
+        const varIdx3 = session.num81 % 3; // 3개 중 하나 선택
+        
+        const modifierIdx = (top1Idx_C * 6) + varIdx6;
    
  
         const jobModifiersKo = [
@@ -983,9 +986,8 @@ function switchTab(mode, element) {
                 ["Hyper-scale AI & Machine Learning Director", "Future High-tech Industry R&D Chief", "Macroeconomics & Futurology Think Tank Head"] 
             ]
         ];
-    const finalJobKo = jobModifiersKo[varIdx30] + " " + fusionJobsKo[top1Idx_C][top2Idx_C][varIdx3];
-    const finalJobEn = jobModifiersEn[varIdx30] + " " + fusionJobsEn[top1Idx_C][top2Idx_C][varIdx3];
-
+   const finalJobKo = jobModifiersKo[modifierIdx] + " " + fusionJobsKo[top1Idx_C][top2Idx_C][varIdx3];
+        const finalJobEn = jobModifiersEn[modifierIdx] + " " + fusionJobsEn[top1Idx_C][top2Idx_C][varIdx3];
    // 💡 5. 최종 운명 서사 조립 (맥락 충돌 방지 및 5점 척도 완벽 연동)
         const elNamesKo_C = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
         const elNamesEn_C = ["Wood", "Fire", "Earth", "Metal", "Water"];
