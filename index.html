@@ -885,109 +885,123 @@ function switchTab(mode, element) {
         ["rigidity falling behind unable to adapt", "passivity losing principles swept by situations", "daydreaming unable to act due to overthinking", "lack of communication causing misunderstandings", "boundlessness losing identity"]
     ];
 
-    // 💡 4-3. [직업 도출 로직 업그레이드] 무작위 추출 방지 및 강점 100% 연동
-        // 오행별 6개의 수식어 중, 나의 제1 강점(top1Idx_C) 그룹에 속한 수식어만 정확히 타겟팅하여 뽑아옵니다.
-        const varIdx6 = session.num81 % 6; // 6개 중 하나 선택
-        const varIdx3 = session.num81 % 3; // 3개 중 하나 선택
+// 💡 4-1. [3단 콤보 조립기] 인덱스 세팅
+        const varIdx6 = session.num81 % 6;   // 1단: 1위 오행에 맞는 핵심 역량 (6개 중 1개)
+        const varIdx20 = session.num81 % 20; // 2단: 활약할 범용 비즈니스 무대 (20개 중 1개)
+        const varIdx4 = session.num81 % 4;   // 3단: 융합 베이스 직업 (셀당 4개 중 1개)
         
-        const modifierIdx = (top1Idx_C * 6) + varIdx6;
-   
- 
-        const jobModifiersKo = [
-            "시대를 앞서가는 비전으로", "파괴적 혁신을 주도하는", "치밀한 데이터 분석을 기반으로", "대중의 숨은 니즈를 꿰뚫는", "대체 불가능한 가치를 창출하는",
-            "지속 가능한 성장을 이끄는", "위기 속에서도 기회를 포착하는", "한 치의 오차도 없는 정밀함으로", "거대한 자본과 인프라를 움직이는", "업계의 새로운 표준(Standard)을 만드는",
-            "글로벌 시장의 경계를 허무는", "최적의 사용자 경험(UX)을 설계하는", "첨단 기술 생태계를 구축하는", "공간과 라이프스타일을 혁신하는", "조직의 체질을 근본적으로 바꾸는",
-            "미래 산업의 패권을 장악하는", "복잡한 시스템을 효율적으로 최적화하는", "프리미엄 브랜드의 품격을 높이는", "뉴미디어와 트렌드의 최전선에서", "사람과 조직의 잠재력을 일깨우는",
-            "지식과 지적 자산을 폭발적으로 확장하는", "인간의 삶의 질을 근본적으로 높이는", "거대 프로젝트를 성공적으로 매니징하는", "AI 및 첨단 기술의 상용화를 주도하는", "새로운 비즈니스 모델을 개척하는",
-            "기업의 구조적인 혁신을 지휘하는", "대중의 여론과 마음을 움직이는", "차세대 지식 플랫폼을 구축하는", "마이크로 타겟팅으로 시장을 점유하는", "고도의 전략으로 핵심 자산을 운용하는"
+        const mod1Idx = (top1Idx_C * 6) + varIdx6;
+
+        // 💡 4-2. [1단] 제1 강점(오행)에 완벽히 호환되는 핵심 역량 (30종)
+        const jobMod1Ko = [
+            /* 목(0~5) */ "시대를 앞서가는 비전으로", "무에서 유를 창조하는 기획력으로", "한계를 돌파하는 추진력으로", "파괴적 혁신을 이끄는 아이디어로", "끊임없는 성장을 추구하는 에너지로", "새로운 패러다임을 제시하는 창조성으로",
+            /* 화(6~11) */ "사람의 마음을 움직이는 매력으로", "대중의 니즈를 꿰뚫는 직관으로", "압도적인 퍼포먼스와 카리스마로", "폭발적인 시너지를 창출하는 열정으로", "어둠을 밝히는 선구자적 인사이트로", "트렌드의 최전선을 이끄는 감각으로",
+            /* 토(12~17) */ "다양한 이해관계를 조율하는 협상력으로", "거대 자본을 안정적으로 운용하는 무게감으로", "흔들림 없는 원칙과 포용력으로", "대체 불가능한 신뢰감을 무기로", "지속 가능한 가치를 창출하는 혜안으로", "조직의 중심을 잡아주는 탁월한 균형감으로",
+            /* 금(18~23) */ "치밀한 데이터 분석과 로직으로", "타협하지 않는 완벽주의를 바탕으로", "치열한 경쟁에서 살아남는 냉철함으로", "리스크를 완벽히 통제하는 통찰력으로", "가장 효율적인 구조를 설계하는 정밀함으로", "불필요한 것을 잘라내는 예리한 결단력으로",
+            /* 수(24~29) */ "위기를 기회로 바꾸는 전략적 사고로", "경계를 유연하게 넘나드는 처세술로", "복잡한 문제의 본질을 꿰뚫는 안목으로", "10년 후의 미래를 내다보는 거시적 시야로", "어떤 상황에도 스며드는 탁월한 적응력으로", "소리 없이 판도를 뒤집는 치밀한 설계로"
         ];
-        const jobModifiersEn = [
-            "With a vision ahead of its time,", "Driving disruptive innovation,", "Based on meticulous data analysis,", "Penetrating the hidden needs of the public,", "Creating irreplaceable value,",
-            "Leading sustainable growth,", "Seizing opportunities even in crises,", "With error-free precision,", "Moving massive capital and infrastructure,", "Setting new industry standards,",
-            "Breaking the boundaries of the global market,", "Designing optimal user experiences (UX),", "Building high-tech ecosystems,", "Innovating spaces and lifestyles,", "Fundamentally transforming organizational culture,",
-            "Dominating the future industry,", "Efficiently optimizing complex systems,", "Elevating the prestige of premium brands,", "At the forefront of new media and trends,", "Awakening the potential of people and organizations,",
-            "Explosively expanding knowledge and intellectual assets,", "Fundamentally improving the quality of human life,", "Successfully managing mega-projects,", "Leading the commercialization of AI and high-tech,", "Pioneering new business models,",
-            "Directing structural corporate innovation,", "Moving public opinion and hearts,", "Building next-generation knowledge platforms,", "Dominating the market with micro-targeting,", "Operating core assets with advanced strategy,"
+        const jobMod1En = [
+            "With a vision ahead of its time,", "With planning skills that create from nothing,", "With driving force that breaks limits,", "With ideas that lead disruptive innovation,", "With energy pursuing endless growth,", "With creativity presenting new paradigms,",
+            "With charm that moves people's hearts,", "With intuition penetrating public needs,", "With overwhelming performance and charisma,", "With passion creating explosive synergy,", "With pioneering insight lighting the dark,", "With senses leading the forefront of trends,",
+            "With negotiation skills coordinating various interests,", "With gravity to stably manage massive capital,", "With unwavering principles and embrace,", "Armed with irreplaceable trust,", "With an eye for creating sustainable value,", "With exceptional balance holding the organization's center,",
+            "With meticulous data analysis and logic,", "Based on uncompromising perfectionism,", "With cool-headedness surviving fierce competition,", "With insight perfectly controlling risks,", "With precision designing the most efficient structures,", "With sharp decisiveness cutting out the unnecessary,",
+            "With strategic thinking turning crises into opportunities,", "With tact flexibly crossing boundaries,", "With an eye penetrating the essence of complex problems,", "With a macro perspective foreseeing 10 years ahead,", "With exceptional adaptability permeating any situation,", "With meticulous design quietly turning the tide,"
         ];
 
-        // 💡 4-2. 베이스 직업 (5x5 매트릭스, 억지스러운 콕 집기 배제, 누구나 공감하는 범용적 하이레벨)
+        // 💡 4-3. [2단] 활약할 거대한 글로벌/비즈니스 무대 (20종 범용)
+        const jobMod2Ko = [
+            "글로벌 B2B 시장의 패권을 장악하는", "차세대 테크/IT 생태계를 주도하는", "하이엔드 프리미엄 업계를 선도하는", "미래 라이프스타일 문화를 혁신하는", "거대 투자 자본의 흐름을 지휘하는",
+            "크로스보더(Cross-border) 비즈니스를 개척하는", "초경쟁 시장의 새로운 표준을 만드는", "ESG 및 지속가능경영을 이끄는", "국내외 대형 프로젝트를 성공적으로 매니징하는", "뉴미디어와 콘텐츠 산업의 판도를 바꾸는",
+            "혁신적인 디지털 트랜스포메이션(DX)을 지휘하는", "최상위 VVIP 타겟의 비즈니스를 총괄하는", "스타트업 및 벤처 생태계의 성장을 견인하는", "복잡한 글로벌 SCM/물류망을 최적화하는", "공공 및 국책 사업의 핵심 의사결정을 내리는",
+            "최첨단 AI 및 데이터 산업의 미래를 여는", "기업의 근본적인 체질 개선을 이끄는", "차세대 핀테크 및 금융 시장을 장악하는", "글로벌 지식재산권(IP) 가치를 극대화하는", "인간의 삶의 질을 높이는 혁신을 주도하는"
+        ];
+        const jobMod2En = [
+            "dominating the global B2B market", "leading the next-gen tech/IT ecosystem", "pioneering the high-end premium industry", "innovating future lifestyle culture", "directing the flow of massive investment capital",
+            "pioneering cross-border businesses", "setting new standards in hyper-competitive markets", "leading ESG and sustainable management", "successfully managing large-scale domestic/international projects", "changing the landscape of new media and content industries",
+            "directing innovative digital transformation (DX)", "overseeing businesses targeting top-tier VVIPs", "driving the growth of startup and venture ecosystems", "optimizing complex global SCM/logistics networks", "making core decisions for public and national projects",
+            "opening the future of cutting-edge AI and data industries", "leading fundamental corporate restructuring", "dominating the next-gen fintech and financial markets", "maximizing the value of global IP", "leading innovations that improve human quality of life"
+        ];
+
+        // 💡 4-4. [3단] 융합 직업군 매트릭스 (셀당 4개로 확장 = 총 100개 직업)
         const fusionJobsKo = [
-            /* 1위 목(기획/성장/IT) */ [ 
-                ["IT 최고기술책임자(CTO)", "신사업 기획 및 개발 총괄 임원", "최고인사책임자(CHO) 및 HR 리더"], 
-                ["브랜드 마케팅 총괄 디렉터", "크리에이티브 기획 리더", "미디어 및 콘텐츠 전략가"], 
-                ["플랫폼 비즈니스 총괄", "대형 프랜차이즈 기획 본부장", "지역 인프라 및 스마트시티 설계자"], 
-                ["데이터 기반 프로덕트 오너(PO)", "경영 전략 컨설팅 펌 파트너", "기술 기반 스타트업 창업가"], 
-                ["글로벌 비즈니스 개척 및 해외영업 총괄", "사용자 경험(UX/UI) 리서치 디렉터", "미래 트렌드 및 인사이트 연구소장"] 
+            /* 1위 목 */ [ 
+                ["IT 최고기술책임자(CTO)", "신사업 기획/개발 임원", "최고인사책임자(CHO)", "에듀테크 지식 플랫폼 창업자"], 
+                ["브랜드 마케팅 총괄 디렉터", "크리에이티브 기획 리더", "미디어 콘텐츠 전략가", "글로벌 PR 커뮤니케이션 최고책임자"], 
+                ["플랫폼 비즈니스 총괄", "대형 프랜차이즈 기획 본부장", "지역 인프라 및 스마트시티 설계자", "초대형 상업공간 기획 디렉터"], 
+                ["데이터 기반 프로덕트 오너(PO)", "경영 전략 컨설팅 파트너", "기술 기반 스타트업 창업가", "디지털 핀테크 혁신 리더"], 
+                ["해외영업 및 시장 개척 총괄", "사용자 경험(UX/UI) 리서치 디렉터", "미래 트렌드 연구소장", "글로벌 비전 전략 기획(CSO) 임원"] 
             ],
-            /* 1위 화(열정/표현/미디어) */ [ 
-                ["혁신적인 아트 디렉터", "스타트업 액셀러레이터 및 벤처 투자자", "방송 및 뉴미디어 기획 총괄"], 
-                ["엔터테인먼트 비전 책임자(CVO)", "글로벌 세일즈 및 영업 총괄 본부장", "퍼스널 브랜딩 및 PR 스페셜리스트"], 
-                ["복합 문화공간 기획 디렉터", "대규모 박람회 및 이벤트(MICE) 총괄", "커뮤니티 및 멤버십 플랫폼 리더"], 
-                ["프리미엄 럭셔리 브랜드 매니저", "위기 관리 및 언론 대응 총괄 임원", "고객 데이터 기반 마케팅 디렉터"], 
-                ["여론 조사 및 선거 캠페인 전략가", "소비자 행동 심리 분석 전문가", "지식재산권(IP) 비즈니스 사업 총괄"] 
+            /* 1위 화 */ [ 
+                ["혁신적인 아트 디렉터", "벤처 투자 및 액셀러레이터", "방송/뉴미디어 기획 총괄", "디지털 크리에이터 및 인플루언서 네트워크 총괄"], 
+                ["엔터테인먼트 최고비전책임자(CVO)", "글로벌 세일즈 총괄 본부장", "퍼스널 브랜딩/PR 스페셜리스트", "대형 K-콘텐츠 IP 기획 제작자"], 
+                ["복합 문화공간 기획 디렉터", "대규모 박람회(MICE) 총괄", "커뮤니티/멤버십 플랫폼 리더", "프리미엄 호스피탈리티 마케팅 리더"], 
+                ["프리미엄 럭셔리 브랜드 매니저", "위기 관리 언론 대응 임원", "고객 데이터 기반 마케팅 디렉터", "대형 유통 플랫폼 퍼포먼스 마케팅 파트너"], 
+                ["여론 조사/선거 캠페인 전략가", "소비자 행동 심리 분석 전문가", "지식재산권(IP) 비즈니스 총괄", "인간 공학 및 감성 컴퓨팅 연구원"] 
             ],
-            /* 1위 토(안정/기반/관리) */ [ 
-                ["ESG 및 지속가능경영 리더", "대규모 조직 문화 혁신 임원", "지역 기반(로컬) 비즈니스 기획자"], 
-                ["호스피탈리티(호텔/리조트) 총괄 지배인", "기업 사내 커뮤니케이션 리더", "대중 타겟 소비재(FMCG) 사업부장"], 
-                ["부동산 및 자산 운용(AMC) 본부장", "대형 건설 및 개발 프로젝트 총괄", "국책 사업 및 공공 인프라 매니저"], 
-                ["재무/회계 총괄 파트너(CFO)", "기업 인수합병(M&A) 전략가", "공급망 및 물류(SCM) 최고책임자"], 
-                ["대형 B2B 파트너십 총괄", "시니어 및 실버 산업 비즈니스 디렉터", "다국적 기업 총괄 지사장"] 
+            /* 1위 토 */ [ 
+                ["ESG 및 지속가능경영 리더", "조직 문화 혁신 임원", "로컬 비즈니스 기획자", "국내외 대형 NGO/비영리재단 사무총장"], 
+                ["프리미엄 리조트 총괄 지배인", "사내 커뮤니케이션 리더", "대중 타겟 소비재(FMCG) 사업부장", "글로벌 프랜차이즈 가맹 총괄 본부장"], 
+                ["부동산 자산 운용(AMC) 본부장", "건설/개발 프로젝트 총괄", "국책 사업 공공 인프라 매니저", "초고령화 타겟 시니어/실버 타운 디렉터"], 
+                ["재무/회계 총괄 파트너(CFO)", "기업 인수합병(M&A) 전략가", "공급망/물류(SCM) 최고책임자", "상업 은행/기업 금융 총괄 본부장"], 
+                ["대형 B2B 파트너십 총괄", "시니어 비즈니스 디렉터", "다국적 기업 한국 지사장", "정부 주도 글로벌 자원 개발 총괄"] 
             ],
-            /* 1위 금(결단/분석/금융/법) */ [ 
-                ["기술 특허 및 지식재산권 전략 파트너", "신기술 벤처 캐피탈리스트(VC)", "부실 기업 턴어라운드 및 구조조정 총괄"], 
-                ["기업 법무 및 리스크 매니지먼트 임원", "하이엔드 옥션 및 예술품 딜러", "정밀 의료 및 헬스케어 마케팅 디렉터"], 
-                ["대형 법무법인 시니어 파트너", "금융사 투자은행(IB) 디렉터", "품질 관리(QC) 및 컴플라이언스 헤드"], 
-                ["최고 정보 보안 책임자(CISO)", "데이터 사이언스 및 AI 권위자", "퀀트 투자 및 알고리즘 트레이딩 리더"], 
-                ["글로벌 조세 및 재무 전략 파트너", "블록체인 및 가상자산 생태계 설계자", "정밀 공학 및 첨단 산업 수석 연구원"] 
+            /* 1위 금 */ [ 
+                ["특허/지식재산권 전략 파트너", "딥테크 벤처 캐피탈리스트(VC)", "부실 기업 턴어라운드/구조조정 총괄", "하이엔드 옥션 및 예술품 전문 딜러"], 
+                ["기업 법무/리스크 매니지먼트 임원", "정밀 의료 마케팅 디렉터", "최고 정보 보안 책임자(CISO)", "대기업 컴플라이언스(준법감시) 최고책임자"], 
+                ["대형 법무법인 시니어 파트너", "투자은행(IB) 디렉터", "품질 관리(QC) 컴플라이언스 헤드", "거시 경제 데이터 분석 및 리스크 매니저"], 
+                ["데이터 사이언스/AI 권위자", "퀀트 투자 알고리즘 트레이딩 리더", "글로벌 조세/재무 전략 파트너", "초정밀 반도체/하드웨어 수석 엔지니어"], 
+                ["블록체인 가상자산 생태계 설계자", "정밀 공학 첨단 산업 수석 연구원", "대규모 국책 사업 감사/평가 위원장", "우주/항공 등 미래 정밀 산업 기술 이사"] 
             ],
-            /* 1위 수(지혜/유연성/전략) */ [ 
-                ["지식 및 콘텐츠 퍼블리싱 총괄", "뇌과학 및 인체 공학 연구소장", "해외 직접 투자(FDI) 전략가"], 
-                ["데이터 저널리즘 및 여론 조사 리더", "심리 상담 및 임상 치료 센터장", "미디어 판권 글로벌 수출입 디렉터"], 
-                ["국제 기구 및 NGO 한국 대표", "해외 자원 개발 및 에너지 사업 총괄", "글로벌 헬스케어 플랫폼 설립자"], 
-                ["국제 분쟁 중재 및 크로스보더 변호사", "빅데이터 기반 경영 전략 컨설턴트", "제약 및 바이오 임상 연구 총괄"], 
-                ["초거대 AI 및 머신러닝 디렉터", "미래 첨단 산업 R&D 수석", "거시 경제 및 미래학 싱크탱크 수장"] 
+            /* 1위 수 */ [ 
+                ["지식/콘텐츠 퍼블리싱 총괄", "뇌과학/인체 공학 연구소장", "해외 직접 투자(FDI) 전략가", "대형 제약사 신약 개발 R&D 총괄"], 
+                ["데이터 저널리즘 리더", "심리 상담/임상 치료 센터장", "미디어 판권 글로벌 수출입 디렉터", "빅데이터 기반 고객 관리(CRM) 총괄"], 
+                ["국제 기구(UN 등) 한국 대표", "해외 자원 개발/에너지 사업 총괄", "글로벌 헬스케어 플랫폼 설립자", "글로벌 해운/항만 물류 네트워크 총괄"], 
+                ["국제 분쟁 중재 크로스보더 변호사", "경영 전략 자문 컨설턴트", "바이오 임상 연구 데이터 총괄", "초국적 M&A 및 글로벌 세무 전략가"], 
+                ["초거대 AI/머신러닝 디렉터", "미래 첨단 산업 R&D 수석", "거시 경제/미래학 싱크탱크 수장", "스마트 물류 및 자율주행 모빌리티 기획자"] 
             ]
         ];
 
         const fusionJobsEn = [
             /* Wood */ [ 
-                ["Chief Technology Officer (CTO)", "New Business Development Executive", "Chief Human Resources Officer (CHO)"], 
-                ["Brand Marketing Director", "Creative Planning Leader", "Media & Content Strategist"], 
-                ["Platform Business General Manager", "Franchise Planning Director", "Smart City & Regional Infrastructure Designer"], 
-                ["Data-driven Product Owner (PO)", "Management Strategy Consulting Partner", "Tech Startup Founder"], 
-                ["Global Business & Overseas Sales Head", "UX/UI Research Director", "Future Trend & Insight Institute Head"] 
+                ["Chief Technology Officer (CTO)", "New Business Development Exec", "Chief HR Officer (CHO)", "Edutech Platform Founder"], 
+                ["Brand Marketing Director", "Creative Planning Leader", "Media Content Strategist", "Global PR & Communications Head"], 
+                ["Platform Business General Manager", "Franchise Planning Director", "Smart City Designer", "Mega Commercial Space Planning Director"], 
+                ["Data-driven Product Owner (PO)", "Management Consulting Partner", "Tech Startup Founder", "Digital Fintech Innovation Leader"], 
+                ["Global Overseas Sales Head", "UX/UI Research Director", "Future Trend Institute Head", "Global Vision & Strategy (CSO) Exec"] 
             ],
             /* Fire */ [ 
-                ["Innovative Art Director", "Startup Accelerator & VC Investor", "Broadcasting & New Media General Director"], 
-                ["Entertainment Chief Vision Officer (CVO)", "Global Sales & Trade Head", "Personal Branding & PR Specialist"], 
-                ["Cultural Space Planning Director", "Mega Convention (MICE) & Event Head", "Community & Membership Platform Leader"], 
-                ["Premium Luxury Brand Manager", "Crisis Management & Communications Executive", "Customer Data-driven Marketing Director"], 
-                ["Polling & Campaign Strategist", "Consumer Behavior Psychology Expert", "Intellectual Property (IP) Business Head"] 
+                ["Innovative Art Director", "Venture Investor & Accelerator", "Broadcasting & New Media Head", "Digital Creator Network Head"], 
+                ["Entertainment Chief Vision Officer", "Global Sales General Manager", "Personal Branding Specialist", "Mega K-Content IP Producer"], 
+                ["Cultural Space Planning Director", "Mega Convention (MICE) Head", "Community Platform Leader", "Premium Hospitality Marketing Leader"], 
+                ["Premium Luxury Brand Manager", "Crisis Management Exec", "Customer Data-driven Marketing Director", "Large Retail Performance Marketing Partner"], 
+                ["Polling & Campaign Strategist", "Consumer Behavior Expert", "IP Business Head", "Ergonomics & Affective Computing Researcher"] 
             ],
             /* Earth */ [ 
-                ["ESG & Sustainability Leader", "Organizational Culture Innovation Executive", "Local-based Business Planner"], 
-                ["Hospitality & Resort General Manager", "Corporate Internal Communications Leader", "FMCG Business Division Head"], 
-                ["Real Estate & Asset Management Director", "Mega Construction & Development Project Head", "Public Project & Infrastructure Manager"], 
-                ["Chief Financial Officer (CFO)", "Corporate M&A Strategist", "Chief Supply Chain Officer (CSCM)"], 
-                ["Large B2B Partnership Head", "Senior & Silver Industry Business Director", "Multinational Corporation Country Manager"] 
+                ["ESG & Sustainability Leader", "Culture Innovation Exec", "Local Business Planner", "Large NGO/Non-profit Secretary General"], 
+                ["Resort General Manager", "Internal Comm Leader", "FMCG Business Division Head", "Global Franchise Operations Head"], 
+                ["Asset Management (AMC) Director", "Construction Project Head", "Public Infrastructure Manager", "Senior/Silver Town Director"], 
+                ["Chief Financial Officer (CFO)", "Corporate M&A Strategist", "Chief Supply Chain Officer (CSCM)", "Commercial/Corporate Banking Head"], 
+                ["Large B2B Partnership Head", "Senior Business Director", "Multinational Country Manager", "Govt Global Resource Development Head"] 
             ],
             /* Metal */ [ 
-                ["Tech Patent & IP Strategy Partner", "Deep Tech Venture Capitalist (VC)", "Corporate Turnaround & Restructuring Head"], 
-                ["Corporate Legal & Risk Management Executive", "High-end Auction & Art Dealer", "Precision Medical & Healthcare Marketing Director"], 
-                ["Major Law Firm Senior Partner", "Investment Banking (IB) Director", "Quality Control (QC) & Compliance Head"], 
-                ["Chief Information Security Officer (CISO)", "Data Science & AI Authority", "Quant Investment & Algo-Trading Leader"], 
-                ["Global Tax & Financial Strategy Partner", "Blockchain & Crypto Ecosystem Designer", "Precision Engineering & High-tech Chief Researcher"] 
+                ["Tech Patent & IP Partner", "Deep Tech VC", "Corporate Restructuring Head", "High-end Auction/Art Dealer"], 
+                ["Corporate Legal & Risk Exec", "Precision Medical Marketing Director", "Chief Info Security Officer (CISO)", "Chief Compliance Officer"], 
+                ["Major Law Firm Senior Partner", "Investment Banking (IB) Director", "QC & Compliance Head", "Macro Data Analysis & Risk Manager"], 
+                ["Data Science/AI Authority", "Quant Investment Leader", "Global Tax/Financial Partner", "Precision Hardware Chief Engineer"], 
+                ["Blockchain Ecosystem Designer", "Precision Engineering Chief Researcher", "National Project Audit Chairman", "Aerospace/Future Tech Director"] 
             ],
             /* Water */ [ 
-                ["Knowledge & Content Publishing Head", "Brain Science & Ergonomics Institute Head", "Foreign Direct Investment (FDI) Strategist"], 
-                ["Data Journalism & Polling Leader", "Psychotherapy & Clinical Center Head", "Global Media Rights Import/Export Director"], 
-                ["International Organization/NGO Regional Rep", "Overseas Resource & Energy Business Head", "Global Healthcare Platform Founder"], 
-                ["Intl. Dispute Arbitration & Cross-border Lawyer", "Big Data-based Management Strategy Consultant", "Pharma & Bio Clinical Research Head"], 
-                ["Hyper-scale AI & Machine Learning Director", "Future High-tech Industry R&D Chief", "Macroeconomics & Futurology Think Tank Head"] 
+                ["Knowledge Publishing Head", "Brain Science Institute Head", "Foreign Direct Investment (FDI) Strategist", "Big Pharma R&D Head"], 
+                ["Data Journalism Leader", "Clinical Therapy Center Head", "Global Media Rights Import/Export Director", "Big Data CRM Head"], 
+                ["International Org Regional Rep", "Overseas Energy Business Head", "Global Healthcare Platform Founder", "Global Shipping/Logistics Network Head"], 
+                ["Intl Dispute Arbitration Lawyer", "Management Strategy Consultant", "Bio Clinical Research Head", "Transnational M&A Tax Strategist"], 
+                ["Hyper-scale AI/ML Director", "Future Tech R&D Chief", "Macroeconomics Think Tank Head", "Smart Logistics & Autonomous Mobility Planner"] 
             ]
         ];
-   const finalJobKo = jobModifiersKo[modifierIdx] + " " + fusionJobsKo[top1Idx_C][top2Idx_C][varIdx3];
-        const finalJobEn = jobModifiersEn[modifierIdx] + " " + fusionJobsEn[top1Idx_C][top2Idx_C][varIdx3];
+
+        // 💡 4-5. 3단 조립 완성 (역량 + 무대 + 직업)
+        const finalJobKo = jobMod1Ko[mod1Idx] + " " + jobMod2Ko[varIdx20] + " <b>" + fusionJobsKo[top1Idx_C][top2Idx_C][varIdx4] + "</b>";
+        const finalJobEn = jobMod1En[mod1Idx] + " " + jobMod2En[varIdx20] + " as a <b>" + fusionJobsEn[top1Idx_C][top2Idx_C][varIdx4] + "</b>";
    // 💡 5. 최종 운명 서사 조립 (맥락 충돌 방지 및 5점 척도 완벽 연동)
         const elNamesKo_C = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
         const elNamesEn_C = ["Wood", "Fire", "Earth", "Metal", "Water"];
@@ -1021,12 +1035,12 @@ function switchTab(mode, element) {
             `by strictly guarding against your greatest Achilles' heel, the <b>${elNamesEn_C[top5Idx_C]}</b> energy,`
         ];
 
-        const blockCKo = `당신의 전체적인 에너지 분포는 ${energyShapeKo} 형상을 띠고 있습니다. 당신은 제1 강점인 <b>${elNamesKo_C[top1Idx_C]}</b>의 기운을 바탕으로 ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘할 수 있는 사람입니다. 여기에 나만의 무기인 <b>${elNamesKo_C[top2Idx_C]}</b>의 <b>${top2SkillKo[top2Idx_C][top5Idx_C]}</b> 기술을 더하고, ${weaknessIntroArrKo[boostLevelC]} <b>${top5RiskKo[top5Idx_C][top5Severity]}</b>의 위험을 스스로 통제해 내야 합니다. 이러한 강점과 약점의 운명공학적 조율를 통해 <b>${finalJobKo}</b> 분야에서 당신의 잠재력을 증명해 보시기 바랍니다.`;
+        // 💡 5. 최종 운명 서사 조립 (대표님 지정 문체 적용 및 운명공학적 조율 강조)
+        const blockCKo = `당신의 전체적인 에너지 분포는 ${energyShapeKo} 형상을 띠고 있습니다. 탁월한 강점인 <b>${elNamesKo_C[top1Idx_C]}</b>의 기운을 바탕으로 ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘할 수 있는 사람입니다. 여기에 나만의 무기인 <b>${elNamesKo_C[top2Idx_C]}</b>의 <b>${top2SkillKo[top2Idx_C][top5Idx_C]}</b> 기술을 더하고, ${weaknessIntroArrKo[boostLevelC]} <b>${top5RiskKo[top5Idx_C][top5Severity]}</b>의 위험을 스스로 통제해 내야 합니다. 이러한 강점과 약점의 운명공학적 조율을 통해 ${finalJobKo} 분야에서 당신의 잠재력을 증명해 보시기 바랍니다.`;
         
-        const blockCEn = `Your overall energy distribution takes the shape of ${energyShapeEn}. Based on your primary strength of <b>${elNamesEn_C[top1Idx_C]}</b>, you can manifest the <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> <b>${top1ScaleEn}</b>. By adding the skill of <b>${elNamesEn_C[top2Idx_C]}</b>'s <b>${top2SkillEn[top2Idx_C][top5Idx_C]}</b> and ${weaknessIntroArrEn[boostLevelC]} overcoming the risk of <b>${top5RiskEn[top5Idx_C][top5Severity]}</b>, you will achieve success. Through this organic harmony of strengths and weaknesses, challenging yourself as a <b>${finalJobEn}</b> will prove your true potential.`;
+        const blockCEn = `Your overall energy distribution takes the shape of ${energyShapeEn}. Based on your outstanding strength of <b>${elNamesEn_C[top1Idx_C]}</b>, you are someone who can manifest the <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> <b>${top1ScaleEn}</b>. By adding your unique weapon, the <b>${elNamesEn_C[top2Idx_C]}</b>'s <b>${top2SkillEn[top2Idx_C][top5Idx_C]}</b>, and ${weaknessIntroArrEn[boostLevelC]} overcoming the risk of <b>${top5RiskEn[top5Idx_C][top5Severity]}</b>, you must take control. Through this destiny-engineering tuning of strengths and weaknesses, please prove your true potential ${finalJobEn}.`;
 
         let blockC = currentLang === 'ko' ? blockCKo : blockCEn;
-
     // 💡 3개의 블록 조립
     const analysisText = `${blockA} ${blockB}`;  
     const missionText = `${blockC}`;
