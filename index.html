@@ -328,8 +328,8 @@ const termInfo = `${currentLang === 'ko' ? introKo : introEn} ${currentLang === 
     document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `${data.name}님의 분석 리포트` : `${data.name}'s Analysis Report`;
       
     // 🌍 명칭을 수리 격 특징과 어울리도록 세련되게 변경
-    const labelSuri = currentLang === 'ko' ? '🔮 수리격 특징' : '🔮 Suri Character';
-    const labelMonth = currentLang === 'ko' ? '🌍 탄생일 특징' : '🌍 Innate Core Temperament';
+    const labelSuri = currentLang === 'ko' ? '🔮 수리격:' : '🔮 Suri Character';
+    const labelMonth = currentLang === 'ko' ? '🌍 탄생일:' : '🌍 Innate Core Temperament';
 
     
     const iljuTitleKo = `${data.iljuData.iljuName}`;
