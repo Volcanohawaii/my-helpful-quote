@@ -794,24 +794,26 @@ function switchTab(mode, element) {
 
     // 💡 3. 조립식 서사 사전 세팅 (2,250종 확장 데이터)
     
-    // [1] 제1기운의 특징 (1위 x 2위 융합)
+// 💡 3. 조립식 서사 사전 세팅 (2,250종 확장 데이터 - 고도화 버전)
+    
+    // [1] 제1기운의 특징 (1위 x 2위 융합: 나의 타고난 본질적 기질)
     const top1FeatureKo = [
-        /* 1위 목 */ ["한계를 모르는 폭발적 확장성을", "세상을 매료시키는 화려한 기획력을", "거대 시스템을 구축하는 웅장한 창조성을", "허점을 날카롭게 찌르는 혁신적 돌파력을", "어떤 환경에도 스며드는 유연한 성장판을"],
-        /* 1위 화 */ ["새로운 시장을 태워버릴 듯한 추진력을", "모든 시선을 압도하는 태양의 카리스마를", "대중의 신뢰를 바탕으로 한 폭넓은 장악력을", "불필요한 것을 태워버리는 단호한 열정을", "어둠 속에서도 길을 찾는 번뜩이는 통찰력을"],
-        /* 1위 토 */ ["무에서 유를 창조하는 비옥한 기획력을", "만인을 내 편으로 만드는 따뜻한 리더십을", "어떤 풍파에도 흔들리지 않는 절대적 포용력을", "명확한 원칙으로 세상을 다스리는 통제력을", "모든 지식을 흡수하고 포용하는 거대한 대지를"],
-        /* 1위 금 */ ["날카롭게 뻗어나가는 승부사적 기질을", "대중의 마음을 베어내는 예리한 매력을", "단단한 기반 위에서 빛나는 완벽주의를", "한 치의 오차도 허용하지 않는 절대적 결단력을", "보이지 않는 본질까지 꿰뚫어 보는 통찰의 검을"],
-        /* 1위 수 */ ["거침없이 뻗어 나가는 지혜의 폭포수를", "열정과 냉정을 자유롭게 오가는 전략적 마인드를", "모든 것을 수용하며 중심을 잡는 유연성을", "위기 앞에서도 평정심을 잃지 않는 냉철함을", "속을 알 수 없는 심연의 바다 같은 장악력을"]
+        /* 1위 목 */ ["한계를 모르는 폭발적 확장성을", "대중의 마음을 움직이는 독창적 기획력을", "거대 시스템의 뿌리를 내리는 웅장한 창조성을", "정체된 판을 단숨에 깨뜨리는 혁신적 돌파력을", "어떤 환경에서도 생존로를 찾아내는 유연한 성장판을"],
+        /* 1위 화 */ ["새로운 시장을 선점하는 뜨거운 추진력을", "모든 시선을 한곳으로 모으는 압도적 카리스마를", "사람과 사람을 열정으로 잇는 폭넓은 장악력을", "본질과 허상을 선명하게 가려내는 예리한 분별력을", "어둠 속에서 비전을 제시하는 번뜩이는 직관력을"],
+        /* 1위 토 */ ["무에서 유를 창조하는 비옥한 기획력을", "만인을 내 편으로 만드는 포용력 있는 리더십을", "어떤 위기에도 흔들리지 않는 절대적 안정감을", "명확한 질서로 조직을 운영하는 견고한 통제력을", "방대한 지식을 흡수하고 갈무리하는 거대한 대지를"],
+        /* 1위 금 */ ["승부를 한발 앞서 결정짓는 승부사적 기질을", "불필요한 군더더기를 걷어내는 예리한 매력을", "단단한 논리 위에서 빛나는 완벽주의를", "한 치의 오차도 허용하지 않는 철저한 결단력을", "보이지 않는 핵심까지 꿰뚫어 보는 통찰의 검을"],
+        /* 1위 수 */ ["거침없이 뻗어 나가는 지혜의 폭포수를", "열정과 냉정을 전략적으로 운용하는 마인드를", "모든 상황에 유연하게 스며드는 처세술을", "위기 앞에서도 평정심을 유지하는 냉철함을", "속을 알 수 없는 심연의 바다 같은 장악력을"]
     ];
 
     const top1FeatureEn = [
-        ["explosive scalability without limits", "brilliant planning that captivates", "grand creativity building systems", "innovative breakthrough power", "flexible growth plate"],
-        ["drive that burns down new markets", "sun-like charisma overwhelming eyes", "broad dominance based on trust", "resolute passion burning the unnecessary", "flashing insight finding paths"],
-        ["fertile planning creating from nothing", "warm leadership bringing everyone", "absolute embrace unshaken by storms", "control ruling with clear principles", "massive land absorbing knowledge"],
-        ["sharply extending competitive temper", "keen charm cutting through hearts", "perfectionism on a solid foundation", "absolute decisiveness with no error", "sword of insight piercing essence"],
-        ["relentlessly flowing waterfall of wisdom", "strategic mind crossing passion and cool", "flexibility holding the center", "cool-headedness keeping composure", "unfathomable abyss-like dominance"]
+        ["explosive scalability without limits", "original planning that moves people", "grand creativity rooting massive systems", "innovative breakthrough power", "flexible growth plate for any environment"],
+        ["hot drive to seize new markets", "overwhelming charisma drawing all eyes", "broad dominance connecting people with passion", "sharp discernment distinguishing essence from illusion", "flashing intuition presenting a clear vision"],
+        ["fertile planning creating from nothing", "inclusive leadership winning hearts", "absolute stability unshaken by crisis", "solid control operating organizations with order", "massive land absorbing and archiving knowledge"],
+        ["competitive temper deciding the win ahead", "keen charm stripping away the unnecessary", "perfectionism shining on solid logic", "absolute decisiveness allowing no error", "sword of insight piercing invisible cores"],
+        ["relentlessly flowing waterfall of wisdom", "strategic mind operating passion and cool", "flexible tact seeping into any situation", "cool-headedness keeping composure against crisis", "unfathomable abyss-like dominance"]
     ];
 
-    // [2] 제1기운의 강도 (5점 척도 기반 스케일)
+    // [2] 제1기운의 강도 (5점 척도 기반 스케일 - 문체 정교화)
     let top1ScaleKo = ""; let top1ScaleEn = "";
     if (top1Score_C >= 120) { top1ScaleKo = "시장의 룰을 재정의하는 대체 불가능한 스케일로"; top1ScaleEn = "on an irreplaceable scale redefining market rules"; }
     else if (top1Score_C >= 90) { top1ScaleKo = "조직과 업계를 선도하는 압도적인 파급력으로"; top1ScaleEn = "with overwhelming impact leading the industry"; }
@@ -819,38 +821,38 @@ function switchTab(mode, element) {
     else if (top1Score_C >= 40) { top1ScaleKo = "남들이 놓치는 빈틈을 정확히 파고드는 예리한 전략으로"; top1ScaleEn = "with sharp strategy targeting gaps others miss"; }
     else { top1ScaleKo = "특정 니치 마켓을 독점하는 고도의 정밀한 타겟팅으로"; top1ScaleEn = "with highly precise targeting monopolizing niche markets"; }
 
-    // [3] 제2기운의 기술 (2위 x 5위 약점 방어)
+    // [3] 제2기운의 기술 (2위 x 5위 약점 방어: 나만의 특화 무기)
     const top2SkillKo = [
-        /* 2위 목 */ ["스스로 동기를 부여하는 돌파력의", "지치지 않고 에너지를 재생산하는 생명력의", "낡은 관습을 부수고 나아가는 개척의", "관계의 벽을 허물고 다가가는 친화력의", "고착된 상황에 유연함을 불어넣는 기획의"],
-        /* 2위 화 */ ["주저할 때 과감히 방아쇠를 당기는 열정의", "어둠 속에서 확신을 주는 카리스마의", "대중의 이목을 집중시켜 판을 키우는 매력의", "맺고 끊음을 명확히 하여 손실을 막는 결단력의", "보이지 않는 마음의 벽을 녹이는 공감의"],
+        /* 2위 목 */ ["스스로 동기를 부여하는 돌파력의", "에너지를 끊임없이 재생산하는 생명력의", "낡은 관습을 부수고 나아가는 개척의", "관계의 벽을 허물고 다가가는 친화력의", "고착된 상황에 생기를 불어넣는 기획의"],
+        /* 2위 화 */ ["주저할 때 과감히 방아쇠를 당기는 열정의", "불안을 잠재우고 확신을 주는 카리스마의", "대중의 이목을 집중시켜 판을 키우는 매력의", "사물의 가치와 옳고 그름을 밝히는 분별력의", "마음의 장벽을 순식간에 녹여내는 공감의"],
         /* 2위 토 */ ["흔들리는 목표를 굳건히 잡아주는 안정감의", "들뜬 감정을 차분히 가라앉히는 평정심의", "흩어진 자원을 하나로 모으는 응집력의", "예리한 갈등을 부드럽게 무마하는 포용의", "급변하는 상황 속에서 중심을 지키는 무게감의"],
         /* 2위 금 */ ["복잡한 문제를 단칼에 정리하는 분석력의", "불필요한 감정 소모를 차단하는 냉철함의", "느슨해진 조직에 긴장감을 부여하는 규율의", "손해를 과감히 잘라내는 리스크 관리의", "원칙을 세워 무질서를 바로잡는 통제력의"],
         /* 2위 수 */ ["상황에 맞게 태도를 바꾸는 유연한 처세의", "막힌 길을 우회하여 결국 도달하는 지혜의", "드러나지 않게 판을 움직이는 전략적", "대립하는 에너지를 조화롭게 섞어내는 융화의", "먼 미래를 내다보고 대비하는 깊은 통찰의"]
     ];
 
     const top2SkillEn = [
-        ["breakthrough power of self-motivation", "vitality of reproducing energy", "pioneering skill breaking customs", "sociability breaking walls", "planning skill infusing flexibility"],
-        ["passion pulling the trigger", "charisma giving certainty", "charm scaling up by attention", "decisiveness preventing loss", "empathy melting mental walls"],
-        ["stability holding shaking goals", "composure calming emotions", "cohesion gathering resources", "embrace smoothing conflicts", "weight holding the center in change"],
-        ["analytical skill organizing problems", "cool-headedness blocking emotional drain", "discipline imparting tension", "risk management cutting losses", "control correcting disorder"],
-        ["flexible tact changing attitudes", "wisdom reaching the goal by bypass", "strategic skill moving the board", "harmony blending opposing energies", "insight foreseeing the distant future"]
+        ["breakthrough power of self-motivation", "vitality of constantly reproducing energy", "pioneering skill breaking old customs", "sociability breaking walls of relationships", "planning skill infusing life into stagnation"],
+        ["passion pulling the trigger in hesitation", "charisma giving certainty over anxiety", "charm scaling up the board by attention", "discernment revealing value and right/wrong", "empathy melting mental walls instantly"],
+        ["stability holding shaking goals firmly", "composure calming down excited emotions", "cohesion gathering scattered resources", "embrace smoothing over sharp conflicts", "weight holding the center in change"],
+        ["analytical skill organizing problems at once", "cool-headedness blocking emotional drain", "discipline imparting tension to looseness", "risk management cutting away losses boldly", "control correcting disorder with principles"],
+        ["flexible tact changing attitudes as needed", "wisdom reaching goals by bypassing obstacles", "strategic skill moving the board invisibly", "harmony blending opposing energies", "deep insight foreseeing the distant future"]
     ];
 
-    // [4] 제5기운의 위험 (꼴찌 오행 x 점수대 5단계 = 25종 초정밀 진단)
+    // [4] 제5기운의 위험 (꼴찌 오행 x 점수대 5단계: 아킬레스건 진단)
     let top5Severity = top5Score_C < 20 ? 0 : (top5Score_C < 40 ? 1 : (top5Score_C < 60 ? 2 : (top5Score_C < 80 ? 3 : 4)));
     const top5RiskKo = [
-        /* 목 약점 */ ["시작조차 두려워하는 극도의 실행력 부족", "계획만 세우고 실천하지 못하는 만성적 미루기", "마무리가 흐지부지되는 용두사미의 함정", "속도를 내다가 중요한 디테일을 놓치는 조급함", "성장만 추구하다 주변을 피곤하게 하는 과열"],
-        /* 화 약점 */ ["아무런 의욕을 느끼지 못하는 심각한 번아웃", "작은 난관에도 쉽게 포기해버리는 뒷심 부족", "감정 기복으로 인해 스스로 기회를 걷어차는 충동성", "타인의 시선에 지나치게 얽매이는 체면치레", "과도한 열정으로 인한 페이스 조절 실패"],
-        /* 토 약점 */ ["어떤 결정도 내리지 못하고 표류하는 극도의 우유부단함", "작은 변화에도 크게 흔들리는 불안정한 기반", "과거의 성공 방식에 얽매여 정체되는 고집", "거절하지 못해 불필요한 짐까지 떠안는 오지랖", "지나친 신중함으로 인해 타이밍을 놓치는 만만디"],
-        /* 금 약점 */ ["상처받는 것이 두려워 모든 관계를 차단하는 고립감", "맺고 끊지 못해 손실을 눈덩이처럼 키우는 미련", "비판에 과도하게 예민해져 방어적으로 변하는 태도", "원칙만 따지다 융통성을 잃고 고립되는 깐깐함", "타인의 작은 실수조차 용납하지 못하는 완벽주의"],
-        /* 수 약점 */ ["변화에 적응하지 못하고 완전히 도태되는 경직성", "상황에 휩쓸려 자신의 주관을 잃어버리는 수동성", "생각이 너무 많아 행동으로 옮기지 못하는 공상", "비밀주의로 인해 타인의 오해를 사는 소통 부재", "모든 것을 수용하려다 정체성을 잃는 무경계성"]
+        /* 목 약점 */ ["시작조차 두려워하는 극도의 실행력 부족", "계획만 세우고 실천하지 못하는 만성적 미루기", "마무리가 흐지부지되는 용두사미의 함정", "속도를 내다가 중요한 디테일을 놓치는 조급함", "성장에만 집착하다 주변을 번아웃시키는 과열"],
+        /* 화 약점 */ ["아무런 의욕을 느끼지 못하는 심각한 무기력", "작은 난관에도 열정이 식어버리는 뒷심 부족", "감정 기복으로 인해 기회를 스스로 걷어차는 충동성", "자신의 본모습보다 타인의 평가에 휘둘리는 체면치레", "조절되지 않는 열정으로 페이스를 잃는 과욕"],
+        /* 토 약점 */ ["어떤 결정도 내리지 못하고 표류하는 우유부단함", "작은 변화에도 기반이 무너지는 불안정한 환경", "과거의 성공 방식에 갇혀 정체되는 고집", "거절하지 못해 남의 짐까지 떠안는 과도한 희생", "지나친 신중함으로 인해 기회를 놓치는 만만디"],
+        /* 금 약점 */ ["관계의 상처가 두려워 벽을 쌓는 자발적 고립", "단호히 끊어내지 못해 손해를 키우는 미련", "비판에 과도하게 방어적으로 변하는 예민함", "원칙 없는 처세로 신뢰를 잃고 흔들리는 기반", "타인의 작은 실수조차 용납하지 못하는 결벽주의"],
+        /* 수 약점 */ ["변화에 적응하지 못하고 고립되는 사고의 경직성", "주관 없이 상황에 휩쓸려 다니는 수동성", "생각만 하다가 행동의 기회를 놓치는 공상", "폐쇄적인 태도로 오해를 자초하는 불통", "모든 것을 수용하려다 자기 색깔을 잃는 무경계성"]
     ];
     const top5RiskEn = [
-        ["extreme lack of execution fearing the start", "chronic procrastination without action", "trap of an anti-climactic ending", "impatience of missing details while rushing", "overheating of exhausting others"],
-        ["severe burnout feeling no motivation", "lack of persistence giving up at minor hurdles", "impulsiveness kicking away opportunities", "obsession with saving face", "failure to pace oneself due to passion"],
-        ["extreme indecisiveness drifting without decisions", "unstable foundation shaken by minor changes", "stubbornness stagnating by past success", "meddling by taking on unnecessary burdens", "missing timing due to excessive caution"],
-        ["isolation blocking relationships out of fear", "lingering attachment snowballing losses", "defensive attitude overly sensitive to criticism", "strictness losing flexibility by principles", "perfectionism unable to tolerate minor mistakes"],
-        ["rigidity falling behind unable to adapt", "passivity losing principles swept by situations", "daydreaming unable to act due to overthinking", "lack of communication causing misunderstandings", "boundlessness losing identity"]
+        ["extreme lack of execution fearing the start", "chronic procrastination without action", "trap of an anti-climactic ending", "impatience of missing details while rushing", "overheating of exhausting others for growth"],
+        ["severe lethargy feeling no motivation", "lack of persistence with fading passion", "impulsiveness kicking away opportunities", "obsession with reputation over true self", "greed losing pace due to uncontrolled heat"],
+        ["indecisiveness drifting without any decision", "unstable environment shaken by minor changes", "stubbornness stagnating in past success", "excessive sacrifice by taking others' burdens", "missing timing due to excessive caution"],
+        ["voluntary isolation building walls from fear", "lingering attachment snowballing losses", "defensiveness overly sensitive to criticism", "shaking foundation losing trust without principles", "perfectionism unable to tolerate minor mistakes"],
+        ["rigidity of thought unable to adapt", "passivity losing subjectivity by situations", "daydreaming missing action due to overthinking", "lack of communication causing misunderstandings", "boundlessness losing identity by accepting all"]
     ];
 
 /// 💡 4-1. [운명공학 3단 조립기] 1위, 2위 강점과 81수리를 교차 계산하는 알고리즘
