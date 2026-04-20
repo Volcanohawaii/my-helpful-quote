@@ -955,21 +955,21 @@ function switchTab(mode, element) {
                 ["Shipping/Air Cargo Transport", "Water/Sewage/Purification Manager", "Deep-sea Fishing/Fishery Worker", "Basic Science/Climate Researcher", "Maritime Transport/Logistics Warehouse", "Meteorological Civil Servant/Caster", "Philosophy/Divination Shop Owner", "Deep-sea/Ocean Exploration Research", "Seafood/Raw Fish Restaurant Operator", "Traditional Destiny/Myungri Scholar"] 
             ]
         ];
-      // 💡 4-4. [동적 다중 추출 알고리즘] 1위x2위 강점 배열에서 안전하게 5개의 직업을 중복 없이 추출
+      // 💡 4-4. [핵심 직업 고정 + 다중 추출 알고리즘]
         const targetJobsKo = fusionJobsKo[top1Idx_C][top2Idx_C];
         const targetJobsEn = fusionJobsEn[top1Idx_C][top2Idx_C];
         
-        // 대표님이 직업을 늘리셔도 에러가 나지 않도록 배열 길이를 자동 인식합니다.
+        // 1. 해당 오행 조합의 뼈대가 되는 '핵심 직업 2개(0번, 1번)'는 무조건 확보하여 매칭 오류 원천 차단
+        let selectedIndices = [0, 1]; 
+        
+        // 2. 나머지 3개의 직업만 수리 파동(seed)에 따라 랜덤하게 섞어 5개를 채움
         const poolSize = targetJobsKo.length; 
-        const extractCount = Math.min(5, poolSize); // 5개 추출 (데이터가 부족하면 있는 만큼만)
+        const extractCount = Math.min(5, poolSize);
         const seed = session.num81 + birthMonth;
-        
-        // 겹치지 않는 고유 인덱스 5개 안전하게 뽑기 (수학적 겹침 방지)
-        let selectedIndices = [];
         let step = 0;
-        const offsets = [0, 3, 7, 11, 17, 23]; 
+        const offsets = [3, 7, 11, 17, 23]; 
         
-        while(selectedIndices.length < extractCount) {
+        while(selectedIndices.length < extractCount && selectedIndices.length < poolSize) {
             let candidateIdx = (seed + offsets[step % offsets.length] + step) % poolSize;
             if(!selectedIndices.includes(candidateIdx)) {
                 selectedIndices.push(candidateIdx);
@@ -977,11 +977,11 @@ function switchTab(mode, element) {
             step++;
         }
 
-        // 뽑힌 인덱스를 바탕으로 5개의 직업명을 가져와 콤마(,)로 연결
+        // 뽑힌 5개의 인덱스를 바탕으로 직업명 매칭
         const pickedJobsKo = selectedIndices.map(idx => targetJobsKo[idx]).join(", ");
         const pickedJobsEn = selectedIndices.map(idx => targetJobsEn[idx]).join(", ");
 
-        // 💡 4-5. 최종 조립 완성 (대표님의 기존 변수명과 문장 구조 100% 유지!)
+        // 💡 4-5. 최종 조립 완성 (대표님의 기존 순정 코드 100% 원상복구. 어떠한 글자도 임의로 추가하지 않음)
         const finalJobKo = jobMod1Ko[mod1Idx] + " <b>[" + pickedJobsKo + "]</b> 등 관련";
         const finalJobEn = "<b>[" + pickedJobsEn + "]</b> (and related fields) " + jobMod1En[mod1Idx];
 
