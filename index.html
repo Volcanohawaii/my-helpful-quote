@@ -971,10 +971,9 @@ function switchTab(mode, element) {
         const seed = session.num81 + birthMonth;
         let selectedIndices = [];
         let step = 0;
-        const offsets = [1, 3, 4, 7, 9]; 
-        
-        while(selectedIndices.length < extractCount) {
-            let candidateIdx = (seed + offsets[step % offsets.length] + step) % 5;
+     
+       while(selectedIndices.length < extractCount) {
+            let candidateIdx = (seed + step * 3) % 5; 
             if(!selectedIndices.includes(candidateIdx)) {
                 selectedIndices.push(candidateIdx);
             }
