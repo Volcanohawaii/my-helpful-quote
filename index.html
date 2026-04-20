@@ -792,7 +792,6 @@ function switchTab(mode, element) {
         energyShapeEn = "a <b>'Strategic Networker'</b> who gains benefits by connecting people and capital";
     }
 
-    // 💡 3. 조립식 서사 사전 세팅 (2,250종 확장 데이터)
     
 // 💡 3. 조립식 서사 사전 세팅 (2,250종 확장 데이터 - 고도화 버전)
     
@@ -958,23 +957,32 @@ function switchTab(mode, element) {
                 ["Shipping/Air Cargo Biz", "Maritime Transport/Warehouse", "Deep-sea Fishery Biz", "Seafood Restaurant Owner", "Water/Sewage Manager", "Meteorological Official", "Basic Science/Climate R&D", "Philosophy Shop Owner", "Deep-sea Explorer", "Traditional Destiny Scholar"] 
             ]
         ];
-// 💡 4-4. [음양오행 투 트랙 스위치 엔진] 
-        const realityScore = session.elementScores[2] + session.elementScores[3]; // 토+금 합산
-        const humanScore = session.elementScores[0] + session.elementScores[1] + session.elementScores[4]; // 목+화+수 합산
+// 💡 4-4. [오행 관계형 트랙 결정 시스템] 
+        // 1위 강점과 2위 무기가 서로 '충돌(극)'하는지 '순행(생)'하는지 판단하는 지능형 매트릭스
+        // true: A트랙(비즈니스/현장), false: B트랙(교육/가치/행정)
+        const relationMatrix = [
+            /* 1위 목(0) */ [false, false, true,  true,  false], // 목vs토, 목vs금은 충돌(A)
+            /* 1위 화(1) */ [false, false, false, true,  true ], // 화vs금, 화vs수는 충돌(A)
+            /* 1위 토(2) */ [true,  false, false, false, true ], // 토vs목, 토vs수는 충돌(A)
+            /* 1위 금(3) */ [true,  true,  false, false, false], // 금vs목, 금vs화는 충돌(A)
+            /* 1위 수(4) */ [false, true,  true,  false, false]  // 수vs화, 수vs토는 충돌(A)
+        ];
 
-        // 현실 점수가 높으면 A트랙(비즈니스), 낮으면 B트랙(가치중심)
-        const isTrackA = (realityScore >= humanScore);
+        // 🎯 [지능형 스위치] 점수 합산이 아닌 '오행의 관계'로 트랙을 결정합니다.
+        const isTrackA = relationMatrix[top1Idx_C][top2Idx_C];
         const startIndex = isTrackA ? 0 : 5;
 
+        // 선택된 트랙에 맞는 직업군 5개를 잘라옵니다.
         const trackJobsKo = fusionJobsKo[top1Idx_C][top2Idx_C].slice(startIndex, startIndex + 5);
         const trackJobsEn = fusionJobsEn[top1Idx_C][top2Idx_C].slice(startIndex, startIndex + 5);
-      
+        
+        // 5개 중 중복 없이 5개를 안전하게 추출 (무한 로딩 방지 공식 적용)
         const extractCount = 5; 
         const seed = session.num81 + birthMonth;
         let selectedIndices = [];
         let step = 0;
-     
-       while(selectedIndices.length < extractCount) {
+        
+        while(selectedIndices.length < extractCount) {
             let candidateIdx = (seed + step * 3) % 5; 
             if(!selectedIndices.includes(candidateIdx)) {
                 selectedIndices.push(candidateIdx);
@@ -984,6 +992,10 @@ function switchTab(mode, element) {
 
         const pickedJobsKo = selectedIndices.map(idx => trackJobsKo[idx]).join(", ");
         const pickedJobsEn = selectedIndices.map(idx => trackJobsEn[idx]).join(", ");
+
+        // 💡 4-5. 최종 조립 완성 (대표님 순정 문장 틀 유지)
+        const finalJobKo = jobMod1Ko[mod1Idx] + " <b>[" + pickedJobsKo + "]</b> 등 관련";
+        const finalJobEn = "<b>[" + pickedJobsEn + "]</b> (and related fields) " + jobMod1En[mod1Idx];
 
         // 💡 4-5. 최종 조립 완성
         const finalJobKo = jobMod1Ko[mod1Idx] + " <b>[" + pickedJobsKo + "]</b> 등 관련";
