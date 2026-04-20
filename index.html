@@ -757,109 +757,110 @@ function switchTab(mode, element) {
         else if (lackStr.includes("금")) top5Idx_C = 3;
         else if (lackStr.includes("수")) top5Idx_C = 4;
 
-        // 1-2. 전체 오행의 최종 합산 점수 정렬
-        const finalScoresWithIdx_C = session.elementScores.map((score, index) => {
+// 💡 1-2. [수정됨] 전체 오행의 '선천 점수(사주 100%)' 정렬 (성명 간섭 원천 차단)
+        const baseScoresWithIdx_C = session.baseScores.map((score, index) => {
             return { score: score, index: index };
         });
-        finalScoresWithIdx_C.sort((a, b) => b.score - a.score);
+        baseScoresWithIdx_C.sort((a, b) => b.score - a.score);
 
-        // 1-3. 진짜 무기 추출 = 전체 오행 중 '약점(top5Idx_C)'을 제외한 나머지 중 1위, 2위 추출
-        // (약점은 평생 채워야 할 '목표'이므로, 내가 휘두를 '무기' 후보에서는 제외하는 것이 정석입니다)
-        const weapons = finalScoresWithIdx_C.filter(item => item.index !== top5Idx_C);
+        // 1-3. 진짜 무대 추출 = 약점을 제외한 선천 점수 1위, 2위
+        const stages = baseScoresWithIdx_C.filter(item => item.index !== top5Idx_C);
         
-        const top1Idx_C = weapons[0].index;
-        const top2Idx_C = weapons[1].index;
+        const top1Idx_C = stages[0].index;
+        const top2Idx_C = stages[1].index;
 
-        const top1Score_C = session.elementScores[top1Idx_C];
-        const top2Score_C = session.elementScores[top2Idx_C];
-        const top5Score_C = session.elementScores[top5Idx_C]; // 진짜 약점의 현재 점수
+        const top1Score_C = session.baseScores[top1Idx_C];
+        const top2Score_C = session.baseScores[top2Idx_C];
+        const top5Score_C = session.elementScores[top5Idx_C]; // 약점 극복 여부는 성명 포함 점수로 확인
 
-    // 💡 2. 에너지 분포도(Shape) 판독 : 4대 성공 시나리오
-    let energyShapeKo = "";
-    let energyShapeEn = "";
-    
-    if (top1Score_C - top2Score_C >= 30) {
-        energyShapeKo = "한 우물만 파서 세상을 평정할 <b>'독보적 장인'</b>의";
-        energyShapeEn = "an <b>'Unrivaled Master'</b> who conquers the world by focusing on a single path";
-    } else if (top1Score_C >= 90 && top5Score_C < 50) {
-        energyShapeKo = "거친 위기를 기회로 바꾸며 파도를 타는 <b>'역전의 승부사'</b>의";
-        energyShapeEn = "a <b>'Game Changer'</b> who rides waves and turns crises into opportunities";
-    } else if (top5Score_C >= 60) {
-        energyShapeKo = "어떤 환경에서도 묵묵히 중심이 되어 판을 관리하는 <b>'시스템 운영자'</b>의";
-        energyShapeEn = "a <b>'System Director'</b> who silently manages the board in any environment";
-    } else {
-        energyShapeKo = "사람과 자본을 연결하여 거대한 실리를 챙기는 <b>'전략적 네트워커'</b>의";
-        energyShapeEn = "a <b>'Strategic Networker'</b> who gains benefits by connecting people and capital";
-    }
+        // 💡 2. 에너지 분포도(Shape) 판독 : 4대 성공 시나리오
+        let energyShapeKo = "";
+        let energyShapeEn = "";
+        
+        if (top1Score_C - top2Score_C >= 30) {
+            energyShapeKo = "한 우물만 파서 세상을 평정할 <b>'독보적 장인'</b>의";
+            energyShapeEn = "an <b>'Unrivaled Master'</b> who conquers the world by focusing on a single path";
+        } else if (top1Score_C >= 90 && top5Score_C < 50) {
+            energyShapeKo = "거친 위기를 기회로 바꾸며 파도를 타는 <b>'역전의 승부사'</b>의";
+            energyShapeEn = "a <b>'Game Changer'</b> who rides waves and turns crises into opportunities";
+        } else if (top5Score_C >= 60) {
+            energyShapeKo = "어떤 환경에서도 묵묵히 중심이 되어 판을 관리하는 <b>'시스템 운영자'</b>의";
+            energyShapeEn = "a <b>'System Director'</b> who silently manages the board in any environment";
+        } else {
+            energyShapeKo = "사람과 자본을 연결하여 거대한 실리를 챙기는 <b>'전략적 네트워커'</b>의";
+            energyShapeEn = "a <b>'Strategic Networker'</b> who gains benefits by connecting people and capital";
+        }
 
-    
-// 💡 3. 조립식 서사 사전 세팅 (2,250종 확장 데이터 - 고도화 버전)
-    
-    // [1] 제1기운의 특징 (1위 x 2위 융합: 나의 타고난 본질적 기질)
-    const top1FeatureKo = [
-        /* 1위 목 */ ["한계를 모르는 폭발적 확장성을", "대중의 마음을 움직이는 독창적 기획력을", "거대 시스템의 뿌리를 내리는 웅장한 창조성을", "정체된 판을 단숨에 깨뜨리는 혁신적 돌파력을", "어떤 환경에서도 생존로를 찾아내는 유연한 성장판을"],
-        /* 1위 화 */ ["새로운 시장을 선점하는 뜨거운 추진력을", "모든 시선을 한곳으로 모으는 압도적 카리스마를", "사람과 사람을 열정으로 잇는 폭넓은 장악력을", "본질과 허상을 선명하게 가려내는 예리한 분별력을", "어둠 속에서 비전을 제시하는 번뜩이는 직관력을"],
-        /* 1위 토 */ ["무에서 유를 창조하는 비옥한 기획력을", "만인을 내 편으로 만드는 포용력 있는 리더십을", "어떤 위기에도 흔들리지 않는 절대적 안정감을", "명확한 질서로 조직을 운영하는 견고한 통제력을", "방대한 지식을 흡수하고 갈무리하는 거대한 대지를"],
-        /* 1위 금 */ ["승부를 한발 앞서 결정짓는 승부사적 기질을", "불필요한 군더더기를 걷어내는 예리한 매력을", "단단한 논리 위에서 빛나는 완벽주의를", "한 치의 오차도 허용하지 않는 철저한 결단력을", "보이지 않는 핵심까지 꿰뚫어 보는 통찰의 검을"],
-        /* 1위 수 */ ["거침없이 뻗어 나가는 지혜의 폭포수를", "열정과 냉정을 전략적으로 운용하는 마인드를", "모든 상황에 유연하게 스며드는 처세술을", "위기 앞에서도 평정심을 유지하는 냉철함을", "속을 알 수 없는 심연의 바다 같은 장악력을"]
-    ];
+        // 💡 3. 조립식 서사 사전 세팅 (유지)
+        const top1FeatureKo = [
+            ["한계를 모르는 폭발적 확장성을", "대중의 마음을 움직이는 독창적 기획력을", "거대 시스템의 뿌리를 내리는 웅장한 창조성을", "정체된 판을 단숨에 깨뜨리는 혁신적 돌파력을", "어떤 환경에서도 생존로를 찾아내는 유연한 성장판을"],
+            ["새로운 시장을 선점하는 뜨거운 추진력을", "모든 시선을 한곳으로 모으는 압도적 카리스마를", "사람과 사람을 열정으로 잇는 폭넓은 장악력을", "본질과 허상을 선명하게 가려내는 예리한 분별력을", "어둠 속에서 비전을 제시하는 번뜩이는 직관력을"],
+            ["무에서 유를 창조하는 비옥한 기획력을", "만인을 내 편으로 만드는 포용력 있는 리더십을", "어떤 위기에도 흔들리지 않는 절대적 안정감을", "명확한 질서로 조직을 운영하는 견고한 통제력을", "방대한 지식을 흡수하고 갈무리하는 거대한 대지를"],
+            ["승부를 한발 앞서 결정짓는 승부사적 기질을", "불필요한 군더더기를 걷어내는 예리한 매력을", "단단한 논리 위에서 빛나는 완벽주의를", "한 치의 오차도 허용하지 않는 철저한 결단력을", "보이지 않는 핵심까지 꿰뚫어 보는 통찰의 검을"],
+            ["거침없이 뻗어 나가는 지혜의 폭포수를", "열정과 냉정을 전략적으로 운용하는 마인드를", "모든 상황에 유연하게 스며드는 처세술을", "위기 앞에서도 평정심을 유지하는 냉철함을", "속을 알 수 없는 심연의 바다 같은 장악력을"]
+        ];
 
-    const top1FeatureEn = [
-        ["explosive scalability without limits", "original planning that moves people", "grand creativity rooting massive systems", "innovative breakthrough power", "flexible growth plate for any environment"],
-        ["hot drive to seize new markets", "overwhelming charisma drawing all eyes", "broad dominance connecting people with passion", "sharp discernment distinguishing essence from illusion", "flashing intuition presenting a clear vision"],
-        ["fertile planning creating from nothing", "inclusive leadership winning hearts", "absolute stability unshaken by crisis", "solid control operating organizations with order", "massive land absorbing and archiving knowledge"],
-        ["competitive temper deciding the win ahead", "keen charm stripping away the unnecessary", "perfectionism shining on solid logic", "absolute decisiveness allowing no error", "sword of insight piercing invisible cores"],
-        ["relentlessly flowing waterfall of wisdom", "strategic mind operating passion and cool", "flexible tact seeping into any situation", "cool-headedness keeping composure against crisis", "unfathomable abyss-like dominance"]
-    ];
+        const top1FeatureEn = [
+            ["explosive scalability without limits", "original planning that moves people", "grand creativity rooting massive systems", "innovative breakthrough power", "flexible growth plate for any environment"],
+            ["hot drive to seize new markets", "overwhelming charisma drawing all eyes", "broad dominance connecting people with passion", "sharp discernment distinguishing essence from illusion", "flashing intuition presenting a clear vision"],
+            ["fertile planning creating from nothing", "inclusive leadership winning hearts", "absolute stability unshaken by crisis", "solid control operating organizations with order", "massive land absorbing and archiving knowledge"],
+            ["competitive temper deciding the win ahead", "keen charm stripping away the unnecessary", "perfectionism shining on solid logic", "absolute decisiveness allowing no error", "sword of insight piercing invisible cores"],
+            ["relentlessly flowing waterfall of wisdom", "strategic mind operating passion and cool", "flexible tact seeping into any situation", "cool-headedness keeping composure against crisis", "unfathomable abyss-like dominance"]
+        ];
 
-    // [2] 제1기운의 강도 (5점 척도 기반 스케일 - 문체 정교화)
-    let top1ScaleKo = ""; let top1ScaleEn = "";
-    if (top1Score_C >= 120) { top1ScaleKo = "시장의 룰을 재정의하는 대체 불가능한 스케일로"; top1ScaleEn = "on an irreplaceable scale redefining market rules"; }
-    else if (top1Score_C >= 90) { top1ScaleKo = "조직과 업계를 선도하는 압도적인 파급력으로"; top1ScaleEn = "with overwhelming impact leading the industry"; }
-    else if (top1Score_C >= 70) { top1ScaleKo = "핵심 프로젝트를 완벽하게 주도하는 탄탄한 전문성으로"; top1ScaleEn = "with solid expertise perfectly leading core projects"; }
-    else if (top1Score_C >= 40) { top1ScaleKo = "남들이 놓치는 빈틈을 정확히 파고드는 예리한 전략으로"; top1ScaleEn = "with sharp strategy targeting gaps others miss"; }
-    else { top1ScaleKo = "특정 니치 마켓을 독점하는 고도의 정밀한 타겟팅으로"; top1ScaleEn = "with highly precise targeting monopolizing niche markets"; }
+        let top1ScaleKo = ""; let top1ScaleEn = "";
+        if (top1Score_C >= 120) { top1ScaleKo = "시장의 룰을 재정의하는 대체 불가능한 스케일로"; top1ScaleEn = "on an irreplaceable scale redefining market rules"; }
+        else if (top1Score_C >= 90) { top1ScaleKo = "조직과 업계를 선도하는 압도적인 파급력으로"; top1ScaleEn = "with overwhelming impact leading the industry"; }
+        else if (top1Score_C >= 70) { top1ScaleKo = "핵심 프로젝트를 완벽하게 주도하는 탄탄한 전문성으로"; top1ScaleEn = "with solid expertise perfectly leading core projects"; }
+        else if (top1Score_C >= 40) { top1ScaleKo = "남들이 놓치는 빈틈을 정확히 파고드는 예리한 전략으로"; top1ScaleEn = "with sharp strategy targeting gaps others miss"; }
+        else { top1ScaleKo = "특정 니치 마켓을 독점하는 고도의 정밀한 타겟팅으로"; top1ScaleEn = "with highly precise targeting monopolizing niche markets"; }
 
-    // [3] 제2기운의 기술 (2위 x 5위 약점 방어: 나만의 특화 무기)
-    const top2SkillKo = [
-        /* 2위 목 */ ["스스로 동기를 부여하는 돌파력의", "에너지를 끊임없이 재생산하는 생명력의", "낡은 관습을 부수고 나아가는 개척의", "관계의 벽을 허물고 다가가는 친화력의", "고착된 상황에 생기를 불어넣는 기획의"],
-        /* 2위 화 */ ["주저할 때 과감히 방아쇠를 당기는 열정의", "불안을 잠재우고 확신을 주는 카리스마의", "대중의 이목을 집중시켜 판을 키우는 매력의", "사물의 가치와 옳고 그름을 밝히는 분별력의", "마음의 장벽을 순식간에 녹여내는 공감의"],
-        /* 2위 토 */ ["흔들리는 목표를 굳건히 잡아주는 안정감의", "들뜬 감정을 차분히 가라앉히는 평정심의", "흩어진 자원을 하나로 모으는 응집력의", "예리한 갈등을 부드럽게 무마하는 포용의", "급변하는 상황 속에서 중심을 지키는 무게감의"],
-        /* 2위 금 */ ["복잡한 문제를 단칼에 정리하는 분석력의", "불필요한 감정 소모를 차단하는 냉철함의", "느슨해진 조직에 긴장감을 부여하는 규율의", "손해를 과감히 잘라내는 리스크 관리의", "원칙을 세워 무질서를 바로잡는 통제력의"],
-        /* 2위 수 */ ["상황에 맞게 태도를 바꾸는 유연한 처세의", "막힌 길을 우회하여 결국 도달하는 지혜의", "드러나지 않게 판을 움직이는 전략적", "대립하는 에너지를 조화롭게 섞어내는 융화의", "먼 미래를 내다보고 대비하는 깊은 통찰의"]
-    ];
+        const top2SkillKo = [
+            ["스스로 동기를 부여하는 돌파력의", "에너지를 끊임없이 재생산하는 생명력의", "낡은 관습을 부수고 나아가는 개척의", "관계의 벽을 허물고 다가가는 친화력의", "고착된 상황에 생기를 불어넣는 기획의"],
+            ["주저할 때 과감히 방아쇠를 당기는 열정의", "불안을 잠재우고 확신을 주는 카리스마의", "대중의 이목을 집중시켜 판을 키우는 매력의", "사물의 가치와 옳고 그름을 밝히는 분별력의", "마음의 장벽을 순식간에 녹여내는 공감의"],
+            ["흔들리는 목표를 굳건히 잡아주는 안정감의", "들뜬 감정을 차분히 가라앉히는 평정심의", "흩어진 자원을 하나로 모으는 응집력의", "예리한 갈등을 부드럽게 무마하는 포용의", "급변하는 상황 속에서 중심을 지키는 무게감의"],
+            ["복잡한 문제를 단칼에 정리하는 분석력의", "불필요한 감정 소모를 차단하는 냉철함의", "느슨해진 조직에 긴장감을 부여하는 규율의", "손해를 과감히 잘라내는 리스크 관리의", "원칙을 세워 무질서를 바로잡는 통제력의"],
+            ["상황에 맞게 태도를 바꾸는 유연한 처세의", "막힌 길을 우회하여 결국 도달하는 지혜의", "드러나지 않게 판을 움직이는 전략적", "대립하는 에너지를 조화롭게 섞어내는 융화의", "먼 미래를 내다보고 대비하는 깊은 통찰의"]
+        ];
 
-    const top2SkillEn = [
-        ["breakthrough power of self-motivation", "vitality of constantly reproducing energy", "pioneering skill breaking old customs", "sociability breaking walls of relationships", "planning skill infusing life into stagnation"],
-        ["passion pulling the trigger in hesitation", "charisma giving certainty over anxiety", "charm scaling up the board by attention", "discernment revealing value and right/wrong", "empathy melting mental walls instantly"],
-        ["stability holding shaking goals firmly", "composure calming down excited emotions", "cohesion gathering scattered resources", "embrace smoothing over sharp conflicts", "weight holding the center in change"],
-        ["analytical skill organizing problems at once", "cool-headedness blocking emotional drain", "discipline imparting tension to looseness", "risk management cutting away losses boldly", "control correcting disorder with principles"],
-        ["flexible tact changing attitudes as needed", "wisdom reaching goals by bypassing obstacles", "strategic skill moving the board invisibly", "harmony blending opposing energies", "deep insight foreseeing the distant future"]
-    ];
+        const top2SkillEn = [
+            ["breakthrough power of self-motivation", "vitality of constantly reproducing energy", "pioneering skill breaking old customs", "sociability breaking walls of relationships", "planning skill infusing life into stagnation"],
+            ["passion pulling the trigger in hesitation", "charisma giving certainty over anxiety", "charm scaling up the board by attention", "discernment revealing value and right/wrong", "empathy melting mental walls instantly"],
+            ["stability holding shaking goals firmly", "composure calming down excited emotions", "cohesion gathering scattered resources", "embrace smoothing over sharp conflicts", "weight holding the center in change"],
+            ["analytical skill organizing problems at once", "cool-headedness blocking emotional drain", "discipline imparting tension to looseness", "risk management cutting away losses boldly", "control correcting disorder with principles"],
+            ["flexible tact changing attitudes as needed", "wisdom reaching goals by bypassing obstacles", "strategic skill moving the board invisibly", "harmony blending opposing energies", "deep insight foreseeing the distant future"]
+        ];
 
-    // [4] 제5기운의 위험 (꼴찌 오행 x 점수대 5단계: 아킬레스건 진단)
-    let top5Severity = top5Score_C < 20 ? 0 : (top5Score_C < 40 ? 1 : (top5Score_C < 60 ? 2 : (top5Score_C < 80 ? 3 : 4)));
-    const top5RiskKo = [
-        /* 목 약점 */ ["시작조차 두려워하는 극도의 실행력 부족", "계획만 세우고 실천하지 못하는 만성적 미루기", "마무리가 흐지부지되는 용두사미의 함정", "속도를 내다가 중요한 디테일을 놓치는 조급함", "성장에만 집착하다 주변을 번아웃시키는 과열"],
-        /* 화 약점 */ ["아무런 의욕을 느끼지 못하는 심각한 무기력", "작은 난관에도 열정이 식어버리는 뒷심 부족", "감정 기복으로 인해 기회를 스스로 걷어차는 충동성", "자신의 본모습보다 타인의 평가에 휘둘리는 체면치레", "조절되지 않는 열정으로 페이스를 잃는 과욕"],
-        /* 토 약점 */ ["어떤 결정도 내리지 못하고 표류하는 우유부단함", "작은 변화에도 기반이 무너지는 불안정한 환경", "과거의 성공 방식에 갇혀 정체되는 고집", "거절하지 못해 남의 짐까지 떠안는 과도한 희생", "지나친 신중함으로 인해 기회를 놓치는 만만디"],
-        /* 금 약점 */ ["관계의 상처가 두려워 벽을 쌓는 자발적 고립", "단호히 끊어내지 못해 손해를 키우는 미련", "비판에 과도하게 방어적으로 변하는 예민함", "원칙 없는 처세로 신뢰를 잃고 흔들리는 기반", "타인의 작은 실수조차 용납하지 못하는 결벽주의"],
-        /* 수 약점 */ ["변화에 적응하지 못하고 고립되는 사고의 경직성", "주관 없이 상황에 휩쓸려 다니는 수동성", "생각만 하다가 행동의 기회를 놓치는 공상", "폐쇄적인 태도로 오해를 자초하는 불통", "모든 것을 수용하려다 자기 색깔을 잃는 무경계성"]
-    ];
-    const top5RiskEn = [
-        ["extreme lack of execution fearing the start", "chronic procrastination without action", "trap of an anti-climactic ending", "impatience of missing details while rushing", "overheating of exhausting others for growth"],
-        ["severe lethargy feeling no motivation", "lack of persistence with fading passion", "impulsiveness kicking away opportunities", "obsession with reputation over true self", "greed losing pace due to uncontrolled heat"],
-        ["indecisiveness drifting without any decision", "unstable environment shaken by minor changes", "stubbornness stagnating in past success", "excessive sacrifice by taking others' burdens", "missing timing due to excessive caution"],
-        ["voluntary isolation building walls from fear", "lingering attachment snowballing losses", "defensiveness overly sensitive to criticism", "shaking foundation losing trust without principles", "perfectionism unable to tolerate minor mistakes"],
-        ["rigidity of thought unable to adapt", "passivity losing subjectivity by situations", "daydreaming missing action due to overthinking", "lack of communication causing misunderstandings", "boundlessness losing identity by accepting all"]
-    ];
+        let top5Severity = top5Score_C < 20 ? 0 : (top5Score_C < 40 ? 1 : (top5Score_C < 60 ? 2 : (top5Score_C < 80 ? 3 : 4)));
+        const top5RiskKo = [
+            ["시작조차 두려워하는 극도의 실행력 부족", "계획만 세우고 실천하지 못하는 만성적 미루기", "마무리가 흐지부지되는 용두사미의 함정", "속도를 내다가 중요한 디테일을 놓치는 조급함", "성장에만 집착하다 주변을 번아웃시키는 과열"],
+            ["아무런 의욕을 느끼지 못하는 심각한 무기력", "작은 난관에도 열정이 식어버리는 뒷심 부족", "감정 기복으로 인해 기회를 스스로 걷어차는 충동성", "자신의 본모습보다 타인의 평가에 휘둘리는 체면치레", "조절되지 않는 열정으로 페이스를 잃는 과욕"],
+            ["어떤 결정도 내리지 못하고 표류하는 우유부단함", "작은 변화에도 기반이 무너지는 불안정한 환경", "과거의 성공 방식에 갇혀 정체되는 고집", "거절하지 못해 남의 짐까지 떠안는 과도한 희생", "지나친 신중함으로 인해 기회를 놓치는 만만디"],
+            ["관계의 상처가 두려워 벽을 쌓는 자발적 고립", "단호히 끊어내지 못해 손해를 키우는 미련", "비판에 과도하게 방어적으로 변하는 예민함", "원칙 없는 처세로 신뢰를 잃고 흔들리는 기반", "타인의 작은 실수조차 용납하지 못하는 결벽주의"],
+            ["변화에 적응하지 못하고 고립되는 사고의 경직성", "주관 없이 상황에 휩쓸려 다니는 수동성", "생각만 하다가 행동의 기회를 놓치는 공상", "폐쇄적인 태도로 오해를 자초하는 불통", "모든 것을 수용하려다 자기 색깔을 잃는 무경계성"]
+        ];
+        const top5RiskEn = [
+            ["extreme lack of execution fearing the start", "chronic procrastination without action", "trap of an anti-climactic ending", "impatience of missing details while rushing", "overheating of exhausting others for growth"],
+            ["severe lethargy feeling no motivation", "lack of persistence with fading passion", "impulsiveness kicking away opportunities", "obsession with reputation over true self", "greed losing pace due to uncontrolled heat"],
+            ["indecisiveness drifting without any decision", "unstable environment shaken by minor changes", "stubbornness stagnating in past success", "excessive sacrifice by taking others' burdens", "missing timing due to excessive caution"],
+            ["voluntary isolation building walls from fear", "lingering attachment snowballing losses", "defensiveness overly sensitive to criticism", "shaking foundation losing trust without principles", "perfectionism unable to tolerate minor mistakes"],
+            ["rigidity of thought unable to adapt", "passivity losing subjectivity by situations", "daydreaming missing action due to overthinking", "lack of communication causing misunderstandings", "boundlessness losing identity by accepting all"]
+        ];
 
-// 💡 4-1. [운명공학 3단 조립기] 
+        // 💡 4-1. [운명공학 3단 조립기 - 성명(이름)이 부여한 '무기' 추출]
         const varIdx5 = session.num81 % 5; 
-        const mod1Idx = (top1Idx_C * 5) + varIdx5; 
-        const mod2Idx = (top2Idx_C * 5) + varIdx5; 
+        
+        // 이름이 가장 크게 점수를 끌어올려준 오행 찾기 (이름의 특수 스킬)
+        const diffScores = session.elementScores.map((score, i) => score - session.baseScores[i]);
+        let weaponElIdx = diffScores.indexOf(Math.max(...diffScores)); 
+        if(diffScores[weaponElIdx] <= 0) { // 이름이 올린 점수가 없다면 수리의 기본 오행 사용
+            const suriToElIdx = [4, 0, 0, 1, 1, 2, 2, 3, 3, 4];
+            weaponElIdx = suriToElIdx[session.num81 % 10];
+        }
+        
+        const mod1Idx = (weaponElIdx * 5) + varIdx5; // 1단: 성명이 부여한 무기(수식어)
 
-        // 💡 4-2. [1단: 내적 역량] 직업 수식어 (25종)
+        // 💡 4-2. [1단: 내적 역량] 이름의 파동이 부여하는 '나만의 무기(기술)' 25종
         const jobMod1Ko = [
             /* 목 */ "무에서 유를 창조하는 탁월한 기획력을 지닌", "아무도 보지 못한 가능성을 찾아내는 안목을 갖춘", "정체된 상황을 돌파하는 강인한 추진력의", "흩어진 아이디어를 실체 있는 결과물로 엮어내는", "지치지 않고 끊임없이 한계를 넓혀가는 에너지의",
             /* 화 */ "사람들의 마음을 움직이는 압도적인 매력을 지닌", "어둠 속에서 명확한 방향을 제시하는 예리한 직관의", "정체된 판에 활력을 불어넣어 흐름을 주도하는", "타인의 숨은 니즈를 정확히 읽어내는 예리한 감각의", "순식간에 대중의 이목을 사로잡는 독보적인 표현력을 갖춘",
@@ -875,99 +876,97 @@ function switchTab(mode, element) {
             /* Water */ "who flexibly adapts to changing times with smooth tact", "who reads macro patterns behind immediate phenomena", "who turns crisis into opportunity with strategic thinking", "who absorbs and applies diverse knowledge with wisdom", "who silently reads the board and prepares for the future"
         ];
 
-        // 💡 4-3. [스펙트럼 300종 전면 개편 매트릭스] 
-        // 4분면 구조: [0~2:발산/리더], [3~5:발산/실무], [6~8:수렴/전략], [9~11:수렴/연구]
+        // 💡 4-3. [스펙트럼 300종 - 사주 기반 무대]
         const fusionJobsKo = [
-            /* 1위 목(木) - 기획, 교육, 생명, 시작 */ [ 
-                /* +목 */ ["학원 프랜차이즈 경영", "에듀테크 파운더", "신사업 전략 총괄", "콘텐츠 전문 강사", "교육 현장 실무자", "학사 운영 전문가", "교육 정책 기획관", "지식 플랫폼 이사", "대학교수/학자", "심리 상담 연구원", "기록물 관리 행정", "전문 사서"],
-                /* +화 */ ["지식 콘텐츠 디렉터", "에듀테크 기획 총괄", "미디어 그룹 리더", "교육 서비스 기획", "학사 운영 실무", "교무 행정 전문가", "IT 솔루션 아키텍트", "기술 전략 컨설턴트", "지식 재산권 전문가", "데이터 시각화 실무", "서비스 UX 설계", "기술 전문 작가"],
-                /* +토 */ ["공간 개발 디벨로퍼", "라이프스타일 브랜드 파운더", "프랜차이즈 시스템 총괄", "조직 문화 매니저", "공간 인테리어 실무", "커뮤니티 가이드", "공공 기관 행정 관리자", "부동산 플랫폼 전략가", "자산 관리 이사", "사회 복지 행정사", "인사 노무 실무", "시설 운영 관리자"],
-                /* +금 */ ["바이오 벤처 파운더", "글로벌 유통망 설계자", "의료 재단 이사", "의료/제약 전문 영업", "모빌리티 세일즈", "여행 상품 기획자", "기업 리스크 관리 총괄", "공공 기관 감사관", "특허 법률 전문가", "물류 운영 전략가", "산업 안전 점검사", "정밀 부품 유통"],
-                /* +수 */ ["국제 무역법인 대표", "글로벌 비즈니스 전략가", "디지털 물류 파운더", "국제 행사 전문 통역", "해외 영업 현장 실무", "시장 조사/리서처", "정보 보안 전략 총괄", "데이터 유통 플랫폼 이사", "학술 정보 편집장", "빅데이터 분석 실무", "디지털 아카이브 전문가", "네트워크 관리 실무"]
+            /* 1위 목(木) */ [ 
+                /* +목 */ ["에듀테크 파운더", "교육 플랫폼 대표", "지식 비즈니스 전략가", "콘텐츠 전문 강사", "교육 현장 실무자", "학사 운영 전문가", "교육 정책 기획관", "지식 플랫폼 이사", "대학교수/학자", "심리 상담 연구원", "기록물 관리 행정", "전문 사서"],
+                /* +화 */ ["지식 콘텐츠 디렉터", "에듀테크 기획 총괄", "미디어 그룹 리더", "교육 서비스 기획", "학사 운영 실무", "교무 행정 전문가", "IT 솔루션 아키텍트", "기술 전략 컨설턴트", "지식 재산권(IP) 관리자", "데이터 시각화 실무", "서비스 UX 설계", "기술 전문 작가"],
+                /* +토 */ ["라이프스타일 플랫폼 파운더", "로컬 크리에이터 리더", "프롭테크 기획자", "조직 문화 매니저", "공간 인테리어 실무", "커뮤니티 가이드", "공공 기관 행정 관리자", "부동산 플랫폼 전략가", "자산 관리 이사", "사회 복지 행정사", "인사 노무 실무", "시설 운영 관리자"],
+                /* +금 */ ["헬스케어 벤처 대표", "글로벌 유통 플랫폼 기획", "스마트 물류 전략가", "의료/제약 전문 영업", "모빌리티 세일즈", "여행 상품 기획자", "기업 리스크 관리 총괄", "공공 기관 감사관", "특허 법률 전문가", "물류 운영 전략가", "산업 안전 점검사", "정밀 부품 유통"],
+                /* +수 */ ["크로스보더 커머스 대표", "글로벌 비즈니스 총괄", "데이터 유통 플랫폼 파운더", "국제 행사 전문 통역", "해외 영업 현장 실무", "시장 조사/리서처", "정보 보안 전략 총괄", "데이터 유통 플랫폼 이사", "학술 정보 편집장", "빅데이터 분석 실무", "디지털 아카이브 전문가", "네트워크 관리 실무"]
             ],
-            /* 1위 화(火) - 확산, 미디어, 브랜딩, 조명 */ [ 
-                /* +목 */ ["예술 재단 이사장", "문화 정책 기획 총괄", "엔터 비즈니스 리더", "교육 서비스 기획자", "교무 학사 운영 실무", "현장 교육 연수사", "정부 문화 정책관", "지식 콘텐츠 사업 이사", "교육 공무원", "학술 서적 에디터", "청소년 심리 상담가", "전문 교육 연구원"],
-                /* +화 */ ["마케팅 에이전시 파운더", "언론사 보도 국장", "F&B 비즈니스 리더", "퍼포먼스 마케터", "영상 기획/편집 감독", "대형 이벤트 운영 실무", "기업 대외 협력(PA) 총괄", "커뮤니케이션 전략 이사", "브랜드 홍보 총괄", "라이브 커머스 기획", "방송 제작 실무", "위기 관리 PR 전문가"],
-                /* +토 */ ["복합문화공간 디렉터", "대형 테마파크 기획자", "공공기관 리더", "CS/서비스 총괄 강사", "전시/갤러리 큐레이터", "공간 마케팅 실무", "정부 부처 고위 사무관", "사회복지 재단 이사장", "조직 전략 컨설턴트", "인사/노무 행정 실무", "커뮤니티 매니저", "복지 센터 실무"],
-                /* +금 */ ["하이테크 기술 전략가", "핀테크 기업 파운더", "IT 솔루션 디렉터", "패션/뷰티 전문 MD", "영상 장비/기술 전문가", "정밀 기기 전문 세일즈", "공공 정책 수석 고문", "기술 수사/감사 총괄", "산업 시장 분석가", "금융 자산 관리자(PB)", "법무/금융 행정 실무", "회계/재무 데이터 분석"],
-                /* +수 */ ["글로벌 세일즈 그룹장", "항공/해운 사업 관리자", "MICE 글로벌 마케팅", "국제 동시 통역 실무", "글로벌 해외 주재원", "항공/서비스 승무원", "정보 보안 최고 책임자", "범죄/심리 분석 전문가", "해외 마켓 전략가", "해외 무역 사업 실무", "국제 수사 실무관", "글로벌 컨시어지"]
+            /* 1위 화(火) */ [ 
+                /* +목 */ ["컬처/아트 플랫폼 파운더", "엔터테인먼트 파운더", "교육 서비스 기획 총괄", "현장 교육 연수사", "교무 학사 운영 실무", "교육 실무 책임자", "정부 문화 정책관", "지식 콘텐츠 사업 이사", "교육 공무원", "학술 서적 에디터", "청소년 심리 상담가", "전문 교육 연구원"],
+                /* +화 */ ["뉴미디어 에이전시 대표", "디지털 캠페인 디렉터", "커머스 마케팅 총괄", "퍼포먼스 마케터", "영상 기획/편집 감독", "대형 이벤트 운영 실무", "기업 대외 협력(PA) 총괄", "커뮤니케이션 전략 이사", "브랜드 홍보 총괄", "라이브 커머스 기획", "방송 제작 실무", "위기 관리 PR 전문가"],
+                /* +토 */ ["커뮤니티 비즈니스 리더", "복합문화공간 파운더", "소셜 트렌드 전략가", "CS/서비스 총괄 강사", "전시/갤러리 큐레이터", "공간 마케팅 실무", "정부 부처 고위 사무관", "사회복지 재단 이사장", "조직 전략 컨설턴트", "인사/노무 행정 실무", "커뮤니티 매니저", "복지 센터 실무"],
+                /* +금 */ ["핀테크 서비스 기획자", "하이테크 브랜드 파운더", "IT 솔루션 디렉터", "패션/뷰티 전문 MD", "영상 장비/기술 전문가", "정밀 기기 전문 세일즈", "공공 정책 수석 고문", "기술 수사/감사 총괄", "산업 시장 분석가", "금융 자산 관리자(PB)", "법무/금융 행정 실무", "회계/재무 데이터 분석"],
+                /* +수 */ ["글로벌 세일즈 그룹장", "MICE/전시 글로벌 마케터", "글로벌 IT 플랫폼 리더", "국제 동시 통역 실무", "글로벌 해외 주재원", "항공/서비스 승무원", "정보 보안 최고 책임자", "범죄/심리 분석 전문가", "해외 마켓 전략가", "해외 무역 사업 실무", "국제 수사 실무관", "글로벌 컨시어지"]
             ],
-            /* 1위 토(土) - 공간, 행정, 인사, 부동산 */ [ 
-                /* +목 */ ["부동산 디벨로퍼", "도시 재생 프로젝트 총괄", "건설 임원/경영자", "인테리어 임대 사업가", "조경/환경 사업가", "공간 대여업 실무", "국가 재건축 전략관", "토지 개발 정책관", "건축 시공 감리자", "플랜테리어 실무", "원예/농장 기술자", "부동산 중개 실무"],
-                /* +화 */ ["대형 유통 인프라 총괄", "리테일 상권 기획자", "물류 자동화 시스템 파운더", "대형 매장 운영 마스터", "영업 지원/관리 실무", "VMD(비주얼 머천다이저)", "인프라 자산 관리 총괄", "상권/입지 분석 전문가", "CS/서비스 교육관", "물류 현장 마케터", "물류 네트워크 운영 실무", "시설 보안 관리자"],
-                /* +토 */ ["행정 고위 공무원", "공공기관 총괄 이사", "정책 연구소장", "일반 행정 공무원", "지적 측량 전문가", "법률 사무/보조 실무", "국가 기록 관리 총괄", "조직 운영 시스템 설계자", "토지 보상/평가 전문가", "법무사/노무사", "일반 사무/총무 행정", "문서/기록 실무"],
-                /* +금 */ ["부동산 신탁 전문 임원", "금융 자산 운용사 리더", "건설 감리/안전 총괄", "회계사/세무사", "건설 현장 엔지니어", "은행/금융권 실무", "기업 리스크 관리 총괄", "금융 공학/계리 분석가", "건설 원가 분석 전문가", "산업 안전 관리 감독관", "감정 평가 실무", "재무 데이터 분석 실무"],
-                /* +수 */ ["리조트/레저 그룹 경영", "해양/항만 운영 총괄", "사회복지 재단 이사장", "현장 사회복지사", "심리 상담/치료사", "NGO/환경 활동가", "국가 에너지 정책 기획관", "수자원 관리 전문가", "환경 생태 분석 실무", "호텔/의전 지배인", "요양/복지 시설 원장", "상담 센터 운영 실무"]
+            /* 1위 토(土) */ [ 
+                /* +목 */ ["프롭테크 스타트업 파운더", "로컬 비즈니스 디렉터", "스마트시티 기획관", "인테리어 임대 사업가", "조경/환경 사업가", "공간 대여업 실무", "국가 재건축 전략관", "토지 개발 정책관", "건축 시공 감리자", "플랜테리어 실무", "원예/농장 기술자", "부동산 중개 실무"],
+                /* +화 */ ["F&B 공간 브랜딩 총괄", "리테일테크 기획 파운더", "커머스 마케팅 파운더", "대형 매장 운영 마스터", "영업 지원/관리 실무", "VMD(비주얼 머천다이저)", "인프라 자산 관리 총괄", "상권/입지 분석 전문가", "CS/서비스 교육관", "물류 현장 마케터", "물류 네트워크 운영 실무", "시설 보안 관리자"],
+                /* +토 */ ["비즈니스 전략 컨설턴트", "조직/시스템 아키텍트", "B2B 비즈니스 파운더", "일반 행정 공무원", "지적 측량 전문가", "법률 사무/보조 실무", "국가 기록 관리 총괄", "조직 운영 시스템 설계자", "토지 보상/평가 전문가", "법무사/노무사", "일반 사무/총무 행정", "문서/기록 실무"],
+                /* +금 */ ["핀테크 자산 전략가", "데이터 기반 경영 컨설턴트", "기업 리스크 총괄 리더", "회계사/세무사", "건설 현장 엔지니어", "은행/금융권 실무", "기업 리스크 관리 총괄", "금융 공학/계리 분석가", "건설 원가 분석 전문가", "산업 안전 관리 감독관", "감정 평가 실무", "재무 데이터 분석 실무"],
+                /* +수 */ ["웰니스/휴양 비즈니스 파운더", "소셜 벤처 플랫폼 파운더", "글로벌 커뮤니티 대표", "현장 사회복지사", "심리 상담/치료사", "NGO/환경 활동가", "국가 에너지 정책 기획관", "수자원 관리 전문가", "환경 생태 분석 실무", "호텔/의전 지배인", "요양/복지 시설 원장", "상담 센터 운영 실무"]
             ],
-            /* 1위 금(金) - 금융, 경찰, 정밀 기술, 의료 */ [ 
-                /* +목 */ ["의료기기 브랜드 파운더", "바이오 설비 시스템 리더", "대형 병원 행정 실장", "물리 치료사/재활", "현장 산업 안전 지도", "금속 공예/가공 실무", "국가 교육 감사관", "의료 정보 시스템 관리", "정밀 의료 설비 기술", "병원 원무/보건 실무", "안전/보건 점검사", "특수 소재 가공"],
-                /* +화 */ ["IT 보안 스타트업 파운더", "미디어 아트 테크 리더", "엔터테인먼트 사업 본부장", "디지털 콘텐츠 플랫폼 PD", "퍼포먼스 브랜드 마케터", "특수 영상(VFX) 전문가", "경찰/검찰 고위 간부", "국가 기술 수사관", "공공 안전 정책 총괄", "사이버 범죄 수사대원", "디지털 포렌식 전문가", "특수 보안 수사 실무"],
-                /* +토 */ ["국가 교육 재단 이사장", "직업 훈련원/아카데미 원장", "대형 법무법인 파트너", "전문 직업 기술 강사", "학사/교무 운영 실무", "교육 기자재/설비 운용", "국가 평가 시스템 설계관", "국가 자격 전문 시험관", "기술 교육 커리큘럼 기획", "교도/보호 행정 공무원", "세무/노무 법인 보조", "법무 서기/실무"],
-                /* +금 */ ["자동차/항공 브랜드 임원", "반도체 설계 총괄 디렉터", "기업 CFO(재무총괄)", "공인회계사(CPA)/세무사", "정밀 가공 명장/장인", "정형/외과 전문의", "금융 시스템 아키텍트", "방위 산업 정책 기획관", "항공기 조종사/캡틴", "기계/설비 공학 기술", "고도의 지능 범죄 수사관", "산업 안전 관리 감독"],
-                /* +수 */ ["IT 보안 솔루션 파운더", "빅데이터 전략 기획 총괄", "핀테크 인프라 아키텍트", "소프트웨어 QA 엔지니어", "프리미엄 수입차 딜러", "상선 항해사/기관사", "국가 금융 수사 전문가", "빅데이터 엔지니어", "정보 보안 통제 실무", "디지털 범죄 수사 실무", "금융 데이터 분석 실무", "해양 경찰/경비"]
+            /* 1위 금(金) */ [ 
+                /* +목 */ ["메디컬 IT 솔루션 디렉터", "스마트 설비 시스템 기획", "헬스케어 플랫폼 파운더", "물리 치료사/재활", "현장 산업 안전 지도", "금속 공예/가공 실무", "국가 교육 감사관", "의료 정보 시스템 관리", "정밀 의료 설비 기술", "병원 원무/보건 실무", "안전/보건 점검사", "특수 소재 가공"],
+                /* +화 */ ["IT 스타트업 창업", "미디어 아트 리더", "브랜드 마케팅 총괄", "UX/UI 디렉터", "디지털 콘텐츠 PD", "퍼포먼스 마케터", "경찰/검찰 고위 간부", "국가 수사관", "공공 안전 정책 총괄", "사이버 범죄 수사대원", "디지털 포렌식 전문가", "특수 수사 실무"],
+                /* +토 */ ["교육 재단 이사장", "직업 훈련원장", "법무법인 이사", "전문 직업 기술 강사", "학사/교무 운영 실무", "교육 기자재 운용", "국가 평가 시스템 설계관", "국가 자격 시험관", "기술 교육 커리큘럼 기획", "교도/보호 행정 공무원", "세무/노무 법인 보조", "법무 서기/실무"],
+                /* +금 */ ["모빌리티/항공 비즈니스 리더", "하드웨어/반도체 기획 총괄", "글로벌 재무 전략가(CFO)", "공인회계사(CPA)/세무사", "정밀 가공 명장/장인", "정형/외과 전문의", "금융 시스템 아키텍트", "방위 산업 정책 기획관", "항공기 조종사/캡틴", "기계/설비 공학 기술", "고도의 지능 범죄 수사관", "산업 안전 관리 감독"],
+                /* +수 */ ["블록체인/보안 솔루션 대표", "디지털 수사 정책 기획관", "데이터 인프라 아키텍트", "소프트웨어 QA 엔지니어", "프리미엄 수입차 딜러", "상선 항해사/기관사", "국가 금융 수사 전문가", "빅데이터 엔지니어", "정보 보안 통제 실무", "디지털 범죄 수사 실무", "금융 데이터 분석 실무", "해양 경찰/경비"]
             ],
-            /* 1위 수(水) - 연구, 무역, 지혜, 철학 */ [ 
-                /* +목 */ ["글로벌 유학 플랫폼 대표", "해외 관광 전략 기획", "문화 교류 재단 총괄", "청소년/가족 심리 상담가", "프리미엄 여행 큐레이터", "전문 번역가/에디터", "지식/철학 콘텐츠 기획", "문화 인류학 교수/연구원", "학술/연구 전략가", "명리/사주/타로 전문가", "특수학교 교사", "문화/예술 기획 실무"],
-                /* +화 */ ["글로벌 세일즈 전략 총괄", "호텔/숙박 경영 파운더", "F&B 수출 비즈니스 리더", "국제회의 동시 통역 실무", "글로벌 기업 해외 주재원", "국제선 항공 승무원", "국가 외교/통상 분석관", "국제 범죄 수사 전문가", "정신의학/심리 분석의", "관세사/통관 전문인", "국제 관광 가이드", "VIP 글로벌 컨시어지"],
-                /* +토 */ ["글로벌 물류 네트워크 총괄", "데이터 사이언스 리더", "국가 통계청 분석 총괄", "데이터 베이스 엔지니어", "디지털 아카이브 매니저", "국공립 도서관 사서", "온라인 유통/커머스 기획", "시장 조사/리서치 총괄", "기상/기후 예보 실무", "수질/환경 관리 연구원", "사회조사/여론 분석 실무", "정보 통신 관리 실무"],
-                /* +금 */ ["해상 보험 기업 임원", "조선/해양 플랜트 설계 리더", "금융 범죄 전문 수사관", "해군/해병 고위 간부", "산업 기술 전문 번역가", "기계/정밀 정비 실무", "국제 조세/상법 변호사", "국가 에너지 무역 전략관", "정밀 측정/검사 전문가", "조선/항해 기술 장인", "국제 무역 금융 실무", "해양 항만 관제 실무"],
-                /* +수 */ ["글로벌 해운 선사 대표", "항공 물류 허브 본부장", "국제 무역 플랫폼 파운더", "유체/수리 역학 연구원", "기초 과학/물리 학자", "기상청 수석 예보관", "디지털 무역 전략 전문가", "심해 탐사/해양 전문가", "수산물 글로벌 유통 실무", "철학관/점술업 파운더", "방대한 데이터 분석 실무", "정수/수처리 환경 기술"]
+            /* 1위 수(水) */ [ 
+                /* +목 */ ["글로벌 교육 플랫폼 기획", "컬처 비즈니스 전략가", "프리미엄 지식 큐레이터", "청소년/가족 심리 상담가", "프리미엄 여행 큐레이터", "전문 번역가/에디터", "지식/철학 콘텐츠 기획", "문화 인류학 교수/연구원", "학술/연구 전략가", "명리/사주/타로 전문가", "특수학교 교사", "문화/예술 기획 실무"],
+                /* +화 */ ["글로벌 크로스보더 대표", "숙박/호스피탈리티 파운더", "해외 사업 확장 총괄", "국제회의 동시 통역 실무", "글로벌 기업 해외 주재원", "국제선 항공 승무원", "국가 외교/통상 분석관", "국제 범죄 수사 전문가", "정신의학/심리 분석의", "관세사/통관 전문인", "국제 관광 가이드", "VIP 글로벌 컨시어지"],
+                /* +토 */ ["데이터 솔루션 파운더", "리서치/통계 에이전시 대표", "온라인 커머스 전략 기획관", "데이터 베이스 엔지니어", "디지털 아카이브 매니저", "국공립 도서관 사서", "온라인 유통/커머스 기획", "시장 조사/리서치 총괄", "기상/기후 예보 실무", "수질/환경 관리 연구원", "사회조사/여론 분석 실무", "정보 통신 관리 실무"],
+                /* +금 */ ["글로벌 금융 수사관", "무역/에너지 전략 파운더", "해상/물류 네트워크 기획", "해군/해병 고위 간부", "산업 기술 전문 번역가", "기계/정밀 정비 실무", "국제 조세/상법 변호사", "국가 에너지 무역 전략관", "정밀 측정/검사 전문가", "조선/항해 기술 장인", "국제 무역 금융 실무", "해양 항만 관제 실무"],
+                /* +수 */ ["글로벌 디지털 무역 대표", "데이터 사이언스 연구소장", "해양/환경 딥테크 파운더", "유체/수리 역학 연구원", "기초 과학/물리 학자", "기상청 수석 예보관", "디지털 무역 전략 전문가", "심해 탐사/해양 전문가", "수산물 글로벌 유통 실무", "철학관/점술업 파운더", "방대한 데이터 분석 실무", "정수/수처리 환경 기술"]
             ]
         ];
 
-        // 💡 영문 버전 (한국어 300종 배열과 1:1 완벽 대칭 구조)
         const fusionJobsEn = [
             /* Wood */ [
-                ["Academy Franchise CEO", "EdTech Founder", "New Biz Strategist", "Content Instructor", "Edu Field Expert", "School Admin", "Edu Policy Planner", "Knowledge Platform Mgr", "Humanities Prof", "Counselor", "Records Admin", "Librarian"],
+                ["EdTech Founder", "Edu Platform CEO", "Knowledge Biz Strategist", "Content Instructor", "Edu Field Expert", "School Admin", "Edu Policy Planner", "Knowledge Platform Mgr", "Humanities Prof", "Counselor", "Records Admin", "Librarian"],
                 ["Knowledge Content Dir", "EdTech Planning Head", "Media Group Leader", "Edu Service Planner", "Academic Ops Staff", "School Admin Expert", "IT Solution Architect", "Tech Strategy Consultant", "IP Specialist", "Data Viz Specialist", "Service UX Designer", "Tech Writer"],
-                ["Space Developer", "Lifestyle Mgr", "Franchise HQ Director", "Org Culture Mgr", "Interior Builder", "Community Guide", "Public Admin", "PropTech Planner", "Asset Mgr", "Social Welfare Admin", "HR Specialist", "Facility Mgr"],
-                ["Bio-Venture Planner", "Global SCM Architect", "Medical Admin", "Pharma Sales", "Auto Dealer", "Travel Planner", "Risk Mgr", "Public Auditor", "Patent Lawyer", "Logistics Strategy", "Safety Inspector", "Precision Dist Mgr"],
-                ["Intl Trade Strategist", "Overseas Analyst", "Digital Logistics Head", "Tech Interpreter", "Overseas Sales", "Market Researcher", "Info Security Strategist", "Data Dist Planner", "Journal Editor", "Data Analyst", "Digital Archivist", "Network Admin"]
+                ["Lifestyle Platform Founder", "Local Creator Leader", "PropTech Planner", "Org Culture Mgr", "Interior Builder", "Community Guide", "Public Admin", "PropTech Planner", "Asset Mgr", "Social Welfare Admin", "HR Specialist", "Facility Mgr"],
+                ["Healthcare Venture CEO", "Global SCM Architect", "Smart Logistics Strategist", "Pharma Sales", "Auto Dealer", "Travel Planner", "Risk Mgr", "Public Auditor", "Patent Lawyer", "Logistics Strategy", "Safety Inspector", "Precision Dist Mgr"],
+                ["Cross-border Commerce CEO", "Global Biz Head", "Data Dist Platform Founder", "Tech Interpreter", "Overseas Sales", "Market Researcher", "Info Security Strategist", "Data Dist Planner", "Journal Editor", "Data Analyst", "Digital Archivist", "Network Admin"]
             ],
             /* Fire */ [
-                ["Arts Foundation Chair", "Cultural Policy Planner", "Ent HQ Director", "Edu Service Planner", "Academic Ops Staff", "School Admin Expert", "Government Policy Official", "Knowledge Content Leader", "Pro Edu Trainer", "Academic Editor", "Youth Counselor", "Edu Staff"],
-                ["Marketing Agency CEO", "News Bureau Chief", "F&B Brand Founder", "Performance Marketer", "Video Editor", "Event Ops", "PA Director", "Comms Strategist", "PR Expert", "Live Commerce PD", "Broadcast Prod", "Crisis PR Manager"],
-                ["Multi-plex Director", "Theme Park Planner", "Public Org Leader", "CS Edu Director", "Exhibition Curator", "Space Mgr", "Govt Official", "Welfare Foundation Chair", "Org Consultant", "HR/Labor Staff", "Community Mgr", "Welfare Staff"],
-                ["High-Tech Strategist", "Fintech Architect", "IT Solution Director", "Fashion MD", "Video Tech Expert", "Precision Equip Sales", "Public Policy Advisor", "Tech Investigator", "Industry Analyst", "Financial Asset Mgr", "Finance Admin", "Accounting Analyst"],
-                ["Global Sales Head", "Airline/Shipping Mgr", "MICE Marketing", "Simultaneous Interpreter", "Expatriate", "Flight Attendant", "CISO", "Psychological Analyst", "Overseas Market Strategist", "Overseas Biz Staff", "Criminal Investigator", "Global Concierge"]
+                ["Culture/Art Platform Founder", "Ent Founder", "Edu Service Head", "Pro Edu Trainer", "Academic Ops Staff", "Edu Field Manager", "Government Policy Official", "Knowledge Content Leader", "Edu Official", "Academic Editor", "Youth Counselor", "Edu Researcher"],
+                ["New Media Agency CEO", "Digital Campaign Director", "Commerce Marketing Head", "Performance Marketer", "Video Editor", "Event Ops", "PA Director", "Comms Strategist", "PR Expert", "Live Commerce PD", "Broadcast Prod", "Crisis PR Manager"],
+                ["Community Biz Leader", "Culture Space Founder", "Social Trend Strategist", "CS Edu Director", "Exhibition Curator", "Space Mgr", "Govt Official", "Welfare Foundation Chair", "Org Consultant", "HR/Labor Staff", "Community Mgr", "Welfare Staff"],
+                ["Fintech Service Planner", "High-Tech Brand Founder", "IT Solution Director", "Fashion MD", "Video Tech Expert", "Precision Equip Sales", "Public Policy Advisor", "Tech Investigator", "Industry Analyst", "Financial Asset Mgr", "Finance Admin", "Accounting Analyst"],
+                ["Global Sales Group Head", "MICE Global Marketer", "Global IT Platform Leader", "Simultaneous Interpreter", "Expatriate", "Flight Attendant", "CISO", "Psychological Analyst", "Overseas Market Strategist", "Overseas Biz Staff", "Criminal Investigator", "Global Concierge"]
             ],
             /* Earth */ [
-                ["Real Estate Developer", "Urban Renewal Planner", "Construction PM", "Interior Rental Biz", "Landscape Biz", "Space Rental Biz", "Reconstruction Strategist", "Land Dev Expert", "Site Mgr", "Planterior Instructor", "Horticulturist", "Realtor"],
-                ["Retail Infra Planner", "Retail Area Strategist", "Logistics Auto Architect", "Store Ops Master", "Sales Support", "VMD Expert", "Infra Asset Mgr", "Trade Area Analyst", "CS Instructor", "Field Marketer", "Logistics Ops", "Facility Security"],
-                ["High Govt Official", "Public Org Director", "Policy Research Head", "General Admin", "Cadastral Surveyor", "Paralegal", "National Archive Mgr", "Org System Designer", "Land Comp Staff", "Labor/Legal Admin", "General Office Staff", "Records Staff"],
-                ["REITs Expert", "Financial PB", "Construction Supervisor", "CPA/Tax Accountant", "Construction Engineer", "Banker/Financier", "Risk Chief", "Financial Engineer", "Cost Analyst", "Safety Supervisor", "Appraiser", "Financial Data Analyst"],
-                ["Resort/Leisure Mgr", "Port/Maritime Ops", "Welfare Foundation Chair", "Social Worker", "Psychological Counselor", "NGO Activist", "Energy Policy Planner", "Water Resource Expert", "Environmental Analyst", "Hotel GM", "Nursing Home Head", "Counseling Center Staff"]
+                ["PropTech Startup Founder", "Local Biz Director", "Smart City Planner", "Interior Rental Biz", "Landscape Biz", "Space Rental Biz", "Reconstruction Strategist", "Land Dev Expert", "Site Mgr", "Planterior Instructor", "Horticulturist", "Realtor"],
+                ["F&B Space Branding Head", "RetailTech Planner", "Commerce Marketing Founder", "Store Ops Master", "Sales Support", "VMD Expert", "Infra Asset Mgr", "Trade Area Analyst", "CS Instructor", "Field Marketer", "Logistics Ops", "Facility Security"],
+                ["Biz Strategy Consultant", "Org/System Architect", "B2B Biz Founder", "General Admin", "Cadastral Surveyor", "Paralegal", "National Archive Mgr", "Org System Designer", "Land Comp Staff", "Labor/Legal Admin", "General Office Staff", "Records Staff"],
+                ["Fintech Asset Strategist", "Data-driven Biz Consultant", "Corporate Risk Leader", "CPA/Tax Accountant", "Construction Engineer", "Banker/Financier", "Risk Chief", "Financial Engineer", "Cost Analyst", "Safety Supervisor", "Appraiser", "Financial Data Analyst"],
+                ["Wellness Biz Founder", "Social Venture Founder", "Global Community Leader", "Social Worker", "Psychological Counselor", "NGO Activist", "Energy Policy Planner", "Water Resource Expert", "Environmental Analyst", "Hotel GM", "Nursing Home Head", "Counseling Center Staff"]
             ],
             /* Metal */ [
-                ["Medical Device Brand Mgr", "Bio Device System", "Hospital Admin Head", "Physical Therapist", "Industrial Safety Guide", "Metal Craft Tech", "Edu Audit System", "Medical Info Staff", "Precision Equip Tech", "Hospital Admin Staff", "Safety Inspector", "Special Machining"],
-                ["IT Startup Founder", "Media Art Leader", "Ent Biz Head", "UX/UI Director", "Digital Content PD", "Brand Marketer", "Police/Prosecutor Exec", "National Investigator", "Public Safety Head", "Cyber Investigator", "Digital Forensics", "Special Ops"],
-                ["Edu Foundation Chair", "Vocational Training Head", "Law Firm Director", "Tech Instructor", "Academic Ops Staff", "Edu Equip Operator", "Eval System Designer", "National Examiner", "Tech Edu Planner", "Correctional Admin", "Tax/Labor Assistant", "Legal Staff"],
-                ["Auto Brand Exec", "Semiconductor Lead", "CFO", "CPA/Tax Accountant", "Precision Craft Master", "Surgeon", "System Architect", "Defense Industry Planner", "Airline Pilot", "Mechanical Engineer", "Advanced Investigator", "Safety Supervisor"],
-                ["IT Security CEO", "Big Data Strategy Head", "Fintech Architect", "QA Engineer", "Luxury Car Dealer", "Navigator/Marine Engineer", "Finance Investigator", "Data Engineer", "Info Security Staff", "Digital Investigator", "Data Analyst", "Coast Guard"]
+                ["Medical IT Solution Dir", "Smart Facility Planner", "Healthcare Platform Founder", "Physical Therapist", "Industrial Safety Guide", "Metal Craft Tech", "Edu Audit System", "Medical Info Staff", "Precision Equip Tech", "Hospital Admin Staff", "Safety Inspector", "Special Machining"],
+                ["IT Startup Founder", "Media Art Leader", "Brand Marketing Head", "UX/UI Director", "Digital Content PD", "Performance Marketer", "Police/Prosecutor Exec", "National Investigator", "Public Safety Head", "Cyber Investigator", "Digital Forensics", "Special Ops"],
+                ["Edu Foundation Chair", "Vocational Training Head", "Law Firm Director", "Pro Tech Instructor", "Academic Ops Staff", "Edu Equip Operator", "Eval System Designer", "National Examiner", "Tech Edu Planner", "Correctional Admin", "Tax/Labor Assistant", "Legal Staff"],
+                ["Mobility/Aero Biz Leader", "Hardware/Semiconductor Head", "Global CFO", "CPA/Tax Accountant", "Precision Craft Master", "Surgeon", "System Architect", "Defense Industry Planner", "Airline Pilot", "Mechanical Engineer", "Advanced Investigator", "Safety Supervisor"],
+                ["Blockchain/Security CEO", "Digital Investigation Planner", "Data Infra Architect", "QA Engineer", "Luxury Car Dealer", "Navigator/Marine Engineer", "Finance Investigator", "Data Engineer", "Info Security Staff", "Digital Investigator", "Data Analyst", "Coast Guard"]
             ],
             /* Water */ [
-                ["Study Abroad Platform CEO", "Tourism Strategy Planner", "Cultural Exchange Head", "Psychological Counselor", "Travel Curator", "Translation Editor", "Knowledge Content Planner", "Anthropology Prof", "Academic Strategist", "Saju/Tarot Expert", "Special Edu Teacher", "Culture Planner"],
-                ["Global Sales Head", "Hotel Mgmt Strategy", "F&B Export Mgmt", "Simultaneous Interpreter", "Expatriate", "Flight Attendant", "Diplomacy Analyst", "Intl Investigator", "Psychiatrist", "Customs Broker", "Tour Guide", "Global Concierge"],
-                ["Logistics Network Designer", "Data Science Lead", "Statistics Head", "Data Engineer", "Archive Mgr", "Librarian", "Online Dist Planner", "Market Research Head", "Weather Forecaster", "Water Quality Tech", "Social Survey Analyst", "Info Mgmt Staff"],
-                ["Marine Insurance Exec", "Shipbuilding Designer", "Financial Crime Investigator", "Naval/Marine Officer", "Tech Translator", "Machine Maintenance Tech", "Intl Tax Lawyer", "Energy Trade Strategist", "Precision Measure Expert", "Shipbuilding Master", "Trade Finance Staff", "Port Ops Staff"],
-                ["Shipping Line CEO", "Air Cargo Head", "Trade Platform Founder", "Fluid Dynamics Researcher", "Basic Scientist", "Weather Forecaster", "Digital Trade Expert", "Deep Sea Explorer", "Seafood Dist Expert", "Philosophy Shop Owner", "Data Analyst", "Water Treatment Tech"]
+                ["Global Edu Platform Planner", "Culture Biz Strategist", "Premium Knowledge Curator", "Psychological Counselor", "Travel Curator", "Translation Editor", "Knowledge Content Planner", "Anthropology Prof", "Academic Strategist", "Saju/Tarot Expert", "Special Edu Teacher", "Culture Planner"],
+                ["Global Cross-border CEO", "Hospitality Founder", "Overseas Expansion Head", "Simultaneous Interpreter", "Expatriate", "Flight Attendant", "Diplomacy Analyst", "Intl Investigator", "Psychiatrist", "Customs Broker", "Tour Guide", "Global Concierge"],
+                ["Data Solution Founder", "Research Agency CEO", "Online Commerce Strategist", "Data Engineer", "Archive Mgr", "Librarian", "Online Dist Planner", "Market Research Head", "Weather Forecaster", "Water Quality Tech", "Social Survey Analyst", "Info Mgmt Staff"],
+                ["Global Finance Investigator", "Trade/Energy Strategist", "Maritime Network Planner", "Naval/Marine Officer", "Tech Translator", "Machine Maintenance Tech", "Intl Tax Lawyer", "Energy Trade Strategist", "Precision Measure Expert", "Shipbuilding Master", "Trade Finance Staff", "Port Ops Staff"],
+                ["Global Digital Trade CEO", "Data Science Lab Head", "Marine/Enviro Tech Founder", "Fluid Dynamics Researcher", "Basic Scientist", "Weather Forecaster", "Digital Trade Expert", "Deep Sea Explorer", "Seafood Dist Expert", "Philosophy Shop Owner", "Data Analyst", "Water Treatment Tech"]
             ]
         ];
 
         // 💡 4-4. [운명공학 4차원 하이브리드 판독 엔진]
-        const isWarm = (birthMonth >= 3 && birthMonth <= 8); // 사계절 온도 (활동/발산 vs 통제/수렴)
+        const isWarm = (birthMonth >= 3 && birthMonth <= 8); 
         const yangStems = ["gap", "byeong", "mu", "gyeong", "im"]; 
-        session.isYangMaster = yangStems.includes(session.iljuData.stemId); // 일간의 역할 (리더/기획 vs 전문가/실무)
+        session.isYangMaster = yangStems.includes(session.iljuData.stemId); 
         
         let startIndex = 0;
         if (isWarm && session.isYangMaster) {
-            startIndex = 0; // 봄/여름 + 양간 (활동형 파운더/리더)
+            startIndex = 0; 
         } else if (isWarm && !session.isYangMaster) {
-            startIndex = 3; // 봄/여름 + 음간 (활동형 실무/현장 전문가)
+            startIndex = 3; 
         } else if (!isWarm && session.isYangMaster) {
-            startIndex = 6; // 가을/겨울 + 양간 (수렴형 전략가/시스템 통제관)
+            startIndex = 6; 
         } else if (!isWarm && !session.isYangMaster) {
-            startIndex = 9; // 가을/겨울 + 음간 (수렴형 연구/분석 전문가)
+            startIndex = 9; 
         }
 
         const trackJobsKo = fusionJobsKo[top1Idx_C][top2Idx_C].slice(startIndex, startIndex + 3);
@@ -976,33 +975,32 @@ function switchTab(mode, element) {
         const pickedJobsKo = trackJobsKo.join(", ");
         const pickedJobsEn = trackJobsEn.join(", ");
 
-        // 💡 4-5. 최종 조립 완성
-        const finalJobKo = jobMod1Ko[mod1Idx] + " <b>[" + pickedJobsKo + "]</b> 등 관련";
-        const finalJobEn = "<b>[" + pickedJobsEn + "]</b> (and related fields) " + jobMod1En[mod1Idx];
-      
-        // 💡 5. 최종 운명 서사 조립 (맥락 충돌 방지 및 5점 척도 완벽 연동)
+        // 💡 4-5. 최종 조립 (누락된 변수 복구 및 대표님 문체 완벽 융합)
+        const weaponKo = jobMod1Ko[mod1Idx];
+        const weaponEn = jobMod1En[mod1Idx];
+
+        // 🚨 [복구 1] 제가 빼먹었던 '오행 이름 번역기' 서랍을 다시 가져왔습니다. (에러 방지)
         const elNamesKo_C = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
         const elNamesEn_C = ["Wood", "Fire", "Earth", "Metal", "Water"];
 
-        // [초정밀 팩트 체크] 최종 꼴찌 오행(top5Idx_C)이 이름에서 점수를 얼마나 받았는지 5단계로 계산
-        const baseScoreOfTop5 = baseScoresForIntensity[top5Idx_C];
+        // 🚨 [복구 2] baseScoresForIntensity 대신 항상 안전한 session.baseScores 사용
+        const baseScoreOfTop5 = session.baseScores[top5Idx_C];
         const finalScoreOfTop5 = session.elementScores[top5Idx_C];
         const boostAmountC = finalScoreOfTop5 - baseScoreOfTop5;
 
         let boostLevelC = 0;
-        if (boostAmountC >= 60) boostLevelC = 0;      // 0: 매우 많이 채움
-        else if (boostAmountC >= 30) boostLevelC = 1; // 1: 많이 채움
-        else if (boostAmountC > 0) boostLevelC = 2;   // 2: 보통 채움
-        else if (boostAmountC === 0 && baseScoreOfTop5 >= 40) boostLevelC = 3; // 3: 약하게 채움 (선천 점수로 버팀)
-        else boostLevelC = 4;                         // 4: 매우 약하게 채움 (치명적 결핍)
+        if (boostAmountC >= 60) boostLevelC = 0;      
+        else if (boostAmountC >= 30) boostLevelC = 1; 
+        else if (boostAmountC > 0) boostLevelC = 2;   
+        else if (boostAmountC === 0 && baseScoreOfTop5 >= 40) boostLevelC = 3; 
+        else boostLevelC = 4;                          
 
-        // 5단계 보완 정도에 따른 5가지 맞춤형 브릿지(연결) 문구
         const weaknessIntroArrKo = [
-            `성명의 에너지로 완벽하게 약점을 극복해 낸 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 무기로 삼아`, // 0단계 (매우 많이)
-            `성명의 에너지로 든든하게 보완된 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 내 것으로 만들어`, // 1단계 (많이)
-            `성명의 에너지로 안정을 되찾고 있는 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 다스려`, // 2단계 (보통)
-            `여전히 각별한 관리가 요구되는 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 의식적으로 통제하며`, // 3단계 (약하게)
-            `가장 취약한 아킬레스건으로 남은 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 철저히 경계하여`  // 4단계 (매우 약하게)
+            `성명의 에너지로 완벽하게 약점을 극복해 낸 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 무기로 삼아`, 
+            `성명의 에너지로 든든하게 보완된 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 내 것으로 만들어`, 
+            `성명의 에너지로 안정을 되찾고 있는 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 다스려`, 
+            `여전히 각별한 관리가 요구되는 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 의식적으로 통제하며`, 
+            `가장 취약한 아킬레스건으로 남은 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 철저히 경계하여`  
         ];
 
         const weaknessIntroArrEn = [
@@ -1013,12 +1011,13 @@ function switchTab(mode, element) {
             `by strictly guarding against your greatest Achilles' heel, the <b>${elNamesEn_C[top5Idx_C]}</b> energy,`
         ];
 
-        // 💡 5. 최종 운명 서사 조립 (대표님 지정 문체 적용 및 운명공학적 조율 강조)
-        const blockCKo = `당신의 전체적인 에너지 분포는 ${energyShapeKo} 형상을 띠고 있습니다. 탁월한 강점인 <b>${elNamesKo_C[top1Idx_C]}</b>의 기운을 바탕으로 ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘할 수 있는 사람입니다. 여기에 나만의 무기인 <b>${elNamesKo_C[top2Idx_C]}</b>의 <b>${top2SkillKo[top2Idx_C][top5Idx_C]}</b> 기술을 더하고, ${weaknessIntroArrKo[boostLevelC]} <b>${top5RiskKo[top5Idx_C][top5Severity]}</b>의 위험을 스스로 통제해 내야 합니다. 이러한 강점과 약점의 운명공학적 조율을 통해 ${finalJobKo} 분야에서 당신의 잠재력을 증명해 보시기 바랍니다.`;
+        // 🚨 [복구 3] 대표님이 정성껏 짠 top1FeatureKo, top2SkillKo를 최종 문장에 다시 살려 넣었습니다!
+        const blockCKo = `당신의 전체적인 에너지 분포는 ${energyShapeKo} 형상을 띠고 있습니다. 당신은 <b>${elNamesKo_C[top1Idx_C]}</b>의 기운을 바탕으로 ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘할 수 있는 사람입니다. <br><br>선천적인 영혼이 가장 강하게 이끌리는 당신의 진짜 무대는 <b>${pickedJobsKo}</b> 등 관련 분야입니다. 여기에 당신의 성명 파동이 <b>'${weaponKo}'</b>라는 후천적인 무기를 더해줍니다. <br><br>당신은 남들과 똑같은 일을 하더라도, <b>${elNamesKo_C[top2Idx_C]}</b>의 <b>${top2SkillKo[top2Idx_C][top5Idx_C]}</b> 기술과 이 후천적인 무기를 결합하여 업계를 독보적인 방식으로 평정하게 될 것입니다. ${weaknessIntroArrKo[boostLevelC]} <b>${top5RiskKo[top5Idx_C][top5Severity]}</b>의 위험을 스스로 통제해 내십시오. 이러한 사주와 성명의 운명공학적 시너지를 통해 당신의 진짜 잠재력을 증명해 보시기 바랍니다.`;
         
-        const blockCEn = `Your overall energy distribution takes the shape of ${energyShapeEn}. Based on your outstanding strength of <b>${elNamesEn_C[top1Idx_C]}</b>, you are someone who can manifest the <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> <b>${top1ScaleEn}</b>. By adding your unique weapon, the <b>${elNamesEn_C[top2Idx_C]}</b>'s <b>${top2SkillEn[top2Idx_C][top5Idx_C]}</b>, and ${weaknessIntroArrEn[boostLevelC]} overcoming the risk of <b>${top5RiskEn[top5Idx_C][top5Severity]}</b>, you must take control. Through this destiny-engineering tuning of strengths and weaknesses, please prove your true potential ${finalJobEn}.`;
+        const blockCEn = `Your overall energy distribution takes the shape of ${energyShapeEn}. Based on your energy of <b>${elNamesEn_C[top1Idx_C]}</b>, you are someone who can manifest the <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> <b>${top1ScaleEn}</b>. <br><br>The true stage your innate soul is most strongly drawn to is the field of <b>${pickedJobsEn}</b>. To this, the vibration of your name adds an acquired weapon: the characteristic of someone <b>'${weaponEn}'</b>. <br><br>Even when doing the same work as others, by combining the <b>${top2SkillEn[top2Idx_C][top5Idx_C]}</b> of <b>${elNamesEn_C[top2Idx_C]}</b> with this acquired weapon, you will dominate your industry in a unique way. ${weaknessIntroArrEn[boostLevelC]} overcoming the risk of <b>${top5RiskEn[top5Idx_C][top5Severity]}</b>, you must take control. Prove your true potential through this destiny-engineering synergy.`;
 
         let blockC = currentLang === 'ko' ? blockCKo : blockCEn;
+      
     // 💡 3개의 블록 조립
     const analysisText = `${blockA} ${blockB}`;  
     const missionText = `${blockC}`;
