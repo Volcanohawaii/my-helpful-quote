@@ -956,21 +956,18 @@ function switchTab(mode, element) {
                 ["Shipping/Air Cargo Biz", "Maritime Transport/Warehouse", "Deep-sea Fishery Biz", "Seafood Restaurant Owner", "Water/Sewage Manager", "Meteorological Official", "Basic Science/Climate R&D", "Philosophy Shop Owner", "Deep-sea Explorer", "Traditional Destiny Scholar"] 
             ]
         ];
-     // 💡 4-4. [음양오행 투 트랙 스위치 엔진] 
-        // 현실/비즈니스/공간을 다루는 기운(토+금) vs 사람/감정/아이디어를 다루는 기운(목+화+수)
-        const realityScore = session.elementScores[2] + session.elementScores[3]; // 토(Earth) + 금(Metal) 점수 합산
-        const humanScore = session.elementScores[0] + session.elementScores[1] + session.elementScores[4]; // 목, 화, 수 점수 합산
+// 💡 4-4. [음양오행 투 트랙 스위치 엔진] 
+        const realityScore = session.elementScores[2] + session.elementScores[3]; // 토+금 합산
+        const humanScore = session.elementScores[0] + session.elementScores[1] + session.elementScores[4]; // 목+화+수 합산
 
-        // 🎯 스위치 온: 현실 점수가 높으면 A루트(0~4번), 감성 점수가 높으면 B루트(5~9번) 배정
+        // 현실 점수가 높으면 A트랙(비즈니스), 낮으면 B트랙(가치중심)
         const isTrackA = (realityScore >= humanScore);
         const startIndex = isTrackA ? 0 : 5;
 
-        // 해당 조합(1위x2위) 안에서 스위치에 따라 5개의 맞춤형 직업군만 잘라내기(Slice)
         const trackJobsKo = fusionJobsKo[top1Idx_C][top2Idx_C].slice(startIndex, startIndex + 5);
         const trackJobsEn = fusionJobsEn[top1Idx_C][top2Idx_C].slice(startIndex, startIndex + 5);
-        
-        // 잘라낸 5개 그룹 안에서 수리 파동(seed)을 바탕으로 3개를 무작위 추출
-        const extractCount = 3;
+      
+        const extractCount = 5; 
         const seed = session.num81 + birthMonth;
         let selectedIndices = [];
         let step = 0;
@@ -984,11 +981,10 @@ function switchTab(mode, element) {
             step++;
         }
 
-        // 뽑힌 인덱스를 바탕으로 직업명 매칭
         const pickedJobsKo = selectedIndices.map(idx => trackJobsKo[idx]).join(", ");
         const pickedJobsEn = selectedIndices.map(idx => trackJobsEn[idx]).join(", ");
 
-        // 💡 4-5. 최종 조립 완성 (대표님의 순정 코드 100% 원상복구 및 유지)
+        // 💡 4-5. 최종 조립 완성
         const finalJobKo = jobMod1Ko[mod1Idx] + " <b>[" + pickedJobsKo + "]</b> 등 관련";
         const finalJobEn = "<b>[" + pickedJobsEn + "]</b> (and related fields) " + jobMod1En[mod1Idx];
 
