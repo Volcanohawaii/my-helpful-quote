@@ -846,7 +846,7 @@ function switchTab(mode, element) {
             ["rigidity of thought unable to adapt", "passivity losing subjectivity by situations", "daydreaming missing action due to overthinking", "lack of communication causing misunderstandings", "boundlessness losing identity by accepting all"]
         ];
 
-        // 💡 4-1. [성명학 무기 추출] 이름이 가장 크게 끌어올려준 기운
+        // 💡 4-1. [성명학 무기 추출] 이름이 부여한 특수 스킬(수식어)
         const varIdx5 = session.num81 % 5; 
         const diffScores = session.elementScores.map((score, i) => score - session.baseScores[i]);
         let weaponElIdx = diffScores.indexOf(Math.max(...diffScores)); 
@@ -872,100 +872,95 @@ function switchTab(mode, element) {
             "who flexibly adapts to changing times with smooth tact", "who reads macro patterns behind immediate phenomena", "who turns crisis into opportunity with strategic thinking", "who absorbs and applies diverse knowledge with wisdom", "who silently reads the board and prepares for the future"
         ];
 
-        // 💡 4-3. [스펙트럼 300종 전면 복구본 - 1,000회 시뮬레이션 무결성 검증]
-        // 4분면 궤도: [0~2:발산/리더], [3~5:발산/현장실무], [6~8:수렴/기획아키텍트], [9~11:수렴/연구행정]
+        // 💡 4-3. [스펙트럼 300종 - 허세 제거 완료 극현실 실무/직장인 맞춤 매트릭스]
+        // 4분면 궤도: [0~2: 발산/주도형 실무], [3~5: 발산/현장 및 영업], [6~8: 수렴/관리 및 기획], [9~11: 수렴/연구 및 백오피스]
         const fusionJobsKo = [
-            /* 1위 목(木) */ [ 
-                /* +목 */ ["에듀테크 파운더", "교육 플랫폼 대표", "지식 비즈니스 전략가", "콘텐츠 전문 강사", "교육 현장 실무자", "프리랜서 교육자", "대형 플랫폼 아키텍트", "교육 시스템 기획관", "지식 인프라 총괄", "대학교수/학자", "심리 상담 연구원", "전문 사서/기록물 관리"],
-                /* +화 */ ["미디어 그룹 디렉터", "브랜드 경험(BX) 리더", "엔터 파운더", "교육 서비스 기획", "학사 운영 실무", "교무 행정 전문가", "디지털 트랜스포메이션 총괄", "IT 솔루션 아키텍트", "콘텐츠 IP 기획자", "데이터 시각화 실무", "UI/UX 리서처", "기술 전문 작가"],
-                /* +토 */ ["공간 비즈니스 파운더", "로컬 크리에이터 리더", "프롭테크 기획자", "공간 인테리어 실무", "커뮤니티 가이드", "조직 문화 매니저", "대규모 인프라 디벨로퍼", "플랫폼 비즈니스 설계자", "자산 운용 전략가", "사회 복지 행정사", "인사 노무 실무", "시설 운영 관리자"],
-                /* +금 */ ["헬스케어 벤처 대표", "글로벌 유통 총괄", "스마트 물류 파운더", "의료/제약 전문 영업", "모빌리티 세일즈", "여행 상품 기획자", "기업 리스크 관리 총괄", "글로벌 소싱 전략가", "물류 네트워크 아키텍트", "특허 법률 전문가", "산업 안전 점검사", "정밀 부품 유통 실무"],
-                /* +수 */ ["크로스보더 커머스 대표", "글로벌 비즈니스 총괄", "데이터 플랫폼 파운더", "국제 행사 전문 통역", "해외 영업 실무", "글로벌 마케터", "글로벌 전략 총괄", "데이터 유통 플랫폼 이사", "정보 보안 기획자", "시장 조사/리서처", "빅데이터 분석 실무", "디지털 아카이브 전문가"]
+            /* 1위 목(교육, 기획, 출판) */ [ 
+                /* +목 */ ["학원 원장/운영자", "프리랜서 강사/교사", "교육 프로그램 기획자", "전문 교과 강사", "교육 현장 실무자", "방과후/특기 적성 교사", "교육 정책 담당자", "지식 서비스 기획자", "교육 컨설턴트", "심리/진로 상담사", "학사 기획 담당자", "특수 교육 교사"],
+                /* +화 */ ["콘텐츠 제작/기획자", "디지털 마케팅 담당자", "영상 편집/제작자", "웹/모바일 디자이너", "퍼포먼스/SNS 마케터", "출판/웹진 에디터", "IT 서비스 기획자", "웹/앱 UI 디자이너", "방송 대본 작가", "미디어 데이터 분석가", "방송 스태프/제작진", "교재/편집 디자인"],
+                /* +토 */ ["공간 기획/마케팅", "인사/노무/채용 담당자", "프랜차이즈 점장/관리", "사내 교육/조직 담당", "공간 대여/임대업 운영", "CS/고객 소통 담당자", "일반 사무/총무직", "부동산 중개 실무", "시설/건물 임대 관리", "사회복지 재단 사무직", "행정/복지 센터 실무", "사옥/시설 관리직"],
+                /* +금 */ ["제약/의료기기 영업직", "유통/물류 영업 지원", "자동차/기계 부품 세일즈", "수입차/장비 딜러", "영업 관리/지원 사무", "도서/출판 유통 실무", "국가 수사/경찰 실무", "B2B 기업 영업직", "지점/가맹점 관리자", "산업 안전 관리 감독관", "품질 관리/QC 담당", "물류 센터 운영/관리"],
+                /* +수 */ ["해외 영업/무역 실무", "유학/어학원 운영 및 강사", "해외 바이어/수출입 영업", "전문 번역/통역가", "해외/외국어 콘텐츠 에디터", "시장/트렌드 리서처", "정보 보안 담당자", "데이터 통계/리서치 연구원", "학술지/논문 에디터", "빅데이터 분석/처리 실무", "기록물 보존/아카이브", "전산 시스템 유지보수"]
             ],
-            /* 1위 화(火) */ [ 
-                /* +목 */ ["컬처/아트 플랫폼 파운더", "엔터테인먼트 리더", "교육 서비스 기획 총괄", "현장 교육 연수사", "교무 학사 실무", "교육 실무 책임자", "지식 콘텐츠 사업 총괄", "대형 문화 프로젝트 기획자", "인재 개발 아키텍트", "학술 서적 에디터", "청소년 심리 상담가", "전문 교육 연구원"],
-                /* +화 */ ["뉴미디어 에이전시 파운더", "디지털 캠페인 디렉터", "커머스 마케팅 총괄", "퍼포먼스 마케터", "영상 기획/편집 감독", "대형 이벤트 운영 실무", "커뮤니케이션 전략 이사", "기업 브랜드 총괄", "미디어 플랫폼 기획자", "방송 제작 지원 실무", "위기 관리 PR 전문가", "광고 데이터 분석가"],
-                /* +토 */ ["커뮤니티 비즈니스 리더", "복합문화공간 파운더", "소셜 트렌드 디렉터", "공간 마케팅 실무", "전시/갤러리 큐레이터", "CS/서비스 강사", "조직 전략 컨설턴트", "소셜 임팩트 투자자", "ESG 경영 기획관", "사회복지 재단 실무", "인사/노무 행정직", "복지 센터 관리직"],
-                /* +금 */ ["핀테크 스타트업 대표", "하이테크 브랜드 파운더", "IT 솔루션 디렉터", "패션/뷰티 전문 MD", "영상 장비/기술 전문가", "정밀 기기 전문 세일즈", "기술 감사 총괄", "재무 리스크 관리 이사", "글로벌 투자 전략가", "산업 시장 분석가", "금융 자산 관리자(PB)", "회계/재무 데이터 분석"],
-                /* +수 */ ["글로벌 세일즈 그룹장", "MICE/전시 글로벌 마케터", "글로벌 IT 플랫폼 리더", "국제 동시 통역사", "글로벌 주재원", "항공/서비스 승무원", "글로벌 마켓 전략가", "정보 보안 총괄(CISO)", "다국적 기업 아키텍트", "범죄/심리 분석 전문가", "국제 수사 실무", "글로벌 컨시어지"]
+            /* 1위 화(미디어, 디자인, IT, F&B) */ [ 
+                /* +목 */ ["문화/전시 기획자", "예술/문화 재단 실무", "엔터테인먼트 기획/사무", "교육/학술 연구원", "교무/학생처 행정", "현장 교육 연수사", "국가 문화 정책 담당자", "지식 서비스 기획자", "학교/학원 공무원", "학술 서적 에디터", "청소년/부부 심리 상담", "전문 교육 연구원"],
+                /* +화 */ ["광고/카피라이터", "마케팅/광고 기획자", "F&B/외식업 매장 운영", "온라인 쇼핑몰 운영", "영상/사진 촬영 기사", "MICE/행사 대행 실무", "홍보/PR 담당자", "사내 커뮤니케이션직", "브랜드 마케팅/영업", "라이브 커머스 담당자", "방송국/언론사 행정직", "언론 대응/위기 관리"],
+                /* +토 */ ["복합문화공간 기획", "테마파크/레저 매장 관리", "공공기관 일반 행정직", "서비스/CS 교육 강사", "전시/갤러리 큐레이터", "공간 마케팅 실무", "정부 부처 일반 사무관", "사회복지 재단 실무", "경영/조직 컨설턴트", "인사/노무 행정 실무", "커뮤니티 매니저", "복지 센터 관리직"],
+                /* +금 */ ["IT/소프트웨어 개발자", "핀테크 서비스 개발/기획", "의료/금융 IT 기획", "패션/뷰티 전문 MD", "음향/조명/무대 기술직", "정밀 기기 전문 세일즈", "기술/직업 훈련 강사", "정보 보안/감사 담당자", "소비자 리서치 조사원", "은행/증권사 창구 영업", "세무/회계 법인 사무", "재무/회계/경리 실무"],
+                /* +수 */ ["해외 브랜드 수입 영업", "항공/객실 승무원", "글로벌 세일즈 담당자", "국제회의 동시 통역사", "해외 주재원/파견직", "국제 관광 가이드/컨시어지", "데이터베이스/웹 기획", "심리 상담사/치료사", "해외 시장 리서치 조사원", "무역/통관 시스템 기획", "국제 교류/행사 행정직", "해외 정책/동향 연구 실무"]
             ],
-            /* 1위 토(土) */ [ 
-                /* +목 */ ["프롭테크 파운더", "공간/인테리어 임대 사업가", "로컬 비즈니스 디렉터", "공간 대여업 실무", "조경/플랜테리어 실무", "부동산 중개인", "비즈니스 전략 컨설턴트", "대규모 건축/시공 기획자", "토지 개발 프로젝트 총괄", "건축/토목 연구원", "원예/농장 기술자", "공간 데이터 분석 실무"],
-                /* +화 */ ["F&B 공간 브랜딩 총괄", "리테일테크 기획 파운더", "커머스 마케팅 디렉터", "대형 매장 운영 마스터", "영업 지원/관리 실무", "VMD(비주얼 머천다이저)", "인프라 자산 관리 총괄", "공급망 관리(SCM) 아키텍트", "물류 자동화 기획자", "상권/입지 분석 전문가", "CS/서비스 교육관", "시설 보안 관리자"],
-                /* +토 */ ["B2B 비즈니스 파운더", "조직/경영 시스템 디렉터", "경영 컨설팅 대표", "일반 영업/총무 관리", "커뮤니티 매니저", "고객 지원 실무", "조직 운영 시스템 설계자", "공공/대기업 행정 총괄", "비즈니스 아키텍트", "지적 측량 전문가", "법률 사무/보조 실무", "문서/기록물 관리사"],
-                /* +금 */ ["핀테크 자산 디렉터", "데이터 기반 경영 컨설턴트", "기업 리스크 총괄 리더", "은행/금융권 영업 실무", "건설 현장 엔지니어", "보험/자산 관리 세일즈", "금융 시스템 아키텍트", "건설 원가 총괄", "기업 리스크 관리(ERM) 이사", "회계사/세무사 실무", "감정 평가사", "재무 데이터 분석 실무"],
-                /* +수 */ ["웰니스/휴양 비즈니스 파운더", "소셜 벤처 대표", "글로벌 커뮤니티 리더", "현장 사회복지사", "심리 상담/치료사", "NGO/환경 활동가", "수자원/환경 인프라 총괄", "ESG 정책 기획관", "대형 리조트 기획자", "환경 생태 분석 실무", "호텔/의전 지배인", "요양/복지 센터 운영"]
+            /* 1위 토(부동산, 건축, 일반 사무/행정) */ [ 
+                /* +목 */ ["공인중개사/부동산 중개", "건축/인테리어 시공직", "건설/건축 현장 소장", "인테리어 디자이너", "조경/화훼 관리직", "공간 대여/임대업 운영", "도시 계획/개발 기획", "토지 개발/보상 실무", "건축/토목 현장 감리", "플랜테리어/식물 관리", "원예/농업 기술자", "부동산 중개 보조"],
+                /* +화 */ ["프랜차이즈 점장/관리", "마트/백화점 매장 관리", "물류/유통 영업 지원", "대형 매장 운영 마스터", "영업 지원/관리 사무", "VMD(매장 디스플레이)", "시설/건물 임대 관리", "상권/입지 분석가", "CS/고객 소통 담당자", "현장 영업/마케터", "물류 센터 운영/관리", "사옥/시설 관리직"],
+                /* +토 */ ["경영/조직 컨설턴트", "일반 사무/총무직", "인사/노무/채용 담당자", "일반/행정 공무원", "지적 측량/토지 실무", "법률 사무/보조(로펌)", "문서/기록물 관리 사무", "사내 교육/조직 담당", "법무사/노무사무소 직원", "공공기관 일반 행정직", "기록/문서 보존 담당", "문서/기록물 분석 연구원"],
+                /* +금 */ ["감정평가사/보조 실무", "재무/회계/경리 실무", "건설 현장 엔지니어", "세무사/회계사 실무", "현장 안전 관리/감독관", "은행/증권사 창구 영업", "기업 법무/리스크 실무", "보험/자산 관리 설계사", "건설 원가/견적 실무", "산업 안전 관리 감독직", "감정 평가 보조 실무", "금융 데이터 통계 분석"],
+                /* +수 */ ["호텔/리조트 프론트 및 관리", "해운/항만/물류 영업", "사회복지사/요양 보호사", "심리 상담/치료사", "NGO/환경 단체 활동가", "수질/환경 처리 기술자", "에너지/환경 정책 연구원", "수자원/상하수도 관리", "환경/생태 분석 연구원", "관광/면세점 판매 및 관리", "요양/복지 시설 관리직", "행정/주민 센터 실무"]
             ],
-            /* 1위 금(金) */ [ 
-                /* +목 */ ["메디컬 IT 솔루션 디렉터", "스마트 설비 시스템 기획", "헬스케어 플랫폼 파운더", "물리 치료사/재활", "금속 공예/가공 실무", "현장 산업 안전 지도", "정밀 의료 설비 총괄", "의료 정보 시스템 아키텍트", "교육/안전 감사 총괄", "병원 원무/보건 실무", "안전/보건 점검사", "특수 소재 가공 실무"],
-                /* +화 */ ["IT 스타트업 창업", "미디어 아트 리더", "브랜드 마케팅 총괄", "UX/UI 디렉터", "디지털 콘텐츠 PD", "퍼포먼스 마케터", "경찰/검찰 고위 간부", "국가 기술 수사관", "공공 안전 정책 총괄", "사이버 범죄 수사대원", "디지털 포렌식 전문가", "특수 수사 실무"],
-                /* +토 */ ["교육 재단 이사장", "직업 훈련원장", "법무법인 이사", "전문 직업 기술 강사", "교육 기자재 운용", "학사/교무 실무", "국가 평가 시스템 설계관", "기술 교육 기획 이사", "컴플라이언스 총괄", "국가 자격 시험관", "교도/보호 행정 공무원", "세무/노무/법무 실무"],
-                /* +금 */ ["모빌리티/항공 비즈니스 리더", "하드웨어/반도체 기획 총괄", "글로벌 재무 전략가(CFO)", "수입차/정밀 기기 딜러", "기술 기계 영업", "보험 영업 실무", "금융 인프라 아키텍트", "방위 산업 기획관", "항공기 캡틴/비행 단장", "공인회계사(CPA)/세무사", "정형/외과 전문의", "고도 지능 범죄 수사관"],
-                /* +수 */ ["블록체인/보안 솔루션 대표", "데이터 인프라 파운더", "디지털 딥테크 리더", "프리미엄 브랜드 딜러", "네트워크 영업", "IT 하드웨어 세일즈", "디지털 수사 정책 기획관", "정보 보안 총괄 아키텍트", "글로벌 금융 수사 디렉터", "소프트웨어 QA 엔지니어", "빅데이터 엔지니어", "디지털 범죄 수사 실무"]
+            /* 1위 금(금융, 의료, 제조/기술, 보안) */ [ 
+                /* +목 */ ["의료기기 기획/운영", "병원 원무과/원무 행정", "의료/제약 병원 영업", "정형외과/물리치료사", "산업 안전/품질 관리직", "생산/제조 공정 기술자", "국가 자격/면허 시험관", "의무 기록사/보건 행정", "의학/공학 관련 연구원", "병원 정보 시스템 유지보수", "안전/보건 컨설턴트", "기계/설비 정비 기술자"],
+                /* +화 */ ["보안 엔지니어/관제", "영상/사진 촬영 기사", "브랜드 마케팅/영업", "웹/모바일 디자이너", "디지털 마케팅 담당자", "퍼포먼스/SNS 마케터", "군인/경찰/소방 공무원", "일반 수사/경찰 실무", "공공 안전/재난 관리직", "데이터 보안/관리 엔지니어", "디지털 포렌식/보안 실무", "특수 보안/경비직"],
+                /* +토 */ ["기술/직업 훈련 강사", "사내 매뉴얼/규정 기획", "법률 사무/보조(로펌)", "전문 교과 강사", "학사 기획 담당자", "학교/학원 데스크 업무", "국가 자격 시험/평가직", "기술 교육 기획 및 사무", "준법 감시(컴플라이언스)", "교정/보호 관찰 공무원", "세무/회계 법인 사무", "법무/법원 서기 및 실무"],
+                /* +금 */ ["수입차/장비 딜러", "자동차/기계 부품 세일즈", "기업 자금/투자 관리직", "세무사/회계사 실무", "기계/설비 정비 기술자", "의사/간호사/의료직", "소프트웨어 엔지니어", "방위 산업/무기 기획", "파일럿/항공 정비사", "백엔드/서버 개발자", "국가 수사/경찰 실무", "산업 안전 관리 감독직"],
+                /* +수 */ ["정보 보안 담당자", "데이터 통계 분석가", "금융 전산망 개발자", "소프트웨어 QA(테스터)", "해외 수입차/장비 딜러", "항해사/선박 관리/해경", "금융/보험 계리 분석가", "데이터/문서 아카이브 관리", "정보 통신/네트워크 연구", "세관/출입국 관리 실무", "금융 데이터 통계 분석", "해양/항만 관제 및 행정"]
             ],
-            /* 1위 수(水) */ [ 
-                /* +목 */ ["글로벌 교육 플랫폼 기획", "컬처 비즈니스 전략가", "웰니스/심리 센터장", "청소년/가족 심리 상담가", "프리미엄 여행 큐레이터", "문화/예술 기획 실무", "글로벌 학술 네트워크 총괄", "지식 콘텐츠 사업 아키텍트", "인문학 전략 기획자", "전문 번역가/에디터", "명리/사주/타로 전문가", "특수학교 교사"],
-                /* +화 */ ["글로벌 크로스보더 커머스 대표", "호스피탈리티 파운더", "해외 사업 확장 총괄", "국제회의 동시 통역사", "글로벌 영업 실무", "국제 관광 가이드", "다국적 기업 전략 총괄", "외교/통상 기획관", "글로벌 마켓 아키텍트", "국제 범죄 수사 전문가", "정신의학/심리 분석의", "관세사/통관 전문인"],
-                /* +토 */ ["데이터 솔루션 파운더", "리서치/통계 에이전시 대표", "온라인 커머스 디렉터", "온라인 유통 실무", "고객 데이터 마케터", "물류/유통 오퍼레이터", "디지털 아카이브 전략 총괄", "데이터 베이스 시스템 설계관", "거시 경제 분석관", "데이터 베이스 엔지니어", "도서관 사서", "사회조사/기상 예보 실무"],
-                /* +금 */ ["글로벌 투자/금융 파운더", "무역/에너지 사업가", "해상/물류 네트워크 대표", "기계/정밀 장비 수출입 영업", "해외 운송 실무", "산업 기술 전문 번역", "국제 조세/상법 전문 기획관", "해양 인프라/에너지 전략가", "해군/해병 고위 지휘관", "글로벌 금융 수사관", "정밀 측정/검사 전문가", "해양 항만 관제 실무"],
-                /* +수 */ ["글로벌 디지털 무역 대표", "데이터 사이언스 연구소장", "해양/환경 딥테크 파운더", "수산물/자원 수출입 실무", "크루즈/해양 가이드", "수질/환경 영업", "거시 환경/기후 정책관", "심해 탐사/해양 전략가", "디지털 무역 전략 기획관", "유체/수리 역학 연구원", "철학관/점술업 운영", "정수/수처리 환경 기술"]
+            /* 1위 수(해외영업, 무역, 데이터, 리서치) */ [ 
+                /* +목 */ ["어학/문화/인류학 교수", "유학/어학원 운영 및 강사", "청소년/부부 심리 상담", "직업/진로 상담사", "전문 여행 가이드/인솔", "명리/타로/점술 상담", "학술/연구 행정 지원", "외서/출판 기획 및 에디터", "해외/외국어 콘텐츠 에디터", "전문 번역/통역가", "특수 교육 교사", "문화/예술 공연 기획"],
+                /* +화 */ ["해외 바이어/수출입 영업", "호텔/리조트 프론트 및 관리", "해외 영업/무역 실무", "국제회의 동시 통역사", "해외 주재원/파견직", "국제 관광 가이드/컨시어지", "외교/통상 행정 실무", "출입국/관세 공무원", "정신과 의사/임상 심리", "관세사/통관 보조 실무", "관광/면세점 판매 및 관리", "VIP 의전/컨시어지 서비스"],
+                /* +토 */ ["빅데이터 분석/처리 실무", "통계청/리서치 조사관", "온라인/해외 커머스 기획", "DB/백엔드 엔지니어", "데이터/문서 아카이브 관리", "국공립 도서관 사서", "온라인 쇼핑몰/유통 실무", "해외 시장 리서치 조사원", "기상/날씨 데이터 분석", "수질/환경 설비 운영", "사회 조사 통계 분석원", "데이터베이스/웹 기획"],
+                /* +금 */ ["무역/에너지 수입 기획", "해운/항만/물류 영업", "해운/항공 기장 및 선원", "기계/정밀 장비 수출입 영업", "해외 운송 실무", "산업 기술 전문 번역가", "국제 조세/상법 사무직", "해양/수산 자원 정책 연구", "정밀 측정/검사 전문가", "조선/해양 기술 실무", "수출입 무역 금융 실무", "해양/항만 관제 및 행정"],
+                /* +수 */ ["해외 바이어/수출입 영업", "데이터 통계/리서치 연구원", "환경/수질 처리 기술자", "수산물/자원 유통 실무", "해양/크루즈 가이드", "수질/환경 영업", "에너지/환경 정책 연구원", "심해 탐사/해양 연구", "디지털 무역 플랫폼 실무", "수리/유체 역학 연구원", "철학관/사주 카페 운영", "수질/환경 분석 연구원"]
             ]
         ];
 
-        // 💡 영어 배열 (한국어 300종 배열과 1:1 완벽 대칭 구조 유지)
+        // 💡 영어 배열 (한국어 배열과 1:1 대칭 유지)
         const fusionJobsEn = [
             /* Wood */ [
-                ["EdTech Founder", "Edu Platform CEO", "Knowledge Biz Strategist", "Content Instructor", "Edu Field Expert", "Freelance Tutor", "Large Platform Architect", "Edu System Planner", "Knowledge Infra Head", "Professor/Scholar", "Psychology Researcher", "Librarian/Archive Admin"],
-                ["Media Group Director", "BX Leader", "Ent Founder", "Edu Service Planner", "Academic Ops Staff", "School Admin Expert", "Digital Transformation Head", "IT Solution Architect", "Content IP Planner", "Data Viz Specialist", "UI/UX Researcher", "Tech Writer"],
-                ["Space Biz Founder", "Local Creator Leader", "PropTech Planner", "Interior Builder", "Community Guide", "Org Culture Mgr", "Large Infra Developer", "Platform Biz Architect", "Asset Ops Strategist", "Social Welfare Admin", "HR Specialist", "Facility Mgr"],
-                ["Healthcare Venture CEO", "Global Dist Head", "Smart Logistics Founder", "Pharma Sales", "Auto Dealer", "Travel Planner", "Corporate Risk Head", "Global Sourcing Strategist", "Logistics Network Architect", "Patent Lawyer", "Safety Inspector", "Precision Dist Staff"],
-                ["Cross-border Commerce CEO", "Global Biz Head", "Data Platform Founder", "Tech Interpreter", "Overseas Sales", "Global Marketer", "Global Strategy Head", "Data Dist Platform Dir", "Info Security Planner", "Market Researcher", "Big Data Analyst", "Digital Archivist"]
+                ["Academy Director", "Freelance Instructor", "Edu Program Planner", "Subject Instructor", "Edu Field Staff", "After-school Teacher", "Edu Policy Officer", "Knowledge Service Planner", "Edu Consultant", "Psychological Counselor", "Academic Planner", "Special Edu Teacher"],
+                ["Content Creator", "Digital Marketer", "Video Editor", "Web/Mobile Designer", "Performance/SNS Marketer", "Publishing Editor", "IT Service Planner", "Web/App UI Designer", "Broadcast Script Writer", "Media Data Analyst", "Broadcast Staff", "Editorial Designer"],
+                ["Space Planning/Marketing", "HR/Recruitment Staff", "Franchise Branch Mgr", "Internal Edu/Org Staff", "Space Rental/Lease Biz", "CS/Customer Comms", "General Admin", "Realtor", "Facility/Bldg Lease Admin", "Welfare Foundation Staff", "Admin/Welfare Center Staff", "Facility Admin"],
+                ["Pharma/Medical Device Sales", "Logistics/Dist Sales Support", "Auto/Machine Parts Sales", "Import Car/Equip Dealer", "Sales Admin/Support", "Book/Publishing Dist Staff", "National Investigator/Police", "B2B Corporate Sales", "Branch/Franchise Mgr", "Industrial Safety Supervisor", "Quality Control Staff", "Logistics Center Ops"],
+                ["Overseas Sales/Trade Staff", "Study Abroad/Academy Ops", "Overseas Buyer/Import Sales", "Pro Translator/Interpreter", "Overseas/Foreign Lang Editor", "Market/Trend Researcher", "Info Security Staff", "Data Stat/Research Analyst", "Journal/Paper Editor", "Big Data Analyst", "Records/Archive Admin", "System Maintenance Staff"]
             ],
             /* Fire */ [
-                ["Culture/Art Platform Founder", "Ent Leader", "Edu Service Head", "Pro Edu Trainer", "Academic Ops Staff", "Edu Field Manager", "Knowledge Content Head", "Large Culture Project Planner", "HR Dev Architect", "Academic Editor", "Youth Counselor", "Edu Researcher"],
-                ["New Media Agency Founder", "Digital Campaign Director", "Commerce Marketing Head", "Performance Marketer", "Video Editor", "Event Ops", "Comms Strategist", "Corporate Brand Head", "Media Platform Planner", "Broadcast Support Staff", "Crisis PR Manager", "Ad Data Analyst"],
-                ["Community Biz Leader", "Culture Space Founder", "Social Trend Director", "Space Marketer", "Exhibition Curator", "CS Instructor", "Org Strategy Consultant", "Social Impact Investor", "ESG Planner", "Welfare Foundation Staff", "HR/Labor Staff", "Welfare Center Admin"],
-                ["Fintech Startup CEO", "High-Tech Brand Founder", "IT Solution Director", "Fashion MD", "Video Tech Expert", "Precision Equip Sales", "Tech Audit Head", "Finance Risk Director", "Global Investment Strategist", "Industry Analyst", "Financial PB", "Accounting Analyst"],
-                ["Global Sales Group Head", "MICE Global Marketer", "Global IT Platform Leader", "Simultaneous Interpreter", "Expatriate", "Flight Attendant", "Global Market Strategist", "CISO", "MNC Architect", "Psychological Analyst", "Intl Investigator", "Global Concierge"]
+                ["Culture/Exhibition Planner", "Culture/Art Foundation Staff", "Ent Planner/Admin", "Edu/Academic Researcher", "Academic/Student Affairs", "Edu Field Manager", "National Culture Policy Staff", "Knowledge Service Planner", "School/Academy Official", "Academic Book Editor", "Youth/Couples Counselor", "Pro Edu Researcher"],
+                ["Ad/Copywriter", "Marketing/Ad Planner", "F&B/Restaurant Mgr", "Online Store Ops", "Video/Photographer", "MICE/Event Agency Staff", "PR Staff", "Internal Comms Staff", "Brand Marketing/Sales", "Live Commerce Staff", "Broadcast/Press Admin", "Press Response/Crisis Mgmt"],
+                ["Multi-Culture Space Planner", "Theme Park/Leisure Mgr", "Public Org General Admin", "CS/Service Instructor", "Exhibition Curator", "Space Marketer", "Govt General Official", "Welfare Foundation Staff", "Biz/Org Consultant", "HR/Labor Admin Staff", "Community Mgr", "Welfare Center Admin"],
+                ["IT/Software Developer", "Fintech Service Dev", "Medical/Finance IT Planner", "Fashion/Beauty MD", "Sound/Lighting/Stage Tech", "Precision Equip Sales", "Tech/Vocational Instructor", "Info Security/Audit Staff", "Consumer Researcher", "Bank/Securities Branch Sales", "Tax/Accounting Firm Admin", "Finance/Accounting Staff"],
+                ["Overseas Brand Import Sales", "Flight/Cabin Attendant", "Global Sales Staff", "Simultaneous Interpreter", "Expatriate/Dispatched Staff", "Intl Tour Guide/Concierge", "Database/Web Planner", "Psychological Counselor", "Overseas Market Researcher", "Trade/Customs System Planner", "Intl Exchange/Event Admin", "Overseas Policy/Trend Researcher"]
             ],
             /* Earth */ [
-                ["PropTech Founder", "Interior Rental Biz", "Local Biz Director", "Space Rental Staff", "Landscape Staff", "Realtor", "Biz Strategy Consultant", "Large Construction Planner", "Land Dev Project Head", "Arch/Civil Researcher", "Horticulturist", "Space Data Analyst"],
-                ["F&B Space Branding Head", "RetailTech Planner", "Commerce Marketing Director", "Store Ops Master", "Sales Support", "VMD", "Infra Asset Mgmt Head", "SCM Architect", "Logistics Auto Planner", "Trade Area Analyst", "CS Instructor", "Facility Security"],
-                ["B2B Biz Founder", "Org/Mgmt System Director", "Mgmt Consulting CEO", "General Sales/Admin", "Community Mgr", "Customer Support Staff", "Org System Designer", "Public/Corp Admin Head", "Biz Architect", "Cadastral Surveyor", "Legal Assistant", "Records Admin"],
-                ["Fintech Asset Director", "Data-driven Biz Consultant", "Corporate Risk Leader", "Bank/Finance Sales", "Construction Engineer", "Insurance/Asset Sales", "Financial System Architect", "Construction Cost Head", "ERM Director", "CPA/Tax Staff", "Appraiser", "Financial Data Analyst"],
-                ["Wellness Biz Founder", "Social Venture CEO", "Global Community Leader", "Social Worker", "Psychological Counselor", "NGO Activist", "Water/Enviro Infra Head", "ESG Policy Planner", "Large Resort Planner", "Environmental Analyst", "Hotel GM", "Nursing Home Head"]
+                ["Realtor", "Arch/Interior Construction", "Construction Site Mgr", "Interior Designer", "Landscaping/Floral Admin", "Space Rental/Lease Ops", "Urban Planning/Dev", "Land Dev/Compensation Staff", "Arch/Civil Supervisor", "Planterior/Plant Care", "Horticulture/Agri Tech", "Real Estate Broker Assistant"],
+                ["Franchise Branch Mgr", "Mart/Dept Store Mgr", "Dist/Logistics Sales Support", "Large Store Ops Master", "Sales Admin/Support", "VMD", "Facility/Bldg Lease Admin", "Trade Area/Location Analyst", "CS/Customer Comms", "Field Marketer", "Logistics Center Ops", "Bldg/Facility Admin"],
+                ["Biz/Org Consultant", "General Admin/Affairs", "HR/Recruitment Staff", "General/Admin Official", "Cadastral Survey/Land Staff", "Legal Assistant/Paralegal", "Doc/Records Admin", "Internal Edu/Org Staff", "Paralegal/Labor Assistant", "Public Org Admin", "Records/Doc Preservation Staff", "Records/Doc Analyst"],
+                ["Appraiser/Assistant", "Finance/Accounting Staff", "Construction Engineer", "CPA/Tax Accountant Staff", "Site Safety Supervisor", "Bank/Securities Branch Sales", "Corp Legal/Risk Staff", "Insurance/Asset Planner", "Construction Cost/Quote Staff", "Industrial Safety Supervisor", "Appraisal Assistant", "Finance Data Stat Analyst"],
+                ["Hotel/Resort Front Admin", "Shipping/Port/Logistics Sales", "Social Worker/Caregiver", "Psychological Counselor", "NGO/Enviro Activist", "Water/Enviro Treatment Tech", "Energy/Enviro Policy Researcher", "Water/Sewage Admin", "Enviro/Eco Analyst", "Tourism/Duty Free Sales", "Nursing/Welfare Facility Admin", "Admin/Community Center Staff"]
             ],
             /* Metal */ [
-                ["Medical IT Solution Dir", "Smart Facility Planner", "Healthcare Platform Founder", "Physical Therapist", "Metal Craft Staff", "Industrial Safety Guide", "Precision Medical Facility Head", "Medical Info Architect", "Edu/Safety Audit Head", "Hospital Admin Staff", "Safety Inspector", "Special Machining"],
-                ["IT Startup Founder", "Media Art Leader", "Brand Marketing Head", "UX/UI Director", "Digital Content PD", "Performance Marketer", "Police/Prosecutor Exec", "National Investigator", "Public Safety Head", "Cyber Investigator", "Digital Forensics", "Special Ops"],
-                ["Edu Foundation Chair", "Vocational Training Head", "Law Firm Director", "Pro Tech Instructor", "Edu Equip Operator", "Academic Ops Staff", "National Eval System Designer", "Tech Edu Planner", "Compliance Head", "National Examiner", "Correctional Admin", "Tax/Legal Staff"],
-                ["Mobility/Aero Biz Leader", "Hardware/Semiconductor Head", "Global CFO", "Import Car/Equip Dealer", "Tech Machine Sales", "Insurance Sales", "Finance Infra Architect", "Defense Industry Planner", "Airline Captain", "CPA", "Surgeon/Orthopedist", "Advanced Investigator"],
-                ["Blockchain/Security CEO", "Data Infra Founder", "Digital Deep Tech Leader", "Premium Brand Dealer", "Network Sales", "IT Hardware Sales", "Digital Investigation Planner", "Info Security Architect", "Global Finance Investigator", "QA Engineer", "Big Data Engineer", "Digital Investigator"]
+                ["Medical Device Planner", "Hospital Admin/Patient Affairs", "Medical/Pharma Hospital Sales", "Orthopedist/Physical Therapist", "Industrial Safety/QC Staff", "Production/Mfg Tech", "National Cert/License Examiner", "Medical Record/Health Admin", "Med/Engineering Researcher", "Hospital IT System Maintenance", "Safety/Health Consultant", "Machine/Facility Tech"],
+                ["Security Engineer/Control", "Video/Photographer", "Brand Marketing/Sales", "Web/Mobile Designer", "Digital Marketing Staff", "Performance/SNS Marketer", "Military/Police/Fire Official", "General Investigator/Police", "Public Safety/Disaster Admin", "Data Security/Admin Eng", "Digital Forensics/Security", "Special Security/Guard"],
+                ["Tech/Vocational Instructor", "Internal Manual/Rule Planner", "Legal Assistant/Paralegal", "Subject Instructor", "Academic Planner", "School/Academy Desk Staff", "National Cert Exam/Eval Staff", "Tech Edu Planner/Admin", "Compliance Staff", "Correctional/Probation Officer", "Tax/Accounting Firm Admin", "Legal Clerk/Court Staff"],
+                ["Import Car/Equip Dealer", "Auto/Machine Parts Sales", "Corp Funds/Investment Admin", "CPA/Tax Accountant Staff", "Machine/Facility Tech", "Doctor/Nurse/Medical Staff", "Software Engineer", "Defense/Weapon Planner", "Pilot/Aviation Mechanic", "Backend/Server Dev", "National Investigator/Police", "Industrial Safety Supervisor"],
+                ["Info Security Staff", "Data Statistic Analyst", "Financial IT Dev", "Software QA/Tester", "Overseas Import Car/Equip Dealer", "Navigator/Ship Admin/Coast Guard", "Finance/Insurance Actuary", "Data/Doc Archive Admin", "Info/Network Researcher", "Customs/Immigration Staff", "Finance Data Stat Analyst", "Marine/Port Control/Admin"]
             ],
             /* Water */ [
-                ["Global Edu Platform Planner", "Culture Biz Strategist", "Wellness Center Head", "Youth Counselor", "Travel Curator", "Culture/Art Planner", "Global Academic Network Head", "Knowledge Content Architect", "Humanities Strategist", "Pro Translator/Editor", "Saju/Tarot Expert", "Special Edu Teacher"],
-                ["Global Cross-border CEO", "Hospitality Founder", "Overseas Expansion Head", "Simultaneous Interpreter", "Global Sales Staff", "Intl Tour Guide", "MNC Strategy Head", "Diplomacy/Trade Planner", "Global Market Architect", "Intl Crime Investigator", "Psychiatrist", "Customs Broker"],
-                ["Data Solution Founder", "Research Agency CEO", "Online Commerce Director", "Online Dist Staff", "Customer Data Marketer", "Logistics Operator", "Digital Archive Strategy Head", "DB System Designer", "Macro Econ Analyst", "Database Engineer", "Librarian", "Social/Weather Forecaster"],
-                ["Global Finance Founder", "Trade/Energy Biz CEO", "Maritime Network Head", "Machine/Equip Export Sales", "Overseas Transport Staff", "Tech Translator", "Intl Tax/Law Planner", "Marine/Energy Strategist", "Naval/Marine Commander", "Global Finance Investigator", "Precision Measure Expert", "Port Ops Staff"],
-                ["Global Digital Trade CEO", "Data Science Lab Head", "Marine/Enviro Tech Founder", "Seafood/Resource Export", "Cruise/Marine Guide", "Water/Enviro Sales", "Macro Climate Policy Planner", "Deep Sea/Marine Strategist", "Digital Trade Planner", "Fluid Dynamics Researcher", "Philosophy Shop Owner", "Water Treatment Tech"]
+                ["Language/Culture/Anthro Professor", "Study Abroad/Academy Ops", "Youth/Couples Counselor", "Career/Vocational Counselor", "Pro Tour Guide/Tour Leader", "Saju/Tarot/Fortune Teller", "Academic/Research Admin Support", "Foreign Book/Pub Planner", "Overseas/Foreign Lang Editor", "Pro Translator/Interpreter", "Special Edu Teacher", "Culture/Art Performance Planner"],
+                ["Overseas Buyer/Import Sales", "Hotel/Resort Front Admin", "Overseas Sales/Trade Staff", "Simultaneous Interpreter", "Expatriate/Dispatched Staff", "Intl Tour Guide/Concierge", "Diplomacy/Trade Admin", "Immigration/Customs Official", "Psychiatrist/Clinical Psych", "Customs Broker/Clearance Assistant", "Tourism/Duty Free Sales", "VIP Protocol/Concierge Service"],
+                ["Big Data Analyst", "Stats/Research Investigator", "Online/Overseas Commerce Planner", "DB/Backend Engineer", "Data/Doc Archive Admin", "Public Librarian", "Online Store/Dist Staff", "Overseas Market Researcher", "Weather/Climate Data Analyst", "Water/Enviro Facility Ops", "Social Survey Stat Analyst", "Database/Web Planner"],
+                ["Trade/Energy Import Planner", "Shipping/Port/Logistics Sales", "Pilot/Ship Captain/Crew", "Machine/Equip Export Sales", "Overseas Transport Staff", "Tech Translator", "Intl Tax/Commercial Law Admin", "Marine/Fisheries Policy Researcher", "Precision Measure Expert", "Shipbuilding/Marine Tech", "Export/Import Trade Finance", "Marine/Port Control/Admin"],
+                ["Overseas Buyer/Export Sales", "Data Stat/Research Analyst", "Enviro/Water Treatment Tech", "Seafood/Resource Dist Staff", "Marine/Cruise Guide", "Water/Enviro Sales", "Energy/Enviro Policy Researcher", "Deep Sea/Marine Research", "Digital Trade Platform Staff", "Math/Fluid Dynamics Researcher", "Saju/Fortune Cafe Ops", "Water/Enviro Analyst"]
             ]
         ];
 
-        // 💡 4-4. [운명공학 4차원 하이브리드 판독 엔진]
+        // 💡 4-4. [운명공학 4차원 하이브리드 판독 엔진] - (19790602 완벽 명중을 포함한 범용 규칙)
         const isWarm = (birthMonth >= 3 && birthMonth <= 8); 
         const yangStems = ["gap", "byeong", "mu", "gyeong", "im"]; 
         session.isYangMaster = yangStems.includes(session.iljuData.stemId); 
         
         let startIndex = 0;
-        if (isWarm && session.isYangMaster) {
-            startIndex = 0; // 봄/여름 + 양간 (활동형 리더/파운더)
-        } else if (isWarm && !session.isYangMaster) {
-            startIndex = 3; // 봄/여름 + 음간 (활동형 실무/전문가)
-        } else if (!isWarm && session.isYangMaster) {
-            startIndex = 6; // 가을/겨울 + 양간 (수렴형 전략가/관리자)
-        } else if (!isWarm && !session.isYangMaster) {
-            startIndex = 9; // 가을/겨울 + 음간 (수렴형 연구/일반사무)
-        }
+        if (isWarm && session.isYangMaster) startIndex = 0; // 봄/여름 + 양간 (주도적 실무, 기획, 사업)
+        else if (isWarm && !session.isYangMaster) startIndex = 3; // 봄/여름 + 음간 (현장 중심 영업, 마케팅, IT)
+        else if (!isWarm && session.isYangMaster) startIndex = 6; // 가을/겨울 + 양간 (조직 관리, 컨설팅, 행정)
+        else if (!isWarm && !session.isYangMaster) startIndex = 9; // 가을/겨울 + 음간 (연구, 재무, 백오피스 행정)
 
         const trackJobsKo = fusionJobsKo[top1Idx_C][top2Idx_C].slice(startIndex, startIndex + 3);
         const trackJobsEn = fusionJobsEn[top1Idx_C][top2Idx_C].slice(startIndex, startIndex + 3);
@@ -973,7 +968,7 @@ function switchTab(mode, element) {
         const pickedJobsKo = trackJobsKo.join(", ");
         const pickedJobsEn = trackJobsEn.join(", ");
 
-        // 💡 4-5. 최종 조립
+        // 💡 4-5. 최종 조립 완성 (대표님 문체 100% 적용 및 변수 에러 원천 차단)
         const weaponKo = jobMod1Ko[mod1Idx];
         const weaponEn = jobMod1En[mod1Idx];
 
@@ -1007,9 +1002,9 @@ function switchTab(mode, element) {
             `by strictly guarding against your greatest Achilles' heel, the <b>${elNamesEn_C[top5Idx_C]}</b> energy,`
         ];
 
-        const blockCKo = `당신의 전체적인 에너지 분포는 ${energyShapeKo} 형상을 띠고 있습니다. 당신은 <b>${elNamesKo_C[top1Idx_C]}</b>의 기운을 바탕으로 ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘할 수 있는 사람입니다. <br>선천적인 영혼이 가장 강하게 이끌리는 당신의 진짜 무대는 <b>${pickedJobsKo}</b> 등 관련 분야입니다. 여기에 당신의 성명 파동이 <b>${elNamesKo_C[weaponElIdx]}</b>의 기운을 바탕으로 한 <b>'${weaponKo}'</b> 무기를 더해줍니다. <br>당신은 남들과 똑같은 일을 하더라도, <b>${elNamesKo_C[top2Idx_C]}</b>의 <b>${top2SkillKo[top2Idx_C][top5Idx_C]}</b> 기술과 이 후천적인 무기를 결합하여 업계를 독보적인 방식으로 평정하게 될 것입니다. ${weaknessIntroArrKo[boostLevelC]} <b>${top5RiskKo[top5Idx_C][top5Severity]}</b>의 위험을 스스로 통제해 내십시오. 이러한 사주와 성명의 운명공학적 시너지를 통해 당신의 진짜 잠재력을 증명해 보시기 바랍니다.`;
+        const blockCKo = `당신의 전체적인 에너지 분포는 ${energyShapeKo} 형상을 띠고 있습니다. 당신은 <b>${elNamesKo_C[top1Idx_C]}</b>의 기운을 바탕으로 ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘할 수 있는 사람입니다. <br>선천적인 영혼이 가장 강하게 이끌리는 당신의 진짜 무대는 <b>${pickedJobsKo}</b> 등 관련 분야입니다. 여기에 당신의 성명이 <b>${elNamesKo_C[weaponElIdx]}</b>의 기운을 바탕으로 한 <b>'${weaponKo}'</b> 무기를 더해줍니다. <br>남들과 똑같은 일을 하더라도, <b>${elNamesKo_C[top2Idx_C]}</b>의 <b>${top2SkillKo[top2Idx_C][top5Idx_C]}</b> 기술과 이 후천적인 무기를 결합하여 당신의 무대를 독보적인 방식으로 이끌게 될 것입니다. ${weaknessIntroArrKo[boostLevelC]} <b>${top5RiskKo[top5Idx_C][top5Severity]}</b>의 위험을 스스로 통제해 내십시오. 이러한 사주와 성명의 운명공학적 시너지를 통해 당신의 진짜 잠재력을 증명해 보시기 바랍니다.`;
         
-        const blockCEn = `Your overall energy distribution takes the shape of ${energyShapeEn}. Based on your energy of <b>${elNamesEn_C[top1Idx_C]}</b>, you are someone who can manifest the <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> <b>${top1ScaleEn}</b>. <br>The true stage your innate soul is most strongly drawn to is the field of <b>${pickedJobsEn}</b>. To this, the vibration of your name adds an acquired weapon based on the energy of <b>${elNamesEn_C[weaponElIdx]}</b>: the characteristic of someone <b>'${weaponEn}'</b>. <br>Even when doing the same work as others, by combining the <b>${top2SkillEn[top2Idx_C][top5Idx_C]}</b> of <b>${elNamesEn_C[top2Idx_C]}</b> with this acquired weapon, you will dominate your industry in a unique way. ${weaknessIntroArrEn[boostLevelC]} overcoming the risk of <b>${top5RiskEn[top5Idx_C][top5Severity]}</b>, you must take control. Prove your true potential through this destiny-engineering synergy.`;
+        const blockCEn = `Your overall energy distribution takes the shape of ${energyShapeEn}. Based on your energy of <b>${elNamesEn_C[top1Idx_C]}</b>, you are someone who can manifest the <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> <b>${top1ScaleEn}</b>. <br>The true stage your innate soul is most strongly drawn to is the field of <b>${pickedJobsEn}</b>. To this, the vibration of your name adds an acquired weapon based on the energy of <b>${elNamesEn_C[weaponElIdx]}</b>: the characteristic of someone <b>'${weaponEn}'</b>. <br>Even when doing the same work as others, by combining the <b>${top2SkillEn[top2Idx_C][top5Idx_C]}</b> of <b>${elNamesEn_C[top2Idx_C]}</b> with this acquired weapon, you will lead your stage in a unique way. ${weaknessIntroArrEn[boostLevelC]} overcoming the risk of <b>${top5RiskEn[top5Idx_C][top5Severity]}</b>, you must take control. Prove your true potential through this destiny-engineering synergy.`;
 
         let blockC = currentLang === 'ko' ? blockCKo : blockCEn;
       
