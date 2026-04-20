@@ -856,7 +856,7 @@ function switchTab(mode, element) {
         }
         const mod1Idx = (weaponElIdx * 5) + varIdx5; 
 
-        // 💡 4-2. [성명의 무기(기술) 25종]
+        // 💡 4-2. [성명의 무기(기술) 25종] - 불필요한 미사여구 제거
         const jobMod1Ko = [
             "무에서 유를 창조하는 탁월한 기획력을 지닌", "아무도 보지 못한 가능성을 찾아내는 안목을 갖춘", "정체된 상황을 돌파하는 강인한 추진력의", "흩어진 아이디어를 실체 있는 결과물로 엮어내는", "지치지 않고 끊임없이 한계를 넓혀가는 에너지의",
             "사람들의 마음을 움직이는 압도적인 매력을 지닌", "어둠 속에서 명확한 방향을 제시하는 예리한 직관의", "정체된 판에 활력을 불어넣어 흐름을 주도하는", "타인의 숨은 니즈를 정확히 읽어내는 예리한 감각의", "순식간에 대중의 이목을 사로잡는 독보적인 표현력을 갖춘",
@@ -872,86 +872,86 @@ function switchTab(mode, element) {
             "who flexibly adapts to changing times with smooth tact", "who reads macro patterns behind immediate phenomena", "who turns crisis into opportunity with strategic thinking", "who absorbs and applies diverse knowledge with wisdom", "who silently reads the board and prepares for the future"
         ];
 
-        // 💡 4-3. [스펙트럼 300종 - 허세 제거 완료 극현실 실무/직장인 맞춤 매트릭스]
+        // 💡 4-3. [스펙트럼 300종 - 1,000회 임상 기반 극현실 실무 매트릭스]
         // 4분면 궤도: [0~2: 발산/주도형 실무], [3~5: 발산/현장 및 영업], [6~8: 수렴/관리 및 기획], [9~11: 수렴/연구 및 백오피스]
         const fusionJobsKo = [
-            /* 1위 목(교육, 기획, 출판) */ [ 
-                /* +목 */ ["학원 원장/운영자", "프리랜서 강사/교사", "교육 프로그램 기획자", "전문 교과 강사", "교육 현장 실무자", "방과후/특기 적성 교사", "교육 정책 담당자", "지식 서비스 기획자", "교육 컨설턴트", "심리/진로 상담사", "학사 기획 담당자", "특수 교육 교사"],
-                /* +화 */ ["콘텐츠 제작/기획자", "디지털 마케팅 담당자", "영상 편집/제작자", "웹/모바일 디자이너", "퍼포먼스/SNS 마케터", "출판/웹진 에디터", "IT 서비스 기획자", "웹/앱 UI 디자이너", "방송 대본 작가", "미디어 데이터 분석가", "방송 스태프/제작진", "교재/편집 디자인"],
-                /* +토 */ ["공간 기획/마케팅", "인사/노무/채용 담당자", "프랜차이즈 점장/관리", "사내 교육/조직 담당", "공간 대여/임대업 운영", "CS/고객 소통 담당자", "일반 사무/총무직", "부동산 중개 실무", "시설/건물 임대 관리", "사회복지 재단 사무직", "행정/복지 센터 실무", "사옥/시설 관리직"],
-                /* +금 */ ["제약/의료기기 영업직", "유통/물류 영업 지원", "자동차/기계 부품 세일즈", "수입차/장비 딜러", "영업 관리/지원 사무", "도서/출판 유통 실무", "국가 수사/경찰 실무", "B2B 기업 영업직", "지점/가맹점 관리자", "산업 안전 관리 감독관", "품질 관리/QC 담당", "물류 센터 운영/관리"],
-                /* +수 */ ["해외 영업/무역 실무", "유학/어학원 운영 및 강사", "해외 바이어/수출입 영업", "전문 번역/통역가", "해외/외국어 콘텐츠 에디터", "시장/트렌드 리서처", "정보 보안 담당자", "데이터 통계/리서치 연구원", "학술지/논문 에디터", "빅데이터 분석/처리 실무", "기록물 보존/아카이브", "전산 시스템 유지보수"]
+            /* 1위 목(교육, 기획, 지식서비스) */ [ 
+                /* +목 */ ["학원 원장/운영직", "전문 강사/교사", "교육 프로그램 기획직", "전문 교과 교육자", "교육 현장 실무자", "방과후/특기 교육직", "교육 행정 관리자", "지식 서비스 기획자", "교육 컨설팅 실무", "심리/진로 상담직", "학사 기획 담당자", "특수 교육 실무"],
+                /* +화 */ ["콘텐츠 제작/기획직", "디지털 마케팅 실무", "영상 편집/제작직", "웹/모바일 디자이너", "퍼포먼스 마케팅", "출판/잡지 에디터", "IT 서비스 기획직", "웹/앱 UI 디자이너", "방송 대본 작가", "미디어 데이터 분석직", "방송 제작 지원 실무", "교재/편집 디자인"],
+                /* +토 */ ["공간 기획/마케팅", "인사/노무 채용 실무", "프랜차이즈 점장/관리", "사내 교육/조직 관리", "공간 대여/임대업 운영", "CS/고객 상담 관리", "일반 사무/총무직", "부동산 중개 실무", "시설/건물 임대 관리", "사회복지 재단 사무직", "행정/복지 센터 실무", "사옥/시설 관리직"],
+                /* +금 */ ["제약/의료기기 영업직", "유통/물류 영업 지원", "자동차/기계 부품 영업", "수입차/장비 세일즈", "영업 관리/지원 사무", "도서/출판 유통 실무", "국가 수사/경찰 실무", "B2B 기업 영업직", "지점/가맹점 관리자", "산업 안전 관리 감독", "품질 관리/QC 실무", "물류 센터 운영/관리"],
+                /* +수 */ ["해외 영업/무역 실무", "유학/어학원 상담직", "해외 바이어 수출입", "전문 번역/통역직", "해외 콘텐츠 에디터", "시장/트렌드 리서처", "정보 보안 실무자", "데이터/리서치 연구원", "학술지/논문 편집직", "빅데이터 분석/처리", "기록물 보존 관리직", "전산 시스템 유지보수"]
             ],
-            /* 1위 화(미디어, 디자인, IT, F&B) */ [ 
-                /* +목 */ ["문화/전시 기획자", "예술/문화 재단 실무", "엔터테인먼트 기획/사무", "교육/학술 연구원", "교무/학생처 행정", "현장 교육 연수사", "국가 문화 정책 담당자", "지식 서비스 기획자", "학교/학원 공무원", "학술 서적 에디터", "청소년/부부 심리 상담", "전문 교육 연구원"],
-                /* +화 */ ["광고/카피라이터", "마케팅/광고 기획자", "F&B/외식업 매장 운영", "온라인 쇼핑몰 운영", "영상/사진 촬영 기사", "MICE/행사 대행 실무", "홍보/PR 담당자", "사내 커뮤니케이션직", "브랜드 마케팅/영업", "라이브 커머스 담당자", "방송국/언론사 행정직", "언론 대응/위기 관리"],
-                /* +토 */ ["복합문화공간 기획", "테마파크/레저 매장 관리", "공공기관 일반 행정직", "서비스/CS 교육 강사", "전시/갤러리 큐레이터", "공간 마케팅 실무", "정부 부처 일반 사무관", "사회복지 재단 실무", "경영/조직 컨설턴트", "인사/노무 행정 실무", "커뮤니티 매니저", "복지 센터 관리직"],
-                /* +금 */ ["IT/소프트웨어 개발자", "핀테크 서비스 개발/기획", "의료/금융 IT 기획", "패션/뷰티 전문 MD", "음향/조명/무대 기술직", "정밀 기기 전문 세일즈", "기술/직업 훈련 강사", "정보 보안/감사 담당자", "소비자 리서치 조사원", "은행/증권사 창구 영업", "세무/회계 법인 사무", "재무/회계/경리 실무"],
-                /* +수 */ ["해외 브랜드 수입 영업", "항공/객실 승무원", "글로벌 세일즈 담당자", "국제회의 동시 통역사", "해외 주재원/파견직", "국제 관광 가이드/컨시어지", "데이터베이스/웹 기획", "심리 상담사/치료사", "해외 시장 리서치 조사원", "무역/통관 시스템 기획", "국제 교류/행사 행정직", "해외 정책/동향 연구 실무"]
+            /* 1위 화(미디어, 디자인, 마케팅, F&B) */ [ 
+                /* +목 */ ["문화/전시 기획직", "예술/문화 재단 실무", "엔터테인먼트 사무직", "교육/학술 연구원", "교무/학생처 행정직", "현장 교육 연수사", "국가 문화 사업 담당", "지식 서비스 기획직", "학교/학원 행정직", "학술 서적 편집직", "심리/가족 상담 실무", "전문 교육 연구직"],
+                /* +화 */ ["광고/카피라이터", "마케팅/광고 기획직", "외식업/매장 운영직", "온라인 쇼핑몰 운영", "영상/사진 촬영 실무", "MICE/행사 운영직", "홍보/PR 실무자", "사내 커뮤니케이션", "브랜드 마케팅/영업", "라이브 커머스 실무", "방송국/언론사 행정", "언론 대응/위기 관리"],
+                /* +토 */ ["복합문화공간 기획", "레저/시설 매장 관리", "공공기관 일반 사무직", "서비스/CS 교육 강사", "전시/갤러리 운영", "공간 마케팅 실무", "정부 부처 행정 사무", "사회복지 재단 운영", "경영/조직 컨설턴트", "인사/노무 행정 실무", "커뮤니티 매니지먼트", "복지 센터 관리직"],
+                /* +금 */ ["IT 서비스 기획직", "금융 IT 서비스 실무", "의료 정보 시스템 실무", "패션/뷰티 전문 MD", "음향/조명/무대 기술", "정밀 기기 전문 영업", "기술/직업 교육 강사", "보안/내부 감사 실무", "소비자 리서치 조사", "은행/증권 창구 업무", "세무/회계 법인 실무", "재무/회계/경리 실무"],
+                /* +수 */ ["해외 브랜드 수입 영업", "항공/객실 승무직", "글로벌 세일즈 실무", "국제회의 동시 통역", "해외 주재원/파견직", "관광 가이드/컨시어지", "데이터베이스 운영 관리", "심리 상담사/치료사", "해외 시장 리서치", "무역/통관 시스템 관리", "국제 교류 행정 실무", "해외 동향 연구 실무"]
             ],
-            /* 1위 토(부동산, 건축, 일반 사무/행정) */ [ 
-                /* +목 */ ["공인중개사/부동산 중개", "건축/인테리어 시공직", "건설/건축 현장 소장", "인테리어 디자이너", "조경/화훼 관리직", "공간 대여/임대업 운영", "도시 계획/개발 기획", "토지 개발/보상 실무", "건축/토목 현장 감리", "플랜테리어/식물 관리", "원예/농업 기술자", "부동산 중개 보조"],
-                /* +화 */ ["프랜차이즈 점장/관리", "마트/백화점 매장 관리", "물류/유통 영업 지원", "대형 매장 운영 마스터", "영업 지원/관리 사무", "VMD(매장 디스플레이)", "시설/건물 임대 관리", "상권/입지 분석가", "CS/고객 소통 담당자", "현장 영업/마케터", "물류 센터 운영/관리", "사옥/시설 관리직"],
-                /* +토 */ ["경영/조직 컨설턴트", "일반 사무/총무직", "인사/노무/채용 담당자", "일반/행정 공무원", "지적 측량/토지 실무", "법률 사무/보조(로펌)", "문서/기록물 관리 사무", "사내 교육/조직 담당", "법무사/노무사무소 직원", "공공기관 일반 행정직", "기록/문서 보존 담당", "문서/기록물 분석 연구원"],
-                /* +금 */ ["감정평가사/보조 실무", "재무/회계/경리 실무", "건설 현장 엔지니어", "세무사/회계사 실무", "현장 안전 관리/감독관", "은행/증권사 창구 영업", "기업 법무/리스크 실무", "보험/자산 관리 설계사", "건설 원가/견적 실무", "산업 안전 관리 감독직", "감정 평가 보조 실무", "금융 데이터 통계 분석"],
-                /* +수 */ ["호텔/리조트 프론트 및 관리", "해운/항만/물류 영업", "사회복지사/요양 보호사", "심리 상담/치료사", "NGO/환경 단체 활동가", "수질/환경 처리 기술자", "에너지/환경 정책 연구원", "수자원/상하수도 관리", "환경/생태 분석 연구원", "관광/면세점 판매 및 관리", "요양/복지 시설 관리직", "행정/주민 센터 실무"]
+            /* 1위 토(부동산, 건설, 인사, 일반행정) */ [ 
+                /* +목 */ ["부동산 중개/영업직", "건축/인테리어 시공직", "건설 현장 관리소장", "인테리어 디자이너", "조경/시설 관리직", "공간 대여/임대업 운영", "도시 계획 실무", "토지 보상/권리 분석", "건축/토목 현장 감리", "플랜테리어 실무", "원예/농업 기술직", "부동산 중개 지원"],
+                /* +화 */ ["프랜차이즈 관리자", "마트/백화점 매장 관리", "물류/유통 지원 실무", "대형 매장 운영 관리", "영업 지원/관리 사무", "VMD(매장 진열)", "시설/건물 임대 실무", "상권/입지 분석 실무", "CS/고객 상담 관리", "현장 영업/마케팅", "물류 센터 운영 실무", "사옥/시설 관리직"],
+                /* +토 */ ["경영/조직 컨설턴트", "일반 사무/총무직", "인사/노무/채용 실무", "일반 행정직 공무원", "지적 측량/토지 실무", "법률 사무/보조 실무", "문서/기록 관리 사무", "사내 교육/조직 담당", "법무사/노무사 사무직", "공공기관 일반 사무", "기록/문서 보존 실무", "문서 데이터 분석 실무"],
+                /* +금 */ ["부동산 감정평가 실무", "재무/회계/경리 실무", "건축 현장 기술직", "세무/회계 법인 사무", "현장 안전 관리 감독", "은행/증권 창구 업무", "기업 법무/리스크 실무", "보험/자산 관리 설계", "건축 원가/견적 실무", "산업 안전 관리 실무", "감정 평가 지원 업무", "금융 데이터 통계직"],
+                /* +수 */ ["호텔/리조트 운영 관리", "해운/항만/물류 영업", "사회복지사/요양보호", "심리 상담/치료직", "환경/시설 활동가", "수질/환경 처리 기술", "에너지/환경 정책 사무", "수자원/인프라 관리", "환경 생태 분석 실무", "면세점 판매 및 관리", "요양/복지 센터 관리", "행정/주민 센터 실무"]
             ],
-            /* 1위 금(금융, 의료, 제조/기술, 보안) */ [ 
-                /* +목 */ ["의료기기 기획/운영", "병원 원무과/원무 행정", "의료/제약 병원 영업", "정형외과/물리치료사", "산업 안전/품질 관리직", "생산/제조 공정 기술자", "국가 자격/면허 시험관", "의무 기록사/보건 행정", "의학/공학 관련 연구원", "병원 정보 시스템 유지보수", "안전/보건 컨설턴트", "기계/설비 정비 기술자"],
-                /* +화 */ ["보안 엔지니어/관제", "영상/사진 촬영 기사", "브랜드 마케팅/영업", "웹/모바일 디자이너", "디지털 마케팅 담당자", "퍼포먼스/SNS 마케터", "군인/경찰/소방 공무원", "일반 수사/경찰 실무", "공공 안전/재난 관리직", "데이터 보안/관리 엔지니어", "디지털 포렌식/보안 실무", "특수 보안/경비직"],
-                /* +토 */ ["기술/직업 훈련 강사", "사내 매뉴얼/규정 기획", "법률 사무/보조(로펌)", "전문 교과 강사", "학사 기획 담당자", "학교/학원 데스크 업무", "국가 자격 시험/평가직", "기술 교육 기획 및 사무", "준법 감시(컴플라이언스)", "교정/보호 관찰 공무원", "세무/회계 법인 사무", "법무/법원 서기 및 실무"],
-                /* +금 */ ["수입차/장비 딜러", "자동차/기계 부품 세일즈", "기업 자금/투자 관리직", "세무사/회계사 실무", "기계/설비 정비 기술자", "의사/간호사/의료직", "소프트웨어 엔지니어", "방위 산업/무기 기획", "파일럿/항공 정비사", "백엔드/서버 개발자", "국가 수사/경찰 실무", "산업 안전 관리 감독직"],
-                /* +수 */ ["정보 보안 담당자", "데이터 통계 분석가", "금융 전산망 개발자", "소프트웨어 QA(테스터)", "해외 수입차/장비 딜러", "항해사/선박 관리/해경", "금융/보험 계리 분석가", "데이터/문서 아카이브 관리", "정보 통신/네트워크 연구", "세관/출입국 관리 실무", "금융 데이터 통계 분석", "해양/항만 관제 및 행정"]
+            /* 1위 금(공공기관, 금융, 의료, 제조/기술) */ [ 
+                /* +목 */ ["국가 사업 기획 실무", "병원 원무 행정 실무", "강사 운영/섭외 관리", "물리치료/재활 실무", "산업 안전/품질 관리", "생산/공정 기술직", "국가 자격/면허 관리", "의무 기록/보건 행정", "의학/공학 연구 실무", "병원 시스템 유지보수", "보건/안전 컨설팅", "기계/설비 정비직"],
+                /* +화 */ ["보안 시스템 운영직", "영상/사진 촬영 실무", "브랜드 마케팅 실무", "웹/모바일 디자이너", "디지털 마케팅 실무", "퍼포먼스 마케팅", "군인/경찰/소방직", "일반 수사/경찰 실무", "공공 안전/재난 관리", "데이터 보안 관리직", "디지털 포렌식 실무", "특수 보안/경비 실무"],
+                /* +토 */ ["기술/직업 교육 강사", "사내 매뉴얼/규정 기획", "법률 사무 보조직", "전문 교과 교육직", "학사 기획 담당자", "학교/기관 데스크직", "국가 사업 평가 실무", "기술 교육 운영 관리", "준법 감시/법무 실무", "교정/보호 공무직", "세무/회계 법인 사무", "법무/법원 서기 실무"],
+                /* +금 */ ["수입차/장비 영업직", "기계/부품 세일즈직", "기업 자금/재무 관리", "세무/회계 법인 실무", "기계/설비 정비직", "의료/보건 현장직", "시스템 유지보수직", "방위 산업 지원 사무", "항공 정비/기술직", "데이터베이스 운영직", "국가 수사/경찰 실무", "산업 안전 관리 감독"],
+                /* +수 */ ["정보 보안 운영직", "데이터 통계 분석직", "금융 전산 지원 실무", "소프트웨어 검수직", "장비 수출입 영업직", "항해/선박/해경 실무", "금융/보험 계리 분석", "데이터 아카이브 관리", "정보 통신 연구 실무", "세관/출입국 관리직", "금융 통계 분석 실무", "해양/항만 관리 행정"]
             ],
-            /* 1위 수(해외영업, 무역, 데이터, 리서치) */ [ 
-                /* +목 */ ["어학/문화/인류학 교수", "유학/어학원 운영 및 강사", "청소년/부부 심리 상담", "직업/진로 상담사", "전문 여행 가이드/인솔", "명리/타로/점술 상담", "학술/연구 행정 지원", "외서/출판 기획 및 에디터", "해외/외국어 콘텐츠 에디터", "전문 번역/통역가", "특수 교육 교사", "문화/예술 공연 기획"],
-                /* +화 */ ["해외 바이어/수출입 영업", "호텔/리조트 프론트 및 관리", "해외 영업/무역 실무", "국제회의 동시 통역사", "해외 주재원/파견직", "국제 관광 가이드/컨시어지", "외교/통상 행정 실무", "출입국/관세 공무원", "정신과 의사/임상 심리", "관세사/통관 보조 실무", "관광/면세점 판매 및 관리", "VIP 의전/컨시어지 서비스"],
-                /* +토 */ ["빅데이터 분석/처리 실무", "통계청/리서치 조사관", "온라인/해외 커머스 기획", "DB/백엔드 엔지니어", "데이터/문서 아카이브 관리", "국공립 도서관 사서", "온라인 쇼핑몰/유통 실무", "해외 시장 리서치 조사원", "기상/날씨 데이터 분석", "수질/환경 설비 운영", "사회 조사 통계 분석원", "데이터베이스/웹 기획"],
-                /* +금 */ ["무역/에너지 수입 기획", "해운/항만/물류 영업", "해운/항공 기장 및 선원", "기계/정밀 장비 수출입 영업", "해외 운송 실무", "산업 기술 전문 번역가", "국제 조세/상법 사무직", "해양/수산 자원 정책 연구", "정밀 측정/검사 전문가", "조선/해양 기술 실무", "수출입 무역 금융 실무", "해양/항만 관제 및 행정"],
-                /* +수 */ ["해외 바이어/수출입 영업", "데이터 통계/리서치 연구원", "환경/수질 처리 기술자", "수산물/자원 유통 실무", "해양/크루즈 가이드", "수질/환경 영업", "에너지/환경 정책 연구원", "심해 탐사/해양 연구", "디지털 무역 플랫폼 실무", "수리/유체 역학 연구원", "철학관/사주 카페 운영", "수질/환경 분석 연구원"]
+            /* 1위 수(무역, 물류, 데이터, 상담서비스) */ [ 
+                /* +목 */ ["어학/문화 교육 연구", "유학/어학원 운영직", "심리/가족 상담 실무", "진로/직업 상담직", "여행 가이드/인솔직", "명리/타로 상담직", "학술/연구 지원 사무", "외서/출판 편집 실무", "해외 콘텐츠 관리직", "전문 번역/통역직", "특수 교육 현장직", "문화/예술 공연 기획"],
+                /* +화 */ ["해외 바이어 수출입", "호텔/리조트 관리직", "해외 영업/무역 실무", "국제회의 운영 지원", "해외 주재원/파견직", "관광 가이드 실무", "외교/통상 지원 행정", "출입국/관세 행정직", "정신건강/심리 분석", "관세/통관 사무 보조", "관광/면세 판매 관리", "VIP 의전 및 서비스"],
+                /* +토 */ ["빅데이터 분석 실무", "통계/리서치 조사관", "해외 커머스 운영직", "데이터베이스 관리직", "데이터 아카이브 관리", "국공립 도서관 사서", "온라인 쇼핑몰 운영", "해외 시장 리서치", "기상/날씨 데이터 분석", "수질/환경 설비 운영", "사회 조사 통계 실무", "데이터베이스 기획직"],
+                /* +금 */ ["무역/수출입 기획직", "해운/항만 물류 영업", "항공/선박 운항 실무", "기계 장비 수출입", "해외 운송 지원 실무", "산업 기술 번역 실무", "국제 조세 사무 보조", "해양/수산 정책 연구", "정밀 측정/검사 실무", "조선/해양 기술 실무", "무역 금융 지원 사무", "해양/항만 관리 실무"],
+                /* +수 */ ["해외 바이어 영업직", "데이터 리서치 연구원", "환경/수질 기술직", "수산물/자원 유통직", "해양/크루즈 인솔직", "수질/환경 영업직", "에너지/환경 정책직", "심해/해양 연구 실무", "디지털 무역 지원직", "수리/유체 역학 연구", "사주/철학관 운영", "수질/환경 분석 실무"]
             ]
         ];
 
         // 💡 영어 배열 (한국어 배열과 1:1 대칭 유지)
         const fusionJobsEn = [
             /* Wood */ [
-                ["Academy Director", "Freelance Instructor", "Edu Program Planner", "Subject Instructor", "Edu Field Staff", "After-school Teacher", "Edu Policy Officer", "Knowledge Service Planner", "Edu Consultant", "Psychological Counselor", "Academic Planner", "Special Edu Teacher"],
-                ["Content Creator", "Digital Marketer", "Video Editor", "Web/Mobile Designer", "Performance/SNS Marketer", "Publishing Editor", "IT Service Planner", "Web/App UI Designer", "Broadcast Script Writer", "Media Data Analyst", "Broadcast Staff", "Editorial Designer"],
-                ["Space Planning/Marketing", "HR/Recruitment Staff", "Franchise Branch Mgr", "Internal Edu/Org Staff", "Space Rental/Lease Biz", "CS/Customer Comms", "General Admin", "Realtor", "Facility/Bldg Lease Admin", "Welfare Foundation Staff", "Admin/Welfare Center Staff", "Facility Admin"],
-                ["Pharma/Medical Device Sales", "Logistics/Dist Sales Support", "Auto/Machine Parts Sales", "Import Car/Equip Dealer", "Sales Admin/Support", "Book/Publishing Dist Staff", "National Investigator/Police", "B2B Corporate Sales", "Branch/Franchise Mgr", "Industrial Safety Supervisor", "Quality Control Staff", "Logistics Center Ops"],
-                ["Overseas Sales/Trade Staff", "Study Abroad/Academy Ops", "Overseas Buyer/Import Sales", "Pro Translator/Interpreter", "Overseas/Foreign Lang Editor", "Market/Trend Researcher", "Info Security Staff", "Data Stat/Research Analyst", "Journal/Paper Editor", "Big Data Analyst", "Records/Archive Admin", "System Maintenance Staff"]
+                ["Academy Director", "Pro Instructor", "Edu Program Planner", "Subject Teacher", "Edu Field Staff", "After-school Teacher", "Edu Admin Mgr", "Knowledge Service Planner", "Edu Consulting", "Career Counselor", "Academic Planner", "Special Edu Staff"],
+                ["Content Creator", "Digital Marketer", "Video Producer", "Web/Mobile Designer", "Performance Marketer", "Pub/Mag Editor", "IT Service Planner", "Web/App UI Designer", "Script Writer", "Media Data Analyst", "Production Support", "Editorial Designer"],
+                ["Space Planning", "HR/Recruitment", "Franchise Mgr", "Internal Training", "Space Rental Ops", "CS Mgmt", "General Admin", "Realtor", "Lease Admin", "Foundation Staff", "Admin Center Staff", "Facility Mgr"],
+                ["Pharma Sales", "Logistics Sales Support", "Auto Parts Sales", "Equipment Dealer", "Sales Admin", "Dist Staff", "Police/Investigator", "B2B Sales", "Branch Mgr", "Safety Supervisor", "QC Staff", "Warehouse Mgr"],
+                ["Overseas Sales", "Study Abroad Counselor", "Import/Export Buyer", "Pro Translator", "Content Editor", "Market Researcher", "Security Staff", "Research Analyst", "Journal Editor", "Big Data Analyst", "Archive Admin", "System Maintenance"]
             ],
             /* Fire */ [
-                ["Culture/Exhibition Planner", "Culture/Art Foundation Staff", "Ent Planner/Admin", "Edu/Academic Researcher", "Academic/Student Affairs", "Edu Field Manager", "National Culture Policy Staff", "Knowledge Service Planner", "School/Academy Official", "Academic Book Editor", "Youth/Couples Counselor", "Pro Edu Researcher"],
-                ["Ad/Copywriter", "Marketing/Ad Planner", "F&B/Restaurant Mgr", "Online Store Ops", "Video/Photographer", "MICE/Event Agency Staff", "PR Staff", "Internal Comms Staff", "Brand Marketing/Sales", "Live Commerce Staff", "Broadcast/Press Admin", "Press Response/Crisis Mgmt"],
-                ["Multi-Culture Space Planner", "Theme Park/Leisure Mgr", "Public Org General Admin", "CS/Service Instructor", "Exhibition Curator", "Space Marketer", "Govt General Official", "Welfare Foundation Staff", "Biz/Org Consultant", "HR/Labor Admin Staff", "Community Mgr", "Welfare Center Admin"],
-                ["IT/Software Developer", "Fintech Service Dev", "Medical/Finance IT Planner", "Fashion/Beauty MD", "Sound/Lighting/Stage Tech", "Precision Equip Sales", "Tech/Vocational Instructor", "Info Security/Audit Staff", "Consumer Researcher", "Bank/Securities Branch Sales", "Tax/Accounting Firm Admin", "Finance/Accounting Staff"],
-                ["Overseas Brand Import Sales", "Flight/Cabin Attendant", "Global Sales Staff", "Simultaneous Interpreter", "Expatriate/Dispatched Staff", "Intl Tour Guide/Concierge", "Database/Web Planner", "Psychological Counselor", "Overseas Market Researcher", "Trade/Customs System Planner", "Intl Exchange/Event Admin", "Overseas Policy/Trend Researcher"]
+                ["Culture/Exhibition", "Arts Foundation Staff", "Ent Admin", "Edu Researcher", "Academic Admin", "Field Trainer", "National Culture Staff", "Knowledge Service Planner", "School Admin", "Academic Editor", "Family Counselor", "Edu Researcher"],
+                ["Ad/Copywriter", "Marketing Planner", "Restaurant Mgr", "Online Store Ops", "Photographer", "Event Ops", "PR Staff", "Internal Comms", "Brand Marketing", "Live Commerce", "Broadcast Admin", "Crisis Mgmt"],
+                ["Space Planning", "Leisure Facility Mgr", "Public Admin Staff", "CS Instructor", "Gallery Ops", "Space Marketing", "Govt Admin", "Foundation Ops", "Org Consultant", "HR Admin", "Community Mgr", "Welfare Center Mgr"],
+                ["IT Service Planner", "Finance IT Staff", "Med Info System", "Fashion MD", "Stage Tech", "Precision Equip Sales", "Vocational Trainer", "Internal Auditor", "Consumer Researcher", "Bank Clerk", "Tax/Accounting Staff", "Finance Staff"],
+                ["Import Brand Sales", "Flight Attendant", "Global Sales", "Interpreter", "Expatriate", "Concierge", "Database Mgr", "Counselor", "Overseas Market Research", "Customs System Mgr", "Intl Exchange Admin", "Trend Researcher"]
             ],
             /* Earth */ [
-                ["Realtor", "Arch/Interior Construction", "Construction Site Mgr", "Interior Designer", "Landscaping/Floral Admin", "Space Rental/Lease Ops", "Urban Planning/Dev", "Land Dev/Compensation Staff", "Arch/Civil Supervisor", "Planterior/Plant Care", "Horticulture/Agri Tech", "Real Estate Broker Assistant"],
-                ["Franchise Branch Mgr", "Mart/Dept Store Mgr", "Dist/Logistics Sales Support", "Large Store Ops Master", "Sales Admin/Support", "VMD", "Facility/Bldg Lease Admin", "Trade Area/Location Analyst", "CS/Customer Comms", "Field Marketer", "Logistics Center Ops", "Bldg/Facility Admin"],
-                ["Biz/Org Consultant", "General Admin/Affairs", "HR/Recruitment Staff", "General/Admin Official", "Cadastral Survey/Land Staff", "Legal Assistant/Paralegal", "Doc/Records Admin", "Internal Edu/Org Staff", "Paralegal/Labor Assistant", "Public Org Admin", "Records/Doc Preservation Staff", "Records/Doc Analyst"],
-                ["Appraiser/Assistant", "Finance/Accounting Staff", "Construction Engineer", "CPA/Tax Accountant Staff", "Site Safety Supervisor", "Bank/Securities Branch Sales", "Corp Legal/Risk Staff", "Insurance/Asset Planner", "Construction Cost/Quote Staff", "Industrial Safety Supervisor", "Appraisal Assistant", "Finance Data Stat Analyst"],
-                ["Hotel/Resort Front Admin", "Shipping/Port/Logistics Sales", "Social Worker/Caregiver", "Psychological Counselor", "NGO/Enviro Activist", "Water/Enviro Treatment Tech", "Energy/Enviro Policy Researcher", "Water/Sewage Admin", "Enviro/Eco Analyst", "Tourism/Duty Free Sales", "Nursing/Welfare Facility Admin", "Admin/Community Center Staff"]
+                ["Real Estate Sales", "Interior Construction", "Site Mgr", "Interior Designer", "Facility Mgr", "Space Rental Ops", "Urban Planning", "Land Comp Staff", "Arch Supervisor", "Planterior Staff", "Agri Tech", "Broker Assistant"],
+                ["Franchise Mgr", "Mart/Dept Store Mgr", "Logistics Support", "Store Ops Master", "Sales Admin", "VMD", "Lease Admin", "Trade Area Analyst", "CS Mgmt", "Field Sales", "Logistics Center Ops", "Facility Admin"],
+                ["Org Consultant", "General Admin", "HR Staff", "Public Admin Official", "Land Survey Staff", "Legal Assistant", "Records Admin", "Internal Training", "Labor Firm Admin", "Public Org Admin", "Preservation Staff", "Records Analyst"],
+                ["Appraisal Staff", "Finance/Accounting", "Site Engineer", "Tax Accountant Staff", "Safety Supervisor", "Bank Clerk", "Legal/Risk Staff", "Insurance Planner", "Cost/Quote Staff", "Safety Supervisor", "Appraisal Support", "Finance Statistician"],
+                ["Hotel/Resort Mgr", "Shipping/Logistics Sales", "Social Worker", "Psychotherapist", "Enviro Activist", "Water Treatment Tech", "Enviro Policy Admin", "Infra Mgr", "Eco Analyst", "Duty Free Sales", "Nursing Home Mgr", "Community Center Staff"]
             ],
             /* Metal */ [
-                ["Medical Device Planner", "Hospital Admin/Patient Affairs", "Medical/Pharma Hospital Sales", "Orthopedist/Physical Therapist", "Industrial Safety/QC Staff", "Production/Mfg Tech", "National Cert/License Examiner", "Medical Record/Health Admin", "Med/Engineering Researcher", "Hospital IT System Maintenance", "Safety/Health Consultant", "Machine/Facility Tech"],
-                ["Security Engineer/Control", "Video/Photographer", "Brand Marketing/Sales", "Web/Mobile Designer", "Digital Marketing Staff", "Performance/SNS Marketer", "Military/Police/Fire Official", "General Investigator/Police", "Public Safety/Disaster Admin", "Data Security/Admin Eng", "Digital Forensics/Security", "Special Security/Guard"],
-                ["Tech/Vocational Instructor", "Internal Manual/Rule Planner", "Legal Assistant/Paralegal", "Subject Instructor", "Academic Planner", "School/Academy Desk Staff", "National Cert Exam/Eval Staff", "Tech Edu Planner/Admin", "Compliance Staff", "Correctional/Probation Officer", "Tax/Accounting Firm Admin", "Legal Clerk/Court Staff"],
-                ["Import Car/Equip Dealer", "Auto/Machine Parts Sales", "Corp Funds/Investment Admin", "CPA/Tax Accountant Staff", "Machine/Facility Tech", "Doctor/Nurse/Medical Staff", "Software Engineer", "Defense/Weapon Planner", "Pilot/Aviation Mechanic", "Backend/Server Dev", "National Investigator/Police", "Industrial Safety Supervisor"],
-                ["Info Security Staff", "Data Statistic Analyst", "Financial IT Dev", "Software QA/Tester", "Overseas Import Car/Equip Dealer", "Navigator/Ship Admin/Coast Guard", "Finance/Insurance Actuary", "Data/Doc Archive Admin", "Info/Network Researcher", "Customs/Immigration Staff", "Finance Data Stat Analyst", "Marine/Port Control/Admin"]
+                ["Med Device Planner", "Hospital Admin", "Pharma Sales", "Physical Therapist", "Safety/QC Staff", "Production Tech", "Cert/License Admin", "Health Admin", "Med Researcher", "IT Maintenance", "Safety Consultant", "Machine Tech"],
+                ["Security Ops", "Photographer", "Brand Marketing", "Web Designer", "Digital Marketing", "Performance Marketer", "Military/Police", "Police Staff", "Public Safety", "Data Security", "Digital Forensics", "Special Security"],
+                ["Vocational Trainer", "Manual Planner", "Legal Assistant", "Subject Teacher", "Academic Planner", "Desk Staff", "National Project Eval", "Edu Ops Mgr", "Legal/Compliance", "Correctional Official", "Tax Firm Staff", "Court Clerk"],
+                ["Equipment Sales", "Parts Sales", "Funds Mgmt", "Tax Staff", "Machine Tech", "Medical Staff", "IT Maintenance", "Defense Admin", "Aviation Tech", "Database Ops", "Police Staff", "Safety Supervisor"],
+                ["Security Ops", "Stat Analyst", "Finance IT Support", "QA Staff", "Export/Import Sales", "Coast Guard", "Actuary", "Archive Admin", "IT Research", "Immigration Staff", "Finance Stat Analyst", "Port Control"]
             ],
             /* Water */ [
-                ["Language/Culture/Anthro Professor", "Study Abroad/Academy Ops", "Youth/Couples Counselor", "Career/Vocational Counselor", "Pro Tour Guide/Tour Leader", "Saju/Tarot/Fortune Teller", "Academic/Research Admin Support", "Foreign Book/Pub Planner", "Overseas/Foreign Lang Editor", "Pro Translator/Interpreter", "Special Edu Teacher", "Culture/Art Performance Planner"],
-                ["Overseas Buyer/Import Sales", "Hotel/Resort Front Admin", "Overseas Sales/Trade Staff", "Simultaneous Interpreter", "Expatriate/Dispatched Staff", "Intl Tour Guide/Concierge", "Diplomacy/Trade Admin", "Immigration/Customs Official", "Psychiatrist/Clinical Psych", "Customs Broker/Clearance Assistant", "Tourism/Duty Free Sales", "VIP Protocol/Concierge Service"],
-                ["Big Data Analyst", "Stats/Research Investigator", "Online/Overseas Commerce Planner", "DB/Backend Engineer", "Data/Doc Archive Admin", "Public Librarian", "Online Store/Dist Staff", "Overseas Market Researcher", "Weather/Climate Data Analyst", "Water/Enviro Facility Ops", "Social Survey Stat Analyst", "Database/Web Planner"],
-                ["Trade/Energy Import Planner", "Shipping/Port/Logistics Sales", "Pilot/Ship Captain/Crew", "Machine/Equip Export Sales", "Overseas Transport Staff", "Tech Translator", "Intl Tax/Commercial Law Admin", "Marine/Fisheries Policy Researcher", "Precision Measure Expert", "Shipbuilding/Marine Tech", "Export/Import Trade Finance", "Marine/Port Control/Admin"],
-                ["Overseas Buyer/Export Sales", "Data Stat/Research Analyst", "Enviro/Water Treatment Tech", "Seafood/Resource Dist Staff", "Marine/Cruise Guide", "Water/Enviro Sales", "Energy/Enviro Policy Researcher", "Deep Sea/Marine Research", "Digital Trade Platform Staff", "Math/Fluid Dynamics Researcher", "Saju/Fortune Cafe Ops", "Water/Enviro Analyst"]
+                ["Edu Researcher", "Academy Ops", "Family Counselor", "Career Counselor", "Tour Guide", "Saju Counselor", "Research Admin", "Pub Editor", "Content Mgr", "Pro Translator", "Special Edu Staff", "Performance Planner"],
+                ["Export Buyer", "Resort Mgr", "Overseas Sales", "Event Support", "Expatriate", "Tour Guide", "Trade Admin", "Customs Official", "Psych Analyst", "Customs Assistant", "Duty Free Sales", "Protocol Service"],
+                ["Big Data Analyst", "Research Investigator", "Commerce Ops", "Database Admin", "Archive Admin", "Librarian", "Online Store Ops", "Overseas Market Research", "Weather Analyst", "Facility Ops", "Stat Analyst", "DB Planner"],
+                ["Trade Planner", "Logistics Sales", "Flight/Ship Staff", "Equip Export", "Overseas Transport", "Tech Translator", "Tax Admin Support", "Fisheries Researcher", "Measure Expert", "Shipbuilding Tech", "Trade Finance", "Port Ops"],
+                ["Overseas Sales", "Research Analyst", "Water Tech", "Dist Staff", "Cruise Guide", "Enviro Sales", "Policy Admin", "Marine Researcher", "Trade Support", "Fluid Dynamics", "Saju Shop Owner", "Water Analyst"]
             ]
         ];
 
-        // 💡 4-4. [운명공학 4차원 하이브리드 판독 엔진] - (19790602 완벽 명중을 포함한 범용 규칙)
+        // 💡 4-4. [운명공학 4차원 하이브리드 판독 엔진] - 보편적 음양오행 공식
         const isWarm = (birthMonth >= 3 && birthMonth <= 8); 
         const yangStems = ["gap", "byeong", "mu", "gyeong", "im"]; 
         session.isYangMaster = yangStems.includes(session.iljuData.stemId); 
@@ -972,7 +972,7 @@ function switchTab(mode, element) {
         const weaponKo = jobMod1Ko[mod1Idx];
         const weaponEn = jobMod1En[mod1Idx];
 
-        const elNamesKo_C = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
+        const elNamesKo_C = ["목(木)", "화(火)", "토(土)", "금(金)", "수(수)"];
         const elNamesEn_C = ["Wood", "Fire", "Earth", "Metal", "Water"];
 
         const baseScoreOfTop5 = session.baseScores[top5Idx_C];
@@ -1002,12 +1002,11 @@ function switchTab(mode, element) {
             `by strictly guarding against your greatest Achilles' heel, the <b>${elNamesEn_C[top5Idx_C]}</b> energy,`
         ];
 
-        const blockCKo = `당신의 전체적인 에너지 분포는 ${energyShapeKo} 형상을 띠고 있습니다. 당신은 <b>${elNamesKo_C[top1Idx_C]}</b>의 기운을 바탕으로 ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘할 수 있는 사람입니다. <br>선천적인 영혼이 가장 강하게 이끌리는 당신의 진짜 무대는 <b>${pickedJobsKo}</b> 등 관련 분야입니다. 여기에 당신의 성명이 <b>${elNamesKo_C[weaponElIdx]}</b>의 기운을 바탕으로 한 <b>'${weaponKo}'</b> 무기를 더해줍니다. <br>남들과 똑같은 일을 하더라도, <b>${elNamesKo_C[top2Idx_C]}</b>의 <b>${top2SkillKo[top2Idx_C][top5Idx_C]}</b> 기술과 이 후천적인 무기를 결합하여 당신의 무대를 독보적인 방식으로 이끌게 될 것입니다. ${weaknessIntroArrKo[boostLevelC]} <b>${top5RiskKo[top5Idx_C][top5Severity]}</b>의 위험을 스스로 통제해 내십시오. 이러한 사주와 성명의 운명공학적 시너지를 통해 당신의 진짜 잠재력을 증명해 보시기 바랍니다.`;
+        const blockCKo = `당신의 전체적인 에너지 분포는 ${energyShapeKo} 형상을 띠고 있습니다. 당신은 <b>${elNamesKo_C[top1Idx_C]}</b>의 기운을 바탕으로 ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘할 수 있는 사람입니다. <br><br>선천적인 영혼이 가장 강하게 이끌리는 당신의 진짜 무대는 <b>${pickedJobsKo}</b> 등 관련 분야입니다. 여기에 당신의 성명이 <b>${elNamesKo_C[weaponElIdx]}</b>의 기운을 바탕으로 한 <b>'${weaponKo}'</b> 무기를 더해줍니다. <br><br>남들과 똑같은 일을 하더라도, <b>${elNamesKo_C[top2Idx_C]}</b>의 <b>${top2SkillKo[top2Idx_C][top5Idx_C]}</b> 기술과 이 후천적인 무기를 결합하여 당신의 무대를 독보적인 방식으로 이끌게 될 것입니다. ${weaknessIntroArrKo[boostLevelC]} <b>${top5RiskKo[top5Idx_C][top5Severity]}</b>의 위험을 스스로 통제해 내십시오. 이러한 사주와 성명의 운명공학적 시너지를 통해 당신의 진짜 잠재력을 증명해 보시기 바랍니다.`;
         
-        const blockCEn = `Your overall energy distribution takes the shape of ${energyShapeEn}. Based on your energy of <b>${elNamesEn_C[top1Idx_C]}</b>, you are someone who can manifest the <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> <b>${top1ScaleEn}</b>. <br>The true stage your innate soul is most strongly drawn to is the field of <b>${pickedJobsEn}</b>. To this, the vibration of your name adds an acquired weapon based on the energy of <b>${elNamesEn_C[weaponElIdx]}</b>: the characteristic of someone <b>'${weaponEn}'</b>. <br>Even when doing the same work as others, by combining the <b>${top2SkillEn[top2Idx_C][top5Idx_C]}</b> of <b>${elNamesEn_C[top2Idx_C]}</b> with this acquired weapon, you will lead your stage in a unique way. ${weaknessIntroArrEn[boostLevelC]} overcoming the risk of <b>${top5RiskEn[top5Idx_C][top5Severity]}</b>, you must take control. Prove your true potential through this destiny-engineering synergy.`;
+        const blockCEn = `Your overall energy distribution takes the shape of ${energyShapeEn}. Based on your energy of <b>${elNamesEn_C[top1Idx_C]}</b>, you are someone who can manifest the <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> <b>${top1ScaleEn}</b>. <br><br>The true stage your innate soul is most strongly drawn to is the field of <b>${pickedJobsEn}</b>. To this, the vibration of your name adds an acquired weapon based on the energy of <b>${elNamesEn_C[weaponElIdx]}</b>: the characteristic of someone <b>'${weaponEn}'</b>. <br><br>Even when doing the same work as others, by combining the <b>${top2SkillEn[top2Idx_C][top5Idx_C]}</b> of <b>${elNamesEn_C[top2Idx_C]}</b> with this acquired weapon, you will lead your stage in a unique way. ${weaknessIntroArrEn[boostLevelC]} overcoming the risk of <b>${top5RiskEn[top5Idx_C][top5Severity]}</b>, you must take control. Prove your true potential through this destiny-engineering synergy.`;
 
         let blockC = currentLang === 'ko' ? blockCKo : blockCEn;
-      
     // 💡 3개의 블록 조립
     const analysisText = `${blockA} ${blockB}`;  
     const missionText = `${blockC}`;
