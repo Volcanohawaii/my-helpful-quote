@@ -862,7 +862,7 @@ function switchTab(mode, element) {
         // 🚨 [핵심 수정] 무대는 약점(top5)이 아니라 '제2 강점(top2)'으로 세팅해야 사주 명리의 정석입니다.
         const mod2Idx = (top2Idx_C * 5) + varIdx5; // 2단: 나의 2위 강점 기반 (가장 잘 활약할 수 있는 산업 무대)
 
-       // 💡 4-2. [1단: 내적 역량] 제1 강점(top1)에 호환되며 직업명을 자연스럽게 수식하는 형용사구 (25종)
+      // 💡 4-2. [1단: 내적 역량] 제1 강점(top1)에 호환되며 직업명을 자연스럽게 수식하는 형용사구 (25종)
         const jobMod1Ko = [
             /* 목(木) */ "무에서 유를 창조하는 탁월한 기획력을 지닌", "아무도 보지 못한 가능성을 찾아내는 안목을 갖춘", "정체된 상황을 돌파하는 강인한 추진력의", "흩어진 아이디어를 실체 있는 결과물로 엮어내는", "지치지 않고 끊임없이 한계를 넓혀가는 에너지의",
             /* 화(火) */ "사람들의 마음을 움직이는 압도적인 매력을 지닌", "어둠 속에서 명확한 방향을 제시하는 예리한 직관의", "정체된 판에 활력을 불어넣어 흐름을 주도하는", "타인의 숨은 니즈를 정확히 읽어내는 예리한 감각의", "순식간에 대중의 이목을 사로잡는 독보적인 표현력을 갖춘",
@@ -878,106 +878,104 @@ function switchTab(mode, element) {
             /* Metal */ "who designs optimal efficiency with cool-headed analysis", "who accurately strikes the core by cutting out the unnecessary", "who forges the best results with uncompromising perfectionism", "who proactively blocks unseen risks with sharp decisiveness", "who sets unshakeable standards with objective data and logic",
             /* Water */ "who flexibly adapts to changing times with smooth tact", "who reads macro patterns behind immediate phenomena", "who turns crisis into opportunity with strategic thinking", "who absorbs and applies diverse knowledge with wisdom", "who silently reads the board and prepares for the future"
         ];
-      // 💡 4-3. [2단: 활약 무대] 나의 제2 강점(top2)을 완벽하게 펼칠 수 있는 전통 사주 명리 기반 산업군 (25종)
-        const jobMod2Ko = [
-            /* 목(木) 강점 무대 - 교육, 출판, 기획, 농림 */ "교육 및 인재 양성 분야의", "출판 및 문학 창작 교류의", "기획 및 아이디어 창출 영역의", "농림 및 친환경 자연 산업의", "디자인 및 조경 예술 시장의",
-            /* 화(火) 강점 무대 - 방송, 예술, 빛, 에너지 */ "미디어 및 방송 언론 분야의", "문화 예술 및 엔터테인먼트 시장의", "뷰티 및 패션 트렌드 영역의", "에너지 및 화학/전기 산업의", "스포츠 및 역동적인 무대의",
-            /* 토(土) 강점 무대 - 부동산, 공직, 상담, 종교 */ "부동산 및 건축 개발 비즈니스의", "공직 및 행정 서비스 분야의", "상담 및 심리 치유 영역의", "종교 및 철학적 통찰의", "토목 및 자원 관리 산업의",
-            /* 금(金) 강점 무대 - 금융, 사법, 의료, 군경 */ "금융 및 재무 자산 관리 섹터의", "사법 및 공권력(군/경) 분야의", "기계 및 정밀 가공 산업의", "의료 및 외과 수술 영역의", "귀금속 및 광물 세공 시장의",
-            /* 수(水) 강점 무대 - 무역, 학문, 유통, 지혜 */ "무역 및 유통 물류 섹터의", "학문 연구 및 교육의 깊은 무대의", "외교 및 국제 교류 분야의", "숙박 및 관광 호스피탈리티 산업의", "심연의 철학과 명리 연구의"
-        ];
-        const jobMod2En = [
-            /* Wood */ "in the fields of education and talent development", "in publishing and literary creation", "in the area of planning and ideation", "in agriculture, forestry, and eco-friendly industries", "in the design and landscaping art market",
-            /* Fire */ "in the media and broadcasting fields", "in the culture, arts, and entertainment market", "in the realm of beauty and fashion trends", "in the energy, chemical, and electrical industries", "on the dynamic stages of sports",
-            /* Earth */ "in the real estate and architectural development business", "in the public service and civil administration fields", "in the area of counseling and psychological healing", "in the realm of religion and philosophical insight", "in the civil engineering and resource management industries",
-            /* Metal */ "in the finance and asset management sector", "in the fields of justice, military, and police", "in the machinery and precision manufacturing industry", "in the realm of medical and surgical operations", "in the jewelry and mineral crafting market",
-            /* Water */ "in the trade and logistics sector", "on the profound stage of academic research and education", "in the fields of diplomacy and international relations", "in the hospitality and tourism industry", "in the study of deep philosophy and destiny"
-        ];
 
-       // 💡 4-4. [최종 직업] 제1 강점 x 제2 강점 융합 (사주 명리학의 클래식 전문/사무직 100종)
+        // 💡 4-3. [최종 직업] 1위x2위 기운 융합: 사주 업상 반영 현실 직업 250종 매트릭스 (1칸당 10개)
         const fusionJobsKo = [
-            /* 1위 목(성장/교육/기획) */ [ 
-                ["교육자/교사", "대학교수", "작가/칼럼니스트", "출판 기획자"], 
-                ["방송 작가", "언론인/기자", "시각 디자이너", "광고 기획자"], 
-                ["교육 행정가", "조경 설계사", "농업 경영인", "임업 전문가"], 
-                ["건축 설계사", "기계 설계 엔지니어", "의류 및 직물 전문가", "정밀 목공 장인"], 
-                ["유학/진학 상담사", "교육/학문 연구원", "무역 기획자", "철학 및 인문학자"] 
+            /* 1위 목(木) */ [ 
+                /* +목 */ ["학원 경영인", "전문 강사", "대학교수", "에듀테크 기획자", "출판 기획자", "교재 편집장", "작가/칼럼니스트", "인문학 연구원", "교육 행정가", "보육/유아 교육자"], 
+                /* +화 */ ["브랜드 마케터", "시각 디자이너", "인테리어 디자이너", "전시/공간 기획자", "광고 카피라이터", "방송 작가", "언론인/기자", "가구 브랜드 디렉터", "디지털 콘텐츠 PD", "패션/의류 디자이너"], 
+                /* +토 */ ["인사(HR) 컨설턴트", "조직 관리 전문가", "노무사", "헤드헌터", "조경 설계사", "농/임업 경영인", "지역 개발 기획자", "도시 재생 전문가", "사회적 기업가", "커뮤니티 빌더"], 
+                /* +금 */ ["기획조정실 임원", "경영 전략 컨설턴트", "IT 시스템 아키텍트", "비즈니스 애널리스트", "변리사(특허)", "건축 설계사", "기계 설계 엔지니어", "정밀 목공 장인", "의료/보건 행정가", "안전 관리 책임자"], 
+                /* +수 */ ["유학원 운영자", "외국어 교육 전문가", "해외 연수 기획자", "문화 교류 활동가", "유학/진학 상담사", "무역 기획자", "철학/사학 연구자", "글로벌 소싱 매니저", "해외 출판 에이전트", "국제 교육 교류원"] 
             ],
-            /* 1위 화(표현/예술/빛) */ [ 
-                ["예술 교육가", "문학 평론가", "화훼 전문가/플로리스트", "인테리어 디자이너"], 
-                ["연예인/방송인", "무용가/안무가", "셰프/요리 연구가", "뷰티 아티스트"], 
-                ["도예가", "문화재 복원가", "공간 조명 디자이너", "종교인/명상가"], 
-                ["전기/전자 엔지니어", "사진/영상 기자", "화학/소재 연구원", "금속 공예가"], 
-                ["외교관", "항공 승무원", "해양/수산 연구원", "글로벌 마케터"] 
+            /* 1위 화(火) */ [ 
+                /* +목 */ ["영상 제작 프로듀서", "미디어 아티스트", "공연 기획자", "무대 연출가", "예술 교육가", "문학 평론가", "화훼 전문가/플로리스트", "문화재 복원가", "엔터테인먼트 A&R", "크리에이티브 디렉터"], 
+                /* +화 */ ["브랜드 마케팅 팀장", "홍보(PR) 전문가", "퍼스널 브랜딩 디렉터", "SNS 전략가", "방송인/연예인", "무용가/안무가", "셰프/외식 사업가", "뷰티 아티스트", "방송 MC/아나운서", "1인 미디어 크리에이터"], 
+                /* +토 */ ["프랜차이즈 가맹사업가", "테마파크 기획자", "파티/이벤트 플래너", "웨딩 디렉터", "도예가", "공간 조명 디자이너", "종교인/명상가", "복합 문화공간 운영자", "외식 경영 전문가", "호텔 커뮤니케이션 매니저"], 
+                /* +금 */ ["뷰티/패션 디렉터", "스타일리스트", "매거진 편집장", "트렌드 분석가", "전기/전자 엔지니어", "사진/영상 기자", "화학/소재 연구원", "금속 공예가", "특수효과(CG) 전문가", "무대 조명/음향 감독"], 
+                /* +수 */ ["MICE(전시) 전문가", "글로벌 마케팅 매니저", "홍보 대행사 대표", "외교관", "항공 승무원", "글로벌 이벤트 기획자", "국제 행사 통역/MC", "크루즈/항공 서비스직", "마케팅 리서처", "해양/수산 연구원"] 
             ],
-            /* 1위 토(기반/중개/공직) */ [ 
-                ["유아 교육자", "부동산 개발업자", "원예 치료사", "목장/농장 운영자"], 
-                ["웨딩 플래너", "문화 이벤트 기획자", "외식 프랜차이즈 운영자", "미술관/갤러리 큐레이터"], 
-                ["국가 공무원", "공인중개사", "토목 공학자", "직업 상담사"], 
-                ["세무사/회계사", "건축 감리사", "광산/자원 개발자", "자산 신탁 관리인"], 
-                ["숙박업/호텔 운영자", "지적 측량사", "심리 상담사", "해운/항만 관리자"] 
+            /* 1위 토(土) */ [ 
+                /* +목 */ ["부동산 디벨로퍼", "공인중개사", "분양 대행사 대표", "자산 관리인", "원예 치료사", "목장/농장 운영자", "생태 공원 조성자", "도시 농업 전문가", "산림 치유사", "환경 조경가"], 
+                /* +화 */ ["유통망 설계 전문가", "물류센터 운영 총괄", "영업 본부장", "웨딩/연회 플래너", "문화 이벤트 기획자", "미술관/갤러리 큐레이터", "대형 쇼핑몰 지배인", "호텔 영업 지배인", "서비스직 매니저", "레저 산업 기획자"], 
+                /* +토 */ ["행정사", "정책 수립 공무원", "공공기관 관리자", "국가/지방직 공무원", "토목 공학자", "직업/취업 상담사", "도시 계획 전문가", "국토 개발 연구원", "공공 행정 전문가", "지역 정책 연구원"], 
+                /* +금 */ ["세무사", "감정평가사", "건축물 안전진단 전문가", "현장 감리 소장", "건축 감리사", "광산/자원 개발자", "자산 신탁 관리인", "부동산 투자 분석가", "경매사", "건설 원가 관리사"], 
+                /* +수 */ ["사회적 기업가", "NGO 단체장", "심리 상담 센터장", "숙박업/호텔 운영자", "지적 측량사", "해운/항만 관리자", "리조트/스파 운영자", "사회복지사", "국제 구호 활동가", "요양/실버타운 관리자"] 
             ],
-            /* 1위 금(사법/의료/금융) */ [ 
-                ["제지 및 펄프 전문가", "교육 감찰관", "가구 디자이너", "농기계 엔지니어"], 
-                ["경찰/소방관", "방송 장비 엔지니어", "스포츠 감독", "성형외과 의사"], 
-                ["판사/검사", "감정평가사", "건축 구조 기술사", "세관 공무원"], 
-                ["은행원/금융인", "직업 군인/장교", "외과 의사", "자동차/기계 공학자"], 
-                ["치과 의사", "항공기 조종사", "선박 기관사", "무기/방위산업 연구원"] 
+            /* 1위 금(金) */ [ 
+                /* +목 */ ["제약 유통 임원", "바이오 산업 분석가", "의료기기 영업 본부장", "병원 행정 실장", "제지 및 펄프 전문가", "교육 감찰관", "가구 디자이너", "농기계 엔지니어", "의료/보건 행정가", "보건 교사"], 
+                /* +화 */ ["투자은행(IB) 본부장", "펀드 매니저", "자산운용가", "증권사 애널리스트", "경찰/소방관", "방송 장비 엔지니어", "스포츠 감독", "성형외과 의사", "사이버 범죄 수사관", "데이터 보안 전문가"], 
+                /* +토 */ ["변호사", "법무법인 파트너", "준법감시인(컴플라이언스)", "법무사", "판사/검사", "건축 구조 기술사", "세관 공무원", "공인노무사", "특허 심사관", "교정직 공무원"], 
+                /* +금 */ ["CFO(최고재무책임자)", "공인회계사(CPA)", "관리회계 전문가", "재무 컨설턴트", "은행원/금융인", "직업 군인/장교", "외과 의사", "자동차/기계 공학자", "항공기계 정비사", "무기체계 설계자"], 
+                /* +수 */ ["정보보안 전문가", "IT 벤처 창업가", "품질관리(QA) 이사", "정밀 설계사", "치과 의사", "항공기 조종사", "선박 기관사", "방위산업 연구원", "해양 경찰", "첨단 의료기기 연구원"] 
             ],
-            /* 1위 수(지혜/무역/유통) */ [ 
-                ["사주/명리학자", "특수 교육 교사", "출판 번역가", "수자원 관리자"], 
-                ["심리학자", "관광 가이드", "동시통역사", "주류/음료 사업가"], 
-                ["사서 및 기록물 관리자", "수산물 유통업자", "온천/사우나 운영자", "사회복지사"], 
-                ["해군/해경", "해양 금융 전문가", "수력 발전 엔지니어", "국제 무역사"], 
-                ["기초 과학자", "천문/기상학자", "유통/물류 전문가", "원양 어업인"] 
+            /* 1위 수(水) */ [ 
+                /* +목 */ ["여행사 경영인", "관광 상품 개발자", "글로벌 가이드 디렉터", "호텔 경영인", "사주/명리학자", "특수 교육 교사", "출판 번역가", "수자원 관리자", "문화 인류학자", "국제 구호 단체원"], 
+                /* +화 */ ["국제 무역사", "해외 사업 팀장", "포워딩 물류 전문가", "관세사", "심리학자", "관광 가이드", "동시통역사", "주류/음료 사업가", "글로벌 세일즈 디렉터", "해외 주재원"], 
+                /* +토 */ ["데이터 사이언티스트", "통계 분석 전문가", "사서 및 기록물 관리자", "수산물 유통업자", "온천/사우나 운영자", "해양 자원 연구원", "환경 생태 연구원", "아카이브 관리자", "수자원 공사 임원", "빅데이터 아키텍트"], 
+                /* +금 */ ["외교관", "통번역 센터장", "국제 기구 사무관", "글로벌 컨설턴트", "해군/해경", "해양 금융 전문가", "수력 발전 엔지니어", "국제 통상 전문가", "해상 보험 심사역", "조선 공학자"], 
+                /* +수 */ ["해운/항공 물류 본부장", "수질/수처리 전문가", "전통 명리학자", "기초 과학자", "천문/기상학자", "유통/물류 전문가", "원양 어업인", "심해 탐사 연구원", "기후 변화 분석가", "해상 운송 디렉터"] 
             ]
         ];
 
         const fusionJobsEn = [
             /* Wood */ [ 
-                ["Educator/Teacher", "University Professor", "Writer/Columnist", "Publishing Planner"], 
-                ["Broadcast Writer", "Journalist", "Visual Designer", "Advertising Planner"], 
-                ["Education Administrator", "Landscape Architect", "Agricultural Manager", "Forestry Expert"], 
-                ["Architect", "Mechanical Design Engineer", "Textile Expert", "Precision Carpenter"], 
-                ["Study Abroad Counselor", "Educational Researcher", "Trade Planner", "Philosopher/Humanist"] 
+                ["Academy Owner", "Professional Instructor", "University Professor", "EdTech Planner", "Publishing Planner", "Editorial Director", "Writer/Columnist", "Humanities Researcher", "Education Admin", "Early Childhood Educator"], 
+                ["Brand Marketer", "Visual Designer", "Interior Designer", "Exhibition Planner", "Copywriter", "Broadcast Writer", "Journalist", "Furniture Brand Director", "Content PD", "Fashion Designer"], 
+                ["HR Consultant", "Org Manager", "Labor Attorney", "Headhunter", "Landscape Architect", "Agri/Forestry Manager", "Regional Dev Planner", "Urban Regen Expert", "Social Entrepreneur", "Community Builder"], 
+                ["Planning Exec", "Strategy Consultant", "IT Architect", "Business Analyst", "Patent Attorney", "Architectural Designer", "Mechanical Engineer", "Precision Carpenter", "Medical Admin", "Safety Manager"], 
+                ["Study Abroad Director", "Language Expert", "Global Training Planner", "Cultural Activist", "Study Counselor", "Trade Planner", "Philosopher/Historian", "Global Sourcing Manager", "Publishing Agent", "Intl Ed Coordinator"] 
             ],
             /* Fire */ [ 
-                ["Arts Educator", "Literary Critic", "Florist", "Interior Designer"], 
-                ["Entertainer/Broadcaster", "Choreographer", "Chef/Culinary Researcher", "Beauty Artist"], 
-                ["Ceramic Artist", "Cultural Heritage Restorer", "Lighting Designer", "Religious Leader/Meditator"], 
-                ["Electrical Engineer", "Photo/Video Journalist", "Chemical Researcher", "Metal Crafter"], 
-                ["Diplomat", "Flight Attendant", "Marine Researcher", "Global Marketer"] 
+                ["Video Producer", "Media Artist", "Event Planner", "Stage Director", "Arts Educator", "Literary Critic", "Florist", "Heritage Restorer", "A&R Exec", "Creative Director"], 
+                ["Marketing Team Head", "PR Specialist", "Branding Director", "SNS Strategist", "Entertainer", "Choreographer", "Chef/Restaurateur", "Beauty Artist", "MC/Announcer", "Solo Creator"], 
+                ["Franchise Owner", "Theme Park Planner", "Party Planner", "Wedding Director", "Ceramic Artist", "Lighting Designer", "Religious Leader", "Cultural Space Operator", "F&B Manager", "Hotel Comm Manager"], 
+                ["Fashion Director", "Stylist", "Magazine Editor", "Trend Analyst", "Electrical Engineer", "Photojournalist", "Chemical Researcher", "Metal Crafter", "CG Expert", "Stage Sound Director"], 
+                ["MICE Specialist", "Global Marketing Manager", "PR Agency CEO", "Diplomat", "Flight Attendant", "Global Event Planner", "Interpreter/MC", "Cruise Staff", "Marketing Researcher", "Marine Researcher"] 
             ],
             /* Earth */ [ 
-                ["Early Childhood Educator", "Real Estate Developer", "Horticultural Therapist", "Ranch Operator"], 
-                ["Wedding Planner", "Cultural Event Planner", "Restaurant Operator", "Gallery Curator"], 
-                ["Civil Servant", "Real Estate Agent", "Civil Engineer", "Vocational Counselor"], 
-                ["Tax Accountant", "Construction Supervisor", "Mining Developer", "Asset Trust Manager"], 
-                ["Lodging/Hotel Operator", "Cadastral Surveyor", "Psychological Counselor", "Port Manager"] 
+                ["Real Estate Developer", "Realtor", "Sales Agency CEO", "Asset Manager", "Horticultural Therapist", "Ranch Operator", "Eco-Park Creator", "Urban Agri Expert", "Forest Therapist", "Environmental Fitter"], 
+                ["Distribution Architect", "Logistics Operations Head", "Sales Director", "Wedding/Banquet Planner", "Event Planner", "Gallery Curator", "Mega Mall Manager", "Hotel Sales Manager", "Service Manager", "Leisure Planner"], 
+                ["Admin Scrivener", "Policy Maker", "Public Admin", "Civil Servant", "Civil Engineer", "Vocational Counselor", "Urban Planner", "National Dev Researcher", "Public Admin Expert", "Regional Policy Researcher"], 
+                ["Tax Accountant", "Appraiser", "Safety Inspector", "Site Supervisor", "Construction Supervisor", "Mining Developer", "Asset Trust Manager", "Real Estate Analyst", "Auctioneer", "Cost Manager"], 
+                ["Social Entrepreneur", "NGO Director", "Counseling Center Head", "Lodging Operator", "Cadastral Surveyor", "Port Manager", "Resort/Spa Operator", "Social Worker", "Relief Worker", "Silver Town Manager"] 
             ],
             /* Metal */ [ 
-                ["Paper/Pulp Expert", "Education Inspector", "Furniture Designer", "Agricultural Machinery Engineer"], 
-                ["Police/Firefighter", "Broadcast Equipment Engineer", "Sports Coach", "Plastic Surgeon"], 
-                ["Judge/Prosecutor", "Appraiser", "Structural Engineer", "Customs Officer"], 
-                ["Banker/Financier", "Military Officer", "Surgeon", "Automotive/Mechanical Engineer"], 
-                ["Dentist", "Airline Pilot", "Marine Engineer", "Defense Industry Researcher"] 
+                ["Pharma Dist Exec", "Bio Industry Analyst", "Medical Sales Head", "Hospital Admin", "Pulp/Paper Expert", "Education Inspector", "Furniture Designer", "Agri Machinery Engineer", "Health Admin", "Health Teacher"], 
+                ["IB Director", "Fund Manager", "Wealth Manager", "Securities Analyst", "Police/Firefighter", "Broadcast Equipment Engineer", "Sports Coach", "Plastic Surgeon", "Cybercrime Investigator", "Data Security Expert"], 
+                ["Lawyer", "Law Firm Partner", "Compliance Officer", "Judicial Scrivener", "Judge/Prosecutor", "Structural Engineer", "Customs Officer", "Labor Attorney", "Patent Examiner", "Correctional Officer"], 
+                ["CFO", "CPA", "Management Accountant", "Financial Consultant", "Banker/Financier", "Military Officer", "Surgeon", "Automotive Engineer", "Aviation Mechanic", "Weapons Designer"], 
+                ["Security Expert", "IT Tech CEO", "QA Director", "Precision Architect", "Dentist", "Airline Pilot", "Marine Engineer", "Defense Researcher", "Coast Guard", "Advanced Medical Researcher"] 
             ],
             /* Water */ [ 
-                ["Saju/Myungri Scholar", "Special Education Teacher", "Publishing Translator", "Water Resources Manager"], 
-                ["Psychologist", "Tour Guide", "Simultaneous Interpreter", "Liquor/Beverage Entrepreneur"], 
-                ["Librarian/Archivist", "Seafood Distributor", "Spa/Sauna Operator", "Social Worker"], 
-                ["Navy/Coast Guard", "Marine Finance Expert", "Hydroelectric Engineer", "International Trade Specialist"], 
-                ["Basic Scientist", "Astronomer/Meteorologist", "Logistics Expert", "Deep-sea Fisher"] 
+                ["Travel Agency CEO", "Tour Product Developer", "Guide Director", "Hotel Manager", "Destiny Scholar", "Special Ed Teacher", "Translator", "Water Resources Manager", "Anthropologist", "Relief Agency Worker"], 
+                ["Trade Specialist", "Overseas Biz Head", "Logistics Expert", "Customs Broker", "Psychologist", "Tour Guide", "Interpreter", "Beverage Entrepreneur", "Global Sales Director", "Expatriate"], 
+                ["Data Scientist", "Statistical Analyst", "Librarian/Archivist", "Seafood Distributor", "Spa Operator", "Marine Researcher", "Eco Researcher", "Archive Manager", "Water Corp Exec", "Big Data Architect"], 
+                ["Diplomat", "Translation Center Head", "IO Official", "Global Consultant", "Navy/Coast Guard", "Marine Finance Expert", "Hydroelectric Engineer", "Trade Expert", "Marine Underwriter", "Naval Architect"], 
+                ["Shipping/Cargo Head", "Water Treatment Expert", "Traditional Scholar", "Basic Scientist", "Astronomer", "Logistics Expert", "Deep-sea Fisher", "Deep-sea Explorer", "Climate Analyst", "Maritime Transport Director"] 
             ]
         ];
-      
-    // 💡 4-5. 최종 조립 완성 (무대 수식어 제거, 2단 직결 결합)
-        const finalJobKo = jobMod1Ko[mod1Idx] + " <b>" + fusionJobsKo[top1Idx_C][top2Idx_C][varIdx4] + "</b>";
-        
-        // 영문은 문법에 맞게 직업명 뒤에 관계대명사(who)로 수식어가 붙도록 처리
-        const finalJobEn = "<b>" + fusionJobsEn[top1Idx_C][top2Idx_C][varIdx4] + "</b> " + jobMod1En[mod1Idx];
-      
-   // 💡 5. 최종 운명 서사 조립 (맥락 충돌 방지 및 5점 척도 완벽 연동)
+
+        // 💡 4-4. 고유 파동(수리+생월)을 조합해 10개의 직업 중 3개를 중복 없이 추출 (다양성 보장)
+        const seed = session.num81 + birthMonth;
+        const idx1 = seed % 10;
+        const idx2 = (seed + 3) % 10;
+        const idx3 = (seed + 7) % 10;
+
+        const job1Ko = fusionJobsKo[top1Idx_C][top2Idx_C][idx1];
+        const job2Ko = fusionJobsKo[top1Idx_C][top2Idx_C][idx2];
+        const job3Ko = fusionJobsKo[top1Idx_C][top2Idx_C][idx3];
+
+        const job1En = fusionJobsEn[top1Idx_C][top2Idx_C][idx1];
+        const job2En = fusionJobsEn[top1Idx_C][top2Idx_C][idx2];
+        const job3En = fusionJobsEn[top1Idx_C][top2Idx_C][idx3];
+
+        // 💡 4-5. 최종 조립 완성 (3가지 직업군 콤보로 풍성한 결과 도출)
+        // 불필요했던 jobMod2(무대 수식어)는 완전히 삭제하고 형용사구(jobMod1)가 직업명 3개를 직접 수식합니다.
+        const finalJobKo = jobMod1Ko[mod1Idx] + " <b>[" + job1Ko + ", " + job2Ko + ", " + job3Ko + "]</b> 등 관련";
+        const finalJobEn = "<b>[" + job1En + ", " + job2En + ", " + job3En + "]</b> (and related fields) " + jobMod1En[mod1Idx];
+
+        // 💡 5. 최종 운명 서사 조립 (맥락 충돌 방지 및 5점 척도 완벽 연동)
         const elNamesKo_C = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
         const elNamesEn_C = ["Wood", "Fire", "Earth", "Metal", "Water"];
 
@@ -995,9 +993,9 @@ function switchTab(mode, element) {
 
         // 5단계 보완 정도에 따른 5가지 맞춤형 브릿지(연결) 문구
         const weaknessIntroArrKo = [
-            `성명을 통해 완벽하게 약점을 극복해 낸 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 무기로 삼아`, // 0단계 (매우 많이)
-            `이름을 통해 든든하게 보완된 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 내 것으로 만들어`, // 1단계 (많이)
-            `성명의 파동으로 안정을 되찾고 있는 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 다스려`, // 2단계 (보통)
+            `성명의 에너지로 완벽하게 약점을 극복해 낸 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 무기로 삼아`, // 0단계 (매우 많이)
+            `성명의 에너지로 든든하게 보완된 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 내 것으로 만들어`, // 1단계 (많이)
+            `성명의 에너지로 안정을 되찾고 있는 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 다스려`, // 2단계 (보통)
             `여전히 각별한 관리가 요구되는 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 의식적으로 통제하며`, // 3단계 (약하게)
             `가장 취약한 아킬레스건으로 남은 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 철저히 경계하여`  // 4단계 (매우 약하게)
         ];
