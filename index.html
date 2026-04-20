@@ -879,83 +879,82 @@ function switchTab(mode, element) {
             /* Water */ "who flexibly adapts to changing times with smooth tact", "who reads macro patterns behind immediate phenomena", "who turns crisis into opportunity with strategic thinking", "who absorbs and applies diverse knowledge with wisdom", "who silently reads the board and prepares for the future"
         ];
 
-        // 💡 4-3. [최종 직업] 1위x2위 기운 융합: 사주 업상 반영 현실 직업 250종 매트릭스 (1칸당 10개)
+// 💡 4-3. [최종 직업] 사주 업상 완벽 반영: 현대적이고 대중적인 현실 직업 250종 매트릭스 (1칸당 10개)
         const fusionJobsKo = [
-            /* 1위 목(木) */ [ 
-                /* +목 */ ["학원 경영인", "전문 강사", "대학교수", "에듀테크 기획자", "출판 기획자", "교재 편집장", "작가/칼럼니스트", "인문학 연구원", "교육 행정가", "보육/유아 교육자"], 
-                /* +화 */ ["브랜드 마케터", "시각 디자이너", "인테리어 디자이너", "전시/공간 기획자", "광고 카피라이터", "방송 작가", "언론인/기자", "가구 브랜드 디렉터", "디지털 콘텐츠 PD", "패션/의류 디자이너"], 
-                /* +토 */ ["인사(HR) 컨설턴트", "조직 관리 전문가", "노무사", "헤드헌터", "조경 설계사", "농/임업 경영인", "지역 개발 기획자", "도시 재생 전문가", "사회적 기업가", "커뮤니티 빌더"], 
-                /* +금 */ ["기획조정실 임원", "경영 전략 컨설턴트", "IT 시스템 아키텍트", "비즈니스 애널리스트", "변리사(특허)", "건축 설계사", "기계 설계 엔지니어", "정밀 목공 장인", "의료/보건 행정가", "안전 관리 책임자"], 
-                /* +수 */ ["유학원 운영자", "외국어 교육 전문가", "해외 연수 기획자", "문화 교류 활동가", "유학/진학 상담사", "무역 기획자", "철학/사학 연구자", "글로벌 소싱 매니저", "해외 출판 에이전트", "국제 교육 교류원"] 
+            /* 1위 목(木) - 기획, 교육, 창작, 성장 */ [ 
+                /* +목 */ ["교사/학원 강사", "학원 원장", "출판사 에디터", "웹 기획자", "작가", "유치원 원장", "기업 교육(HRD) 담당", "신사업 기획자", "카피라이터", "교재 개발자"], 
+                /* +화 */ ["마케터", "시각 디자이너", "방송 작가", "광고 기획자", "인테리어 디자이너", "웹툰/웹소설 작가", "영상 크리에이터", "홍보 담당자", "패션 디자이너", "이벤트 기획자"], 
+                /* +토 */ ["공무원(교육/행정직)", "공인노무사", "인사(HR) 담당자", "직업 상담사", "부동산 디벨로퍼", "사회복지사", "조경/공간 기획자", "프랜차이즈 가맹점주", "도시 재생 기획자", "로컬 크리에이터"], 
+                /* +금 */ ["IT 개발자", "건축 설계사", "특허 변리사", "경영 컨설턴트", "데이터 기획자", "품질 관리(QA) 담당", "안전 관리자", "의료 행정직", "시스템 아키텍트", "재무 기획자"], 
+                /* +수 */ ["해외 영업직", "유학원 원장", "무역 기획자", "어학원 강사", "번역가", "문화 교류 코디네이터", "리서치 연구원", "글로벌 소싱 담당자", "관광 기획자", "철학/심리 연구가"] 
             ],
-            /* 1위 화(火) */ [ 
-                /* +목 */ ["영상 제작 프로듀서", "미디어 아티스트", "공연 기획자", "무대 연출가", "예술 교육가", "문학 평론가", "화훼 전문가/플로리스트", "문화재 복원가", "엔터테인먼트 A&R", "크리에이티브 디렉터"], 
-                /* +화 */ ["브랜드 마케팅 팀장", "홍보(PR) 전문가", "퍼스널 브랜딩 디렉터", "SNS 전략가", "방송인/연예인", "무용가/안무가", "셰프/외식 사업가", "뷰티 아티스트", "방송 MC/아나운서", "1인 미디어 크리에이터"], 
-                /* +토 */ ["프랜차이즈 가맹사업가", "테마파크 기획자", "파티/이벤트 플래너", "웨딩 디렉터", "도예가", "공간 조명 디자이너", "종교인/명상가", "복합 문화공간 운영자", "외식 경영 전문가", "호텔 커뮤니케이션 매니저"], 
-                /* +금 */ ["뷰티/패션 디렉터", "스타일리스트", "매거진 편집장", "트렌드 분석가", "전기/전자 엔지니어", "사진/영상 기자", "화학/소재 연구원", "금속 공예가", "특수효과(CG) 전문가", "무대 조명/음향 감독"], 
-                /* +수 */ ["MICE(전시) 전문가", "글로벌 마케팅 매니저", "홍보 대행사 대표", "외교관", "항공 승무원", "글로벌 이벤트 기획자", "국제 행사 통역/MC", "크루즈/항공 서비스직", "마케팅 리서처", "해양/수산 연구원"] 
+            /* 1위 화(火) - 미디어, 예술, 영업, 뷰티 */ [ 
+                /* +목 */ ["영상 PD", "아트 디렉터", "공연 기획자", "예술 강사", "뷰티 크리에이터", "플로리스트(꽃집 사장)", "방송 패널", "엔터테인먼트 직원", "크리에이티브 디렉터", "평론가"], 
+                /* +화 */ ["방송인/유튜버", "홍보 대행사 직원", "마케팅 팀장", "영업 대표", "셰프/식당 사장", "댄서/안무가", "퍼스널 컬러 진단사", "메이크업 아티스트", "쇼호스트", "인플루언서"], 
+                /* +토 */ ["프랜차이즈 식당 사장", "테마파크 직원", "웨딩 플래너", "파티 플래너", "외식업 매니저", "조명 디자이너", "갤러리 큐레이터", "커뮤니티 매니저", "요가/명상 강사", "카페/문화공간 사장"], 
+                /* +금 */ ["IT/가전 리뷰어", "뷰티/패션 MD", "사진/영상 기자", "트렌드 분석가", "특수효과(CG) 디자이너", "무대 음향/조명 감독", "전기/전자 기사", "금속/주얼리 공예가", "홈쇼핑 PD", "스타일리스트"], 
+                /* +수 */ ["해외 마케터", "항공 승무원", "무역 영업직", "외교관", "국제 행사(MICE) 기획자", "통역사", "여행 유튜버", "크루즈 승무원", "글로벌 브랜드 매니저", "해외 주재원"] 
             ],
-            /* 1위 토(土) */ [ 
-                /* +목 */ ["부동산 디벨로퍼", "공인중개사", "분양 대행사 대표", "자산 관리인", "원예 치료사", "목장/농장 운영자", "생태 공원 조성자", "도시 농업 전문가", "산림 치유사", "환경 조경가"], 
-                /* +화 */ ["유통망 설계 전문가", "물류센터 운영 총괄", "영업 본부장", "웨딩/연회 플래너", "문화 이벤트 기획자", "미술관/갤러리 큐레이터", "대형 쇼핑몰 지배인", "호텔 영업 지배인", "서비스직 매니저", "레저 산업 기획자"], 
-                /* +토 */ ["행정사", "정책 수립 공무원", "공공기관 관리자", "국가/지방직 공무원", "토목 공학자", "직업/취업 상담사", "도시 계획 전문가", "국토 개발 연구원", "공공 행정 전문가", "지역 정책 연구원"], 
-                /* +금 */ ["세무사", "감정평가사", "건축물 안전진단 전문가", "현장 감리 소장", "건축 감리사", "광산/자원 개발자", "자산 신탁 관리인", "부동산 투자 분석가", "경매사", "건설 원가 관리사"], 
-                /* +수 */ ["사회적 기업가", "NGO 단체장", "심리 상담 센터장", "숙박업/호텔 운영자", "지적 측량사", "해운/항만 관리자", "리조트/스파 운영자", "사회복지사", "국제 구호 활동가", "요양/실버타운 관리자"] 
+            /* 1위 토(土) - 공직, 부동산, 상담, 자영업 */ [ 
+                /* +목 */ ["보육 교사", "공인중개사", "부동산 임대업자", "지역 상권 자영업자", "심리 상담사", "플랜테리어 샵 사장", "스마트팜 운영자", "요양원 원장", "진로 상담사", "생태공원 관리자"], 
+                /* +화 */ ["백화점/쇼핑몰 매니저", "물류/유통 관리자", "웨딩홀 사장", "대형 식당 사장", "레저/스포츠 시설 관리자", "문화센터 강사", "전시 해설사", "CS(고객서비스) 강사", "이벤트 대행사 사장", "영업 지배인"], 
+                /* +토 */ ["일반 행정직 공무원", "정책 연구원", "공공기관(공기업) 직원", "구청/시청 실무자", "토목/건축 공무원", "행정사", "국토 개발 연구원", "기록물 관리사", "사무/총무 직원", "지역 농협/신협 직원"], 
+                /* +금 */ ["세무사", "감정평가사", "현장 감리/안전 관리자", "건설/토목 엔지니어", "은행원", "보험 계리사", "부동산 투자 분석가", "건축물 안전 진단원", "건설 원가 관리사", "경매/공매 전문가"], 
+                /* +수 */ ["사회복지사", "NGO/구호단체 직원", "심리 치료 센터장", "게스트하우스/호텔 사장", "관광 안내사", "해운/항만 공사 직원", "요양/실버타운 관리자", "지적 측량사", "상하수도 공사 직원", "환경 단체 활동가"] 
             ],
-            /* 1위 금(金) */ [ 
-                /* +목 */ ["제약 유통 임원", "바이오 산업 분석가", "의료기기 영업 본부장", "병원 행정 실장", "제지 및 펄프 전문가", "교육 감찰관", "가구 디자이너", "농기계 엔지니어", "의료/보건 행정가", "보건 교사"], 
-                /* +화 */ ["투자은행(IB) 본부장", "펀드 매니저", "자산운용가", "증권사 애널리스트", "경찰/소방관", "방송 장비 엔지니어", "스포츠 감독", "성형외과 의사", "사이버 범죄 수사관", "데이터 보안 전문가"], 
-                /* +토 */ ["변호사", "법무법인 파트너", "준법감시인(컴플라이언스)", "법무사", "판사/검사", "건축 구조 기술사", "세관 공무원", "공인노무사", "특허 심사관", "교정직 공무원"], 
-                /* +금 */ ["CFO(최고재무책임자)", "공인회계사(CPA)", "관리회계 전문가", "재무 컨설턴트", "은행원/금융인", "직업 군인/장교", "외과 의사", "자동차/기계 공학자", "항공기계 정비사", "무기체계 설계자"], 
-                /* +수 */ ["정보보안 전문가", "IT 벤처 창업가", "품질관리(QA) 이사", "정밀 설계사", "치과 의사", "항공기 조종사", "선박 기관사", "방위산업 연구원", "해양 경찰", "첨단 의료기기 연구원"] 
+            /* 1위 금(金) - 금융, 사법, 의료, 정밀기술 */ [ 
+                /* +목 */ ["병원 원무과장", "제약/의료기기 영업직", "보건 교사", "보건직 공무원", "가구/제품 디자이너", "교육청 장학사", "농기계/설비 엔지니어", "산업 안전 강사", "제지/목재 산업 관리자", "재활 치료사"], 
+                /* +화 */ ["펀드 매니저", "증권사 애널리스트", "경찰/소방 공무원", "스포츠 감독/코치", "성형외과/피부과 의사", "사이버 수사대", "방송 장비 엔지니어", "데이터 보안 전문가", "소방 설비 기사", "투자 자문역"], 
+                /* +토 */ ["판사/검사", "변호사", "법무사", "기업 사내 변호사", "컴플라이언스(준법) 담당", "건축 구조 설계사", "세관 공무원", "특허 심사관", "교도관/보호관찰직", "노무사"], 
+                /* +금 */ ["회계사(CPA)", "재무/경리 담당자", "외과/정형외과 의사", "치과 의사", "직업 군인(장교/부사관)", "자동차/기계 공학자", "항공 정비사", "금형/정밀 가공 기술자", "반도체 엔지니어", "퀀트 투자자"], 
+                /* +수 */ ["IT 보안 전문가", "소프트웨어 QA 엔지니어", "항공기 조종사", "항해사/기관사", "방위산업 연구원", "해양 경찰", "첨단 의료기기 연구원", "정밀 데이터 분석가", "치기공사", "수입차 딜러"] 
             ],
-            /* 1위 수(水) */ [ 
-                /* +목 */ ["여행사 경영인", "관광 상품 개발자", "글로벌 가이드 디렉터", "호텔 경영인", "사주/명리학자", "특수 교육 교사", "출판 번역가", "수자원 관리자", "문화 인류학자", "국제 구호 단체원"], 
-                /* +화 */ ["국제 무역사", "해외 사업 팀장", "포워딩 물류 전문가", "관세사", "심리학자", "관광 가이드", "동시통역사", "주류/음료 사업가", "글로벌 세일즈 디렉터", "해외 주재원"], 
-                /* +토 */ ["데이터 사이언티스트", "통계 분석 전문가", "사서 및 기록물 관리자", "수산물 유통업자", "온천/사우나 운영자", "해양 자원 연구원", "환경 생태 연구원", "아카이브 관리자", "수자원 공사 임원", "빅데이터 아키텍트"], 
-                /* +금 */ ["외교관", "통번역 센터장", "국제 기구 사무관", "글로벌 컨설턴트", "해군/해경", "해양 금융 전문가", "수력 발전 엔지니어", "국제 통상 전문가", "해상 보험 심사역", "조선 공학자"], 
-                /* +수 */ ["해운/항공 물류 본부장", "수질/수처리 전문가", "전통 명리학자", "기초 과학자", "천문/기상학자", "유통/물류 전문가", "원양 어업인", "심해 탐사 연구원", "기후 변화 분석가", "해상 운송 디렉터"] 
+            /* 1위 수(水) - 무역, 연구, 사주명리, 유통 */ [ 
+                /* +목 */ ["사주/타로 상담사", "특수학교 교사", "출판 번역가", "여행사 사장", "관광 기획자", "문화 인류학 연구원", "해외 자원봉사자", "수자원/환경 공무원", "교육 심리 상담사", "유학 상담사"], 
+                /* +화 */ ["무역 회사 직원", "해외 영업직", "관세사", "동시통역사", "심리학자/정신과 의사", "해외 주재원", "주류/카페 사장", "관광 가이드", "글로벌 세일즈 매니저", "수출입 통관 대행업자"], 
+                /* +토 */ ["데이터 사이언티스트", "통계청 공무원", "도서관 사서", "아카이브 관리자", "목욕탕/사우나 사장", "수산물 유통업자", "해양 자원 연구원", "수질 환경 연구원", "빅데이터 분석가", "사회조사 분석사"], 
+                /* +금 */ ["외교관", "국제기구 직원", "해군/해병대", "조선 공학자", "해상 보험 심사역", "국제 통상 전문가", "번역 센터장", "수력 발전 엔지니어", "국제 조세 전문가", "해양 금융 전문가"], 
+                /* +수 */ ["해운/항공 물류 직원", "기상청 공무원/캐스터", "해상 운송 관리자", "기초 과학 연구원", "철학관 사장", "원양 어선원", "심해 탐사 연구원", "물류 창고 관리자", "상하수도 엔지니어", "기후 변화 연구원"] 
             ]
         ];
 
         const fusionJobsEn = [
             /* Wood */ [ 
-                ["Academy Owner", "Professional Instructor", "University Professor", "EdTech Planner", "Publishing Planner", "Editorial Director", "Writer/Columnist", "Humanities Researcher", "Education Admin", "Early Childhood Educator"], 
-                ["Brand Marketer", "Visual Designer", "Interior Designer", "Exhibition Planner", "Copywriter", "Broadcast Writer", "Journalist", "Furniture Brand Director", "Content PD", "Fashion Designer"], 
-                ["HR Consultant", "Org Manager", "Labor Attorney", "Headhunter", "Landscape Architect", "Agri/Forestry Manager", "Regional Dev Planner", "Urban Regen Expert", "Social Entrepreneur", "Community Builder"], 
-                ["Planning Exec", "Strategy Consultant", "IT Architect", "Business Analyst", "Patent Attorney", "Architectural Designer", "Mechanical Engineer", "Precision Carpenter", "Medical Admin", "Safety Manager"], 
-                ["Study Abroad Director", "Language Expert", "Global Training Planner", "Cultural Activist", "Study Counselor", "Trade Planner", "Philosopher/Historian", "Global Sourcing Manager", "Publishing Agent", "Intl Ed Coordinator"] 
+                ["Teacher/Instructor", "Academy Director", "Publishing Editor", "Web Planner", "Writer", "Kindergarten Principal", "HRD Manager", "New Business Planner", "Copywriter", "Textbook Developer"], 
+                ["Marketer", "Visual Designer", "Broadcast Writer", "Ad Planner", "Interior Designer", "Webtoon/Web Novel Writer", "Video Creator", "PR Manager", "Fashion Designer", "Event Planner"], 
+                ["Civil Servant (Education/Admin)", "Certified Labor Attorney", "HR Manager", "Vocational Counselor", "Real Estate Developer", "Social Worker", "Landscape/Space Planner", "Franchise Owner", "Urban Regen Planner", "Local Business Owner"], 
+                ["IT Developer", "Architect", "Patent Attorney", "Management Consultant", "Data Planner", "QA Manager", "Safety Manager", "Medical Admin", "System Architect", "Financial Planner"], 
+                ["Overseas Sales Rep", "Study Abroad Director", "Trade Planner", "Language Instructor", "Translator", "Cultural Exchange Coordinator", "Research Analyst", "Global Sourcing Manager", "Tourism Planner", "Philosophy/Psychology Researcher"] 
             ],
             /* Fire */ [ 
-                ["Video Producer", "Media Artist", "Event Planner", "Stage Director", "Arts Educator", "Literary Critic", "Florist", "Heritage Restorer", "A&R Exec", "Creative Director"], 
-                ["Marketing Team Head", "PR Specialist", "Branding Director", "SNS Strategist", "Entertainer", "Choreographer", "Chef/Restaurateur", "Beauty Artist", "MC/Announcer", "Solo Creator"], 
-                ["Franchise Owner", "Theme Park Planner", "Party Planner", "Wedding Director", "Ceramic Artist", "Lighting Designer", "Religious Leader", "Cultural Space Operator", "F&B Manager", "Hotel Comm Manager"], 
-                ["Fashion Director", "Stylist", "Magazine Editor", "Trend Analyst", "Electrical Engineer", "Photojournalist", "Chemical Researcher", "Metal Crafter", "CG Expert", "Stage Sound Director"], 
-                ["MICE Specialist", "Global Marketing Manager", "PR Agency CEO", "Diplomat", "Flight Attendant", "Global Event Planner", "Interpreter/MC", "Cruise Staff", "Marketing Researcher", "Marine Researcher"] 
+                ["Video PD", "Art Director", "Performance Planner", "Arts Instructor", "Beauty Creator", "Florist", "Broadcast Panelist", "Entertainment Staff", "Creative Director", "Critic"], 
+                ["Broadcaster/YouTuber", "PR Agency Staff", "Marketing Team Head", "Sales Rep", "Chef/Restaurant Owner", "Dancer/Choreographer", "Personal Color Analyst", "Makeup Artist", "Show Host", "Influencer"], 
+                ["Franchise Restaurant Owner", "Theme Park Staff", "Wedding Planner", "Party Planner", "F&B Manager", "Lighting Designer", "Gallery Curator", "Community Manager", "Yoga/Meditation Instructor", "Cafe/Cultural Space Owner"], 
+                ["IT/Tech Reviewer", "Beauty/Fashion MD", "Photo/Video Journalist", "Trend Analyst", "CG Designer", "Stage Sound/Lighting Director", "Electrical/Electronic Engineer", "Metal/Jewelry Crafter", "Home Shopping PD", "Stylist"], 
+                ["Overseas Marketer", "Flight Attendant", "Trade Sales Rep", "Diplomat", "MICE Planner", "Interpreter", "Travel YouTuber", "Cruise Crew", "Global Brand Manager", "Expatriate"] 
             ],
             /* Earth */ [ 
-                ["Real Estate Developer", "Realtor", "Sales Agency CEO", "Asset Manager", "Horticultural Therapist", "Ranch Operator", "Eco-Park Creator", "Urban Agri Expert", "Forest Therapist", "Environmental Fitter"], 
-                ["Distribution Architect", "Logistics Operations Head", "Sales Director", "Wedding/Banquet Planner", "Event Planner", "Gallery Curator", "Mega Mall Manager", "Hotel Sales Manager", "Service Manager", "Leisure Planner"], 
-                ["Admin Scrivener", "Policy Maker", "Public Admin", "Civil Servant", "Civil Engineer", "Vocational Counselor", "Urban Planner", "National Dev Researcher", "Public Admin Expert", "Regional Policy Researcher"], 
-                ["Tax Accountant", "Appraiser", "Safety Inspector", "Site Supervisor", "Construction Supervisor", "Mining Developer", "Asset Trust Manager", "Real Estate Analyst", "Auctioneer", "Cost Manager"], 
-                ["Social Entrepreneur", "NGO Director", "Counseling Center Head", "Lodging Operator", "Cadastral Surveyor", "Port Manager", "Resort/Spa Operator", "Social Worker", "Relief Worker", "Silver Town Manager"] 
+                ["Childcare Teacher", "Real Estate Agent", "Real Estate Lessor", "Local Business Owner", "Psychological Counselor", "Planterior Shop Owner", "Smart Farm Operator", "Nursing Home Director", "Career Counselor", "Eco-Park Manager"], 
+                ["Dept Store/Mall Manager", "Logistics/Distribution Manager", "Wedding Hall Owner", "Large Restaurant Owner", "Leisure/Sports Facility Manager", "Cultural Center Instructor", "Docent", "CS Instructor", "Event Agency Owner", "Sales Manager"], 
+                ["General Admin Civil Servant", "Policy Researcher", "Public Corp Employee", "District/City Office Staff", "Civil/Architectural Civil Servant", "Administrative Scrivener", "National Dev Researcher", "Archivist", "Office/Admin Staff", "Local Cooperative Staff"], 
+                ["Tax Accountant", "Appraiser", "Site Supervisor/Safety Manager", "Construction/Civil Engineer", "Banker", "Actuary", "Real Estate Investment Analyst", "Building Safety Inspector", "Construction Cost Manager", "Auction/Public Sale Expert"], 
+                ["Social Worker", "NGO/Relief Agency Staff", "Psychological Therapy Center Head", "Guesthouse/Hotel Owner", "Tour Guide", "Shipping/Port Authority Staff", "Silver Town Manager", "Cadastral Surveyor", "Water/Sewage Corp Staff", "Environmental Activist"] 
             ],
             /* Metal */ [ 
-                ["Pharma Dist Exec", "Bio Industry Analyst", "Medical Sales Head", "Hospital Admin", "Pulp/Paper Expert", "Education Inspector", "Furniture Designer", "Agri Machinery Engineer", "Health Admin", "Health Teacher"], 
-                ["IB Director", "Fund Manager", "Wealth Manager", "Securities Analyst", "Police/Firefighter", "Broadcast Equipment Engineer", "Sports Coach", "Plastic Surgeon", "Cybercrime Investigator", "Data Security Expert"], 
-                ["Lawyer", "Law Firm Partner", "Compliance Officer", "Judicial Scrivener", "Judge/Prosecutor", "Structural Engineer", "Customs Officer", "Labor Attorney", "Patent Examiner", "Correctional Officer"], 
-                ["CFO", "CPA", "Management Accountant", "Financial Consultant", "Banker/Financier", "Military Officer", "Surgeon", "Automotive Engineer", "Aviation Mechanic", "Weapons Designer"], 
-                ["Security Expert", "IT Tech CEO", "QA Director", "Precision Architect", "Dentist", "Airline Pilot", "Marine Engineer", "Defense Researcher", "Coast Guard", "Advanced Medical Researcher"] 
+                ["Hospital Admin Manager", "Pharma/Medical Device Sales", "Health Teacher", "Public Health Civil Servant", "Furniture/Product Designer", "Office of Education Supervisor", "Agri Machinery/Equipment Engineer", "Industrial Safety Instructor", "Paper/Timber Industry Manager", "Rehabilitation Therapist"], 
+                ["Fund Manager", "Securities Analyst", "Police/Firefighter", "Sports Coach/Director", "Plastic/Dermatology Surgeon", "Cyber Investigator", "Broadcast Equipment Engineer", "Data Security Expert", "Fire Protection Engineer", "Investment Advisor"], 
+                ["Judge/Prosecutor", "Lawyer", "Judicial Scrivener", "In-house Counsel", "Compliance Officer", "Structural Engineer", "Customs Officer", "Patent Examiner", "Correctional Officer/Probation Officer", "Labor Attorney"], 
+                ["CPA", "Finance/Accounting Manager", "Surgeon/Orthopedist", "Dentist", "Professional Soldier (Officer/NCO)", "Automotive/Mechanical Engineer", "Aviation Mechanic", "Mold/Precision Machining Tech", "Semiconductor Engineer", "Quant Investor"], 
+                ["IT Security Expert", "Software QA Engineer", "Airline Pilot", "Navigator/Engineer", "Defense Industry Researcher", "Coast Guard", "High-Tech Medical Device Researcher", "Precision Data Analyst", "Dental Technician", "Imported Car Dealer"] 
             ],
             /* Water */ [ 
-                ["Travel Agency CEO", "Tour Product Developer", "Guide Director", "Hotel Manager", "Destiny Scholar", "Special Ed Teacher", "Translator", "Water Resources Manager", "Anthropologist", "Relief Agency Worker"], 
-                ["Trade Specialist", "Overseas Biz Head", "Logistics Expert", "Customs Broker", "Psychologist", "Tour Guide", "Interpreter", "Beverage Entrepreneur", "Global Sales Director", "Expatriate"], 
-                ["Data Scientist", "Statistical Analyst", "Librarian/Archivist", "Seafood Distributor", "Spa Operator", "Marine Researcher", "Eco Researcher", "Archive Manager", "Water Corp Exec", "Big Data Architect"], 
-                ["Diplomat", "Translation Center Head", "IO Official", "Global Consultant", "Navy/Coast Guard", "Marine Finance Expert", "Hydroelectric Engineer", "Trade Expert", "Marine Underwriter", "Naval Architect"], 
-                ["Shipping/Cargo Head", "Water Treatment Expert", "Traditional Scholar", "Basic Scientist", "Astronomer", "Logistics Expert", "Deep-sea Fisher", "Deep-sea Explorer", "Climate Analyst", "Maritime Transport Director"] 
+                ["Saju/Tarot Counselor", "Special Ed Teacher", "Publishing Translator", "Travel Agency Owner", "Tourism Planner", "Cultural Anthropology Researcher", "Overseas Volunteer", "Water/Environmental Civil Servant", "Educational Psychology Counselor", "Study Abroad Counselor"], 
+                ["Trade Company Staff", "Overseas Sales Rep", "Customs Broker", "Simultaneous Interpreter", "Psychologist/Psychiatrist", "Expatriate", "Liquor/Cafe Owner", "Tour Guide", "Global Sales Manager", "Import/Export Customs Agent"], 
+                ["Data Scientist", "Statistics Korea Civil Servant", "Librarian", "Archive Manager", "Bathhouse/Sauna Owner", "Seafood Distributor", "Marine Resources Researcher", "Water Quality/Environmental Researcher", "Big Data Analyst", "Social Survey Analyst"], 
+                ["Diplomat", "IO Staff", "Navy/Marine Corps", "Naval Architect", "Marine Insurance Underwriter", "Intl Trade Expert", "Translation Center Head", "Hydroelectric Engineer", "Intl Tax Expert", "Marine Finance Expert"], 
+                ["Shipping/Air Cargo Staff", "Meteorological Civil Servant/Caster", "Maritime Transport Manager", "Basic Science Researcher", "Philosophy Shop Owner", "Deep-sea Fisher", "Deep-sea Explorer", "Logistics Warehouse Manager", "Water/Sewage Engineer", "Climate Change Researcher"] 
             ]
         ];
-
         // 💡 4-4. 고유 파동(수리+생월)을 조합해 10개의 직업 중 3개를 중복 없이 추출 (다양성 보장)
         const seed = session.num81 + birthMonth;
         const idx1 = seed % 10;
