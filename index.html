@@ -551,7 +551,7 @@ function switchTab(mode, element) {
         let dynamicNarrativeKo = [poeticKo[topIdx][narrLevel]];
         let dynamicNarrativeEn = [poeticEn[topIdx][narrLevel]];
 
-        // 🧱 [Block A] 기질 강약 (5점 척도 + 다국어 지원)
+   // 🧱 [Block A] 기질 강약 (신강/신약 정밀 척도 + 다국어 지원)
         const themeIdx = session.num81 % 9;
         const themeNamesKo = [
             "만물을 포용하고 끝을 맺는 완성(지혜)", "새로운 길을 여는 개척(리더)", "주변을 돕고 인내하는 조력(안정)", 
@@ -565,18 +565,25 @@ function switchTab(mode, element) {
         ];
         const currentTheme = currentLang === 'ko' ? themeNamesKo[themeIdx] : themeNamesEn[themeIdx];
         
-        const elNamesForScore = ["목", "화", "토", "금", "수"];
-        const coreIdxForScore = elNamesForScore.indexOf(coreEl.charAt(0));
+        // 💡 [운명공학 궁극의 비기] '단일 점수'가 아닌 '신강/신약(내 세력)' 기반 강약 판독
         const baseScoresForIntensity = session.baseScores || session.elementScores; 
-        const coreScore = baseScoresForIntensity[coreIdxForScore]; 
-        const maxScoreIntensity = Math.max(...baseScoresForIntensity); 
+        const totalScore_A = baseScoresForIntensity.reduce((a, b) => a + b, 0);
+        const elNamesMap_A = { "목":0, "화":1, "토":2, "금":3, "수":4 };
+        const dmIdx_A = elNamesMap_A[coreEl.charAt(0)]; // 내 본질(일간)
+
+        // 나를 돕는 세력(인성) 계산
+        const motherIdx_A = (dmIdx_A + 4) % 5; 
+        const myForce_A = baseScoresForIntensity[dmIdx_A] + baseScoresForIntensity[motherIdx_A]; // 내 세력 총합 (나 + 엄마)
+        
+        // 사주 전체에서 내 세력이 차지하는 비율
+        const myForceRatio = myForce_A / totalScore_A;
         
         let intensity = "보통";
-        if (coreScore >= 120) intensity = "극강"; 
-        else if (coreScore >= 90) intensity = "강함"; 
-        else if (coreScore >= 70) intensity = "보통"; 
-        else if (coreScore <= 60 && maxScoreIntensity >= 100) intensity = "극약"; 
-        else intensity = "약함"; 
+        if (myForceRatio >= 0.65) intensity = "극강";       // 내 세력이 65% 이상 (태산, 용암)
+        else if (myForceRatio >= 0.5) intensity = "강함";   // 내 세력이 50% 이상 (강건함)
+        else if (myForceRatio >= 0.4) intensity = "보통";   // 밸런스 유지
+        else if (myForceRatio >= 0.25) intensity = "약함";  // 40% 미만 (모래알, 촛불)
+        else intensity = "극약";                            // 25% 미만 (극도로 억눌림)
 
         // 💡 오행별 + 5점 척도별 기질 묘사 (한국어)
         const coreTraitsKo = {
@@ -598,17 +605,22 @@ function switchTab(mode, element) {
 
         const currentTrait = currentLang === 'ko' ? coreTraitsKo[coreEl.charAt(0)][intensity] : coreTraitsEn[coreEl.charAt(0)][intensity];
         
-        // 💡 [핵심 추가] 후천적 파동(이름+수리)으로 보완된 실제 오행 데이터 추출
+        // 💡 [초정밀 결핍 오행 판독] 진짜 약점을 완벽하게 추적
+        let trueWeakIdx = 0;
+        const lackStr_A = session.lackEls[0] || ""; 
+        if (lackStr_A.includes("목")) trueWeakIdx = 0;
+        else if (lackStr_A.includes("화")) trueWeakIdx = 1;
+        else if (lackStr_A.includes("토")) trueWeakIdx = 2;
+        else if (lackStr_A.includes("금")) trueWeakIdx = 3;
+        else if (lackStr_A.includes("수")) trueWeakIdx = 4;
+        else trueWeakIdx = baseScoresForIntensity.indexOf(Math.min(...baseScoresForIntensity));
+
         const elNamesKoForA = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
         const elNamesEnForA = ["Wood", "Fire", "Earth", "Metal", "Water"];
-        
-        // 1) 선천적으로 가장 약했던 오행 찾기
-        const minBaseScoreA = Math.min(...baseScoresForIntensity);
-        const weakIdxA = baseScoresForIntensity.indexOf(minBaseScoreA);
-        const weakElKoA = elNamesKoForA[weakIdxA];
-        const weakElEnA = elNamesEnForA[weakIdxA];
+        const weakElKoA = elNamesKoForA[trueWeakIdx];
+        const weakElEnA = elNamesEnForA[trueWeakIdx];
 
-        // 2) 이름이 채워준 오행 찾기 (최종점수 - 선천점수 > 0)
+        // 이름이 채워준 오행 찾기 (최종점수 - 선천점수 > 0)
         const diffScoresA = session.elementScores.map((score, i) => score - baseScoresForIntensity[i]);
         const boostedElsKo = [];
         const boostedElsEn = [];
@@ -621,8 +633,8 @@ function switchTab(mode, element) {
         const boostedTextKo = boostedElsKo.join(", ");
         const boostedTextEn = boostedElsEn.join(", ");
 
-        // 3) 내 약점을 이름이 제대로 보완해 줬는지 판독
-        const isWeakBoosted = diffScoresA[weakIdxA] > 0;
+        // 진짜 결핍을 보완했는지 확인
+        const isWeakBoosted = diffScoresA[trueWeakIdx] > 0;
 
         let bridgeKo = "";
         let bridgeEn = "";
@@ -643,17 +655,13 @@ function switchTab(mode, element) {
     
 // =========================================================
         // 🌟 Block B : 약점 진단 및 이름의 보완 성적표 평가 (5점 척도 정밀 분석)
-        // =========================================================
+// =========================================================
         
-        // 1) 데이터 준비
-        const elNamesKoB = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
-        const elNamesEnB = ["Wood", "Fire", "Earth", "Metal", "Water"];
-        const minBaseScoreB = Math.min(...baseScoresForIntensity); // 선천 최저점
-        const weakIdxB = baseScoresForIntensity.indexOf(minBaseScoreB); // 선천 약점 인덱스
-        const finalWeakScoreB = session.elementScores[weakIdxB]; // 이름 보완 후 최종점수
+        const minBaseScoreB = baseScoresForIntensity[trueWeakIdx]; // 선천 결핍 오행의 실제 점수
+        const finalWeakScoreB = session.elementScores[trueWeakIdx]; // 이름 보완 후 최종점수
         const boostAmountB = finalWeakScoreB - minBaseScoreB; // 이름이 채워준 점수량(상승폭)
         
-        // 2) 💡 이름의 보완 정도 판독 (5단계 척도)
+        // 💡 이름의 보완 정도 판독 (5단계 척도)
         let boostLevelB = 0;
         if (boostAmountB >= 60) boostLevelB = 0;      // 0: 매우 많이 채움
         else if (boostAmountB >= 30) boostLevelB = 1; // 1: 많이 채움
@@ -661,7 +669,7 @@ function switchTab(mode, element) {
         else if (boostAmountB === 0 && minBaseScoreB >= 40) boostLevelB = 3; // 3: 약하게 채움 (선천 점수로 버팀)
         else boostLevelB = 4;                         // 4: 매우 약하게 채움 (치명적 결핍 유지)
 
-        // 3) 💡 [초정밀 25종 보완 서사 매트릭스] - 5개 오행 x 5단계 보완력
+        // 💡 [초정밀 25종 보완 서사 매트릭스] - 5개 오행 x 5단계 보완력
         const boostNarrativeMatrixKo = [
             [ // 0: 목(木)
                 "소멸 직전이던 <b>목(木)</b>의 메마른 땅을 성명의 파동이 가득 채워주어, 이제는 누구도 꺾을 수 없는 강인한 추진력의 숲으로 완벽하게 역전되었습니다.",
@@ -699,7 +707,8 @@ function switchTab(mode, element) {
                 "성명 파동이 <b>수(水)</b>의 기운을 매우 약하게 채워주어 여유와 융통성이 고갈될 위기입니다. 억지로라도 고집을 꺾고 세상의 흐름에 나를 맡기는 처세술을 배워야 합니다."
             ]
         ];
-// 3.5) 💡 [초정밀 25종 보완 서사 매트릭스] - 영문 버전 (에러 원천 차단)
+        
+        // 💡 [초정밀 25종 보완 서사 매트릭스] - 영문 버전
         const boostNarrativeMatrixEn = [
             [ // 0: Wood
                 "The vibration of your name has <b>extremely supplemented</b> the parched land of <b>Wood</b>, completely transforming it into a forest of unstoppable drive.",
@@ -738,13 +747,14 @@ function switchTab(mode, element) {
             ]
         ];
 
-        // 4) 💡 최종 결과 바인딩 (5점 척도 및 다국어 완벽 반영)
+        // 💡 최종 결과 바인딩 (다국어 완벽 반영)
         let blockB = "";
         if (currentLang === 'ko') {
-            blockB = boostNarrativeMatrixKo[weakIdxB][boostLevelB];
+            blockB = boostNarrativeMatrixKo[trueWeakIdx][boostLevelB];
         } else {
-            blockB = boostNarrativeMatrixEn[weakIdxB][boostLevelB];
+            blockB = boostNarrativeMatrixEn[trueWeakIdx][boostLevelB];
         }
+
       
 // 💡 1-1. 진짜 약점 = 하단 처방전과 동일한 선천적 결핍 오행
         let top5Idx_C = 0;
@@ -1290,9 +1300,9 @@ function switchTab(mode, element) {
 
         // 🚨 2. 백틱(`)으로 안전하게 감싸서 한 줄로 압축한 텍스트 (에러 원천 차단)
         // 🚨 노잼 기호 버리고, 사주/운명공학에 찰떡같이 어울리는 프리미엄 이모지로 교체
-        const blockCKo = `<b style="color: var(--primary);">☯️ 나의 에너지 형상</b><br>당신은 ${energyShapeKo} 형상으로, <b>${elNamesKo_C[top1Idx_C]}</b>를 바탕으로 ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘합니다.<br><br><b style="color: var(--primary);">🧭 타고난 영혼의 궤도</b><br>잠재력이 폭발하는 진짜 무대와 행동 양식은 다음과 같습니다.${jobsListKo}<b style="color: var(--primary);">🔮 운명을 완성하는 이름의 열쇠</b><br>이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운은 사주의 잠재력을 폭발시키는 <b>'시너지 촉매제'</b>입니다. ${synergyNarrativeKo} 이 무대에서 당신은 성명이 부여한 <b>'${weaponKo}'</b> 능력을 결합하여, <b>${elNamesKo_C[top2Idx_C]}</b>의 <b>${top2SkillKo[top2Idx_C][top5Idx_C]}</b> 기술로 판을 독보적으로 이끌게 됩니다. 단, ${synergyIntroArrKo[boostLevelC]} <b>${top5RiskKo[top5Idx_C][top5Severity]}</b>의 위험은 반드시 통제하십시오.`;
+        const blockCKo = 당신은 ${energyShapeKo} 형상으로, <b>${elNamesKo_C[top1Idx_C]}</b>를 바탕으로 ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘합니다. <br>잠재력이 폭발하는 진짜 무대와 행동 양식은 다음과 같습니다.${jobsListKo} <br>이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운은 사주의 잠재력을 폭발시키는 <b>'시너지 촉매제'</b>입니다. ${synergyNarrativeKo} 이 무대에서 당신은 성명이 부여한 <b>'${weaponKo}'</b> 능력을 결합하여, <b>${elNamesKo_C[top2Idx_C]}</b>의 <b>${top2SkillKo[top2Idx_C][top5Idx_C]}</b> 기술로 판을 독보적으로 이끌게 됩니다. 단, ${synergyIntroArrKo[boostLevelC]} <b>${top5RiskKo[top5Idx_C][top5Severity]}</b>의 위험은 반드시 통제하십시오.`;
 
-        const blockCEn = `<b style="color: var(--primary);">☯️ My Energy Shape</b><br>You embody the shape of ${energyShapeEn}. Based on your <b>${elNamesEn_C[top1Idx_C]}</b> energy, you manifest the <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> <b>${top1ScaleEn}</b>.<br><br><b style="color: var(--primary);">🧭 Innate Orbit of the Soul</b><br>The true stages and behavioral patterns where your potential explodes are as follows:${jobsListEn}<b style="color: var(--primary);">🔮 The Name's Key to Destiny</b><br>The <b>${elNamesEn_C[weaponElIdx]}</b> energy in your name is a <b>synergy catalyst</b> that explodes your potential. ${synergyNarrativeEn} By combining the ability <b>'${weaponEn}'</b> from your name with the <b>${top2SkillEn[top2Idx_C][top5Idx_C]}</b> of <b>${elNamesEn_C[top2Idx_C]}</b>, you will lead the board uniquely. However, by ${synergyIntroArrEn[boostLevelC]}, you must control the risk of <b>${top5RiskEn[top5Idx_C][top5Severity]}</b>.`;
+        const blockCEn = You embody the shape of ${energyShapeEn}. Based on your <b>${elNamesEn_C[top1Idx_C]}</b> energy, you manifest the <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> <br>The true stages and behavioral patterns where your potential explodes are as follows:${jobsListEn} <br>The <b>${elNamesEn_C[weaponElIdx]}</b> energy in your name is a <b>synergy catalyst</b> that explodes your potential. ${synergyNarrativeEn} By combining the ability <b>'${weaponEn}'</b> from your name with the <b>${top2SkillEn[top2Idx_C][top5Idx_C]}</b> of <b>${elNamesEn_C[top2Idx_C]}</b>, you will lead the board uniquely. However, by ${synergyIntroArrEn[boostLevelC]}, you must control the risk of <b>${top5RiskEn[top5Idx_C][top5Severity]}</b>.`;
 
         let blockC = currentLang === 'ko' ? blockCKo : blockCEn;
         
@@ -1312,7 +1322,7 @@ function switchTab(mode, element) {
               <div style="line-height:1.75; color:#444; font-size:0.93rem; text-align:justify; word-break:break-all; margin-top:20px; white-space:pre-wrap;">${analysisText}</div>
               
               <div style="padding:20px; background:#F9F8F6; border-radius:12px; border:1px solid #F0EAE3; margin-top:25px;">
-                <b style="color:var(--accent); font-size:0.95rem; display:block; margin-bottom:2px;">${currentLang === 'ko' ? '📜 현생의 핵심 역량' : '📜 Core Competencies'}</b>
+                <b style="color:var(--accent); font-size:0.95rem; display:block; margin-bottom:2px;">${currentLang === 'ko' ? '📜 현생의 과업' : '📜 Core Competencies'}</b>
                 <div style="line-height:1.75; color:#444; font-size:0.93rem; text-align:justify; word-break:break-all; white-space:pre-wrap; margin:0;">${missionText}</div>
               </div>
             </div>
