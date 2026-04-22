@@ -1018,9 +1018,7 @@ function switchTab(mode, element) {
 
     
        
-
-     
-        body.innerHTML = `
+body.innerHTML = `
           <div class="tab-content">
             <span class="section-title">${t.tab1Btn}</span>
             <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; border-left:none; box-shadow:0 4px 12px rgba(0,0,0,0.05);">
@@ -1032,7 +1030,7 @@ function switchTab(mode, element) {
             <div style="line-height:1.75; color:#444; font-size:0.93rem; text-align:justify; word-break:break-all; margin-top:20px; white-space:pre-wrap;">${analysisText}</div>
               
             <div style="padding:20px; background:#F9F8F6; border-radius:12px; border:1px solid #F0EAE3; margin-top:25px;">
-                <b style="color:var(--accent); font-size:0.95rem; display:block; margin-bottom:2px;">📜 현생의 과업</b>
+                <b style="color:var(--accent); font-size:0.95rem; display:block; margin-bottom:2px;">${currentLang === 'ko' ? '📜 현생의 과업' : '📜 Life Mission'}</b>
                 <div style="line-height:1.75; color:#444; font-size:0.93rem; text-align:justify; word-break:break-all; white-space:pre-wrap; margin:0;">${missionText}</div>
             </div>
             </div>
@@ -1049,7 +1047,7 @@ function switchTab(mode, element) {
           </div>`;
           
         renderChart(session.baseScores, session.elementScores);
-    } 
+    }
   
     else if (mode === 'past') {
         const p = getPastLifeData(session.num81, finalSignature, currentLang);
