@@ -1283,12 +1283,21 @@ function switchTab(mode, element) {
             `overcoming your greatest Achilles' heel, the <b>${elNamesEn_C[top5Idx_C]}</b> energy, through strict self-objectification`
         ];
 
-// 🚨 줄바꿈 코드를 한 줄로 압축하여 불필요한 스크롤 방지
+//// 🚨 1. 여기서 jobsListKo 와 jobsListEn 을 먼저 만들어줍니다! (이게 빠져서 에러가 났습니다)
+        const jobsListKo = `<ul style="margin: 5px 0 10px 0; padding-left: 20px; line-height: 1.5;"><li style="margin-bottom: 2px;">${trackJobsKo[0]}</li><li style="margin-bottom: 2px;">${trackJobsKo[1]}</li><li style="margin-bottom: 0;">${trackJobsKo[2]}</li></ul>`;
+
+        const jobsListEn = `<ul style="margin: 5px 0 10px 0; padding-left: 20px; line-height: 1.5;"><li style="margin-bottom: 2px;">${trackJobsEn[0]}</li><li style="margin-bottom: 2px;">${trackJobsEn[1]}</li><li style="margin-bottom: 0;">${trackJobsEn[2]}</li></ul>`;
+
+        // 🚨 2. 줄바꿈 코드를 한 줄로 압축하여 불필요한 스크롤 방지
         const blockCKo = `<b style="color: var(--primary);">[나의 에너지 형상]</b><br>당신은 ${energyShapeKo} 형상으로, <b>${elNamesKo_C[top1Idx_C]}</b>를 바탕으로 ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘합니다.<br><br><b style="color: var(--primary);">[선천적 영혼의 3대 핵심 역량]</b><br>잠재력이 폭발하는 진짜 무대와 행동 양식은 다음과 같습니다.${jobsListKo}<b style="color: var(--primary);">[성명 시너지와 운명공학적 조언]</b><br>이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운은 사주의 잠재력을 폭발시키는 <b>'시너지 촉매제'</b>입니다. ${synergyNarrativeKo} 이 무대에서 당신은 성명이 부여한 <b>'${weaponKo}'</b> 능력을 결합하여, <b>${elNamesKo_C[top2Idx_C]}</b>의 <b>${top2SkillKo[top2Idx_C][top5Idx_C]}</b> 기술로 판을 독보적으로 이끌게 됩니다. 단, ${synergyIntroArrKo[boostLevelC]} <b>${top5RiskKo[top5Idx_C][top5Severity]}</b>의 위험은 반드시 통제하십시오.`;
 
         const blockCEn = `<b style="color: var(--primary);">[My Energy Shape]</b><br>You embody the shape of ${energyShapeEn}. Based on your <b>${elNamesEn_C[top1Idx_C]}</b> energy, you manifest the <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> <b>${top1ScaleEn}</b>.<br><br><b style="color: var(--primary);">[The 3 Core Competencies]</b><br>The true stages and behavioral patterns where your potential explodes are as follows:${jobsListEn}<b style="color: var(--primary);">[Name Synergy & Advice]</b><br>The <b>${elNamesEn_C[weaponElIdx]}</b> energy in your name is a <b>synergy catalyst</b> that explodes your potential. ${synergyNarrativeEn} By combining the ability <b>'${weaponEn}'</b> from your name with the <b>${top2SkillEn[top2Idx_C][top5Idx_C]}</b> of <b>${elNamesEn_C[top2Idx_C]}</b>, you will lead the board uniquely. However, by ${synergyIntroArrEn[boostLevelC]}, you must control the risk of <b>${top5RiskEn[top5Idx_C][top5Severity]}</b>.`;
 
         let blockC = currentLang === 'ko' ? blockCKo : blockCEn;
+        
+        // 💡 3개의 블록 조립
+        const analysisText = `${blockA} ${blockB}`;  
+        const missionText = `${blockC}`;
       
 <b style="color: var(--primary);">[나의 에너지 형상]</b><br>
 당신은 ${energyShapeKo} 형상으로, <b>${elNamesKo_C[top1Idx_C]}</b>를 바탕으로 ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘합니다.
