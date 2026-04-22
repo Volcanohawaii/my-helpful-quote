@@ -1293,15 +1293,15 @@ function switchTab(mode, element) {
             `overcoming your greatest Achilles' heel, the <b>${elNamesEn_C[top5Idx_C]}</b> energy, through strict self-objectification`
         ];
 
-        // 🚨 1. 리스트 조립 (엔터키 강제 여백 제거됨)
-        const jobsListKo = `<ul style="margin: 5px 0 10px 0; padding-left: 20px; line-height: 1.5;"><li style="margin-bottom: 2px;">${trackJobsKo[0]}</li><li style="margin-bottom: 2px;">${trackJobsKo[1]}</li><li style="margin-bottom: 0;">${trackJobsKo[2]}</li></ul>`;
+// 🚨 1. 리스트 조립 (엔터키 강제 여백 제거됨)
+        const jobsListKo = `<ul style="margin: 5px 0 15px 0; padding-left: 20px; line-height: 1.5;"><li style="margin-bottom: 2px;">${trackJobsKo[0]}</li><li style="margin-bottom: 2px;">${trackJobsKo[1]}</li><li style="margin-bottom: 0;">${trackJobsKo[2]}</li></ul>`;
 
-        const jobsListEn = `<ul style="margin: 5px 0 10px 0; padding-left: 20px; line-height: 1.5;"><li style="margin-bottom: 2px;">${trackJobsEn[0]}</li><li style="margin-bottom: 2px;">${trackJobsEn[1]}</li><li style="margin-bottom: 0;">${trackJobsEn[2]}</li></ul>`;
+        const jobsListEn = `<ul style="margin: 5px 0 15px 0; padding-left: 20px; line-height: 1.5;"><li style="margin-bottom: 2px;">${trackJobsEn[0]}</li><li style="margin-bottom: 2px;">${trackJobsEn[1]}</li><li style="margin-bottom: 0;">${trackJobsEn[2]}</li></ul>`;
 
-       // 🚨 2. 백틱(`)으로 안전하게 감싸서 한 줄로 압축한 텍스트 (에러 원천 차단)
-        const blockCKo = `당신은 ${energyShapeKo} 형상으로, <b>${elNamesKo_C[top1Idx_C]}</b>를 바탕으로 ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘합니다. <br>잠재력이 폭발하는 진짜 무대와 행동 양식은 다음과 같습니다.${jobsListKo} <br>이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운은 사주의 잠재력을 폭발시키는 <b>'시너지 촉매제'</b>입니다. ${synergyNarrativeKo} 이 무대에서 당신은 성명이 부여한 <b>'${weaponKo}'</b> 능력을 결합하여, <b>${elNamesKo_C[top2Idx_C]}</b>의 <b>${top2SkillKo[top2Idx_C][top5Idx_C]}</b> 기술로 판을 독보적으로 이끌게 됩니다. 단, ${synergyIntroArrKo[boostLevelC]} <b>${top5RiskKo[top5Idx_C][top5Severity]}</b>의 위험은 반드시 통제하십시오.`;
+        // 🚨 2. 핵심만 남긴 콤팩트 텍스트 (가독성 극대화 및 영어 변수 누락 복구)
+        const blockCKo = `당신은 ${energyShapeKo} 형상입니다. <b>${elNamesKo_C[top1Idx_C]}</b>를 무기로 ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘합니다.<br><br><b style="color: var(--primary);">[최적의 활동 무대]</b>${jobsListKo}<b style="color: var(--primary);">[성명 파동의 시너지]</b><br>이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운이 사주의 잠재력을 터뜨리는 <b>'촉매제'</b>가 됩니다. ${synergyNarrativeKo}<br>성명이 부여한 <b>'${weaponKo}'</b> 능력과 <b>${elNamesKo_C[top2Idx_C]}</b>의 <b>${top2SkillKo[top2Idx_C][top5Idx_C]}</b> 기술이 결합되어 판을 독보적으로 이끕니다.<br><br>⚠️ 단, ${synergyIntroArrKo[boostLevelC]} <b>${top5RiskKo[top5Idx_C][top5Severity]}</b>의 약점은 반드시 경계하십시오.`;
 
-        const blockCEn = `You embody the shape of ${energyShapeEn}. Based on your <b>${elNamesEn_C[top1Idx_C]}</b> energy, you manifest the <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> <br>The true stages and behavioral patterns where your potential explodes are as follows:${jobsListEn} <br>The <b>${elNamesEn_C[weaponElIdx]}</b> energy in your name is a <b>synergy catalyst</b> that explodes your potential. ${synergyNarrativeEn} By combining the ability <b>'${weaponEn}'</b> from your name with the <b>${top2SkillEn[top2Idx_C][top5Idx_C]}</b> of <b>${elNamesEn_C[top2Idx_C]}</b>, you will lead the board uniquely. However, by ${synergyIntroArrEn[boostLevelC]}, you must control the risk of <b>${top5RiskEn[top5Idx_C][top5Severity]}</b>.`;
+        const blockCEn = `You embody the shape of ${energyShapeEn}. Armed with <b>${elNamesEn_C[top1Idx_C]}</b>, you manifest the <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> <b>${top1ScaleEn}</b>.<br><br><b style="color: var(--primary);">[Optimal Stage]</b>${jobsListEn}<b style="color: var(--primary);">[Name Synergy]</b><br>The <b>${elNamesEn_C[weaponElIdx]}</b> energy in your name acts as a <b>catalyst</b>. ${synergyNarrativeEn}<br>By combining your name's <b>'${weaponEn}'</b> ability with the <b>${top2SkillEn[top2Idx_C][top5Idx_C]}</b> of <b>${elNamesEn_C[top2Idx_C]}</b>, you will lead uniquely.<br><br>⚠️ However, by ${synergyIntroArrEn[boostLevelC]}, you must control the risk of <b>${top5RiskEn[top5Idx_C][top5Severity]}</b>.`;
 
         let blockC = currentLang === 'ko' ? blockCKo : blockCEn;
         
