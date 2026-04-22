@@ -266,25 +266,50 @@ function processData(name, birth) {
     sc[hourEls[Math.floor(hour / 2)]] += 20; // 시지(활동) 가중치
 const baseScores = [...sc];
   
-    // B. 후천운 (성명 파동)
+// 💡 [핵심 업그레이드 1] 유니코드 찌꺼기 폐기 & 진짜 '한글 원획법' 계산기 탑재
+    let totalNameStrokes = 0;
+    // 초성(19), 중성(21), 종성(28)의 정확한 획수 데이터
+    const choStrokes = [2, 4, 2, 3, 6, 5, 4, 4, 8, 2, 4, 1, 3, 6, 4, 3, 4, 4, 3];
+    const jungStrokes = [2, 3, 3, 4, 2, 3, 3, 4, 2, 4, 5, 3, 3, 2, 4, 5, 3, 3, 1, 2, 1];
+    const jongStrokes = [0, 2, 4, 4, 2, 5, 5, 3, 5, 7, 9, 9, 7, 9, 9, 8, 4, 4, 6, 2, 4, 1, 3, 4, 3, 4, 4, 3];
+
+    for (let i = 0; i < name.length; i++) {
+        const code = name.charCodeAt(i) - 44032; // 한글 유니코드 분해
+        if (code >= 0 && code <= 11171) {
+            const cho = Math.floor(code / 588);
+            const jung = Math.floor((code % 588) / 28);
+            const jong = code % 28;
+            totalNameStrokes += (choStrokes[cho] + jungStrokes[jung] + jongStrokes[jong]);
+        }
+    }
+
+    // 81수리 도출 (1~81 범위 보정)
+    let num81 = totalNameStrokes % 81;
+    if (num81 === 0) num81 = 81;
+    if (totalNameStrokes === 0) num81 = 1; // 예외 처리
+
+    // 수리 오행 추출 (끝자리 기준)
+    const suriToElIdx = [4, 0, 0, 1, 1, 2, 2, 3, 3, 4];
+    const suriElIdx = suriToElIdx[num81 % 10];
+    const nameSuriEl = elements[suriElIdx];
+
+    // B. 후천운 (성명 파동) - 1. 발음(자음) 오행 합산
     for (let char of name) {
         const onset = /[a-zA-Z]/.test(char) ? char.toUpperCase() : getHangulOnset(char);
         const el = hangulElements[onset] || alphabetElements[onset];
         if (el) {
             const idx = elements.indexOf(el);
-            if (idx !== -1) sc[idx] += 30;
+            if (idx !== -1) sc[idx] += 30; // 발음 파동 가중치
         }
     }
+
+    // 💡 [핵심 업그레이드 2] 수리(획수) 오행을 그래프(최종 점수)에 정식 합산!
+    sc[suriElIdx] += 40; // 31수(목)라면 목(木) 점수에 40점을 줘서 그래프가 팍! 튀어나오게 만듦
 
     // [3] 데이터 바인딩 및 결과 출력
     const strongEl = elements[sc.indexOf(Math.max(...sc))];
     const sIdx = sc.map((s, i) => i).sort((a, b) => sc[a] - sc[b]);
-    const weakEl = elements[sIdx[0]]; 
-    
-    const nameVal = name.split('').reduce((a, ch) => a + ch.charCodeAt(0), 0);
-    const num81 = (nameVal % 81) + 1;
-    const suriToElIdx = [4, 0, 0, 1, 1, 2, 2, 3, 3, 4];
-    const nameSuriEl = elements[suriToElIdx[num81 % 10]];
+    const weakEl = elements[sIdx[0]];
 
     const sessionData = { 
         name, birth, num81, 
