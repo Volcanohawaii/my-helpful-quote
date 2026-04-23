@@ -654,9 +654,8 @@ function switchTab(mode, element) {
         else if (myForceRatio >= 0.25) intensity = "약함";  // 40% 미만 (모래알, 촛불)
         else intensity = "극약";                            // 25% 미만 (극도로 억눌림)
 
-        // 💡 1. 유저의 '진짜 일간(Day Master)' 글자 추출 (예: '정'화)
-        // session.iljuData가 "정유"라면 첫 글자 "정"을 가져옵니다.
-        const dayMaster = session.iljuData ? session.iljuData.charAt(0) : coreEl.charAt(0); 
+        // 💡 1. 유저의 '진짜 일간(Day Master)' 글자 추출 (보따리 안에서 iljuName 꺼내기)
+        const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.iljuData.iljuName.charAt(0) : coreEl.charAt(0);
 
         // 💡 2. 오행(5개) ➔ 십간(10개) + 5점 척도 정밀 기질 묘사 (한국어)
         const coreTraitsKo = {
