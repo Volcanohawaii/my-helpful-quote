@@ -491,7 +491,7 @@ function switchTab(mode, element) {
     if (mode === 'fortune') {
         const r = suriPrescription.getRemedy(session.num81, [session.lackEls[0]], currentLang);
         const elKeyMap = { "목": "목(木)", "화": "화(火)", "토": "토(土)", "금": "금(金)", "수": "수(水)" };
-        const coreEl = elKeyMap[session.iljuData.el.charAt(0)] || finalSignature;
+        const coreEl = elKeyMap[(session.iljuData && session.iljuData.iljuName) ? session.iljuData.iljuName.charAt(0) : finalSignature.charAt(0)] || finalSignature;
         const envEl = finalSignature;
         const nameEl = ["수(水)", "목(木)", "목(木)", "화(火)", "화(火)", "토(土)", "토(土)", "금(金)", "금(金)", "수(水)"][session.num81 % 10];
 
