@@ -344,20 +344,24 @@ const baseScores = [...sc];
     const waveDescKo = waveDescMap[waveEndChar] || "";
     const waveDescEn = waveDescMapEn[waveEndChar] || "";
   
-    // 세션에 모든 데이터 캡슐화
+// 🚀 모든 데이터를 깨끗하게 세션에 담습니다.
     const sessionData = { 
-        name, birth, num81, 
+        name, 
+        birth, 
+        num81, 
         baseScores: baseScores, 
         elementScores: sc, 
-        strongEl, weakEl, 
+        strongEl, 
+        weakEl, 
         iljuData, 
         nameSuriEl, 
-        solarMonth, hour: hour,
+        solarMonth, 
+        hour: hour,
         lackEls: [weakEl, elements[sIdx[1]]],
         waveFlowKo: waveFlowKo.join(" ➔ "), 
         waveFlowEn: waveFlowEn.join(" ➔ "),
-      waveDescKo: waveDescKo, // 👈 추가된 부분
-        waveDescEn: waveDescEn  // 👈 추가된 부분
+        waveDescKo: waveDescKo,
+        waveDescEn: waveDescEn 
     };
   
     localStorage.setItem('destinySession', JSON.stringify(sessionData));
