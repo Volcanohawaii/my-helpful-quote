@@ -322,6 +322,28 @@ const baseScores = [...sc];
     const sIdx = sc.map((s, i) => i).sort((a, b) => sc[a] - sc[b]);
     const weakEl = elements[sIdx[0]]; 
 
+   // 💡 5. 파동의 종착지(마지막 글자)를 찾아 범용적이고 깊이 있는 한 줄 요약 생성
+    const waveEndChar = waveFlowKo[waveFlowKo.length - 1].charAt(0);
+    
+    const waveDescMap = {
+        "목": "모든 에너지가 끊임없는 성장과 새로운 시작(木)을 향해 생동감 있게 뻗어 나가는 희망의 파동입니다.",
+        "화": "모든 에너지가 잠재력을 환하게 꽃피우며, 주변을 따뜻하게 밝히고 긍정적인 열정(火)을 전하는 파동입니다.",
+        "토": "모든 에너지가 흔들림 없는 안정과 포용력(土)으로 수렴되어, 삶의 단단한 기반을 완성하는 평화로운 파동입니다.",
+        "금": "모든 에너지가 불필요한 것을 덜어내고, 삶의 진정한 가치와 빛나는 결실(金)로 단단하게 맺어지는 파동입니다.",
+        "수": "모든 에너지가 어떤 환경에도 유연하게 스며들며, 삶을 통찰하는 깊은 지혜(水)로 맑게 정화되는 파동입니다."
+    };
+    
+    const waveDescMapEn = {
+        "목": "A wave of hope where all energies vibrantly extend towards continuous growth and new beginnings (Wood).",
+        "화": "A wave where all energies brightly bloom your potential, sharing warmth and positive passion with your surroundings (Fire).",
+        "토": "A peaceful wave where all energies converge into unshakeable stability and embrace, completing a solid foundation for life (Earth).",
+        "금": "A wave where all energies refine away the unnecessary, firmly crystallizing into life's true value and shining fruition (Metal).",
+        "수": "A wave where all energies flexibly adapt to any environment, purifying into a deep wisdom that provides insight into life (Water)."
+    };
+    
+    const waveDescKo = waveDescMap[waveEndChar] || "";
+    const waveDescEn = waveDescMapEn[waveEndChar] || "";
+  
     // 세션에 모든 데이터 캡슐화
     const sessionData = { 
         name, birth, num81, 
@@ -333,7 +355,9 @@ const baseScores = [...sc];
         solarMonth, hour: hour,
         lackEls: [weakEl, elements[sIdx[1]]],
         waveFlowKo: waveFlowKo.join(" ➔ "), 
-        waveFlowEn: waveFlowEn.join(" ➔ ")
+        waveFlowEn: waveFlowEn.join(" ➔ ,
+      waveDescKo: waveDescKo, // 👈 추가된 부분
+        waveDescEn: waveDescEn  // 👈 추가된 부분
     };
   
     localStorage.setItem('destinySession', JSON.stringify(sessionData));
@@ -380,8 +404,13 @@ const termInfo = `${currentLang === 'ko' ? introKo : introEn} ${currentLang === 
               <span style="color:var(--accent); font-weight:800;">CODE: ${String(data.num81).padStart(2, '0')}</span>
           </div>
           
-         <div style="margin-bottom: 18px;">
-            <b style="color:var(--primary); font-size:0.8rem; display:inline-block; padding:4px 10px; background:#f4f1ed; border-radius:6px; margin-bottom:10px; border:1px solid #e8e2d9;">🌊 소리 파동: ${currentLang === 'ko' ? data.waveFlowKo : data.waveFlowEn}</b><br>
+<div style="margin-bottom: 18px;">
+            <div style="padding:14px 16px; background:#f4f1ed; border-radius:8px; margin-bottom:16px; border:1px solid #e8e2d9;">
+              <b style="color:var(--primary); font-size:0.95rem;">🌊 소리 파동: ${currentLang === 'ko' ? data.waveFlowKo : data.waveFlowEn}</b><br>
+              <span style="font-size:0.85rem; color:#555; line-height:1.6; display:inline-block; margin-top:6px;">
+                ${currentLang === 'ko' ? data.waveDescKo : data.waveDescEn}
+              </span>
+            </div>
             <b>${labelSuri} (중심운)</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? luckyTitles81[data.num81] : luckyTitles81En[data.num81]}</span>
             <p style="margin-top:6px; margin-bottom:0; line-height:1.7;">${currentLang === 'ko' ? detailedDesc81[data.num81] : detailedDesc81En[data.num81]}</p>
           </div>
@@ -625,26 +654,49 @@ function switchTab(mode, element) {
         else if (myForceRatio >= 0.25) intensity = "약함";  // 40% 미만 (모래알, 촛불)
         else intensity = "극약";                            // 25% 미만 (극도로 억눌림)
 
-        // 💡 오행별 + 5점 척도별 기질 묘사 (한국어)
+       // 💡 1. 유저의 '진짜 일간(Day Master)' 글자 추출 (예: '정'화)
+        // session.iljuData가 "정유"라면 첫 글자 "정"을 가져옵니다.
+        const dayMaster = session.iljuData ? session.iljuData.charAt(0) : coreEl.charAt(0); 
+
+        // 💡 2. 오행(5개) ➔ 십간(10개) + 5점 척도 정밀 기질 묘사 (한국어)
         const coreTraitsKo = {
-            "목": { "극강": "걷잡을 수 없이 빽빽하게 얽혀 주변을 덮어버리는 과잉된 목(木)의 기질", "강함": "강한 생명력으로 거침없이 뻗어나가는 목(木)의 주도적인 기질", "보통": "주변과 조화를 이루며 올곧게 자라나는 목(木)의 안정적인 기질", "약함": "척박한 환경 속에서도 싹을 틔울 때를 기다리는 목(木)의 잠재된 기질", "극약": "주변의 거센 기운에 짓눌려 성장이 멈추고 시들어가는 목(木)의 위축된 기질" },
-            "화": { "극강": "모든것을 집어삼킬 듯 통제 불능으로 타오르는 화(火)의 맹렬한 기질", "강함": "뜨거운 열정으로 주변을 환하게 밝히며 확산하는 화(火)의 발달된 기질", "보통": "따뜻한 온기로 세상을 데우며 빛을 발하는 화(火)의 온화한 기질", "약함": "작은 바람에도 흔들리며 위태롭게 타오르는 화(火)의 조심스러운 기질", "극약": "불씨가 사그라들어 온기를 잃고 어둠에 잠식되기 쉬운 화(火)의 미약한 기질" },
-            "토": { "극강": "첩첩산중처럼 꽉 막혀 변화를 완강히 거부하는 토(土)의 고집스러운 기질", "강함": "드넓은 대지처럼 만물을 굳건하게 품어내고 기르는 토(土)의 포용적 기질", "보통": "치우침 없이 묵묵히 중심을 잡아주는 토(土)의 안정된 기질", "약함": "뿌리내릴 곳을 찾지 못해 모래알처럼 흩어지기 쉬운 토(土)의 불안정한 기질", "극약": "척박하고 메말라 생명력을 품기 버거워하는 토(土)의 억눌린 기질" },
-            "금": { "극강": "스스로를 다치게 할 만큼 지나치게 날카롭고 냉혹한 금(金)의 숙살 기질", "강함": "불필요한 것을 단칼에 잘라내고 정확한 결실을 맺는 금(金)의 단호한 기질", "보통": "불순물을 걸러내고 자신만의 가치를 정교하게 다듬어가는 금(金)의 예리한 기질", "약함": "형태를 갖추지 못하고 뜨거운 열기에 녹아내리기 쉬운 금(金)의 무른 기질", "극약": "외부의 압력에 쉽게 부러지고 날이 완전히 무뎌진 금(金)의 소극적인 기질" },
-            "수": { "극강": "제방을 무너뜨리고 모든 것을 휩쓸어버리는 수(水)의 범람하는 기질", "강함": "깊은 바다처럼 속을 알 수 없고 거세게 몰아치는 수(水)의 압도적인 기질", "보통": "장애물을 피해 유연하게 흘러가며 만물을 윤택하게 적시는 수(水)의 지혜로운 기질", "약함": "작은 가뭄에도 쉽게 말라붙어 흐름이 끊기기 쉬운 수(水)의 위축된 기질", "극약": "형체를 잃고 흔적조차 없이 증발해버리듯 흩어지는 수(水)의 몹시 고갈된 기질" }
+            "갑": { "극강": "하늘을 뚫고 솟구쳐 주변을 그늘지게 하는 거목(양목)의 지나친 독단", "강함": "우뚝 솟아 거침없이 뻗어가는 통나무의 강력한 주도성", "보통": "주변과 조화를 이루며 올곧게 자라나는 큰 나무의 든든함", "약함": "척박한 환경 속에서도 때를 기다리며 인내하는 나무의 잠재력", "극약": "주변의 거센 기운에 짓눌려 성장이 멈추고 위축된 나무의 기질" },
+            "을": { "극강": "주변의 모든 것을 휘감고 덮어버리는 덩굴(음목)의 집요하고 과한 생명력", "강함": "어떤 바위 틈새라도 비집고 피어나는 화초의 끈질긴 생존력", "보통": "환경에 부드럽게 적응하며 유연하게 뻗어가는 화초의 친화력", "약함": "작은 비바람에도 쉽게 흔들리지만 결코 꺾이지 않는 화초의 유연함", "극약": "잡초에 치여 빛을 보지 못하고 시들어가는 화초의 미약한 기질" },
+            "병": { "극강": "모든 것을 잿더미로 만들 듯 통제 불능으로 타오르는 태양(양화)의 맹렬함", "강함": "세상을 환하게 밝히며 눈부시게 빛나는 태양의 압도적인 스포트라이트", "보통": "만물을 골고루 비추며 온기를 전하는 태양의 공명정대한 기질", "약함": "구름에 가려져 빛을 제대로 발하지 못하는 태양의 답답한 상황", "극약": "빛과 열을 잃고 어둠에 잠식되어 가는 태양의 위축된 기질" },
+            "정": { "극강": "쇠마저 녹여버릴 듯 좁고 깊게 파고드는 용광로(음화)의 무서운 집착력", "강함": "어둠을 따뜻하게 밝히며 한 곳에 집중하는 모닥불의 은은하고 강인한 몰입력", "보통": "주변을 다정하게 데우며 빛을 발하는 촛불의 헌신적이고 따뜻한 기질", "약함": "작은 바람에도 위태롭게 흔들리는 촛불의 조심스럽고 예민한 기질", "극약": "불씨가 사그라들어 온기를 잃고 꺼져가는 모닥불의 미약한 기질" },
+            "무": { "극강": "첩첩산중처럼 꽉 막혀 변화를 완강히 거부하는 바위산(양토)의 고집", "강함": "드넓은 대지처럼 만물을 굳건하게 품어내고 기르는 태산의 포용력", "보통": "치우침 없이 묵묵히 중심을 잡아주는 거대한 산의 든든한 안정감", "약함": "바위가 무너져 내려 자리를 잡지 못하는 흙산의 불안정한 기질", "극약": "척박하고 메말라 생명력을 품기 버거워하는 헐벗은 산의 억눌린 기질" },
+            "기": { "극강": "진흙탕처럼 질척이며 모든 것을 무겁게 빨아들이는 습한 땅(음토)의 과도함", "강함": "어떤 씨앗이든 풍요롭게 길러내는 비옥한 대지의 뛰어난 수용력", "보통": "만물이 편안하게 뿌리내릴 수 있도록 바탕이 되어주는 정원의 다정함", "약함": "뿌리내릴 곳을 찾지 못해 모래알처럼 흩어지기 쉬운 흙의 불안정함", "극약": "양분을 잃고 딱딱하게 굳어버려 생명을 잃은 땅의 미약한 기질" },
+            "경": { "극강": "스스로를 다치게 할 만큼 무자비하고 차가운 강철(양금)의 숙살 기질", "강함": "어떤 시련에도 부러지지 않고 불필요한 것을 잘라내는 무쇠의 단호함", "보통": "불의와 타협하지 않고 자신만의 묵직한 가치를 지키는 바위의 든든함", "약함": "형태를 갖추지 못하고 뜨거운 열기에 녹아내리기 쉬운 쇠의 무른 기질", "극약": "외부의 압력에 쉽게 찌그러지고 날이 완전히 무뎌진 강철의 소극성" },
+            "신": { "극강": "베일 듯 예리하고 차가워 타인에게 상처를 주기 쉬운 보석(음금)의 예민함", "강함": "불순물을 완벽히 걸러낸 정교하고 날카로운 보석의 대체 불가능한 가치", "보통": "스스로를 아름답게 가꾸고 세밀한 결실을 맺는 정밀한 칼날의 기질", "약함": "흠집이 날까 두려워 섣불리 나서지 못하는 보석의 방어적인 기질", "극약": "진흙 속에 파묻혀 본연의 빛을 잃고 녹슬어가는 보석의 억눌린 기질" },
+            "임": { "극강": "제방을 무너뜨리고 모든 것을 휩쓸어버리는 거친 해일(양수)의 파괴력", "강함": "깊이를 알 수 없고 도도하게 흘러가는 거대한 바다의 압도적인 포용력", "보통": "장애물을 피해 유연하게 흘러가며 만물을 적시는 큰 강물의 지혜", "약함": "가뭄에 수위가 낮아져 흐름이 끊기기 쉬운 강물의 위축된 기질", "극약": "형체를 잃고 바닥을 드러내며 말라가는 바다의 고갈된 기질" },
+            "계": { "극강": "장마철의 폭우처럼 우울하게 침잠하며 주변을 잠식하는 비(음수)의 과도함", "강함": "어떤 틈새로도 유연하게 스며들어 생명을 깨우는 시냇물의 뛰어난 융통성", "보통": "만물을 조용히 윤택하게 적시는 아침 이슬의 맑고 지혜로운 기질", "약함": "조그만 열기에도 흔적 없이 증발해버리듯 흩어지는 안개의 불안정함", "극약": "메마른 땅에 흔적조차 남기지 못하고 사라지는 이슬의 미약한 기질" }
         };
 
-        // 💡 오행별 + 5점 척도별 기질 묘사 (영어)
+        // 💡 3. 오행별 + 5점 척도별 기질 묘사 (영어)
         const coreTraitsEn = {
-            "목": { "극강": "an excessive Wood energy that fiercely intertwines and overshadows its surroundings", "강함": "a dominant Wood energy that thrusts upward with robust vitality", "보통": "a stable Wood energy that grows upright in harmony with its environment", "약함": "a latent Wood energy waiting for the right moment to sprout even in harsh conditions", "극약": "a withered Wood energy, suppressed and stunting its growth due to overwhelming surrounding forces" },
-            "화": { "극강": "a ferocious Fire energy that burns uncontrollably, threatening to consume everything", "강함": "a developed Fire energy that radiates and brightens its surroundings with intense passion", "보통": "a gentle Fire energy that emits a warm and comforting light", "약함": "a cautious Fire energy that flickers precariously at the slightest breeze", "극약": "a feeble Fire energy, prone to losing its warmth and being consumed by darkness" },
-            "토": { "극강": "a stubborn Earth energy, firmly blocked like dense mountains and resisting change", "강함": "an embracing Earth energy that steadfastly nurtures all things like a vast land", "보통": "a stable Earth energy that silently maintains balance without leaning to one side", "약함": "an unstable Earth energy that scatters easily like sand, struggling to find a place to root", "극약": "a suppressed Earth energy, too barren and dry to comfortably foster life" },
-            "금": { "극강": "a harsh Metal energy, excessively sharp and cold enough to injure itself", "강함": "a resolute Metal energy that swiftly cuts away the unnecessary to bear exact fruits", "보통": "a sharp Metal energy that filters impurities to refine its unique value", "약함": "a soft Metal energy, prone to melting under heat before taking shape", "극약": "a passive Metal energy, easily bent by external pressure with a completely dulled edge" },
-            "수": { "극강": "an overflowing Water energy that breaks levees and sweeps everything away", "강함": "an overwhelming Water energy that surges fiercely like an unfathomable deep ocean", "보통": "a wise Water energy that flows flexibly around obstacles, enriching all things", "약함": "a shrinking Water energy that easily dries up and stops flowing even in a minor drought", "극약": "a severely depleted Water energy that scatters as if evaporating without a trace" }
+            "갑": { "극강": "excessive dogmatism of a giant tree (Yang Wood) that pierces the sky and overshadows its surroundings", "강함": "powerful initiative of a tall log that thrusts upward without hesitation", "보통": "reliability of a large tree that grows upright in harmony with its environment", "약함": "latent potential of a tree patiently waiting for the right time in harsh conditions", "극약": "withdrawn nature of a tree whose growth is stunted by fierce surrounding forces" },
+            "을": { "극강": "obsessive and excessive vitality of a vine (Yin Wood) that wraps and covers everything", "강함": "tenacious survivability of a flower that blooms even through rock crevices", "보통": "sociability of a flower that smoothly adapts and extends flexibly into its environment", "약함": "flexibility of a flower that sways easily in the wind but never breaks", "극약": "feeble nature of a flower that fades away, overshadowed by weeds" },
+            "병": { "극강": "ferocity of the sun (Yang Fire) that burns uncontrollably, threatening to turn everything to ash", "강함": "overwhelming spotlight of the sun that shines brightly and illuminates the world", "보통": "fair and impartial nature of the sun that evenly warms and shines upon all things", "약함": "frustrating situation of the sun obscured by clouds, unable to shine properly", "극약": "withdrawn nature of the sun that has lost its heat and is consumed by darkness" },
+            "정": { "극강": "terrifying obsession of a furnace (Yin Fire) that digs narrow and deep enough to melt iron", "강함": "subtle yet strong immersion of a campfire that warmly lights up the dark and focuses on one spot", "보통": "devoted and warm nature of a candle that gently warms its surroundings", "약함": "cautious and sensitive nature of a candle that flickers precariously at the slightest breeze", "극약": "feeble nature of a campfire whose embers have died out and lost its warmth" },
+            "무": { "극강": "stubbornness of a rocky mountain (Yang Earth) firmly blocked and resisting change", "강함": "embrace of a great mountain that steadfastly nurtures all things like a vast land", "보통": "reliable stability of a massive mountain that silently maintains balance", "약함": "unstable nature of a dirt mountain that struggles to settle as rocks crumble", "극약": "suppressed nature of a barren mountain, too dry to comfortably foster life" },
+            "기": { "극강": "excessiveness of damp soil (Yin Earth) that heavily sucks in everything like mud", "강함": "outstanding receptivity of fertile land that richly nurtures any seed", "보통": "affectionate nature of a garden that provides a comfortable base for all things to root", "약함": "instability of soil that scatters like sand, struggling to find a place to root", "극약": "feeble nature of soil that has lost its nutrients and hardened, losing its life force" },
+            "경": { "극강": "ruthless and cold killing energy of steel (Yang Metal) sharp enough to injure itself", "강함": "resoluteness of iron that cuts away the unnecessary without breaking under any trial", "보통": "reliability of a rock that protects its heavy values without compromising with injustice", "약함": "soft nature of metal prone to melting under heat before taking shape", "극약": "passivity of steel easily dented by external pressure with a completely dulled edge" },
+            "신": { "극강": "sensitivity of a jewel (Yin Metal), so sharp and cold it can easily hurt others", "강함": "irreplaceable value of an exquisite and sharp jewel with impurities perfectly filtered out", "보통": "nature of a precise blade that beautifully adorns itself and bears detailed fruits", "약함": "defensive nature of a jewel hesitant to step forward for fear of getting scratched", "극약": "suppressed nature of a jewel buried in mud, losing its original shine and rusting away" },
+            "임": { "극강": "destructive power of a rough tsunami (Yang Water) that breaks levees and sweeps everything away", "강함": "overwhelming embrace of a massive ocean that flows proudly with unfathomable depth", "보통": "wisdom of a large river that flows flexibly around obstacles, enriching all things", "약함": "withdrawn nature of a river that easily stops flowing due to low water levels in a drought", "극약": "depleted nature of an ocean losing its form, drying up and revealing its bottom" },
+            "계": { "극강": "excessiveness of rain (Yin Water) that melancholically sinks and encroaches like a monsoon", "강함": "outstanding flexibility of a stream that smoothly permeates any crevice to awaken life", "보통": "clear and wise nature of morning dew that quietly and richly moistens all things", "약함": "instability of fog that scatters and evaporates without a trace at the slightest heat", "극약": "feeble nature of dew that disappears without leaving a trace on dry land" }
         };
 
-        const currentTrait = currentLang === 'ko' ? coreTraitsKo[coreEl.charAt(0)][intensity] : coreTraitsEn[coreEl.charAt(0)][intensity];
-        
+        // 💡 4. 일간(dayMaster)이 사전에 있으면 10간 로직, 혹시 없으면 기존 5행 로직으로 안전하게 Fallback
+        let currentTrait = "";
+        if (coreTraitsKo[dayMaster]) {
+             currentTrait = currentLang === 'ko' ? coreTraitsKo[dayMaster][intensity] : coreTraitsEn[dayMaster][intensity];
+        } else {
+             // 만약 에러로 인해 dayMaster가 안 잡히면 기존 오행의 양간(갑,병,무,경,임)으로 대체 방어
+             const fallbackMap = { "목":"갑", "화":"병", "토":"무", "금":"경", "수":"임" };
+             const fallbackKey = fallbackMap[coreEl.charAt(0)] || "무";
+             currentTrait = currentLang === 'ko' ? coreTraitsKo[fallbackKey][intensity] : coreTraitsEn[fallbackKey][intensity];
+        }
+    
         // 💡 [초정밀 결핍 오행 판독] 진짜 약점을 완벽하게 추적
         let trueWeakIdx = 0;
         const lackStr_A = session.lackEls[0] || ""; 
@@ -1339,9 +1391,9 @@ function switchTab(mode, element) {
         const jobsListEn = `<ul style="margin: 5px 0 15px 0; padding-left: 20px; line-height: 1.5;"><li style="margin-bottom: 2px;">${trackJobsEn[0]}</li><li style="margin-bottom: 2px;">${trackJobsEn[1]}</li><li style="margin-bottom: 0;">${trackJobsEn[2]}</li></ul>`;
 
         // 🚨 2. 핵심만 남긴 콤팩트 텍스트 (가독성 극대화 및 영어 변수 누락 복구)
-        const blockCKo = `당신은 ${energyShapeKo} 형상입니다. <b>${elNamesKo_C[top1Idx_C]}</b>를 무기로 ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘합니다.<br><br><b style="color: var(--primary);">[최적의 활동 무대]</b>${jobsListKo}<b style="color: var(--primary);">[성명 파동의 시너지]</b><br>이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운이 사주의 잠재력을 터뜨리는 <b>'촉매제'</b>가 됩니다. ${synergyNarrativeKo}<br>성명이 부여한 <b>'${weaponKo}'</b> 능력과 <b>${elNamesKo_C[top2Idx_C]}</b>의 <b>${top2SkillKo[top2Idx_C][top5Idx_C]}</b> 기술이 결합되어 판을 독보적으로 이끕니다.<br><br>⚠️ 단, ${synergyIntroArrKo[boostLevelC]} <b>${top5RiskKo[top5Idx_C][top5Severity]}</b>의 약점은 반드시 경계하십시오.`;
+        const blockCKo = `당신은 ${energyShapeKo} 형상입니다. <b>${elNamesKo_C[top1Idx_C]}</b>를 무기로 ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘합니다.<br><b style="color: var(--primary);">[최적의 활동 무대]</b>${jobsListKo}<b style="color: var(--primary);">[성명 파동의 시너지]</b><br>이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운이 사주의 잠재력을 터뜨리는 <b>'촉매제'</b>가 됩니다. ${synergyNarrativeKo}<br>성명이 부여한 <b>'${weaponKo}'</b> 능력과 <b>${elNamesKo_C[top2Idx_C]}</b>의 <b>${top2SkillKo[top2Idx_C][top5Idx_C]}</b> 기술이 결합되어 판을 독보적으로 이끕니다.<br>⚠️ 단, ${synergyIntroArrKo[boostLevelC]} <b>${top5RiskKo[top5Idx_C][top5Severity]}</b>의 약점은 반드시 경계하십시오.`;
 
-        const blockCEn = `You embody the shape of ${energyShapeEn}. Armed with <b>${elNamesEn_C[top1Idx_C]}</b>, you manifest the <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> <b>${top1ScaleEn}</b>.<br><br><b style="color: var(--primary);">[Optimal Stage]</b>${jobsListEn}<b style="color: var(--primary);">[Name Synergy]</b><br>The <b>${elNamesEn_C[weaponElIdx]}</b> energy in your name acts as a <b>catalyst</b>. ${synergyNarrativeEn}<br>By combining your name's <b>'${weaponEn}'</b> ability with the <b>${top2SkillEn[top2Idx_C][top5Idx_C]}</b> of <b>${elNamesEn_C[top2Idx_C]}</b>, you will lead uniquely.<br><br>⚠️ However, by ${synergyIntroArrEn[boostLevelC]}, you must control the risk of <b>${top5RiskEn[top5Idx_C][top5Severity]}</b>.`;
+        const blockCEn = `You embody the shape of ${energyShapeEn}. Armed with <b>${elNamesEn_C[top1Idx_C]}</b>, you manifest the <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> <b>${top1ScaleEn}</b>.<br><b style="color: var(--primary);">[Optimal Stage]</b>${jobsListEn}<b style="color: var(--primary);">[Name Synergy]</b><br>The <b>${elNamesEn_C[weaponElIdx]}</b> energy in your name acts as a <b>catalyst</b>. ${synergyNarrativeEn}<br>By combining your name's <b>'${weaponEn}'</b> ability with the <b>${top2SkillEn[top2Idx_C][top5Idx_C]}</b> of <b>${elNamesEn_C[top2Idx_C]}</b>, you will lead uniquely.<br>⚠️ However, by ${synergyIntroArrEn[boostLevelC]}, you must control the risk of <b>${top5RiskEn[top5Idx_C][top5Severity]}</b>.`;
 
         let blockC = currentLang === 'ko' ? blockCKo : blockCEn;
         
