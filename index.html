@@ -859,8 +859,7 @@ function switchTab(mode, element) {
         // 💡 1-2. [운명공학 궁극의 비기] '용신(用神) & 신강신약' 판독 엔진
         const totalScore_C = session.baseScores.reduce((a, b) => a + b, 0);
         const elNamesMap_C = { "목":0, "화":1, "토":2, "금":3, "수":4 };
-        const dmIdx_C = elNamesMap_C[session.iljuData.el.charAt(0)]; // 내 본질(일간)
-
+        const dmIdx_C = elNamesMap_C[coreEl.charAt(0)]; // 내 본질(일간)
         // 오행 상생상극 인덱스
         const motherIdx_C = (dmIdx_C + 4) % 5; // 나를 생하는 인성
         const childIdx_C = (dmIdx_C + 1) % 5;  // 내가 생하는 식상
