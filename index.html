@@ -1429,7 +1429,52 @@ function switchTab(mode, element) {
           
         renderChart(session.baseScores, session.elementScores);
     }
-  
+  const synergyIntroArrEn = [
+            `weaponizing the perfect balance of <b>${elNamesEn_C[top5Idx_C]}</b> provided by your name's energy`,
+            `fueled by the <b>${elNamesEn_C[top5Idx_C]}</b> energy solidly supplemented by your name`,
+            `smartly utilizing the <b>${elNamesEn_C[top5Idx_C]}</b> energy which is regaining stability through your name`,
+            `consciously managing the <b>${elNamesEn_C[top5Idx_C]}</b> energy that still requires special care`,
+            `overcoming your greatest Achilles' heel, the <b>${elNamesEn_C[top5Idx_C]}</b> energy, through strict self-objectification`
+        ];
+
+        // 🚨 1. 리스트 조립 (엔터키 강제 여백 제거됨)
+        const jobsListKo = `<ul style="margin: 5px 0 15px 0; padding-left: 20px; line-height: 1.5;"><li style="margin-bottom: 2px;">${trackJobsKo[0]}</li><li style="margin-bottom: 2px;">${trackJobsKo[1]}</li><li style="margin-bottom: 0;">${trackJobsKo[2]}</li></ul>`;
+        const jobsListEn = `<ul style="margin: 5px 0 15px 0; padding-left: 20px; line-height: 1.5;"><li style="margin-bottom: 2px;">${trackJobsEn[0]}</li><li style="margin-bottom: 2px;">${trackJobsEn[1]}</li><li style="margin-bottom: 0;">${trackJobsEn[2]}</li></ul>`;
+
+        // 🚨 2. 핵심만 남긴 콤팩트 텍스트
+        const blockCKo = `당신은 ${energyShapeKo} 형상입니다. <b>${elNamesKo_C[top1Idx_C]}</b>를 무기로 ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘합니다.<br><b style="color: var(--primary);">[최적의 활동 무대]</b>${jobsListKo}<b style="color: var(--primary);">[성명 파동의 시너지]</b><br>이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운이 사주의 잠재력을 터뜨리는 <b>'촉매제'</b>가 됩니다. ${synergyNarrativeKo}<br>성명이 부여한 <b>'${weaponKo}'</b> 능력과 <b>${elNamesKo_C[top2Idx_C]}</b>의 <b>${top2SkillKo[top2Idx_C][top5Idx_C]}</b> 기술이 결합되어 판을 독보적으로 이끕니다.<br>⚠️ 단, ${synergyIntroArrKo[boostLevelC]} <b>${top5RiskKo[top5Idx_C][top5Severity]}</b>의 약점은 반드시 경계하십시오.`;
+        const blockCEn = `You embody the shape of ${energyShapeEn}. Armed with <b>${elNamesEn_C[top1Idx_C]}</b>, you manifest the <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> <b>${top1ScaleEn}</b>.<br><b style="color: var(--primary);">[Optimal Stage]</b>${jobsListEn}<b style="color: var(--primary);">[Name Synergy]</b><br>The <b>${elNamesEn_C[weaponElIdx]}</b> energy in your name acts as a <b>catalyst</b>. ${synergyNarrativeEn}<br>By combining your name's <b>'${weaponEn}'</b> ability with the <b>${top2SkillEn[top2Idx_C][top5Idx_C]}</b> of <b>${elNamesEn_C[top2Idx_C]}</b>, you will lead uniquely.<br>⚠️ However, by ${synergyIntroArrEn[boostLevelC]}, you must control the risk of <b>${top5RiskEn[top5Idx_C][top5Severity]}</b>.`;
+
+        let blockC = currentLang === 'ko' ? blockCKo : blockCEn;
+        
+        // 💡 3개의 블록 조립
+        const analysisText = `${blockA} ${blockB}`;  
+        const missionText = `${blockC}`;
+
+        body.innerHTML = `
+          <div class="tab-content">
+            <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; border-left:none; box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+              <div id="radarChart" style="margin:10px auto; width:100%; height:auto; min-height:260px;"></div>
+              <div style="margin-top: 15px;">${badgeHTML}</div> 
+              <div style="line-height:1.75; color:#444; font-size:0.93rem; text-align:justify; word-break:break-all; margin-top:20px; white-space:pre-wrap;">${analysisText}</div>
+              <div style="padding:20px; background:#F9F8F6; border-radius:12px; border:1px solid #F0EAE3; margin-top:25px;">
+                <b style="color:var(--accent); font-size:0.95rem; display:block; margin-bottom:2px;">${currentLang === 'ko' ? '📜 현생의 과업' : '📜 Core Competencies'}</b>
+                <div style="line-height:1.75; color:#444; font-size:0.93rem; text-align:justify; word-break:break-all; white-space:pre-wrap; margin:0;">${missionText}</div>
+              </div>
+            </div>
+            <span class="section-title" style="margin-top:30px;">${t.sec2}</span>
+            <div class="info-box" style="background:#fff; border-left:none;">
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                <div><b style="color:var(--accent);">🎨 행운 컬러</b><br>${r.color}</div>
+                <div><b style="color:var(--accent);">🏃 실천 행동</b><br>${r.action}</div>
+                <div><b style="color:var(--accent);">👥 인적 정보</b><br>${r.social}</div>
+                <div><b style="color:var(--accent);">🥗 보충 음식</b><br>${r.food}</div>
+              </div>
+            </div>
+          </div>`;
+          
+        renderChart(session.baseScores, session.elementScores);
+    }
   
     else if (mode === 'past') {
         const p = getPastLifeData(session.num81, finalSignature, currentLang);
