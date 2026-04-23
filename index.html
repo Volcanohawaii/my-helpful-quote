@@ -654,7 +654,7 @@ function switchTab(mode, element) {
         else if (myForceRatio >= 0.25) intensity = "약함";  // 40% 미만 (모래알, 촛불)
         else intensity = "극약";                            // 25% 미만 (극도로 억눌림)
 
-       // 💡 1. 유저의 '진짜 일간(Day Master)' 글자 추출 (예: '정'화)
+        // 💡 1. 유저의 '진짜 일간(Day Master)' 글자 추출 (예: '정'화)
         // session.iljuData가 "정유"라면 첫 글자 "정"을 가져옵니다.
         const dayMaster = session.iljuData ? session.iljuData.charAt(0) : coreEl.charAt(0); 
 
