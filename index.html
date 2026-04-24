@@ -519,7 +519,7 @@ function switchTab(mode, element) {
             <div style="display:flex; gap:8px; margin: 20px 0 10px 0; flex-wrap:wrap; justify-content:center;">
                 <span style="background:#8B7355; color:#fff; padding:5px 14px; border-radius:30px; font-size:0.85rem; font-weight:bold;">#${coreData.key}</span>
                 <span style="background:#EBF5FF; color:#0056B3; padding:5px 14px; border-radius:30px; font-size:0.85rem; font-weight:600;">✨ ${coreData.core}</span>
-                <span style="background:#FFF0F0; color:#C82333; padding:5px 14px; border-radius:30px; font-size:0.85rem; font-weight:600;">⚠️ ${coreData.risk}</span>
+                <span style="background:#FFF0F0; color:#C82333; padding:5px 14px; border-radius:30px; font-size:0.85rem; font-weight:600;">⚠️ ${currentLang === 'ko' ? fusionTagKo[peakElIdx][bottomElIdx] : fusionTagEn[peakElIdx][bottomElIdx]}</span>
             </div>
         `;
        
@@ -907,6 +907,35 @@ function switchTab(mode, element) {
                 "An inscrutability breeding endless anxiety with hidden intentions, like uncontrollable overflowing waves"
             ]
         ];
+
+      // 💡 [UI 연동용] 25칸 약점 매트릭스의 '핵심 키워드(태그)' 압축판
+        const fusionTagKo = [
+            // 0: 목(木) 강
+            ["답답·정체", "만성 미루기", "비현실·뜬구름", "수습 불가·무책임", "심각한 번아웃"],
+            // 1: 화(火) 강
+            ["뒷심 부족·변덕", "감정 폭발·파괴", "경솔·실속 없음", "독선·안하무인", "조급·분노"],
+            // 2: 토(土) 강
+            ["과거 집착·옹고집", "무관심·고립", "융통성 제로·아집", "가치 상실·무기력", "극단적 불통"],
+            // 3: 금(金) 강
+            ["결벽증·통제욕", "원칙주의·냉혹", "유리 멘탈", "극도의 예민함", "마찰·융통성 부족"],
+            // 4: 수(水) 강
+            ["만성적 회피", "깊은 우울·침잠", "주관 상실·수동성", "정신적 공허함", "불안·음흉함"]
+        ];
+      // 💡 [UI 연동용] 25칸 약점 매트릭스의 '핵심 키워드(태그)' 영문판 (최대 2~3단어 압축)
+        const fusionTagEn = [
+            // 0: Wood (木) Strong
+            ["Stagnant & Tangled", "Chronic Procrastination", "Unrealistic Idealism", "Irresponsible Expansion", "Severe Burnout"],
+            // 1: Fire (火) Strong
+            ["Fickle & Quitting", "Destructive Outbursts", "Frivolous & Shallow", "Brakeless Dogma", "Impatience & Anger"],
+            // 2: Earth (土) Strong
+            ["Trapped in Past", "Cold Isolation", "Rigid Obstinacy", "Buried Lethargy", "Extreme Disconnect"],
+            // 3: Metal (金) Strong
+            ["Obsessive Control", "Cold-blooded Rules", "Fragile Mentality", "Extreme Sensitivity", "Blunt Friction"],
+            // 4: Water (水) Strong
+            ["Chronic Avoidance", "Deep Depression", "Extreme Passivity", "Inner Emptiness", "Anxious Suspicion"]
+        ];
+
+      
 const peakElIdx = session.baseScores.indexOf(Math.max(...session.baseScores));
         const bottomElIdx = session.baseScores.indexOf(Math.min(...session.baseScores));
       
