@@ -705,16 +705,16 @@ function switchTab(mode, element) {
             });
 
             if (mechKo.length > 0) {
-                bridgeKo = `성명의 파동에는 <b>${boostedTextKo}</b>의 기운이 깊게 배치되어 있습니다. 이 파동은 타고난 본질(<b>${coreDisplay}</b>)에 작용하여 강점을 벼려냅니다. ${mechKo}이 정교하게 벼려진 파동이 타고난 에너지와 융합하여 <b>${currentTheme}</b>의 운명공학적 테마를 만들어냅니다.`;
+                bridgeKo = `성명의 파동에는 <b>${boostedTextKo}</b>의 기운이 깊게 배치되어 있습니다. 이 파동은 타고난 본질(<b>${coreDisplay}</b>)에 작용하여 강점을 벼려냅니다. ${mechKo}이 타고난 에너지와 융합하여 <b>${currentTheme}</b>의 운명공학적 테마를 완성합니다.`;
                 bridgeEn = `The vibration of your name is highly equipped with the energies of <b>${boostedTextEn}</b>. Acting directly upon your innate traits (<b>${elNamesEnForA[logicEls.indexOf(coreElChar)]}</b>), these vibrations elevate your strengths: ${mechEn}These precisely forged vibrations fuse with your innate energies to create the completed theme of <b>${currentTheme}</b>.`;
             } else {
-                bridgeKo = `성명의 파동에는 <b>${boostedTextKo}</b>의 기운이 배치되어 당신의 강점을 벼려냅니다. 이 파동이 타고난 에너지와 융합하여 <b>${currentTheme}</b>의 운명공학적 테마를 만들어냅니다.`;
+                bridgeKo = `성명의 파동에는 <b>${boostedTextKo}</b>의 기운이 배치되어 당신의 강점을 벼려냅니다. 이 파동이 타고난 에너지와 융합하여 <b>${currentTheme}</b>의 운명공학적 테마를 완성합니다.`;
                 bridgeEn = `The vibration of your name is equipped with the energies of <b>${boostedTextEn}</b>, refining your strengths. These vibrations fuse with your innate energies to create the completed theme of <b>${currentTheme}</b>.`;
             }
         }
 
-        const blockAKo = `당신은 본래 ${currentTrait}을 타고났습니다. ${bridgeKo}`;
-        const blockAEn = `You were originally born with ${currentTrait}. ${bridgeEn}\n`;
+        const blockAKo = `${currentTrait}을 타고났습니다. ${bridgeKo}`;
+        const blockAEn = `You were born with ${currentTrait}. ${bridgeEn}\n`;
         
         // 💡 [Block A 마무리]
         const blockA = currentLang === 'ko' ? blockAKo : blockAEn;
@@ -799,17 +799,17 @@ function switchTab(mode, element) {
 
         let top1ScaleKo = ""; let top1ScaleEn = "";
         const logicTopScore = session.baseScores[top1Idx_C];
-        if (logicTopScore >= 100) { top1ScaleKo = "시장의 룰을 재정의하는 대체 불가능한 스케일로"; top1ScaleEn = "on an irreplaceable scale redefining market rules"; }
-        else if (logicTopScore >= 75) { top1ScaleKo = "조직과 업계를 선도하는 압도적인 파급력으로"; top1ScaleEn = "with overwhelming impact leading the industry"; }
-        else if (logicTopScore >= 50) { top1ScaleKo = "핵심 프로젝트를 완벽하게 주도하는 탄탄한 전문성으로"; top1ScaleEn = "with solid expertise perfectly leading core projects"; }
-        else { top1ScaleKo = "특정 니치 마켓을 독점하는 고도의 정밀한 타겟팅으로"; top1ScaleEn = "with highly precise targeting monopolizing niche markets"; }
+        if (logicTopScore >= 100) { top1ScaleKo = "룰을 재정의하는 대체 불가능한 스케일로"; top1ScaleEn = "on an irreplaceable scale redefining market rules"; }
+        else if (logicTopScore >= 75) { top1ScaleKo = "업계를 선도하는 압도적인 파급력으로"; top1ScaleEn = "with overwhelming impact leading the industry"; }
+        else if (logicTopScore >= 50) { top1ScaleKo = "프로젝트를 완벽하게 주도하는 탄탄한 전문성으로"; top1ScaleEn = "with solid expertise perfectly leading core projects"; }
+        else { top1ScaleKo = "프리미엄 시장을 독점하는 고도의 타겟팅으로"; top1ScaleEn = "with highly precise targeting monopolizing niche markets"; }
 
         const top2SkillKo = [
-            ["스스로 동기를 부여하는 돌파력의", "에너지를 끊임없이 재생산하는 생명력의", "낡은 관습을 부수고 나아가는 개척의", "관계의 벽을 허물고 다가가는 친화력의", "고착된 상황에 생기를 불어넣는 기획의"],
+            ["스스로 동기를 부여하는 돌파력의", "에너지를 끊임없이 생산하는 생명력의", "낡은 관습을 부수고 나아가는 개척의", "관계의 벽을 허물고 다가가는 친화력의", "고착된 상황에 생기를 불어넣는 기획의"],
             ["주저할 때 과감히 방아쇠를 당기는 열정의", "불안을 잠재우고 확신을 주는 카리스마의", "대중의 이목을 집중시켜 판을 키우는 매력의", "사물의 가치와 옳고 그름을 밝히는 분별력의", "마음의 장벽을 순식간에 녹여내는 공감의"],
             ["흔들리는 목표를 굳건히 잡아주는 안정감의", "들뜬 감정을 차분히 가라앉히는 평정심의", "흩어진 자원을 하나로 모으는 응집력의", "예리한 갈등을 부드럽게 무마하는 포용의", "급변하는 상황 속에서 중심을 지키는 무게감의"],
             ["복잡한 문제를 단칼에 정리하는 분석력의", "불필요한 감정 소모를 차단하는 냉철함의", "느슨해진 조직에 긴장감을 부여하는 규율의", "손해를 과감히 잘라내는 리스크 관리의", "원칙을 세워 무질서를 바로잡는 통제력의"],
-            ["상황에 맞게 태도를 바꾸는 유연한 처세의", "막힌 길을 우회하여 결국 도달하는 지혜의", "드러나지 않게 판을 움직이는 전략적", "대립하는 에너지를 조화롭게 섞어내는 융화의", "먼 미래를 내다보고 대비하는 깊은 통찰의"]
+            ["상황에 맞게 태도를 바꾸는 유연한 처세의", "막힌 길을 우회하여 도달하는 지혜의", "드러나지 않게 판을 움직이는 전략적", "대립하는 에너지를 조화롭게 섞어내는 융화의", "먼 미래를 내다보고 대비하는 깊은 통찰의"]
         ];
 
         const top2SkillEn = [
@@ -825,40 +825,40 @@ function switchTab(mode, element) {
         const fusionRiskKo = [
             /* 0: 목(木)이 가장 강할 때 (과도한 성장/직진) */
             [
-                "비대해진 목(木)이 제 발에 꼬여, 방향을 잃고 제자리만 맴도는 답답한 정체성", 
+                "비대해진 목(木)이 제 발에 꼬여, 방향을 잃고 제자리만 맴도는 정체성", 
                 "불꽃(火)을 피우지 못한 젖은 나무처럼, 계획만 무성하고 결과가 없는 실행력 부족", 
-                "뿌리는 깊으나 딛을 땅(土)이 허약해, 현실 감각 없이 뜬구름만 잡는 불안정한 이상주의", 
-                "쳐낼 가위(金)가 없어 사방으로 뻗기만 하니, 시작은 거창하나 마무리가 안 되는 무책임함", 
-                "성장을 뒷받침할 물(水)이 말라버려, 초반에만 번뜩이다 금세 꺼져버리는 심각한 번아웃"
+                "뿌리는 깊으나 딛을 땅(土)이 허약해, 현실 감각 없이 뜬구름만 잡는 이상주의", 
+                "쳐낼 가위(金)가 없어 사방으로 뻗기만 하니, 시작은 거창하나 마무리가 안 되는 부족함", 
+                "성장을 뒷받침할 물(水)이 말라버려, 초반에만 번뜩이다 금세 꺼져버리는 번아웃"
             ],
             /* 1: 화(火)가 가장 강할 때 (과도한 열정/폭발) */
             [
-                "불길은 세나 땔감(木)이 부족해, 금방 타오르고 쉽게 식어버리는 뒷심 부족과 변덕",
+                "불길은 세나 땔감(木)이 부족해, 타오르지만 점점 식어버리는 뒷심 부족",
                 "제어 장치 없이 폭주하는 화마(火)처럼, 감정 조절이 안 되어 주변을 다치게 하는 파괴성",
-                "에너지를 담을 그릇(土)이 없어, 실속 없이 겉모습에만 치우쳐 안정을 놓치는 경솔함",
-                "맹렬한 열기가 규칙(金)을 녹여버려, 타인의 조언을 무시하고 브레이크 없이 질주하는 독선",
-                "불을 끌 물(水)이 증발하여, 극도의 조급함과 예민함으로 스스로 자멸하는 분노"
+                "에너지를 담을 그릇(土)이 없어, 겉모습에만 치우쳐 안정을 놓치는 경솔함",
+                "맹렬한 열기가 규칙(金)을 녹여버려, 타인의 조언을 무시하고 질주하는 독선",
+                "불을 끌 물(水)이 증발하여, 극도의 조급함과 예민함으로 자멸하는 분노"
             ],
             /* 2: 토(土)가 가장 강할 때 (과도한 고집/정체) */
             [
-                "비대한 토(土)를 뚫고 나올 목(木)이 없어, 과거의 방식에만 갇혀있는 꽉 막힌 옹고집",
-                "토(土)는 넓으나 온기(火)가 없어, 만물이 자랄 수 없는 동토처럼 스스로 고립되는 차가움",
+                "비대한 토(土)를 뚫고 나올 목(木)이 없어, 과거의 방식에만 갇혀있는 옹고집",
+                "토(土)는 넓으나 온기(火)가 없어, 만물이 자랄 수 없는 동토처럼 고립되는 차가움",
                 "거대한 산맥처럼 굳어진 토(土)의 기운이 융통성을 완전히 잃어버려, 타인의 의견을 묵살하는 아집",
                 "거대한 흙에 묻혀 금(金)이 빛을 잃으니, 잠재력은 있으나 스스로 가치를 증명하지 못하는 무기력",
-                "거대한 댐이 물길(水)을 막아버려, 소통이 단절되고 타인의 감정을 헤아리지 못하는 불통"
+                "거대한 댐이 물길(水)을 막아버려, 소통이 단절되고 타인을 헤아리지 못하는 불통"
             ],
             /* 3: 금(金)이 가장 강할 때 (과도한 원칙/숙살지기) */
             [
-                "예리한 칼날(金)이 여린 싹(木)을 자르니, 타인의 실수를 용납하지 못하고 짓밟는 결벽적 통제욕",
-                "금(金)을 녹일 불(火)이 없어, 따뜻함 없이 차가운 원칙만 들이미는 피도 눈물도 없는 냉혹함",
+                "예리한 칼날(金)이 여린 싹(木)을 자르니, 타인의 실수를 용납하지 못하는 통제욕",
+                "금(金)을 녹일 불(火)이 없어, 따뜻함 없이 차가운 원칙만 들이미는 냉혹함",
                 "칼날은 서있으나 지탱할 땅(土)이 좁아, 단호해 보이지만 작은 충격에도 무너지는 유리 멘탈",
-                "제어되지 않는 금(金)의 기운이 사방을 베어내니, 스스로를 다치게 할 만큼 날이 선 극도의 예민함",
+                "제어되지 않는 금(金)의 기운이 사방을 베어내니, 스스로를 다치게 할 만큼 날이 선 예민함",
                 "칼을 씻어줄 물(水)이 없어 처세가 뻣뻣하고, 직설적인 언행으로 적을 만드는 융통성 부족"
             ],
             /* 4: 수(水)가 가장 강할 때 (과도한 생각/범람) */
             [
                 "물(水)은 넘치나 흡수할 나무(木)가 없어, 생각의 늪에 빠져 행동하지 않는 만성적 회피",
-                "거대한 심연이 불꽃(火)을 꺼버리니, 삶의 의욕을 잃고 깊은 무기력의 늪으로 가라앉는 침잠",
+                "거대한 심연이 불꽃(火)을 꺼버리니, 의욕을 잃고 깊은 무기력의 늪으로 가라앉는 침잠",
                 "물길을 막을 제방(土)이 없어, 주관 없이 주변 상황과 타인에게 끝없이 흔들리는 수동성",
                 "물줄기의 근원(金)이 말라버려, 겉으로는 유연해 보이나 내면의 정신력이 텅 빈 공허함",
                 "통제 불능으로 범람하는 물결처럼, 속을 알 수 없고 끊임없이 불안을 만들어내는 음흉함"
