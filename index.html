@@ -1281,9 +1281,9 @@ const peakElIdx = session.baseScores.indexOf(Math.max(...session.baseScores));
         ];
 
         // 🚨 1. 리스트 조립 (불필요한 태그 제거하고 깔끔한 • 기호 사용)
-        const jobsListKo = `<div style="margin: 8px 0 18px 0; line-height: 1.6;">• ${trackJobsKo[0]}<br>• ${trackJobsKo[1]}<br>• ${trackJobsKo[2]}</div>`;
-        const jobsListEn = `<div style="margin: 8px 0 18px 0; line-height: 1.6;">• ${trackJobsEn[0]}<br>• ${trackJobsEn[1]}<br>• ${trackJobsEn[2]}</div>`;
-
+      // 🚨 1. 리스트 조립 (위쪽 여백을 8px에서 2px로 대폭 줄여서 제목과 밀착시켰습니다)
+        const jobsListKo = `<div style="margin: 2px 0 18px 0; line-height: 1.6;">• ${trackJobsKo[0]}<br>• ${trackJobsKo[1]}<br>• ${trackJobsKo[2]}</div>`;
+        const jobsListEn = `<div style="margin: 2px 0 18px 0; line-height: 1.6;">• ${trackJobsEn[0]}<br>• ${trackJobsEn[1]}<br>• ${trackJobsEn[2]}</div>`;
         // 🚨 [수정 완료] 약점 부분의 인덱스를 peakElIdx와 bottomElIdx로 변경했습니다.
         // 🚨 2. 핵심만 남긴 콤팩트 텍스트 (대괄호 기호 삭제 및 띄어쓰기 교정 완료)
         const blockCKo = `당신은 ${energyShapeKo} 형상입니다. <b>${elNamesKo_C[top1Idx_C]}</b>를 무기로 ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘합니다.<br><br><b style="color: var(--primary);">[활동 무대]</b>${jobsListKo}<b style="color: var(--primary);">[성명 시너지]</b><br>이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운이 촉매제가 됩니다. ${synergyNarrativeKo}<br>성명 속 <b>'${weaponKo}'</b> 능력과 선천적 <b>${elNamesKo_C[top2Idx_C]}</b>의 <b>${top2SkillKo[top2Idx_C][top5Idx_C]}</b> 기술이 결합되어 당신을 특별하게 만듭니다.<br><br>💡 ${synergyIntroArrKo[boostLevelC]} <b>${fusionRiskKo[peakElIdx][bottomElIdx]}</b>의 약점은 경계하십시오.`;
