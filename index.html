@@ -772,86 +772,86 @@ function switchTab(mode, element) {
         const fusionRiskKo = [
             /* 0: 목(木)이 가장 강할 때 (과도한 성장/직진) */
             [
-                "지나치게 비대해진 목(木)이 얽히고설켜, 방향성을 잃고 제자리에서 고집만 부리는 답답한 정체성", // 목 결핍 (스스로 꼬임)
-                "강한 목(木)이 화(火)로 발산되지 못해, 머릿속에 계획만 가득하고 세상에 보여주지 못하는 만성적 실행력 부족", // 화 결핍
-                "목(木)은 자라나려 하나 토(土)가 허약해 뿌리가 흔들리니, 현실 감각 없이 뜬구름만 잡는 불안정한 이상주의", // 토 결핍
-                "뻗어나가는 목(木)을 제어할 금(金)이 없어, 맺고 끊음 없이 이것저것 일만 벌리다 수습하지 못하는 무책임함", // 금 결핍
-                "목(木)의 성장을 뒷받침할 수(水)가 고갈되어, 초반에만 번뜩이고 금세 에너지가 방전되어 버리는 심각한 번아웃"  // 수 결핍
+                "비대해진 목(木)이 제 발에 꼬여, 방향을 잃고 제자리만 맴도는 답답한 정체성", 
+                "불꽃(火)을 피우지 못한 젖은 나무처럼, 계획만 무성하고 결과가 없는 실행력 부족", 
+                "뿌리는 깊으나 딛을 땅(土)이 허약해, 현실 감각 없이 뜬구름만 잡는 불안정한 이상주의", 
+                "쳐낼 가위(金)가 없어 사방으로 뻗기만 하니, 시작은 거창하나 마무리가 안 되는 무책임함", 
+                "성장을 뒷받침할 물(水)이 말라버려, 초반에만 번뜩이다 금세 꺼져버리는 심각한 번아웃"
             ],
             /* 1: 화(火)가 가장 강할 때 (과도한 열정/폭발) */
             [
-                "화(火)의 열기는 뜨거우나 땔감(목)이 부족해, 쉽게 타오르고 더 쉽게 식어버리는 심각한 뒷심 부족과 변덕",
-                "제어할 수 없이 폭발하는 화(火)의 기운이 스스로를 통제하지 못해 주변 사람을 다치게 하는 파괴적인 감정 기복",
-                "화(火)의 에너지를 담아낼 토(土)가 허약해, 실속 없이 겉모습과 감정에만 치우쳐 현실의 안정을 놓치는 경솔함",
-                "맹렬한 화(火)가 금(金)을 완전히 녹여버려, 규칙과 룰을 무시하고 타인의 조언을 듣지 않는 브레이크 없는 독선",
-                "화(火)의 열기를 식혀줄 수(水)가 증발하여, 극도의 조급함과 예민함으로 스스로 평정심을 잃고 자멸하는 분노"
+                "불길은 세나 땔감(木)이 부족해, 금방 타오르고 쉽게 식어버리는 뒷심 부족과 변덕",
+                "제어 장치 없이 폭주하는 화마(火)처럼, 감정 조절이 안 되어 주변을 다치게 하는 파괴성",
+                "에너지를 담을 그릇(土)이 없어, 실속 없이 겉모습에만 치우쳐 안정을 놓치는 경솔함",
+                "맹렬한 열기가 규칙(金)을 녹여버려, 타인의 조언을 무시하고 브레이크 없이 질주하는 독선",
+                "불을 끌 물(水)이 증발하여, 극도의 조급함과 예민함으로 스스로 자멸하는 분노"
             ],
             /* 2: 토(土)가 가장 강할 때 (과도한 고집/정체) */
             [
-                "비대한 토(土)를 뚫고 나올 목(木)이 없어, 아무런 자극이나 변화 없이 과거의 방식에만 갇혀있는 꽉 막힌 옹고집",
-                "토(土)는 넓으나 온기(화)가 없어, 만물이 자랄 수 없는 동토처럼 타인에게 무관심하고 스스로 고립되는 차가움",
-                "거대한 산맥처럼 굳어진 토(土)의 기운이 융통성을 완전히 잃어버려, 타인의 의견을 묵살하는 거대한 아집",
-                "거대한 토(土)에 묻혀 금(金)이 빛을 보지 못하니, 잠재력은 있으나 스스로 가치를 증명하지 못하고 안주하는 무기력",
-                "거대한 토(土)가 수(水)의 흐름을 완전히 막아버려, 소통이 단절되고 타인의 감정을 전혀 헤아리지 못하는 극단적 불통"
+                "비대한 토(土)를 뚫고 나올 목(木)이 없어, 과거의 방식에만 갇혀있는 꽉 막힌 옹고집",
+                "토(土)는 넓으나 온기(火)가 없어, 만물이 자랄 수 없는 동토처럼 스스로 고립되는 차가움",
+                "거대한 산맥처럼 굳어진 토(土)의 기운이 융통성을 완전히 잃어버려, 타인의 의견을 묵살하는 아집",
+                "거대한 흙에 묻혀 금(金)이 빛을 잃으니, 잠재력은 있으나 스스로 가치를 증명하지 못하는 무기력",
+                "거대한 댐이 물길(水)을 막아버려, 소통이 단절되고 타인의 감정을 헤아리지 못하는 불통"
             ],
             /* 3: 금(金)이 가장 강할 때 (과도한 원칙/숙살지기) */
             [
-                "날카로운 금(金)이 약한 목(木)을 난도질하여, 타인의 작은 실수나 약점을 용납하지 못하고 잔인하게 짓밟는 통제욕",
-                "금(金)을 제련할 화(火)가 없어, 융통성이나 따뜻함 없이 오직 원칙과 규정만 들이미는 피도 눈물도 없는 냉혹함",
-                "금(金)은 예리하나 바탕이 되는 토(土)가 허약해, 겉으로는 단호해 보이나 속은 텅 비어 작은 충격에도 부러지는 유리 멘탈",
-                "제어되지 않는 금(金)의 기운이 사방을 베어버리려 하여, 스스로를 다치게 할 만큼 날이 선 극도의 예민함과 결벽주의",
-                "금(金)을 매끄럽게 닦아줄 수(水)가 없어, 처세술이 부족하고 지나치게 직설적인 언행으로 주변과 마찰을 빚는 뻣뻣함"
+                "예리한 칼날(金)이 여린 싹(木)을 자르니, 타인의 실수를 용납하지 못하고 짓밟는 결벽적 통제욕",
+                "금(金)을 녹일 불(火)이 없어, 따뜻함 없이 차가운 원칙만 들이미는 피도 눈물도 없는 냉혹함",
+                "칼날은 서있으나 지탱할 땅(土)이 좁아, 단호해 보이지만 작은 충격에도 무너지는 유리 멘탈",
+                "제어되지 않는 금(金)의 기운이 사방을 베어내니, 스스로를 다치게 할 만큼 날이 선 극도의 예민함",
+                "칼을 씻어줄 물(水)이 없어 처세가 뻣뻣하고, 직설적인 언행으로 적을 만드는 융통성 부족"
             ],
             /* 4: 수(水)가 가장 강할 때 (과도한 생각/범람) */
             [
-                "수(水)는 넘치나 빨아들일 목(木)이 없어, 생각의 바다에 빠져 행동으로 옮기지 못하고 핑계만 대는 만성적 회피",
-                "거대한 수(水)가 화(火)를 완전히 꺼버려, 삶의 희망이나 열정을 잃고 깊은 우울과 무기력의 심연으로 가라앉는 침잠",
-                "수(水)의 범람을 막아줄 토(土)가 없어, 뚜렷한 주관이나 원칙 없이 외부 상황과 타인에게 끝없이 휩쓸려 다니는 수동성",
-                "수(水)의 수원(수맥)인 금(金)이 고갈되어, 겉으로는 유연해 보이나 내면의 정신적 에너지가 텅 비어버리는 극도의 공허함",
-                "수(水)의 기운이 제어 불능으로 범람하여, 흑막처럼 속을 알 수 없고 끊임없이 불안과 의심을 만들어내는 음흉함"
+                "물(水)은 넘치나 흡수할 나무(木)가 없어, 생각의 늪에 빠져 행동하지 않는 만성적 회피",
+                "거대한 심연이 불꽃(火)을 꺼버리니, 삶의 의욕을 잃고 깊은 무기력의 늪으로 가라앉는 침잠",
+                "물길을 막을 제방(土)이 없어, 주관 없이 주변 상황과 타인에게 끝없이 흔들리는 수동성",
+                "물줄기의 근원(金)이 말라버려, 겉으로는 유연해 보이나 내면의 정신력이 텅 빈 공허함",
+                "통제 불능으로 범람하는 물결처럼, 속을 알 수 없고 끊임없이 불안을 만들어내는 음흉함"
             ]
         ];
 
-       const fusionRiskEn = [
-            /* 0: Wood(木) is strongest (Excessive growth/Straightness) */
+ const fusionRiskEn = [
+            /* 0: Wood(木) Strong */
             [
-                "A frustrating identity where overgrown Wood tangles, losing direction and stubbornly stagnating in place", // Wood weak (Tangled)
-                "Chronic lack of execution where strong Wood fails to ignite into Fire, hoarding plans without showing them to the world", // Fire weak
-                "Unstable idealism catching only clouds without reality, as growing Wood shakes due to weak Earth roots", // Earth weak
-                "Irresponsibility of starting many things without finishing, as there is no Metal to prune and control the expanding Wood", // Metal weak
-                "Severe burnout where energy depletes quickly after a brilliant start, as the Water supporting the growth is exhausted"  // Water weak
+                "A frustrating stagnation where overgrown Wood tangles its own feet, losing direction and stubbornly circling in place",
+                "A severe lack of execution where, like wet wood failing to ignite Fire, you are overgrown with plans but yield no results",
+                "An unstable idealism catching only clouds without a sense of reality, as deep roots shake due to a weak Earth foundation",
+                "An irresponsibility of starting grandly but failing to finish, as there is no Metal shears to prune the wildly expanding branches",
+                "A severe burnout that flashes brilliantly at first but quickly extinguishes, as the Water needed to support growth dries up"
             ],
-            /* 1: Fire(火) is strongest (Excessive passion/Explosion) */
+            /* 1: Fire(火) Strong */
             [
-                "Severe lack of persistence and fickleness, where Fire flares up easily but dies quickly due to lack of Wood fuel",
-                "Destructive emotional swings where uncontrollably exploding Fire injures oneself and surrounding people",
-                "Frivolousness missing real-world stability by focusing only on appearances, as weak Earth fails to contain the Fire",
-                "Brakeless self-righteousness ignoring rules and advice, as fierce Fire completely melts the Metal of principles",
-                "Self-destructive anger and extreme impatience that ruins composure, as the Water to cool the heat has evaporated"
+                "A lack of persistence and fickleness where the fierce flame easily flares up but quickly cools down due to a lack of Wood fuel",
+                "A destructive nature that injures surroundings due to uncontrolled emotions, like a runaway wildfire without a braking system",
+                "A frivolity that misses stability by focusing only on appearances without substance, as there is no Earth vessel to contain the energy",
+                "A brakeless self-righteousness racing forward while ignoring advice, as the fierce heat completely melts the Metal of rules",
+                "A self-destructive anger fueled by extreme impatience and sensitivity, as the Water to cool the fire has completely evaporated"
             ],
-            /* 2: Earth(土) is strongest (Excessive stubbornness/Stagnation) */
+            /* 2: Earth(土) Strong */
             [
-                "Stuffy obstinacy trapped in past ways without change, as there is no Wood to break through the massive Earth",
-                "Coldness isolating oneself and indifferent to others, like frozen land unable to grow anything without Fire's warmth",
-                "Massive rigid dogmatism that completely ignores others' opinions, as Earth solidified like a mountain loses all flexibility",
-                "Lethargy buried in the dirt failing to prove value despite potential, as Metal is buried under too much Earth",
-                "Extreme lack of communication and empathy, as massive Earth completely blocks the flow and circulation of Water"
+                "A frustrating obstinacy trapped in past ways, as there is no Wood able to break through the massive, overgrown Earth",
+                "A coldness isolating oneself like frozen tundra where nothing can grow, as the Earth is vast but lacks the warmth of Fire",
+                "A massive dogmatism completely ignoring others' opinions, as the Earth energy solidified like a mountain loses all flexibility",
+                "A lethargy failing to prove one's value despite immense potential, as the Metal loses its shine buried under massive dirt",
+                "An extreme lack of communication unable to fathom others' feelings, as a massive dam completely blocks the flow of Water"
             ],
-            /* 3: Metal(金) is strongest (Excessive principles/Killing energy) */
+            /* 3: Metal(金) Strong */
             [
-                "A cruel desire for control that ruthlessly tramples others' minor mistakes, as sharp Metal chops weak Wood",
-                "Cold-blooded ruthlessness forcing only rules without flexibility, as there is no Fire to refine the cold Metal",
-                "A fragile glass mentality that breaks under minor shock despite a stern exterior, as Metal lacks Earth support",
-                "Extreme sensitivity and perfectionism sharp enough to hurt oneself, as uncontrolled Metal swings everywhere",
-                "Stiffness causing friction with blunt words and lack of tact, as there is no Water to smoothly polish the Metal"
+                "A fastidious desire for control that ruthlessly tramples others' minor mistakes, as a sharp Metal blade cuts down tender Wood shoots",
+                "A cold-blooded ruthlessness forcing only icy principles without any warmth, as there is no Fire to melt the rigid Metal",
+                "A fragile glass mentality that collapses under minor shocks despite a stern exterior, as the blade is sharp but lacks Earth to support it",
+                "An extreme sensitivity sharp enough to hurt oneself, as the uncontrolled Metal energy swings and cuts in all directions",
+                "A lack of flexibility making enemies with blunt words and stiff tact, as there is no Water to smoothly wash the blade"
             ],
-            /* 4: Water(水) is strongest (Excessive thought/Overflow) */
+            /* 4: Water(水) Strong */
             [
-                "Chronic avoidance making excuses without acting, drowning in a sea of thoughts without Wood to absorb the Water",
-                "Sinking into an abyss of deep depression and lethargy, as massive Water completely extinguishes Fire's hope and passion",
-                "Extreme passivity endlessly swept by external situations without firm principles, as there is no Earth to stop the flood",
-                "Extreme inner emptiness despite a flexible exterior, as the Metal source of Water is completely depleted",
-                "Inscrutability and endless suspicion breeding anxiety, as uncontrollable Water overflows like a dark, secretive curtain"
+                "A chronic avoidance trapped in a swamp of thoughts without acting, as Water overflows but there is no Wood to absorb it",
+                "A sinking into an abyss of deep lethargy losing the will to live, as the massive depths completely extinguish the Fire's spark",
+                "An extreme passivity endlessly swayed by surroundings and others without subjective principles, as there is no Earth levee to block the waterway",
+                "An extreme inner emptiness where mental strength is hollow despite a flexible exterior, as the Metal source of the water stream runs dry",
+                "An inscrutability breeding endless anxiety with hidden intentions, like uncontrollable overflowing waves"
             ]
         ];
 const peakElIdx = session.baseScores.indexOf(Math.max(...session.baseScores));
@@ -1250,17 +1250,17 @@ const peakElIdx = session.baseScores.indexOf(Math.max(...session.baseScores));
         const synergyIntroArrKo = [
             `성명의 에너지가 완벽하게 채워준 <b>${elNamesKo_C[top5Idx_C]}</b>의 밸런스를 무기 삼아`, 
             `성명의 에너지로 든든하게 보완된 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 동력으로 삼아`, 
-            `성명의 에너지로 안정을 되찾고 있는 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 영리하게 활용하여`, 
-            `여전히 각별한 관리가 요구되는 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 의식적으로 다스리며`, 
-            `가장 취약한 아킬레스건인 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 철저한 자기 객관화로 극복하여`  
+            `성명으로 안정을 되찾고 있는 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 영리하게 활용하여`, 
+            `각별한 관리가 요구되는 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 의식적으로 다스리며`, 
+            `가장 취약한 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 자기 객관화로 극복하여`  
         ];
 
         const synergyIntroArrEn = [
             `weaponizing the perfect balance of <b>${elNamesEn_C[top5Idx_C]}</b> provided by your name's energy`,
             `fueled by the <b>${elNamesEn_C[top5Idx_C]}</b> energy solidly supplemented by your name`,
-            `smartly utilizing the <b>${elNamesEn_C[top5Idx_C]}</b> energy which is regaining stability through your name`,
+            `utilizing the <b>${elNamesEn_C[top5Idx_C]}</b> energy which is regaining stability through your name`,
             `consciously managing the <b>${elNamesEn_C[top5Idx_C]}</b> energy that still requires special care`,
-            `overcoming your greatest Achilles' heel, the <b>${elNamesEn_C[top5Idx_C]}</b> energy, through strict self-objectification`
+            `overcoming your Achilles' heel, the <b>${elNamesEn_C[top5Idx_C]}</b> energy, through strict self-objectification`
         ];
 
         // 🚨 1. 리스트 조립 (불필요한 태그 제거하고 깔끔한 • 기호 사용)
