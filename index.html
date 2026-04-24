@@ -620,7 +620,7 @@ function switchTab(mode, element) {
              currentTrait = currentLang === 'ko' ? coreTraitsKo[fallbackKey][intensity] : coreTraitsEn[fallbackKey][intensity];
         }
     
-        // 💡 [초정밀 결핍 오행 판독] 진짜 약점을 완벽하게 추적
+      // 💡 [초정밀 결핍 오행 판독] 진짜 약점을 완벽하게 추적
         let trueWeakIdx = 0;
         const lackStr_A = session.lackEls[0] || ""; 
         if (lackStr_A.includes("목")) trueWeakIdx = 0;
@@ -630,22 +630,30 @@ function switchTab(mode, element) {
         else if (lackStr_A.includes("수")) trueWeakIdx = 4;
         else trueWeakIdx = baseScoresForIntensity.indexOf(Math.min(...baseScoresForIntensity));
 
-        const elNamesKoForA = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
+        // 🚨 [핵심 안전장치] 계산용(한글)과 출력용(한글+한자) 배열 분리
+        const logicEls = ["목", "화", "토", "금", "수"]; // 로직 엔진용
+        const displayElsKo = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"]; // 대표님이 원하시는 완벽한 출력 포맷
         const elNamesEnForA = ["Wood", "Fire", "Earth", "Metal", "Water"];
-        const weakElKoA = elNamesKoForA[trueWeakIdx];
+        
+        const weakElDisplay = displayElsKo[trueWeakIdx];
         const weakElEnA = elNamesEnForA[trueWeakIdx];
 
         // 이름이 채워준 오행 찾기 (최종점수 - 선천점수 > 0)
         const diffScoresA = session.elementScores.map((score, i) => score - baseScoresForIntensity[i]);
-        const boostedElsKo = [];
+        
+        const boostedLogicKo = []; 
+        const boostedDisplayKo = []; 
         const boostedElsEn = [];
+        
         diffScoresA.forEach((diff, i) => {
             if (diff > 0) {
-                boostedElsKo.push(elNamesKoForA[i]);
+                boostedLogicKo.push(logicEls[i]);
+                boostedDisplayKo.push(displayElsKo[i]);
                 boostedElsEn.push(elNamesEnForA[i]);
             }
         });
-        const boostedTextKo = boostedElsKo.join(", ");
+        
+        const boostedTextKo = boostedDisplayKo.join(", "); // 결과: "목(木), 화(火), 토(土)"
         const boostedTextEn = boostedElsEn.join(", ");
 
         // 진짜 결핍을 보완했는지 확인
@@ -654,12 +662,55 @@ function switchTab(mode, element) {
         let bridgeKo = "";
         let bridgeEn = "";
 
+        // 본질(일간) 오행 한글 추출
+        const coreElChar = coreEl.charAt(0); 
+        // 본질 오행 디스플레이 매칭 (예: "목(木)")
+        const coreDisplay = displayElsKo[logicEls.indexOf(coreElChar)];
+
         if (isWeakBoosted) {
-            bridgeKo = `성명의 파동에는 ${boostedTextKo}의 기운이 높게 배치되어 있습니다. 타고난 에너지 중 결핍된 <b>${weakElKoA}</b>의 에너지를 직접적으로 수혈함으로써, 운명의 빈틈을 채우고 <b>${currentTheme}</b>의 당신만의 특별함이 완성되었습니다.`;
-            bridgeEn = `The vibration of your name is highly equipped with the energies of ${boostedTextEn}. By directly transfusing the energy of <b>${weakElEnA}</b>, which is the most lacking among your innate energies, it closely fills the voids of your destiny and creates your speciality of <b>${currentTheme}</b>.`;
+            bridgeKo = `성명의 파동에는 <b>${boostedTextKo}</b>의 기운이 높게 배치되어 있습니다. 타고난 에너지 중 결핍된 <b>${weakElDisplay}</b>의 에너지를 채우고 <b>${currentTheme}</b>의 당신만의 특별함이 완성되었습니다.`;
+            bridgeEn = `The vibration of your name is highly equipped with the energies of <b>${boostedTextEn}</b>. By directly transfusing the energy of <b>${weakElEnA}</b>, which is the most lacking among your innate energies, it closely fills the voids of your destiny and creates your speciality of <b>${currentTheme}</b>.`;
         } else {
-            bridgeKo = `성명의 파동에는 <b>${boostedTextKo}</b>의 기운이 배치되어 당신의 강점을 벼려냅니다. 이 파동들이 타고난 에너지와 융합하여 <b>${currentTheme}</b>의 완성된 테마를 만들어냅니다.`;
-            bridgeEn = `The vibration of your name is equipped with the energies of <b>${boostedTextEn}</b>, refining your strengths. These vibrations fuse with your innate energies to create the completed theme of <b>${currentTheme}</b>.`;
+            // [운명공학 상생상극 엔진]
+            const relationKo = {
+                "목": { "목":"뿌리를 깊게 내려 규모를 거대하게 확장시킵니다.", "화":"폭발적인 열정으로 잠재력을 남김없이 뿜어내게 합니다.", "토":"드넓은 대지 위에 확고한 영역을 구축하게 만듭니다.", "금":"불필요한 가지를 쳐내어 가장 단단하고 예리한 형태로 다듬어냅니다.", "수":"마르지 않는 지혜의 자양분을 공급하여 지치지 않게 뒷받침합니다." },
+                "화": { "목":"마르지 않는 연료를 공급하여 불꽃을 영원히 꺼지지 않게 만듭니다.", "화":"빛과 열기를 끝없이 증폭시켜 압도적 규모로 키워냅니다.", "토":"폭발하는 열기를 단단한 대지 위에 정착시켜 현실적인 결과물로 구워냅니다.", "금":"거친 열기로 단단한 원석을 녹여내어 가장 가치 있는 결과물로 제련합니다.", "수":"지나친 폭주를 냉철하게 제어하여 가장 완벽하고 아름다운 온도로 조율합니다." },
+                "토": { "목":"척박한 땅에 생명력을 심어 만물을 길러내는 비옥한 기반으로 변화시킵니다.", "화":"차갑고 굳어진 땅에 온기를 불어넣어 생기가 돌게 만듭니다.", "토":"대지와 대지를 결합하여 어떤 풍파에도 흔들리지 않는 철옹성을 구축합니다.", "금":"대지 속에 숨겨진 광물을 캐내어 당신의 진정한 가치를 세상에 드러냅니다.", "수":"메마른 땅을 유연하게 적셔 어떤 상황에도 부드럽게 스며드는 포용력을 부여합니다." },
+                "금": { "목":"예리한 칼날로 숲을 개척하듯 목표를 향해 거침없이 나아가는 실행력을 부여합니다.", "화":"차가운 강철을 뜨겁게 달구어 당신을 정교한 명검으로 벼려냅니다.", "토":"끊임없이 광물을 생성하는 대지처럼 당신의 가치가 마르지 않도록 지탱합니다.", "금":"강철과 강철이 융합하여 누구도 부러뜨릴 수 없는 절대적인 권위와 견고함을 완성합니다.", "수":"날카로운 칼날을 매끄럽게 씻어내어 찌르지 않고도 세상을 베어내는 유연한 카리스마로 승화시킵니다." },
+                "수": { "목":"깊은 물길을 나무의 생명력으로 끌어올려 세상을 윤택하게 적시는 창조력으로 승화시킵니다.", "화":"차가운 심연에 빛과 온기를 비추어 겉과 속이 완벽하게 조화된 매력으로 끓어오르게 합니다.", "토":"범람하려는 거센 물결을 정교한 제방으로 제어하여 가장 이로운 방향으로 흐르도록 통제합니다.", "금":"끝없이 맑은 물이 솟아나도록 수원을 공급하여 당신의 지혜가 결코 마르지 않게 합니다.", "수":"강물이 모여 바다를 이루듯 압도적인 스케일로 모든 것을 집어삼키는 포용력을 완성합니다." }
+            };
+
+            const relationEn = {
+                "목": { "목":"deepens your roots to massively expand your scale. ", "화":"lets you unleash your potential with explosive passion. ", "토":"helps you build a firm territory on a vast land. ", "금":"prunes unnecessary branches to refine you into the sharpest form. ", "수":"supports you tirelessly by supplying an endless nourishment of wisdom. " },
+                "화": { "목":"makes your flame eternal by supplying unceasing fuel. ", "화":"endlessly amplifies your light and heat to an overwhelming scale. ", "토":"settles your uncontrollable heat onto solid ground to bake realistic results. ", "금":"smelts hard raw stones with wild heat to forge the most valuable outcome. ", "수":"cool-headedly controls excessive runaway to tune you to the perfect temperature. " },
+                "토": { "목":"plants vitality in barren land to transform it into a fertile base. ", "화":"breathes warmth into cold, hardened ground to bring it to life. ", "토":"combines lands to build an absolute fortress unshakeable by any storm. ", "금":"mines hidden minerals to reveal your true value to the world. ", "수":"flexibly moistens dry land to grant an embrace that smoothly adapts to any situation. " },
+                "금": { "목":"grants the drive to relentlessly advance toward goals like clearing a forest with a sharp blade. ", "화":"hotly forges cold steel to temper you into the most useful and exquisite sword. ", "토":"sustains your value unceasingly like land constantly producing minerals. ", "금":"fuses steel with steel to complete an absolute authority that no one can break. ", "수":"smoothly washes the sharp blade to sublimate it into a flexible charisma that cuts without piercing. " },
+                "수": { "목":"draws up deep waterways with wood's vitality to sublimate into creativity that enriches the world. ", "화":"shines light into the cold abyss to boil it with a perfectly harmonized charm. ", "토":"controls fierce overflowing waves with precise levees to flow in the most beneficial direction. ", "금":"supplies a source so clear water flows endlessly, keeping your wisdom from drying up. ", "수":"completes an overwhelming embrace that swallows everything, like rivers gathering to form an ocean. " }
+            };
+
+            let mechKo = "";
+            let mechEn = "";
+            
+            const uniqueBoosted = [...new Set(boostedLogicKo)];
+            
+            uniqueBoosted.forEach(elChar => {
+                if(relationKo[coreElChar] && relationKo[coreElChar][elChar]) {
+                    // 화면에는 무조건 "목(木)" 포맷으로 출력
+                    const elSymbolDisplay = displayElsKo[logicEls.indexOf(elChar)];
+                    const elSymbolEn = elChar === '목' ? 'Wood' : elChar === '화' ? 'Fire' : elChar === '토' ? 'Earth' : elChar === '금' ? 'Metal' : 'Water';
+                    
+                    mechKo += `<b>${elSymbolDisplay}</b>는 ${relationKo[coreElChar][elChar]} `;
+                    mechEn += `<b>${elSymbolEn}</b> ${relationEn[coreElChar][elChar]}`;
+                }
+            });
+
+            if (mechKo.length > 0) {
+                bridgeKo = `성명의 파동에는 <b>${boostedTextKo}</b>의 기운이 깊게 배치되어 있습니다. 이 파동은 타고난 본질(<b>${coreDisplay}</b>)에 작용하여 강점을 벼려냅니다. ${mechKo}이 정교하게 벼려진 파동이 타고난 에너지와 융합하여 <b>${currentTheme}</b>의 운명공학적 테마를 만들어냅니다.`;
+                bridgeEn = `The vibration of your name is highly equipped with the energies of <b>${boostedTextEn}</b>. Acting directly upon your innate traits (<b>${elNamesEnForA[logicEls.indexOf(coreElChar)]}</b>), these vibrations elevate your strengths: ${mechEn}These precisely forged vibrations fuse with your innate energies to create the completed theme of <b>${currentTheme}</b>.`;
+            } else {
+                bridgeKo = `성명의 파동에는 <b>${boostedTextKo}</b>의 기운이 배치되어 당신의 강점을 벼려냅니다. 이 파동이 타고난 에너지와 융합하여 <b>${currentTheme}</b>의 운명공학적 테마를 만들어냅니다.`;
+                bridgeEn = `The vibration of your name is equipped with the energies of <b>${boostedTextEn}</b>, refining your strengths. These vibrations fuse with your innate energies to create the completed theme of <b>${currentTheme}</b>.`;
+            }
         }
 
         const blockAKo = `당신은 본래 ${currentTrait}을 타고났습니다. ${bridgeKo}`;
@@ -667,7 +718,6 @@ function switchTab(mode, element) {
         
         // 💡 [Block A 마무리]
         const blockA = currentLang === 'ko' ? blockAKo : blockAEn;
-    
 
       
 // 💡 1-1. 진짜 약점 = 하단 처방전과 동일한 선천적 결핍 오행
@@ -1286,7 +1336,7 @@ const peakElIdx = session.baseScores.indexOf(Math.max(...session.baseScores));
         const jobsListEn = `<div style="margin: 2px 0 18px 0; line-height: 1.6;">• ${trackJobsEn[0]}<br>• ${trackJobsEn[1]}<br>• ${trackJobsEn[2]}</div>`;
         // 🚨 [수정 완료] 약점 부분의 인덱스를 peakElIdx와 bottomElIdx로 변경했습니다.
         // 🚨 2. 핵심만 남긴 콤팩트 텍스트 (대괄호 기호 삭제 및 띄어쓰기 교정 완료)
-        const blockCKo = `당신은 ${energyShapeKo} 형상입니다. <b>${elNamesKo_C[top1Idx_C]}</b>를 무기로 ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘합니다.<br><br><b style="color: var(--primary);">[활동 무대]</b>${jobsListKo}<b style="color: var(--primary);">[성명 시너지]</b><br>이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운이 촉매제가 됩니다. ${synergyNarrativeKo}<br>성명 속 <b>'${weaponKo}'</b> 능력과 선천적 <b>${elNamesKo_C[top2Idx_C]}</b>의 <b>${top2SkillKo[top2Idx_C][top5Idx_C]}</b> 기술이 결합되어 당신을 특별하게 만듭니다.<br><br>💡 ${synergyIntroArrKo[boostLevelC]} <b>${fusionRiskKo[peakElIdx][bottomElIdx]}</b>의 약점은 경계하십시오.`;
+        const blockCKo = `${energyShapeKo} 형상입니다. <b>${elNamesKo_C[top1Idx_C]}</b>의 기운이 강합니다. 이는 ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발현됩니다.<br><br><b style="color: var(--primary);">[활동 무대]</b>${jobsListKo}<b style="color: var(--primary);">[성명 시너지]</b><br>이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운이 기폭제가 됩니다. ${synergyNarrativeKo}<br>성명 속에 <b>'${weaponKo}'</b> 능력이 깃들어있습니다. 선천적으로 타고난 <b>${elNamesKo_C[top2Idx_C]}</b>의 <b>${top2SkillKo[top2Idx_C][top5Idx_C]}</b> 기술이 결합되어 당신을 특별하게 만듭니다.<br><br>💡 ${synergyIntroArrKo[boostLevelC]} <b>${fusionRiskKo[peakElIdx][bottomElIdx]}</b>의 약점은 경계하십시오.`;
         
         const blockCEn = `You embody the shape of ${energyShapeEn}. Armed with <b>${elNamesEn_C[top1Idx_C]}</b>, you manifest <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> ${top1ScaleEn}.<br><br><b style="color: var(--primary);">[Optimal Stage]</b>${jobsListEn}<b style="color: var(--primary);">[Name Synergy]</b><br>The <b>${elNamesEn_C[weaponElIdx]}</b> energy in your name acts as a catalyst. ${synergyNarrativeEn}<br>The combination of your name's <b>'${weaponEn}'</b> ability and the innate <b>${top2SkillEn[top2Idx_C][top5Idx_C]}</b> of <b>${elNamesEn_C[top2Idx_C]}</b> makes you truly unique.<br><br>💡 ${synergyIntroArrEn[boostLevelC]}<br>⚠️ However, you must be vigilant against the risk of <b>${fusionRiskEn[peakElIdx][bottomElIdx]}</b>.`;
         let blockC = currentLang === 'ko' ? blockCKo : blockCEn;
