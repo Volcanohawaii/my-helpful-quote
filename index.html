@@ -1248,19 +1248,19 @@ const peakElIdx = session.baseScores.indexOf(Math.max(...session.baseScores));
         else boostLevelC = 4;                          
 
         const synergyIntroArrKo = [
-            `성명의 에너지가 완벽하게 채워준 <b>${elNamesKo_C[top5Idx_C]}</b>의 밸런스를 무기 삼아`, 
-            `성명의 에너지로 든든하게 보완된 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 동력으로 삼아`, 
-            `성명으로 안정을 되찾고 있는 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 영리하게 활용하여`, 
-            `각별한 관리가 요구되는 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 의식적으로 다스리며`, 
-            `가장 취약한 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 자기 객관화로 극복하여`  
+            `성명의 에너지가 완벽하게 채워준 <b>${elNamesKo_C[top5Idx_C]}</b>의 밸런스를 든든한 무기로 삼으십시오.`, 
+            `성명의 에너지로 보완된 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 강력한 동력으로 삼으십시오.`, 
+            `성명으로 안정을 되찾고 있는 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 영리하게 활용하십시오.`, 
+            `각별한 관리가 요구되는 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 의식적으로 다스려야 합니다.`, 
+            `가장 취약한 <b>${elNamesKo_C[top5Idx_C]}</b>의 기운을 철저한 자기 객관화로 극복해야 합니다.`  
         ];
 
         const synergyIntroArrEn = [
-            `weaponizing the perfect balance of <b>${elNamesEn_C[top5Idx_C]}</b> provided by your name's energy`,
-            `fueled by the <b>${elNamesEn_C[top5Idx_C]}</b> energy solidly supplemented by your name`,
-            `utilizing the <b>${elNamesEn_C[top5Idx_C]}</b> energy which is regaining stability through your name`,
-            `consciously managing the <b>${elNamesEn_C[top5Idx_C]}</b> energy that still requires special care`,
-            `overcoming your Achilles' heel, the <b>${elNamesEn_C[top5Idx_C]}</b> energy, through strict self-objectification`
+            `Weaponize the perfect balance of <b>${elNamesEn_C[top5Idx_C]}</b> provided by your name's energy.`,
+            `Use the <b>${elNamesEn_C[top5Idx_C]}</b> energy, solidly supplemented by your name, as your driving force.`,
+            `Smartly utilize the <b>${elNamesEn_C[top5Idx_C]}</b> energy, which is regaining stability through your name.`,
+            `You must consciously manage the <b>${elNamesEn_C[top5Idx_C]}</b> energy that still requires special care.`,
+            `You must overcome your Achilles' heel, the <b>${elNamesEn_C[top5Idx_C]}</b> energy, through strict self-objectification.`
         ];
 
         // 🚨 1. 리스트 조립 (불필요한 태그 제거하고 깔끔한 • 기호 사용)
@@ -1268,10 +1268,10 @@ const peakElIdx = session.baseScores.indexOf(Math.max(...session.baseScores));
         const jobsListEn = `<div style="margin: 8px 0 18px 0; line-height: 1.6;">• ${trackJobsEn[0]}<br>• ${trackJobsEn[1]}<br>• ${trackJobsEn[2]}</div>`;
 
         // 🚨 [수정 완료] 약점 부분의 인덱스를 peakElIdx와 bottomElIdx로 변경했습니다.
-        const blockCKo = `당신은 ${energyShapeKo} 형상입니다. <b>${elNamesKo_C[top1Idx_C]}</b>를 무기로 ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘합니다.<br><br><b style="color: var(--primary);">[최적의 활동 무대]</b>${jobsListKo}<b style="color: var(--primary);">[성명 파동의 시너지]</b><br>이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운이 촉매제가 됩니다. ${synergyNarrativeKo}<br>성명 속 <b>'${weaponKo}'</b> 능력과 선천적 <b>${elNamesKo_C[top2Idx_C]}</b>의 <b>${top2SkillKo[top2Idx_C][top5Idx_C]}</b> 기술이 결합되어 당신을 특별하게 만듭니다.<br><br>⚠️ ${synergyIntroArrKo[boostLevelC]} <b>[ ${fusionRiskKo[peakElIdx][bottomElIdx]} ]</b> 의 약점은 경계하십시오.`;
+        // 🚨 2. 핵심만 남긴 콤팩트 텍스트 (대괄호 기호 삭제 및 띄어쓰기 교정 완료)
+        const blockCKo = `당신은 ${energyShapeKo} 형상입니다. <b>${elNamesKo_C[top1Idx_C]}</b>를 무기로 ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘합니다.<br><br><b style="color: var(--primary);">[활동 무대]</b>${jobsListKo}<b style="color: var(--primary);">[성명 시너지]</b><br>이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운이 촉매제가 됩니다. ${synergyNarrativeKo}<br>성명 속 <b>'${weaponKo}'</b> 능력과 선천적 <b>${elNamesKo_C[top2Idx_C]}</b>의 <b>${top2SkillKo[top2Idx_C][top5Idx_C]}</b> 기술이 결합되어 당신을 특별하게 만듭니다.<br><br>💡 ${synergyIntroArrKo[boostLevelC]}<br>⚠️ 단, <b>${fusionRiskKo[peakElIdx][bottomElIdx]}</b>의 약점은 경계하십시오.`;
         
-        const blockCEn = `You embody the shape of ${energyShapeEn}. Armed with <b>${elNamesEn_C[top1Idx_C]}</b>, you manifest <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> ${top1ScaleEn}.<br><br><b style="color: var(--primary);">[Optimal Stage]</b>${jobsListEn}<b style="color: var(--primary);">[Name Synergy]</b><br>The <b>${elNamesEn_C[weaponElIdx]}</b> energy in your name acts as a catalyst. ${synergyNarrativeEn}<br>The combination of your name's <b>'${weaponEn}'</b> ability and the innate <b>${top2SkillEn[top2Idx_C][top5Idx_C]}</b> of <b>${elNamesEn_C[top2Idx_C]}</b> makes you truly unique.<br><br>⚠️ By ${synergyIntroArrEn[boostLevelC]}, you must be vigilant against the risk of <b>[ ${fusionRiskEn[peakElIdx][bottomElIdx]} ]</b>.`;
-
+        const blockCEn = `You embody the shape of ${energyShapeEn}. Armed with <b>${elNamesEn_C[top1Idx_C]}</b>, you manifest <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> ${top1ScaleEn}.<br><br><b style="color: var(--primary);">[Optimal Stage]</b>${jobsListEn}<b style="color: var(--primary);">[Name Synergy]</b><br>The <b>${elNamesEn_C[weaponElIdx]}</b> energy in your name acts as a catalyst. ${synergyNarrativeEn}<br>The combination of your name's <b>'${weaponEn}'</b> ability and the innate <b>${top2SkillEn[top2Idx_C][top5Idx_C]}</b> of <b>${elNamesEn_C[top2Idx_C]}</b> makes you truly unique.<br><br>💡 ${synergyIntroArrEn[boostLevelC]}<br>⚠️ However, you must be vigilant against the risk of <b>${fusionRiskEn[peakElIdx][bottomElIdx]}</b>.`;
         let blockC = currentLang === 'ko' ? blockCKo : blockCEn;
         // 💡 3개의 블록 조립
         const analysisText = `${blockA}`;  
