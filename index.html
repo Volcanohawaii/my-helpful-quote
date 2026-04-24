@@ -778,21 +778,7 @@ function switchTab(mode, element) {
 
         const top5Score_C = session.elementScores[top5Idx_C]; 
 
-        // 💡 2. 에너지 분포도(Shape) 판독 및 시너지 서사 결정
-        let energyShapeKo = ""; let energyShapeEn = "";
-        let synergyNarrativeKo = ""; let synergyNarrativeEn = "";
 
-        if (top1Idx_C === top2Idx_C) {
-            energyShapeKo = "한 우물만 파서 세상을 평정할 <b>'독보적 장인'</b>의";
-            energyShapeEn = "an <b>'Unrivaled Master'</b> who conquers the world by focusing on a single path";
-            synergyNarrativeKo = `당신의 성명 파동은 이 압도적인 에너지를 더욱 예리하게 벼려내는 <b>'단 하나의 정밀한 칼날'</b>이 되어줍니다.`;
-            synergyNarrativeEn = `Your name's vibration acts as a <b>'single, precise blade'</b> that sharpens this overwhelming energy even further.`;
-        } else {
-            energyShapeKo = "사람과 자본을 연결하여 실리를 챙기는 <b>'전략적 네트워커'</b>의";
-            energyShapeEn = "a <b>'Strategic Networker'</b> who gains benefits by connecting people and capital";
-            synergyNarrativeKo = `당신의 성명 파동은 두 가지 강력한 기운을 조화롭게 엮어내는 <b>'완벽한 하이브리드 엔진'</b>의 역할을 수행합니다.`;
-            synergyNarrativeEn = `Your name's vibration acts as a <b>'perfect hybrid engine'</b> that harmoniously weaves together two powerful energies.`;
-        }
 
         // 💡 3. 조립식 서사 사전 세팅
         const top1FeatureKo = [
@@ -1107,7 +1093,7 @@ const peakElIdx = session.baseScores.indexOf(Math.max(...session.baseScores));
                     "디지털 세계의 끝없는 해류 속에 숨겨진 사이버 범죄의 흔적과 조작된 데이터의 찌꺼기를 날카로운 포렌식의 검으로 해부하여 진실을 인양하는 분석력", "선박의 유체 역학, 심해의 지질 구조, 혹은 정밀한 기상 관측 메커니즘 등 인간의 힘으로 닿기 힘든 자연의 본질을 극도로 차갑고 공학적인 잣대로 증명하는 연구", "세상의 모든 비밀과 방대한 데이터가 쏟아지는 관제 센터에서 스스로를 드러내지 않고 오직 모니터와 숫자에만 의지한 채 세상의 균형을 묵묵히 잡아주는 절대적 조력"
                 ],
                 /* +수 */ [
-                    "어떤 고정된 형태나 사상에 얽매이지 않고, 세상의 모든 이질적인 정보와 이념을 스펀지처럼 흡수하여 완전히 새로운 차원의 지식 생태계를 창조하는 통찰", "가장 깊은 바다의 심연처럼 누구도 속을 알 수 없는 절대적인 평정심으로, 복잡하게 얽힌 글로벌 비즈니스의 판도를 보이지 않는 곳에서 완전히 장악하는 지략", "시시각각 변하는 세계의 흐름과 타인의 무의식을 본능적으로 꿰뚫어 보고, 어떤 거친 파도 앞에서도 물 흐르듯 자연스럽게 생존로를 개척해 내는 궁극의 적응력", 
+                    "어떤 고정된 형태나 사상에 얽매이지 않고, 세상의 모든 이질적인 정보와 이념을 흡수하여 완전히 새로운 차원의 지식 생태계를 창조하는 통찰", "가장 깊은 바다의 심연처럼 누구도 속을 알 수 없는 절대적인 평정심으로, 복잡하게 얽힌 글로벌 비즈니스의 판도를 보이지 않는 곳에서 완전히 장악하는 지략", "시시각각 변하는 세계의 흐름과 타인의 무의식을 본능적으로 꿰뚫어 보고, 어떤 거친 파도 앞에서도 물 흐르듯 자연스럽게 생존로를 개척해 내는 궁극의 적응력", 
                     "언어, 국경, 직업의 귀천을 따지지 않고 누구와도 5분 안에 마음의 장벽을 허물며, 상대의 가장 내밀한 비밀과 호감을 이끌어내는 마법 같은 친화력과 소통", "낮과 밤이 바뀌는 환경, 혹은 예측 불가능한 글로벌 노마드의 삶 속에서도 스트레스 없이 유연하게 사고를 전환하며 자신의 페이스를 완벽하게 유지하는 멘탈 관리", "정해진 매뉴얼이 소용없는 복잡한 무역 분쟁이나 타 문화권과의 극단적 갈등 상황에서 특유의 넉넉한 포용력과 처세술로 양측을 모두 만족시키는 노련한 협상 실무", 
                     "눈에 보이는 규칙이나 물리적 통제력을 넘어, 방대한 대중의 무의식과 심리적 흐름을 거시적으로 조종하여 국가나 거대 조직의 의도대로 여론의 물길을 트는 행정", "기상, 해양, 사이버 정보망 등 인간의 통제를 벗어나 흐르는 자원들의 패턴을 축적하고, 다가올 혼란을 가장 부드럽고 유연한 시스템으로 대비하는 관리", "이민, 난민, 다문화 등 사회의 주류에서 밀려나 흩어지는 존재들을 제도적 사각지대에서 건져내어 포용하고 시스템 안으로 자연스럽게 스며들도록 이끄는 거시적 복지 정책", 
                     "인간 정신의 가장 어두운 밑바닥, 즉 철학적 허무나 우울의 심연을 두려움 없이 파고들어 삶과 죽음, 존재의 본질적인 이유를 깊이 사색하고 해답을 낚아 올리는 학문적 탐구", "겉으로 요란하게 드러나는 사회적 현상 뒤에 숨겨진 보이지 않는 카르텔, 거시 경제의 음표, 대중 심리의 은밀한 변화를 빅데이터의 심연에서 예리하게 읽어내는 리서치 분석력", "빛이 들지 않는 심야의 공간, 혹은 세상의 모든 비밀 정보가 모이는 가장 깊숙한 아카이브의 밑바닥에서 오직 진실과 지식의 흐름이 끊기지 않도록 영원히 샘물을 길어 올리는 고독한 헌신"
@@ -1336,9 +1322,9 @@ const peakElIdx = session.baseScores.indexOf(Math.max(...session.baseScores));
         const jobsListEn = `<div style="margin: 2px 0 18px 0; line-height: 1.6;">• ${trackJobsEn[0]}<br>• ${trackJobsEn[1]}<br>• ${trackJobsEn[2]}</div>`;
         // 🚨 [수정 완료] 약점 부분의 인덱스를 peakElIdx와 bottomElIdx로 변경했습니다.
         // 🚨 2. 핵심만 남긴 콤팩트 텍스트 (대괄호 기호 삭제 및 띄어쓰기 교정 완료)
-        const blockCKo = `${energyShapeKo} 형상입니다. <b>${elNamesKo_C[top1Idx_C]}</b>의 기운이 강합니다. 이는 ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발현됩니다.<br><br><b style="color: var(--primary);">[활동 무대]</b>${jobsListKo}<b style="color: var(--primary);">[성명 시너지]</b><br>이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운이 기폭제가 됩니다. ${synergyNarrativeKo}<br>성명 속에 <b>'${weaponKo}'</b> 능력이 깃들어있습니다. 선천적으로 타고난 <b>${elNamesKo_C[top2Idx_C]}</b>의 <b>${top2SkillKo[top2Idx_C][top5Idx_C]}</b> 기술이 결합되어 당신을 특별하게 만듭니다.<br><br>💡 ${synergyIntroArrKo[boostLevelC]} <b>${fusionRiskKo[peakElIdx][bottomElIdx]}</b>의 약점은 경계하십시오.`;
+        const blockCKo = `<b>${elNamesKo_C[top1Idx_C]}</b>의 기운이 강합니다. 이는 ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발현됩니다.<br><br><b style="color: var(--primary);">[활동 무대]</b>${jobsListKo}<b style="color: var(--primary);">[성명 시너지]</b><br>이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운이 기폭제가 됩니다. ${synergyNarrativeKo}<br>성명 속에 <b>'${weaponKo}'</b> 능력이 깃들어있습니다. 선천적으로 타고난 <b>${elNamesKo_C[top2Idx_C]}</b>의 <b>${top2SkillKo[top2Idx_C][top5Idx_C]}</b> 기술이 결합되어 당신을 특별하게 만듭니다.<br><br>💡 ${synergyIntroArrKo[boostLevelC]} <b>${fusionRiskKo[peakElIdx][bottomElIdx]}</b>의 약점은 경계하십시오.`;
         
-        const blockCEn = `You embody the shape of ${energyShapeEn}. Armed with <b>${elNamesEn_C[top1Idx_C]}</b>, you manifest <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> ${top1ScaleEn}.<br><br><b style="color: var(--primary);">[Optimal Stage]</b>${jobsListEn}<b style="color: var(--primary);">[Name Synergy]</b><br>The <b>${elNamesEn_C[weaponElIdx]}</b> energy in your name acts as a catalyst. ${synergyNarrativeEn}<br>The combination of your name's <b>'${weaponEn}'</b> ability and the innate <b>${top2SkillEn[top2Idx_C][top5Idx_C]}</b> of <b>${elNamesEn_C[top2Idx_C]}</b> makes you truly unique.<br><br>💡 ${synergyIntroArrEn[boostLevelC]}<br>⚠️ However, you must be vigilant against the risk of <b>${fusionRiskEn[peakElIdx][bottomElIdx]}</b>.`;
+        const blockCEn = `Armed with <b>${elNamesEn_C[top1Idx_C]}</b>, you manifest <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> ${top1ScaleEn}.<br><br><b style="color: var(--primary);">[Optimal Stage]</b>${jobsListEn}<b style="color: var(--primary);">[Name Synergy]</b><br>The <b>${elNamesEn_C[weaponElIdx]}</b> energy in your name acts as a catalyst. ${synergyNarrativeEn}<br>The combination of your name's <b>'${weaponEn}'</b> ability and the innate <b>${top2SkillEn[top2Idx_C][top5Idx_C]}</b> of <b>${elNamesEn_C[top2Idx_C]}</b> makes you truly unique.<br><br>💡 ${synergyIntroArrEn[boostLevelC]}<br>⚠️ However, you must be vigilant against the risk of <b>${fusionRiskEn[peakElIdx][bottomElIdx]}</b>.`;
         let blockC = currentLang === 'ko' ? blockCKo : blockCEn;
         // 💡 3개의 블록 조립
         const analysisText = `${blockA}`;  
