@@ -866,93 +866,181 @@ const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.ilju
 
        
         // 💡 [초정밀 상극 약점 매트릭스] 행(가장 강한 오행) x 열(가장 약한 오행)
-        const fusionRiskKo = [
-            /* 0: 목(木)이 가장 강할 때 (과도한 성장/직진) */
-            [
-                "비대해진 목(木)이 제 발에 꼬여, 방향을 잃고 제자리만 맴도는 정체성", 
-                "불꽃(火)을 피우지 못한 젖은 나무처럼, 계획만 무성하고 결과가 없는 실행력 부족", 
-                "뿌리는 깊으나 딛을 땅(土)이 허약해, 현실 감각 없이 뜬구름 잡는 이상주의", 
-                "쳐낼 가위(金)가 없어 사방으로 뻗기만 하니, 시작은 있으나 마무리가 안 되는 부족함", 
-                "성장을 뒷받침할 물(水)이 말라버려, 초반에만 번뜩이다 금세 꺼져버리는 번아웃"
-            ],
-            /* 1: 화(火)가 가장 강할 때 (과도한 열정/폭발) */
-            [
-                "불길은 세나 땔감(木)이 부족해, 타오르지만 점점 식어버리는 뒷심 부족",
-                "제어 장치 없이 폭주하는 화마(火)처럼, 감정 조절이 안 되어 주변을 다치게 하는 파괴성",
-                "에너지를 담을 그릇(土)이 없어, 겉모습에만 치우쳐 안정을 놓치는 경솔함",
-                "맹렬한 열기가 규칙(金)을 녹여버려, 타인의 조언을 무시하고 질주하는 독선",
-                "불을 끌 물(水)이 증발하여, 극도의 조급함과 예민함으로 자멸하는 분노"
-            ],
-            /* 2: 토(土)가 가장 강할 때 (과도한 고집/정체) */
-            [
-                "비대한 토(土)를 뚫고 나올 목(木)이 없어, 과거의 방식에만 갇혀있는 옹고집",
-                "토(土)는 넓으나 온기(火)가 없어, 만물이 자랄 수 없는 동토처럼 고립되는 차가움",
-                "거대한 산맥처럼 굳어진 토(土)의 기운이 융통성을 완전히 잃어버려, 타인의 의견을 묵살하는 아집",
-                "거대한 흙에 묻혀 금(金)이 빛을 잃으니, 잠재력은 있으나 스스로 가치를 증명하지 못하는 무기력",
-                "거대한 댐이 물길(水)을 막아버려, 소통이 단절되고 타인을 헤아리지 못하는 불통"
-            ],
-            /* 3: 금(金)이 가장 강할 때 (과도한 원칙/숙살지기) */
-            [
-                "예리한 칼날(金)이 여린 싹(木)을 자르니, 타인의 실수를 용납하지 못하는 통제욕",
-                "금(金)을 녹일 불(火)이 없어, 따뜻함 없이 차가운 원칙만 들이미는 냉혹함",
-                "칼날은 서있으나 지탱할 땅(土)이 좁아, 단호해 보이지만 작은 충격에도 무너지는 유리 멘탈",
-                "제어되지 않는 금(金)의 기운이 사방을 베어내니, 스스로를 다치게 할 만큼 날이 선 예민함",
-                "칼을 씻어줄 물(水)이 없어 처세가 뻣뻣하고, 직설적인 언행으로 적을 만드는 융통성 부족"
-            ],
-            /* 4: 수(水)가 가장 강할 때 (과도한 생각/범람) */
-            [
-                "물(水)은 넘치나 흡수할 나무(木)가 없어, 생각의 늪에 빠져 행동하지 않는 만성적 회피",
-                "거대한 심연이 불꽃(火)을 꺼버리니, 의욕을 잃고 깊은 무기력의 늪으로 가라앉는 침잠",
-                "물길을 막을 제방(土)이 없어, 주관 없이 주변 상황과 타인에게 끝없이 흔들리는 수동성",
-                "물줄기의 근원(金)이 말라버려, 겉으로는 유연해 보이나 내면의 정신력이 텅 빈 공허함",
-                "통제 불능으로 범람하는 물결처럼, 속을 알 수 없고 끊임없이 불안을 만들어내는 음흉함"
-            ]
-        ];
+      // 💡 [방법 B 적용] 음양에 따라 리스크 묘사를 세분화합니다.
+const fusionRiskYang = [
+    /* 0: 목(木) Peak (주도적 과잉) */
+    [
+        "의욕이 앞서 여러 일을 동시에 추진하나, 스스로 설정한 목표의 무게에 눌려 실행력이 분산되는 경향",
+        "추진력은 강하나 이를 지속할 정서적 동기가 약해, 초반의 기세에 비해 마무리의 집중력이 떨어지는 성향",
+        "자신의 주관이 지나치게 뚜렷하여 현실적인 제약이나 주변의 조언을 간섭으로 느끼고 독단적으로 흐를 우려",
+        "새로운 것을 시도하는 힘은 좋으나 체계적인 질서가 부족하여, 시작은 화려하나 결실을 맺는 마무리가 미흡함",
+        "성장에만 몰입하여 내면의 에너지를 과하게 소모하며, 스스로를 돌보지 않아 갑작스러운 심리적 탈진을 겪음"
+    ],
+    /* 1: 화(火) Peak (확산적 과잉) */
+    [
+        "열정은 넘치나 이를 뒷받침할 인내심이 부족하여, 성과가 즉각 나타나지 않으면 쉽게 흥미를 잃는 경향",
+        "감정 표현이 직설적이고 강해 의도치 않게 주변에 긴장감을 주며, 조직 내 화합을 저해할 수 있는 성정",
+        "자신의 이미지를 관리하는 데 에너지를 과하게 쏟아, 실질적인 내실을 다지거나 자산을 축적하는 데 소홀함",
+        "자신의 기준만이 옳다는 확신이 강해 타인의 합리적인 규정이나 조언을 무시하고 과격하게 전진할 우려",
+        "순간적인 감정 변화에 예민하게 반응하여 판단력을 잃기 쉬우며, 사소한 마찰에도 과한 에너지를 낭비함"
+    ],
+    /* 2: 토(土) Peak (중심적 과잉) - 19920412(Yang) 해당 */
+    [
+        "자신의 경험과 방식에 대한 확신이 너무 강해 새로운 변화를 거부하며, 주변과의 의견 차이를 좁히지 못함",
+        "책임감은 강하나 표현이 무뚝뚝하여 주변에 차가운 인상을 주며, 타인의 협력을 이끌어내는 유연함이 부족함",
+        "자신의 영역을 지키려는 욕구가 강해 폐쇄적인 성향을 띠며, 조직 내에서 소통의 통로를 스스로 닫아버릴 우려",
+        "실질적인 성취 능력은 갖추었으나 이를 밖으로 드러내는 데 소극적이며, 기회가 왔을 때 주저하다 시기를 놓침",
+        "자신의 원칙과 기준이 지나치게 확고하여 타인의 실수를 포용하지 못하며, 조직 내 소통의 효율이 떨어지는 경향"
+    ],
+    /* 3: 금(金) Peak (결단적 과잉) */
+    [
+        "결단력과 원칙이 너무 강해 타인의 사소한 실수를 용납하지 않으며, 주변 사람들에게 심리적 압박감을 줌",
+        "논리적인 정답만을 요구하여 인간관계의 온기가 부족하며, 차가운 화법으로 인해 적을 만들기 쉬운 성정",
+        "겉으로는 단호해 보이나 내면의 지지 기반이 약해, 예상치 못한 작은 변수에도 크게 동요하고 좌절하는 경향",
+        "자신을 향한 잣대조차 너무 엄격하여 스스로를 끊임없이 채찍질하며, 그로 인한 극심한 스트레스를 자초함",
+        "처세가 지나치게 직선적이고 융통성이 결여되어, 타인과의 타협이 필요한 상황에서도 자신의 선을 굽히지 않음"
+    ],
+    /* 4: 수(水) Peak (지적 과잉) */
+    [
+        "생각이 너무 많아 행동으로 옮기는 타이밍을 매번 놓치며, 현실적인 문제 앞에서 회피하려는 태도를 보임",
+        "내면의 생각이 깊어질수록 의욕이 급격히 꺾이며, 목표 의식을 잃고 무기력한 침묵 속으로 빠져들 우려",
+        "주관 없이 주변 상황과 타인의 의견에 과하게 동조하며, 자신만의 색깔을 잃고 환경에 휩쓸리는 수동성",
+        "정신적인 가치에만 치중하여 현실적인 생존력이 약해지며, 겉으로는 유연해 보이나 내면의 의지가 박약함",
+        "자신의 속마음을 결코 드러내지 않아 주변의 불신을 사며, 조직 내에서 보이지 않는 갈등을 유발하는 성향"
+    ]
+];
 
- const fusionRiskEn = [
-            /* 0: Wood(木) Strong */
-            [
-                "A frustrating stagnation where overgrown Wood tangles its own feet, losing direction and stubbornly circling in place",
-                "A severe lack of execution where, like wet wood failing to ignite Fire, you are overgrown with plans but yield no results",
-                "An unstable idealism catching only clouds without a sense of reality, as deep roots shake due to a weak Earth foundation",
-                "An irresponsibility of starting grandly but failing to finish, as there is no Metal shears to prune the wildly expanding branches",
-                "A severe burnout that flashes brilliantly at first but quickly extinguishes, as the Water needed to support growth dries up"
-            ],
-            /* 1: Fire(火) Strong */
-            [
-                "A lack of persistence and fickleness where the fierce flame easily flares up but quickly cools down due to a lack of Wood fuel",
-                "A destructive nature that injures surroundings due to uncontrolled emotions, like a runaway wildfire without a braking system",
-                "A frivolity that misses stability by focusing only on appearances without substance, as there is no Earth vessel to contain the energy",
-                "A brakeless self-righteousness racing forward while ignoring advice, as the fierce heat completely melts the Metal of rules",
-                "A self-destructive anger fueled by extreme impatience and sensitivity, as the Water to cool the fire has completely evaporated"
-            ],
-            /* 2: Earth(土) Strong */
-            [
-                "A frustrating obstinacy trapped in past ways, as there is no Wood able to break through the massive, overgrown Earth",
-                "A coldness isolating oneself like frozen tundra where nothing can grow, as the Earth is vast but lacks the warmth of Fire",
-                "A massive dogmatism completely ignoring others' opinions, as the Earth energy solidified like a mountain loses all flexibility",
-                "A lethargy failing to prove one's value despite immense potential, as the Metal loses its shine buried under massive dirt",
-                "An extreme lack of communication unable to fathom others' feelings, as a massive dam completely blocks the flow of Water"
-            ],
-            /* 3: Metal(金) Strong */
-            [
-                "A fastidious desire for control that ruthlessly tramples others' minor mistakes, as a sharp Metal blade cuts down tender Wood shoots",
-                "A cold-blooded ruthlessness forcing only icy principles without any warmth, as there is no Fire to melt the rigid Metal",
-                "A fragile glass mentality that collapses under minor shocks despite a stern exterior, as the blade is sharp but lacks Earth to support it",
-                "An extreme sensitivity sharp enough to hurt oneself, as the uncontrolled Metal energy swings and cuts in all directions",
-                "A lack of flexibility making enemies with blunt words and stiff tact, as there is no Water to smoothly wash the blade"
-            ],
-            /* 4: Water(水) Strong */
-            [
-                "A chronic avoidance trapped in a swamp of thoughts without acting, as Water overflows but there is no Wood to absorb it",
-                "A sinking into an abyss of deep lethargy losing the will to live, as the massive depths completely extinguish the Fire's spark",
-                "An extreme passivity endlessly swayed by surroundings and others without subjective principles, as there is no Earth levee to block the waterway",
-                "An extreme inner emptiness where mental strength is hollow despite a flexible exterior, as the Metal source of the water stream runs dry",
-                "An inscrutability breeding endless anxiety with hidden intentions, like uncontrollable overflowing waves"
-            ]
-        ];
+const fusionRiskYin = [
+    /* 0: 목(木) Peak (내실형 과잉) */
+    [
+        "내적인 욕심은 많으나 밖으로 표출하지 못해 속으로 앓으며, 결정적인 순간에 발언권을 놓치고 후회함",
+        "생각을 정리하는 데 너무 많은 시간을 써서 기회의 흐름을 타지 못하고, 늘 한발 늦게 실행에 옮기는 경향",
+        "자신만의 세계관에 깊이 갇혀 타인의 유효한 비판조차 거부하며, 보수적인 태도로 성장을 스스로 가로막음",
+        "완벽하게 준비된 상태에서만 움직이려다 아무것도 시작하지 못하며, 디테일에 집착해 전체를 놓칠 우려",
+        "주변의 시선을 과하게 의식하여 자신의 본래 기질을 억누르며, 그로 인해 만성적인 무력감에 빠지기 쉬움"
+    ],
+    /* 1: 화(火) Peak (심리적 과잉) */
+    [
+        "남들 앞에서는 밝은 척하나 속으로는 공허함을 크게 느끼며, 에너지의 기복이 심해 일관성을 유지하기 힘듦",
+        "타인의 사소한 말 한마디에 내적 동요가 심하며, 감정을 정제하지 못하고 예민하게 반응하여 관계를 그르침",
+        "실속 없는 칭찬이나 인정에 목말라하며, 정작 중요한 자신의 경제적 자립이나 실리는 챙기지 못하는 성향",
+        "규칙을 지키는 척하면서도 내면에서는 반발심이 가득해, 조직의 핵심 룰을 은밀하게 어기거나 갈등을 조율함",
+        "상처받는 것이 두려워 먼저 마음을 닫아버리며, 타인의 진심을 의심하느라 깊은 유대감을 형성하지 못함"
+    ],
+    /* 2: 토(土) Peak (정체적 과잉) */
+    [
+        "변화를 극도로 꺼려하여 낡은 방식을 고수하며, 조직의 혁신이 필요한 시점에도 자신의 자리를 고집함",
+        "속마음을 알 수 없는 무거운 침묵으로 소통을 거부하며, 타인의 도움을 불필요한 간섭으로 여겨 고립됨",
+        "과거의 기억이나 관습에 지나치게 얽매여 현재의 문제를 해결하지 못하며, 융통성 없는 고지식함으로 손해를 봄",
+        "충분한 재능이 있음에도 타인의 시기나 질투를 두려워해 자신을 숨기며, 결국 자신의 가치를 매장해버림",
+        "타인의 부탁을 거절하지 못해 남의 짐까지 짊어지다 스스로 무너지며, 정작 자신의 삶은 돌보지 못하는 경향"
+    ],
+    /* 3: 금(金) Peak (내면적 과잉) */
+    [
+        "타인의 허물을 예리하게 포착하지만 이를 비판적으로만 사용하여, 적절한 인맥을 형성하지 못하고 소외됨",
+        "이성적으로는 상황을 이해하나 마음이 열리지 않아 비정한 선택을 하며, 그로 인해 뒤늦은 자책에 시달림",
+        "자신이 세운 높은 기준에 도달하지 못하면 스스로를 비하하며, 자존감이 낮아져 작은 실패에도 쉽게 굴복함",
+        "의심이 너무 많아 돌다리만 두드리다 기회를 다른 이에게 뺏기며, 늘 최악의 상황만을 가정해 불안해함",
+        "자신의 결벽에 가까운 성향을 타인에게 강요하여 갈등을 빚으며, 단 한 번의 실수로도 관계를 영원히 끊어냄"
+    ],
+    /* 4: 수(水) Peak (침잠적 과잉) */
+    [
+        "모든 상황을 부정적으로 예측하여 시도조차 하지 않으며, 깊은 사색이 결국 행동을 막는 족쇄가 되는 경향",
+        "우울한 감정에 깊이 침잠하여 현실과 단절되려 하며, 혼자만의 공간에 숨어버려 사회적 자생력을 잃을 우려",
+        "자신의 주관을 세우기보다 남의 기분을 맞추는 데 급급하며, 결과가 나쁠 때 모든 책임을 자신에게 돌림",
+        "내면의 정신세계가 너무 비대해져 현실의 경제 활동을 경시하며, 이로 인해 생활의 기반이 흔들릴 리스크",
+        "겉으로는 부드러워 보이나 속으로는 타인을 조종하려는 보이지 않는 지략을 쓰며, 결국 진실한 친구를 잃음"
+    ]
+];
 
-     
+// 💡 [방법 B 적용] 영문 리스크 데이터도 음양에 따라 세분화합니다.
+const fusionRiskYangEn = [
+    /* 0: Wood Peak (Proactive Overload) */
+    [
+        "A tendency to launch multiple projects out of enthusiasm, leading to scattered execution and being overwhelmed by self-imposed goals",
+        "Strong initial drive but weak emotional endurance, resulting in a loss of focus during the final stages of a project",
+        "A risk of becoming dogmatic by viewing realistic constraints or external advice as unnecessary interference due to overly strong convictions",
+        "High energy for starting new initiatives but lacking systematic order, leading to impressive starts with insufficient practical results",
+        "Mental exhaustion caused by over-immersion in growth while neglecting self-care and internal energy balance"
+    ],
+    /* 1: Fire Peak (Expansive Overload) */
+    [
+        "A tendency to lose interest quickly if results are not immediate, due to high passion but insufficient patience",
+        "Direct and intense emotional expression that may inadvertently create tension and hinder harmony within the organization",
+        "Over-focusing energy on image management while neglecting the cultivation of substantial internal assets and stability",
+        "A risk of pushing forward aggressively while ignoring reasonable regulations or advice due to a conviction that only your standard is correct",
+        "Loss of judgment caused by sensitive reactions to momentary emotional shifts, leading to wasted energy on minor frictions"
+    ],
+    /* 2: Earth Peak (Central Overload) - Applied to 19920412 Yang Earth */
+    [
+        "Resistance to new changes due to excessive confidence in personal experience and methods, making it difficult to bridge gaps with others",
+        "Strong sense of responsibility but a blunt expression that may give a cold impression, lacking the flexibility to draw cooperation",
+        "A closed nature due to a strong desire to protect personal territory, leading to the risk of self-closing communication channels",
+        "Possessing practical achievement skills but being passive in revealing them, potentially missing key opportunities through hesitation",
+        "Difficulty in tolerating others' mistakes due to overly firm principles, leading to decreased communication efficiency within a team"
+    ],
+    /* 3: Metal Peak (Decisive Overload) */
+    [
+        "Intense decisiveness and principles that may create psychological pressure on others by not tolerating minor errors",
+        "A tendency to prioritize logical correctness over human warmth, making it easy to create unnecessary friction through a blunt speaking style",
+        "Outwardly resolute but inwardly fragile, leading to significant agitation and frustration when faced with minor, unexpected variables",
+        "Constant self-criticism due to excessively strict personal standards, leading to self-imposed extreme stress",
+        "Lack of flexibility in interpersonal dealings, refusing to compromise even when a middle ground is necessary for progress"
+    ],
+    /* 4: Water Peak (Intellectual Overload) */
+    [
+        "Missing the timing for action due to overthinking, displaying a tendency to avoid realistic problems through prolonged contemplation",
+        "Rapid loss of motivation as internal thoughts deepen, posing a risk of falling into listless silence and losing goal orientation",
+        "Passive nature that over-conforms to surrounding circumstances and others' opinions, losing personal distinctness",
+        "Weak realistic survival skills due to over-concentration on mental values, showing a fragile inner will despite outward flexibility",
+        "A tendency to hide true intentions, which may lead to distrust from others and cause invisible conflicts within the organization"
+    ]
+];
+
+const fusionRiskYinEn = [
+    /* 0: Wood Peak (Internal Overload) */
+    [
+        "High internal ambition but an inability to express it, leading to regret for losing one's voice in decisive moments",
+        "A tendency to miss the flow of opportunity by spending too much time organizing thoughts, always implementing plans one step late",
+        "Blocking personal growth through a conservative attitude by being trapped in a unique worldview and rejecting valid criticism",
+        "Inability to start anything due to waiting for perfect preparedness, risking missing the big picture while obsessing over details",
+        "Suppression of one's true temperament due to excessive awareness of others' gaze, leading to chronic feelings of helplessness"
+    ],
+    /* 1: Fire Peak (Psychological Overload) */
+    [
+        "Pretending to be bright outwardly while feeling significant internal emptiness, struggling to maintain consistency due to energy swings",
+        "Heavy internal agitation caused by minor remarks from others, hindering relationships through sensitive and unrefined emotional reactions",
+        "A tendency to crave hollow recognition while failing to secure practical economic independence and personal interests",
+        "Inward rebellion while outwardly following rules, leading to secret violations of core organizational standards or internal conflict",
+        "Inability to form deep bonds due to suspicion of others' sincerity and a fear of being emotionally wounded"
+    ],
+    /* 2: Earth Peak (Stagnant Overload) */
+    [
+        "Extreme reluctance to change, adhering to outdated methods even when organizational innovation is required",
+        "Refusal to communicate through heavy, unreadable silence, leading to isolation by viewing help as unnecessary interference",
+        "Inability to solve current problems due to being overly bound by past memories or customs, suffering loss through rigid stubbornness",
+        "Hiding one's value and talent out of fear of others' jealousy, eventually burying one's own potential",
+        "A tendency to collapse under the weight of others' burdens due to an inability to say no, failing to look after one's own life"
+    ],
+    /* 3: Metal Peak (Inward Overload) */
+    [
+        "Keenly catching others' flaws but using it only critically, leading to an inability to form proper networks and resulting in alienation",
+        "Understanding situations rationally but making heartless choices due to an unopen heart, leading to late-onset self-reproach",
+        "Self-depreciation when high standards are not met, leading to low self-esteem and easily yielding to minor failures",
+        "Missing opportunities by over-verifying every step due to excessive suspicion, living in anxiety by assuming worst-case scenarios",
+        "Causing conflict by imposing fastidious personal tendencies on others, permanently severing relationships over a single mistake"
+    ],
+    /* 4: Water Peak (Submerging Overload) */
+    [
+        "A tendency to avoid attempts by predicting negative outcomes for every situation, where deep reflection becomes a shackle to action",
+        "Risk of losing social self-sufficiency by hiding in solitary spaces and submerging into depressive emotions and disconnection",
+        "Prioritizing others' moods over establishing personal subjectivity, taking full responsibility for poor outcomes onto oneself",
+        "Disregarding realistic economic activities due to an oversized internal mental world, risking the stability of life's foundation",
+        "Using invisible tactics to manipulate others behind a soft exterior, which eventually leads to the loss of sincere friendships"
+    ]
+];
+      const currentRiskKo = isYangMaster ? fusionRiskYang[peakElIdx][bottomElIdx] : fusionRiskYin[peakElIdx][bottomElIdx];
+      const currentRiskEn = isYangMaster ? fusionRiskYangEn[peakElIdx][bottomElIdx] : fusionRiskYinEn[peakElIdx][bottomElIdx];
       
         // 💡 4-1. [성명학 무기 추출] 이름이 부여한 특수 스킬
         const varIdx5 = session.num81 % 5; 
@@ -1828,7 +1916,7 @@ const targetedJobIndices = jobTargetMap[weaponElIdx];
         const elNamesEn_C = ["Wood", "Fire", "Earth", "Metal", "Water"];
 
         // 🚨 조사가 꼬이던 부분 완벽 수술 및 최종 문장 조립
-        const blockCKo = `<b>${elNamesKo_C[top1Idx_C]}</b>를 무기로 삼아, ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘합니다.<br><br><b style="color: var(--primary);">[활동 무대]</b><br>${jobsListKo}<b style="color: var(--primary);">[파동 시너지]</b><br>이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운이 기폭제가 됩니다. 성명 속 <b>'${weaponKo}'</b> 역량과, 선천적 <b>${elNamesKo_C[top2Idx_C]}</b>가 지닌 <b>'${top2SkillKo[top2Idx_C][top5Idx_C]}'</b> 기질이 결합되어 당신을 특별하게 만듭니다.<br><br>💡 취약한 <b>${weakElDisplay}</b>의 기운을 극복해야 합니다. <b>${fusionRiskKo[peakElIdx][bottomElIdx]}</b>의 약점을 항상 경계하십시오.`;
+        const blockCKo = `<b>${elNamesKo_C[top1Idx_C]}</b>를 무기로 삼아, ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘합니다.<br><br><b style="color: var(--primary);">[활동 무대]</b><br>${jobsListKo}<b style="color: var(--primary);">[파동 시너지]</b><br>이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운이 기폭제가 됩니다. 성명 속 <b>'${weaponKo}'</b> 역량과, 선천적 <b>${elNamesKo_C[top2Idx_C]}</b>가 지닌 <b>'${top2SkillKo[top2Idx_C][top5Idx_C]}'</b> 기질이 결합되어 당신을 특별하게 만듭니다.<br><br>💡 취약한 <b>${weakElDisplay}</b>의 기운을 극복해야 합니다. <b>${currentRiskKo}</b>을 경계하십시오.`;
         
         const blockCEn = `Armed with <b>${elNamesEn_C[top1Idx_C]}</b>, you manifest <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> ${top1ScaleEn}.<br><br><b style="color: var(--primary);">[Optimal Stage]</b><br>${jobsListEn}<b style="color: var(--primary);">[Name Synergy]</b><br>The <b>${elNamesEn_C[weaponElIdx]}</b> energy acts as a catalyst. Your name's <b>'${weaponEn}'</b> capacity seamlessly combines with the innate <b>'${top2SkillEn[top2Idx_C][top5Idx_C]}'</b> disposition of <b>${elNamesEn_C[top2Idx_C]}</b> to make you truly unique.<br><br>💡 You must overcome the weakest <b>${weakElEnA}</b> energy. Always be vigilant against the risk of <b>${fusionRiskEn[peakElIdx][bottomElIdx]}</b>.`;
 
