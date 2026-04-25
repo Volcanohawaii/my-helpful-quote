@@ -749,7 +749,7 @@ const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.ilju
             });
 
             if (mechKo.length > 0) {
-                bridgeKo = `성명에는 <b>${boostedTextKo}</b>의 기운이 깊습니다. 당신의 성명은 타고난 <b>${coreDisplay}</b>에 집중적으로 작용합니다. ${mechKo} 마침내 <b>${currentTheme}</b>의 운명공학적 테마를 완성합니다.`;
+                bridgeKo = `성명에는 <b>${boostedTextKo}</b>의 기운이 깊습니다. 당신의 성명은 타고난 <b>${coreDisplay}</b>에 집중적으로 작용합니다. ${mechKo}<br>마침내 <b>${currentTheme}</b>의 운명공학적 테마를 완성합니다.`;
                 bridgeEn = `The vibration of your name is highly equipped with the energies of <b>${boostedTextEn}</b>. Acting directly upon your innate traits (<b>${elNamesEnForA[logicEls.indexOf(coreElChar)]}</b>), these vibrations elevate your strengths: ${mechEn}These precisely forged vibrations fuse with your innate energies to create the completed theme of <b>${currentTheme}</b>.`;
             } else {
                 bridgeKo = `성명의 파동에는 <b>${boostedTextKo}</b>의 기운이 배치되어 당신의 강점을 드러냅니다. 소리의 파동이 탄생 에너지와 융합하여 <b>${currentTheme}</b>의 운명공학적 테마를 완성합니다.`;
@@ -871,8 +871,8 @@ const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.ilju
             [
                 "비대해진 목(木)이 제 발에 꼬여, 방향을 잃고 제자리만 맴도는 정체성", 
                 "불꽃(火)을 피우지 못한 젖은 나무처럼, 계획만 무성하고 결과가 없는 실행력 부족", 
-                "뿌리는 깊으나 딛을 땅(土)이 허약해, 현실 감각 없이 뜬구름만 잡는 이상주의", 
-                "쳐낼 가위(金)가 없어 사방으로 뻗기만 하니, 시작은 거창하나 마무리가 안 되는 부족함", 
+                "뿌리는 깊으나 딛을 땅(土)이 허약해, 현실 감각 없이 뜬구름 잡는 이상주의", 
+                "쳐낼 가위(金)가 없어 사방으로 뻗기만 하니, 시작은 있으나 마무리가 안 되는 부족함", 
                 "성장을 뒷받침할 물(水)이 말라버려, 초반에만 번뜩이다 금세 꺼져버리는 번아웃"
             ],
             /* 1: 화(火)가 가장 강할 때 (과도한 열정/폭발) */
