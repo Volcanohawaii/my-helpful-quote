@@ -1069,29 +1069,95 @@ const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.ilju
         };
         const targetedJobIndices = jobTargetMap[weaponElIdx];
 
-        // 2. 대표님 아이디어 적용: 남녀 성별 대신 '십성(10-Gods)' 기반 활동 무대 서사 생성
-        // 내 본질(dmIdx_C)과 가장 강한 무기(top1Idx_C)의 명리학적 상관관계를 계산 (0:비겁, 1:식상, 2:재성, 3:관성, 4:인성)
+        
+     // 2. 십성(10-Gods) x 오행 무기(5-Elements) = 25종 초정밀 무대 서사
         const relationDiff = (top1Idx_C - dmIdx_C + 5) % 5;
         
+     
         const stageDescKo = [
-            "나만의 확고한 철학과 독립적인 주도권이 보장된 독립적 무대", // 0: 비겁 (나와 같은 기운)
-            "폭발적인 창의력과 퍼포먼스를 마음껏 발산할 수 있는 표현의 무대", // 1: 식상 (내가 뿜어내는 기운)
-            "거대한 자본이 움직이거나 명확한 결과물을 창출해 내는 타겟 시장", // 2: 재성 (내가 장악하는 기운)
-            "대중의 시선이 집중되는 거대한 권력 조직이나 엄격한 시스템 내부", // 3: 관성 (나를 통제하는 기운)
-            "변하지 않는 지적 자산과 전략적 통찰을 활용하는 고도의 기획/학문의 장" // 4: 인성 (나를 돕는 기운)
+            // 0: 비겁 (독립적 무대)
+            [
+                "끝없이 새로운 영역을 개척하며 나만의 독립적인 주도권을 쥐는 1인 무대에서", // 목
+                "압도적인 매력과 열정으로 나만의 확고한 팬덤과 철학을 구축하는 무대에서", // 화
+                "어떤 외풍에도 흔들리지 않고 나만의 굳건한 세계관을 지켜내는 독립적 기반에서", // 토
+                "타협 없는 완벽주의와 원칙으로 누구도 침범할 수 없는 독자적인 전문 영역에서", // 금
+                "고정된 틀에 얽매이지 않고 유연하게 나만의 철학적 깊이를 증명하는 무대에서" // 수
+            ],
+            // 1: 식상 (표현/창의 무대)
+            [
+                "샘솟는 아이디어를 거침없이 세상에 꺼내어 기획하고 표현하는 창작의 무대에서", // 목
+                "시선을 사로잡는 화려한 쇼맨십과 폭발적인 퍼포먼스를 마음껏 발산하는 무대에서", // 화
+                "넘치는 에너지를 안정감 있게 조율하여 사람들에게 편안한 즐거움을 선사하는 무대에서", // 토
+                "날카롭고 예리한 비판적 시각을 정교한 결과물로 깎아내어 대중을 설득하는 무대에서", // 금
+                "타인의 감정선과 무의식을 깊이 파고들어 유연하고 매끄럽게 소통하는 표현의 장에서" // 수
+            ],
+            // 2: 재성 (자본/타겟 시장)
+            [
+                "빠르게 성장하는 신규 시장에서 가장 먼저 기회를 선점하고 수익을 창출하는 개척지에서", // 목
+                "대중의 시선이 돈이 되는 화려한 미디어와 트렌드의 중심에서 자본을 굴리는 무대에서", // 화
+                "거대한 자본이 안정적으로 움직이거나 확실한 실물 자산과 결과물을 통제하는 타겟 시장에서", // 토
+                "감정을 배제한 치밀한 계산과 데이터로 극강의 이익과 가성비를 뽑아내는 승부의 장에서", // 금
+                "국경과 형태를 가리지 않고 거시적인 경제 흐름을 타고 유연하게 자본을 장악하는 무대에서" // 수
+            ],
+            // 3: 관성 (권력/조직/시스템)
+            [
+                "활기차게 뻗어나가는 신생 조직이나 스타트업에서 새로운 규칙과 체계를 잡아가는 무대에서", // 목
+                "대중의 감시와 시선이 가장 뜨겁게 집중되는 거대한 권력 조직의 화려한 최전선에서", // 화
+                "오랜 시간 견고하게 다져진 보수적이고 거대한 시스템 내부에서 중심을 잡는 관리의 장에서", // 토
+                "엄격한 룰과 무자비한 규율이 지배하는 사법, 공안, 통제 중심의 수직적 권력 기관에서", // 금
+                "겉으로 드러나지 않는 글로벌 외교망이나 정보의 흐름 속에서 조용히 시스템을 조종하는 막후에서" // 수
+            ],
+            // 4: 인성 (기획/학문/지원)
+            [
+                "새로운 교육 철학과 인문학적 가치를 연구하여 사람들의 성장을 이끌어내는 학문의 장에서", // 목
+                "쏟아지는 정보 속에서 가장 가치 있는 인사이트를 조명하고 직관적으로 기획하는 무대에서", // 화
+                "수십 년간 축적된 방대한 지적 자산과 기록을 묵묵히 보존하고 전략적 통찰로 빚어내는 곳에서", // 토
+                "차가운 논리와 데이터로 현상의 본질을 극도로 정밀하게 해부하고 증명하는 연구실에서", // 금
+                "인간의 깊은 심연과 철학적 근원을 사색하며 보이지 않는 전략을 기획하는 고도의 지식망에서" // 수
+            ]
         ];
         
         const stageDescEn = [
-            "An independent stage guaranteeing my own firm philosophy and autonomous initiative",
-            "An expressive stage where explosive creativity and performance can be fully unleashed",
-            "A target market where massive capital moves or clear outcomes are created",
-            "Inside a massive power organization or strict system focused by public attention",
-            "A field of high-level planning/academics utilizing unchanging intellectual assets and strategic insight"
+            [
+                "On a one-person stage where you continuously pioneer new areas and hold independent initiative,",
+                "On a stage where you build your own solid fandom and philosophy with overwhelming charm and passion,",
+                "On an independent foundation where you protect your firm worldview, unshaken by any external forces,",
+                "In an exclusive professional domain untouchable by anyone due to uncompromising perfectionism,",
+                "On a stage where you flexibly prove your philosophical depth without being bound by fixed frameworks,"
+            ],
+            [
+                "On a creative stage where you freely unleash and express wellsprings of ideas to the world,",
+                "On a stage where you fully radiate eye-catching showmanship and explosive performances,",
+                "On a stage where you stably tune overflowing energy to provide comfortable joy to people,",
+                "On a stage where you persuade the public by carving sharp critical views into exquisite outcomes,",
+                "In a field of expression where you flexibly communicate by diving deep into others' emotions and unconsciousness,"
+            ],
+            [
+                "In a frontier where you seize opportunities first and generate profits in a rapidly growing new market,",
+                "On a stage where you roll capital in the center of flashy media and trends where public attention is money,",
+                "In a target market where massive capital moves stably or solid real assets are controlled,",
+                "In a competitive arena where you extract extreme profit and efficiency with emotionless calculations and data,",
+                "On a stage where you flexibly dominate capital riding macro-economic flows regardless of borders or forms,"
+            ],
+            [
+                "On a stage where you set new rules and systems in a vibrantly expanding startup or new organization,",
+                "At the flashy forefront of a massive power organization most hotly focused by public scrutiny,",
+                "In a field of management taking the center inside a conservative and massive system solidified over time,",
+                "In a vertical power institution centered on justice, public security, and control governed by strict rules,",
+                "Behind the scenes, quietly manipulating systems within unrevealed global diplomatic or information flows,"
+            ],
+            [
+                "In a field of academics leading people's growth by researching new educational philosophies,",
+                "On a stage where you intuitively plan and highlight the most valuable insights among pouring information,",
+                "In a place where you silently preserve vast intellectual assets and forge them into strategic insights,",
+                "In a laboratory where you precisely dissect and prove the essence of phenomena with cold logic and data,",
+                "In a high-level knowledge network planning unseen strategies while contemplating deep human abysses."
+            ]
         ];
 
-        // 3. 직업 리스트 최종 조립 (활동 무대 문장 + 타겟팅된 3개의 직업)
-        let jobsListKo = `<div style="margin-bottom:8px; color:var(--primary); font-weight:600;"><i>"${stageDescKo[relationDiff]}"</i></div><div style="margin: 2px 0 18px 0; line-height: 1.6;">`;
-        let jobsListEn = `<div style="margin-bottom:8px; color:var(--primary); font-weight:600;"><i>"${stageDescEn[relationDiff]}"</i></div><div style="margin: 2px 0 18px 0; line-height: 1.6;">`;
+        // 3. 직업 리스트 최종 조립 (디자인 싹 빼고 자연스러운 문장으로 연결)
+        let jobsListKo = `<div style="margin-bottom:8px; font-weight:600;">${stageDescKo[relationDiff][weaponElIdx]} 가장 빛나는 직무는 다음과 같습니다.</div><div style="margin: 2px 0 18px 0; line-height: 1.6;">`;
+        let jobsListEn = `<div style="margin-bottom:8px; font-weight:600;">The most brilliant roles for you ${stageDescEn[relationDiff][weaponElIdx]} are as follows:</div><div style="margin: 2px 0 18px 0; line-height: 1.6;">`;
 
         targetedJobIndices.forEach(idx => {
             jobsListKo += `• ${fusionJobsKo[top1Idx_C][weaponElIdx][idx]}<br>`;
