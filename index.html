@@ -553,12 +553,9 @@ const peakElIdx = session.baseScores.indexOf(Math.max(...session.baseScores));
         `;
        
       
+const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.iljuData.iljuName.charAt(0) : coreEl.charAt(0);
+        const themeIdx = session.num81 % 9;
 
-
-
-   // 🧱 [Block A] 기질 강약 (신강/신약 정밀 척도 + 다국어 지원)
-// 💡 1. 본질을 5오행 ➔ 10천간(갑을병정무기경신임계) 음양으로 2배 정밀 세분화!
-      const themeIdx = session.num81 % 9;
         const themeModifiers10Ko = {
             "갑": "거침없는 추진력으로 가장 먼저 새로운 길을 여는 <b>[선봉장형]</b>",
             "을": "어떤 환경에서도 유연하게 뻗어 나가 사람과 기회를 엮는 <b>[네트워커형]</b>",
@@ -595,19 +592,15 @@ const peakElIdx = session.baseScores.indexOf(Math.max(...session.baseScores));
             "Sovereign Leadership", "Perfect Harmony", "Innovative Decisiveness", "Flawless Tact"
         ];
 
-        // 💡 3. 유저의 진짜 일간(10간) 추출 및 90종(10x9) 다차원 조립!
-        const dayMasterChar = typeof dayMaster !== 'undefined' ? dayMaster : coreEl.charAt(0); 
-        
+        // 💡 3. 유저의 진짜 일간(10간) 기반 90종(10x9) 다차원 조립!
         // 에러 방지용: 10간 데이터가 안 잡히면 오행을 양간(갑병무경임)으로 치환
         const fallback10Map = { "목":"갑", "화":"병", "토":"무", "금":"경", "수":"임" };
-        const finalCoreChar = themeModifiers10Ko[dayMasterChar] ? dayMasterChar : fallback10Map[coreEl.charAt(0)] || "무";
+        const finalCoreChar = themeModifiers10Ko[dayMaster] ? dayMaster : fallback10Map[coreEl.charAt(0)] || "무";
 
         const currentThemeKo = `${themeModifiers10Ko[finalCoreChar]} ${themeBasesKo[themeIdx]}`;
         const currentThemeEn = `${themeBasesEn[themeIdx]} ${themeModifiers10En[finalCoreChar]}`; 
 
         const currentTheme = currentLang === 'ko' ? currentThemeKo : currentThemeEn;
-
-
         
         // 💡 [운명공학 궁극의 비기] '단일 점수'가 아닌 '신강/신약(내 세력)' 기반 강약 판독
         const baseScoresForIntensity = session.baseScores || session.elementScores; 
@@ -629,8 +622,8 @@ const peakElIdx = session.baseScores.indexOf(Math.max(...session.baseScores));
         else if (myForceRatio >= 0.25) intensity = "약함";  // 40% 미만 (모래알, 촛불)
         else intensity = "극약";                            // 25% 미만 (극도로 억눌림)
 
-        // 💡 1. 유저의 '진짜 일간(Day Master)' 글자 추출 (보따리 안에서 iljuName 꺼내기)
-        const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.iljuData.iljuName.charAt(0) : coreEl.charAt(0);
+
+
 
         // 💡 2. 오행(5개) ➔ 십간(10개) + 5점 척도 정밀 기질 묘사 (한국어)
         const coreTraitsKo = {
