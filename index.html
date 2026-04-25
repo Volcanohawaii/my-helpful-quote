@@ -749,7 +749,7 @@ const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.ilju
             });
 
             if (mechKo.length > 0) {
-                bridgeKo = `성명에는 <b>${boostedTextKo}</b>의 기운이 깊습니다. 당신의 성명은 타고난 <b>${coreDisplay}</b>에 집중적으로 작용합니다. ${mechKo}이 탄생 에너지와 융합하여 <b>${currentTheme}</b>의 운명공학적 테마를 완성합니다.`;
+                bridgeKo = `성명에는 <b>${boostedTextKo}</b>의 기운이 깊습니다. 당신의 성명은 타고난 <b>${coreDisplay}</b>에 집중적으로 작용합니다. ${mechKo} 마침내 <b>${currentTheme}</b>의 운명공학적 테마를 완성합니다.`;
                 bridgeEn = `The vibration of your name is highly equipped with the energies of <b>${boostedTextEn}</b>. Acting directly upon your innate traits (<b>${elNamesEnForA[logicEls.indexOf(coreElChar)]}</b>), these vibrations elevate your strengths: ${mechEn}These precisely forged vibrations fuse with your innate energies to create the completed theme of <b>${currentTheme}</b>.`;
             } else {
                 bridgeKo = `성명의 파동에는 <b>${boostedTextKo}</b>의 기운이 배치되어 당신의 강점을 드러냅니다. 소리의 파동이 탄생 에너지와 융합하여 <b>${currentTheme}</b>의 운명공학적 테마를 완성합니다.`;
@@ -1156,7 +1156,7 @@ const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.ilju
         ];
 
         // 3. 직업 리스트 최종 조립 (디자인 싹 빼고 자연스러운 문장으로 연결)
-        let jobsListKo = `<div style="margin-bottom:8px; font-weight:600;">${stageDescKo[relationDiff][weaponElIdx]} 가장 빛나는 직무는 다음과 같습니다.</div><div style="margin: 2px 0 18px 0; line-height: 1.6;">`;
+        let jobsListKo = `<div style="margin-bottom:8px; font-weight:600;">${stageDescKo[relationDiff][weaponElIdx]} 가장 빛나는 당신입니다.</div><div style="margin: 2px 0 18px 0; line-height: 1.6;">`;
         let jobsListEn = `<div style="margin-bottom:8px; font-weight:600;">The most brilliant roles for you ${stageDescEn[relationDiff][weaponElIdx]} are as follows:</div><div style="margin: 2px 0 18px 0; line-height: 1.6;">`;
 
         targetedJobIndices.forEach(idx => {
