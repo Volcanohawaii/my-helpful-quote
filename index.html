@@ -557,35 +557,45 @@ const peakElIdx = session.baseScores.indexOf(Math.max(...session.baseScores));
 
 
    // 🧱 [Block A] 기질 강약 (신강/신약 정밀 척도 + 다국어 지원)
+    // 🧱 [Block A] 기질 강약 (신강/신약 정밀 척도 + 다국어 지원)
         const themeIdx = session.num81 % 9;
         
-        // 💡 한국어: 뒤에 붙을 "~의 완성된 테마"와 자연스럽게 이어지도록 고급스러운 명사구로 세팅
-        const themeNamesKo = [
-            "만물을 포용하는 절대적 완성", 
-            "아무도 가지 않은 길을 여는 선구자적 개척", 
-            "주변을 아우르고 지탱하는 이타적 헌신", 
-            "거침없이 한계를 돌파하는 폭발적 열정", 
-            "어떤 풍파에도 흔들리지 않는 견고한 신뢰", 
-            "시대의 중심에서 변화를 주도하는 제왕적 리더십", 
-            "극단의 대립마저 융화시키는 완벽한 조화", 
-            "낡은 판을 예리하게 베어내는 혁신적 결단", 
-            "모든 상황에 유연하게 스며드는 무결점의 처세"
+        // 💡 1. 본질(오행) 5가지에 따른 '플레이 스타일 (수식어)' 세팅
+        const themeModifiersKo = {
+            "목": "끝없이 영역을 개척하고 확장하는 <b>[성장형]</b>",
+            "화": "압도적 매력으로 대중의 시선을 지배하는 <b>[스타형]</b>",
+            "토": "어떤 풍파에도 철옹성을 유지하는 <b>[안정형]</b>",
+            "금": "냉철한 원칙으로 시스템의 완벽을 강제하는 <b>[철혈형]</b>",
+            "수": "모든 것을 포용하며 막후에서 판을 조종하는 <b>[심연형]</b>"
+        };
+        const themeModifiersEn = {
+            "목": "endlessly pioneering and expanding as a <b>[Growth-Type]</b>",
+            "화": "dominating public attention with overwhelming charm as a <b>[Star-Type]</b>",
+            "토": "maintaining an iron fortress against any storm as a <b>[Stable-Type]</b>",
+            "금": "enforcing system perfection with cold principles as an <b>[Iron-blooded]</b>",
+            "수": "manipulating the board from the shadows with full embrace as a <b>[Mastermind]</b>"
+        };
+
+        // 💡 2. 수리 파동(이름) 9가지에 따른 '핵심 테마 (명사)' 세팅
+        const themeBasesKo = [
+            "절대적 완성", "선구자적 개척", "이타적 헌신", "폭발적 돌파", "견고한 신뢰", 
+            "제왕적 리더십", "완벽한 융화", "혁신적 결단", "무결점의 처세"
         ];
-        
-        // 💡 영어: 단답형 번역을 버리고, 한국어의 깊은 뉘앙스를 그대로 살린 수식어구로 전면 개편
-        const themeNamesEn = [
-            "Absolute Completion that embraces all things", 
-            "Pioneering Spirit that opens untrodden paths", 
-            "Altruistic Devotion that supports and nurtures", 
-            "Explosive Passion that breaks through limits", 
-            "Unshakable Trust that withstands any storm", 
-            "Sovereign Leadership driving change from the center", 
-            "Perfect Harmony that blends opposing forces", 
-            "Innovative Decisiveness that sharply cuts away the old", 
-            "Flawless Tact that smoothly adapts to any situation"
+        const themeBasesEn = [
+            "Absolute Completion", "Pioneering Exploration", "Altruistic Devotion", "Explosive Breakthrough", "Unshakable Trust", 
+            "Sovereign Leadership", "Perfect Harmony", "Innovative Decisiveness", "Flawless Tact"
         ];
+
+        // 💡 3. 유저의 본질 오행 추출 및 45종 다차원 테마 조립!
+        const coreElChar = coreEl.charAt(0); // "목", "화" 등
+        const fallbackEl = ["목", "화", "토", "금", "수"].includes(coreElChar) ? coreElChar : "토";
+
+        const currentThemeKo = `${themeModifiersKo[fallbackEl]} ${themeBasesKo[themeIdx]}`;
+        const currentThemeEn = `${themeBasesEn[themeIdx]} ${themeModifiersEn[fallbackEl]}`; // 영어는 수식어가 뒤로 감
+
+        const currentTheme = currentLang === 'ko' ? currentThemeKo : currentThemeEn;
         
-        const currentTheme = currentLang === 'ko' ? themeNamesKo[themeIdx] : themeNamesEn[themeIdx];
+
         
         // 💡 [운명공학 궁극의 비기] '단일 점수'가 아닌 '신강/신약(내 세력)' 기반 강약 판독
         const baseScoresForIntensity = session.baseScores || session.elementScores; 
