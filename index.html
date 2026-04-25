@@ -557,26 +557,34 @@ const peakElIdx = session.baseScores.indexOf(Math.max(...session.baseScores));
 
 
    // 🧱 [Block A] 기질 강약 (신강/신약 정밀 척도 + 다국어 지원)
-    // 🧱 [Block A] 기질 강약 (신강/신약 정밀 척도 + 다국어 지원)
-        const themeIdx = session.num81 % 9;
-        
-        // 💡 1. 본질(오행) 5가지에 따른 '플레이 스타일 (수식어)' 세팅
-        const themeModifiersKo = {
-            "목": "끝없이 영역을 개척하고 확장하는 <b>[성장형]</b>",
-            "화": "압도적 매력으로 대중의 시선을 지배하는 <b>[스타형]</b>",
-            "토": "어떤 풍파에도 철옹성을 유지하는 <b>[안정형]</b>",
-            "금": "냉철한 원칙으로 시스템의 완벽을 강제하는 <b>[철혈형]</b>",
-            "수": "모든 것을 포용하며 막후에서 판을 조종하는 <b>[심연형]</b>"
-        };
-        const themeModifiersEn = {
-            "목": "endlessly pioneering and expanding as a <b>[Growth-Type]</b>",
-            "화": "dominating public attention with overwhelming charm as a <b>[Star-Type]</b>",
-            "토": "maintaining an iron fortress against any storm as a <b>[Stable-Type]</b>",
-            "금": "enforcing system perfection with cold principles as an <b>[Iron-blooded]</b>",
-            "수": "manipulating the board from the shadows with full embrace as a <b>[Mastermind]</b>"
+// 💡 1. 본질을 5오행 ➔ 10천간(갑을병정무기경신임계) 음양으로 2배 정밀 세분화!
+        const themeModifiers10Ko = {
+            "갑": "거침없는 추진력으로 가장 먼저 새로운 길을 여는 <b>[선봉장형]</b>",
+            "을": "어떤 환경에서도 유연하게 뻗어 나가 사람과 기회를 엮는 <b>[네트워커형]</b>",
+            "병": "스스로 눈부신 빛을 발하며 판 전체를 주도하는 <b>[스포트라이트형]</b>",
+            "정": "한 곳에 집요하게 몰입하여 가장 뜨거운 결과물을 벼려내는 <b>[장인(Artisan)형]</b>",
+            "무": "어떤 풍파에도 흔들리지 않고 거대한 안정감을 지탱하는 <b>[태산형]</b>",
+            "기": "척박한 환경조차 실속 있고 풍요로운 결과물로 길러내는 <b>[양육형]</b>",
+            "경": "불필요한 관습을 단칼에 베어내고 룰을 재정의하는 <b>[개혁가형]</b>",
+            "신": "한 치의 오차도 허용하지 않고 가장 정교하고 날카롭게 다듬는 <b>[완벽주의형]</b>",
+            "임": "깊은 지혜로 모든 것을 흡수하고 거시적으로 통제하는 <b>[마스터마인드형]</b>",
+            "계": "보이지 않는 틈새까지 부드럽게 스며들어 판도를 뒤집는 <b>[전략가형]</b>"
         };
 
-        // 💡 2. 수리 파동(이름) 9가지에 따른 '핵심 테마 (명사)' 세팅
+        const themeModifiers10En = {
+            "갑": "opening new paths first with unstoppable drive as a <b>[Vanguard]</b>",
+            "을": "flexibly expanding to connect people and opportunities as a <b>[Networker]</b>",
+            "병": "leading the entire board while radiating your own dazzling light as a <b>[Spotlight]</b>",
+            "정": "tenaciously immersing into one spot to forge the hottest results as an <b>[Artisan]</b>",
+            "무": "supporting massive stability unshakeable by any storm as a <b>[Pillar]</b>",
+            "기": "nurturing even barren environments into wealthy outcomes as a <b>[Nurturer]</b>",
+            "경": "redefining rules by slicing away unnecessary customs as a <b>[Reformer]</b>",
+            "신": "exquisitely refining without allowing an inch of error as a <b>[Perfectionist]</b>",
+            "임": "macro-controlling and absorbing everything with deep wisdom as a <b>[Mastermind]</b>",
+            "계": "flipping the board by smoothly seeping into invisible gaps as a <b>[Strategist]</b>"
+        };
+
+        // 💡 2. 수리 파동(이름) 9가지 핵심 테마
         const themeBasesKo = [
             "절대적 완성", "선구자적 개척", "이타적 헌신", "폭발적 돌파", "견고한 신뢰", 
             "제왕적 리더십", "완벽한 융화", "혁신적 결단", "무결점의 처세"
@@ -586,15 +594,18 @@ const peakElIdx = session.baseScores.indexOf(Math.max(...session.baseScores));
             "Sovereign Leadership", "Perfect Harmony", "Innovative Decisiveness", "Flawless Tact"
         ];
 
-        // 💡 3. 유저의 본질 오행 추출 및 45종 다차원 테마 조립!
-        const coreElChar = coreEl.charAt(0); // "목", "화" 등
-        const fallbackEl = ["목", "화", "토", "금", "수"].includes(coreElChar) ? coreElChar : "토";
+        // 💡 3. 유저의 진짜 일간(10간) 추출 및 90종(10x9) 다차원 조립!
+        const dayMasterChar = typeof dayMaster !== 'undefined' ? dayMaster : coreEl.charAt(0); 
+        
+        // 에러 방지용: 10간 데이터가 안 잡히면 오행을 양간(갑병무경임)으로 치환
+        const fallback10Map = { "목":"갑", "화":"병", "토":"무", "금":"경", "수":"임" };
+        const finalCoreChar = themeModifiers10Ko[dayMasterChar] ? dayMasterChar : fallback10Map[coreEl.charAt(0)] || "무";
 
-        const currentThemeKo = `${themeModifiersKo[fallbackEl]} ${themeBasesKo[themeIdx]}`;
-        const currentThemeEn = `${themeBasesEn[themeIdx]} ${themeModifiersEn[fallbackEl]}`; // 영어는 수식어가 뒤로 감
+        const currentThemeKo = `${themeModifiers10Ko[finalCoreChar]} ${themeBasesKo[themeIdx]}`;
+        const currentThemeEn = `${themeBasesEn[themeIdx]} ${themeModifiers10En[finalCoreChar]}`; 
 
         const currentTheme = currentLang === 'ko' ? currentThemeKo : currentThemeEn;
-        
+
 
         
         // 💡 [운명공학 궁극의 비기] '단일 점수'가 아닌 '신강/신약(내 세력)' 기반 강약 판독
