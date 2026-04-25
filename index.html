@@ -749,10 +749,10 @@ const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.ilju
             });
 
             if (mechKo.length > 0) {
-                bridgeKo = `성명에는 <b>${boostedTextKo}</b>의 기운이 깊습니다. 당신의 성명은 타고난 <b>${coreDisplay}</b>에 집중적으로 작용합니다. ${mechKo}<br>마침내 <b>${currentTheme}</b>의 운명공학적 테마를 완성합니다.`;
+                bridgeKo = `성명 속 <b>${boostedTextKo}</b>의 기운이 타고난 <b>${coreDisplay}</b>에 집중적으로 작용합니다. ${mechKo}<br>마침내 <b>${currentTheme}</b>의 운명공학적 테마를 완성합니다.`;
                 bridgeEn = `The vibration of your name is highly equipped with the energies of <b>${boostedTextEn}</b>. Acting directly upon your innate traits (<b>${elNamesEnForA[logicEls.indexOf(coreElChar)]}</b>), these vibrations elevate your strengths: ${mechEn}These precisely forged vibrations fuse with your innate energies to create the completed theme of <b>${currentTheme}</b>.`;
             } else {
-                bridgeKo = `성명의 파동에는 <b>${boostedTextKo}</b>의 기운이 배치되어 당신의 강점을 드러냅니다. 소리의 파동이 탄생 에너지와 융합하여 <b>${currentTheme}</b>의 운명공학적 테마를 완성합니다.`;
+                bridgeKo = `성명의에는 <b>${boostedTextKo}</b>의 기운이 배치되어 당신의 강점을 드러냅니다. 소리의 파동이 탄생 에너지와 융합하여 <b>${currentTheme}</b>의 운명공학적 테마를 완성합니다.`;
                 bridgeEn = `The vibration of your name is equipped with the energies of <b>${boostedTextEn}</b>, refining your strengths. These vibrations fuse with your innate energies to create the completed theme of <b>${currentTheme}</b>.`;
             }
         }
@@ -845,7 +845,7 @@ const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.ilju
         const logicTopScore = session.baseScores[top1Idx_C];
         if (logicTopScore >= 100) { top1ScaleKo = "룰을 재정의하는 대체 불가능한 스케일로"; top1ScaleEn = "on an irreplaceable scale redefining market rules"; }
         else if (logicTopScore >= 75) { top1ScaleKo = "업계를 선도하는 압도적인 파급력으로"; top1ScaleEn = "with overwhelming impact leading the industry"; }
-        else if (logicTopScore >= 50) { top1ScaleKo = "프로젝트를 완벽하게 주도하는 탄탄한 전문성으로"; top1ScaleEn = "with solid expertise perfectly leading core projects"; }
+        else if (logicTopScore >= 50) { top1ScaleKo = "프로젝트를 완벽하게 주도하는 전문성으로"; top1ScaleEn = "with solid expertise perfectly leading core projects"; }
         else { top1ScaleKo = "프리미엄 시장을 독점하는 고도의 타겟팅으로"; top1ScaleEn = "with highly precise targeting monopolizing niche markets"; }
 
         const top2SkillKo = [
