@@ -676,7 +676,7 @@ const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.ilju
 
         // 🚨 [핵심 안전장치] 계산용(한글)과 출력용(한글+한자) 배열 분리
         const logicEls = ["목", "화", "토", "금", "수"]; // 로직 엔진용
-        const displayElsKo = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"]; // 대표님이 원하시는 완벽한 출력 포맷
+        const displayElsKo = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"]; // 대표님이 원하시는 출력 포맷
         const elNamesEnForA = ["Wood", "Fire", "Earth", "Metal", "Water"];
         
         const weakElDisplay = displayElsKo[trueWeakIdx];
@@ -981,81 +981,733 @@ const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.ilju
         ];
 
         // 💡 4-3. [스펙트럼 300종 - 초압축 핵심 역량(이력서 키워드) 버전]
-        const fusionJobsKo = [
-            /* 1위 목(木) */ [ 
-                /* +목 */ ["신규 프로젝트 총괄", "핵심 인재 발굴/육성", "미개척 분야 선점", "아이디어 실체화/창작", "동기부여 및 설득력", "트렌드 예측/제안", "거시적 전략 수립", "인사/보상 시스템 구축", "조직 내 구심점 역할", "인간 발달 심리 연구", "방대한 지식 정보 편집", "조직원 후방 성장 지원"],
-                /* +화 */ ["시각적 기획 주도", "파급력 있는 브랜딩", "열정적 프로듀싱", "공간/제품 심미적 디자인", "마음을 움직이는 세일즈", "역동적 현장 소통", "기업 홍보 및 PR", "대규모 행사 총괄", "대중 친화적 교육 기획", "미디어 트렌드 분석", "매혹적 스토리텔링", "시각적 기호학 탐구"],
-                /* +토 */ ["현실적 수익 모델 구축", "단단한 커뮤니티 결속", "유휴 공간 비즈니스", "갈등 상황 부드러운 중재", "고객 편의 시설 운영", "현장 인력 밀착 관리", "조직 기틀 및 규율 확립", "통합 인사/노무 구축", "인프라 책임 관리", "인적 자원 아카이빙", "심리 상담 및 치유", "전체 시스템 기반 연구"],
-                /* +금 */ ["군더더기 없는 전략 수립", "객관적 지표 기반 리드", "명확한 룰/시스템 설계", "팩트 기반 성과 세일즈", "타협 없는 공정 관리", "정밀 기술 전문 실무", "엄격한 조직 리스크 관리", "규정 기반 공공 행정", "손실 차단 재무 통제", "최소 단위 데이터 분석", "특허/전문 지식 연구", "표면 이면의 구조적 감사"],
-                /* +수 */ ["글로벌 지식망 기획", "유연한 트렌드 지략", "낯선 환경 적응력", "정보/물류 유통 실무", "무의식 공감 소통력", "이질적 문화권 협상력", "글로벌 인재망 거시 관리", "통상/외교 교류 행정", "정보 순환망 구축", "철학적 심층 탐구", "시대적 맥락 리서치", "지식의 본질 심층 분석"]
-            ],
-            /* 1위 화(火) */ [ 
-                /* +목 */ ["트렌디한 문화 기획", "열정 기반 프로듀싱", "선구자적 교육 리더십", "시선을 끄는 창작/디자인", "긍정적 현장 소통", "역동적 영상/글 표현력", "매력적인 브랜드 홍보", "대규모 전시/행사 행정", "미디어 융합 시스템 관리", "문학적 스토리텔링 분석", "대중 매체 이면 연구", "화려한 무대 뒤 완벽 조력"],
-                /* +화 */ ["시선 집중 파급력 기획", "예술적 프로젝트 리드", "대중 압도 카리스마", "마음을 여는 설득력", "감정 자극 퍼포먼스", "시각 극대화 영상 실무", "여론 주도 공보 통제", "대변인 및 공식 메시지 관리", "인파 밀집 플랫폼 행정", "대중 선호도 예리한 통찰", "타이밍 및 연출 분석", "미디어 영향력 연구"],
-                /* +토 */ ["수익 모델 현실화 기획", "공간 감성 비즈니스", "대중의 문화적 구심점", "감정 흡수 현장 CS", "시각/휴식 시설 운영", "갈등 완화 소통 능력", "과열 경쟁 제어 관리", "대형 행사 총무/재무 행정", "인프라 안정성 통제", "소외 계층 심리 분석", "영상/시각 자료 아카이빙", "미디어 시스템 후방 지원"],
-                /* +금 */ ["승률 극대화 마케팅 전략", "팩트 기반 수익 창출", "시각적 군더더기 배제", "타겟팅 기반 성과 세일즈", "팩트 기반 저널리즘", "방송/IT 기기 현장 제어", "엄격한 기강 확립 관리", "불법/리스크 공안 통제", "객관적 성과 평가 시스템", "여론 조작 및 데이터 분석", "보안 메커니즘 심층 연구", "증거 기반 포렌식 탐구"],
-                /* +수 */ ["글로벌 플랫폼 유연 기획", "이질적 융합 콘텐츠 창조", "트렌드 카멜레온 적응력", "글로벌 맞춤형 세일즈", "대화 주도 커뮤니케이션", "콘텐츠 유통 네트워크", "글로벌 정보망 거시 관리", "고도화된 심리 마케팅", "글로벌 미디어 외교력", "유행 기저 시대적 리서치", "철학적 근원 심층 탐구", "화려함 이면의 기록 아카이빙"]
-            ],
-            /* 1위 토(土) */ [ 
-                /* +목 */ ["유휴 공간 가치 창조", "물리적/제도적 인프라 설계", "거시적 인재 배치/전략", "공간 구조 및 조경 실무", "최적화 맞춤형 중개", "자연/레저 환경 소통", "부동산/도시 개발 행정", "갈등 중재 및 인사 관리", "환경/생태 공공 행정", "공간 심리학 심층 연구", "자연 순환 이치 빅데이터 분석", "조직 물리적 기반 뒷받침"],
-                /* +화 */ ["공간 시각적 브랜딩 기획", "안정성 어필 확산 리더십", "프랜차이즈 시스템 전략", "다중 밀집 공간 세일즈", "시각적 VMD/공간 실무", "현장 클레임 완화 CS", "복합 문화 시설 행정", "조직 내 파벌 융화 관리", "데이터 기반 중심 지휘", "공간 열광 심리 분석", "영상 기록물 서버 아카이빙", "화려함 이면의 재무/총무 지원"],
-                /* +토 */ ["흔들림 없는 조직 기획", "방대한 이해관계 절대 중재", "거시적 장기 투자 통찰", "중립적/합리적 타협 설득", "신뢰감 주는 평정심", "물리적 자산 오차 없는 관리", "조직 거시 행정력", "매뉴얼 묵묵한 집행 관리", "복잡한 규율 엄격 통제", "역사적 기록물 진리 탐구", "자연/거시 경제 변화 추적", "묵묵한 시스템 토대 조력"],
-                /* +금 */ ["위험 요소 배제 극강 효율 설계", "관료주의 타파 혁신 리드", "가치 객관적 수치화 전략", "팩트/가성비 주도 영업", "오차 0% 정밀 완벽 실무", "안전 현장 불안 요소 감독", "1원의 누수도 없는 재무 감시", "규정 기반 명확한 사법 행정", "구조적 결함 단호한 제어", "통계 지표 무자비한 분석", "차가운 경제 논리 증명", "조직 맹점 파헤치는 포렌식"],
-                /* +수 */ ["유연한 글로벌 네트워크 기획", "시대 변화 흡수 지략", "핵심 데이터 필터링 통찰", "숨겨진 니즈 파악 소통", "물류/자원 무결점 관리 실무", "이질적 문화 갈등 융화 협상", "흩어진 정보망 거시 통제", "거시적 환경 생존 정책 수립", "통상 마찰 포용적 외교", "무의식 상처 임상 데이터 분석", "표면 이면 메가트렌드 리서치", "지식 파도 체계화 학문 탐구"]
-            ],
-            /* 1위 금(金) */ [ 
-                /* +목 */ ["정밀 헬스케어 시스템 기획", "기술 조직 내 인간적 리더십", "철저한 안전 예방 매뉴얼 수립", "정밀 IT 지식 서비스 실무", "차가운 팩트의 따뜻한 소통", "신체 기능 교정 및 힐링", "생명 직결 산업 엄격 행정", "전문 자격 평가 및 인재 통제", "객관적 인사 시스템 관리", "인체/공학 융합 생명 연구", "안전/질병 데이터 원인 분석", "품질/안전 유지 기계적 조력"],
-                /* +화 */ ["첨단 제품 화려한 브랜딩 기획", "데이터 무기 압도적 카리스마", "테크 서비스 UI/UX 설계", "첨단 논리 화려한 세일즈", "데이터 기반 마케팅 실무", "수사/공안 현장 단호한 제어", "보안 리스크 사전 언론 방어", "사이버 범죄 추적 공안 행정", "플랫폼 트래픽 과부하 통제", "알고리즘 조작 디지털 포렌식", "매체 숨겨진 팩트 심층 분석", "서버망 완벽 유지 인프라 연구"],
-                /* +토 */ ["복잡한 규제 조율 마스터플랜", "철저한 팩트 기반 권력 중재", "감정 배제 평가 시스템 무게감", "법적 근거 단호한 분쟁 해결", "오차 없는 세금/회계 끈기", "첨단 시스템 현장 안정감", "교정/보호 감정 배제 집행", "부패 척결 촘촘한 준법 감시", "방대한 데이터/매뉴얼 철통 보존", "법률/기록 모순 파악 판례 연구", "경제 지표 리스크 끈질긴 분석", "장부 및 보안 철통 유지 조력"],
-                /* +금 */ ["100% 감정 배제 극한 효율 기획", "불순물 제거 혁신 절대 카리스마", "오차 0 완벽 시스템 권위", "차가운 논리 압도적 세일즈", "한 치 실수 없는 정밀 실무", "결함 제로 완벽주의 품질 관리", "무자비한 원칙 공안 거시 통제", "피도 눈물도 없는 재무/투자 감시", "외부 해킹 차단 무결점 보안", "데이터 사막 진실 발굴 포렌식", "극소 단위 구조 분해 학문", "기계 톱니바퀴 같은 절대 충성"],
-                /* +수 */ ["글로벌 자본/데이터 통제 기획", "첨단 기술/심리 조종 융합 통찰", "견고한 시스템 약점 공략 전략", "무역/금융 마진 계산 승부사", "유연한 화법의 고도 협상력", "글로벌 인프라 서버망 제어 실무", "해운/관세 시스템 철저한 행정", "국제 조세 이익 충돌 관리", "위험 확률 계산 계리적 통제", "이상 심리 과학적/의학적 해부", "비정형 빅데이터 미래 예측 분석", "꽉 막힌 규제 물꼬 터주는 조력"]
-            ],
-            /* 1위 수(水) */ [ 
-                /* +목 */ ["경계 파괴 글로벌 교류 기획", "상처 흡수 및 치유 리더십", "새 교육 철학 융합 통찰", "뉘앙스 완벽 극복 정밀 통번역", "변수 많은 환경 재치 있는 가이드", "무의식 해석 및 방향 제시 소통", "해외 학술/언어 데이터 행정", "국제 교류/재단 사업 안정적 운영", "소외 계층 제도권 내 포섭 관리", "인간 본성 깊은 근원 철학적 연구", "가치 있는 해외 사상 텍스트 가공", "새 학문 기반 묵묵한 해외 동향 조력"],
-                /* +화 */ ["트렌드 비주얼 장악 파급적 기획", "복잡한 감정 파격적 예술 연출", "정보 속 가치 선점 비즈니스 개척", "이문화 무장해제 쇼맨십 협상", "돌발 상황 역동적 제어 실무", "국제 무대 흔들림 없는 동시통역", "무역/외교 거시 행정 조율", "글로벌 민심 꿰뚫는 정보 통제력", "이방인 유입 최전선 단호한 공안", "무의식/광기 심층 데이터 분석", "유행 이면의 시대적 리서치", "관제 센터 오차 없는 모니터링"],
-                /* +토 */ ["무형의 데이터 현실 수익 모델화", "이질적 집단 충돌 포용적 중재", "이커머스 생태계 구축/유지", "통계 사막 속 객관적 타협점 소통", "수백만 데이터 오차 없는 검수", "대자연 변덕 통제 인프라 연결", "무한 글로벌 아카이브 영구 보존", "조세 제도 빈틈 파고드는 합법 관리", "경제 지표 기반 방파제 거시 정책", "심연의 상처 임상 데이터 분석", "글로벌 경제 흐름 관측 지각 변동 연구", "데이터 센터 수자원/서버 무한 조력"],
-                /* +금 */ ["빅데이터 노이즈 제거 핵심 기획", "통제 불가 자원 수치화 이익 극대화", "무역 모순 파고드는 무자비한 혁신", "관세 맹점 파고드는 무역 세일즈", "수천만 줄 코드 철통 보안 실무", "감정 배제 100% 매뉴얼 기계 제어", "국경 틈새 범죄 엄격한 공안 통제", "불확실 리스크 확률 계산 철통 방어", "타국 논리 분쇄 자국 이익 방어 외교", "디지털 해류 속 범죄 흔적 포렌식", "자연 본질 차갑고 공학적인 분석", "데이터 관제 센터 감정 배제 절대 조력"],
-                /* +수 */ ["새 차원 지식 창조 무경계 통찰", "속 알 수 없는 평정심 비즈니스 지략", "물 흐르듯 유연한 궁극의 적응력", "국경 불문 마음 허무는 마법 소통", "예측 불가 삶 스트레스 제로 멘탈 관리", "룰 무의미한 갈등 양측 만족 협상", "대중 무의식 조종 여론 흐름 통제", "예측 불가 자원 대비 시스템 관리", "제도적 사각지대 구출 거시 복지", "허무/심연 파고드는 근원 철학 탐구", "현상 이면 은밀한 대중 심리 리서치", "빛 안 드는 아카이브 지식의 샘 헌신"]
-            ]
-        ];
-
-        const fusionJobsEn = [
-            /* 1st Wood */ [
-                /* +Wood */ ["New Project Launch", "Talent Nurturing", "Pioneering New Fields", "Materializing Ideas", "Motivating Persuasion", "Trend Forecasting", "Macro Strategy", "HR System Building", "Organizational Core", "Psychological Research", "Knowledge Editing", "Supporting Member Growth"],
-                /* +Fire */ ["Visual Planning Lead", "Impactful Branding", "Passionate Producing", "Aesthetic Design", "Heart-moving Sales", "Dynamic Field Comms", "Brand PR", "Event Management", "Public Education Planning", "Media Trend Analysis", "Captivating Storytelling", "Visual Semiotics Study"],
-                /* +Earth */ ["Profit Model Building", "Community Bonding", "Space Business", "Smooth Conflict Mediation", "Facility Operation", "Field HR Management", "Organizational Discipline", "Integrated HR Admin", "Infrastructure Control", "Human Resource Archiving", "Psychological Counseling", "System Base Research"],
-                /* +Metal */ ["Streamlined Strategy", "Objective KPI Lead", "Clear System Design", "Fact-based Sales", "Strict Process Control", "Precision Tech Practice", "Strict Risk Control", "Rule-based Admin", "Financial Loss Control", "Micro Data Analysis", "Patent/Expert Research", "Structural Flaw Audit"],
-                /* +Water */ ["Global Network Planning", "Flexible Trend Tactics", "High Adaptability", "Logistics/Info Distro", "Empathetic Comms", "Cross-cultural Negotiation", "Global Talent Mgmt", "Trade/Diplomatic Admin", "Info Flow Construction", "Philosophical Deep Dive", "Era Context Research", "Essence of Knowledge Analysis"]
-            ],
-            /* 1st Fire */ [
-                /* +Wood */ ["Trendy Cultural Planning", "Passion-based Producing", "Pioneering Edu Leadership", "Eye-catching Design", "Positive Field Comms", "Dynamic Expressiveness", "Attractive PR Strategy", "Mass Event Admin", "Media Fusion Systems", "Literary Storytelling", "Mass Media Research", "Flawless Backstage Support"],
-                /* +Fire */ ["Attention-grabbing Planning", "Artistic Project Lead", "Overwhelming Charisma", "Heart-opening Persuasion", "Emotion-stimulating Performance", "Visual Maximization", "Public Opinion Control", "Spokesperson/Messaging", "Crowded Platform Admin", "Public Preference Insight", "Timing/Direction Analysis", "Media Impact Study"],
-                /* +Earth */ ["Profit Model Realization", "Sensory Space Business", "Cultural Focal Point", "Emotion-absorbing CS", "Visual/Rest Facility Ops", "Conflict-easing Comms", "Overheating Control", "Mega Event Finance/Admin", "Infrastructure Stability Control", "Marginalized Psychology", "Visual Data Archiving", "Media System Back-end Support"],
-                /* +Metal */ ["Win-rate Max Strategy", "Fact-based Profit Gen", "Sleek Visual Curation", "Targeted Fact Sales", "Fact-based Journalism", "Broadcast/IT Field Control", "Strict Discipline Mgmt", "Public Security Risk Control", "Objective KPI System", "Data Manipulation Analysis", "Security Mechanism Research", "Evidence-based Forensics"],
-                /* +Water */ ["Flexible Global Platform", "Hybrid Content Creation", "Chameleon Adaptability", "Global Custom Sales", "Lead-taking Comms", "Content Distro Network", "Global Info Macro Mgmt", "Advanced Psycho-Marketing", "Global Media Diplomacy", "Trend Baseline Research", "Deep Philosophical Study", "Behind-the-scenes Archiving"]
-            ],
-            /* 1st Earth */ [
-                /* +Wood */ ["Space Value Creation", "Physical/System Infrastructure", "Macro Talent Allocation", "Planterior/Landscaping", "Optimized Brokerage", "Nature/Leisure Comms", "Real Estate/Urban Admin", "Conflict Mediation HR", "Eco Public Admin", "Space Psychology Study", "Nature Circulation Big Data", "Organizational Physical Support"],
-                /* +Fire */ ["Spatial Visual Branding", "Stability Diffusion Lead", "Franchise System Strategy", "Crowded Space Sales", "Visual VMD Practice", "Field Claim Relief CS", "Complex Facility Admin", "Faction Harmonization", "Data-centric Command", "Space Enthusiasm Analysis", "Video Record Server Archiving", "Financial/General Affairs Support"],
-                /* +Earth */ ["Unshakable Org Planning", "Absolute Mediation", "Macro Long-term Insight", "Rational Compromise", "Trust-inspiring Composure", "Flawless Asset Mgmt", "Giant Org Macro Admin", "Silent Manual Execution", "Strict Rule Control", "Historical Record Truth Study", "Macro Economy Tracking", "Silent System Foundation"],
-                /* +Metal */ ["Risk-free Efficiency Design", "Bureaucracy-breaking Lead", "Objective Valuation Strategy", "Fact/Cost-driven Sales", "Zero-error Precision Practice", "Safety Risk Supervision", "Leak-free Financial Audit", "Clear Judicial Admin", "Structural Flaw Control", "Ruthless Stats Analysis", "Cold Economic Logic Study", "Organizational Flaw Forensics"],
-                /* +Water */ ["Flexible Global Network", "Era Change Absorption", "Core Data Filtering", "Hidden Needs Comms", "Flawless Logistics Mgmt", "Cultural Conflict Negotiation", "Scattered Info Macro Control", "Macro Environmental Policy", "Embracing Trade Diplomacy", "Clinical Data Psychoanalysis", "Megatrend Research", "Knowledge Wave Systematization"]
-            ],
-            /* 1st Metal */ [
-                /* +Wood */ ["Precision Healthcare Planning", "Humane Tech Leadership", "Strict Safety Manual Setup", "Precision IT Service Practice", "Warm Comms of Cold Facts", "Body Function Healing", "Life Industry Strict Admin", "Expert Certification Control", "Objective HR System Mgmt", "Bioengineering Fusion Research", "Safety/Disease Data Analysis", "Mechanical Quality Support"],
-                /* +Fire */ ["High-tech Visual Branding", "Data-armed Charisma", "Tech Service UI/UX", "High-tech Logic Sales", "Data-driven Marketing", "Strict Field Chaos Control", "Security Risk Media Defense", "Cybercrime Tracking Admin", "Platform Traffic Overload Control", "Algorithm Manipulation Forensics", "Hidden Fact Media Analysis", "Flawless Server Infra Study"],
-                /* +Earth */ ["Complex Regulation Masterplan", "Fact-based Power Mediation", "Emotionless Evaluation Weight", "Resolute Legal Dispute Resolution", "Zero-error Tax/Accounting", "High-tech Field Stability", "Emotionless Correctional Execution", "Strict Compliance Audit", "Vast Data/Manual Preservation", "Legal Contradiction Precedent Study", "Economic Indicator Risk Analysis", "Ironclad Ledger/Security Support"],
-                /* +Metal */ ["100% Emotionless Efficiency", "Impurity-removing Charisma", "Zero-error Perfect System", "Cold Logic Overwhelming Sales", "Flawless Precision Practice", "Zero-defect Quality Control", "Ruthless Public Security", "Bloodless Financial Audit", "Hack-proof Flawless Security", "Data Desert Forensics", "Micro-structural Analysis", "Absolute Gear-like Loyalty"],
-                /* +Water */ ["Global Capital/Data Control", "Tech/Psychology Fusion Insight", "System Weakness Exploitation", "Trade/Finance Margin Calculation", "Highly Flexible Negotiation", "Global Server Network Control", "Strict Customs/Shipping Admin", "International Tax Conflict Mgmt", "Actuarial Risk Control", "Scientific Abnormal Psychoanalysis", "Unstructured Big Data Prediction", "Blocked Capital Flow Unlocking"]
-            ],
-            /* 1st Water */ [
-                /* +Wood */ ["Borderless Exchange Planning", "Wound-absorbing Healing Lead", "New Edu Philosophy Insight", "Flawless Precision Translation", "Witty Unpredictable Guide", "Unconscious Interpretation Comms", "Overseas Academic Data Admin", "Int'l Exchange/Foundation Ops", "Marginalized Group Protection", "Deep Human Nature Philosophy", "Overseas Ideology Text Processing", "Silent Overseas Trend Support"],
-                /* +Fire */ ["Trend Visual Domination", "Unconventional Art Direction", "Info Value Pioneer", "Showmanship Negotiation", "Dynamic Crisis Control", "Flawless Simultaneous Interpretation", "Macro Trade/Diplomacy Tuning", "Global Sentiment Info Control", "Resolute Yet Flexible Public Security", "Unconscious/Madness Data Analysis", "Trend Underlying Era Research", "Flawless Control Center Monitoring"],
-                /* +Earth */ ["Intangible Data Profit Modeling", "Heterogeneous Group Mediation", "Giant E-commerce Ecosystem", "Objective Stats Compromise", "Zero-error Massive Data Inspection", "Nature Whim Control Infra", "Infinite Global Archive Preservation", "Legal Tax Loophole Mgmt", "Macro Policy Breakwater", "Abyss Wound Clinical Analysis", "Global Economy Seismic Study", "Infinite Data Center Server Support"],
-                /* +Metal */ ["Big Data Noise Removal", "Uncontrollable Resource Valuation", "Ruthless Trade Innovation", "Customs Loophole Trade Sales", "Hack-proof Backend Code Security", "Emotionless Machine Control", "Strict Border Crime Security", "Uncertain Risk Formula Defense", "National Interest Diplomatic Defense", "Digital Current Crime Forensics", "Cold Engineering Nature Analysis", "Emotionless Control Center Support"],
-                /* +Water */ ["New Dimension Knowledge Creation", "Unfathomable Business Tactics", "Flowing Ultimate Adaptability", "Borderless Mind-opening Comms", "Stress-free Global Nomad Mentality", "Rule-meaningless Win-win Negotiation", "Public Unconscious Macro Control", "Unpredictable Resource System Mgmt", "Marginalized Institutional Rescue", "Philosophical Abyss Deep Dive", "Hidden Mass Psychology Research", "Silent Devotion in Dark Archives"]
-            ]
-        ];
+ 
+// 💡 4-3. [스펙트럼 300종 - 군더더기 배제, 가독성 및 하이엔드 감성 최적화 버전]
+const fusionJobsKo = [
+    /* 1위 목(木) */ [ 
+        /* +목 */ [
+            "무에서 유를 창조하여 새로운 판을 짜는 역동적인 신규 기획", 
+            "숨겨진 원석을 발굴하여 거목으로 키워내는 탁월한 인재 육성", 
+            "누구도 밟지 않은 미지의 영역에 가장 먼저 깃발을 꽂는 개척력", 
+            "추상적인 영감을 실체화된 결과물로 완벽히 빚어내는 창작의 힘", 
+            "타인의 잠든 동기를 일깨워 행동으로 이끄는 매혹적인 설득력", 
+            "시대의 흐름을 한발 앞서 읽고 새로운 기준을 제시하는 통찰", 
+            "조직의 거시적 미래를 내다보고 뼈대를 세우는 마스터플랜 수립", 
+            "모두가 수긍하는 견고하고 조화로운 조직 및 보상 체계 구축", 
+            "흩어진 사람들의 마음을 하나로 굳건히 결속시키는 절대적 구심점", 
+            "인간 심리의 깊은 근원을 파고들어 성장을 돕는 심층 연구", 
+            "방대한 지식 속에서 핵심만 건져 올려 가공하는 탁월한 편집력", 
+            "타인의 눈부신 도약을 무대 뒤에서 묵묵히 지지하는 헌신적 조력"
+        ],
+        /* +화 */ [
+            "대중의 시선을 단숨에 사로잡는 강렬하고 감각적인 시각 기획", 
+            "대중의 열망을 자극하여 뇌리에 깊게 각인시키는 폭발적 브랜딩", 
+            "타인의 잠재력에 불을 지펴 최고의 무대로 이끄는 열정적 프로듀싱", 
+            "평범함 속에 심미적 화려함과 생명력을 덧입히는 감각적 디자인", 
+            "군중의 마음을 홀리고 닫힌 지갑을 열게 만드는 마력의 세일즈", 
+            "어떤 현장에서도 분위기를 압도하며 주도권을 쥐는 역동적 소통력", 
+            "조직의 가치를 대중에게 가장 매력적으로 포장해 전파하는 홍보", 
+            "수많은 인파가 몰리는 현장의 질서를 장악하는 총괄력", 
+            "대중의 눈높이에 맞춰 지식을 화려하게 포장하는 트렌디한 교육", 
+            "유행의 표면 아래 숨겨진 대중의 진짜 욕망을 짚어내는 통찰적 분석", 
+            "메마른 텍스트에 감정의 숨결을 불어넣는 폭발적인 스토리텔링", 
+            "화려함 이면을 꿰뚫고 기호와 현상의 의미를 해부하는 심층 탐구"
+        ],
+        /* +토 */ [
+            "추상적인 아이디어를 단단한 현실의 수익 모델로 굳히는 치밀한 기획", 
+            "서로 다른 성향의 이들을 하나의 견고한 커뮤니티로 묶어내는 결속력", 
+            "버려진 공간에 새로운 가치와 온기를 불어넣는 공간 비즈니스", 
+            "첨예한 대립 속에서 유연하게 최적의 타협점을 찾아내는 절대적 중재력", 
+            "대중에게 변함없는 안정감과 휴식을 제공하는 프리미엄 운영", 
+            "조직원의 마음을 세밀하게 어루만지며 현장을 통제하는 밀착 관리", 
+            "흔들림 없는 조직 기틀을 다지고 수용성 높은 룰을 세우는 행정력", 
+            "복잡한 이해관계를 융합하여 모두가 수긍하는 통합 체계 확립", 
+            "거대 시스템과 인프라가 무너지지 않도록 지탱하는 묵직한 책임감", 
+            "흩어진 자원과 기록을 완벽하게 수집하고 영구히 보존하는 아카이빙", 
+            "상처받은 마음의 무게를 덜어주고 단단하게 안아주는 심리 치유", 
+            "거시적인 환경 변화를 추적하여 조직의 뿌리를 다지는 인프라 연구"
+        ],
+        /* +금 */ [
+            "불필요한 감정을 덜어내고 극강의 효율만을 추구하는 냉철한 기획", 
+            "추상적 가치를 객관적 데이터로 치환하여 성과를 이끄는 리더십", 
+            "단 하나의 예외도 허용하지 않는 무결점의 시스템 설계", 
+            "차가운 팩트와 논리로 상대의 허점을 파고드는 성과 중심 세일즈", 
+            "단 1%의 오차도 용납하지 않는 타협 없는 정밀 공정 및 품질 관리", 
+            "날카로운 메스처럼 예리하고 고도화된 전문 기술을 다루는 실무", 
+            "잠재적 리스크를 사전에 감지하고 단호하고 무자비하게 차단하는 통제", 
+            "엄격한 규정과 잣대로 다수의 질서를 바로잡는 거시적 사법 행정", 
+            "단 1원의 누수도 허용하지 않고 자본의 흐름을 철통같이 방어하는 재무", 
+            "방대한 데이터 사막에서 숨겨진 패턴과 팩트를 발굴해내는 미시 분석", 
+            "가장 차갑고 논리적인 잣대로 현상의 본질을 세밀히 해부하는 연구", 
+            "표면 이면에 숨겨진 구조적 모순을 날카롭게 도려내는 심층 감사"
+        ],
+        /* +수 */ [
+            "경계를 허물고 이질적인 지식을 융합해내는 글로벌 하이엔드 기획", 
+            "요동치는 트렌드의 파도를 유연하게 넘나드는 카멜레온적 지략", 
+            "어떤 낯선 환경에서도 물처럼 스며들어 생존로를 개척하는 궁극의 적응력", 
+            "막힌 흐름을 뚫고 자원과 정보가 매끄럽게 순환하도록 돕는 유통 실무", 
+            "타인의 깊은 무의식까지 스며들어 마음의 장벽을 단숨에 허무는 소통", 
+            "이질적 가치관이 충돌할 때 유연하게 합의점을 끌어내는 압도적 협상력", 
+            "광범위하게 흩어진 정보망과 인적 자원을 하나로 통제하는 거시 관리", 
+            "보이지 않는 무대에서 특유의 포용력으로 유리한 룰을 세우는 외교 행정", 
+            "거대한 자본과 데이터가 멈춤 없이 흐르도록 물꼬를 터주는 인프라 제어", 
+            "현상의 표면을 넘어 근원적 본질과 우주의 심연을 파고드는 철학적 탐구", 
+            "수많은 데이터의 심연에서 다가올 시대의 메가트렌드를 읽어내는 리서치", 
+            "어느 한 곳에 치우치지 않고 지식의 파도를 묵묵히 체계화하는 학문적 헌신"
+        ]
+    ],
+    /* 1위 화(火) */ [ 
+        /* +목 */ [
+            "역동적인 생명력을 불어넣어 문화의 흐름을 주도하는 트렌디한 기획", 
+            "자신의 뜨거운 열정으로 타인의 잠재된 동기를 폭발시키는 프로듀싱", 
+            "지식과 깨달음을 세상에 널리 전파하는 선구자적 교육 리더십", 
+            "심미적 감각을 바탕으로 대중의 시선을 단숨에 빼앗는 창작 및 디자인", 
+            "사람들과 교류하며 긍정적이고 따뜻한 에너지를 전파하는 현장 소통", 
+            "머릿속의 역동적인 상상을 생생하고 파급력 있게 풀어내는 표현력", 
+            "브랜드 가치를 가장 매력적으로 포장해 대중에게 전파하는 홍보 전략", 
+            "다수가 모이는 대형 행사 및 전시의 화려함을 이끄는 거시적 행정", 
+            "가치 있는 지식을 대중 매체와 결합하여 널리 확산시키는 시스템 구축", 
+            "인간의 복잡한 심리와 욕망을 매력적인 스토리텔링으로 엮어내는 분석", 
+            "화려한 매체와 트렌드 이면에 숨겨진 데이터의 흐름을 짚어내는 연구", 
+            "스포트라이트가 쏟아지는 무대 뒤에서 연출을 돕는 묵묵한 조력"
+        ],
+        /* +화 */ [
+            "모든 시선을 한 곳으로 집중시켜 세상을 지배하는 파급력 있는 기획", 
+            "오감을 극도로 자극하는 심미적이고 예술적인 대형 프로젝트 리드", 
+            "분위기를 완벽하게 장악하고 확신으로 무리를 이끄는 압도적 카리스마", 
+            "화려한 언변과 무대 매너로 굳게 닫힌 마음을 무장해제시키는 설득력", 
+            "대중의 감정을 자극하고 뜨거운 호응을 이끌어내는 마력의 퍼포먼스", 
+            "시각적 자극을 극대화하고 미디어의 템포를 쥐고 흔드는 영상 연출", 
+            "여론과 대중의 민심을 유리한 방향으로 유연하게 이끄는 공보 통제", 
+            "최전선에서 대변인 역할을 수행하며 공식 메시지를 완벽하게 장악하는 관리", 
+            "인파가 집중되는 거대 플랫폼의 혼란을 잠재우고 질서를 유지하는 행정", 
+            "급변하는 대중 선호도와 파급력을 예리하게 꿰뚫어 보는 통찰력", 
+            "무대를 위해 완벽한 타이밍과 시각적 연출을 계산해 내는 분석", 
+            "대중 매체의 영향력과 시각적 기호학의 원리를 깊이 있게 파고드는 연구"
+        ],
+        /* +토 */ [
+            "화려한 아이디어를 현실의 수익 모델로 완벽히 착근시키는 기획", 
+            "시각적 아름다움과 감성을 물리적 공간에 녹여내는 비즈니스", 
+            "다양한 대중을 하나의 문화적 공간으로 완벽하게 모아내는 구심점", 
+            "흥분한 대중의 감정을 부드럽게 흡수하고 불만을 녹여내는 하이엔드 CS", 
+            "시각적 즐거움과 안정적인 휴식을 동시에 제공하는 프리미엄 시설 운영", 
+            "사람 사이의 온도를 세밀하게 맞추고 갈등의 불씨를 덮어주는 소통 능력", 
+            "과열된 경쟁과 열정을 가라앉히고 체계적인 룰 안으로 묶어내는 관리", 
+            "화려한 행사 이면에 숨겨진 재무 및 총무의 디테일을 빈틈없이 챙기는 행정", 
+            "다수가 모이는 거대 인프라와 공공시설의 묵직한 안정성을 통제하는 권위", 
+            "소외된 사람들의 마음을 따뜻한 온기로 보듬고 치유하는 심연의 심리 분석", 
+            "쏟아지는 시각 자료를 단 1의 오차 없이 분류해 영구히 보존하는 아카이빙", 
+            "시스템이 무너지지 않도록 화려함 뒤에서 기반을 지탱하는 묵묵한 지원"
+        ],
+        /* +금 */ [
+            "화려한 아이디어에 날카로운 논리를 더해 성공 확률을 극대화하는 전략", 
+            "불확실한 감성을 걷어내고 팩트 기반의 확실한 수익 창출만을 노리는 기획", 
+            "불필요한 장식을 도려내어 가장 세련되고 날카로운 시각적 차별화를 만드는 역량", 
+            "정밀한 데이터 타겟팅과 언변으로 타인의 허점을 파고드는 킬러 세일즈", 
+            "차가운 팩트와 논리만을 전달해 허상을 부수고 진실을 알리는 저널리즘", 
+            "첨단 기기와 설비를 단 1의 오차도 없이 다루는 압도적인 현장 통제력", 
+            "대중의 시선이 쏠리는 영역에서 엄격한 기준으로 기강을 확립하는 관리", 
+            "화려한 겉모습 이면에 숨겨진 리스크와 불법성을 철저히 차단하는 공안 통제", 
+            "객관적인 지표만으로 성과를 무자비하고 투명하게 평가하는 시스템 설계", 
+            "방대한 디지털 여론과 알고리즘을 쪼개어 조작이나 오류를 파헤치는 분석", 
+            "첨단 보안의 논리와 시스템을 차가운 이성으로 완벽하게 해부하는 심층 연구", 
+            "감정에 휩쓸리지 않고 명백한 증거를 토대로 진위를 밝혀내는 포렌식 탐구"
+        ],
+        /* +수 */ [
+            "한계를 유연하게 넘나들며 글로벌 미디어 판을 주도하는 지략적 기획", 
+            "이질적인 트렌드와 정보를 섞어 완전히 새로운 차원의 콘텐츠를 창조하는 역량", 
+            "대중의 변덕에 맞추어 카멜레온처럼 완벽하게 변신하는 궁극의 적응력", 
+            "타인의 니즈를 정확히 파악하고 유연하게 소통해 가치를 전파하는 세일즈", 
+            "상대의 감정적 동요를 단숨에 꿰뚫어 보고 대화의 주도권을 쥐는 커뮤니케이션", 
+            "방대한 콘텐츠의 흐름을 시각적으로 매끄럽게 포장해 거침없이 유통시키는 실무", 
+            "보이지 않는 정보망과 대중의 무의식을 데이터로 통제하는 거시 관리", 
+            "욕망을 자극하고 심리적 틈새를 파고들어 보이지 않게 여론을 주도하는 마케팅", 
+            "국가 간 교류 및 통상 마찰을 깊은 포용력으로 부드럽게 조율하는 외교력", 
+            "화려한 유행 기저에 깔린 시대적 맥락과 심연을 거시적으로 분석하는 리서치", 
+            "정보의 바다 속에서 정신의 본질적인 허무함과 철학적 근원을 파고드는 탐구", 
+            "드러난 화려함 이면에 가라앉은 진실을 캐내어 변치 않는 기록으로 남기는 아카이빙"
+        ]
+    ],
+    /* 1위 토(土) */ [ 
+        /* +목 */ [
+            "방치된 공간에 생명력을 불어넣어 완전히 새로운 가치로 탈바꿈시키는 기획", 
+            "대중이 안심하고 성장할 수 있는 물리적이고 제도적인 뼈대를 설계하는 인프라", 
+            "조직이라는 대지 위에 인재를 적재적소에 배치해 거목으로 육성하는 거시 전략", 
+            "공간의 구조를 완벽히 이해하고 생동감 넘치는 인테리어와 조경을 구현하는 실무", 
+            "고객의 복잡한 니즈를 경청하고 가장 최적화된 공간이나 상품을 맺어주는 중개", 
+            "대중이 안정감을 느끼는 환경 속에서 힐링과 프리미엄 서비스를 제공하는 소통", 
+            "방대한 인프라 개발 계획을 수립하고 흔들림 없이 행정적으로 조율하는 통제력", 
+            "조직원의 갈등을 부드럽게 중재하고 모두가 수긍하는 인사 시스템 관리", 
+            "환경 및 생태 인프라를 보존하고 다음 세대를 위한 공공의 매뉴얼을 구축하는 행정", 
+            "물리적 공간과 환경이 인간의 무의식과 심리에 미치는 영향을 탐구하는 심층 연구", 
+            "자연과 거시 경제가 순환하는 근본적인 이치를 빅데이터와 결합하여 분석하는 학문", 
+            "무대 뒤에서 구성원들이 절대 흔들리지 않도록 물리적 기반을  다져주는 조력"
+        ],
+        /* +화 */ [
+            "정적인 공간에 매혹적인 스토리와 시각적 브랜딩을 덧입히는 감각적 기획", 
+            "신뢰감 있는 무게감과 화려한 언변으로 대중을 이끌어가는 확산의 리더십", 
+            "대규모 오프라인 비즈니스의 열기를 안정적이고 폭발적으로 팽창시키는 거시 전략", 
+            "수많은 인파가 몰리는 현장에서 특유의 카리스마로 군중을 매료시키는 세일즈", 
+            "시각적 아름다움과 감성을 물리적 공간에 구현해 내는 VMD 디렉팅", 
+            "흥분한 군중의 불만을 압도적 안정감으로 녹여버리는 하이엔드 현장 장악력", 
+            "막대한 인파가 뿜어내는 에너지를 매뉴얼로 통제하는 대형 시설 행정", 
+            "조직 내의 뜨거운 파벌 갈등을 부드럽게 융화하여 하나의 울타리로 묶는 관리", 
+            "방대한 고객 데이터의 변화를 유연하게 수용하며 중심을 잃지 않는 굳건한 지휘", 
+            "대중이 특정 공간이나 문화에 열광하는 무의식을 깊게 파헤치는 심리 분석", 
+            "오랜 시간 축적된 화려한 시각 기록물들을 변형 없이 영구히 보존하는 아카이빙", 
+            "무대 위의 화려함이 유지되도록 이면의 재무와 인프라를  뒷받침하는 조력"
+        ],
+        /* +토 */ [
+            "어떤 거센 외풍에도 절대 흔들리지 않는 견고한 조직의 마스터플랜 설계 기획력", 
+            "방대한 이해관계를 하나의 시스템 안으로 완벽하게 흡수하여 평화를 낳는 절대적 중재", 
+            "거시적 관점에서 세상의 흐름을 관망하고 안정적인 장기 투자의 판을 짜는 통찰력", 
+            "대립하는 의견 사이에서 치우치지 않고 가장 합리적인 타협점을 도출해 내는 설득력", 
+            "변함없는 신뢰감과 산 같은 무게감을 주어 중대한 일을 맡기게 만드는 압도적 평정심", 
+            "문서 및 물리적 자산 등 무거운 자원들을 한 치의 오차도 없이 온전히 유지하는 실무", 
+            "수많은 부서를 통제하고 거대 인프라가 굴러가게 만드는 거대 조직의 거시 행정력", 
+            "개인의 감정을 철저히 배제하고 오직 조직의 안위만을 위해 매뉴얼을 집행하는 관리", 
+            "복잡한 법률이나 행정 절차 등 끊임없이 반복되는 깐깐한 규율을 오차 없이 다루는 권위", 
+            "수십 년간 축적된 방대한 역사적 기록과 데이터의 심연에서 변치 않는 진리를 찾는 연구", 
+            "눈에 띄지 않는 현상의 느린 변화 패턴을 장기적으로 추적하고 끈질기게 분석하는 학문", 
+            "드러나지 않지만 시스템의 근본 토대가 되어 조직 전체를 굳건하게 지탱하는 묵묵한 헌신"
+        ],
+        /* +금 */ [
+            "방대한 자산 데이터에서 위험 요소를 날카롭게 쳐내어 극강의 효율을 설계하는 기획", 
+            "낡은 관행을 단칼에 도려내고 혁신적 규율을 새롭게 세우는 승부사적 카리스마 리더십", 
+            "현실적인 논리로 무형의 가치를 객관적인 숫자로 정확히 산정해 내는 차가운 전략", 
+            "정에 흔들리지 않고 팩트와 가성비만을 무기로 항복을 받아내는 성과 영업", 
+            "한 치의 계산 착오도 용납되지 않는 분야에서 발휘되는 오차 없는 완벽주의 실무", 
+            "위험이 직결된 거친 현장에서 불안 요소를 탐지하고 철저하게 매뉴얼로 통제하는 감독", 
+            "거대한 자본의 흐름을 냉혹하게 감시하고 단 1원의 누수도 절대 허용하지 않는 재무 관리", 
+            "분쟁 상황에서 감정을 완벽히 배제하고 규정대로 명확하게 판결을 내리는 사법 행정", 
+            "대규모 시설 유지 보수 중 드러나는 치명적인 구조적 결함을 무자비하게 고치는 권위", 
+            "끝없이 펼쳐진 통계 지표의 사막 속에서 오직 팩트와 진실만을 가려내는 데이터 심층 분석", 
+            "금융의 원리와 차가운 거시 경제의 논리를 객관적인 지표로 탐구하고 증명해 내는 연구", 
+            "조직의 안정을 은밀하게 갉아먹는 시스템의 맹점을 조용하지만 날카롭게 파헤치는 포렌식"
+        ],
+        /* +수 */ [
+            "한계에 얽매이지 않고 유연하게 글로벌 거대 네트워크망을 구축해 내는 하이엔드 기획", 
+            "시대의 빠른 변화를 자연스럽게 흡수하여 조직의 안정된 인프라로 융합해 내는 노련한 지략", 
+            "이질적 정보의 바다에서 핵심 데이터만을 걸러내어 단단하고 거대한 성을 쌓는 통찰력", 
+            "상대의 숨겨진 니즈를 부드럽게 파고들어 경계를 허물고 무한한 신뢰를 이끌어내는 소통", 
+            "방대한 자원이 막힘없이 이동할 수 있도록 시스템의 혈관을 잇는 무결점 유통 및 물류 실무", 
+            "날 선 오해와 갈등이 충돌할 때 깊은 포용력으로 불만을 녹여내는 마법 같은 협상력", 
+            "전 세계에 흩어진 방대한 정보와 인적 네트워크를 데이터 댐으로 가두는 제어 관리", 
+            "인류의 생존과 직결된 거시적이고 포괄적인 인프라 환경 정책을 수립하는 공공 행정", 
+            "보이지 않는 암투와 통상 마찰을 깊은 포용력으로 흡수해 평화로운 룰을 세우는 외교 조율", 
+            "무의식에 가라앉은 깊은 상처를 임상 데이터 형태로 구조화하여 치료의 해답을 찾는 분석", 
+            "현상의 표면 아래 천천히 흐르는 메가 트렌드를 짚어내고 대비하는 거시적 리서치", 
+            "끝없이 쏟아지는 지식의 파도를 어느 한곳에 치우치지 않고 견고하게 체계화하는 학문적 헌신"
+        ]
+    ],
+    /* 1위 금(金) */ [ 
+        /* +목 */ [
+            "꺼져가는 생명을 살리거나 기능을 완벽히 회복시키는 고도화된 정밀 시스템 주도 기획", 
+            "차가운 기술 조직 내에서 따뜻하고 인간적인 동기를 부여하여 팀을 이끄는 혁신적 리더십", 
+            "위험 요소가 가득한 산업 현장에서 생명과 안전을 최우선으로 지켜내는 철저한 매뉴얼 제어", 
+            "한 치의 오차 없는 정밀한 기술을 활용해 인류에게 유용한 지식 서비스를 만들어내는 실무", 
+            "차가운 팩트를 다루면서도 상대가 상처받지 않게 온기를 담아 지식을 전달하는 배려의 소통", 
+            "신체나 시스템의 기능을 정교하고 날카롭게 교정하여 생명력을 완벽히 되찾게 돕는 힐링", 
+            "생명과 직결된 산업의 엄격한 규제를 확립하고 단 1%의 빈틈도 없이 완벽하게 운영하는 행정", 
+            "고도로 전문화된 제도를 설계하고 엄격한 기준으로 뛰어난 인재만을 걸러내는 압도적 통제력", 
+            "기계처럼 정확히 돌아가는 조직 내에서 철저히 객관적 데이터 기반으로 자원을 관리하는 체계", 
+            "인간의 메커니즘과 차가운 공학적 원리를 융합하여 새로운 패러다임을 이끄는 심층 연구", 
+            "사고나 질병의 근본 원인을 데이터 분석을 통해 추적하고 해결책을 명백히 증명하는 탐구", 
+            "조직의 품질과 안전이 완벽하게 유지되도록 기계 부품처럼 정확하고 묵묵하게 뒷받침하는 조력"
+        ],
+        /* +화 */ [
+            "딱딱한 시스템에 화려한 스토리를 입혀 기존 시장의 룰을 산산조각 내는 파급력 있는 기획", 
+            "냉철하고 압도적인 데이터를 무기로 대중의 시선을 단숨에 제압해 버리는 승부사적 카리스마", 
+            "복잡한 기술이나 지식을 대중이 직관적이고 열광적으로 소비할 수 있도록 매혹적으로 시각화", 
+            "차갑고 복잡한 논리를 화려한 언변으로 완벽하게 풀어내어 상대의 지갑을 열게 만드는 세일즈", 
+            "정밀한 데이터와 알고리즘을 바탕으로 파급력 있는 마케팅 퍼포먼스를 폭발시키는 하이엔드 실무", 
+            "엄격한 현장에서 시선을 완전히 장악하고 단호하게 군중의 혼란을 단숨에 제압하는 압도적 통제력", 
+            "조직의 치명적 리스크를 사전 감지하고 위기 발생 시 언론과 여론을 철저하고 냉혹하게 방어", 
+            "보이지 않는 범죄나 규정 위반을 단호하게 추적하고 피도 눈물도 없이 엄격하게 처벌하는 행정", 
+            "대중이 열광하는 무대 이면에서 어마어마한 과부하를 단 1의 오차도 없이 분산하고 제어하는 시스템", 
+            "화려한 표면을 걷어내고 알고리즘의 조작이나 감춰진 진실을 캐내는 무자비하고 날카로운 포렌식", 
+            "숨겨진 팩트를 차가운 통계의 논리로 완벽히 해부하여 거짓을 낱낱이 밝혀내는 심층 분석", 
+            "화려함 뒤 어두운 곳에서 정보망과 인프라가 절대 끊기지 않도록 강박에 가깝게 유지하는 헌신"
+        ],
+        /* +토 */ [
+            "복잡하게 얽힌 규제와 법률 속에서 거대 조직의 이해관계를 완벽히 조율하는 거시적 마스터플랜", 
+            "자본과 권력이 맹렬하게 충돌하는 테이블에서 팩트를 기반으로 절대적인 룰을 세우는 철저한 중재", 
+            "감정이 철저히 배제된 기관이나 평가 시스템 내에서 극강의 공정함을 지켜내는 압도적 무게감", 
+            "정확한 지식을 바탕으로 고객의 치명적인 분쟁이나 리스크를 단호하고 깔끔하게 해결하는 실무", 
+            "단 1의 오차도 허용되지 않는 차가운 숫자의 사막에서 기어코 결과를 내는 무서운 끈기", 
+            "첨단 시스템이 절대 멈추지 않도록 현장의 돌발 변수들을 차분하고 완벽하게 수습하는 안정감", 
+            "감정을 완벽히 배제하고 정해진 원칙과 매뉴얼대로 시스템을 완벽하게 통제하는 집행력", 
+            "내부의 썩은 부패를 촘촘한 감사 시스템으로 얽어매고 투명한 룰을 강제하는 얼음 같은 준법 감시", 
+            "수백만 건의 평가 데이터나 서류를 영구 보존하고 매뉴얼을 철저히 유지하는 무결점의 방어적 행정", 
+            "수십 년간 쌓인 방대한 법률이나 기록물 속에서 모순을 찾고 새로운 기준을 끈질기게 연구하는 학문", 
+            "차가운 지표 속에 숨겨진 치명적 리스크를 끈질기게 파고들어 세상에 냉혹하게 경고하는 통계 분석", 
+            "문서와 숫자의 틈바구니에 묻혀 절대 무너지지 않는 철통같은 장부와 조직의 보안을 지켜내는 조력"
+        ],
+        /* +금 */ [
+            "감정과 군더더기를 100% 제거하고 압도적인 효율과 결과만을 향해 직진하는 극강의 무결점 기획", 
+            "조직의 불순물을 단칼에 베어내고 뼈를 깎는 혁신을 강요하는 절대 군주와 같은 무자비한 카리스마", 
+            "단 1의 오차도 허용하지 않는 치밀한 알고리즘을 설계해 시스템을 통치하는 철혈의 권위", 
+            "감정이 배제된 차가운 논리와 팩트 폭격만으로 협상 테이블에서 항복을 받아내는 킬러 세일즈", 
+            "조금의 실수도 용납되지 않는 정밀 기계 및 도구 등을 극도의 집중력으로 다루는 하이엔드 실무", 
+            "수천 번의 테스트를 통해 미세한 결함을 찾아내어 완벽주의의 결정체를 세상에 내놓는 극한의 품질 관리", 
+            "핵심 통제부에서 무자비하고 차가운 원칙으로 조직과 사회의 무질서를 완벽하게 응징하는 거시적 통제", 
+            "거대 자본의 중심에서 재무와 투자의 흐름을 피도 눈물도 없는 잣대로 철저히 감시하고 통제하는 권력", 
+            "철통같은 보안망을 구축하여 외부의 어떤 개입도 단 한 번도 허용하지 않는 무결점 인프라 시스템", 
+            "방대한 데이터 사막에서 숨겨진 패턴과 조작된 팩트를 가장 날카롭게 해부하는 고도의 디지털 포렌식", 
+            "가장 작은 미시적 단위까지 극단적으로 쪼개어 사물과 현상의 본질을 완벽히 증명해 내는 학문적 집착", 
+            "차갑고 단단한 원칙의 틀 안에서 기계의 톱니바퀴처럼 묵묵하고 완벽하게 시스템을 굴리는 절대적 충성"
+        ],
+        /* +수 */ [
+            "한계를 유연하게 넘나들며 거대 자본과 데이터의 흐름을 완벽히 통제하는 압도적인 하이엔드 기획", 
+            "첨단 기술에 인간 심리를 조종하는 유연성을 결합하여 보이지 않게 시장을 완벽히 지배하는 통찰력", 
+            "견고해 보이는 시스템의 약점을 물처럼 부드럽게 파고들어 판을 내 것으로 뒤집어버리는 노련한 전략", 
+            "방대한 데이터 속에서 위험을 감지하고 최적의 마진을 오차 없이 정확히 계산해 내는 냉철한 승부사", 
+            "타인의 약점을 꿰뚫어 보면서도 부드러운 화법으로 상대를 내 뜻대로 조종하는 고도의 심리 협상력", 
+            "거대한 네트워크 인프라가 막힘없이 흐르도록 전 세계의 시스템을 세밀하고 완벽하게 제어하는 실무", 
+            "복잡한 물류나 시스템을 철저한 법의 테두리 안에서 완벽하고 정교하게 통제하는 무결점 행정", 
+            "이해관계가 충돌하는 험난한 영역에서 부드러운 외교력으로 나에게 유리한 합의를 완벽히 끄는 관리", 
+            "보이지 않는 치명적 위험 확률을 정교한 통계적 잣대로 계산하여 댐을 구축하는 계리적 통제", 
+            "인간의 이상 심리와 근원을 차갑고 과학적인 잣대로 해부하여 해답과 치료법을 찾아내는 연구", 
+            "비정형 빅데이터를 정밀한 알고리즘의 체에 걸러내어 미래의 거시적 변동을 오차 없이 예측하는 분석", 
+            "가장 엄격한 규칙 속에서도 유연함을 잃지 않고 꽉 막힌 흐름이 원활하게 흐르도록 물꼬를 터주는 조력"
+        ]
+    ],
+    /* 1위 수(水) */ [ 
+        /* +목 */ [
+            "견고한 장벽을 부수고 완전히 새로운 차원의 글로벌 문화 교류 판을 짜는 경계 파괴적 하이엔드 기획", 
+            "타인의 깊은 상처를 스펀지처럼 흡수하고 공감하여 꺾인 삶의 의지를 다시 일으켜 세우는 치유의 리더십", 
+            "닫힌 지식의 경계를 과감히 허물고 이질적인 개념들을 엮어 새로운 철학을 제시하는 위대한 통찰력", 
+            "언어와 문화의 뉘앙스 차이까지 완벽하게 통번역하여 단절된 의미를 유연하게 잇는 정밀하고 매끄러운 실무", 
+            "예측 불허의 낯선 현장에서 특유의 재치와 유연함으로 불안한 사람들을 완벽히 이끄는 마법의 가이드", 
+            "운명이나 깊은 심리적 기호들을 부드러운 언어로 해석하여 방향을 잃은 이들을 안전하게 안내하는 영적 소통", 
+            "방대한 학술 자료와 지식 데이터를 체계적으로 수집·관리하여 조직의 역량을 완벽히 뒷받침하는 행정", 
+            "광범위한 교류나 지원 사업을 넓고 포용력 있는 잣대로 기획하고 무리 없이 완벽하게 돌아가게 만드는 운영", 
+            "편견의 사각지대에 놓인 소외된 이들을 따뜻한 제도적 시스템 안으로 포섭하여 끝까지 지켜내는 관리", 
+            "겉으로 드러나지 않는 인간 본성의 가장 깊은 심연을 탐구해 그 위대한 가치를 완벽히 증명하는 인문학 연구", 
+            "수많은 문헌 속에서 가치 있는 위대한 사상을 길어 올려 대중이 쉽게 이해할 수 있는 텍스트로 가공", 
+            "지식의 변방에서 새로운 학문이 싹틀 수 있도록 동향을 살피고 보이지 않는 기반을 다지는 조력"
+        ],
+        /* +화 */ [
+            "시시각각 변하는 트렌드를 매혹적인 비주얼로 포장하여 시장을 단숨에 장악해 버리는 압도적 파급력의 기획", 
+            "인간 내면의 복잡한 감정선을 파격적이고 시각적인 예술 작품으로 빚어내어 대중의 마음을 뒤흔드는 연출", 
+            "유동하는 방대한 정보 속에서 남들보다 먼저 진짜 가치를 알아보고 판도를 완벽하게 주도하는 비즈니스 개척자", 
+            "굳게 닫힌 마음을 화려한 쇼맨십과 유연한 처세술로 단숨에 무장해제시키는 킬러 본능의 마법 같은 협상", 
+            "이방인이 섞이는 혼란한 현장의 돌발 상황을 특유의 역동성과 센스로 매끄럽게 통제하는 현장 실무", 
+            "숨 막히는 회의에서 통역과 의전을 수행하며 수많은 시선 앞에서도 흔들림 없는 퍼포먼스를 뽐내는 소통", 
+            "외교의 장막 뒤에서 복잡하게 얽힌 이해관계를 압도적인 명분으로 완벽하게 조율해 내는 거시 행정", 
+            "시시각각 변하는 민심을 꿰뚫어 보고 조직의 이익을 위해 보이지 않게 여론을 유연하고 완벽하게 조종하는 통제", 
+            "이방인이 쏟아지는 최전선에서 단호한 질서 체계를 유지하면서도 상황에 맞는 융통성을 유연하게 발휘하는 공안", 
+            "무의식이 미디어에 의해 어떻게 열광하거나 붕괴하는지를 심층 데이터로 무자비하게 낱낱이 해부하는 분석", 
+            "유행의 화려한 껍데기를 걷어내고 인간의 맹목적인 욕망을 시대적 맥락으로 정확히 짚어내는 날카로운 리서치", 
+            "네트워크가 요동치는 관제 센터에서 화려한 조명 뒤에 숨어 단 1초의 오차 없이 상황을 완벽하게 모니터링하는 지원"
+        ],
+        /* +토 */ [
+            "무형으로 조용히 흐르는 자본과 데이터를 현실의 안정적인 대규모 수익 모델로 정착시키는 통찰", 
+            "극단적으로 이질적인 집단들이 충돌할 때 깊은 포용력으로 불만을 모두 흡수해 평화로운 판을 짜는 절대 중재력", 
+            "무형의 공간에 생태계를 굳건하게 구축하여 지치지 않고 판을 굴리는 산과 같은 무게감", 
+            "통계의 사막 속에서 길을 잃지 않고 대중 심리와 현실을 잇는 가장 객관적인 타협점을 찾아내는 소통", 
+            "수백만 개의 데이터나 물류 흐름을 꼼꼼하게 대조하며 단 하나의 오차도 없이 질서를 유지하는 끈기", 
+            "대자연의 무서운 변덕을 완벽히 통제하고 이를 인간 생활에 이로운 튼튼한 인프라로 연결하고 관리하는 실무", 
+            "무한히 확장되는 거대 기록물과 아카이브를 체계로 묶어 영원히 훼손되지 않게 보존하는 거시 행정", 
+            "조세 제도의 빈틈을 예리하게 파고들면서도 가장 안정적인 합법의 테두리 안에서 자본을 완벽하게 묶어두는 관리", 
+            "거시 경제 지표를 바탕으로 사회 전체가 금융 위기에 흔들리지 않도록 든든한 방파제 역할을 하는 공공 정책 수립", 
+            "무의식 깊은 곳에 가라앉은 상처를 끌어올려 안정적인 임상 데이터 형태로 구조화하여 치유의 해답을 찾는 분석", 
+            "보이지 않는 경제 흐름을 레이더처럼 예리하게 관측하여 미래의 지각 변동을 완벽히 대비하는 거시 학문", 
+            "데이터 센터의 어두운 구석에서 지식의 흐름이 절대 마르지 않도록 끊임없이 서버를 다지는 조력"
+        ],
+        /* +금 */ [
+            "방대한 빅데이터에서 불필요한 노이즈를 단칼에 쳐내고 극강의 진실만을 뽑아내어 전략을 짜는 핵심 기획", 
+            "통제하기 힘든 자원의 가치를 객관적인 숫자로 완벽히 환산하여 이익을 극대화하는 냉혈한 승부사", 
+            "관행적인 거래의 모순을 예리하게 파고들어 가장 합리적이고 무자비한 룰을 현장에 강제하는 혁신적 리더십", 
+            "복잡한 법망의 맹점을 교묘하게 파고들어 합법의 테두리 안에서 최대 마진을 남겨내는 고도화된 타겟 세일즈", 
+            "수천만 줄의 복잡한 코드를 다루며 단 한 번의 해킹이나 오류도 절대 허용하지 않는 완벽주의적 철통 보안 실무", 
+            "단 1%의 오차가 대형 참사로 이어지는 환경에서 감정을 완전히 배제하고 매뉴얼대로 기계를 통제하는 집중력", 
+            "틈새로 스며드는 범죄를 엄격한 법의 잣대로 철저히 응징하고 완벽하게 차단하는 무자비한 공안 통제력", 
+            "불확실한 리스크가 범람하는 곳에서 일어날 수 있는 모든 확률을 수식으로 계산해 방어벽을 세우는 관리", 
+            "차가운 룰의 세계에서 타국의 이의 제기를 논리로 박살 내고 자국의 이익을 완벽하게 철통 방어하는 외교 행정", 
+            "디지털 해류 속에 깊이 숨겨진 사이버 범죄 흔적을 날카로운 포렌식의 검으로 해부하여 진실을 인양해 내는 기술", 
+            "인간이 닿기 힘든 자연의 본질을 극도로 차갑고 공학적인 잣대로 완벽하게 증명해 내는 오차 없는 정밀 연구", 
+            "방대한 데이터가 쏟아지는 관제 센터에서 모니터와 숫자에만 의지한 채 감정을 배제하고 완벽히 균형을 잡는 조력"
+        ],
+        /* +수 */ [
+            "고정된 이념에 얽매이지 않고 이질적인 정보를 스펀지처럼 흡수해 완전히 새로운 차원의 지식을 창조하는 무경계 통찰", 
+            "깊은 심연처럼 속을 알 수 없는 평정심으로 비즈니스의 판도를 보이지 않는 곳에서 완벽하게 장악하는 고단의 지략", 
+            "타인의 무의식을 꿰뚫어 보고 거친 파도 속에서도 물 흐르듯 유연하게 생존로를 개척하는 궁극의 카멜레온적 적응력", 
+            "장벽을 불문하고 단숨에 마음을 허물어 상대의 가장 내밀한 비밀과 승낙을 이끌어내는 마법 같은 마인드 소통", 
+            "예측 불가능한 유목민의 삶 속에서도 스트레스 제로 상태로 유연하게 페이스를 완벽하게 유지하는 압도적 멘탈 관리", 
+            "기존의 매뉴얼이 소용없는 분쟁 상황에서 특유의 넉넉한 포용력과 뱀 같은 처세술로 양측을 모두 만족시키는 노련한 협상", 
+            "물리적 통제를 넘어 방대한 대중의 무의식과 심리적 흐름을 거시적으로 조종하여 여론의 물길을 원하는 곳으로 트는 행정", 
+            "인간의 통제를 벗어난 자원의 패턴을 축적하고 다가올 혼란을 부드러운 시스템으로 완벽히 대비하는 관리", 
+            "주류 사회에서 밀려난 존재들을 제도적 사각지대에서 건져내어 다시 시스템 안으로 스며들게 이끄는 거시 복지", 
+            "우울의 심연을 두려움 없이 파고들어 삶과 죽음, 존재의 본질적인 이유를 사색하고 세상을 향한 해답을 찾는 철학", 
+            "요란한 사회 현상 뒤에 숨겨진 보이지 않는 카르텔과 대중 심리의 은밀한 변화를 빅데이터의 심연에서 꿰뚫어 보는 리서치", 
+            "빛이 들지 않는 아카이브 밑바닥에서 진실과 지식의 흐름이 영원히 끊기지 않도록 샘물을 길어 올리는 고독한 헌신"
+        ]
+    ]
+];
+   // 💡 4-3. [스펙트럼 300종 - 영문판: 가독성 및 하이엔드 감성 최적화 버전]
+const fusionJobsEn = [
+    /* 1st Wood (木) */ [
+        /* +Wood */ [
+            "Dynamic new planning that creates from nothing and changes the game",
+            "Exceptional talent cultivation that unearths hidden gems into giant trees",
+            "Pioneering drive that plants the first flag in uncharted territories",
+            "Creative power that flawlessly materializes abstract inspiration",
+            "Mesmerizing persuasion that awakens others' dormant motivations",
+            "Visionary insight that reads trends ahead and sets new standards",
+            "Macro-strategy formulation that builds the organization's future framework",
+            "Establishing a solid and harmonious HR and compensation system",
+            "Absolute central figure firmly binding scattered minds into one",
+            "In-depth research digging into the deep roots of human psychology",
+            "Outstanding editing skills extracting only the core from vast knowledge",
+            "Devoted backstage support silently backing others' dazzling leaps"
+        ],
+        /* +Fire */ [
+            "Intense and sensory visual planning that instantly captivates the public",
+            "Explosive branding that deeply imprints onto the public's mind",
+            "Passionate producing that ignites potential and leads to the best stage",
+            "Aesthetic design that breathes vitality and splendor into the ordinary",
+            "Magnetic sales that bewitch the crowd and open closed wallets",
+            "Dynamic communication that overwhelms the atmosphere and seizes control",
+            "Captivating PR that packages and spreads organizational value",
+            "Macro-management that dominates the order of massive crowded events",
+            "Trendy educational planning that glamorously packages knowledge",
+            "Insightful analysis pinpointing the true desires hidden beneath trends",
+            "Explosive storytelling breathing emotional life into dry text",
+            "In-depth exploration dissecting the meaning of semiotics beyond the flashy surface"
+        ],
+        /* +Earth */ [
+            "Meticulous planning that solidifies abstract ideas into solid profit models",
+            "Cohesive power that binds diverse people into one solid community",
+            "Space business that breathes new value and warmth into abandoned areas",
+            "Absolute mediation that flexibly finds optimal compromise amidst fierce opposition",
+            "Premium operation providing unchanging stability and perfect rest",
+            "Close-contact management controlling the field while soothing members' minds",
+            "Administration that solidifies the foundation and sets highly acceptable rules",
+            "Establishing an integrated system that fuses complex interests",
+            "Heavy responsibility that sustains massive systems and infrastructures",
+            "Flawless archiving that permanently preserves scattered resources and records",
+            "Psychological healing that lightens wounded hearts and embraces them firmly",
+            "Infrastructure research tracking macro-environmental changes to solidify roots"
+        ],
+        /* +Metal */ [
+            "Cold-headed planning that removes emotions and pursues only extreme efficiency",
+            "Leadership that drives results by replacing abstract values with objective data",
+            "Flawless system design that allows absolutely zero exceptions",
+            "Result-driven sales penetrating opponents' flaws with cold facts and logic",
+            "Uncompromising precision process and quality control tolerating zero error",
+            "High-end practice handling highly advanced, razor-sharp specialized skills",
+            "Ruthless control that pre-detects and decisively blocks potential risks",
+            "Macro-judicial administration rectifying public order with strict standards",
+            "Ironclad financial defense allowing zero leaks in the flow of capital",
+            "Micro-analysis unearthing hidden patterns and facts in a vast data desert",
+            "Intellectual research dissecting the essence of phenomena with the coldest logic",
+            "In-depth auditing that sharply cuts out hidden structural contradictions"
+        ],
+        /* +Water */ [
+            "Global high-end planning that breaks boundaries and fuses disparate knowledge",
+            "Chameleon-like tactics flexibly navigating the turbulent waves of trends",
+            "Ultimate adaptability seeping like water to survive in any unfamiliar environment",
+            "Flawless logistics clearing blocked flows for seamless resource circulation",
+            "Magical communication instantly breaking mental walls by piercing the subconscious",
+            "Overwhelming negotiation that flexibly draws consensus when disparate values collide",
+            "Macro-management unifying widely scattered information networks and human resources",
+            "Diplomatic administration setting favorable rules with unique embrace on invisible stages",
+            "Infrastructure control opening floodgates for endless capital and data flow",
+            "Philosophical deep-dive penetrating the fundamental essence and cosmic abyss",
+            "Megatrend research reading the coming era from the abyss of endless data",
+            "Silent academic devotion systematizing the waves of knowledge without bias"
+        ]
+    ],
+    /* 1st Fire (火) */ [
+        /* +Wood */ [
+            "Trendy planning leading cultural flows by breathing dynamic vitality",
+            "Passionate producing exploding others' latent motives with intense passion",
+            "Pioneering educational leadership widely spreading knowledge and enlightenment",
+            "Aesthetic creation and design instantly stealing the public's gaze",
+            "Field communication spreading warm, positive energy through interaction",
+            "Impactful expressiveness vividly unraveling dynamic imagination",
+            "PR strategy spreading brand value packaged in the most attractive way",
+            "Macro-administration leading the splendor of massive crowded events",
+            "System building spreading valuable knowledge combined with mass media",
+            "Insightful analysis weaving complex human desires into captivating storytelling",
+            "Research pinpointing data flows hidden behind flashy media and trends",
+            "Silent, flawless backstage support enabling perfect direction under the spotlight"
+        ],
+        /* +Fire */ [
+            "Impactful planning dominating the world by focusing all eyes on one spot",
+            "Aesthetic and artistic mega-project leading that extremely stimulates the senses",
+            "Overwhelming charisma perfectly commanding the atmosphere and leading the crowd",
+            "Magnetic persuasion disarming tightly closed minds with brilliant eloquence",
+            "Mesmerizing performance stimulating public emotion and drawing passionate responses",
+            "Visual directing maximizing stimuli and gripping the tempo of media",
+            "Public relations control flexibly guiding public sentiment in a favorable direction",
+            "Frontline management perfectly dominating official messaging as a spokesperson",
+            "Administration calming chaos and maintaining order in giant, crowded platforms",
+            "Keen insight piercing through rapidly changing public preferences and ripple effects",
+            "Analysis calculating perfect timing and visual direction behind the stage and lights",
+            "In-depth research thoroughly digging into media influence and visual semiotics"
+        ],
+        /* +Earth */ [
+            "Meticulous planning perfectly rooting flashy ideas into solid profit models",
+            "Business dramatically melting visual beauty and emotion into physical spaces",
+            "Attractive focal point perfectly gathering diverse masses into a single cultural space",
+            "High-end CS smoothly absorbing excited emotions and melting away complaints",
+            "Premium facility operation providing both visual joy and stable rest",
+            "Communication finely tuning the temperature between people and covering conflict sparks",
+            "Management calming overheated competition and binding it within systematic rules",
+            "Administration flawlessly handling the financial and general affairs behind flashy events",
+            "Authority controlling the heavy stability of giant infrastructures and public facilities",
+            "Abyssal psychological analysis embracing and healing marginalized hearts with warmth",
+            "Archiving classifying and permanently preserving pouring visual data with zero error",
+            "Silent support sustaining the foundation behind the glamour so the system never collapses"
+        ],
+        /* +Metal */ [
+            "Strategy maximizing success rates by adding sharp logic to flashy ideas",
+            "Planning aiming only for fact-based, definite profit by removing uncertain emotions",
+            "Capacity creating the sharpest visual differentiation by cutting away unnecessary decoration",
+            "Killer sales penetrating opponents' flaws with precise data targeting and eloquence",
+            "Fact-based journalism destroying illusions and revealing truth using only cold logic",
+            "Overwhelming field control handling cutting-edge equipment with zero margin for error",
+            "Management establishing unshakeable discipline with strict standards in scrutinized areas",
+            "Public security control thoroughly blocking risks and illegalities hidden behind flashy exteriors",
+            "System design ruthlessly and transparently evaluating performance via objective metrics",
+            "Analysis dissecting vast digital opinions and algorithms to uncover manipulation and errors",
+            "In-depth research flawlessly dissecting cutting-edge security logic with cold reason",
+            "Forensic exploration revealing the truth based on clear evidence, free from emotion"
+        ],
+        /* +Water */ [
+            "Strategic planning leading the global media board by flexibly crossing limits",
+            "Capacity creating a whole new dimension of content by mixing disparate trends and info",
+            "Ultimate adaptability transforming perfectly like a chameleon to match the public's whims",
+            "Sales accurately grasping others' needs and flexibly communicating to spread value",
+            "Magical communication instantly reading emotional turbulence to seize conversational lead",
+            "Execution seamlessly packaging and distributing the vast flow of content without hesitation",
+            "Macro-management controlling invisible information networks and public subconsciousness",
+            "Marketing invisibly leading public opinion by stimulating desires and finding mental gaps",
+            "Diplomacy smoothly tuning international exchange and trade friction with deep embrace",
+            "Macro-research analyzing the era's context and abyss underlying flashy trends",
+            "Philosophical exploration diving into the fundamental void of the mind in the sea of info",
+            "Archiving extracting the truth sunken beneath revealed splendor to leave a permanent record"
+        ]
+    ],
+    /* 1st Earth (土) */ [
+        /* +Wood */ [
+            "Planning transforming neglected spaces into completely new values by breathing life into them",
+            "Infrastructure designing physical and institutional frameworks where the public can safely grow",
+            "Macro-strategy placing talent in the right spots on the organizational land to grow them into giant trees",
+            "Execution perfectly understanding space structure and realizing vibrant interiors and landscaping",
+            "Brokerage listening to complex needs and perfectly connecting optimal spaces or products",
+            "Field communication providing healing and premium services in stable environments",
+            "Control establishing vast infrastructure plans and administratively tuning them without wavering",
+            "HR management smoothly mediating member conflicts and building a solid, accepted system",
+            "Public administration preserving ecological infrastructure to build manuals for the next generation",
+            "In-depth research exploring how physical spaces affect the human subconscious and psychology",
+            "Academic study analyzing the fundamental principles of nature and macro-economics via big data",
+            "Silent support behind the stage solidifying the physical base so members never shake"
+        ],
+        /* +Fire */ [
+            "Sensory planning overlaying static spaces with captivating stories and visual branding",
+            "Leadership of expansion guiding the public with reliable weight and brilliant eloquence",
+            "Macro-strategy stably and explosively expanding the heat of large-scale offline businesses",
+            "Sales mesmerizing crowds with unique charisma in densely populated fields",
+            "VMD directing dramatically implementing visual beauty and emotion into physical spaces",
+            "High-end field dominance melting the complaints of excited crowds with overwhelming stability",
+            "Large facility administration controlling the massive energy of crowds with perfect manuals",
+            "Management smoothly harmonizing heated factional conflicts into a single, unified fence",
+            "Firm command maintaining the center while flexibly accommodating massive changes in customer data",
+            "Psychological analysis deeply digging into the subconscious of why the public goes wild for specific spaces",
+            "Archiving permanently preserving long-accumulated, flashy visual records without distortion",
+            "Silent support sustaining the financial and infrastructure backend to maintain the stage's splendor"
+        ],
+        /* +Earth */ [
+            "Masterplan planning power designing a solid organization that never shakes under any fierce storm",
+            "Absolute mediation giving birth to peace by perfectly absorbing vast interests into one system",
+            "Insight overseeing worldly flows from a macro perspective to set up stable long-term investments",
+            "Heavy persuasion deriving the most rational compromise without bias between opposing views",
+            "Overwhelming composure inspiring unchanging trust, making people entrust you with crucial tasks",
+            "Flawless field execution maintaining heavy resources like documents and physical assets with zero error",
+            "Macro-administration of giant organizations controlling numerous departments and keeping infrastructure rolling",
+            "Management silently executing manuals strictly for the organization's safety, excluding personal emotion",
+            "Authority flawlessly handling strict, repeating disciplines like complex laws or administrative procedures",
+            "In-depth research finding unchanging truth in the abyss of vast historical records and data",
+            "Academic tracking and tenacious analysis of slow-changing patterns in invisible phenomena",
+            "Silent devotion acting as the unseen fundamental foundation, firmly supporting the entire organization"
+        ],
+        /* +Metal */ [
+            "Planning designing extreme efficiency by sharply pruning risk factors from vast asset data",
+            "Charismatic game-changer leadership slicing away old customs and establishing innovative discipline",
+            "Cold strategy accurately calculating the value of intangible assets into objective numbers using realistic logic",
+            "Result-driven sales extracting perfect surrender armed only with facts and cost-effectiveness",
+            "Flawless perfectionist practice in fields where not a single calculation error is tolerated",
+            "Supervision detecting anxiety factors in harsh, safety-critical fields and strictly controlling them",
+            "Ruthless financial management monitoring massive capital flows and allowing absolutely zero leakage",
+            "Strict judicial administration handing down clear verdicts based on regulations, excluding emotion",
+            "Authority ruthlessly fixing fatal structural flaws revealed during massive facility maintenance",
+            "Deep data analysis filtering out only facts and truth in an endless desert of statistical indicators",
+            "Intellectual research exploring and proving the principles of finance and cold macro-economic logic",
+            "Silent but sharp forensics uncovering systemic blind spots secretly gnawing at organizational stability"
+        ],
+        /* +Water */ [
+            "High-end planning flexibly building giant global networks without being bound by limits",
+            "Seasoned tactics naturally absorbing rapid era changes and fusing them into stable infrastructure",
+            "Insight filtering only core data from a sea of disparate information to build a massive, solid fortress",
+            "Communication gently penetrating others' hidden needs to break down walls and draw infinite trust",
+            "Flawless logistics execution connecting systemic veins so vast resources can move seamlessly",
+            "Magical negotiation melting sharp misunderstandings and conflicts with deep embrace",
+            "Macro-control damming widely scattered information networks and human resources into a giant database",
+            "Public administration establishing comprehensive macro-environmental policies vital to human survival",
+            "Diplomacy absorbing invisible feuds and trade friction with deep embrace to establish peaceful rules",
+            "Clinical analysis structuring deep wounds sunk in the subconscious into data to find healing answers",
+            "Macro-research acting as a radar to observe slow-flowing megatrends to prepare for massive shifts",
+            "Academic devotion silently and solidly systematizing the endless waves of pouring knowledge without bias"
+        ]
+    ],
+    /* 1st Metal (金) */ [
+        /* +Wood */ [
+            "Advanced precision healthcare planning that saves fading lives or completely restores functions",
+            "Innovative and warm leadership guiding teams by giving human motivation within cold tech organizations",
+            "Thorough manual control prioritizing human life and safety in hazardous industrial environments",
+            "Execution creating useful knowledge services for humanity utilizing flawless, high-precision technology",
+            "Considerate communication delivering cold facts with warmth so the recipient is not hurt",
+            "Healing that perfectly restores vitality by precisely and sharply correcting physical or systemic functions",
+            "Administration operating strict regulations in life-critical industries with zero loopholes",
+            "Overwhelming control designing highly specialized systems and filtering top talent with strict standards",
+            "System strictly managing resources based on objective data within a machine-like organization",
+            "In-depth research leading new paradigms by fusing human mechanisms with cold engineering principles",
+            "Exploration tracking root causes of accidents or diseases via data analysis and clearly proving solutions",
+            "Silent and accurate mechanical support ensuring the organization's quality and safety are perfectly maintained"
+        ],
+        /* +Fire */ [
+            "Impactful planning that shatters existing market rules by applying flashy stories to rigid systems",
+            "Game-changer charisma that instantly suppresses the public's gaze armed with cold, overwhelming data",
+            "Mesmerizing UX visualizing complex tech or knowledge so the public can consume it intuitively and enthusiastically",
+            "Sales that open wallets by perfectly unraveling cold, complex logic with brilliant eloquence",
+            "High-end execution detonating impactful marketing performances based on precise data and algorithms",
+            "Overwhelming control perfectly dominating attention and resolutely suppressing crowd chaos in strict fields",
+            "Public relations pre-detecting fatal risks and ruthlessly defending against media and public opinion during crises",
+            "Public security administration resolutely tracking invisible crimes and punishing them without blood or tears",
+            "System flawlessly dispersing and controlling massive overloads behind stages the public goes wild for",
+            "Ruthless digital forensics peeling back flashy surfaces to unearth algorithmic manipulation or hidden truth",
+            "In-depth analysis perfectly dissecting hidden facts with the logic of cold statistics to reveal lies completely",
+            "Obsessive devotion maintaining unbroken information networks and infrastructure in the dark behind the glamour"
+        ],
+        /* +Earth */ [
+            "Macro masterplan perfectly tuning the complex interests of giant organizations amidst tangled regulations",
+            "Thorough mediation establishing absolute rules based on facts at tables where capital and power fiercely collide",
+            "Overwhelming weight maintaining extreme fairness within institutions or evaluation systems excluding human emotion",
+            "Execution resolutely and cleanly solving clients' fatal disputes or risks based on accurate knowledge",
+            "Fearsome tenacity that inevitably produces perfect results in the cold desert of numbers with zero error",
+            "Stability calmly and perfectly handling unexpected field variables so cutting-edge systems never stop",
+            "Executive power silently and perfectly controlling systems strictly by principles and manuals, excluding emotion",
+            "Ice-like compliance audit binding internal corruption with a tight system and forcing transparent rules",
+            "Flawless defensive administration permanently preserving millions of evaluation data and maintaining manuals",
+            "In-depth academic study tenaciously researching new standards by finding contradictions in vast laws or records",
+            "Statistical analysis tenaciously digging into fatal risks hidden in cold indicators to ruthlessly warn the world",
+            "Ironclad support buried in documents and numbers, guarding the organization's ledger and security from ever collapsing"
+        ],
+        /* +Metal */ [
+            "Extreme, flawless planning going straight for overwhelming efficiency and results, removing 100% of emotions and clutter",
+            "Ruthless charisma, like an absolute monarch, slicing away organizational impurities and forcing bone-deep innovation",
+            "Iron-blooded authority designing a meticulous algorithm that tolerates zero error to govern a perfect system",
+            "Killer sales extracting perfect surrender at the negotiation table armed only with cold logic and fact-bombing",
+            "High-end practice handling precision machinery and tools with extreme focus, where no mistake is tolerated",
+            "Extreme quality control finding microscopic flaws through thousands of tests to present the crystallization of perfection",
+            "Macro-control perfectly punishing organizational and social disorder with ruthless, cold principles from the core",
+            "Power thoroughly monitoring and controlling the flow of finance and investment with bloodless standards at the center of giant capital",
+            "Flawless infrastructure system building an ironclad security network, allowing absolutely zero external intervention",
+            "High-level digital forensics most sharply dissecting hidden patterns and manipulated facts in a vast data desert",
+            "Academic obsession extremely dividing objects down to the smallest micro-unit to perfectly prove their essence",
+            "Absolute loyalty silently and perfectly rolling the system like a machine's cog within the framework of cold, hard principles"
+        ],
+        /* +Water */ [
+            "Overwhelming high-end planning perfectly controlling the flow of giant capital and data, flexibly crossing borders",
+            "Sharp insight perfectly and invisibly dominating the market by combining cutting-edge tech with the flexibility to manipulate human psychology",
+            "Seasoned strategy smoothly penetrating the weaknesses of seemingly solid systems like water to flip the board in your favor",
+            "Cold-blooded game-changer detecting risks in vast data and accurately calculating optimal margins with zero error",
+            "High-level psychological negotiation penetrating others' weaknesses yet using soft rhetoric to manipulate opponents to your will",
+            "Flawless execution meticulously controlling global networks so giant infrastructures flow seamlessly",
+            "Flawless administration perfectly and precisely controlling complex logistics or systems within the bounds of strict law",
+            "Management drawing favorable agreements with soft diplomacy in harsh areas of conflicting interests",
+            "Actuarial control building a massive dam by calculating invisible fatal risk probabilities with precise statistical metrics",
+            "Psychiatric research dissecting abnormal psychology with cold, scientific medical standards to find perfect cures",
+            "In-depth analysis predicting macro-future fluctuations without error by filtering unstructured big data through precise algorithms",
+            "Precision support acting as a sluice gate so blocked flows circulate smoothly, maintaining flexibility even within the strictest rules"
+        ]
+    ],
+    /* 1st Water (水) */ [
+        /* +Wood */ [
+            "Boundary-destroying high-end planning that breaks down solid walls and sets a whole new dimension of global cultural exchange",
+            "Healing leadership that absorbs others' deep wounds like a sponge, raising their broken will to live again",
+            "Great insight that boldly tears down closed boundaries of knowledge, weaving disparate concepts to propose new philosophies",
+            "Precise and smooth execution bridging disconnected meanings by perfectly translating even nuanced differences in language and culture",
+            "Magical guide perfectly leading anxious people with unique wit and flexibility in unpredictable, unfamiliar fields",
+            "Spiritual communication interpreting destiny or deep psychological signs in soft language to safely guide those who have lost direction",
+            "Administration flawlessly backing the organization's capacity by systematically collecting and managing vast academic data",
+            "Operation planning extensive exchange or support projects with broad, inclusive standards to run flawlessly without strain",
+            "Management protecting the marginalized in blind spots of prejudice by embracing them into a warm institutional system to the end",
+            "Humanities research exploring the deepest abyss of human nature hidden from the outside to perfectly prove its great value",
+            "Processing that draws out valuable, great ideologies from countless literature into texts the public can easily understand",
+            "Silent support translating trends and laying invisible foundations so new academics can sprout on the fringes of knowledge"
+        ],
+        /* +Fire */ [
+            "Planning with overwhelming ripple effects that instantly dominates the market by packaging ever-changing trends with captivating visuals",
+            "Direction that shakes the public's heart by forging complex inner human emotions into unconventional, visual artworks",
+            "Business pioneer who recognizes true value before anyone else in a vast flow of info to perfectly lead the game",
+            "Killer instinct negotiation that instantly disarms tightly closed minds with flashy showmanship and flexible tact",
+            "Flawless field execution smoothly controlling sudden situations in chaotic fields mingling diverse people with unique dynamic sense",
+            "Communication exhibiting unwavering performance under countless eyes, executing interpretation and protocol at breathless meetings",
+            "Giant macro-administration perfectly tuning complexly intertwined interests behind the curtains of diplomacy with overwhelming justification",
+            "Control that pierces through rapidly shifting public sentiment to invisibly, flexibly, and perfectly manipulate public opinion for organizational benefit",
+            "Public security maintaining strict order at frontlines flooded with foreigners while flexibly adapting to the situation",
+            "Analysis ruthlessly and thoroughly dissecting via deep data how the subconscious goes wild or collapses driven by media",
+            "Sharp research accurately pinpointing humanity's blind desires into the era's context by stripping away the flashy shell of fads",
+            "Support perfectly monitoring situations with zero error behind flashy lights in control centers where networks fluctuate wildly"
+        ],
+        /* +Earth */ [
+            "Insight that perfectly settles quietly flowing, intangible capital and data into stable, large-scale realistic profit models",
+            "Absolute mediation that builds a peaceful board by absorbing all dissatisfaction with deep embrace when extremely disparate groups clash",
+            "Mountain-like heavy gravity that firmly builds a giant ecosystem in intangible space to roll the board tirelessly",
+            "Communication perfectly finding the most objective compromise bridging public psychology and reality without getting lost in statistical deserts",
+            "Fearsome tenacity maintaining order with zero error while meticulously cross-checking millions of data or logistics flows",
+            "Execution perfectly controlling nature's terrifying whims and connecting them to robust infrastructure beneficial to human life",
+            "Macro-administration permanently preserving infinitely expanding giant records and archives by binding them into a perfect system",
+            "Management sharply exploiting loopholes in tax systems while perfectly tying up capital within the most stable legal boundaries",
+            "Public policy-making acting as a sturdy breakwater based on macro-economic indicators so the whole society isn't shaken by financial crises",
+            "Clinical analysis finding healing answers by structuring deep wounds sunk in the subconscious abyss into clinical data formats",
+            "Macro-academic study acting as a radar to keenly observe invisible economic flows to perfectly prepare for massive future seismic shifts",
+            "Silent support constantly and steadily fortifying servers in the dark corners of giant data centers so knowledge never dries up"
+        ],
+        /* +Metal */ [
+            "Core planning that extracts only extreme truth by slicing away unnecessary noise from vast big data to strategize perfectly",
+            "Cold-blooded game-changer maximizing profit by perfectly converting the value of uncontrollable resources into objective numbers",
+            "Innovative leadership sharply penetrating contradictions in conventional transactions to enforce the most rational and ruthless rules on the field",
+            "Advanced target sales cleverly exploiting loopholes in complex legal nets to leave maximum margins within legal bounds",
+            "Perfectionist ironclad security handling tens of millions of complex codes without allowing a single hack or error",
+            "Focus controlling machines strictly by manuals, completely excluding emotion in environments where a 1% error means a major disaster",
+            "Ruthless public security control thoroughly punishing and perfectly blocking crimes seeping through gaps with strict legal standards",
+            "Management building perfect defense walls by mathematically calculating all possible probabilities in places flooded with uncertain risks",
+            "Diplomatic administration flawlessly defending national interests by crushing other nations' objections with logic in the cold world of rules",
+            "Technology salvaging truth by dissecting traces of cybercrime deeply hidden in the digital ocean currents with the sharp sword of forensics",
+            "Error-free precision research perfectly proving the essence of nature that is hard for humans to reach with extremely cold, engineering standards",
+            "Absolute support maintaining perfect balance excluding emotion, relying only on monitors and numbers in control centers flooded with vast data"
+        ],
+        /* +Water */ [
+            "Borderless insight that creates a whole new dimension of knowledge by absorbing disparate information like a sponge without being tied to fixed ideologies",
+            "High-level tactics that perfectly and invisibly dominate the business board with a composure as unfathomable as a deep abyss",
+            "Ultimate chameleon-like adaptability that pierces others' subconsciousness and carves a survival path as flexibly as water even in rough waves",
+            "Magical mind-communication that instantly breaks down mental walls across barriers to draw out opponents' deepest secrets and consent",
+            "Overwhelming mental management that maintains perfect pace flexibly with zero stress even in an unpredictable nomadic life",
+            "Seasoned negotiation satisfying both sides with unique broad embrace and snake-like tact in dispute situations where existing manuals are useless",
+            "Administration that macroscopically manipulates the vast public subconscious and psychological flow beyond physical control to turn public opinion where desired",
+            "Management accumulating patterns of resources beyond human control to perfectly prepare for coming massive chaos with soft systems",
+            "Giant macro-welfare guiding marginalized beings pushed out of mainstream society from institutional blind spots back into the system",
+            "Philosophy fearlessly delving into the abyss of depression to contemplate life, death, and existence, finding perfect answers for the world",
+            "Research piercing through the invisible cartels and secret changes in mass psychology hidden behind loud social phenomena from the abyss of big data",
+            "Lonely devotion silently drawing spring water from the bottom of lightless archives so the flow of truth and knowledge is never severed forever"
+        ]
+    ]
+];   
 
         // 💡 [2단계: 직무 4분면 강제 타겟팅 & 십성(10-Gods) 무대 매칭]
         
@@ -1111,7 +1763,7 @@ const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.ilju
             [
                 "새로운 교육 철학과 인문학적 가치를 연구하여 사람들의 성장을 이끌어내는 학문의 장에서", // 목
                 "쏟아지는 정보 속에서 가장 가치 있는 인사이트를 조명하고 직관적으로 기획하는 무대에서", // 화
-                "수십 년간 축적된 방대한 지적 자산과 기록을 묵묵히 보존하여 전략적 통찰로 빚어내는 곳에서", // 토
+                "수십 년간 축적된 방대한 지적 자산과 기록을 보존하여 전략적 통찰로 빚어내는 곳에서", // 토
                 "차가운 논리와 데이터로 현상의 본질을 극도로 정밀하게 해부하고 증명하는 연구실에서", // 금
                 "인간의 깊은 심연과 철학적 근원을 사색하며 보이지 않는 전략을 기획하는 고도의 지식망에서" // 수
             ]
