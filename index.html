@@ -772,7 +772,11 @@ const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.ilju
         else if (lackStr.includes("토")) top5Idx_C = 2;
         else if (lackStr.includes("금")) top5Idx_C = 3;
         else if (lackStr.includes("수")) top5Idx_C = 4;
+      
+ const yangStems = ["gap", "byeong", "mu", "gyeong", "im"]; 
+const isYangMaster = yangStems.includes(session.iljuData.stemId); // 양의 기운이면 true
 
+      
         // 💡 1-2. [운명공학 궁극의 비기] '용신(用神) & 신강신약' 판독 엔진
         const totalScore_C = session.baseScores.reduce((a, b) => a + b, 0);
         const elNamesMap_C = { "목":0, "화":1, "토":2, "금":3, "수":4 };
@@ -865,9 +869,10 @@ const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.ilju
         ];
 
        
-        // 💡 [초정밀 상극 약점 매트릭스] 행(가장 강한 오행) x 열(가장 약한 오행)
+      
       // 💡 [방법 B 적용] 음양에 따라 리스크 묘사를 세분화합니다.
-const fusionRiskYang = [
+     
+      const fusionRiskYang = [
     /* 0: 목(木) Peak (주도적 과잉) */
     [
         "의욕이 앞서 여러 일을 동시에 추진하나, 스스로 설정한 목표의 무게에 눌려 실행력이 분산되는 경향",
@@ -1799,8 +1804,7 @@ const fusionJobsEn = [
 
         // 💡 [2단계: 직무 4분면 강제 타겟팅 & 십성(10-Gods) 무대 매칭]
       
-const yangStems = ["gap", "byeong", "mu", "gyeong", "im"]; 
-const isYangMaster = yangStems.includes(session.iljuData.stemId); // 양의 기운이면 true
+
 
 // 기존 맵은 유지하되, 음양에 따라 인덱스 범위를 조정합니다.
 const jobTargetMap = {
