@@ -548,6 +548,7 @@ let peakElIdx = session.baseScores.indexOf(maxScore);
 if (session.baseScores[dmIdxForTie] === maxScore) {
     peakElIdx = dmIdxForTie; 
 }
+      
 const bottomElIdx = session.baseScores.indexOf(Math.min(...session.baseScores));
         const badgeHTML = `
             <div style="display:flex; gap:8px; margin: 20px 0 10px 0; flex-wrap:wrap; justify-content:center;">
@@ -1049,7 +1050,8 @@ const fusionRiskYinEn = [
         "Using invisible tactics to manipulate others behind a soft exterior, which eventually leads to the loss of sincere friendships"
     ]
 ];
-      const currentRiskKo = isYangMaster ? fusionRiskYang[peakElIdx][top5Idx_C] : fusionRiskYin[peakElIdx][top5Idx_C];
+    // 3. 서랍에서 문장 꺼내기 (반드시 데이터들 밑에 있어야 함!)
+const currentRiskKo = isYangMaster ? fusionRiskYang[peakElIdx][top5Idx_C] : fusionRiskYin[peakElIdx][top5Idx_C];
 const currentRiskEn = isYangMaster ? fusionRiskYangEn[peakElIdx][top5Idx_C] : fusionRiskYinEn[peakElIdx][top5Idx_C];
       
         // 💡 4-1. [성명학 무기 추출] 이름이 부여한 특수 스킬
