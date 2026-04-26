@@ -346,27 +346,28 @@ const weakEl = elements[sIdx[0]];
     const waveDescKo = waveDescMap[waveEndChar] || "";
     const waveDescEn = waveDescMapEn[waveEndChar] || "";
 
-   // 💡 [수술] 저장할 때부터 동점자 우선권을 확실히 정해서 보관합니다.
-const maxB = Math.max(...baseScores);
-let peakElIdx = baseScores.indexOf(maxB);
-if (baseScores[ilganIdx] === maxB) peakElIdx = ilganIdx; // 내 본질 우선!
+   // 💡 [수술 1] 동점자 우선권을 반영하여 데이터 저장 (peakElIdx, bottomElIdx 통합)
+    const maxB = Math.max(...baseScores);
+    let peakIdx = baseScores.indexOf(maxB);
+    // 내 일간(ilganIdx)이 1등 점수와 같다면 무조건 내 일간을 1등으로!
+    if (baseScores[ilganIdx] === maxB) peakIdx = ilganIdx;
 
-const minB = Math.min(...baseScores);
-const minIndices = [];
-baseScores.forEach((s, i) => { if(s === minB) minIndices.push(i); });
-let bottomElIdx = minIndices[0];
-if (minIndices.length > 1) {
-    const wealth = (peakElIdx + 2) % 5;
-    if (minIndices.includes(wealth)) bottomElIdx = wealth;
-}
+    const minB = Math.min(...baseScores);
+    const minIndices = [];
+    baseScores.forEach((s, i) => { if(s === minB) minIndices.push(i); });
+    let bottomIdx = minIndices[0];
+    if (minIndices.length > 1) {
+        const wealth = (peakIdx + 2) % 5;
+        if (minIndices.includes(wealth)) bottomIdx = wealth;
+    }
     
-    // 🚀 모든 데이터를 깨끗하게 세션에 담습니다.
+    // 🚀 수정된 정답(peakIdx, bottomIdx)을 세션에 깨끗하게 담습니다.
     const sessionData = { 
         name, 
         birth, 
         num81, 
-        baseScores: baseScores, // 순수 사주 점수
-        elementScores: sc,      // 후천운 보완 최종 점수
+        baseScores: baseScores, 
+        elementScores: sc,
         strongEl, 
         weakEl, 
         iljuData, 
@@ -378,8 +379,8 @@ if (minIndices.length > 1) {
         waveFlowEn: waveFlowEn.join(" ➔ "),
         waveDescKo: waveDescKo,
         waveDescEn: waveDescEn,
-        peakElIdx: peakElIdx,   // 25칸 매트릭스용 태그 인덱스 (강)
-        bottomElIdx: bottomElIdx // 25칸 매트릭스용 태그 인덱스 (약)
+        peakElIdx: peakIdx,   // 🚨 여기를 peakIdx로 연결!
+        bottomElIdx: bottomIdx // 🚨 여기를 bottomIdx로 연결!
     };
   
     localStorage.setItem('destinySession', JSON.stringify(sessionData));
@@ -649,21 +650,19 @@ const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.ilju
 
         const currentTheme = currentLang === 'ko' ? currentThemeKo : currentThemeEn;
         
-        // 💡 [수술 3] 신강/신약 판독기의 '자아 상실' 버그 완벽 수술
-        // 이름 점수가 섞이지 않은 순수 사주(baseScores)와 진짜 일간(session.iljuData.el)을 사용합니다.
+       // 💡 [수술 2] 신강/신약 판독기의 언어 장벽 제거
         const baseScoresForIntensity = session.baseScores; 
         const totalScore_A = baseScoresForIntensity.reduce((a, b) => a + b, 0);
         
-        const logicElsForA = ["목", "화", "토", "금", "수"];
-        // 🚨 핵심 수정: 점수가 가장 높은 오행이 아니라, 태어난 날의 진짜 본질(일간)을 강제로 고정!
+        // 🚨 핵심 수정: 어떤 한자가 들어와도 번역해주는 번역기 추가
+        const elMapForIntensity = { "목":0,"화":1,"토":2,"금":3,"수":4,"갑":0,"을":0,"병":1,"정":1,"무":2,"기":2,"경":3,"신":3,"임":4,"계":4,"甲":0,"乙":0,"丙":1,"丁":1,"戊":2,"己":2,"庚":3,"辛":3,"壬":4,"癸":4 };
         const trueDayMasterEl = session.iljuData ? session.iljuData.el.charAt(0) : "토"; 
-        const dmIdx_A = logicElsForA.indexOf(trueDayMasterEl); 
+        const dmIdx_A = elMapForIntensity[trueDayMasterEl] !== undefined ? elMapForIntensity[trueDayMasterEl] : 2; 
 
         // 나를 돕는 세력(인성) 계산
         const motherIdx_A = (dmIdx_A + 4) % 5; 
-        const myForce_A = baseScoresForIntensity[dmIdx_A] + baseScoresForIntensity[motherIdx_A]; // 내 세력 총합 (나 + 엄마)
+        const myForce_A = baseScoresForIntensity[dmIdx_A] + baseScoresForIntensity[motherIdx_A]; 
         
-        // 사주 전체에서 내 세력이 차지하는 비율
         const myForceRatio = myForce_A / totalScore_A;
         
         let intensity = "보통";
