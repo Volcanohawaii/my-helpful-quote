@@ -563,8 +563,8 @@ const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.ilju
             "정": "한 곳에 집요하게 몰입하여 가장 뜨거운 결과물을 만드는",
             "무": "어떤 풍파에도 흔들리지 않고 안정감을 지탱하는",
             "기": "척박한 환경조차 실속 있고 풍요로운 결과물로 길러내는",
-            "경": "불필요한 관습을 단칼에 베어내고 룰을 재정의하는</b>",
-            "신": "한 치의 오차도 허용하지 않고 가장 정교하고 날카롭게 다듬는",
+            "경": "불필요한 관습을 베어내고 룰을 재정의하는",
+            "신": "한 치의 오차도 허용하지 않고 정교하고 날카롭게 다듬는",
             "임": "깊은 지혜로 모든 것을 흡수하고 거시적으로 통제하는",
             "계": "보이지 않는 틈새까지 부드럽게 스며들어 판도를 뒤집는"
         };
@@ -1920,9 +1920,9 @@ const targetedJobIndices = jobTargetMap[weaponElIdx];
         const elNamesEn_C = ["Wood", "Fire", "Earth", "Metal", "Water"];
 
         // 🚨 조사가 꼬이던 부분 완벽 수술 및 최종 문장 조립
-        const blockCKo = `<b>${elNamesKo_C[top1Idx_C]}</b>를 무기로 삼아, ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘합니다.<br><br><b style="color: var(--primary);">[활동 무대]</b><br>${jobsListKo}<b style="color: var(--primary);">[파동 시너지]</b><br>이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운이 기폭제가 됩니다. 성명 속 <b>'${weaponKo}'</b> 역량과, 선천적 <b>${elNamesKo_C[top2Idx_C]}</b>가 지닌 <b>'${top2SkillKo[top2Idx_C][top5Idx_C]}'</b> 기질이 결합되어 당신을 특별하게 만듭니다.<br><br>💡 취약한 <b>${weakElDisplay}</b>의 기운을 극복해야 합니다. <b>${currentRiskKo}</b>을 경계하십시오.`;
+        const blockCKo = `<b>${elNamesKo_C[top1Idx_C]}</b>를 무기로 삼아, ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘합니다.<br><br><b style="color: var(--primary);">[활동 무대]</b><br>${jobsListKo}<b style="color: var(--primary);">[파동 시너지]</b><br>이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운이 기폭제가 됩니다. 성명 속 <b>'${weaponKo}'</b> 역량과, 선천적 <b>${elNamesKo_C[top2Idx_C]}</b>가 지닌 <b>'${top2SkillKo[top2Idx_C][top5Idx_C]}'</b> 기질이 결합되어 당신을 특별하게 만듭니다.<br><br>💡 취약한 <b>${weakElDisplay}</b>의 기운을 극복해야 합니다. <b>${currentRiskKo}</b>라는 약점을 경계하십시오.`;
         
-        const blockCEn = `Armed with <b>${elNamesEn_C[top1Idx_C]}</b>, you manifest <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> ${top1ScaleEn}.<br><br><b style="color: var(--primary);">[Optimal Stage]</b><br>${jobsListEn}<b style="color: var(--primary);">[Name Synergy]</b><br>The <b>${elNamesEn_C[weaponElIdx]}</b> energy acts as a catalyst. Your name's <b>'${weaponEn}'</b> capacity seamlessly combines with the innate <b>'${top2SkillEn[top2Idx_C][top5Idx_C]}'</b> disposition of <b>${elNamesEn_C[top2Idx_C]}</b> to make you truly unique.<br><br>💡 You must overcome the weakest <b>${weakElEnA}</b> energy. Always be vigilant against the risk of <b>${fusionRiskEn[peakElIdx][bottomElIdx]}</b>.`;
+        const blockCEn = `Armed with <b>${elNamesEn_C[top1Idx_C]}</b>, you manifest <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> ${top1ScaleEn}.<br><br><b style="color: var(--primary);">[Optimal Stage]</b><br>${jobsListEn}<b style="color: var(--primary);">[Name Synergy]</b><br>The <b>${elNamesEn_C[weaponElIdx]}</b> energy acts as a catalyst. Your name's <b>'${weaponEn}'</b> capacity seamlessly combines with the innate <b>'${top2SkillEn[top2Idx_C][top5Idx_C]}'</b> disposition of <b>${elNamesEn_C[top2Idx_C]}</b> to make you truly unique.<br><br>💡 You must overcome the weakest <b>${weakElEnA}</b> energy. Always be vigilant against the risk of <b>${currentRiskEn}</b>.`;
 
         let blockC = currentLang === 'ko' ? blockCKo : blockCEn;
         // 💡 3개의 블록 조립
