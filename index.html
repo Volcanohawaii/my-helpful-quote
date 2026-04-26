@@ -630,11 +630,15 @@ const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.ilju
 
         const currentTheme = currentLang === 'ko' ? currentThemeKo : currentThemeEn;
         
-        // 💡 [운명공학 궁극의 비기] '단일 점수'가 아닌 '신강/신약(내 세력)' 기반 강약 판독
-        const baseScoresForIntensity = session.baseScores || session.elementScores; 
+        // 💡 [수술 3] 신강/신약 판독기의 '자아 상실' 버그 완벽 수술
+        // 이름 점수가 섞이지 않은 순수 사주(baseScores)와 진짜 일간(session.iljuData.el)을 사용합니다.
+        const baseScoresForIntensity = session.baseScores; 
         const totalScore_A = baseScoresForIntensity.reduce((a, b) => a + b, 0);
-        const elNamesMap_A = { "목":0, "화":1, "토":2, "금":3, "수":4 };
-        const dmIdx_A = elNamesMap_A[coreEl.charAt(0)]; // 내 본질(일간)
+        
+        const logicElsForA = ["목", "화", "토", "금", "수"];
+        // 🚨 핵심 수정: 점수가 가장 높은 오행이 아니라, 태어난 날의 진짜 본질(일간)을 강제로 고정!
+        const trueDayMasterEl = session.iljuData ? session.iljuData.el.charAt(0) : "토"; 
+        const dmIdx_A = logicElsForA.indexOf(trueDayMasterEl); 
 
         // 나를 돕는 세력(인성) 계산
         const motherIdx_A = (dmIdx_A + 4) % 5; 
@@ -644,12 +648,11 @@ const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.ilju
         const myForceRatio = myForce_A / totalScore_A;
         
         let intensity = "보통";
-        if (myForceRatio >= 0.65) intensity = "극강";       // 내 세력이 65% 이상 (태산, 용암)
-        else if (myForceRatio >= 0.5) intensity = "강함";   // 내 세력이 50% 이상 (강건함)
-        else if (myForceRatio >= 0.4) intensity = "보통";   // 밸런스 유지
-        else if (myForceRatio >= 0.25) intensity = "약함";  // 40% 미만 (모래알, 촛불)
-        else intensity = "극약";                            // 25% 미만 (극도로 억눌림)
-
+        if (myForceRatio >= 0.65) intensity = "극강";       
+        else if (myForceRatio >= 0.5) intensity = "강함";   
+        else if (myForceRatio >= 0.4) intensity = "보통";   
+        else if (myForceRatio >= 0.25) intensity = "약함";  
+        else intensity = "극약";
 
 
 
@@ -693,22 +696,16 @@ const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.ilju
         }
     
       // 💡 [초정밀 결핍 오행 판독] 진짜 약점을 완벽하게 추적
-        let trueWeakIdx = 0;
-        const lackStr_A = session.lackEls[0] || ""; 
-        if (lackStr_A.includes("목")) trueWeakIdx = 0;
-        else if (lackStr_A.includes("화")) trueWeakIdx = 1;
-        else if (lackStr_A.includes("토")) trueWeakIdx = 2;
-        else if (lackStr_A.includes("금")) trueWeakIdx = 3;
-        else if (lackStr_A.includes("수")) trueWeakIdx = 4;
-        else trueWeakIdx = baseScoresForIntensity.indexOf(Math.min(...baseScoresForIntensity));
+   
+const trueWeakIdx = bottomElIdx; 
 
-        // 🚨 [핵심 안전장치] 계산용(한글)과 출력용(한글+한자) 배열 분리
-        const logicEls = ["목", "화", "토", "금", "수"]; // 로직 엔진용
-        const displayElsKo = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"]; // 대표님이 원하시는 출력 포맷
-        const elNamesEnForA = ["Wood", "Fire", "Earth", "Metal", "Water"];
-        
-        const weakElDisplay = displayElsKo[trueWeakIdx];
-        const weakElEnA = elNamesEnForA[trueWeakIdx];
+// 🚨 [핵심 안전장치] 이 아래 배열들은 예쁜 출력을 위한 물감통이므로 절대 유지!
+const logicEls = ["목", "화", "토", "금", "수"]; // 로직 엔진용
+const displayElsKo = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"]; // 대표님이 원하시는 출력 포맷
+const elNamesEnForA = ["Wood", "Fire", "Earth", "Metal", "Water"];
+
+const weakElDisplay = displayElsKo[trueWeakIdx];
+const weakElEnA = elNamesEnForA[trueWeakIdx];
 
         // 이름이 채워준 오행 찾기 (최종점수 - 선천점수 > 0)
         const diffScoresA = session.elementScores.map((score, i) => score - baseScoresForIntensity[i]);
@@ -1071,15 +1068,33 @@ const currentRiskKo = isYangMaster ? fusionRiskYang[peakElIdx][top5Idx_C] : fusi
 const currentRiskEn = isYangMaster ? fusionRiskYangEn[peakElIdx][top5Idx_C] : fusionRiskYinEn[peakElIdx][top5Idx_C];
       
         // 💡 4-1. [성명학 무기 추출] 이름이 부여한 특수 스킬
-        const varIdx5 = session.num81 % 5; 
-        const diffScores = session.elementScores.map((score, i) => score - session.baseScores[i]);
-        let weaponElIdx = diffScores.indexOf(Math.max(...diffScores)); 
-        if(diffScores[weaponElIdx] <= 0) { 
-            const suriToElIdx = [4, 0, 0, 1, 1, 2, 2, 3, 3, 4];
-            weaponElIdx = suriToElIdx[session.num81 % 10];
-        }
-        const mod1Idx = (weaponElIdx * 5) + varIdx5; 
+ 
+const varIdx5 = session.num81 % 5; 
+const diffScores = session.elementScores.map((score, i) => score - session.baseScores[i]);
 
+// 🚨 [수술 구역] 무조건 첫 번째 것만 고르던 바보 로직을 '스마트 판독기'로 교체
+const maxBoost = Math.max(...diffScores);
+const boostIndices = [];
+diffScores.forEach((s, idx) => { if (s === maxBoost) boostIndices.push(idx); });
+
+let weaponElIdx = boostIndices[0]; // 기본값
+if (boostIndices.length > 1) {
+    // 동점일 경우: 내 본질(dmIdx_C)을 생(生)하거나 내가 생하는 기운을 우선순위로 배정
+    const bestSupport = (dmIdx_C + 4) % 5; // 나를 돕는 인성
+    const bestOutput = (dmIdx_C + 1) % 5;  // 내가 뿜어낼 식상
+    
+    if (boostIndices.includes(bestSupport)) weaponElIdx = bestSupport;
+    else if (boostIndices.includes(bestOutput)) weaponElIdx = bestOutput;
+    else weaponElIdx = boostIndices[boostIndices.length - 1]; 
+}
+// -------------------------------------------------------------
+
+// 🚨 아래의 안전장치와 최종 변수(mod1Idx)는 절대 지우면 안 됨!
+if(diffScores[weaponElIdx] <= 0) { 
+    const suriToElIdx = [4, 0, 0, 1, 1, 2, 2, 3, 3, 4];
+    weaponElIdx = suriToElIdx[session.num81 % 10];
+}
+const mod1Idx = (weaponElIdx * 5) + varIdx5;
         // 💡 4-2. [성명의 무기(기술) 25종]
         const jobMod1Ko = [
             "무에서 유를 창조하는 탁월한 기획력을 지닌", "아무도 보지 못한 가능성을 찾아내는 안목을 갖춘", "정체된 상황을 돌파하는 강인한 추진력의", "흩어진 아이디어를 실체 있는 결과물로 엮어내는", "지치지 않고 끊임없이 한계를 넓혀가는 에너지의",
