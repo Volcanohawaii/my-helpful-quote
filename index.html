@@ -773,9 +773,15 @@ const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.ilju
         else if (lackStr.includes("금")) top5Idx_C = 3;
         else if (lackStr.includes("수")) top5Idx_C = 4;
       
- const yangStems = ["gap", "byeong", "mu", "gyeong", "im"]; 
-const isYangMaster = yangStems.includes(session.iljuData.stemId); // 양의 기운이면 true
-
+const yangStems = ["gap", "byeong", "mu", "gyeong", "im"]; 
+const isYangMaster = yangStems.includes(session.iljuData.stemId);
+// 1. 진짜 넘치는 기운(Peak) 찾기 (동점일 땐 내 일간 우선!)
+const maxScore = Math.max(...session.baseScores);
+const dmIdxForTie = ["목", "화", "토", "금", "수"].indexOf(coreEl.charAt(0)); 
+let peakElIdx = session.baseScores.indexOf(maxScore);
+if (session.baseScores[dmIdxForTie] === maxScore) {
+    peakElIdx = dmIdxForTie; 
+}
       
         // 💡 1-2. [운명공학 궁극의 비기] '용신(用神) & 신강신약' 판독 엔진
         const totalScore_C = session.baseScores.reduce((a, b) => a + b, 0);
@@ -1044,8 +1050,8 @@ const fusionRiskYinEn = [
         "Using invisible tactics to manipulate others behind a soft exterior, which eventually leads to the loss of sincere friendships"
     ]
 ];
-      const currentRiskKo = isYangMaster ? fusionRiskYang[peakElIdx][bottomElIdx] : fusionRiskYin[peakElIdx][bottomElIdx];
-      const currentRiskEn = isYangMaster ? fusionRiskYangEn[peakElIdx][bottomElIdx] : fusionRiskYinEn[peakElIdx][bottomElIdx];
+      const currentRiskKo = isYangMaster ? fusionRiskYang[peakElIdx][top5Idx_C] : fusionRiskYin[peakElIdx][top5Idx_C];
+const currentRiskEn = isYangMaster ? fusionRiskYangEn[peakElIdx][top5Idx_C] : fusionRiskYinEn[peakElIdx][top5Idx_C];
       
         // 💡 4-1. [성명학 무기 추출] 이름이 부여한 특수 스킬
         const varIdx5 = session.num81 % 5; 
