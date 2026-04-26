@@ -771,13 +771,8 @@ const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.ilju
 
       
 // 💡 1-1. 진짜 약점 = 하단 처방전과 동일한 선천적 결핍 오행
-        let top5Idx_C = 0;
-        const lackStr = session.lackEls[0] || ""; 
-        if (lackStr.includes("목")) top5Idx_C = 0;
-        else if (lackStr.includes("화")) top5Idx_C = 1;
-        else if (lackStr.includes("토")) top5Idx_C = 2;
-        else if (lackStr.includes("금")) top5Idx_C = 3;
-        else if (lackStr.includes("수")) top5Idx_C = 4;
+        const minScore = Math.min(...session.baseScores);
+const top5Idx_C = session.baseScores.indexOf(minScore);
       
 const yangStems = ["gap", "byeong", "mu", "gyeong", "im"]; 
 const isYangMaster = yangStems.includes(session.iljuData.stemId);
