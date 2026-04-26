@@ -346,22 +346,22 @@ const weakEl = elements[sIdx[0]];
     const waveDescKo = waveDescMap[waveEndChar] || "";
     const waveDescEn = waveDescMapEn[waveEndChar] || "";
 
-   // 💡 [수술 1] 동점자 우선권을 반영하여 데이터 저장 (peakElIdx, bottomElIdx 통합)
+  // 💡 [수술 1] 동점자 우선권을 반영하여 "진짜 정답" 추출
     const maxB = Math.max(...baseScores);
-    let peakIdx = baseScores.indexOf(maxB);
-    // 내 일간(ilganIdx)이 1등 점수와 같다면 무조건 내 일간을 1등으로!
-    if (baseScores[ilganIdx] === maxB) peakIdx = ilganIdx;
+    let finalPeakIdx = baseScores.indexOf(maxB);
+    // 내 일간(본질)이 공동 1등에 있다면 무조건 일간(ilganIdx)에게 왕관을 줍니다.
+    if (baseScores[ilganIdx] === maxB) finalPeakIdx = ilganIdx;
 
     const minB = Math.min(...baseScores);
     const minIndices = [];
     baseScores.forEach((s, i) => { if(s === minB) minIndices.push(i); });
-    let bottomIdx = minIndices[0];
+    let finalBottomIdx = minIndices[0];
     if (minIndices.length > 1) {
-        const wealth = (peakIdx + 2) % 5;
-        if (minIndices.includes(wealth)) bottomIdx = wealth;
+        const wealth = (finalPeakIdx + 2) % 5;
+        if (minIndices.includes(wealth)) finalBottomIdx = wealth;
     }
     
-    // 🚀 수정된 정답(peakIdx, bottomIdx)을 세션에 깨끗하게 담습니다.
+    // 🚀 [최종 저장] 오답이었던 peakElIdx 대신, 방금 정제한 finalPeakIdx를 저장합니다.
     const sessionData = { 
         name, 
         birth, 
@@ -379,8 +379,8 @@ const weakEl = elements[sIdx[0]];
         waveFlowEn: waveFlowEn.join(" ➔ "),
         waveDescKo: waveDescKo,
         waveDescEn: waveDescEn,
-        peakElIdx: peakIdx,   // 🚨 여기를 peakIdx로 연결!
-        bottomElIdx: bottomIdx // 🚨 여기를 bottomIdx로 연결!
+        peakElIdx: finalPeakIdx,   // 🚨 정답 연결
+        bottomElIdx: finalBottomIdx // 🚨 정답 연결
     };
   
     localStorage.setItem('destinySession', JSON.stringify(sessionData));
