@@ -542,8 +542,13 @@ function switchTab(mode, element) {
         ];
 
       
-const peakElIdx = session.baseScores.indexOf(Math.max(...session.baseScores));
-        const bottomElIdx = session.baseScores.indexOf(Math.min(...session.baseScores));
+const maxScore = Math.max(...session.baseScores);
+const dmIdxForTie = ["목", "화", "토", "금", "수"].indexOf(coreEl.charAt(0)); 
+let peakElIdx = session.baseScores.indexOf(maxScore);
+if (session.baseScores[dmIdxForTie] === maxScore) {
+    peakElIdx = dmIdxForTie; 
+}
+const bottomElIdx = session.baseScores.indexOf(Math.min(...session.baseScores));
         const badgeHTML = `
             <div style="display:flex; gap:8px; margin: 20px 0 10px 0; flex-wrap:wrap; justify-content:center;">
                 <span style="background:#8B7355; color:#fff; padding:5px 14px; border-radius:30px; font-size:0.85rem; font-weight:bold;">#${coreData.key}</span>
@@ -775,13 +780,7 @@ const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.ilju
       
 const yangStems = ["gap", "byeong", "mu", "gyeong", "im"]; 
 const isYangMaster = yangStems.includes(session.iljuData.stemId);
-// 1. 진짜 넘치는 기운(Peak) 찾기 (동점일 땐 내 일간 우선!)
-const maxScore = Math.max(...session.baseScores);
-const dmIdxForTie = ["목", "화", "토", "금", "수"].indexOf(coreEl.charAt(0)); 
-let peakElIdx = session.baseScores.indexOf(maxScore);
-if (session.baseScores[dmIdxForTie] === maxScore) {
-    peakElIdx = dmIdxForTie; 
-}
+
       
         // 💡 1-2. [운명공학 궁극의 비기] '용신(用神) & 신강신약' 판독 엔진
         const totalScore_C = session.baseScores.reduce((a, b) => a + b, 0);
