@@ -310,9 +310,14 @@ function processData(name, birth) {
     const nameSuriEl = elements[suriElIdx];
     sc[suriElIdx] += 40; // 🚨 후천운(수리) 점수 합산
 
-    // [4] 최종 오행 데이터 바인딩
-    const strongEl = elements[sc.indexOf(Math.max(...sc))];
-    const sIdx = sc.map((s, i) => i).sort((a, b) => sc[a] - sc[b]);
+   // [4] 최종 오행 데이터 바인딩 (동점 시 일간 무조건 보호!)
+const maxFinalScore = Math.max(...sc);
+let strongElIdx = sc.indexOf(maxFinalScore);
+// 내 일간(본질)이 공동 1등에 포함되어 있다면, 무조건 내 일간을 1등으로 인정!
+if (sc[ilganIdx] === maxFinalScore) {
+    strongElIdx = ilganIdx;
+}
+const strongEl = elements[strongElIdx];
     const weakEl = elements[sIdx[0]]; 
 
     const waveEndChar = waveFlowKo[waveFlowKo.length - 1].charAt(0);
