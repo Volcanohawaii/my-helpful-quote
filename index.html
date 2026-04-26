@@ -318,8 +318,11 @@ if (sc[ilganIdx] === maxFinalScore) {
     strongElIdx = ilganIdx;
 }
 const strongEl = elements[strongElIdx];
-    const weakEl = elements[sIdx[0]]; 
 
+// 👇 바로 이 줄이 감쪽같이 사라져서 에러가 났던 겁니다! 다시 넣어주세요!
+const sIdx = sc.map((s, i) => i).sort((a, b) => sc[a] - sc[b]); 
+
+const weakEl = elements[sIdx[0]];
     const waveEndChar = waveFlowKo[waveFlowKo.length - 1].charAt(0);
     
     const waveDescMap = {
