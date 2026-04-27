@@ -418,9 +418,11 @@ const weakEl = elements[sIdx[0]];
     document.getElementById('view-result').classList.remove('hidden');
 } 
   
- function renderSummary(data) {
+function renderSummary(data) {
     const currentLang = window.currentLang || 'ko';
-    const jeolgiText = jeolgiNames[data.solarMonth][currentLang];
+    
+    // 절기, 일주 데이터 추출
+    const jeolgiText = jeolgiNames[data.solarMonth] ? jeolgiNames[data.solarMonth][currentLang] : "";
     const stemObj = stemTemplates[data.iljuData.stemId];
     const branchObj = branchTemplates[data.iljuData.branchId];
     const descObj = stemDescriptions[data.iljuData.stemId];
@@ -429,14 +431,14 @@ const weakEl = elements[sIdx[0]];
         ? `당신은 ${jeolgiText} 데이터를 배경으로, ${branchObj.ko}이자, <b>${stemObj.ko}</b>의 운명을 품고 태어났습니다. ${descObj.ko}`
         : `Born against the background of ${jeolgiText} data. Soul of ${stemObj.en} within <b>${branchObj.en}</b>. ${descObj.en}`;
 
-    // 🚨 [치명적 에러 해결] 처방전 데이터를 빈 상자에서 찾지 않고 여기서 직접 계산해서 가져옵니다!
+    // 처방전(remedy) 로직 에러 방지용
     const wIdx = data.bottomElIdx !== undefined ? data.bottomElIdx : 2;
     const motherKoArr = ["수(水)", "목(木)", "화(火)", "토(土)", "금(金)"];
-    const r = suriPrescription.getRemedy(data.num81, [motherKoArr[wIdx]], currentLang);
+    const r = data.remedy || suriPrescription.getRemedy(data.num81, [motherKoArr[wIdx]], currentLang);
 
-    // 1. 탄생일 정보는 탭 밖으로 빼서 맨 위(dynamic-summary)에 영구 고정합니다.
+    // 🚨 1. 탄생일 정보를 탭 밖으로 빼서 맨 위(dynamic-summary)에 영구 고정합니다!
     document.getElementById('dynamic-summary').innerHTML = `
-        <div class="info-box" style="background:#F9F8F6; border:1px solid #EEE; border-radius:12px; padding:18px; text-align:left;">
+        <div class="info-box" style="background:#F9F8F6; border:1px solid #EEE; border-radius:12px; padding:18px; text-align:left; color:#000;">
             <div style="display:flex; justify-content:space-between; border-bottom:1px solid #000; padding-bottom:8px; margin-bottom:15px;">
                 <span style="font-weight:800;">DESTINY_LAB_2026</span>
                 <span style="color:var(--accent); font-weight:800;">CODE: ${String(data.num81).padStart(2, '0')}</span>
@@ -444,10 +446,12 @@ const weakEl = elements[sIdx[0]];
             <b>${currentLang === 'ko' ? '🌍 탄생일:' : '🌍 Birth:'}</b> <span style="color:var(--primary); font-weight:700;">${data.iljuData.iljuName}</span>
             <p style="margin-top:10px; margin-bottom:0; line-height:1.7; font-size:0.88rem;">${termInfo}</p>
         </div>`;
+    
+    document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `${data.name}님의 분석 리포트` : `${data.name}'s Analysis Report`;
 
-    // 2. 탭 가방(tabStorage)에 에러 없이 데이터를 채웁니다.
+    // 🚨 2. 탭 가방(tabStorage)에 데이터를 정확히 배분합니다.
     window.tabStorage = {
-        // [1번 탭: 성명 정보] 소리 파동 + 수리격
+        // [1번 탭: 성명 정보] -> 소리 파동 + 수리격
         profile: `
             <div class="tab-content">
                 <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; border:1px solid #f4f1ed; box-shadow:0 4px 12px rgba(0,0,0,0.03); border-left:none;">
@@ -462,7 +466,7 @@ const weakEl = elements[sIdx[0]];
                 </div>
             </div>`,
         
-        // [2번 탭: 현생 분석] 그래프 + 분석글 + 처방전 (r.color 로 에러 완전 차단!)
+        // [2번 탭: 현생 분석] -> 그래프 + 분석글 + 과업 + 처방전
         fortune: `
             <div class="tab-content">
                 <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; border:1px solid #f4f1ed; box-shadow:0 4px 12px rgba(0,0,0,0.03); border-left:none;">
@@ -488,11 +492,9 @@ const weakEl = elements[sIdx[0]];
         next: `<div class="tab-content"><div class="info-box" style="padding:20px; background:#fff; border-left:none;">${currentLang === 'ko' ? '내세 데이터를 연산 중입니다...' : 'Loading Next Life...'}</div></div>`
     };
 
-    document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `${data.name}님의 분석 리포트` : `${data.name}'s Analysis Report`;
+    // 💡 1번 탭(profile)을 강제로 열어줍니다.
     switchTab('profile', document.querySelectorAll('.tab-btn')[0]);
 }
-  
-
 function renderChart(baseScores, finalScores) {
   const container = document.getElementById('radarChart'); 
   if (!container) return;
@@ -554,6 +556,19 @@ function switchTab(mode, element) {
         const targetTab = document.querySelector(`.tab-btn[onclick*="${mode}"]`);
         if (targetTab) targetTab.classList.add('active');
     }
+
+    // 2. 가방에서 꺼내서 화면에 뿌리기
+    if (window.tabStorage && window.tabStorage[mode]) {
+        body.innerHTML = window.tabStorage[mode];
+    }
+
+    // 3. 2번 탭일 때만 그래프 아저씨 부르기
+    if (mode === 'fortune') {
+        setTimeout(() => {
+            if (window.renderChart) renderChart(session.baseScores, session.elementScores);
+        }, 50);
+    }
+}
 
   
 
