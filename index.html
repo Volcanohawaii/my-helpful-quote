@@ -504,20 +504,6 @@ function renderChart(baseScores, finalScores) {
   </div>`;
 }
 
-    // 🌍 [중요] 모든 분석 결과 텍스트를 session 객체에 통합 저장합니다.
-    data.termInfo = termInfo;
-    data.analysisText = analysisText;
-    data.missionText = missionText;
-    data.docentDesc = docentDesc;
-    data.pastLifeText = pastLifeText;
-    data.nextLifeText = nextLifeText;
-
-    // 🌍 계산된 데이터를 브라우저 선반(localStorage)에 저장
-    localStorage.setItem('destinySession', JSON.stringify(data));
-
-    // 🌍 상단 요약창은 비우고, 첫 번째 탭을 자동으로 엽니다.
-    document.getElementById('dynamic-summary').innerHTML = "";
-    switchTab('profile', document.getElementById('tab1'));
 
     
 function switchTab(mode, element) {
