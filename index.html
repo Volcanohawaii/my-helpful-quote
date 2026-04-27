@@ -420,24 +420,72 @@ const weakEl = elements[sIdx[0]];
   
  function renderSummary(data) {
     const currentLang = window.currentLang || 'ko';
+    const jeolgiText = jeolgiNames[data.solarMonth][currentLang];
     const stemObj = stemTemplates[data.iljuData.stemId];
     const branchObj = branchTemplates[data.iljuData.branchId];
     const descObj = stemDescriptions[data.iljuData.stemId];
-    const jeolgiText = jeolgiNames[data.solarMonth][currentLang];
     
-    const introKo = `당신은 ${jeolgiText} 데이터를 배경으로, ${branchObj.ko}이자, <b>${stemObj.ko}</b>의 운명을 품고 태어났습니다.`;
-    const introEn = `You were born against the background of ${jeolgiText} data. At the core of your soul is the energy of ${stemObj.en} blooming within an environment of <b>${branchObj.en}</b>.`;
-    const termInfo = `${currentLang === 'ko' ? introKo + " " + descObj.ko : introEn + " " + descObj.en}`;
+    const termInfo = currentLang === 'ko' 
+        ? `당신은 ${jeolgiText} 데이터를 배경으로, ${branchObj.ko}이자, <b>${stemObj.ko}</b>의 운명을 품고 태어났습니다. ${descObj.ko}`
+        : `Born against the background of ${jeolgiText} data. Soul of ${stemObj.en} within <b>${branchObj.en}</b>. ${descObj.en}`;
 
-    // 💡 1번 탭(성명 정보)을 위해 필요한 데이터를 안전하게 금고에 보관합니다.
-    const session = JSON.parse(localStorage.getItem('destinySession'));
-    session.termInfo = termInfo;
-    session.iljuName = data.iljuData.iljuName;
-    localStorage.setItem('destinySession', JSON.stringify(session));
+    // 🚨 1. 탄생일 정보는 탭 밖으로 빼서 맨 위(dynamic-summary)에 영구 고정합니다!
+    document.getElementById('dynamic-summary').innerHTML = `
+        <div class="info-box" style="background:#F9F8F6; border:1px solid #EEE; border-radius:12px; padding:18px; text-align:left;">
+            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #000; padding-bottom:8px; margin-bottom:15px;">
+                <span style="font-weight:800;">DESTINY_LAB_2026</span>
+                <span style="color:var(--accent); font-weight:800;">CODE: ${String(data.num81).padStart(2, '0')}</span>
+            </div>
+            <b>${currentLang === 'ko' ? '🌍 탄생일:' : '🌍 Birth:'}</b> <span style="color:var(--primary); font-weight:700;">${data.iljuData.iljuName}</span>
+            <p style="margin-top:10px; margin-bottom:0; line-height:1.7; font-size:0.88rem;">${termInfo}</p>
+        </div>`;
 
-    document.getElementById('dynamic-summary').innerHTML = ""; 
+    // 🚨 2. 탭 가방(tabStorage)에 대표님 의도대로 재료를 넣습니다.
+    window.tabStorage = {
+        // [1번 탭: 성명 정보] 탄생일을 뺐습니다! 소리 파동 + 수리격만 나옵니다!
+        profile: `
+            <div class="tab-content">
+                <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; border:1px solid #f4f1ed; box-shadow:0 4px 12px rgba(0,0,0,0.03); border-left:none;">
+                    <div style="margin-bottom: 22px; padding-bottom:18px; border-bottom:1px dashed #DDD;">
+                        <b>🌊 ${currentLang === 'ko' ? '소리 파동:' : 'Sound Wave:'}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? data.waveFlowKo : data.waveFlowEn}</span>
+                        <p style="margin-top:8px; margin-bottom:0; line-height:1.7;">${currentLang === 'ko' ? data.waveDescKo : data.waveDescEn}</p>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <b>🔮 ${currentLang === 'ko' ? '수리격:' : 'Suri:'}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? luckyTitles81[data.num81] : luckyTitles81En[data.num81]}</span>
+                        <p style="margin-top:8px; margin-bottom:0; line-height:1.7;">${currentLang === 'ko' ? detailedDesc81[data.num81] : detailedDesc81En[data.num81]}</p>
+                    </div>
+                </div>
+            </div>`,
+        
+        // [2번 탭: 현생 분석] 그래프 + 분석글 + 처방전
+        fortune: `
+            <div class="tab-content">
+                <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; border:1px solid #f4f1ed; box-shadow:0 4px 12px rgba(0,0,0,0.03); border-left:none;">
+                    <div id="radarChart" style="margin:10px auto 20px; width:100%; height:260px;"></div>
+                    <div style="line-height:1.8; color:#444; font-size:0.93rem; margin-top:20px; white-space:pre-wrap;">${data.analysisText}</div>
+                    <div style="padding:15px; background:#F9F8F6; border-radius:12px; margin-top:20px;">
+                        <b style="color:var(--accent); display:block; margin-bottom:5px;">📜 ${currentLang === 'ko' ? '현생의 과업' : 'Core Competencies'}</b>
+                        <span style="font-size:0.9rem;">${data.missionText}</span>
+                    </div>
+                    <div style="margin-top:20px; padding-top:15px; border-top:1px solid #EEE;">
+                        <span style="display:block; margin-bottom:15px;">${data.docentDesc}</span>
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; text-align: center;">
+                            <div><b style="font-size:0.75rem; color:var(--accent);">🎨 컬러</b><br><span style="font-size:0.7rem;">${data.remedy.color}</span></div>
+                            <div><b style="font-size:0.75rem; color:var(--accent);">🏃 행동</b><br><span style="font-size:0.7rem;">${data.remedy.action}</span></div>
+                            <div><b style="font-size:0.75rem; color:var(--accent);">👥 사람</b><br><span style="font-size:0.7rem;">${data.remedy.social}</span></div>
+                            <div><b style="font-size:0.75rem; color:var(--accent);">🥗 음식</b><br><span style="font-size:0.7rem;">${data.remedy.food}</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>`,
+        
+        past: `<div class="tab-content"><div class="info-box" style="padding:20px; background:#fff; border-left:none;">${currentLang === 'ko' ? '전생 데이터를 로딩 중입니다...' : 'Loading Past Life...'}</div></div>`,
+        next: `<div class="tab-content"><div class="info-box" style="padding:20px; background:#fff; border-left:none;">${currentLang === 'ko' ? '내세 데이터를 연산 중입니다...' : 'Loading Next Life...'}</div></div>`
+    };
+
     document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `${data.name}님의 분석 리포트` : `${data.name}'s Analysis Report`;
     
+    // 💡 첫 화면에서 1번 탭(성명 정보)을 누른 상태로 띄웁니다.
     switchTab('profile', document.querySelectorAll('.tab-btn')[0]);
 }
 
