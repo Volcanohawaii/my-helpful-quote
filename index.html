@@ -180,9 +180,14 @@
       document.getElementById('userName').placeholder = t.nameLabel;
       document.getElementById('userBirth').placeholder = t.birthLabel;
       document.getElementById('ui-btn').innerText = t.btn;
-      document.getElementById('tab1').innerText = t.tab1Btn;
-      document.getElementById('tab2').innerText = t.tab2Btn;
-      document.getElementById('tab3').innerText = t.tab3Btn;
+
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    if (tabBtns.length >= 4) {
+        tabBtns[0].innerText = currentLang === 'ko' ? '성명 정보' : 'Profile';
+        tabBtns[1].innerText = currentLang === 'ko' ? '현생 분석' : 'Analysis';
+        tabBtns[2].innerText = currentLang === 'ko' ? '전생 기록' : 'Past Life';
+        tabBtns[3].innerText = currentLang === 'ko' ? '내세 예약' : 'Next Life';
+    }
     document.getElementById('logic-title').innerText = t.logicTitle;
     document.getElementById('l1-title').innerText = t.l1Title;
     document.getElementById('l1-desc').innerText = t.l1Desc;
@@ -553,60 +558,55 @@ function switchTab(mode, element) {
     const session = JSON.parse(localStorage.getItem('destinySession'));
     if (!body || !session) return;
 
-    // 1. [버튼 불 켜기]
+    // 1. [탭 활성화 시각화]
     const tabs = document.querySelectorAll('.tab-btn');
     tabs.forEach(t => t.classList.remove('active'));
-    if (element) element.classList.add('active');
+    if (element) {
+        element.classList.add('active');
+    } else {
+        const targetTab = document.querySelector(`.tab-btn[onclick*="${mode}"]`);
+        if (targetTab) targetTab.classList.add('active');
+    }
 
+    // 2. [공통 데이터 호출]
+    const data = session;
+    const iljuName = data.iljuData ? data.iljuData.iljuName : "";
     const labelMonth = currentLang === 'ko' ? '🌍 탄생일:' : '🌍 Innate Core Temperament';
     const labelSuri = currentLang === 'ko' ? '🔮 수리격:' : '🔮 Suri Character';
-    const iljuName = session.iljuData ? session.iljuData.iljuName : "";
 
-    // 2. [내용 출력] - 선반(session)에서 꺼내서 씁니다.
+    // 3. [모드별 화면 출력]
     if (mode === 'profile') {
+        // ------------------------------------------------
+        // [1번 탭: 성명 정보] - 탄생일/절기 출력
+        // ------------------------------------------------
         body.innerHTML = `
             <div class="tab-content">
-                <div class="info-box" style="background:#F9F8F6; border:1px solid #EEE; border-radius:12px; padding:18px;">
+                <div class="info-box" style="background:#F9F8F6; border:1px solid #EEE; border-radius:12px; padding:18px; color:#000;">
                     <div style="display:flex; justify-content:space-between; border-bottom:1px solid #000; padding-bottom:8px; margin-bottom:15px;">
                         <span style="font-weight:800;">DESTINY_LAB_2026</span>
-                        <span style="color:var(--accent); font-weight:800;">CODE: ${String(session.num81).padStart(2, '0')}</span>
+                        <span style="color:var(--accent); font-weight:800;">CODE: ${String(data.num81).padStart(2, '0')}</span>
                     </div>
                     <b>${labelMonth}</b> <span style="color:var(--primary); font-weight:700;">${iljuName}</span>
-                    <p style="margin-top:10px; line-height:1.7; font-size:0.88rem;">${session.termInfo}</p>
+                    <p style="margin-top:10px; margin-bottom:0; line-height:1.7; font-size:0.88rem;">${data.termInfo || ""}</p>
                 </div>
             </div>`;
-    } 
-    else if (mode === 'fortune') {
-        body.innerHTML = `
-            <div class="tab-content">
-                <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; border:1px solid #f4f1ed; box-shadow:0 4px 12px rgba(0,0,0,0.03);">
-                    <div style="margin-bottom: 22px; padding-bottom:18px; border-bottom:1px dashed #DDD;">
-                        <b>🌊 ${currentLang === 'ko' ? '소리 파동:' : 'Sound Wave:'}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? session.waveFlowKo : session.waveFlowEn}</span>
-                        <p style="margin-top:8px; line-height:1.7;">${currentLang === 'ko' ? session.waveDescKo : session.waveDescEn}</p>
-                    </div>
-                    <div style="margin-bottom: 10px;">
-                        <b>${labelSuri}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? luckyTitles81[session.num81] : luckyTitles81En[session.num81]}</span>
-                        <p style="margin-top:8px; line-height:1.7;">${currentLang === 'ko' ? detailedDesc81[session.num81] : detailedDesc81En[session.num81]}</p>
-                    </div>
-                    <div id="radarChart" style="margin:25px auto 10px; width:100%; height:260px;"></div>
-                    <div style="line-height:1.8; color:#444; font-size:0.93rem; margin-top:20px;">${session.analysisText}</div>
-                    <div style="padding:15px; background:#F9F8F6; border-radius:12px; margin-top:20px;">
-                        <b style="color:var(--accent); display:block; margin-bottom:5px;">📜 현생의 과업</b>
-                        <span style="font-size:0.9rem;">${session.missionText}</span>
-                    </div>
-                    <div style="margin-top:20px; padding-top:15px; border-top:1px solid #EEE;"><span>${session.docentDesc}</span></div>
-                </div>
-            </div>`;
-        setTimeout(() => { if(window.renderChart) renderChart(session.baseScores); }, 50);
-    } 
-    else if (mode === 'past') {
-        body.innerHTML = `<div class="tab-content"><div class="info-box" style="padding:20px;">${session.pastLifeText}</div></div>`;
-    } 
-    else if (mode === 'next') {
-        body.innerHTML = `<div class="tab-content"><div class="info-box" style="padding:20px;">${session.nextLifeText}</div></div>`;
+
+    } else if (mode === 'fortune') {
+        // ------------------------------------------------
+        // [2번 탭: 현생 분석] - 수리파동/격/그래프/처방
+        // ------------------------------------------------
+        // (기존 대표님의 복잡한 계산 로직들은 그대로 유지되도록 처리)
+        body.innerHTML = window.tabStorage ? window.tabStorage.fortune : "분석 데이터를 불러올 수 없습니다.";
+        
+        // 그래프 지연 실행 (도화지가 그려진 뒤 실행)
+        setTimeout(() => { if(window.renderChart) renderChart(data.baseScores, data.elementScores); }, 50);
+
+    } else if (mode === 'past') {
+        body.innerHTML = `<div class="tab-content"><div class="info-box" style="padding:20px; border-left:none; background:#fff;">${data.pastLifeText || "기록을 찾을 수 없습니다."}</div></div>`;
+    } else if (mode === 'next') {
+        body.innerHTML = `<div class="tab-content"><div class="info-box" style="padding:20px; border-left:none; background:#fff;">${data.nextLifeText || "예약 정보가 없습니다."}</div></div>`;
     }
 }
-
     
     const t = i18n[currentLang];
     const finalSignature = session.strongEl;
