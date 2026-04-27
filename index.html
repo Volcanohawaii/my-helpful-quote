@@ -138,11 +138,13 @@
       <div class="official-seal">정식분석본</div>
       <h1 id="dynamic-title">분석 리포트</h1>
       <div class="summary-line" id="dynamic-summary">분석 중...</div>
-      <div class="tabs">
-        <button class="tab-btn active" id="tab1" onclick="switchTab('fortune', this)">현생 분석서</button>
-        <button class="tab-btn" id="tab2" onclick="switchTab('past', this)">전생 기록서</button>
-        <button class="tab-btn" id="tab3" onclick="switchTab('next', this)">내세 예약서</button>
+     <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('profile', this)">성명 정보</button>
+        <button class="tab-btn" onclick="switchTab('fortune', this)">현생 분석</button>
+        <button class="tab-btn" onclick="switchTab('past', this)">전생 기록</button>
+        <button class="tab-btn" onclick="switchTab('next', this)">내세 예약</button>
       </div>
+      
       <div id="reportDetail"></div>
       <button class="btn-action" style="margin-top:30px; background:white; color:#444; border:1px solid #DDD;" onclick="copyLink()">Copy Link</button>
       <p onclick="location.href=location.pathname" style="font-size:0.7rem; color:#CCC; margin-top:20px; cursor:pointer;">Reset</p>
@@ -441,30 +443,49 @@ const termInfo = `${currentLang === 'ko' ? introKo : introEn} ${currentLang === 
     const iljuTitleKo = `${data.iljuData.iljuName}`;
     const iljuTitleEn = `${data.iljuData.iljuName}`;
 
-document.getElementById('dynamic-summary').innerHTML = `
-        <div class="info-box" style="background:#F9F8F6; border:1px solid #EEE; color:#000; font-size:0.88rem;"> 
-          <div style="display:flex; justify-content:space-between; border-bottom:1px solid #000; padding-bottom:8px; margin-bottom:15px;">
-              <span style="font-weight:800;">DESTINY_LAB_2026</span>
-              <span style="color:var(--accent); font-weight:800;">CODE: ${String(data.num81).padStart(2, '0')}</span>
-          </div>
-          
-          <div style="margin-bottom: 18px;">
-            <b>🌊 ${currentLang === 'ko' ? '소리 파동:' : 'Sound Wave:'}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? data.waveFlowKo : data.waveFlowEn}</span>
-            <p style="margin-top:6px; margin-bottom:0; line-height:1.7;">${currentLang === 'ko' ? data.waveDescKo : data.waveDescEn}</p>
-          </div>
+// 🌍 [STEP 1] 상단 요약창은 깨끗하게 비웁니다.
+    document.getElementById('dynamic-summary').innerHTML = ""; 
 
-          <div style="border-top:1px dashed #DDD; padding-top:18px; margin-bottom: 18px;">
-            <b>${labelSuri}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? luckyTitles81[data.num81] : luckyTitles81En[data.num81]}</span>
-            <p style="margin-top:6px; margin-bottom:0; line-height:1.7;">${currentLang === 'ko' ? detailedDesc81[data.num81] : detailedDesc81En[data.num81]}</p>
-          </div>
-          
-          <div style="border-top:1px dashed #DDD; padding-top:18px;">
-            <b>${labelMonth}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? iljuTitleKo : iljuTitleEn}</span>
-            <p style="margin-top:6px; margin-bottom:0; line-height:1.7;">${termInfo}</p>
-          </div>
-        </div>`;
-   }
-  
+    // 🌍 [STEP 2] 탭별로 보여줄 내용을 미리 상자(window.tabStorage)에 담습니다.
+    // 이렇게 미리 담아둬야 함수 밖에서 'switchTab'을 눌러도 에러가 안 납니다.
+    window.tabStorage = {
+        profile: `
+            <div class="tab-content">
+                <div class="info-box" style="background:#F9F8F6; border:1px solid #EEE; border-radius:12px; padding:18px;">
+                    <div style="display:flex; justify-content:space-between; border-bottom:1px solid #000; padding-bottom:8px; margin-bottom:15px;">
+                        <span style="font-weight:800;">DESTINY_LAB_2026</span>
+                        <span style="color:var(--accent); font-weight:800;">CODE: ${String(data.num81).padStart(2, '0')}</span>
+                    </div>
+                    <b>${labelMonth}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? iljuTitleKo : iljuTitleEn}</span>
+                    <p style="margin-top:10px; margin-bottom:0; line-height:1.7;">${termInfo}</p>
+                </div>
+            </div>`,
+        fortune: `
+            <div class="tab-content">
+                <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; border:1px solid #f4f1ed; box-shadow:0 4px 12px rgba(0,0,0,0.03);">
+                    <div style="margin-bottom: 22px; padding-bottom:18px; border-bottom:1px dashed #DDD;">
+                        <b>🌊 ${currentLang === 'ko' ? '소리 파동:' : 'Sound Wave:'}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? data.waveFlowKo : data.waveFlowEn}</span>
+                        <p style="margin-top:8px; margin-bottom:0; line-height:1.7;">${currentLang === 'ko' ? data.waveDescKo : data.waveDescEn}</p>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <b>${labelSuri}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? luckyTitles81[data.num81] : luckyTitles81En[data.num81]}</span>
+                        <p style="margin-top:8px; margin-bottom:0; line-height:1.7;">${currentLang === 'ko' ? detailedDesc81[data.num81] : detailedDesc81En[data.num81]}</p>
+                    </div>
+                    <div id="radarChart" style="margin:25px auto 10px; width:100%; height:auto; min-height:260px;"></div>
+                    <div style="line-height:1.8; color:#444; font-size:0.93rem; margin-top:20px; white-space:pre-wrap;">${analysisText}</div>
+                    <div style="padding:15px; background:#F9F8F6; border-radius:12px; margin-top:20px;">
+                        <b style="color:var(--accent); display:block; margin-bottom:5px;">📜 ${currentLang === 'ko' ? '현생의 과업' : 'Core Competencies'}</b>
+                        <span style="font-size:0.9rem;">${missionText}</span>
+                    </div>
+                    <div style="margin-top:20px; padding-top:15px; border-top:1px solid #EEE;"><span>${docentDesc}</span></div>
+                </div>
+            </div>`,
+        past: `<div class="tab-content"><div class="info-box" style="background:#fff; padding:20px;">${pastLifeText}</div></div>`,
+        next: `<div class="tab-content"><div class="info-box" style="background:#fff; padding:20px;">${nextLifeText}</div></div>`
+    };
+
+    // 🌍 [STEP 3] 분석이 완료되자마자 1번 탭(성명 정보)이 자동으로 열리게 합니다.
+    switchTab('profile', document.getElementById('tab1'));
   
 function renderChart(baseScores, finalScores) {
   const container = document.getElementById('radarChart'); 
