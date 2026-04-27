@@ -654,10 +654,15 @@ const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.ilju
         const baseScoresForIntensity = session.baseScores; 
         const totalScore_A = baseScoresForIntensity.reduce((a, b) => a + b, 0);
         
-        // 🚨 핵심 수정: 어떤 한자가 들어와도 번역해주는 번역기 추가
-        const elMapForIntensity = { "목":0,"화":1,"토":2,"금":3,"수":4,"갑":0,"을":0,"병":1,"정":1,"무":2,"기":2,"경":3,"신":3,"임":4,"계":4,"甲":0,"乙":0,"丙":1,"丁":1,"戊":2,"己":2,"庚":3,"辛":3,"壬":4,"癸":4 };
-        const trueDayMasterEl = session.iljuData ? session.iljuData.el.charAt(0) : "토"; 
-        const dmIdx_A = elMapForIntensity[trueDayMasterEl] !== undefined ? elMapForIntensity[trueDayMasterEl] : 2; 
+        // 💡 [수술 3] 신강/신약 판독기의 언어 장벽 완벽 제거 (charAt(0) 버그 수정)
+const elMapForIntensity = { "목":0,"화":1,"토":2,"금":3,"수":4,"Wood":0,"Fire":1,"Earth":2,"Metal":3,"Water":4,"갑":0,"을":0,"병":1,"정":1,"무":2,"기":2,"경":3,"신":3,"임":4,"계":4,"甲":0,"乙":0,"丙":1,"丁":1,"戊":2,"己":2,"庚":3,"辛":3,"壬":4,"癸":4 };
+let dmIdx_A = 2; // 기본값 토(2)
+if (session.iljuData && session.iljuData.el) {
+    const rawEl = session.iljuData.el; // 글자를 자르지 않고 원본 그대로 가져옵니다.
+    // 1. 전체 단어("Water", "수")로 먼저 찾아보고, 없으면 첫 글자("W", "壬")로 찾습니다.
+    if (elMapForIntensity[rawEl] !== undefined) dmIdx_A = elMapForIntensity[rawEl];
+    else if (elMapForIntensity[rawEl.charAt(0)] !== undefined) dmIdx_A = elMapForIntensity[rawEl.charAt(0)];
+}
 
         // 나를 돕는 세력(인성) 계산
         const motherIdx_A = (dmIdx_A + 4) % 5; 
