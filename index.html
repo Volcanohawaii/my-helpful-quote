@@ -603,7 +603,10 @@ if (minIndices.length > 1) {
         `;
        
       
-const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.iljuData.iljuName.charAt(0) : coreEl.charAt(0);
+// 💡 [수술 3-1] 언어/한자에 영향받지 않는 100% 무결점 10간(일간) 추출기
+const stemIdMap = { "gap":"갑", "eul":"을", "byeong":"병", "jeong":"정", "mu":"무", "gi":"기", "gyeong":"경", "sin":"신", "im":"임", "gye":"계" };
+// 화면 표시용 이름(iljuName) 대신, 시스템 고유 ID(stemId)를 번역하여 음양 디테일이 절대 깨지지 않게 방어합니다.
+const dayMaster = (session.iljuData && session.iljuData.stemId && stemIdMap[session.iljuData.stemId]) ? stemIdMap[session.iljuData.stemId] : logicEls[dmIdx_A];
         const themeIdx = session.num81 % 9;
 
         const themeModifiers10Ko = {
@@ -643,9 +646,10 @@ const dayMaster = (session.iljuData && session.iljuData.iljuName) ? session.ilju
         ];
 
         // 💡 3. 유저의 진짜 일간(10간) 기반 90종(10x9) 다차원 조립!
-        // 에러 방지용: 10간 데이터가 안 잡히면 오행을 양간(갑병무경임)으로 치환
-        const fallback10Map = { "목":"갑", "화":"병", "토":"무", "금":"경", "수":"임" };
-        const finalCoreChar = themeModifiers10Ko[dayMaster] ? dayMaster : fallback10Map[coreEl.charAt(0)] || "무";
+        // 💡 [수술 3-2] 에러 방지용 비상구(Fallback) 강화
+const fallback10Map = { "목":"갑", "화":"병", "토":"무", "금":"경", "수":"임" };
+// coreEl 대신, 아까 번역해둔 완벽한 한글 오행(logicEls[dmIdx_A])을 사용하여 철통 방어합니다.
+const finalCoreChar = themeModifiers10Ko[dayMaster] ? dayMaster : fallback10Map[logicEls[dmIdx_A]] || "무";
 
         const currentThemeKo = `${themeModifiers10Ko[finalCoreChar]} ${themeBasesKo[themeIdx]}`;
         const currentThemeEn = `${themeBasesEn[themeIdx]} ${themeModifiers10En[finalCoreChar]}`; 
@@ -710,15 +714,16 @@ if (session.iljuData && session.iljuData.el) {
         };
 
         // 💡 4. 일간(dayMaster)이 사전에 있으면 10간 로직, 혹시 없으면 기존 5행 로직으로 안전하게 Fallback
-        let currentTrait = "";
-        if (coreTraitsKo[dayMaster]) {
-             currentTrait = currentLang === 'ko' ? coreTraitsKo[dayMaster][intensity] : coreTraitsEn[dayMaster][intensity];
-        } else {
-             // 만약 에러로 인해 dayMaster가 안 잡히면 기존 오행의 양간(갑,병,무,경,임)으로 대체 방어
-             const fallbackMap = { "목":"갑", "화":"병", "토":"무", "금":"경", "수":"임" };
-             const fallbackKey = fallbackMap[coreEl.charAt(0)] || "무";
-             currentTrait = currentLang === 'ko' ? coreTraitsKo[fallbackKey][intensity] : coreTraitsEn[fallbackKey][intensity];
-        }
+        // 💡 [수술 3-3] 기질 묘사 출력 비상구(Fallback) 완벽 동기화
+let currentTrait = "";
+if (coreTraitsKo[dayMaster]) {
+     currentTrait = currentLang === 'ko' ? coreTraitsKo[dayMaster][intensity] : coreTraitsEn[dayMaster][intensity];
+} else {
+     const fallbackMap = { "목":"갑", "화":"병", "토":"무", "금":"경", "수":"임" };
+     // 에러가 나도 완벽한 한글 오행(logicEls[dmIdx_A])을 가져와 오작동을 원천 차단합니다.
+     const fallbackKey = fallbackMap[logicEls[dmIdx_A]] || "무";
+     currentTrait = currentLang === 'ko' ? coreTraitsKo[fallbackKey][intensity] : coreTraitsEn[fallbackKey][intensity];
+}
     
       // 💡 [초정밀 결핍 오행 판독] 진짜 약점을 완벽하게 추적
    
