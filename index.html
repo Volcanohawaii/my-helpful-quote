@@ -818,29 +818,7 @@ const isYangMaster = yangStems.includes(session.iljuData.stemId);
 
 
 
-        // 💡 3. 조립식 서사 사전 세팅
-        const top1FeatureKo = [
-            ["한계를 모르는 폭발적 확장성이", "대중의 마음을 움직이는 독창적 기획력이", "시스템의 뿌리를 내리는 창조성이", "정체된 판을 단숨에 깨뜨리는 돌파력이", "거친 환경에서도 생존로를 찾아내는 유연한 성장판이"],
-            ["새로운 시장을 선점하는 뜨거운 추진력이", "모든 시선을 한곳으로 모으는 카리스마가", "사람과 사람을 열정으로 잇는 폭넓은 장악력이", "본질과 허상을 선명하게 가려내는 분별력이", "어둠 속에서 비전을 제시하는 번뜩이는 직관력이"],
-            ["무에서 유를 창조하는 비옥한 기획력이", "만인을 내 편으로 만드는 포용력 있는 리더십이", "큰 위기에도 흔들리지 않는 절대적 안정감이", "명확한 질서로 조직을 운영하는 견고한 통제력이", "방대한 지식을 흡수하고 갈무리하는 거대한 대지가"],
-            ["승부를 한발 앞서 결정짓는 승부사적 기질이", "불필요한 군더더기를 걷어내는 매력이", "단단한 논리 위에서 빛나는 완벽주의가", "한 치의 오차도 허용하지 않는 철저한 결단력이", "보이지 않는 핵심까지 꿰뚫어 보는 통찰의 검이"],
-            ["거침없이 뻗어 나가는 지혜의 폭포수가", "열정과 냉정을 전략적으로 운용하는 마인드가", "모든 상황에 유연하게 스며드는 처세술이", "위기 앞에서도 평정심을 유지하는 냉철함이", "속을 알 수 없는 심연의 바다 같은 장악력이"]
-        ];
-
-        const top1FeatureEn = [
-            ["explosive scalability without limits", "original planning that moves people", "grand creativity rooting massive systems", "innovative breakthrough power", "flexible growth plate for any environment"],
-            ["hot drive to seize new markets", "overwhelming charisma drawing all eyes", "broad dominance connecting people with passion", "sharp discernment distinguishing essence from illusion", "flashing intuition presenting a clear vision"],
-            ["fertile planning creating from nothing", "inclusive leadership winning hearts", "absolute stability unshaken by crisis", "solid control operating organizations with order", "massive land absorbing and archiving knowledge"],
-            ["competitive temper deciding the win ahead", "keen charm stripping away the unnecessary", "perfectionism shining on solid logic", "absolute decisiveness allowing no error", "sword of insight piercing invisible cores"],
-            ["relentlessly flowing waterfall of wisdom", "strategic mind operating passion and cool", "flexible tact seeping into any situation", "cool-headedness keeping composure against crisis", "unfathomable abyss-like dominance"]
-        ];
-
-        let top1ScaleKo = ""; let top1ScaleEn = "";
-        const logicTopScore = session.baseScores[top1Idx_C];
-        if (logicTopScore >= 100) { top1ScaleKo = "룰을 재정의하는 대체 불가능한 스케일로"; top1ScaleEn = "on an irreplaceable scale redefining market rules"; }
-        else if (logicTopScore >= 75) { top1ScaleKo = "업계를 선도하는 압도적인 파급력으로"; top1ScaleEn = "with overwhelming impact leading the industry"; }
-        else if (logicTopScore >= 50) { top1ScaleKo = "프로젝트를 완벽하게 주도하는 전문성으로"; top1ScaleEn = "with solid expertise perfectly leading core projects"; }
-        else { top1ScaleKo = "프리미엄 시장을 독점하는 고도의 타겟팅으로"; top1ScaleEn = "with highly precise targeting monopolizing niche markets"; }
+        
 
         const top2SkillKo = [
             ["스스로 동기를 부여하는 돌파력의", "에너지를 끊임없이 생산하는 생명력의", "낡은 관습을 부수고 나아가는 개척의", "관계의 벽을 허물고 다가가는 친화력의", "고착된 상황에 생기를 불어넣는 기획의"],
