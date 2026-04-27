@@ -301,17 +301,29 @@ if(ilganIdx !== -1) sc[ilganIdx] += 40;
         waveFlowEn.push(elNamesEnMap[el.charAt(0)] || el);
     }
 
-    // 💡 [정통 성명학 복구] 꼼수를 버리고, 이름 전체 획수를 합산한 '정격(총격)'을 수리격으로 사용합니다.
-    let totalStrokes = 0;
-    for (let i = 0; i < charStrokes.length; i++) {
-        totalStrokes += charStrokes[i];
-    }
     
-    // 순수하게 글자의 모든 획수를 더한 값만이 가장 정확한 이름의 특징(설명)을 끌어냅니다.
-    let coreStrokes = totalStrokes;
+    // 1. 내 본질 오행 번호 찾기 (0:목, 1:화, 2:토, 3:금, 4:수)
+    let myElIdx = 2; // 기본값 토
+    if (iljuData && iljuData.el) {
+        if (elMap[iljuData.el] !== undefined) myElIdx = elMap[iljuData.el];
+        else if (elMap[iljuData.el.charAt(0)] !== undefined) myElIdx = elMap[iljuData.el.charAt(0)];
+    }
 
-    let num81 = coreStrokes % 81;
-    if (num81 === 0) num81 = 81;
+    // 2. 이름 중심 소리(첫 글자 초성)의 오행 번호 찾기
+    const coreSoundChar = name.length > 1 ? name[1] : name[0]; // 성씨 제외, 진짜 이름의 첫 글자
+    const coreOnset = /[a-zA-Z]/.test(coreSoundChar) ? coreSoundChar.toUpperCase() : getHangulOnset(coreSoundChar);
+    const soundEl = hangulElements[coreOnset] || alphabetElements[coreOnset] || "토";
+    const soundElIdx = elements.indexOf(soundEl);
+
+    // 3. 십성(육친) 도출 로직: 내 본질(myElIdx)과 이름 소리(soundElIdx)의 상생상극 관계 계산
+    // 0: 비겁(독립/주도), 1: 식상(표현/창의), 2: 재성(재물/결과), 3: 관성(명예/규칙), 4: 인성(지혜/기획)
+    let waveSipSeongIdx = (soundElIdx - myElIdx + 5) % 5; 
+
+    // 🚨 중요: 기존 코드들이 'num81' 변수에 기대어 돌아가고 있으므로, 
+    // 시스템이 뻗지 않도록 십성 인덱스(0~4)를 바탕으로 가짜 num81을 예쁘게 포장해서 넘겨줍니다.
+    // (이렇게 하면 밑에 있는 화면 그리는 코드들을 뜯어고칠 필요가 없습니다!)
+    const sipSeongMapToNum81 = [11, 24, 32, 45, 52]; // 각 십성을 대표하는 좋은 수리 번호로 맵핑
+    let num81 = sipSeongMapToNum81[waveSipSeongIdx];
 
     const suriToElIdx = [4, 0, 0, 1, 1, 2, 2, 3, 3, 4];
     const suriElIdx = suriToElIdx[num81 % 10];
