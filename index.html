@@ -1970,8 +1970,8 @@ const targetedJobIndices = jobTargetMap[weaponElIdx];
         const analysisText = `${blockA}`;  
         const missionText = `${blockC}`;
       // 💡 [도슨트 수술] 약점 진단과 상생 처방 원리를 하나의 자연스러운 스토리로 결합합니다.
-        const weakKoArr = ["나무", "불", "흙", "쇠", "물"];
-        const motherKoArr = ["물", "나무", "불", "흙", "쇠"];
+        const weakKoArr = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
+        const motherKoArr = ["수(水)", "목(木)", "화(火)", "토(土)", "금(金)"];
         const weakEnArr = ["Wood", "Fire", "Earth", "Metal", "Water"];
         const motherEnArr = ["Water", "Wood", "Fire", "Earth", "Metal"];
 
@@ -2004,23 +2004,23 @@ const targetedJobIndices = jobTargetMap[weaponElIdx];
               <span>${docentDesc}</span>
             </div>
 
-<div class="info-box" style="background:#fff; border-left:none; padding: 20px;">
-              <div style="display: flex; flex-direction: column; gap: 16px;">
-                <div style="padding-bottom: 14px; border-bottom: 1px dashed #E8E2D9;">
-                  <b style="color:var(--accent); font-size: 0.95rem;">🎨 행운 컬러</b><br>
-                  <span style="display: inline-block; margin-top: 5px; color:#444;">${r.color}</span>
+<div class="info-box" style="background:#fff; border-left:none; padding: 20px 5px;">
+              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; text-align: center;">
+                <div style="border-right: 1px dashed #E8E2D9; padding: 0 2px;">
+                  <b style="color:var(--accent); font-size: 0.8rem; letter-spacing: -0.5px;">🎨 컬러</b><br>
+                  <span style="display: block; margin-top: 8px; color:#444; font-size: 0.75rem; word-break: keep-all; line-height: 1.4;">${r.color}</span>
                 </div>
-                <div style="padding-bottom: 14px; border-bottom: 1px dashed #E8E2D9;">
-                  <b style="color:var(--accent); font-size: 0.95rem;">🏃 실천 행동</b><br>
-                  <span style="display: inline-block; margin-top: 5px; color:#444;">${r.action}</span>
+                <div style="border-right: 1px dashed #E8E2D9; padding: 0 2px;">
+                  <b style="color:var(--accent); font-size: 0.8rem; letter-spacing: -0.5px;">🏃 행동</b><br>
+                  <span style="display: block; margin-top: 8px; color:#444; font-size: 0.75rem; word-break: keep-all; line-height: 1.4;">${r.action}</span>
                 </div>
-                <div style="padding-bottom: 14px; border-bottom: 1px dashed #E8E2D9;">
-                  <b style="color:var(--accent); font-size: 0.95rem;">👥 인적 정보</b><br>
-                  <span style="display: inline-block; margin-top: 5px; color:#444;">${r.social}</span>
+                <div style="border-right: 1px dashed #E8E2D9; padding: 0 2px;">
+                  <b style="color:var(--accent); font-size: 0.8rem; letter-spacing: -0.5px;">👥 사람</b><br>
+                  <span style="display: block; margin-top: 8px; color:#444; font-size: 0.75rem; word-break: keep-all; line-height: 1.4;">${r.social}</span>
                 </div>
-                <div>
-                  <b style="color:var(--accent); font-size: 0.95rem;">🥗 보충 음식</b><br>
-                  <span style="display: inline-block; margin-top: 5px; color:#444;">${r.food}</span>
+                <div style="padding: 0 2px;">
+                  <b style="color:var(--accent); font-size: 0.8rem; letter-spacing: -0.5px;">🥗 음식</b><br>
+                  <span style="display: block; margin-top: 8px; color:#444; font-size: 0.75rem; word-break: keep-all; line-height: 1.4;">${r.food}</span>
                 </div>
               </div>
             </div>
