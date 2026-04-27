@@ -159,7 +159,7 @@
       const el = document.getElementById('visit-count'); 
       if (!el) return;
       try { 
-        const res = await fetch('https://api.counterapi.dev/v1/volcanohawaii-lab/main-counter/up'); 
+        es = await fetch('https://api.counterapi.dev/v1/volcanohawaii-lab/main-counter/up'); 
         if (res.ok) {
           const data = await res.json(); 
           if (data && typeof data.count === "number") { el.innerText = Number(data.count).toLocaleString(); }
@@ -514,7 +514,9 @@ function switchTab(mode, element) {
     const birthMonth = parseInt(session.birth.substring(4, 6));
 
     if (mode === 'fortune') {
-        const r = suriPrescription.getRemedy(session.num81, [session.lackEls[0]], currentLang);
+        // 💡 [수술 1] 처방전 오진 방지: 옛날 데이터 대신 '진짜 꼴찌(bottomElIdx)'를 번역해서 주입
+const logicElsForRemedy = ["목", "화", "토", "금", "수"];
+const r = suriPrescription.getRemedy(session.num81, [logicElsForRemedy[session.bottomElIdx]], currentLang);
         const elKeyMap = { "목": "목(木)", "화": "화(火)", "토": "토(土)", "금": "금(金)", "수": "수(水)" };
         const coreEl = elKeyMap[(session.iljuData && session.iljuData.iljuName) ? session.iljuData.iljuName.charAt(0) : finalSignature.charAt(0)] || finalSignature;
         const envEl = finalSignature;
@@ -754,10 +756,10 @@ const weakElEnA = elNamesEnForA[trueWeakIdx];
         let bridgeKo = "";
         let bridgeEn = "";
 
-        // 본질(일간) 오행 한글 추출
-        const coreElChar = coreEl.charAt(0); 
-        // 본질 오행 디스플레이 매칭 (예: "목(木)")
-        const coreDisplay = displayElsKo[logicEls.indexOf(coreElChar)];
+       // 💡 [수술 2] 파동 시너지 텍스트 증발 방지 (정확한 한글 오행으로 강제 변환)
+// 위에서 완벽하게 번역을 마친 dmIdx_A를 재활용하여 100% 한글 오행을 꺼내옵니다.
+const coreElChar = logicEls[dmIdx_A]; 
+const coreDisplay = displayElsKo[dmIdx_A];
 
         if (isWeakBoosted) {
             bridgeKo = `성명의 파동에는 <b>${boostedTextKo}</b>의 기운이 높게 배치되어 있습니다. 타고난 에너지 중 결핍된 <b>${weakElDisplay}</b>의 에너지를 채우고 <b>${currentTheme}</b>의 당신만의 특별함이 완성되었습니다.`;
@@ -821,8 +823,7 @@ const isYangMaster = yangStems.includes(session.iljuData.stemId);
       
         // 💡 1-2. [운명공학 궁극의 비기] '용신(用神) & 신강신약' 판독 엔진
         const totalScore_C = session.baseScores.reduce((a, b) => a + b, 0);
-        const elNamesMap_C = { "목":0, "화":1, "토":2, "금":3, "수":4 };
-        const dmIdx_C = elNamesMap_C[coreEl.charAt(0)]; // 내 본질(일간)
+        const dmIdx_C = dmIdx_A;
         // 오행 상생상극 인덱스
         const motherIdx_C = (dmIdx_C + 4) % 5; // 나를 생하는 인성
         const childIdx_C = (dmIdx_C + 1) % 5;  // 내가 생하는 식상
