@@ -855,11 +855,11 @@ const isYangMaster = yangStems.includes(session.iljuData.stemId);
 
         // 💡 3. 조립식 서사 사전 세팅
         const top1FeatureKo = [
-            ["한계를 모르는 폭발적 확장성을", "대중의 마음을 움직이는 독창적 기획력을", "시스템의 뿌리를 내리는 창조성을", "정체된 판을 단숨에 깨뜨리는 돌파력을", "어떤 환경에서도 생존로를 찾아내는 유연한 성장판을"],
-            ["새로운 시장을 선점하는 뜨거운 추진력을", "모든 시선을 한곳으로 모으는 카리스마를", "사람과 사람을 열정으로 잇는 폭넓은 장악력을", "본질과 허상을 선명하게 가려내는 분별력을", "어둠 속에서 비전을 제시하는 번뜩이는 직관력을"],
-            ["무에서 유를 창조하는 비옥한 기획력을", "만인을 내 편으로 만드는 포용력 있는 리더십을", "어떤 위기에도 흔들리지 않는 절대적 안정감을", "명확한 질서로 조직을 운영하는 견고한 통제력을", "방대한 지식을 흡수하고 갈무리하는 거대한 대지를"],
-            ["승부를 한발 앞서 결정짓는 승부사적 기질을", "불필요한 군더더기를 걷어내는 매력을", "단단한 논리 위에서 빛나는 완벽주의를", "한 치의 오차도 허용하지 않는 철저한 결단력을", "보이지 않는 핵심까지 꿰뚫어 보는 통찰의 검을"],
-            ["거침없이 뻗어 나가는 지혜의 폭포수를", "열정과 냉정을 전략적으로 운용하는 마인드를", "모든 상황에 유연하게 스며드는 처세술을", "위기 앞에서도 평정심을 유지하는 냉철함을", "속을 알 수 없는 심연의 바다 같은 장악력을"]
+            ["한계를 모르는 폭발적 확장성이", "대중의 마음을 움직이는 독창적 기획력이", "시스템의 뿌리를 내리는 창조성이", "정체된 판을 단숨에 깨뜨리는 돌파력이", "어떤 환경에서도 생존로를 찾아내는 유연한 성장판이"],
+            ["새로운 시장을 선점하는 뜨거운 추진력이", "모든 시선을 한곳으로 모으는 카리스마가", "사람과 사람을 열정으로 잇는 폭넓은 장악력이", "본질과 허상을 선명하게 가려내는 분별력이", "어둠 속에서 비전을 제시하는 번뜩이는 직관력이"],
+            ["무에서 유를 창조하는 비옥한 기획력이", "만인을 내 편으로 만드는 포용력 있는 리더십이", "어떤 위기에도 흔들리지 않는 절대적 안정감이", "명확한 질서로 조직을 운영하는 견고한 통제력이", "방대한 지식을 흡수하고 갈무리하는 거대한 대지가"],
+            ["승부를 한발 앞서 결정짓는 승부사적 기질이", "불필요한 군더더기를 걷어내는 매력이", "단단한 논리 위에서 빛나는 완벽주의가", "한 치의 오차도 허용하지 않는 철저한 결단력이", "보이지 않는 핵심까지 꿰뚫어 보는 통찰의 검이"],
+            ["거침없이 뻗어 나가는 지혜의 폭포수가", "열정과 냉정을 전략적으로 운용하는 마인드가", "모든 상황에 유연하게 스며드는 처세술이", "위기 앞에서도 평정심을 유지하는 냉철함이", "속을 알 수 없는 심연의 바다 같은 장악력이"]
         ];
 
         const top1FeatureEn = [
@@ -1965,7 +1965,7 @@ const targetedJobIndices = jobTargetMap[weaponElIdx];
 
         // 🚨 조사가 꼬이던 부분 완벽 수술 및 최종 문장 조립
        // 💡 [수술] 중복 출력 방지: 현생의 과업은 '강점과 파동 시너지'까지만 깔끔하게 마무리합니다.
-        const blockCKo = `<b>${elNamesKo_C[top1Idx_C]}</b>의 타고난 에너지를 무기로 삼아, ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘합니다.<br><br><b style="color: var(--primary);">[활동 무대]</b><br>${jobsListKo}<b style="color: var(--primary);">[파동 시너지]</b><br>이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운이 기폭제가 됩니다. 성명 속 <b>'${weaponKo}'</b> 역량과, 선천적 <b>${elNamesKo_C[top2Idx_C]}</b>가 지닌 <b>'${top2SkillKo[top2Idx_C][top5Idx_C]}'</b> 기질이 결합되어 당신을 특별하게 만듭니다.`;
+        const blockCKo = `<b>${elNamesKo_C[top1Idx_C]}</b>의 타고난 에너지를 무기로 삼아, ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘됩니다.<br><br><b style="color: var(--primary);">[활동 무대]</b><br>${jobsListKo}<b style="color: var(--primary);">[파동 시너지]</b><br>이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운이 기폭제가 됩니다. 성명 속 <b>'${weaponKo}'</b> 역량과, 선천적 <b>${elNamesKo_C[top2Idx_C]}</b>가 지닌 <b>'${top2SkillKo[top2Idx_C][top5Idx_C]}'</b> 기질이 결합되어 당신을 특별하게 만듭니다.`;
         const blockCEn = `Armed with <b>${elNamesEn_C[top1Idx_C]}</b>, you manifest <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> ${top1ScaleEn}.<br><br><b style="color: var(--primary);">[Optimal Stage]</b><br>${jobsListEn}<b style="color: var(--primary);">[Name Synergy]</b><br>The <b>${elNamesEn_C[weaponElIdx]}</b> energy acts as a catalyst. Your name's <b>'${weaponEn}'</b> capacity seamlessly combines with the innate <b>'${top2SkillEn[top2Idx_C][top5Idx_C]}'</b> disposition of <b>${elNamesEn_C[top2Idx_C]}</b> to make you truly unique.`;
       let blockC = currentLang === 'ko' ? blockCKo : blockCEn;
         // 💡 3개의 블록 조립
