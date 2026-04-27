@@ -170,17 +170,20 @@
     }
     updateCounter();
 
-    function setLang(lang) {
-      currentLang = lang;
-      document.querySelectorAll('.flag').forEach(f => f.classList.remove('active'));
-      document.getElementById(`flag-${lang}`).classList.add('active');
-      const t = i18n[lang];
-      document.getElementById('ui-title').innerText = t.title;
-      document.getElementById('ui-desc').innerText = t.desc;
-      document.getElementById('userName').placeholder = t.nameLabel;
-      document.getElementById('userBirth').placeholder = t.birthLabel;
-      document.getElementById('ui-btn').innerText = t.btn;
+    ffunction setLang(lang) {
+    currentLang = lang;
+    document.querySelectorAll('.flag').forEach(f => f.classList.remove('active'));
+    document.getElementById(`flag-${lang}`).classList.add('active');
+    const t = i18n[lang];
+    if (!t) return;
+    
+    document.getElementById('ui-title').innerText = t.title;
+    document.getElementById('ui-desc').innerText = t.desc;
+    document.getElementById('userName').placeholder = t.nameLabel;
+    document.getElementById('userBirth').placeholder = t.birthLabel;
+    document.getElementById('ui-btn').innerText = t.btn;
 
+    // 💡 ID를 찾지 않고, 탭 버튼들을 순서대로 가져와서 이름을 바꿉니다. (에러 방지)
     const tabBtns = document.querySelectorAll('.tab-btn');
     if (tabBtns.length >= 4) {
         tabBtns[0].innerText = currentLang === 'ko' ? '성명 정보' : 'Profile';
@@ -188,6 +191,7 @@
         tabBtns[2].innerText = currentLang === 'ko' ? '전생 기록' : 'Past Life';
         tabBtns[3].innerText = currentLang === 'ko' ? '내세 예약' : 'Next Life';
     }
+
     document.getElementById('logic-title').innerText = t.logicTitle;
     document.getElementById('l1-title').innerText = t.l1Title;
     document.getElementById('l1-desc').innerText = t.l1Desc;
@@ -418,41 +422,7 @@ const weakEl = elements[sIdx[0]];
 }
   
   function renderSummary(data) {
-    // 1. 60갑자 레고 블록 동적 조립
-    const currentLang = window.currentLang || 'ko';
-    const stemObj = stemTemplates[data.iljuData.stemId];
-    const branchObj = branchTemplates[data.iljuData.branchId];
-    const descObj = stemDescriptions[data.iljuData.stemId];
-    const jeolgiText = jeolgiNames[data.solarMonth][currentLang];
-    
-   
-    // 2. 운명공학 서사 조립
-    const introKo = `당신은 ${jeolgiText} 데이터를 배경으로, ${branchObj.ko}이자, <b>${stemObj.ko}</b>의 운명을 품고 태어났습니다.`;
-    const introEn = `You were born against the background of ${jeolgiText} data. At the core of your soul is the energy of ${stemObj.en} blooming within an environment of <b>${branchObj.en}</b>.`;
-    
-    const detailKo = descObj.ko;
-    const detailEn = descObj.en;
-
-  
-    
-  
-const termInfo = `${currentLang === 'ko' ? introKo : introEn} ${currentLang === 'ko' ? detailKo : detailEn}`;
-    
-    document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `${data.name}님의 분석 리포트` : `${data.name}'s Analysis Report`;
-      
-    // 🌍 명칭을 수리 격 특징과 어울리도록 세련되게 변경
-    const labelSuri = currentLang === 'ko' ? '🔮 수리격:' : '🔮 Suri Character';
-    const labelMonth = currentLang === 'ko' ? '🌍 탄생일:' : '🌍 Innate Core Temperament';
-
-    
-    const iljuTitleKo = `${data.iljuData.iljuName}`;
-    const iljuTitleEn = `${data.iljuData.iljuName}`;
-
-// 🌍 [STEP 1] 상단 요약창은 깨끗하게 비웁니다.
-    document.getElementById('dynamic-summary').innerHTML = ""; 
-
-    // 🌍 [STEP 2] 탭별로 보여줄 내용을 미리 상자(window.tabStorage)에 담습니다.
-    // 이렇게 미리 담아둬야 함수 밖에서 'switchTab'을 눌러도 에러가 안 납니다.
+    // 💡 모든 텍스트가 조립된 후, 이 가방(window.tabStorage)에 미리 담아둡니다.
     window.tabStorage = {
         profile: `
             <div class="tab-content">
@@ -461,25 +431,25 @@ const termInfo = `${currentLang === 'ko' ? introKo : introEn} ${currentLang === 
                         <span style="font-weight:800;">DESTINY_LAB_2026</span>
                         <span style="color:var(--accent); font-weight:800;">CODE: ${String(data.num81).padStart(2, '0')}</span>
                     </div>
-                    <b>${labelMonth}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? iljuTitleKo : iljuTitleEn}</span>
+                    <b>🌍 탄생일:</b> <span style="color:var(--primary); font-weight:700;">${data.iljuData.iljuName}</span>
                     <p style="margin-top:10px; margin-bottom:0; line-height:1.7;">${termInfo}</p>
                 </div>
             </div>`,
         fortune: `
             <div class="tab-content">
-                <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; border:1px solid #f4f1ed; box-shadow:0 4px 12px rgba(0,0,0,0.03);">
+                <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; border:1px solid #f4f1ed; box-shadow:0 4px 12px rgba(0,0,0,0.03); border-left:none;">
                     <div style="margin-bottom: 22px; padding-bottom:18px; border-bottom:1px dashed #DDD;">
-                        <b>🌊 ${currentLang === 'ko' ? '소리 파동:' : 'Sound Wave:'}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? data.waveFlowKo : data.waveFlowEn}</span>
-                        <p style="margin-top:8px; margin-bottom:0; line-height:1.7;">${currentLang === 'ko' ? data.waveDescKo : data.waveDescEn}</p>
+                        <b>🌊 소리 파동:</b> <span style="color:var(--primary); font-weight:700;">${data.waveFlowKo}</span>
+                        <p style="margin-top:8px; margin-bottom:0; line-height:1.7;">${data.waveDescKo}</p>
                     </div>
                     <div style="margin-bottom: 10px;">
-                        <b>${labelSuri}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? luckyTitles81[data.num81] : luckyTitles81En[data.num81]}</span>
-                        <p style="margin-top:8px; margin-bottom:0; line-height:1.7;">${currentLang === 'ko' ? detailedDesc81[data.num81] : detailedDesc81En[data.num81]}</p>
+                        <b>🔮 수리격:</b> <span style="color:var(--primary); font-weight:700;">${luckyTitles81[data.num81]}</span>
+                        <p style="margin-top:8px; margin-bottom:0; line-height:1.7;">${detailedDesc81[data.num81]}</p>
                     </div>
                     <div id="radarChart" style="margin:25px auto 10px; width:100%; height:auto; min-height:260px;"></div>
                     <div style="line-height:1.8; color:#444; font-size:0.93rem; margin-top:20px; white-space:pre-wrap;">${analysisText}</div>
                     <div style="padding:15px; background:#F9F8F6; border-radius:12px; margin-top:20px;">
-                        <b style="color:var(--accent); display:block; margin-bottom:5px;">📜 ${currentLang === 'ko' ? '현생의 과업' : 'Core Competencies'}</b>
+                        <b style="color:var(--accent); display:block; margin-bottom:5px;">📜 현생의 과업</b>
                         <span style="font-size:0.9rem;">${missionText}</span>
                     </div>
                     <div style="margin-top:20px; padding-top:15px; border-top:1px solid #EEE;"><span>${docentDesc}</span></div>
@@ -489,9 +459,11 @@ const termInfo = `${currentLang === 'ko' ? introKo : introEn} ${currentLang === 
         next: `<div class="tab-content"><div class="info-box" style="background:#fff; padding:20px;">${nextLifeText}</div></div>`
     };
 
-    // 🌍 [STEP 3] 분석이 완료되자마자 1번 탭(성명 정보)이 자동으로 열리게 합니다.
-    switchTab('profile', document.getElementById('tab1'));
-  
+    // 상단 요약창은 비우고, 1번 탭을 자동으로 엽니다.
+    document.getElementById('dynamic-summary').innerHTML = "";
+    switchTab('profile', document.querySelectorAll('.tab-btn')[0]);
+}
+
 function renderChart(baseScores, finalScores) {
   const container = document.getElementById('radarChart'); 
   if (!container) return;
@@ -558,53 +530,21 @@ function switchTab(mode, element) {
     const session = JSON.parse(localStorage.getItem('destinySession'));
     if (!body || !session) return;
 
-    // 1. [탭 활성화 시각화]
+    // 1. 모든 버튼 불 끄고 현재 버튼만 활성화
     const tabs = document.querySelectorAll('.tab-btn');
     tabs.forEach(t => t.classList.remove('active'));
-    if (element) {
-        element.classList.add('active');
-    } else {
-        const targetTab = document.querySelector(`.tab-btn[onclick*="${mode}"]`);
-        if (targetTab) targetTab.classList.add('active');
+    if (element) element.classList.add('active');
+
+    // 2. 미리 준비된 가방(tabStorage)에서 내용을 꺼내서 보여줌
+    if (window.tabStorage && window.tabStorage[mode]) {
+        body.innerHTML = window.tabStorage[mode];
     }
 
-    // 2. [공통 데이터 호출]
-    const data = session;
-    const iljuName = data.iljuData ? data.iljuData.iljuName : "";
-    const labelMonth = currentLang === 'ko' ? '🌍 탄생일:' : '🌍 Innate Core Temperament';
-    const labelSuri = currentLang === 'ko' ? '🔮 수리격:' : '🔮 Suri Character';
-
-    // 3. [모드별 화면 출력]
-    if (mode === 'profile') {
-        // ------------------------------------------------
-        // [1번 탭: 성명 정보] - 탄생일/절기 출력
-        // ------------------------------------------------
-        body.innerHTML = `
-            <div class="tab-content">
-                <div class="info-box" style="background:#F9F8F6; border:1px solid #EEE; border-radius:12px; padding:18px; color:#000;">
-                    <div style="display:flex; justify-content:space-between; border-bottom:1px solid #000; padding-bottom:8px; margin-bottom:15px;">
-                        <span style="font-weight:800;">DESTINY_LAB_2026</span>
-                        <span style="color:var(--accent); font-weight:800;">CODE: ${String(data.num81).padStart(2, '0')}</span>
-                    </div>
-                    <b>${labelMonth}</b> <span style="color:var(--primary); font-weight:700;">${iljuName}</span>
-                    <p style="margin-top:10px; margin-bottom:0; line-height:1.7; font-size:0.88rem;">${data.termInfo || ""}</p>
-                </div>
-            </div>`;
-
-    } else if (mode === 'fortune') {
-        // ------------------------------------------------
-        // [2번 탭: 현생 분석] - 수리파동/격/그래프/처방
-        // ------------------------------------------------
-        // (기존 대표님의 복잡한 계산 로직들은 그대로 유지되도록 처리)
-        body.innerHTML = window.tabStorage ? window.tabStorage.fortune : "분석 데이터를 불러올 수 없습니다.";
-        
-        // 그래프 지연 실행 (도화지가 그려진 뒤 실행)
-        setTimeout(() => { if(window.renderChart) renderChart(data.baseScores, data.elementScores); }, 50);
-
-    } else if (mode === 'past') {
-        body.innerHTML = `<div class="tab-content"><div class="info-box" style="padding:20px; border-left:none; background:#fff;">${data.pastLifeText || "기록을 찾을 수 없습니다."}</div></div>`;
-    } else if (mode === 'next') {
-        body.innerHTML = `<div class="tab-content"><div class="info-box" style="padding:20px; border-left:none; background:#fff;">${data.nextLifeText || "예약 정보가 없습니다."}</div></div>`;
+    // 3. 현생 분석 탭일 때만 그래프 그리기
+    if (mode === 'fortune') {
+        setTimeout(() => { 
+            if(window.renderChart) renderChart(session.baseScores, session.elementScores); 
+        }, 50);
     }
 }
     
