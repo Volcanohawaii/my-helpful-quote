@@ -514,10 +514,11 @@ function switchTab(mode, element) {
     const birthMonth = parseInt(session.birth.substring(4, 6));
 
     if (mode === 'fortune') {
-        // 💡 [처방전 완벽 수술] 약국(quotes.js) 기계가 알아들을 수 있도록 한자를 포함한 '진짜 꼴찌'를 전달합니다!
+       // 💡 [처방전 완벽 수술] 약국 기계에 병명(wIdx)이 아니라, 살려주는 약(motherIdx)을 정확히 전달합니다!
         const logicElsForRemedy = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
         const wIdx = session.bottomElIdx !== undefined ? session.bottomElIdx : 2;
-        const r = suriPrescription.getRemedy(session.num81, [logicElsForRemedy[wIdx]], currentLang);
+        const motherIdx = (wIdx + 4) % 5; // 🚨 엄마 기운 계산 복구!
+        const r = suriPrescription.getRemedy(session.num81, [logicElsForRemedy[motherIdx]], currentLang);
         const elKeyMap = { "목": "목(木)", "화": "화(火)", "토": "토(土)", "금": "금(金)", "수": "수(水)" };
         const coreEl = elKeyMap[(session.iljuData && session.iljuData.iljuName) ? session.iljuData.iljuName.charAt(0) : finalSignature.charAt(0)] || finalSignature;
         const envEl = finalSignature;
