@@ -1778,87 +1778,21 @@ const targetedJobIndices = jobTargetMap[weaponElIdx];
         const relationDiff = (top1Idx_C - dmIdx_C + 5) % 5;
         
      
-        const stageDescKo = [
-            // 0: 비겁 (독립적 무대)
-            [
-                "끝없이 새로운 영역을 개척하며 나만의 독립적인 주도권을 쥐는 1인 무대에서", // 목
-                "압도적인 매력과 열정으로 나만의 확고한 팬덤과 철학을 구축하는 무대에서", // 화
-                "거친 외풍에도 나만의 굳건한 세계관을 지켜내는 독립적 기반에서", // 토
-                "타협 없는 완벽주의 원칙으로 누구도 침범할 수 없는 독자적인 전문 영역에서", // 금
-                "고정된 틀에 얽매이지 않고 나만의 철학적 깊이를 증명하는 무대에서" // 수
-            ],
-            // 1: 식상 (표현/창의 무대)
-            [
-                "샘솟는 아이디어를 세상에 꺼내어 기획하고 표현하는 창작의 무대에서", // 목
-                "시선을 사로잡는 쇼맨십과 폭발적인 퍼포먼스를 마음껏 발산하는 무대에서", // 화
-                "에너지를 안정감 있게 조율하여 사람들에게 편안한 즐거움을 선사하는 무대에서", // 토
-                "예리한 비판적 시각을 정교한 결과물로 깎아내어 대중을 설득하는 무대에서", // 금
-                "타인의 감정선과 무의식을 깊이 파고들어 유연하고 매끄럽게 소통하는 표현의 장에서" // 수
-            ],
-            // 2: 재성 (자본/타겟 시장)
-            [
-                "빠르게 성장하는 신규 시장에서 가장 먼저 기회를 선점하고 수익을 창출하는 개척지에서", // 목
-                "대중의 시선이 돈이 되는 화려한 미디어와 트렌드의 중심에서 자본을 굴리는 무대에서", // 화
-                "자본이 안정적으로 움직이거나 확실한 실물 자산과 결과물을 통제하는 타겟 시장에서", // 토
-                "감정을 배제한 치밀한 계산과 데이터로 극강의 이익과 가성비를 뽑아내는 승부의 장에서", // 금
-                "국경과 형태를 가리지 않고 거시적인 경제 흐름을 타고 유연하게 자본을 장악하는 무대에서" // 수
-            ],
-            // 3: 관성 (권력/조직/시스템)
-            [
-                "활기차게 뻗어나가는 신생 조직이나 스타트업에서 새로운 규칙과 체계를 잡아가는 무대에서", // 목
-                "대중의 감시와 시선이 가장 뜨겁게 집중되는 권력 조직의 화려한 최전선에서", // 화
-                "오랜 시간 견고하게 다져진 보수적이고 시스템 내부에서 중심을 잡는 관리의 장에서", // 토
-                "엄격한 룰과 무자비한 규율이 지배하는 사법, 공안, 통제 중심의 수직적 권력 기관에서", // 금
-                "겉으로 드러나지 않는 글로벌 외교망이나 정보의 흐름 속에서 조용히 시스템을 조종하는 막후에서" // 수
-            ],
-            // 4: 인성 (기획/학문/지원)
-            [
-                "새로운 교육 철학과 인문학적 가치를 연구하여 사람들의 성장을 이끌어내는 학문의 장에서", // 목
-                "쏟아지는 정보 속에서 가장 가치 있는 인사이트를 조명하고 직관적으로 기획하는 무대에서", // 화
-                "수십 년간 축적된 방대한 지적 자산과 기록을 보존하여 전략적 통찰로 빚어내는 곳에서", // 토
-                "차가운 논리와 데이터로 현상의 본질을 극도로 정밀하게 해부하고 증명하는 연구실에서", // 금
-                "인간의 깊은 심연과 철학적 근원을 사색하며 보이지 않는 전략을 기획하는 고도의 지식망에서" // 수
-            ]
+     const stageDescKo = [
+            /* 0: 비겁(독립) */ ["누구의 터치도 없는 1인 창업 무대에서", "자신만의 팬덤을 거느린 독립 스튜디오에서", "외부 간섭 없이 주관을 지키는 1인 오피스에서", "타협 없는 실력으로 승부하는 전문 자문직에서", "고정관념을 깨고 본질을 증명하는 독립 컨설팅에서"],
+            /* 1: 식상(표현) */ ["아이디어를 바로 제품화하는 스타트업 무대에서", "퍼포먼스로 대중을 홀리는 콘텐츠 제작 무대에서", "사람들에게 즐거움을 주는 라이프스타일 무대에서", "날카로운 분석과 결과물로 설득하는 비평 무대에서", "심리를 읽고 유연하게 소통하는 크리에이티브 무대에서"],
+            /* 2: 재성(자본) */ ["기회를 선점해 수익을 뽑아내는 신규 사업에서", "트렌드가 곧 돈이 되는 커머스 시장 중심에서", "실물 자산과 현금 흐름을 통제하는 투자 시장에서", "치밀한 데이터로 수익을 내는 금융 현장에서", "거시적 흐름을 읽고 자본을 굴리는 글로벌 유통에서"],
+            /* 3: 관성(조직) */ ["성장하는 조직의 기강과 체계를 잡는 본사에서", "대중의 감시와 시선이 집중되는 공적 조직에서", "전통 있는 체제를 지키는 관리 업무에서", "엄격한 규율로 움직이는 대형 권력 기관에서", "정보의 흐름을 장악하고 판을 짜는 핵심 전략실에서"],
+            /* 4: 인성(기획) */ ["지식을 연구하고 인재를 기르는 교육 현장에서", "핵심 인사이트를 뽑아내는 기획 컨설팅 무대에서", "방대한 데이터를 전략으로 빚어내는 연구소에서", "현상의 본질을 숫자로 증명하는 전문 분석실에서", "트렌드를 분석하고 미래 전략을 짜는 기획실에서"]
         ];
         
         const stageDescEn = [
-            [
-                "On a one-person stage where you continuously pioneer new areas and hold independent initiative,",
-                "On a stage where you build your own solid fandom and philosophy with overwhelming charm and passion,",
-                "On an independent foundation where you protect your firm worldview, unshaken by any external forces,",
-                "In an exclusive professional domain untouchable by anyone due to uncompromising perfectionism,",
-                "On a stage where you flexibly prove your philosophical depth without being bound by fixed frameworks,"
-            ],
-            [
-                "On a creative stage where you freely unleash and express wellsprings of ideas to the world,",
-                "On a stage where you fully radiate eye-catching showmanship and explosive performances,",
-                "On a stage where you stably tune overflowing energy to provide comfortable joy to people,",
-                "On a stage where you persuade the public by carving sharp critical views into exquisite outcomes,",
-                "In a field of expression where you flexibly communicate by diving deep into others' emotions and unconsciousness,"
-            ],
-            [
-                "In a frontier where you seize opportunities first and generate profits in a rapidly growing new market,",
-                "On a stage where you roll capital in the center of flashy media and trends where public attention is money,",
-                "In a target market where massive capital moves stably or solid real assets are controlled,",
-                "In a competitive arena where you extract extreme profit and efficiency with emotionless calculations and data,",
-                "On a stage where you flexibly dominate capital riding macro-economic flows regardless of borders or forms,"
-            ],
-            [
-                "On a stage where you set new rules and systems in a vibrantly expanding startup or new organization,",
-                "At the flashy forefront of a massive power organization most hotly focused by public scrutiny,",
-                "In a field of management taking the center inside a conservative and massive system solidified over time,",
-                "In a vertical power institution centered on justice, public security, and control governed by strict rules,",
-                "Behind the scenes, quietly manipulating systems within unrevealed global diplomatic or information flows,"
-            ],
-            [
-                "In a field of academics leading people's growth by researching new educational philosophies,",
-                "On a stage where you intuitively plan and highlight the most valuable insights among pouring information,",
-                "In a place where you silently preserve vast intellectual assets and forge them into strategic insights,",
-                "In a laboratory where you precisely dissect and prove the essence of phenomena with cold logic and data,",
-                "In a high-level knowledge network planning unseen strategies while contemplating deep human abysses."
-            ]
+            /* 0: Self */ ["In a solo startup stage with no interference,", "In an independent studio with your own fandom,", "In a solo office protecting your own values,", "In a professional consulting role driven by skill,", "In independent consulting proving the essence,"],
+            /* 1: Expr */ ["In a startup stage materializing ideas,", "In content production captivating the public,", "In a lifestyle stage providing joy to people,", "In a critique stage persuading with sharp analysis,", "In a creative stage communicating via psychology,"],
+            /* 2: Wlth */ ["In new business generating rapid profits,", "In a commerce market where trends become money,", "In an investment market controlling cash flow,", "In a financial field maximizing profit via data,", "In global distribution dominating massive capital,"],
+            /* 3: Powr */ ["At a headquarters establishing org systems,", "In a public organization under scrutiny,", "In a management part guarding solid systems,", "In a large power institution run by strict rules,", "In a core strategy room planning the board,"],
+            /* 4: Know */ ["In educational fields researching knowledge,", "In a planning stage extracting core insights,", "In a lab forging vast data into strategies,", "In a professional analysis room proving the essence,", "In a planning office analyzing trends and strategies,"]
         ];
-
         // 3. 직업 리스트 최종 조립 (디자인 싹 빼고 자연스러운 문장으로 연결)
         let jobsListKo = `<div style="margin-bottom:8px; font-weight:600;">${stageDescKo[relationDiff][weaponElIdx]} 가장 빛나는 당신입니다.</div><div style="margin: 2px 0 18px 0; line-height: 1.6;">`;
         let jobsListEn = `<div style="margin-bottom:8px; font-weight:600;">The most brilliant roles for you ${stageDescEn[relationDiff][weaponElIdx]} are as follows:</div><div style="margin: 2px 0 18px 0; line-height: 1.6;">`;
