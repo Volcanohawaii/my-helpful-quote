@@ -555,21 +555,7 @@ function switchTab(mode, element) {
         if (targetTab) targetTab.classList.add('active');
     }
 
-    // 2. 성명 정보(profile) 탭 처리
-    if (mode === 'profile') {
-        const labelMonth = currentLang === 'ko' ? '🌍 탄생일:' : '🌍 Innate Core Temperament';
-        body.innerHTML = `
-            <div class="tab-content">
-                <div class="info-box" style="background:#F9F8F6; border:1px solid #EEE; border-radius:12px; padding:18px;">
-                    <div style="display:flex; justify-content:space-between; border-bottom:1px solid #000; padding-bottom:8px; margin-bottom:15px;">
-                        <span style="font-weight:800;">DESTINY_LAB_2026</span>
-                        <span style="color:var(--accent); font-weight:800;">CODE: ${String(session.num81).padStart(2, '0')}</span>
-                    </div>
-                    <b>${labelMonth}</b> <span style="color:var(--primary); font-weight:700;">${session.iljuData ? session.iljuData.iljuName : ""}</span>
-                </div>
-            </div>`;
-        return;
-    }
+  
 
 
     
