@@ -302,27 +302,47 @@ if(ilganIdx !== -1) sc[ilganIdx] += 40;
     }
 
     
-    // 1. 내 본질 오행 번호 찾기 (0:목, 1:화, 2:토, 3:금, 4:수)
-    let myElIdx = 2; // 기본값 토
-    if (iljuData && iljuData.el) {
-        if (elMap[iljuData.el] !== undefined) myElIdx = elMap[iljuData.el];
-        else if (elMap[iljuData.el.charAt(0)] !== undefined) myElIdx = elMap[iljuData.el.charAt(0)];
+    // 1. 내 본질 오행 번호 찾기 (안 잡히면 토(2)로 방어)
+    let myElIdx = 2; 
+    if (typeof iljuData !== 'undefined' && iljuData && iljuData.el) {
+        const tempElMap = { "목": 0, "화": 1, "토": 2, "금": 3, "수": 4 };
+        if (tempElMap[iljuData.el] !== undefined) myElIdx = tempElMap[iljuData.el];
+        else if (tempElMap[iljuData.el.charAt(0)] !== undefined) myElIdx = tempElMap[iljuData.el.charAt(0)];
     }
 
-    // 2. 이름 중심 소리(첫 글자 초성)의 오행 번호 찾기
-    const coreSoundChar = name.length > 1 ? name[1] : name[0]; // 성씨 제외, 진짜 이름의 첫 글자
-    const coreOnset = /[a-zA-Z]/.test(coreSoundChar) ? coreSoundChar.toUpperCase() : getHangulOnset(coreSoundChar);
-    const soundEl = hangulElements[coreOnset] || alphabetElements[coreOnset] || "토";
-    const soundElIdx = elements.indexOf(soundEl);
+    // 2. 이름 두 번째 글자(진짜 이름 첫 자)의 유니코드 초성 완벽 분리
+    const coreSoundChar = name.length > 1 ? name[1] : name[0]; 
+    let onset = "";
+    const code = coreSoundChar.charCodeAt(0) - 44032;
+    
+    if (code >= 0 && code <= 11171) {
+        const cho_list = ['ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
+        onset = cho_list[Math.floor(code / 588)];
+        // 쌍자음은 기본 자음으로 묶어버림
+        if(onset === 'ㄲ') onset = 'ㄱ';
+        if(onset === 'ㄸ') onset = 'ㄷ';
+        if(onset === 'ㅃ') onset = 'ㅂ';
+        if(onset === 'ㅆ') onset = 'ㅅ';
+        if(onset === 'ㅉ') onset = 'ㅈ';
+    }
 
-    // 3. 십성(육친) 도출 로직: 내 본질(myElIdx)과 이름 소리(soundElIdx)의 상생상극 관계 계산
-    // 0: 비겁(독립/주도), 1: 식상(표현/창의), 2: 재성(재물/결과), 3: 관성(명예/규칙), 4: 인성(지혜/기획)
+    // 3. 발음 오행 사전 (한글 성명학 정통 배속)
+    const soundMap = {
+        'ㄱ': 0, 'ㅋ': 0,                               // 목(0)
+        'ㄴ': 1, 'ㄷ': 1, 'ㄹ': 1, 'ㅌ': 1,             // 화(1)
+        'ㅇ': 2, 'ㅎ': 2,                               // 토(2)
+        'ㅅ': 3, 'ㅈ': 3, 'ㅊ': 3,                      // 금(3)
+        'ㅁ': 4, 'ㅂ': 4, 'ㅍ': 4                       // 수(4)
+    };
+
+    // 소리 오행 번호 (매칭 안 되면 토(2)로 방어)
+    const soundElIdx = soundMap[onset] !== undefined ? soundMap[onset] : 2;
+
+    // 4. 십성(육친) 도출 로직: 내 본질과 소리의 충돌 파동 계산
     let waveSipSeongIdx = (soundElIdx - myElIdx + 5) % 5; 
 
-    // 🚨 중요: 기존 코드들이 'num81' 변수에 기대어 돌아가고 있으므로, 
-    // 시스템이 뻗지 않도록 십성 인덱스(0~4)를 바탕으로 가짜 num81을 예쁘게 포장해서 넘겨줍니다.
-    // (이렇게 하면 밑에 있는 화면 그리는 코드들을 뜯어고칠 필요가 없습니다!)
-    const sipSeongMapToNum81 = [11, 24, 32, 45, 52]; // 각 십성을 대표하는 좋은 수리 번호로 맵핑
+    // 5. 화면 출력용 안전한 81수리 가짜 번호 맵핑
+    const sipSeongMapToNum81 = [11, 24, 32, 45, 52]; 
     let num81 = sipSeongMapToNum81[waveSipSeongIdx];
 
     const suriToElIdx = [4, 0, 0, 1, 1, 2, 2, 3, 3, 4];
