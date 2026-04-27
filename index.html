@@ -824,7 +824,7 @@ const isYangMaster = yangStems.includes(session.iljuData.stemId);
         "열정은 넘치나 이를 뒷받침할 인내심이 부족하여, 성과가 즉각 나타나지 않으면 쉽게 흥미를 잃는 경향",
         "감정 표현이 직설적이고 강해 의도치 않게 주변에 긴장감을 주며, 조직 내 화합을 저해할 수 있는 성정",
         "자신의 이미지를 관리하는 데 에너지를 과하게 쏟아, 실질적인 내실을 다지거나 자산을 축적하는 데 소홀함",
-        "자신의 기준만이 옳다는 확신이 강해 타인의 합리적인 규정이나 조언을 무시하고 과격하게 전진할 우려",
+        "자신의 기준만이 옳다는 확신이 강해 타인의 합리적인 규정이나 조언을 무시하고 과격하게 전진함",
         "순간적인 감정 변화에 예민하게 반응하여 판단력을 잃기 쉬우며, 사소한 마찰에도 과한 에너지를 낭비함"
     ],
     /* 2: 토(土) Peak (중심적 과잉) - 19920412(Yang) 해당 */
@@ -846,7 +846,7 @@ const isYangMaster = yangStems.includes(session.iljuData.stemId);
     /* 4: 수(水) Peak (지적 과잉) */
     [
         "생각이 너무 많아 행동으로 옮기는 타이밍을 매번 놓치며, 현실적인 문제 앞에서 회피하려는 태도를 보임",
-        "내면의 생각이 깊어질수록 의욕이 급격히 꺾이며, 목표 의식을 잃고 무기력한 침묵 속으로 빠져들 우려",
+        "내면의 생각이 깊어질수록 의욕이 급격히 꺾이며, 목표 의식을 잃고 무기력한 침묵 속으로 빠짐",
         "주관 없이 주변 상황과 타인의 의견에 과하게 동조하며, 자신만의 색깔을 잃고 환경에 휩쓸리는 수동성",
         "정신적인 가치에만 치중하여 현실적인 생존력이 약해지며, 겉으로는 유연해 보이나 내면의 의지가 박약함",
         "자신의 속마음을 결코 드러내지 않아 주변의 불신을 사며, 조직 내에서 보이지 않는 갈등을 유발하는 성향"
@@ -859,7 +859,7 @@ const fusionRiskYin = [
         "내적인 욕심은 많으나 밖으로 표출하지 못해 속으로 앓으며, 결정적인 순간에 발언권을 놓치고 후회함",
         "생각을 정리하는 데 너무 많은 시간을 써서 기회의 흐름을 타지 못하고, 늘 한발 늦게 실행에 옮기는 경향",
         "자신만의 세계관에 깊이 갇혀 타인의 유효한 비판조차 거부하며, 보수적인 태도로 성장을 스스로 가로막음",
-        "완벽하게 준비된 상태에서만 움직이려다 아무것도 시작하지 못하며, 디테일에 집착해 전체를 놓칠 우려",
+        "완벽하게 준비된 상태에서만 움직이려다 아무것도 시작하지 못하며, 디테일에 집착해 전체를 놓침",
         "주변의 시선을 과하게 의식하여 자신의 본래 기질을 억누르며, 그로 인해 만성적인 무력감에 빠지기 쉬움"
     ],
     /* 1: 화(火) Peak (심리적 과잉) */
@@ -889,7 +889,7 @@ const fusionRiskYin = [
     /* 4: 수(水) Peak (침잠적 과잉) */
     [
         "모든 상황을 부정적으로 예측하여 시도조차 하지 않으며, 깊은 사색이 결국 행동을 막는 족쇄가 되는 경향",
-        "우울한 감정에 깊이 침잠하여 현실과 단절되려 하며, 혼자만의 공간에 숨어버려 사회적 자생력을 잃을 우려",
+        "우울한 감정에 깊이 침잠하여 현실과 단절되려 하며, 혼자만의 공간에 숨어버려 사회적 자생력을 잃음",
         "자신의 주관을 세우기보다 남의 기분을 맞추는 데 급급하며, 결과가 나쁠 때 모든 책임을 자신에게 돌림",
         "내면의 정신세계가 너무 비대해져 현실의 경제 활동을 경시하며, 이로 인해 생활의 기반이 흔들릴 리스크",
         "겉으로는 부드러워 보이나 속으로는 타인을 조종하려는 보이지 않는 지략을 쓰며, 결국 진실한 친구를 잃음"
@@ -1825,10 +1825,10 @@ const targetedJobIndices = jobTargetMap[weaponElIdx];
 
         
 
-        const docentTitleKo = `[당신을 살리는 상생(相生) 처방]`;
-        const docentDescKo = `<b>${weakElDisplay}</b>의 기운이 약합니다. <b>'${currentRiskKo}'</b>의 단점을 경계하세요. 부족함을 억지로 채우기보다, 에너지를 낼 수 있도록 도와주는 <b>${motherKoArr[wIdx]}</b> 기운을 처방합니다.`;
+     
+        const docentDescKo = `<b>${weakElDisplay}</b>의 기운이 약합니다. <b>'${currentRiskKo}'</b>을 경계하세요. <b>${weakElDisplay}</b>의 에너지를 증폭시키는 <b>${motherKoArr[wIdx]}</b> 기운을 처방합니다.`;
 
-        const docentTitleEn = `[Custom Remedy for Weak Energy]`;
+   
         const docentDescEn = `You must be vigilant against your weakness caused by lacking <b>${weakElEnA}</b> energy: <b>'${currentRiskEn}'</b>. To overcome this, instead of directly forcing the missing energy, we prescribe <b>${motherEnArr[wIdx]}</b> energy to naturally nurture and revive it.`;
 
         const docentTitle = currentLang === 'ko' ? docentTitleKo : docentTitleEn;
@@ -1849,7 +1849,7 @@ const targetedJobIndices = jobTargetMap[weaponElIdx];
            <span class="section-title" style="margin-top:30px;">${t.sec2}</span>
             
             <div style="margin-bottom:25px; font-size:0.93rem; line-height:1.7; color:#444;">
-              <b style="color:var(--primary); display:block; margin-bottom:8px; font-size:0.98rem;">${docentTitle}</b>
+              
               <span>${docentDesc}</span>
             </div>
 
