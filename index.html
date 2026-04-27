@@ -161,7 +161,7 @@
       const el = document.getElementById('visit-count'); 
       if (!el) return;
       try { 
-        es = await fetch('https://api.counterapi.dev/v1/volcanohawaii-lab/main-counter/up'); 
+    const res = await fetch('https://api.counterapi.dev/v1/volcanohawaii-lab/main-counter/up'); 
         if (res.ok) {
           const data = await res.json(); 
           if (data && typeof data.count === "number") { el.innerText = Number(data.count).toLocaleString(); }
@@ -170,7 +170,7 @@
     }
     updateCounter();
 
-    ffunction setLang(lang) {
+    function setLang(lang) {
     currentLang = lang;
     document.querySelectorAll('.flag').forEach(f => f.classList.remove('active'));
     document.getElementById(`flag-${lang}`).classList.add('active');
