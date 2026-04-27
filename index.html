@@ -1969,24 +1969,22 @@ const targetedJobIndices = jobTargetMap[weaponElIdx];
         // 💡 3개의 블록 조립
         const analysisText = `${blockA}`;  
         const missionText = `${blockC}`;
-// 💡 [도슨트 수술] 유저가 오해하지 않게 처방 원리를 친절하게 설명해주는 텍스트 생성기
+      // 💡 [도슨트 수술] 약점 진단과 상생 처방 원리를 하나의 자연스러운 스토리로 결합합니다.
         const weakKoArr = ["목(나무)", "화(불)", "토(흙)", "금(쇠)", "수(물)"];
         const motherKoArr = ["수(물)", "목(나무)", "화(불)", "토(흙)", "금(쇠)"];
         const weakEnArr = ["Wood", "Fire", "Earth", "Metal", "Water"];
         const motherEnArr = ["Water", "Wood", "Fire", "Earth", "Metal"];
 
-        const wIdx = session.bottomElIdx; // 내 진짜 약점 번호
+        const wIdx = session.bottomElIdx;
 
-        // 🚨 대표님 요청 반영: 대괄호 삭제 & 뒤쪽 '원리' 텍스트 삭제
         const docentTitleKo = `💡 취약한 기운을 살려내는 상생(相生) 맞춤 처방전`;
-        const docentDescKo = `부족한 <b>${weakKoArr[wIdx]}</b> 기운을 억지로 채우기보다, 스스로 에너지를 낼 수 있도록 땔감이 되어주는 <b>${motherKoArr[wIdx]}</b> 기운을 처방합니다.`;
+        const docentDescKo = `취약한 <b>${weakElDisplay}</b> 기운으로 인해 <b>'${currentRiskKo}'</b>는 약점을 경계해야 합니다.<br>부족한 기운을 억지로 채우기보다, 에너지를 낼 수 있도록 도와주는 <b>${motherKoArr[wIdx]}</b> 기운을 처방합니다.`;
 
         const docentTitleEn = `💡 Sangsaeng Custom Remedy for Weak Energy`;
-        const docentDescEn = `Instead of directly forcing <b>${weakEnArr[wIdx]}</b>, we prescribe <b>${motherEnArr[wIdx]}</b> energy to naturally nurture and revive your weakened energy.`;
+        const docentDescEn = `You must be vigilant against your weakness caused by lacking <b>${weakElEnA}</b> energy: <b>'${currentRiskEn}'</b>.<br>To overcome this, instead of directly forcing the missing energy, we prescribe <b>${motherEnArr[wIdx]}</b> energy to naturally nurture and revive it.`;
 
         const docentTitle = currentLang === 'ko' ? docentTitleKo : docentTitleEn;
         const docentDesc = currentLang === 'ko' ? docentDescKo : docentDescEn;
-  
 
         body.innerHTML = `
           <div class="tab-content">
