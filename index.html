@@ -2004,12 +2004,24 @@ const targetedJobIndices = jobTargetMap[weaponElIdx];
               <span>${docentDesc}</span>
             </div>
 
-            <div class="info-box" style="background:#fff; border-left:none;">
-              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-                <div><b style="color:var(--accent);">🎨 행운 컬러</b><br>${r.color}</div>
-                <div><b style="color:var(--accent);">🏃 실천 행동</b><br>${r.action}</div>
-                <div><b style="color:var(--accent);">👥 인적 정보</b><br>${r.social}</div>
-                <div><b style="color:var(--accent);">🥗 보충 음식</b><br>${r.food}</div>
+<div class="info-box" style="background:#fff; border-left:none; padding: 20px;">
+              <div style="display: flex; flex-direction: column; gap: 16px;">
+                <div style="padding-bottom: 14px; border-bottom: 1px dashed #E8E2D9;">
+                  <b style="color:var(--accent); font-size: 0.95rem;">🎨 행운 컬러</b><br>
+                  <span style="display: inline-block; margin-top: 5px; color:#444;">${r.color}</span>
+                </div>
+                <div style="padding-bottom: 14px; border-bottom: 1px dashed #E8E2D9;">
+                  <b style="color:var(--accent); font-size: 0.95rem;">🏃 실천 행동</b><br>
+                  <span style="display: inline-block; margin-top: 5px; color:#444;">${r.action}</span>
+                </div>
+                <div style="padding-bottom: 14px; border-bottom: 1px dashed #E8E2D9;">
+                  <b style="color:var(--accent); font-size: 0.95rem;">👥 인적 정보</b><br>
+                  <span style="display: inline-block; margin-top: 5px; color:#444;">${r.social}</span>
+                </div>
+                <div>
+                  <b style="color:var(--accent); font-size: 0.95rem;">🥗 보충 음식</b><br>
+                  <span style="display: inline-block; margin-top: 5px; color:#444;">${r.food}</span>
+                </div>
               </div>
             </div>
           </div>`;
