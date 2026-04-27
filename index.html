@@ -431,11 +431,6 @@ function renderSummary(data) {
         ? `당신은 ${jeolgiText} 데이터를 배경으로, ${branchObj.ko}이자, <b>${stemObj.ko}</b>의 운명을 품고 태어났습니다. ${descObj.ko}`
         : `Born against the background of ${jeolgiText} data. Soul of ${stemObj.en} within <b>${branchObj.en}</b>. ${descObj.en}`;
 
-    // 처방전(remedy) 로직 에러 방지용
-    const wIdx = data.bottomElIdx !== undefined ? data.bottomElIdx : 2;
-    const motherKoArr = ["수(水)", "목(木)", "화(火)", "토(土)", "금(金)"];
-    const r = data.remedy || suriPrescription.getRemedy(data.num81, [motherKoArr[wIdx]], currentLang);
-
     // 🚨 1. 탄생일 정보를 탭 밖으로 빼서 맨 위(dynamic-summary)에 영구 고정합니다!
     document.getElementById('dynamic-summary').innerHTML = `
         <div class="info-box" style="background:#F9F8F6; border:1px solid #EEE; border-radius:12px; padding:18px; text-align:left; color:#000;">
@@ -449,53 +444,10 @@ function renderSummary(data) {
     
     document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `${data.name}님의 분석 리포트` : `${data.name}'s Analysis Report`;
 
-    // 🚨 2. 탭 가방(tabStorage)에 데이터를 정확히 배분합니다.
-    window.tabStorage = {
-        // [1번 탭: 성명 정보] -> 소리 파동 + 수리격
-        profile: `
-            <div class="tab-content">
-                <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; border:1px solid #f4f1ed; box-shadow:0 4px 12px rgba(0,0,0,0.03); border-left:none;">
-                    <div style="margin-bottom: 22px; padding-bottom:18px; border-bottom:1px dashed #DDD;">
-                        <b>🌊 ${currentLang === 'ko' ? '소리 파동:' : 'Sound Wave:'}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? data.waveFlowKo : data.waveFlowEn}</span>
-                        <p style="margin-top:8px; margin-bottom:0; line-height:1.7;">${currentLang === 'ko' ? data.waveDescKo : data.waveDescEn}</p>
-                    </div>
-                    <div style="margin-bottom: 10px;">
-                        <b>🔮 ${currentLang === 'ko' ? '수리격:' : 'Suri:'}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? luckyTitles81[data.num81] : luckyTitles81En[data.num81]}</span>
-                        <p style="margin-top:8px; margin-bottom:0; line-height:1.7;">${currentLang === 'ko' ? detailedDesc81[data.num81] : detailedDesc81En[data.num81]}</p>
-                    </div>
-                </div>
-            </div>`,
-        
-        // [2번 탭: 현생 분석] -> 그래프 + 분석글 + 과업 + 처방전
-        fortune: `
-            <div class="tab-content">
-                <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; border:1px solid #f4f1ed; box-shadow:0 4px 12px rgba(0,0,0,0.03); border-left:none;">
-                    <div id="radarChart" style="margin:10px auto 20px; width:100%; height:260px;"></div>
-                    <div style="line-height:1.8; color:#444; font-size:0.93rem; margin-top:20px; white-space:pre-wrap;">${data.analysisText}</div>
-                    <div style="padding:15px; background:#F9F8F6; border-radius:12px; margin-top:20px;">
-                        <b style="color:var(--accent); display:block; margin-bottom:5px;">📜 ${currentLang === 'ko' ? '현생의 과업' : 'Core Competencies'}</b>
-                        <span style="font-size:0.9rem;">${data.missionText}</span>
-                    </div>
-                    <div style="margin-top:20px; padding-top:15px; border-top:1px solid #EEE;">
-                        <span style="display:block; margin-bottom:15px;">${data.docentDesc}</span>
-                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; text-align: center;">
-                            <div><b style="font-size:0.75rem; color:var(--accent);">🎨 컬러</b><br><span style="font-size:0.7rem;">${r.color}</span></div>
-                            <div><b style="font-size:0.75rem; color:var(--accent);">🏃 행동</b><br><span style="font-size:0.7rem;">${r.action}</span></div>
-                            <div><b style="font-size:0.75rem; color:var(--accent);">👥 사람</b><br><span style="font-size:0.7rem;">${r.social}</span></div>
-                            <div><b style="font-size:0.75rem; color:var(--accent);">🥗 음식</b><br><span style="font-size:0.7rem;">${r.food}</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>`,
-        
-        past: `<div class="tab-content"><div class="info-box" style="padding:20px; background:#fff; border-left:none;">${currentLang === 'ko' ? '전생 데이터를 로딩 중입니다...' : 'Loading Past Life...'}</div></div>`,
-        next: `<div class="tab-content"><div class="info-box" style="padding:20px; background:#fff; border-left:none;">${currentLang === 'ko' ? '내세 데이터를 연산 중입니다...' : 'Loading Next Life...'}</div></div>`
-    };
-
-    // 💡 1번 탭(profile)을 강제로 열어줍니다.
+    // 🚨 2. 1번 탭(성명 정보)을 기본으로 열어줍니다.
     switchTab('profile', document.querySelectorAll('.tab-btn')[0]);
 }
-  
+
 function renderChart(baseScores, finalScores) {
   const container = document.getElementById('radarChart'); 
   if (!container) return;
@@ -541,8 +493,6 @@ function renderChart(baseScores, finalScores) {
   </div>`;
 }
 
-
-
 function switchTab(mode, element) {
     const body = document.getElementById('reportDetail');
     const session = JSON.parse(localStorage.getItem('destinySession'));
@@ -558,145 +508,101 @@ function switchTab(mode, element) {
         if (targetTab) targetTab.classList.add('active');
     }
 
-    // 2. 가방에서 꺼내서 화면에 뿌리기
-    if (window.tabStorage && window.tabStorage[mode]) {
-        body.innerHTML = window.tabStorage[mode];
+    const currentLang = window.currentLang || 'ko';
+
+    // 🚨 [대표님 의도 100% 반영] 1번 탭: 성명 정보 (소리 파동 + 수리격) 🚨
+    if (mode === 'profile') {
+        body.innerHTML = `
+            <div class="tab-content">
+                <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; border:1px solid #f4f1ed; box-shadow:0 4px 12px rgba(0,0,0,0.03); border-left:none;">
+                    <div style="margin-bottom: 22px; padding-bottom:18px; border-bottom:1px dashed #DDD;">
+                        <b>🌊 ${currentLang === 'ko' ? '소리 파동:' : 'Sound Wave:'}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? session.waveFlowKo : session.waveFlowEn}</span>
+                        <p style="margin-top:8px; margin-bottom:0; line-height:1.7;">${currentLang === 'ko' ? session.waveDescKo : session.waveDescEn}</p>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <b>🔮 ${currentLang === 'ko' ? '수리격:' : 'Suri:'}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? luckyTitles81[session.num81] : luckyTitles81En[session.num81]}</span>
+                        <p style="margin-top:8px; margin-bottom:0; line-height:1.7;">${currentLang === 'ko' ? detailedDesc81[session.num81] : detailedDesc81En[session.num81]}</p>
+                    </div>
+                </div>
+            </div>`;
+        return; // 성명 정보 탭은 여기서 마무리됩니다.
     }
 
-    // 3. 2번 탭일 때만 그래프 아저씨 부르기
-    if (mode === 'fortune') {
-        setTimeout(() => {
-            if (window.renderChart) renderChart(session.baseScores, session.elementScores);
-        }, 50);
-    }
-}
-
-  
-
-
-    
+    // 🚨 2번 탭부터 대표님의 300종 직무 엔진이 정상적으로 돌아갑니다 🚨
     const t = i18n[currentLang];
     const finalSignature = session.strongEl;
     const birthMonth = parseInt(session.birth.substring(4, 6));
 
     if (mode === 'fortune') {
-       // 💡 [처방전 완벽 수술] 약국 기계에 병명(wIdx)이 아니라, 살려주는 약(motherIdx)을 정확히 전달합니다!
+        // [처방전 수술] 약국 기계에 병명(wIdx)이 아니라, 살려주는 약(motherIdx)을 전달!
         const logicElsForRemedy = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
         const wIdx = session.bottomElIdx !== undefined ? session.bottomElIdx : 2;
-        const motherIdx = (wIdx + 4) % 5; // 🚨 엄마 기운 계산 복구!
+        const motherIdx = (wIdx + 4) % 5; 
         const r = suriPrescription.getRemedy(session.num81, [logicElsForRemedy[motherIdx]], currentLang);
+        
         const elKeyMap = { "목": "목(木)", "화": "화(火)", "토": "토(土)", "금": "금(金)", "수": "수(水)" };
         const coreEl = elKeyMap[(session.iljuData && session.iljuData.iljuName) ? session.iljuData.iljuName.charAt(0) : finalSignature.charAt(0)] || finalSignature;
         const envEl = finalSignature;
         const nameEl = ["수(水)", "목(木)", "목(木)", "화(火)", "화(火)", "토(土)", "토(土)", "금(金)", "금(金)", "수(水)"][session.num81 % 10];
 
-        // 💡 [중복 제거 완료] 여기서 mm과 dd를 딱 한 번만 선언합니다!
         const mm = parseInt(session.birth.substring(4, 6));
         const dd = parseInt(session.birth.substring(6, 8));
-        
-        // 1. 선천적 기질 인덱스 (생일 기반)
         const coreIdx = ((mm * 31) + dd) % 30; 
-        
-        // 2. 후천적 이름 인덱스 (수리 파동 기반)
         const nameIdx = (session.num81 - 1) % 30; 
-        
-        // 💡 3. [추가했던 로직] 현생의 과업 인덱스 (생일 + 이름의 융합)
         const transitionIdx = (coreIdx + session.num81) % 30; 
-
         const baseIdx = (session.num81 % 9 === 0) ? 8 : (session.num81 % 9) - 1;
         const coreData = baseKo[baseIdx];
 
+        const peakElIdx = session.peakElIdx !== undefined ? session.peakElIdx : 2;
+        let bottomElIdx = session.bottomElIdx !== undefined ? session.bottomElIdx : 2;
 
+        const stemIdMap = { "gap":"갑", "eul":"을", "byeong":"병", "jeong":"정", "mu":"무", "gi":"기", "gyeong":"경", "sin":"신", "im":"임", "gye":"계" };
+        const logicEls = ["목", "화", "토", "금", "수"]; 
+        const displayElsKo = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"]; 
+        const elNamesEnForA = ["Wood", "Fire", "Earth", "Metal", "Water"];
 
-// processData에서 완벽하게 계산해서 세션에 담아둔 진짜 1등과 꼴찌 번호를 그대로 꺼내 씁니다.
-const peakElIdx = session.peakElIdx !== undefined ? session.peakElIdx : 2;
-let bottomElIdx = session.bottomElIdx !== undefined ? session.bottomElIdx : 2;
+        // 신강/신약 판독기의 언어 장벽 제거
+        const elMapForIntensity = { "목":0,"화":1,"토":2,"금":3,"수":4,"Wood":0,"Fire":1,"Earth":2,"Metal":3,"Water":4,"갑":0,"을":0,"병":1,"정":1,"무":2,"기":2,"경":3,"신":3,"임":4,"계":4,"甲":0,"乙":0,"丙":1,"丁":1,"戊":2,"己":2,"庚":3,"辛":3,"壬":4,"癸":4 };
+        let dmIdx_A = 2; 
+        if (session.iljuData && session.iljuData.el) {
+            const rawEl = session.iljuData.el; 
+            if (elMapForIntensity[rawEl] !== undefined) dmIdx_A = elMapForIntensity[rawEl];
+            else if (elMapForIntensity[rawEl.charAt(0)] !== undefined) dmIdx_A = elMapForIntensity[rawEl.charAt(0)];
+        }
 
-     
-       
-      
-// 💡 [수술 3-1] 언어/한자에 영향받지 않는 100% 무결점 10간(일간) 추출기
-const stemIdMap = { "gap":"갑", "eul":"을", "byeong":"병", "jeong":"정", "mu":"무", "gi":"기", "gyeong":"경", "sin":"신", "im":"임", "gye":"계" };
-// 화면 표시용 이름(iljuName) 대신, 시스템 고유 ID(stemId)를 번역하여 음양 디테일이 절대 깨지지 않게 방어합니다.
-const dayMaster = (session.iljuData && session.iljuData.stemId && stemIdMap[session.iljuData.stemId]) ? stemIdMap[session.iljuData.stemId] : logicEls[dmIdx_A];
+        const dayMaster = (session.iljuData && session.iljuData.stemId && stemIdMap[session.iljuData.stemId]) ? stemIdMap[session.iljuData.stemId] : logicEls[dmIdx_A];
         const themeIdx = session.num81 % 9;
 
         const themeModifiers10Ko = {
-            "갑": "거침없는 추진력으로 가장 먼저 새로운 길을 여는",
-            "을": "어떠한 환경에서도 유연하게 뻗어 나가 사람과 기회를 엮는",
-            "병": "스스로 눈부신 빛을 발하며 판 전체를 주도하는",
-            "정": "한 곳에 집요하게 몰입하여 가장 뜨거운 결과물을 만드는",
-            "무": "어떠한 풍파에도 흔들리지 않고 안정감을 지탱하는",
-            "기": "척박한 환경조차 실속 있고 풍요로운 결과물로 길러내는",
-            "경": "불필요한 관습을 베어내고 룰을 재정의하는",
-            "신": "한 치의 오차도 허용하지 않고 정교하고 날카롭게 다듬는",
-            "임": "깊은 지혜로 모든 것을 흡수하고 거시적으로 통제하는",
-            "계": "보이지 않는 틈새까지 부드럽게 스며들어 판도를 뒤집는"
+            "갑": "거침없는 추진력으로 가장 먼저 새로운 길을 여는", "을": "어떠한 환경에서도 유연하게 뻗어 나가 사람과 기회를 엮는",
+            "병": "스스로 눈부신 빛을 발하며 판 전체를 주도하는", "정": "한 곳에 집요하게 몰입하여 가장 뜨거운 결과물을 만드는",
+            "무": "어떠한 풍파에도 흔들리지 않고 안정감을 지탱하는", "기": "척박한 환경조차 실속 있고 풍요로운 결과물로 길러내는",
+            "경": "불필요한 관습을 베어내고 룰을 재정의하는", "신": "한 치의 오차도 허용하지 않고 정교하고 날카롭게 다듬는",
+            "임": "깊은 지혜로 모든 것을 흡수하고 거시적으로 통제하는", "계": "보이지 않는 틈새까지 부드럽게 스며들어 판도를 뒤집는"
         };
-
         const themeModifiers10En = {
-            "갑": "opening new paths first with unstoppable drive as a <b>Vanguard</b>",
-            "을": "flexibly expanding to connect people and opportunities as a <b>Networker</b>",
-            "병": "leading the entire board while radiating your own dazzling light as a <b>Spotlight</b>",
-            "정": "tenaciously immersing into one spot to forge the hottest results as an <b>Artisan</b>",
-            "무": "supporting massive stability unshakeable by any storm as a <b>Pillar</b>",
-            "기": "nurturing even barren environments into wealthy outcomes as a <b>Nurturer</b>",
-            "경": "redefining rules by slicing away unnecessary customs as a <b>Reformer</b>",
-            "신": "exquisitely refining without allowing an inch of error as a <b>Perfectionist</b>",
-            "임": "macro-controlling and absorbing everything with deep wisdom as a <b>Mastermind</b>",
-            "계": "flipping the board by smoothly seeping into invisible gaps as a <b>Strategist</b>"
+            "갑": "opening new paths first with unstoppable drive as a <b>Vanguard</b>", "을": "flexibly expanding to connect people and opportunities as a <b>Networker</b>",
+            "병": "leading the entire board while radiating your own dazzling light as a <b>Spotlight</b>", "정": "tenaciously immersing into one spot to forge the hottest results as an <b>Artisan</b>",
+            "무": "supporting massive stability unshakeable by any storm as a <b>Pillar</b>", "기": "nurturing even barren environments into wealthy outcomes as a <b>Nurturer</b>",
+            "경": "redefining rules by slicing away unnecessary customs as a <b>Reformer</b>", "신": "exquisitely refining without allowing an inch of error as a <b>Perfectionist</b>",
+            "임": "macro-controlling and absorbing everything with deep wisdom as a <b>Mastermind</b>", "계": "flipping the board by smoothly seeping into invisible gaps as a <b>Strategist</b>"
         };
 
-        // 💡 2. 수리 파동(이름) 9가지 핵심 테마
-        const themeBasesKo = [
-            "절대적 완성", "선구자적 개척", "이타적 헌신", "폭발적 돌파", "견고한 신뢰", 
-            "제왕적 리더십", "완벽한 융화", "혁신적 결단", "무결점의 처세"
-        ];
-        const themeBasesEn = [
-            "Absolute Completion", "Pioneering Exploration", "Altruistic Devotion", "Explosive Breakthrough", "Unshakable Trust", 
-            "Sovereign Leadership", "Perfect Harmony", "Innovative Decisiveness", "Flawless Tact"
-        ];
+        const themeBasesKo = ["절대적 완성", "선구자적 개척", "이타적 헌신", "폭발적 돌파", "견고한 신뢰", "제왕적 리더십", "완벽한 융화", "혁신적 결단", "무결점의 처세"];
+        const themeBasesEn = ["Absolute Completion", "Pioneering Exploration", "Altruistic Devotion", "Explosive Breakthrough", "Unshakable Trust", "Sovereign Leadership", "Perfect Harmony", "Innovative Decisiveness", "Flawless Tact"];
 
-        // 💡 3. 유저의 진짜 일간(10간) 기반 90종(10x9) 다차원 조립!
-        // 💡 [수술 3-2] 에러 방지용 비상구(Fallback) 강화
-const fallback10Map = { "목":"갑", "화":"병", "토":"무", "금":"경", "수":"임" };
-// coreEl 대신, 아까 번역해둔 완벽한 한글 오행(logicEls[dmIdx_A])을 사용하여 철통 방어합니다.
-const finalCoreChar = themeModifiers10Ko[dayMaster] ? dayMaster : fallback10Map[logicEls[dmIdx_A]] || "무";
+        const fallback10Map = { "목":"갑", "화":"병", "토":"무", "금":"경", "수":"임" };
+        const finalCoreChar = themeModifiers10Ko[dayMaster] ? dayMaster : fallback10Map[logicEls[dmIdx_A]] || "무";
 
         const currentThemeKo = `${themeModifiers10Ko[finalCoreChar]} ${themeBasesKo[themeIdx]}`;
         const currentThemeEn = `${themeBasesEn[themeIdx]} ${themeModifiers10En[finalCoreChar]}`; 
-
         const currentTheme = currentLang === 'ko' ? currentThemeKo : currentThemeEn;
-        
-       // 💡 [수술 2] 신강/신약 판독기의 언어 장벽 제거
+
+        const trueWeakIdx = bottomElIdx; 
+        const weakElDisplay = displayElsKo[trueWeakIdx];
+        const weakElEnA = elNamesEnForA[trueWeakIdx];
+
         const baseScoresForIntensity = session.baseScores; 
-        const totalScore_A = baseScoresForIntensity.reduce((a, b) => a + b, 0);
-        
-        // 💡 [수술 3] 신강/신약 판독기의 언어 장벽 완벽 제거 (charAt(0) 버그 수정)
-const elMapForIntensity = { "목":0,"화":1,"토":2,"금":3,"수":4,"Wood":0,"Fire":1,"Earth":2,"Metal":3,"Water":4,"갑":0,"을":0,"병":1,"정":1,"무":2,"기":2,"경":3,"신":3,"임":4,"계":4,"甲":0,"乙":0,"丙":1,"丁":1,"戊":2,"己":2,"庚":3,"辛":3,"壬":4,"癸":4 };
-let dmIdx_A = 2; // 기본값 토(2)
-if (session.iljuData && session.iljuData.el) {
-    const rawEl = session.iljuData.el; // 글자를 자르지 않고 원본 그대로 가져옵니다.
-    // 1. 전체 단어("Water", "수")로 먼저 찾아보고, 없으면 첫 글자("W", "壬")로 찾습니다.
-    if (elMapForIntensity[rawEl] !== undefined) dmIdx_A = elMapForIntensity[rawEl];
-    else if (elMapForIntensity[rawEl.charAt(0)] !== undefined) dmIdx_A = elMapForIntensity[rawEl.charAt(0)];
-}
-
-    
-    
-      // 💡 [초정밀 결핍 오행 판독] 진짜 약점을 완벽하게 추적
-   
-const trueWeakIdx = bottomElIdx; 
-
-// 🚨 [핵심 안전장치] 이 아래 배열들은 예쁜 출력을 위한 물감통이므로 절대 유지!
-const logicEls = ["목", "화", "토", "금", "수"]; // 로직 엔진용
-const displayElsKo = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"]; // 대표님이 원하시는 출력 포맷
-const elNamesEnForA = ["Wood", "Fire", "Earth", "Metal", "Water"];
-
-const weakElDisplay = displayElsKo[trueWeakIdx];
-const weakElEnA = elNamesEnForA[trueWeakIdx];
-
-        // 이름이 채워준 오행 찾기 (최종점수 - 선천점수 > 0)
         const diffScoresA = session.elementScores.map((score, i) => score - baseScoresForIntensity[i]);
         
         const boostedLogicKo = []; 
@@ -711,25 +617,19 @@ const weakElEnA = elNamesEnForA[trueWeakIdx];
             }
         });
         
-        const boostedTextKo = boostedDisplayKo.join(", "); // 결과: "목(木), 화(火), 토(土)"
+        const boostedTextKo = boostedDisplayKo.join(", "); 
         const boostedTextEn = boostedElsEn.join(", ");
-
-        // 진짜 결핍을 보완했는지 확인
         const isWeakBoosted = diffScoresA[trueWeakIdx] > 0;
 
         let bridgeKo = "";
         let bridgeEn = "";
-
-       // 💡 [수술 2] 파동 시너지 텍스트 증발 방지 (정확한 한글 오행으로 강제 변환)
-// 위에서 완벽하게 번역을 마친 dmIdx_A를 재활용하여 100% 한글 오행을 꺼내옵니다.
-const coreElChar = logicEls[dmIdx_A]; 
-const coreDisplay = displayElsKo[dmIdx_A];
+        const coreElChar = logicEls[dmIdx_A]; 
+        const coreDisplay = displayElsKo[dmIdx_A];
 
         if (isWeakBoosted) {
             bridgeKo = `성명의 파동에는 <b>${boostedTextKo}</b>의 기운이 높게 배치되어 있습니다. 타고난 에너지 중 결핍된 <b>${weakElDisplay}</b>의 에너지를 채우고 <b>${currentTheme}</b>의 당신만의 특별함이 완성되었습니다.`;
             bridgeEn = `The vibration of your name is highly equipped with the energies of <b>${boostedTextEn}</b>. By directly transfusing the energy of <b>${weakElEnA}</b>, which is the most lacking among your innate energies, it closely fills the voids of your destiny and creates your speciality of <b>${currentTheme}</b>.`;
         } else {
-            // [운명공학 상생상극 엔진]
             const relationKo = {
                 "목": { "목":"뿌리를 깊게 내려 규모를 확장시킵니다.", "화":"폭발적인 열정으로 잠재력을 뿜어내게 합니다.", "토":"드넓은 대지 위에 확고한 영역을 구축하게 만듭니다.", "금":"불필요한 가지를 쳐내어 가장 단단하고 예리한 형태로 다듬어냅니다.", "수":"마르지 않는 지혜의 자양분을 공급하여 지치지 않게 뒷받침합니다." },
                 "화": { "목":"마르지 않는 연료를 공급하여 불꽃을 꺼지지 않게 만듭니다.", "화":"빛과 열기를 끝없이 증폭시켜 압도적 규모로 키워냅니다.", "토":"폭발하는 열기를 단단한 대지 위에 정착시켜 현실적인 결과물로 구워냅니다.", "금":"거친 열기로 단단한 원석을 녹여내어 가장 가치 있는 결과물로 제련합니다.", "수":"지나친 폭주를 냉철하게 제어하여 완벽하고 아름다운 온도로 조율합니다." },
@@ -737,7 +637,6 @@ const coreDisplay = displayElsKo[dmIdx_A];
                 "금": { "목":"예리한 칼날로 숲을 개척하듯 목표를 향해 거침없이 나아가는 실행력을 부여합니다.", "화":"차가운 강철을 뜨겁게 달구어 당신을 정교한 명검으로 벼려냅니다.", "토":"끊임없이 광물을 생성하는 대지처럼 당신의 가치가 마르지 않도록 지탱합니다.", "금":"강철과 강철이 융합하여 누구도 부러뜨릴 수 없는 절대적인 권위와 견고함을 완성합니다.", "수":"날카로운 칼날을 매끄럽게 씻어내어 찌르지 않고도 세상을 베어내는 유연한 카리스마로 승화시킵니다." },
                 "수": { "목":"깊은 물길을 나무의 생명력으로 끌어올려 세상을 윤택하게 적시는 창조력으로 승화시킵니다.", "화":"차가운 심연에 빛과 온기를 비추어 겉과 속이 완벽하게 조화된 매력으로 끓어오르게 합니다.", "토":"범람하려는 거센 물결을 정교한 제방으로 제어하여 가장 이로운 방향으로 흐르도록 통제합니다.", "금":"끝없이 맑은 물이 솟아나도록 수원을 공급하여 당신의 지혜가 결코 마르지 않게 합니다.", "수":"강물이 모여 바다를 이루듯 압도적인 스케일로 모든 것을 집어삼키는 포용력을 완성합니다." }
             };
-
             const relationEn = {
                 "목": { "목":"deepens your roots to massively expand your scale. ", "화":"lets you unleash your potential with explosive passion. ", "토":"helps you build a firm territory on a vast land. ", "금":"prunes unnecessary branches to refine you into the sharpest form. ", "수":"supports you tirelessly by supplying an endless nourishment of wisdom. " },
                 "화": { "목":"makes your flame eternal by supplying unceasing fuel. ", "화":"endlessly amplifies your light and heat to an overwhelming scale. ", "토":"settles your uncontrollable heat onto solid ground to bake realistic results. ", "금":"smelts hard raw stones with wild heat to forge the most valuable outcome. ", "수":"cool-headedly controls excessive runaway to tune you to the perfect temperature. " },
@@ -748,12 +647,10 @@ const coreDisplay = displayElsKo[dmIdx_A];
 
             let mechKo = "";
             let mechEn = "";
-            
             const uniqueBoosted = [...new Set(boostedLogicKo)];
             
             uniqueBoosted.forEach(elChar => {
                 if(relationKo[coreElChar] && relationKo[coreElChar][elChar]) {
-                    // 화면에는 무조건 "목(木)" 포맷으로 출력
                     const elSymbolDisplay = displayElsKo[logicEls.indexOf(elChar)];
                     const elSymbolEn = elChar === '목' ? 'Wood' : elChar === '화' ? 'Fire' : elChar === '토' ? 'Earth' : elChar === '금' ? 'Metal' : 'Water';
                     
@@ -771,47 +668,35 @@ const coreDisplay = displayElsKo[dmIdx_A];
             }
         }
 
-const blockAKo = `${bridgeKo}`;
+        const blockAKo = `${bridgeKo}`;
         const blockAEn = `${bridgeEn}\n`;
-        
-        // 💡 [Block A 마무리]
         const blockA = currentLang === 'ko' ? blockAKo : blockAEn;
 
-      
-// 💡 1-1. 진짜 약점 = 위에서 찾아낸 스마트 동점자 결과(bottomElIdx)를 그대로 전달!
-let top5Idx_C = bottomElIdx;
-      
-const yangStems = ["gap", "byeong", "mu", "gyeong", "im"]; 
-const isYangMaster = yangStems.includes(session.iljuData.stemId);
+        let top5Idx_C = bottomElIdx;
+        const yangStems = ["gap", "byeong", "mu", "gyeong", "im"]; 
+        const isYangMaster = yangStems.includes(session.iljuData.stemId);
 
-      
-        // 💡 1-2. [운명공학 궁극의 비기] '용신(用神) & 신강신약' 판독 엔진
         const totalScore_C = session.baseScores.reduce((a, b) => a + b, 0);
         const dmIdx_C = dmIdx_A;
-        // 오행 상생상극 인덱스
-        const motherIdx_C = (dmIdx_C + 4) % 5; // 나를 생하는 인성
-        const childIdx_C = (dmIdx_C + 1) % 5;  // 내가 생하는 식상
-        const wealthIdx_C = (dmIdx_C + 2) % 5; // 내가 극하는 재성
-        const powerIdx_C = (dmIdx_C + 3) % 5;  // 나를 극하는 관성
+        const motherIdx_C = (dmIdx_C + 4) % 5; 
+        const childIdx_C = (dmIdx_C + 1) % 5;  
+        const wealthIdx_C = (dmIdx_C + 2) % 5; 
+        const powerIdx_C = (dmIdx_C + 3) % 5;  
 
-        // 내 세력 vs 반대 세력 계산
         const myForce_C = session.baseScores[dmIdx_C] + session.baseScores[motherIdx_C];
         const oppForce_C = session.baseScores[childIdx_C] + session.baseScores[wealthIdx_C] + session.baseScores[powerIdx_C];
 
         let top1Idx_C = 0;
         let top2Idx_C = 0;
 
-        // 점수 내림차순 정렬
         const sortedBase_C = session.baseScores.map((s, i) => ({score: s, index: i})).sort((a,b) => b.score - a.score);
         const maxScore_C = sortedBase_C[0].score;
 
-        // 🎯 독보적 1강(종격/VIP) 판정: 한 기운이 전체 에너지의 40% 이상을 압도할 때
         if (maxScore_C >= totalScore_C * 0.40) {
             top1Idx_C = sortedBase_C[0].index;
-            top2Idx_C = sortedBase_C[0].index; // 대각선 서랍 오픈
+            top2Idx_C = sortedBase_C[0].index; 
         } else {
             if (myForce_C > oppForce_C) {
-                // ⚖️ 신강(Strong) 사주 -> 넘치는 기운을 빼거나 통제하는 기운이 '진짜 직업(용신)'
                 const candidates = [
                     {idx: childIdx_C, score: session.baseScores[childIdx_C]},
                     {idx: wealthIdx_C, score: session.baseScores[wealthIdx_C]},
@@ -820,7 +705,6 @@ const isYangMaster = yangStems.includes(session.iljuData.stemId);
                 top1Idx_C = candidates[0].idx;
                 top2Idx_C = candidates[1].idx;
             } else {
-                // ⚖️ 신약(Weak) 사주 -> 나를 돕고 지탱하는 기운이 '진짜 직업(용신)'
                 if (session.baseScores[motherIdx_C] >= session.baseScores[dmIdx_C]) {
                     top1Idx_C = motherIdx_C;
                     top2Idx_C = dmIdx_C;
@@ -832,10 +716,6 @@ const isYangMaster = yangStems.includes(session.iljuData.stemId);
         }
 
         const top5Score_C = session.elementScores[top5Idx_C]; 
-
-
-
-        
 
         const top2SkillKo = [
             ["스스로 동기를 부여하는 돌파력의", "에너지를 끊임없이 생산하는 생명력의", "낡은 관습을 부수고 나아가는 개척의", "관계의 벽을 허물고 다가가는 친화력의", "고착된 상황에 생기를 불어넣는 기획의"],
@@ -853,215 +733,64 @@ const isYangMaster = yangStems.includes(session.iljuData.stemId);
             ["flexible tact changing attitudes as needed", "wisdom reaching goals by bypassing obstacles", "strategic skill moving the board invisibly", "harmony blending opposing energies", "deep insight foreseeing the distant future"]
         ];
 
-       
-      
-      // 💡 [방법 B 적용] 음양에 따라 리스크 묘사를 세분화합니다.
-     
-      const fusionRiskYang = [
-    /* 0: 목(木) Peak (주도적 과잉) */
-    [
-        "의욕이 앞서 여러 일을 동시에 추진하나, 스스로 설정한 목표의 무게에 눌려 실행력이 분산되는 경향",
-        "추진력은 강하나 이를 지속할 정서적 동기가 약해, 초반의 기세에 비해 마무리의 집중력이 떨어지는 성향",
-        "자신의 주관이 지나치게 뚜렷하여 현실적인 제약이나 주변의 조언을 간섭으로 느끼고 독단적으로 흐를 우려",
-        "새로운 것을 시도하는 힘은 좋으나 체계적인 질서가 부족하여, 시작은 화려하나 결실을 맺는 마무리가 미흡함",
-        "성장에만 몰입하여 내면의 에너지를 과하게 소모하며, 스스로를 돌보지 않아 갑작스러운 심리적 탈진을 겪음"
-    ],
-    /* 1: 화(火) Peak (확산적 과잉) */
-    [
-        "열정은 넘치나 이를 뒷받침할 인내심이 부족하여, 성과가 즉각 나타나지 않으면 쉽게 흥미를 잃는 경향",
-        "감정 표현이 직설적이고 강해 의도치 않게 주변에 긴장감을 주며, 조직 내 화합을 저해할 수 있는 성정",
-        "자신의 이미지를 관리하는 데 에너지를 과하게 쏟아, 실질적인 내실을 다지거나 자산을 축적하는 데 소홀함",
-        "자신의 기준만이 옳다는 확신이 강해 타인의 합리적인 규정이나 조언을 무시하고 과격하게 전진함",
-        "순간적인 감정 변화에 예민하게 반응하여 판단력을 잃기 쉬우며, 사소한 마찰에도 과한 에너지를 낭비함"
-    ],
-    /* 2: 토(土) Peak (중심적 과잉) - 19920412(Yang) 해당 */
-    [
-        "자신의 경험과 방식에 대한 확신이 너무 강해 새로운 변화를 거부하며, 주변과의 의견 차이를 좁히지 못함",
-        "책임감은 강하나 표현이 무뚝뚝하여 주변에 차가운 인상을 주며, 타인의 협력을 이끌어내는 유연함이 부족함",
-        "자신의 영역을 지키려는 욕구가 강해 폐쇄적인 성향을 띠며, 조직 내에서 소통의 통로를 스스로 닫아버릴 우려",
-        "실질적인 성취 능력은 갖추었으나 이를 밖으로 드러내는 데 소극적이며, 기회가 왔을 때 주저하다 시기를 놓침",
-        "자신의 원칙과 기준이 지나치게 확고하여 타인의 실수를 포용하지 못하며, 조직 내 소통의 효율이 떨어지는 경향"
-    ],
-    /* 3: 금(金) Peak (결단적 과잉) */
-    [
-        "결단력과 원칙이 너무 강해 타인의 사소한 실수를 용납하지 않으며, 주변 사람들에게 심리적 압박감을 줌",
-        "논리적인 정답만을 요구하여 인간관계의 온기가 부족하며, 차가운 화법으로 인해 적을 만들기 쉬운 성정",
-        "겉으로는 단호해 보이나 내면의 지지 기반이 약해, 예상치 못한 작은 변수에도 크게 동요하고 좌절하는 경향",
-        "자신을 향한 잣대조차 너무 엄격하여 스스로를 끊임없이 채찍질하며, 그로 인한 극심한 스트레스를 자초함",
-        "처세가 지나치게 직선적이고 융통성이 결여되어, 타인과의 타협이 필요한 상황에서도 자신의 선을 굽히지 않음"
-    ],
-    /* 4: 수(水) Peak (지적 과잉) */
-    [
-        "생각이 너무 많아 행동으로 옮기는 타이밍을 매번 놓치며, 현실적인 문제 앞에서 회피하려는 태도를 보임",
-        "내면의 생각이 깊어질수록 의욕이 급격히 꺾이며, 목표 의식을 잃고 무기력한 침묵 속으로 빠짐",
-        "주관 없이 주변 상황과 타인의 의견에 과하게 동조하며, 자신만의 색깔을 잃고 환경에 휩쓸리는 수동성",
-        "정신적인 가치에만 치중하여 현실적인 생존력이 약해지며, 겉으로는 유연해 보이나 내면의 의지가 박약함",
-        "자신의 속마음을 결코 드러내지 않아 주변의 불신을 사며, 조직 내에서 보이지 않는 갈등을 유발하는 성향"
-    ]
-];
+        const fusionRiskYang = [
+            ["의욕이 앞서 여러 일을 동시에 추진하나, 스스로 설정한 목표의 무게에 눌려 실행력이 분산되는 경향", "추진력은 강하나 이를 지속할 정서적 동기가 약해, 초반의 기세에 비해 마무리의 집중력이 떨어지는 성향", "자신의 주관이 지나치게 뚜렷하여 현실적인 제약이나 주변의 조언을 간섭으로 느끼고 독단적으로 흐를 우려", "새로운 것을 시도하는 힘은 좋으나 체계적인 질서가 부족하여, 시작은 화려하나 결실을 맺는 마무리가 미흡함", "성장에만 몰입하여 내면의 에너지를 과하게 소모하며, 스스로를 돌보지 않아 갑작스러운 심리적 탈진을 겪음"],
+            ["열정은 넘치나 이를 뒷받침할 인내심이 부족하여, 성과가 즉각 나타나지 않으면 쉽게 흥미를 잃는 경향", "감정 표현이 직설적이고 강해 의도치 않게 주변에 긴장감을 주며, 조직 내 화합을 저해할 수 있는 성정", "자신의 이미지를 관리하는 데 에너지를 과하게 쏟아, 실질적인 내실을 다지거나 자산을 축적하는 데 소홀함", "자신의 기준만이 옳다는 확신이 강해 타인의 합리적인 규정이나 조언을 무시하고 과격하게 전진함", "순간적인 감정 변화에 예민하게 반응하여 판단력을 잃기 쉬우며, 사소한 마찰에도 과한 에너지를 낭비함"],
+            ["자신의 경험과 방식에 대한 확신이 너무 강해 새로운 변화를 거부하며, 주변과의 의견 차이를 좁히지 못함", "책임감은 강하나 표현이 무뚝뚝하여 주변에 차가운 인상을 주며, 타인의 협력을 이끌어내는 유연함이 부족함", "자신의 영역을 지키려는 욕구가 강해 폐쇄적인 성향을 띠며, 조직 내에서 소통의 통로를 스스로 닫아버릴 우려", "실질적인 성취 능력은 갖추었으나 이를 밖으로 드러내는 데 소극적이며, 기회가 왔을 때 주저하다 시기를 놓침", "자신의 원칙과 기준이 지나치게 확고하여 타인의 실수를 포용하지 못하며, 조직 내 소통의 효율이 떨어지는 경향"],
+            ["결단력과 원칙이 너무 강해 타인의 사소한 실수를 용납하지 않으며, 주변 사람들에게 심리적 압박감을 줌", "논리적인 정답만을 요구하여 인간관계의 온기가 부족하며, 차가운 화법으로 인해 적을 만들기 쉬운 성정", "겉으로는 단호해 보이나 내면의 지지 기반이 약해, 예상치 못한 작은 변수에도 크게 동요하고 좌절하는 경향", "자신을 향한 잣대조차 너무 엄격하여 스스로를 끊임없이 채찍질하며, 그로 인한 극심한 스트레스를 자초함", "처세가 지나치게 직선적이고 융통성이 결여되어, 타인과의 타협이 필요한 상황에서도 자신의 선을 굽히지 않음"],
+            ["생각이 너무 많아 행동으로 옮기는 타이밍을 매번 놓치며, 현실적인 문제 앞에서 회피하려는 태도를 보임", "내면의 생각이 깊어질수록 의욕이 급격히 꺾이며, 목표 의식을 잃고 무기력한 침묵 속으로 빠짐", "주관 없이 주변 상황과 타인의 의견에 과하게 동조하며, 자신만의 색깔을 잃고 환경에 휩쓸리는 수동성", "정신적인 가치에만 치중하여 현실적인 생존력이 약해지며, 겉으로는 유연해 보이나 내면의 의지가 박약함", "자신의 속마음을 결코 드러내지 않아 주변의 불신을 사며, 조직 내에서 보이지 않는 갈등을 유발하는 성향"]
+        ];
 
-const fusionRiskYin = [
-    /* 0: 목(木) Peak (내실형 과잉) */
-    [
-        "내적인 욕심은 많으나 밖으로 표출하지 못해 속으로 앓으며, 결정적인 순간에 발언권을 놓치고 후회함",
-        "생각을 정리하는 데 너무 많은 시간을 써서 기회의 흐름을 타지 못하고, 늘 한발 늦게 실행에 옮기는 경향",
-        "자신만의 세계관에 깊이 갇혀 타인의 유효한 비판조차 거부하며, 보수적인 태도로 성장을 스스로 가로막음",
-        "완벽하게 준비된 상태에서만 움직이려다 아무것도 시작하지 못하며, 디테일에 집착해 전체를 놓침",
-        "주변의 시선을 과하게 의식하여 자신의 본래 기질을 억누르며, 그로 인해 만성적인 무력감에 빠지기 쉬움"
-    ],
-    /* 1: 화(火) Peak (심리적 과잉) */
-    [
-        "남들 앞에서는 밝은 척하나 속으로는 공허함을 크게 느끼며, 에너지의 기복이 심해 일관성을 유지하기 힘듦",
-        "타인의 사소한 말 한마디에 내적 동요가 심하며, 감정을 정제하지 못하고 예민하게 반응하여 관계를 그르침",
-        "실속 없는 칭찬이나 인정에 목말라하며, 정작 중요한 자신의 경제적 자립이나 실리는 챙기지 못하는 성향",
-        "규칙을 지키는 척하면서도 내면에서는 반발심이 가득해, 조직의 핵심 룰을 은밀하게 어기거나 갈등을 조율함",
-        "상처받는 것이 두려워 먼저 마음을 닫아버리며, 타인의 진심을 의심하느라 깊은 유대감을 형성하지 못함"
-    ],
-    /* 2: 토(土) Peak (정체적 과잉) */
-    [
-        "변화를 극도로 꺼려하여 낡은 방식을 고수하며, 조직의 혁신이 필요한 시점에도 자신의 자리를 고집함",
-        "속마음을 알 수 없는 무거운 침묵으로 소통을 거부하며, 타인의 도움을 불필요한 간섭으로 여겨 고립됨",
-        "과거의 기억이나 관습에 지나치게 얽매여 현재의 문제를 해결하지 못하며, 융통성 없는 고지식함으로 손해를 봄",
-        "충분한 재능이 있음에도 타인의 시기나 질투를 두려워해 자신을 숨기며, 결국 자신의 가치를 매장해버림",
-        "타인의 부탁을 거절하지 못해 남의 짐까지 짊어지다 스스로 무너지며, 정작 자신의 삶은 돌보지 못하는 경향"
-    ],
-    /* 3: 금(金) Peak (내면적 과잉) */
-    [
-        "타인의 허물을 예리하게 포착하지만 이를 비판적으로만 사용하여, 적절한 인맥을 형성하지 못하고 소외됨",
-        "이성적으로는 상황을 이해하나 마음이 열리지 않아 비정한 선택을 하며, 그로 인해 뒤늦은 자책에 시달림",
-        "자신이 세운 높은 기준에 도달하지 못하면 스스로를 비하하며, 자존감이 낮아져 작은 실패에도 쉽게 굴복함",
-        "의심이 너무 많아 돌다리만 두드리다 기회를 다른 이에게 뺏기며, 늘 최악의 상황만을 가정해 불안해함",
-        "자신의 결벽에 가까운 성향을 타인에게 강요하여 갈등을 빚으며, 단 한 번의 실수로도 관계를 영원히 끊어냄"
-    ],
-    /* 4: 수(水) Peak (침잠적 과잉) */
-    [
-        "모든 상황을 부정적으로 예측하여 시도조차 하지 않으며, 깊은 사색이 결국 행동을 막는 족쇄가 되는 경향",
-        "우울한 감정에 깊이 침잠하여 현실과 단절되려 하며, 혼자만의 공간에 숨어버려 사회적 자생력을 잃음",
-        "자신의 주관을 세우기보다 남의 기분을 맞추는 데 급급하며, 결과가 나쁠 때 모든 책임을 자신에게 돌림",
-        "내면의 정신세계가 너무 비대해져 현실의 경제 활동을 경시하며, 이로 인해 생활의 기반이 흔들릴 리스크",
-        "겉으로는 부드러워 보이나 속으로는 타인을 조종하려는 보이지 않는 지략을 쓰며, 결국 진실한 친구를 잃음"
-    ]
-];
+        const fusionRiskYin = [
+            ["내적인 욕심은 많으나 밖으로 표출하지 못해 속으로 앓으며, 결정적인 순간에 발언권을 놓치고 후회함", "생각을 정리하는 데 너무 많은 시간을 써서 기회의 흐름을 타지 못하고, 늘 한발 늦게 실행에 옮기는 경향", "자신만의 세계관에 깊이 갇혀 타인의 유효한 비판조차 거부하며, 보수적인 태도로 성장을 스스로 가로막음", "완벽하게 준비된 상태에서만 움직이려다 아무것도 시작하지 못하며, 디테일에 집착해 전체를 놓침", "주변의 시선을 과하게 의식하여 자신의 본래 기질을 억누르며, 그로 인해 만성적인 무력감에 빠지기 쉬움"],
+            ["남들 앞에서는 밝은 척하나 속으로는 공허함을 크게 느끼며, 에너지의 기복이 심해 일관성을 유지하기 힘듦", "타인의 사소한 말 한마디에 내적 동요가 심하며, 감정을 정제하지 못하고 예민하게 반응하여 관계를 그르침", "실속 없는 칭찬이나 인정에 목말라하며, 정작 중요한 자신의 경제적 자립이나 실리는 챙기지 못하는 성향", "규칙을 지키는 척하면서도 내면에서는 반발심이 가득해, 조직의 핵심 룰을 은밀하게 어기거나 갈등을 조율함", "상처받는 것이 두려워 먼저 마음을 닫아버리며, 타인의 진심을 의심하느라 깊은 유대감을 형성하지 못함"],
+            ["변화를 극도로 꺼려하여 낡은 방식을 고수하며, 조직의 혁신이 필요한 시점에도 자신의 자리를 고집함", "속마음을 알 수 없는 무거운 침묵으로 소통을 거부하며, 타인의 도움을 불필요한 간섭으로 여겨 고립됨", "과거의 기억이나 관습에 지나치게 얽매여 현재의 문제를 해결하지 못하며, 융통성 없는 고지식함으로 손해를 봄", "충분한 재능이 있음에도 타인의 시기나 질투를 두려워해 자신을 숨기며, 결국 자신의 가치를 매장해버림", "타인의 부탁을 거절하지 못해 남의 짐까지 짊어지다 스스로 무너지며, 정작 자신의 삶은 돌보지 못하는 경향"],
+            ["타인의 허물을 예리하게 포착하지만 이를 비판적으로만 사용하여, 적절한 인맥을 형성하지 못하고 소외됨", "이성적으로는 상황을 이해하나 마음이 열리지 않아 비정한 선택을 하며, 그로 인해 뒤늦은 자책에 시달림", "자신이 세운 높은 기준에 도달하지 못하면 스스로를 비하하며, 자존감이 낮아져 작은 실패에도 쉽게 굴복함", "의심이 너무 많아 돌다리만 두드리다 기회를 다른 이에게 뺏기며, 늘 최악의 상황만을 가정해 불안해함", "자신의 결벽에 가까운 성향을 타인에게 강요하여 갈등을 빚으며, 단 한 번의 실수로도 관계를 영원히 끊어냄"],
+            ["모든 상황을 부정적으로 예측하여 시도조차 하지 않으며, 깊은 사색이 결국 행동을 막는 족쇄가 되는 경향", "우울한 감정에 깊이 침잠하여 현실과 단절되려 하며, 혼자만의 공간에 숨어버려 사회적 자생력을 잃음", "자신의 주관을 세우기보다 남의 기분을 맞추는 데 급급하며, 결과가 나쁠 때 모든 책임을 자신에게 돌림", "내면의 정신세계가 너무 비대해져 현실의 경제 활동을 경시하며, 이로 인해 생활의 기반이 흔들릴 리스크", "겉으로는 부드러워 보이나 속으로는 타인을 조종하려는 보이지 않는 지략을 쓰며, 결국 진실한 친구를 잃음"]
+        ];
 
-// 💡 [방법 B 적용] 영문 리스크 데이터도 음양에 따라 세분화합니다.
-const fusionRiskYangEn = [
-    /* 0: Wood Peak (Proactive Overload) */
-    [
-        "A tendency to launch multiple projects out of enthusiasm, leading to scattered execution and being overwhelmed by self-imposed goals",
-        "Strong initial drive but weak emotional endurance, resulting in a loss of focus during the final stages of a project",
-        "A risk of becoming dogmatic by viewing realistic constraints or external advice as unnecessary interference due to overly strong convictions",
-        "High energy for starting new initiatives but lacking systematic order, leading to impressive starts with insufficient practical results",
-        "Mental exhaustion caused by over-immersion in growth while neglecting self-care and internal energy balance"
-    ],
-    /* 1: Fire Peak (Expansive Overload) */
-    [
-        "A tendency to lose interest quickly if results are not immediate, due to high passion but insufficient patience",
-        "Direct and intense emotional expression that may inadvertently create tension and hinder harmony within the organization",
-        "Over-focusing energy on image management while neglecting the cultivation of substantial internal assets and stability",
-        "A risk of pushing forward aggressively while ignoring reasonable regulations or advice due to a conviction that only your standard is correct",
-        "Loss of judgment caused by sensitive reactions to momentary emotional shifts, leading to wasted energy on minor frictions"
-    ],
-    /* 2: Earth Peak (Central Overload) - Applied to 19920412 Yang Earth */
-    [
-        "Resistance to new changes due to excessive confidence in personal experience and methods, making it difficult to bridge gaps with others",
-        "Strong sense of responsibility but a blunt expression that may give a cold impression, lacking the flexibility to draw cooperation",
-        "A closed nature due to a strong desire to protect personal territory, leading to the risk of self-closing communication channels",
-        "Possessing practical achievement skills but being passive in revealing them, potentially missing key opportunities through hesitation",
-        "Difficulty in tolerating others' mistakes due to overly firm principles, leading to decreased communication efficiency within a team"
-    ],
-    /* 3: Metal Peak (Decisive Overload) */
-    [
-        "Intense decisiveness and principles that may create psychological pressure on others by not tolerating minor errors",
-        "A tendency to prioritize logical correctness over human warmth, making it easy to create unnecessary friction through a blunt speaking style",
-        "Outwardly resolute but inwardly fragile, leading to significant agitation and frustration when faced with minor, unexpected variables",
-        "Constant self-criticism due to excessively strict personal standards, leading to self-imposed extreme stress",
-        "Lack of flexibility in interpersonal dealings, refusing to compromise even when a middle ground is necessary for progress"
-    ],
-    /* 4: Water Peak (Intellectual Overload) */
-    [
-        "Missing the timing for action due to overthinking, displaying a tendency to avoid realistic problems through prolonged contemplation",
-        "Rapid loss of motivation as internal thoughts deepen, posing a risk of falling into listless silence and losing goal orientation",
-        "Passive nature that over-conforms to surrounding circumstances and others' opinions, losing personal distinctness",
-        "Weak realistic survival skills due to over-concentration on mental values, showing a fragile inner will despite outward flexibility",
-        "A tendency to hide true intentions, which may lead to distrust from others and cause invisible conflicts within the organization"
-    ]
-];
+        const fusionRiskYangEn = [
+            ["A tendency to launch multiple projects out of enthusiasm, leading to scattered execution and being overwhelmed by self-imposed goals", "Strong initial drive but weak emotional endurance, resulting in a loss of focus during the final stages of a project", "A risk of becoming dogmatic by viewing realistic constraints or external advice as unnecessary interference due to overly strong convictions", "High energy for starting new initiatives but lacking systematic order, leading to impressive starts with insufficient practical results", "Mental exhaustion caused by over-immersion in growth while neglecting self-care and internal energy balance"],
+            ["A tendency to lose interest quickly if results are not immediate, due to high passion but insufficient patience", "Direct and intense emotional expression that may inadvertently create tension and hinder harmony within the organization", "Over-focusing energy on image management while neglecting the cultivation of substantial internal assets and stability", "A risk of pushing forward aggressively while ignoring reasonable regulations or advice due to a conviction that only your standard is correct", "Loss of judgment caused by sensitive reactions to momentary emotional shifts, leading to wasted energy on minor frictions"],
+            ["Resistance to new changes due to excessive confidence in personal experience and methods, making it difficult to bridge gaps with others", "Strong sense of responsibility but a blunt expression that may give a cold impression, lacking the flexibility to draw cooperation", "A closed nature due to a strong desire to protect personal territory, leading to the risk of self-closing communication channels", "Possessing practical achievement skills but being passive in revealing them, potentially missing key opportunities through hesitation", "Difficulty in tolerating others' mistakes due to overly firm principles, leading to decreased communication efficiency within a team"],
+            ["Intense decisiveness and principles that may create psychological pressure on others by not tolerating minor errors", "A tendency to prioritize logical correctness over human warmth, making it easy to create unnecessary friction through a blunt speaking style", "Outwardly resolute but inwardly fragile, leading to significant agitation and frustration when faced with minor, unexpected variables", "Constant self-criticism due to excessively strict personal standards, leading to self-imposed extreme stress", "Lack of flexibility in interpersonal dealings, refusing to compromise even when a middle ground is necessary for progress"],
+            ["Missing the timing for action due to overthinking, displaying a tendency to avoid realistic problems through prolonged contemplation", "Rapid loss of motivation as internal thoughts deepen, posing a risk of falling into listless silence and losing goal orientation", "Passive nature that over-conforms to surrounding circumstances and others' opinions, losing personal distinctness", "Weak realistic survival skills due to over-concentration on mental values, showing a fragile inner will despite outward flexibility", "A tendency to hide true intentions, which may lead to distrust from others and cause invisible conflicts within the organization"]
+        ];
 
-const fusionRiskYinEn = [
-    /* 0: Wood Peak (Internal Overload) */
-    [
-        "High internal ambition but an inability to express it, leading to regret for losing one's voice in decisive moments",
-        "A tendency to miss the flow of opportunity by spending too much time organizing thoughts, always implementing plans one step late",
-        "Blocking personal growth through a conservative attitude by being trapped in a unique worldview and rejecting valid criticism",
-        "Inability to start anything due to waiting for perfect preparedness, risking missing the big picture while obsessing over details",
-        "Suppression of one's true temperament due to excessive awareness of others' gaze, leading to chronic feelings of helplessness"
-    ],
-    /* 1: Fire Peak (Psychological Overload) */
-    [
-        "Pretending to be bright outwardly while feeling significant internal emptiness, struggling to maintain consistency due to energy swings",
-        "Heavy internal agitation caused by minor remarks from others, hindering relationships through sensitive and unrefined emotional reactions",
-        "A tendency to crave hollow recognition while failing to secure practical economic independence and personal interests",
-        "Inward rebellion while outwardly following rules, leading to secret violations of core organizational standards or internal conflict",
-        "Inability to form deep bonds due to suspicion of others' sincerity and a fear of being emotionally wounded"
-    ],
-    /* 2: Earth Peak (Stagnant Overload) */
-    [
-        "Extreme reluctance to change, adhering to outdated methods even when organizational innovation is required",
-        "Refusal to communicate through heavy, unreadable silence, leading to isolation by viewing help as unnecessary interference",
-        "Inability to solve current problems due to being overly bound by past memories or customs, suffering loss through rigid stubbornness",
-        "Hiding one's value and talent out of fear of others' jealousy, eventually burying one's own potential",
-        "A tendency to collapse under the weight of others' burdens due to an inability to say no, failing to look after one's own life"
-    ],
-    /* 3: Metal Peak (Inward Overload) */
-    [
-        "Keenly catching others' flaws but using it only critically, leading to an inability to form proper networks and resulting in alienation",
-        "Understanding situations rationally but making heartless choices due to an unopen heart, leading to late-onset self-reproach",
-        "Self-depreciation when high standards are not met, leading to low self-esteem and easily yielding to minor failures",
-        "Missing opportunities by over-verifying every step due to excessive suspicion, living in anxiety by assuming worst-case scenarios",
-        "Causing conflict by imposing fastidious personal tendencies on others, permanently severing relationships over a single mistake"
-    ],
-    /* 4: Water Peak (Submerging Overload) */
-    [
-        "A tendency to avoid attempts by predicting negative outcomes for every situation, where deep reflection becomes a shackle to action",
-        "Risk of losing social self-sufficiency by hiding in solitary spaces and submerging into depressive emotions and disconnection",
-        "Prioritizing others' moods over establishing personal subjectivity, taking full responsibility for poor outcomes onto oneself",
-        "Disregarding realistic economic activities due to an oversized internal mental world, risking the stability of life's foundation",
-        "Using invisible tactics to manipulate others behind a soft exterior, which eventually leads to the loss of sincere friendships"
-    ]
-];
-    // 3. 서랍에서 문장 꺼내기 (반드시 데이터들 밑에 있어야 함!)
-const currentRiskKo = isYangMaster ? fusionRiskYang[peakElIdx][top5Idx_C] : fusionRiskYin[peakElIdx][top5Idx_C];
-const currentRiskEn = isYangMaster ? fusionRiskYangEn[peakElIdx][top5Idx_C] : fusionRiskYinEn[peakElIdx][top5Idx_C];
-      
-        // 💡 4-1. [성명학 무기 추출] 이름이 부여한 특수 스킬
- 
-const varIdx5 = session.num81 % 5; 
-const diffScores = session.elementScores.map((score, i) => score - session.baseScores[i]);
+        const fusionRiskYinEn = [
+            ["High internal ambition but an inability to express it, leading to regret for losing one's voice in decisive moments", "A tendency to miss the flow of opportunity by spending too much time organizing thoughts, always implementing plans one step late", "Blocking personal growth through a conservative attitude by being trapped in a unique worldview and rejecting valid criticism", "Inability to start anything due to waiting for perfect preparedness, risking missing the big picture while obsessing over details", "Suppression of one's true temperament due to excessive awareness of others' gaze, leading to chronic feelings of helplessness"],
+            ["Pretending to be bright outwardly while feeling significant internal emptiness, struggling to maintain consistency due to energy swings", "Heavy internal agitation caused by minor remarks from others, hindering relationships through sensitive and unrefined emotional reactions", "A tendency to crave hollow recognition while failing to secure practical economic independence and personal interests", "Inward rebellion while outwardly following rules, leading to secret violations of core organizational standards or internal conflict", "Inability to form deep bonds due to suspicion of others' sincerity and a fear of being emotionally wounded"],
+            ["Extreme reluctance to change, adhering to outdated methods even when organizational innovation is required", "Refusal to communicate through heavy, unreadable silence, leading to isolation by viewing help as unnecessary interference", "Inability to solve current problems due to being overly bound by past memories or customs, suffering loss through rigid stubbornness", "Hiding one's value and talent out of fear of others' jealousy, eventually burying one's own potential", "A tendency to collapse under the weight of others' burdens due to an inability to say no, failing to look after one's own life"],
+            ["Keenly catching others' flaws but using it only critically, leading to an inability to form proper networks and resulting in alienation", "Understanding situations rationally but making heartless choices due to an unopen heart, leading to late-onset self-reproach", "Self-depreciation when high standards are not met, leading to low self-esteem and easily yielding to minor failures", "Missing opportunities by over-verifying every step due to excessive suspicion, living in anxiety by assuming worst-case scenarios", "Causing conflict by imposing fastidious personal tendencies on others, permanently severing relationships over a single mistake"],
+            ["A tendency to avoid attempts by predicting negative outcomes for every situation, where deep reflection becomes a shackle to action", "Risk of losing social self-sufficiency by hiding in solitary spaces and submerging into depressive emotions and disconnection", "Prioritizing others' moods over establishing personal subjectivity, taking full responsibility for poor outcomes onto oneself", "Disregarding realistic economic activities due to an oversized internal mental world, risking the stability of life's foundation", "Using invisible tactics to manipulate others behind a soft exterior, which eventually leads to the loss of sincere friendships"]
+        ];
 
-// 🚨 [수술 구역] 무조건 첫 번째 것만 고르던 바보 로직을 '스마트 판독기'로 교체
-const maxBoost = Math.max(...diffScores);
-const boostIndices = [];
-diffScores.forEach((s, idx) => { if (s === maxBoost) boostIndices.push(idx); });
+        const currentRiskKo = isYangMaster ? fusionRiskYang[peakElIdx][top5Idx_C] : fusionRiskYin[peakElIdx][top5Idx_C];
+        const currentRiskEn = isYangMaster ? fusionRiskYangEn[peakElIdx][top5Idx_C] : fusionRiskYinEn[peakElIdx][top5Idx_C];
+        
+        const varIdx5 = session.num81 % 5; 
+        const diffScores = session.elementScores.map((score, i) => score - session.baseScores[i]);
 
-let weaponElIdx = boostIndices[0]; // 기본값
-if (boostIndices.length > 1) {
-    // 동점일 경우: 내 본질(dmIdx_C)을 생(生)하거나 내가 생하는 기운을 우선순위로 배정
-    const bestSupport = (dmIdx_C + 4) % 5; // 나를 돕는 인성
-    const bestOutput = (dmIdx_C + 1) % 5;  // 내가 뿜어낼 식상
-    
-    if (boostIndices.includes(bestSupport)) weaponElIdx = bestSupport;
-    else if (boostIndices.includes(bestOutput)) weaponElIdx = bestOutput;
-    else weaponElIdx = boostIndices[boostIndices.length - 1]; 
-}
-// -------------------------------------------------------------
+        const maxBoost = Math.max(...diffScores);
+        const boostIndices = [];
+        diffScores.forEach((s, idx) => { if (s === maxBoost) boostIndices.push(idx); });
 
-// 🚨 아래의 안전장치와 최종 변수(mod1Idx)는 절대 지우면 안 됨!
-if(diffScores[weaponElIdx] <= 0) { 
-    const suriToElIdx = [4, 0, 0, 1, 1, 2, 2, 3, 3, 4];
-    weaponElIdx = suriToElIdx[session.num81 % 10];
-}
-const mod1Idx = (weaponElIdx * 5) + varIdx5;
-        // 💡 4-2. [성명의 무기(기술) 25종]
+        let weaponElIdx = boostIndices[0]; 
+        if (boostIndices.length > 1) {
+            const bestSupport = (dmIdx_C + 4) % 5; 
+            const bestOutput = (dmIdx_C + 1) % 5;  
+            
+            if (boostIndices.includes(bestSupport)) weaponElIdx = bestSupport;
+            else if (boostIndices.includes(bestOutput)) weaponElIdx = bestOutput;
+            else weaponElIdx = boostIndices[boostIndices.length - 1]; 
+        }
+
+        if(diffScores[weaponElIdx] <= 0) { 
+            const suriToElIdx = [4, 0, 0, 1, 1, 2, 2, 3, 3, 4];
+            weaponElIdx = suriToElIdx[session.num81 % 10];
+        }
+        const mod1Idx = (weaponElIdx * 5) + varIdx5;
+
         const jobMod1Ko = [
             "무에서 유를 창조하는 탁월한 기획력을 지닌", "아무도 보지 못한 가능성을 찾아내는 안목을 갖춘", "정체된 상황을 돌파하는 강인한 추진력의", "흩어진 아이디어를 실체 있는 결과물로 엮어내는", "지치지 않고 끊임없이 한계를 넓혀가는 에너지의",
             "사람들의 마음을 움직이는 압도적인 매력을 지닌", "어둠 속에서 명확한 방향을 제시하는 예리한 직관의", "정체된 판에 활력을 불어넣어 흐름을 주도하는", "타인의 숨은 니즈를 정확히 읽어내는 예리한 감각의", "순식간에 대중의 이목을 사로잡는 독보적인 표현력을 갖춘",
@@ -1077,770 +806,32 @@ const mod1Idx = (weaponElIdx * 5) + varIdx5;
             "who flexibly adapts to changing times with smooth tact", "who reads macro patterns behind immediate phenomena", "who turns crisis into opportunity with strategic thinking", "who absorbs and applies diverse knowledge with wisdom", "who silently reads the board and prepares for the future"
         ];
 
-        // 💡 4-3. [스펙트럼 300종 - 초압축 핵심 역량(이력서 키워드) 버전]
- // 💡 4-3. [스펙트럼 300종 - 실무 중심 전문 비즈니스 워딩 버전]
-const fusionJobsKo = [
-    /* 1위 목(木): 성장과 시작의 에너지 */ [ 
-        /* +목: 창의적 개척 */ [
-            "새로운 비즈니스 모델을 구상하고 실행하는 신규 기획", 
-            "구성원의 잠재력을 파악하고 전문 인력으로 육성하는 인사 관리", 
-            "시장 진입 장벽이 높은 신규 분야를 개척하고 선점하는 실행력", 
-            "추상적인 아이디어를 구체적인 사업 결과물로 도출하는 역량", 
-            "상대방의 필요를 파악하여 행동을 이끌어내는 전문 설득력", 
-            "시장 흐름을 분석하여 조직의 새로운 사업 방향을 제시하는 통찰", 
-            "조직의 장기적인 목표를 설정하고 구조를 설계하는 기획력", 
-            "공정한 기준을 바탕으로 효율적인 보상 체계를 구축하는 행정", 
-            "팀원들 간의 목표 의식을 하나로 모으는 중심 역할", 
-            "사람의 심리와 행동 패턴을 분석하여 성장을 돕는 심층 연구", 
-            "복잡한 지식 정보에서 핵심 가치를 추출하여 가공하는 편집 능력", 
-            "실무자가 역량을 발휘할 수 있도록 뒷받침하는 안정적인 지원"
-        ],
-        /* +화: 전달과 확산 */ [
-            "브랜드의 메시지를 시각적으로 전달하는 디자인 기획", 
-            "대중의 심리를 파악하여 브랜드 가치를 전달하는 마케팅", 
-            "재능 있는 인재를 적재적소에 배치하여 무대를 만드는 프로듀싱", 
-            "공간과 제품에 세련된 감각을 더해 가치를 높이는 디자인 실무", 
-            "고객의 심리적 접점을 찾아내 성과를 도출하는 세일즈", 
-            "다양한 현장에서 대화를 주도하며 상황을 이끄는 소통 역량", 
-            "기업의 이미지를 대중에게 효과적으로 알리는 홍보 및 PR", 
-            "규모가 큰 행사의 질서와 흐름을 관리하는 현장 운영", 
-            "지식과 정보를 대중이 이해하기 쉽게 전달하는 교육 콘텐츠 기획", 
-            "트렌드 변화 속에서 소비자의 요구를 읽어내는 미디어 분석", 
-            "단순한 정보를 흥미로운 서사로 변환하는 스토리텔링 기술", 
-            "매체의 특징을 분석하고 시각적 효과를 최적화하는 기호학 연구"
-        ],
-        /* +토: 정착과 운영 */ [
-            "기획안을 수익이 발생하는 구체적인 모델로 정착시키는 실무", 
-            "서로 다른 성향의 사람들을 결속시켜 탄탄한 커뮤니티를 만드는 능력", 
-            "유휴 공간의 가치를 분석하여 수익형 비즈니스로 전환하는 기획", 
-            "이해관계가 충돌하는 지점에서 합리적인 대안을 찾는 중재", 
-            "고객에게 안정감 있는 서비스를 제공하는 프리미엄 현장 운영", 
-            "인력을 효율적으로 배치하고 일관성 있게 관리하는 통제력", 
-            "조직의 기틀을 다지고 명확한 행정 규칙을 세우는 행정 실무", 
-            "복잡한 노무 관계를 조율하여 안정적인 조직 환경을 만드는 업무", 
-            "인프라 시스템이 안정적으로 유지되도록 관리하는 책임 관리", 
-            "과거의 기록과 자산을 체계적으로 수집하고 보존하는 아카이빙", 
-            "마음의 안정을 돕고 심리적 자생력을 키워주는 전문 상담", 
-            "조직의 물리적 기반이 되는 환경과 설비를 관리하는 인프라 연구"
-        ],
-        /* +금: 기준과 효율 */ [
-            "데이터를 바탕으로 불필요한 공정을 걷어내는 효율 중심 기획", 
-            "객관적인 성과 지표를 설계하고 실적을 관리하는 리더십", 
-            "오류 없는 시스템을 구축하기 위해 명확한 룰을 설계하는 업무", 
-            "논리적인 팩트를 바탕으로 계약을 성사시키는 성과형 세일즈", 
-            "공정의 전 과정을 점검하여 무결점 결과를 도출하는 품질 관리", 
-            "전문 지식을 바탕으로 고도의 정밀 기술을 다루는 기술 실무", 
-            "발생 가능한 리스크를 사전에 파악하여 차단하는 위기 관리", 
-            "법규에 따라 원칙적으로 조직의 질서를 바로잡는 사법 행정", 
-            "자금의 흐름을 투명하게 관리하고 손실을 방어하는 재무 통제", 
-            "데이터 속에서 유의미한 패턴과 진실을 발굴해내는 미시 분석", 
-            "논리적 기준을 세워 현상의 본질을 세밀하게 해부하는 연구", 
-            "이면의 구조적 결함을 찾아내어 시정하는 심층 감사 업무"
-        ],
-        /* +수: 유연과 지혜 */ [
-            "글로벌 시장의 특성을 파악하여 지식을 결합하는 하이엔드 기획", 
-            "급변하는 상황에 맞추어 전략을 유연하게 수정하는 지략적 대응", 
-            "새로운 환경에 빠르게 적응하여 비즈니스 통로를 확보하는 능력", 
-            "물류와 정보가 매끄럽게 흐르도록 계통을 관리하는 유통 실무", 
-            "타인의 잠재의식을 읽어내어 심리적 거리감을 좁히는 소통력", 
-            "서로 다른 가치관 사이에서 최선의 합의를 도출하는 협상 역량", 
-            "정보망과 인적 네트워크를 통합적으로 관리하는 거시 행정", 
-            "국제적인 이해관계를 조율하여 유리한 규칙을 세우는 외교 조율", 
-            "자본과 데이터가 멈춤 없이 순환하도록 돕는 네트워크 인프라", 
-            "인간과 사회의 근원적 본질을 탐구하는 깊이 있는 철학 연구", 
-            "데이터의 심연에서 향후 시대의 메가트렌드를 읽어내는 리서치", 
-            "지식의 흐름을 체계적으로 정리하여 학문적 토대를 세우는 헌신"
-        ]
-    ],
-    /* 1위 화(火): 열정과 확산의 에너지 */ [ 
-        /* +목: 문화적 선도 */ [
-            "문화적 트렌드를 주도하며 생명력을 불어넣는 신규 기획", 
-            "열정적인 자세로 구성원의 창의성을 끌어올리는 프로듀싱", 
-            "지식과 가치를 대중에게 널리 전파하는 교육 리더십", 
-            "심미적 감각을 바탕으로 시각적인 가치를 창조하는 디자인", 
-            "현장에서 활기차게 소통하며 긍정적인 관계를 맺는 능력", 
-            "역동적인 생각을 영상이나 글의 형태로 생생하게 전달하는 표현력", 
-            "브랜드의 가치를 가장 매력적인 방식으로 전달하는 홍보 전략", 
-            "대규모 인원이 참여하는 행사를 조율하고 이끄는 관리 행정", 
-            "지식 콘텐츠를 미디어와 결합하여 확산시키는 시스템 운영", 
-            "인간의 복잡한 감정과 욕망을 매력적인 서사로 엮어내는 분석", 
-            "트렌드 이면에 숨겨진 데이터의 흐름을 짚어내는 학술 연구", 
-            "화려한 무대 뒤에서 전체 조화를 위해 묵묵히 지탱하는 지원"
-        ],
-        /* +화: 감각적 퍼포먼스 */ [
-            "대중의 시선을 한곳으로 집중시켜 영향력을 행사하는 기획", 
-            "예술적 감각을 바탕으로 대형 프로젝트를 이끄는 리더십", 
-            "분위기를 장악하고 확신으로 무리를 이끄는 카리스마", 
-            "논리적 언변과 무대 매너로 상대의 동의를 얻어내는 설득력", 
-            "감정을 자극하여 호응을 이끌어내는 전문 퍼포먼스 역량", 
-            "시각적 자극을 극대화하고 영상의 템포를 조절하는 연출 실무", 
-            "여론의 흐름을 읽고 조직에 유리한 방향으로 조율하는 공보 통제", 
-            "조직의 얼굴로서 대외 메시지를 일관성 있게 장악하는 관리", 
-            "인파가 집중되는 플랫폼의 질서와 안전을 유지하는 행정", 
-            "급변하는 선호도와 파급 효과를 예리하게 꿰뚫어 보는 통찰력", 
-            "완벽한 타이밍과 시각적 효과를 위해 수치를 계산하는 분석", 
-            "미디어의 영향력과 기호학적 원리를 깊이 있게 파고드는 연구"
-        ],
-        /* +토: 감성적 공간 운영 */ [
-            "아이디어를 현실의 수익 모델로 안정적으로 정착시키는 기획", 
-            "감성과 미학을 실제 물리적 공간에 조화롭게 녹여내는 비즈니스", 
-            "대중을 하나의 문화적 공간으로 모으는 매력적인 구심점 역할", 
-            "고객의 감정을 부드럽게 흡수하여 신뢰로 바꾸는 현장 상담", 
-            "시각적 즐거움과 안정적인 휴식을 동시에 제공하는 시설 운영", 
-            "사람 사이의 온도를 조절하며 갈등의 불씨를 관리하는 소통력", 
-            "과열된 경쟁이나 열기를 가라앉히고 규칙 안으로 묶는 관리", 
-            "화려한 행사 이면의 재무와 행정 디테일을 챙기는 실무 행정", 
-            "거대 인프라와 공공시설의 안정성을 묵직하게 통제하는 권위", 
-            "소외된 이들의 마음을 따뜻하게 보듬는 심연의 심리 분석", 
-            "쏟아지는 시각 자료를 오차 없이 분류하여 영구 보존하는 아카이빙", 
-            "화려함 뒤에서 시스템이 무너지지 않도록 뒷받침하는 묵묵한 지원"
-        ],
-        /* +금: 논리적 마케팅 */ [
-            "아이디어에 날카로운 논리를 더해 성공 확률을 높이는 전략", 
-            "불확실한 감성을 배제하고 확실한 이익 창출에 집중하는 기획", 
-            "장식을 도려내어 가장 세련되고 날카로운 차별화를 만드는 디자인", 
-            "데이터 타겟팅과 언변으로 성과를 도출하는 킬러 세일즈", 
-            "팩트와 논리를 전달하여 진실을 알리는 데이터 저널리즘", 
-            "디지털 기기와 설비를 오차 없이 정밀하게 다루는 현장 통제력", 
-            "엄격한 기준으로 조직의 기강을 확립하고 흐름을 관리하는 역할", 
-            "겉모습 이면에 숨겨진 리스크를 사전에 차단하는 공안 통제", 
-            "객관적인 지표를 통해 성과를 투명하게 평가하는 시스템 설계", 
-            "디지털 여론과 알고리즘을 분석하여 진위를 파헤치는 포렌식", 
-            "첨단 보안 원리와 메커니즘을 차가운 이성으로 해부하는 연구", 
-            "증거를 토대로 현상의 진위를 밝혀내는 데이터 기반의 조사"
-        ],
-        /* +수: 글로벌 콘텐츠 */ [
-            "한계를 유연하게 넘나들며 글로벌 미디어 판을 주도하는 기획", 
-            "이질적인 정보를 섞어 새로운 차원의 콘텐츠를 창조하는 역량", 
-            "대중의 변덕에 맞추어 카멜레온처럼 변신하는 궁극의 적응력", 
-            "글로벌 니즈를 파악하고 유연하게 대처하여 가치를 알리는 세일즈", 
-            "상대의 심리를 읽고 대화의 주도권을 쥐는 지략적 커뮤니케이션", 
-            "콘텐츠의 흐름을 매끄럽게 포장하여 널리 유통시키는 실무", 
-            "정보망과 대중의 무의식을 데이터베이스로 통제하는 거시 관리", 
-            "심리적 틈새를 파고들어 보이지 않게 흐름을 주도하는 마케팅", 
-            "국가 간 교류와 마찰을 포용력 있게 조율하는 전문 외교력", 
-            "유행 기저에 깔린 시대적 맥락과 인간의 심연을 분석하는 리서치", 
-            "정보의 바다 속에서 인간 정신의 근원적 이유를 파고드는 탐구", 
-            "드러난 화려함 이면의 진실을 캐내어 변치 않는 기록으로 남기는 지원"
-        ]
-    ],
-    /* 1위 토(土): 안정과 중용의 에너지 */ [ 
-        /* +목: 기반 가치 창조 */ [
-            "방치된 공간의 가치를 재발견하여 수익 모델로 전환하는 기획", 
-            "사람들이 성장할 수 있는 안정적인 사회적·물리적 인프라 설계", 
-            "조직 내 인재의 적성을 파악하여 적재적소에 배치하는 거시 전략", 
-            "공간 구조를 분석하여 효율적이고 생동감 있는 인테리어 구현", 
-            "고객의 요구에 가장 부합하는 최적의 상품이나 공간을 잇는 중개", 
-            "안정적인 환경 속에서 고객에게 프리미엄 서비스를 제공하는 소통", 
-            "부동산 개발 및 도시 계획을 수립하고 행정적으로 조율하는 업무", 
-            "조직 내부의 갈등을 중재하고 합리적인 인사 시스템을 운영하는 행정", 
-            "환경 인프라를 보존하고 다음 세대를 위한 매뉴얼을 구축하는 관리", 
-            "공간과 환경이 인간의 심리에 미치는 영향을 분석하는 심층 연구", 
-            "자연의 순리와 거시 경제의 흐름을 데이터로 분석해내는 학문", 
-            "조직의 기반이 흔들리지 않도록 물리적 토대를 다져주는 지원"
-        ],
-        /* +화: 공간 브랜딩 */ [
-            "정적인 공간에 매혹적인 스토리와 시각적 가치를 입히는 기획", 
-            "신뢰감 있는 무게감과 화려한 언변으로 대중을 이끄는 리더십", 
-            "오프라인 비즈니스의 열기를 안정적으로 팽창시키는 거시 전략", 
-            "사람이 모이는 현장에서 특유의 카리스마가 성과로 만들어지는 업무", 
-            "시각적 아름다움과 감성을 공간에 구현하는 일", 
-            "현장의 갈등을 진화하고 신뢰로 뒤바꾸는 장악력", 
-            "인파가 뿜어내는 에너지를 매뉴얼로 통제하는 시설 행정", 
-            "조직 내의 파벌 갈등을 부드럽게 융화하여 하나로 묶는 관리", 
-            "방대한 고객 데이터의 변화를 수용하며 중심을 지키는 지휘", 
-            "대중이 특정 공간이나 문화에 열광하는 무의식을 분석하는 연구", 
-            "오랜 시간 축적된 화려한 시각 기록물들을 영구 보존하는 아카이빙", 
-            "현장의 화려함이 유지되도록 이면의 재무와 인프라를 뒷받침하는 조력"
-        ],
-        /* +토: 시스템 수호*/ [
-            "시장의 빈틈을 읽고 사업(업무) 플랜을 짜는 기획력", 
-            "복잡한 이해관계를 하나의 시스템으로 통합하는 중재", 
-            "장기적인 관점에서 자산 가치를 분석하고 투자의 판을 짜는 통찰", 
-            "대립하는 의견들 속에서 가장 합리적인 타협점을 도출하는 설득력", 
-            "중요한 결정을 앞두고 흔들림 없이 중심을 잡는 산 같은 평정심", 
-            "조직의 유무형 자산을 한 치의 오차도 없이 온전히 유지하는 실무", 
-            "조직을 통제하고 인프라를 가동하는 역량", 
-            "개인의 감정에 휘둘리지 않고 조직의 원칙을 묵묵히 집행하는 관리", 
-            "복잡한 규정과 절차를 오차 없이 다루며 시스템의 권위를 세우는 업무", 
-            "방대한 데이터와 기록의 심연에서 변치 않는 진실을 찾아내는 연구", 
-            "눈에 띄지 않는 현상의 변화 패턴을 추적하고 분석하는 학문", 
-            "드러나지 않지만 조직의 근본 토대를 구축하여 전체를 지탱하는 헌신"
-        ],
-        /* +금: 효율과 기강 */ [
-            "자산 데이터에서 위험 요소를 제거하고 효율을 설계하는 기획", 
-            "낡은 관행을 단칼에 도려내고 새로운 질서를 세우는 혁신 리더십", 
-            "현실적인 논리로 무형의 가치를 객관적인 숫자로 산정하는 전략", 
-            "정에 흔들리지 않고 팩트와 가성비만을 무기로 성과를 내는 영업", 
-            "한 치의 계산 착오도 용납되지 않는 분야에서의 오차 없는 실무", 
-            "위험이 직결된 현장에서 불안 요소를 탐지하고 매뉴얼로 통제하는 감독", 
-            "거대한 자본의 흐름을 감시하고 단 1원의 누수도 허용하지 않는 재무", 
-            "분쟁 상황에서 감정을 배제하고 규정대로 명확히 판결하는 사법 행정", 
-            "대규모 시설 유지 보수 중 드러나는 구조적 결함을 시정하는 권위", 
-            "통계 지표의 사막 속에서 오직 팩트와 진실만을 가려내는 분석", 
-            "금융의 원리와 거시 경제의 논리를 객관적인 지표로 증명하는 연구", 
-            "조직의 안정을 갉아먹는 시스템의 맹점을 날카롭게 파헤치는 포렌식"
-        ],
-        /* +수: 글로벌 네트워크 */ [
-            "한계에 얽매이지 않고 유연하게 네트워크를 구축하는 기획", 
-            "시대의 빠른 변화를 흡수하여 조직의 안정된 인프라로 융합하는 지략", 
-            "이질적인 정보 속에서 핵심 데이터만을 걸러내어 성을 쌓는 통찰력", 
-            "상대의 숨겨진 니즈를 파고들어 경계를 허물고 신뢰를 얻는 소통", 
-            "방대한 자원이 막힘없이 이동하도록 시스템의 혈관을 잇는 유통 실무", 
-            "문화적 오해와 갈등이 충돌할 때 깊은 포용력으로 녹여내는 협상력", 
-            "전 세계에 흩어진 정보와 인적 네트워크를 데이터로 통합하는 관리", 
-            "인류의 생존과 직결된 거시적인 환경 정책을 수립하는 공공 행정", 
-            "보이지 않는 암투와 마찰을 깊은 포용력으로 흡수해 룰을 세우는 외교", 
-            "무의식에 가라앉은 깊은 상처를 임상 데이터로 치료하는 심리 분석", 
-            "현상의 표면 아래 천천히 흐르는 거대한 흐름을 짚어내는 리서치", 
-            "쏟아지는 지식의 파도를 어느 한곳에 치우치지 않고 체계화하는 학문"
-        ]
-    ],
-    /* 1위 금(金): 결단과 원칙의 에너지 */ [ 
-        /* +목: 정밀 생명 케어 */ [
-            "꺼져가는 기능을 완벽히 회복시키는 고도화된 정밀 시스템 기획", 
-            "차가운 기술 조직 내에서 인간적인 동기를 부여하여 이끄는 리더십", 
-            "산업 현장에서 생명과 안전을 최우선으로 지켜내는 매뉴얼 통제", 
-            "오차 없는 기술을 활용해 인류에게 유용한 지식 서비스를 만드는 실무", 
-            "차가운 팩트를 다루면서도 상대를 배려하여 지식을 전달하는 소통", 
-            "신체나 시스템의 기능을 정교하게 교정하여 생명력을 되찾게 돕는 힐링", 
-            "산업의 엄격한 규제를 확립하고 빈틈없이 운영하는 전문 행정", 
-            "전문 제도를 설계하고 엄격한 기준으로 인재를 선별하는 통제력", 
-            "정확히 돌아가는 조직 내에서 객관적 데이터로 자원을 관리하는 체계", 
-            "인간의 메커니즘과 공학적 원리를 융합해 패러다임을 이끄는 연구", 
-            "사고나 질병의 근본 원인을 데이터로 추적하고 해결책을 증명하는 탐구", 
-            "조직의 품질과 안전이 유지되도록 정확하고 묵묵하게 돕는 조력"
-        ],
-        /* +화: 테크 브랜딩 */ [
-            "딱딱한 시스템에 매력적인 서사를 입혀 시장의 룰을 바꾸는 기획", 
-            "압도적인 데이터를 무기로 대중의 시선을 단숨에 제압하는 카리스마", 
-            "복잡한 기술이나 지식을 대중이 직관적으로 소비하게 돕는 시각화", 
-            "차갑고 복잡한 논리를 화려한 언변으로 풀어내어 성과를 내는 세일즈", 
-            "데이터와 알고리즘을 바탕으로 파급력 있는 마케팅을 하는 전문 실무", 
-            "엄격한 현장에서 시선을 장악하고 혼란을 단숨에 제압하는 통제력", 
-            "치명적 리스크를 사전 감지하고 위기 시 여론을 냉혹하게 방어하는 공보", 
-            "보이지 않는 범죄나 규정 위반을 추적하고 엄격하게 처벌하는 행정", 
-            "대중이 열광하는 무대 이면에서 시스템 과부하를 오차 없이 제어하는 기술", 
-            "화려한 표면을 걷어내고 알고리즘 조작이나 진실을 캐내는 포렌식", 
-            "숨겨진 팩트를 통계의 논리로 완벽히 해부하여 거짓을 밝히는 분석", 
-            "화려함 뒤 어두운 곳에서 정보망과 인프라를 강박적으로 유지하는 헌신"
-        ],
-        /* +토: 법규와 질서 */ [
-            "얽혀 있는 규제와 법률 속에서 이해관계를 조율하는 거시 마스터플랜", 
-            "자본과 권력이 충돌하는 테이블에서 팩트로 절대적인 룰을 세우는 중재", 
-            "감정이 배제된 기관이나 평가 시스템에서 공정함을 지키는 무게감", 
-            "정확한 지식을 바탕으로 치명적인 분쟁을 단호하게 해결하는 실무", 
-            "오차가 허용되지 않는 숫자의 사막에서 완벽한 결과를 내는 무서운 끈기", 
-            "첨단 시스템이 멈추지 않도록 현장의 변수를 완벽히 수습하는 안정감", 
-            "감정을 배제하고 정해진 원칙과 매뉴얼대로 시스템을 통제하는 집행력", 
-            "내부의 부패를 촘촘한 시스템으로 얽어매고 룰을 강제하는 준법 감시", 
-            "방대한 평가 데이터나 서류를 영구 보존하고 매뉴얼을 유지하는 행정", 
-            "수십 년간 쌓인 법률이나 기록 속에서 모순을 찾고 기준을 연구하는 학문", 
-            "차가운 지표 속에 숨겨진 리스크를 파고들어 세상에 경고하는 분석", 
-            "숫자의 틈바구니에 묻혀 무너지지 않는 장부와 보안을 지켜내는 조력"
-        ],
-        /* +금: 무결점 효율 */ [
-            "감정과 군더더기를 제거하고 압도적 효율과 결과만을 향해 가는 기획", 
-            "불순물을 베어내고 뼈를 깎는 혁신을 강요하는 승부사적 카리스마", 
-            "숫자 1의 오차도 없는 알고리즘으로 시스템을 통치하는 철혈의 권위", 
-            "감정이 배제된 차가운 논리와 팩트만으로 항복을 받아내는 세일즈", 
-            "실수가 용납되지 않는 정밀한 도구를 극도의 집중력으로 다루는 실무", 
-            "수천 번의 테스트로 미세 결함을 찾아 완벽의 결정체를 만드는 품질 관리", 
-            "무자비하고 차가운 원칙으로 조직과 사회의 무질서를 응징하는 통제", 
-            "자본의 중심에서 재무와 투자의 흐름을 냉혹한 잣대로 감시하는 권력", 
-            "철통같은 보안망을 구축하여 외부 개입을 원천 차단하는 무결점 시스템", 
-            "방대한 데이터 사막에서 숨겨진 패턴과 조작된 팩트를 해부하는 포렌식", 
-            "미시적 단위까지 극단적으로 쪼개어 사물의 본질을 증명하는 학술 연구", 
-            "차갑고 단단한 원칙의 틀 안에서 톱니바퀴처럼 시스템을 굴리는 충성"
-        ],
-        /* +수: 국제 금융 전략 */ [
-            "한계를 넘나들며 글로벌 자본과 데이터의 흐름을 통제하는 하이엔드 기획", 
-            "기술에 인간 심리 조종 능력을 결합해 시장을 완벽히 지배하는 통찰", 
-            "견고한 시스템의 약점을 파고들어 판을 내 것으로 뒤집는 노련한 전략", 
-            "무역 데이터 속에서 위험을 감지하고 최적의 마진을 계산하는 승부사", 
-            "타인의 약점을 꿰뚫어 보며 상대를 조종하는 고도의 심리 협상력", 
-            "네트워크 인프라가 막힘없이 흐르도록 시스템을 완벽히 제어하는 실무", 
-            "복잡한 물류나 시스템을 법의 테두리 안에서 정교하게 통제하는 행정", 
-            "이해관계가 충돌하는 영역에서 외교력으로 유리한 합의를 끄는 관리", 
-            "보이지 않는 위험 확률을 통계로 계산하여 자본의 댐을 구축하는 통제", 
-            "인간의 이상 심리와 근원을 과학적인 잣대로 해부하여 해답을 찾는 연구", 
-            "비정형 빅데이터를 알고리즘으로 걸러 미래 변동을 예측하는 심층 분석", 
-            "가장 엄격한 규칙 속에서도 유연하게 막힌 흐름을 터주는 정밀 조력"
-        ]
-    ],
-    /* 1위 수(水): 지혜와 유연의 에너지 */ [ 
-        /* +목: 치유와 교류 */ [
-            "장벽을 부수고 새로운 차원의 글로벌 문화 교류 판을 짜는 하이엔드 기획", 
-            "타인의 상처를 흡수하고 공감하여 삶의 의지를 일으키는 치유의 리더십", 
-            "지식의 경계를 허물고 이질적인 개념을 엮어 새로운 철학을 제시하는 통찰", 
-            "문화의 뉘앙스 차이까지 완벽히 통번역하여 단절된 의미를 잇는 정밀 실무", 
-            "예측 불허의 현장에서 특유의 재치와 유연함으로 사람들을 이끄는 가이드", 
-            "운명이나 심리적 기호를 해석하여 방향 잃은 이들을 안내하는 영적 소통", 
-            "방대한 학술 자료와 지식 데이터를 체계적으로 관리하여 역량을 돕는 행정", 
-            "광범위한 교류나 지원 사업을 포용력 있는 잣대로 기획하고 돌리는 운영", 
-            "사각지대에 놓인 소외된 이들을 제도적 시스템 안으로 포섭하여 지키는 관리", 
-            "드러나지 않는 인간 본성의 깊은 심연을 탐구해 가치를 증명하는 인문 연구", 
-            "수많은 문헌에서 위대한 사상을 길어 올려 대중적인 텍스트로 가공하는 편집", 
-            "지식의 변방에서 새로운 학문이 싹트도록 동향을 살피고 기반을 다지는 조력"
-        ],
-        /* +화: 글로벌 파급력 */ [
-            "급변하는 트렌드를 매혹적인 비주얼로 포장해 시장을 장악하는 파급적 기획", 
-            "인간 내면의 복잡한 감정선을 시각적인 예술 작품으로 빚어내는 연출", 
-            "유동하는 정보 속에서 진짜 가치를 알아보고 판도를 주도하는 비즈니스 개척", 
-            "굳게 닫힌 마음을 화려한 쇼맨십과 처세술로 무장해제시키는 마법의 협상", 
-            "이방인이 섞이는 현장의 돌발 상황을 역동성과 센스로 통제하는 현장 실무", 
-            "수많은 시선 앞에서도 흔들림 없는 퍼포먼스를 뽐내며 진행하는 국제 소통", 
-            "외교의 장막 뒤에서 복잡한 이해관계를 명분으로 조율하는 거대한 거시 행정", 
-            "민심을 꿰뚫어 보고 조직의 이익을 위해 보이지 않게 여론을 조종하는 통제", 
-            "최전선에서 단호한 질서 체계를 유지하면서 상황에 맞는 융통성을 펴는 공안", 
-            "무의식이 미디어에 의해 어떻게 움직이는지를 심층 데이터로 파헤치는 분석", 
-            "유행의 껍데기를 걷어내고 인간의 욕망을 시대적 맥락으로 짚어내는 리서치", 
-            "네트워크가 요동치는 관제 센터에서 한 치의 오차 없이 상황을 살피는 지원"
-        ],
-        /* +토: 데이터 자산화 */ [
-            "조용히 흐르는 자본과 데이터를 안정적인 수익 모델로 정착시키는 통찰", 
-            "이질적인 집단들이 충돌할 때 포용력으로 불만을 흡수해 평화를 낳는 중재", 
-            "무형의 공간에 거대한 생태계를 구축하고 지치지 않고 판을 굴리는 무게감", 
-            "통계의 사막에서 대중 심리와 현실을 잇는 객관적 타협점을 찾는 소통", 
-            "수백만 개의 데이터나 물류 흐름을 대조하며 오차 없이 질서를 잡는 끈기", 
-            "대자연의 변덕을 통제하고 인간에게 이로운 인프라로 연결·관리하는 실무", 
-            "확장되는 거대 기록물과 아카이브를 완벽한 체계로 묶어 보존하는 거시 행정", 
-            "조세 제도의 빈틈을 파고들면서도 합법의 테두리 안에서 자본을 묶는 관리", 
-            "거시 경제 지표를 바탕으로 위기에 흔들리지 않도록 방파제 역할을 하는 정책", 
-            "무의식 깊은 곳의 상처를 데이터 형태로 구조화하여 해답을 찾는 분석", 
-            "보이지 않는 경제 흐름을 관측하여 거대한 지각 변동을 대비하는 거시 학문", 
-            "데이터 센터의 어두운 구석에서 지식의 흐름이 마르지 않게 서버를 다지는 조력"
-        ],
-        /* +금: 철혈 보안 전략 */ [
-            "글로벌 빅데이터에서 노이즈를 쳐내고 극강의 진실만을 뽑아 전략을 짜는 기획", 
-            "통제하기 힘든 자원의 가치를 객관적인 숫자로 환산하여 이익을 내는 승부사", 
-            "관행적인 거래의 모순을 파고들어 합리적이고 무자비한 룰을 강제하는 리더십", 
-            "복잡한 법망의 맹점을 파고들어 합법의 테두리 안에서 최대 마진을 남기는 세일즈", 
-            "수천만 줄의 복잡한 코드를 다루며 단 한 번의 오류도 허용하지 않는 보안 실무", 
-            "1%의 오차가 대형 참사로 이어지는 환경에서 매뉴얼대로 기계를 통제하는 집중", 
-            "틈새로 스며드는 범죄를 엄격한 법의 잣대로 응징하고 차단하는 공안 통제력", 
-            "불확실한 리스크가 범람하는 곳에서 모든 확률을 계산해 방어벽을 세우는 관리", 
-            "차가운 룰의 세계에서 타국의 이의를 논리로 박살 내고 국익을 지키는 외교 행정", 
-            "디지털 세계의 해류 속에 숨겨진 범죄 흔적을 예리한 검으로 해부하는 기술", 
-            "인간이 닿기 힘든 자연의 본질을 차갑고 공학적인 잣대로 증명하는 정밀 연구", 
-            "방대한 데이터가 쏟아지는 관제 센터에서 숫자에 의지해 균형을 잡는 절대 조력"
-        ],
-        /* +수: 무경계 통찰 */ [
-            "고정관념을 버리고 이질적 정보를 흡수해 새로운 차원의 지식을 만드는 통찰", 
-            "심연처럼 속을 알 수 없는 평정심으로 판도를 보이지 않게 장악하는 지략", 
-            "타인의 무의식을 꿰뚫고 파도 속에서도 유연하게 생존로를 개척하는 적응력", 
-            "장벽을 불문하고 마음을 허물어 상대의 가장 내밀한 비밀을 이끌어내는 소통", 
-            "예측 불가능한 삶 속에서도 스트레스 제로 상태로 페이스를 유지하는 멘탈 관리", 
-            "매뉴얼이 소용없는 분쟁에서 넉넉한 포용력과 처세술로 양측을 달래는 협상", 
-            "심리적 흐름을 거시적으로 조종하여 여론의 물길을 원하는 곳으로 트는 행정", 
-            "인간의 통제를 벗어난 자원의 패턴을 축적하고 혼란을 시스템으로 대비하는 관리", 
-            "주류 사회에서 밀려난 존재들을 제도적 사각지대에서 건져내 이끄는 거시 복지", 
-            "우울의 심연을 파고들어 존재의 본질적인 이유를 사색하고 해답을 찾는 철학", 
-            "사회 현상 뒤에 숨겨진 은밀한 변화를 빅데이터의 심연에서 꿰뚫어 보는 리서치", 
-            "빛이 들지 않는 아카이브 밑바닥에서 지식의 흐름이 끊기지 않게 돕는 고독한 헌신"
-        ]
-    ]
-];
-// 💡 4-3. [스펙트럼 300종 - 실무 중심 영문 비즈니스 워딩 버전]
-const fusionJobsEn = [
-    /* 1st Wood (木): Growth and Initiation */ [
-        /* +Wood: Creative Pioneering */ [
-            "Designing and executing new business models and project planning",
-            "Identifying member potential and professional talent management",
-            "Pioneering and occupying new markets with high entry barriers",
-            "Deriving concrete business outcomes from abstract ideas",
-            "Professional persuasion that leads to action by grasping needs",
-            "Analyzing market flows to suggest new strategic directions",
-            "Setting long-term goals and designing organizational structures",
-            "Building efficient compensation systems based on fair standards",
-            "Acting as a central role to unify team goals and vision",
-            "In-depth research on human psychology and behavioral patterns",
-            "Extracting and processing core values from complex information",
-            "Stable support to ensure practitioners can maximize their abilities"
-        ],
-        /* +Fire: Delivery and Diffusion */ [
-            "Visual design planning to deliver brand messages effectively",
-            "Marketing and brand value delivery based on public psychology",
-            "Producing stages by placing talented personnel in optimal spots",
-            "Design practice that enhances value through sophisticated senses",
-            "Sales and conversion by identifying customer psychological touchpoints",
-            "Communication leadership that dominates and leads on-site situations",
-            "Public relations and PR to improve corporate image effectively",
-            "On-site operation and management of large-scale events",
-            "Planning educational content that simplifies complex information",
-            "Media analysis to identify consumer needs amidst shifting trends",
-            "Storytelling techniques that convert simple data into narratives",
-            "Semiotic research optimizing visual effects and media features"
-        ],
-        /* +Earth: Settlement and Operations */ [
-            "Establishing planning drafts into concrete, profit-generating models",
-            "Ability to build solid communities by unifying diverse tendencies",
-            "Analyzing unused space value to convert into profitable business",
-            "Mediation to find rational alternatives where interests conflict",
-            "Premium field operations providing stable customer services",
-            "Control power for efficient deployment and consistent management",
-            "Administrative practice for solidifying foundations and setting rules",
-            "Coordinating complex labor relations for a stable environment",
-            "Responsibility for maintaining giant infrastructure systems stably",
-            "Archiving by systematically collecting and preserving past records",
-            "Professional counseling to foster psychological self-sufficiency",
-            "Infrastructure research managing environments and facilities"
-        ],
-        /* +Metal: Standards and Efficiency */ [
-            "Efficiency-centered planning that removes unnecessary processes",
-            "Leadership in designing objective KPIs and managing performance",
-            "Designing clear rules to build error-free, systematic workflows",
-            "Performance-based sales that close contracts with logical facts",
-            "Quality control through inspection of the entire production process",
-            "Technical practice handling high-precision technology and expertise",
-            "Crisis management by pre-detecting and blocking potential risks",
-            "Judicial administration rectifying order based on legal regulations",
-            "Financial control for transparent fund management and loss defense",
-            "Micro-analysis discovering meaningful patterns in big data",
-            "Professional research dissecting the essence of phenomena via logic",
-            "In-depth auditing to identify and correct structural defects"
-        ],
-        /* +Water: Flexibility and Wisdom */ [
-            "High-end planning that fuses information across global markets",
-            "Strategic response by flexibly modifying plans to match situations",
-            "Ability to secure business roads by adapting to new environments",
-            "Logistics practice managing systems for smooth resource circulation",
-            "Communication to reduce psychological distance by reading others",
-            "Negotiation capacity to derive consensus between differing values",
-            "Macro-administration unifying information networks and resources",
-            "Diplomatic tuning that sets favorable rules in international interests",
-            "Infrastructure management for the circulation of capital and data",
-            "In-depth philosophical research into the fundamental nature of society",
-            "Research to derive future megatrends from vast data sets",
-            "Devotion to organizing knowledge flows into academic foundations"
-        ]
-    ],
-    /* 1st Fire (火): Passion and Expansion */ [
-        /* +Wood: Cultural Leadership */ [
-            "New planning that leads cultural trends and breathes vitality",
-            "Producing that elevates member creativity with a passionate stance",
-            "Educational leadership that widely spreads knowledge and values",
-            "Design creating visual value based on aesthetic senses",
-            "On-site communication and the ability to build positive relations",
-            "Expressiveness delivering dynamic thoughts through video or text",
-            "PR strategy delivering brand value in the most attractive way",
-            "Administrative management for coordinating large-scale events",
-            "System operation for diffusing knowledge through mass media",
-            "Analysis weaving complex emotions and desires into narratives",
-            "Academic research pinpointing data flows hidden beneath trends",
-            "Backstage support for overall harmony and flawless execution"
-        ],
-        /* +Fire: Sensory Performance */ [
-            "Planning that captures public attention to exert influence",
-            "Leadership leading large projects based on artistic senses",
-            "Charisma that commands the atmosphere and leads with conviction",
-            "Persuasion that gains consent through eloquence and stage manners",
-            "Professional performance capacity to draw public responses",
-            "Directing practice maximizing visual stimuli and adjusting tempo",
-            "Publicity control tuning 여론 opinion in favor of the organization",
-            "Management of external messaging as the face of the organization",
-            "Administration for maintaining order and safety in crowded platforms",
-            "Insight to pierce through shifting preferences and ripple effects",
-            "Analysis calculating metrics for perfect timing and visual effects",
-            "In-depth research into media influence and symbolic principles"
-        ],
-        /* +Earth: Emotional Space Management */ [
-            "Planning that stably roots ideas into realistic profit models",
-            "Business harmonizing aesthetics and emotion within physical spaces",
-            "Attractive focal point role to gather the public in cultural spaces",
-            "On-site consulting that absorbs customer emotions into trust",
-            "Facility operation providing visual joy and stable rest",
-            "Communication managing conflict by tuning the temperature of people",
-            "Management that calms overheated competition into systematic rules",
-            "Administrative practice for financial and general affairs of events",
-            "Authority controlling the stability of giant public infrastructures",
-            "Deep psychological analysis to care for the hearts of the marginalized",
-            "Archiving and classifying visual data for permanent preservation",
-            "Silent support to sustain foundations behind the flashy surface"
-        ],
-        /* +Metal: Logical Marketing */ [
-            "Strategy that increases success rates by adding logic to ideas",
-            "Planning focusing on definite profit by excluding uncertainties",
-            "Capacity to create sophisticated differentiation by pruning decoration",
-            "Killer sales that derive performance through data targeting",
-            "Data journalism that reveals truth by delivering facts and logic",
-            "Field control handling digital equipment with zero margin of error",
-            "Role of establishing organizational discipline and managing flows",
-            "Security control that pre-detects and blocks risks and threats",
-            "System design to evaluate performance via objective metrics",
-            "Digital forensics to uncover manipulation and errors via data",
-            "In-depth research into advanced security principles and logic",
-            "Fact-based investigation into the truth of phenomena via data"
-        ],
-        /* +Water: Global Content */ [
-            "Strategic planning leading global media by crossing boundaries",
-            "Capacity to create new-dimensional content by mixing information",
-            "Ultimate adaptability to transform like a chameleon for the public",
-            "Sales that accurately grasp needs and communicate unique value",
-            "Strategic communication taking the lead by reading the opponent",
-            "Systematic practice for packaging and distributing vast content",
-            "Macro-management controlling info networks and public subconscious",
-            "Marketing leading flows invisibly by pinpointing psychological gaps",
-            "Professional diplomacy to tune international exchange and friction",
-            "Research into the era's context and macro-psychological depths",
-            "Inquiry into the fundamental reasons for human spirit and existence",
-            "Support to extract truth beneath splendor and leave lasting records"
-        ]
-    ],
-    /* 1st Earth (土): Stability and Moderation */ [
-        /* +Wood: Foundation Value Creation */ [
-            "Planning to rediscover abandoned spaces and convert them into models",
-            "Designing physical and institutional frameworks for public growth",
-            "Macro-strategy to deploy talent in optimal spots for development",
-            "Implementing vibrant interiors and landscaping via space analysis",
-            "Brokerage connecting optimal products or spaces to customer needs",
-            "On-site communication providing healing and premium services",
-            "Administration for establishing and tuning urban development plans",
-            "Managing organizational conflict and building rational HR systems",
-            "Management for preserving ecological infra and building manuals",
-            "In-depth research on how physical environments affect psychology",
-            "Academic study analyzing natural cycles and macro-economic flows",
-            "Support to solidify physical foundations so the organization remains steady"
-        ],
-        /* +Fire: Spatial Branding */ [
-            "Planning that adds captivating stories and visual value to spaces",
-            "Leadership of expansion guiding the public with reliable weight",
-            "Macro-strategy for stably expanding large-scale offline businesses",
-            "Sales that produce results through unique charisma in the field",
-            "VMD practice that dramatically implements beauty within spaces",
-            "Command to calm field conflicts and convert them into trust",
-            "Facility administration controlling crowd energy with perfect manuals",
-            "Management harmonizing heated factional conflicts into one fence",
-            "Command maintaining center while accommodating customer data changes",
-            "Research into the subconscious of why people go wild for cultures",
-            "Archiving and permanently preserving flashy visual records",
-            "Support for financial and infrastructure backend behind the field"
-        ],
-        /* +토: System Guardian (Optimized for 19920412 Yang Earth) */ [
-            "Project planning to design masterplans by reading market gaps",
-            "Mediation to integrate complex interests into a unified system",
-            "Insight to analyze asset value and set the board for investments",
-            "Persuasion to derive the most rational compromise among opinions",
-            "Unshakable composure to maintain center before critical decisions",
-            "Professional practice to maintain tangible and intangible assets",
-            "Administrative capacity to control departments and run infrastructure",
-            "Management that silently executes rules, regardless of personal emotion",
-            "Authority to establish system dignity via rules and procedures",
-            "Research to find unchanging truth in the abyss of records and data",
-            "Academic study tracking slow-changing patterns and analyzing risks",
-            "Devotion to building fundamental foundations to support the whole"
-        ],
-        /* +Metal: Efficiency and Discipline */ [
-            "Planning to design efficiency by removing risk from asset data",
-            "Innovative leadership to establish new order by pruning old customs",
-            "Strategy for accurately calculating intangible value into numbers",
-            "Performance sales that use facts and cost-effectiveness as weapons",
-            "Error-free practice in fields where zero calculation error is allowed",
-            "Supervision detecting anxiety factors and controlling via manuals",
-            "Financial management to monitor capital flow and allow zero leaks",
-            "Judicial administration for clear verdicts according to regulations",
-            "Authority to rectify structural defects during facility maintenance",
-            "In-depth analysis filtering facts and truth from data deserts",
-            "Research proving macro-economic logic through objective metrics",
-            "Digital forensics that sharply penetrates systemic blind spots"
-        ],
-        /* +Water: Global Networks */ [
-            "High-end planning to build global networks without being bound",
-            "Seasoned tactics to naturally absorb changes into stable infra",
-            "Insight to build a massive fortress by filtering core information",
-            "Communication to gain trust by penetrating others' hidden needs",
-            "Logistics practice connecting veins for seamless resource movement",
-            "Negotiation capacity to melt misunderstandings with deep embrace",
-            "Management to integrate scattered information into giant data dams",
-            "Public administration for comprehensive macro-environmental policies",
-            "Diplomatic tuning to establish rules by absorbing trade friction",
-            "Psychological analysis to treat deep wounds through clinical data",
-            "Macro-research to pinpoint and prepare for future megatrends",
-            "Academic devotion to systematizing waves of knowledge without bias"
-        ]
-    ],
-    /* 1st Metal (金): Decision and Principle */ [
-        /* +Wood: Precision Care */ [
-            "Planning precision systems to restore functions or save fading lives",
-            "Innovative leadership giving human motivation within tech teams",
-            "Manual control prioritizing life and safety in industrial fields",
-            "Technical practice creating knowledge services via flawless tech",
-            "Considerate communication delivering cold facts with warmth",
-            "Healing that restores vitality by sharply correcting systems",
-            "Administration establishing and operating strict industry regulations",
-            "Control designing specialized systems and filtering top talent",
-            "Resource management based on objective data within precise orgs",
-            "In-depth research leading new paradigms via bio-engineering",
-            "Exploration tracking root causes of accidents via data analysis",
-            "Support to ensure organizational quality and safety are maintained"
-        ],
-        /* +Fire: Tech Branding */ [
-            "Impactful planning that changes market rules via narrative tech",
-            "Charisma to suppress the public's gaze armed with data weapons",
-            "Visualizing complex tech for intuitive and enthusiastic consumption",
-            "Sales that open wallets by unraveling complex logic with eloquence",
-            "Professional practice executing impactful data-driven marketing",
-            "Control power that dominates attention and suppresses field chaos",
-            "Defense against media and public opinion during security crises",
-            "Administration that resolutely tracks and punishes invisible crimes",
-            "System for dispersing overloads behind high-traffic platforms",
-            "Digital forensics for unearthing truth beneath flashy surfaces",
-            "In-depth analysis dissecting hidden facts with statistical logic",
-            "Devotion to maintaining information networks and infrastructure"
-        ],
-        /* +Earth: Regulations and Order */ [
-            "Macro masterplan coordinating interests amidst tangled regulations",
-            "Thorough mediation establishing absolute rules based on facts",
-            "Authority to maintain extreme fairness within evaluation systems",
-            "Execution cleanly solving fatal disputes based on legal knowledge",
-            "Tenacity to produce results in the desert of numbers with zero error",
-            "Stability to handle unexpected field variables for system continuity",
-            "Executive power controlling systems strictly by manuals and rules",
-            "Compliance audit binding corruption with a tight, transparent system",
-            "Defensive administration permanently preserving millions of records",
-            "In-depth study finding contradictions and researching new standards",
-            "Statistical analysis digging into fatal risks within macro indicators",
-            "Ironclad support guarding the organization's ledger and security"
-        ],
-        /* +Metal: Flawless Efficiency */ [
-            "Extreme planning for overwhelming efficiency, removing all clutter",
-            "Charisma of a game-changer forcing bone-deep innovation",
-            "Iron-blooded authority designing algorithms to govern perfect systems",
-            "Killer sales extracting surrender at the table via cold logic",
-            "High-end practice handling precision tools with extreme focus",
-            "Quality control finding micro-flaws to present perfect results",
-            "Macro-control punishing disorder with ruthless, cold principles",
-            "Monitoring and controlling finance and investment with bloodless eyes",
-            "Flawless infrastructure building an ironclad security network",
-            "Digital forensics dissecting patterns and facts in data deserts",
-            "Academic obsession dividing objects to their smallest micro-unit",
-            "Absolute loyalty rolling the system like a machine's cog via rules"
-        ],
-        /* +Water: Int'l Financial Strategy */ [
-            "High-end planning controlling global capital and data flows",
-            "Insight dominating markets by manipulating human psychology",
-            "Seasoned strategy penetrating weaknesses to flip the board",
-            "Game-changer detecting risks and calculating optimal margins",
-            "High-level psychological negotiation to manipulate opponents",
-            "Execution meticulously controlling global network infrastructures",
-            "Administration precisely controlling complex logistics via law",
-            "Management drawing favorable agreements with soft diplomacy",
-            "Actuarial control building capital dams via risk probabilities",
-            "Psychiatric research dissecting abnormal psychology with cold logic",
-            "In-depth analysis predicting macro-future fluctuations without error",
-            "Precision support acting as a sluice gate for blocked capital flows"
-        ]
-    ],
-    /* 1st Water (水): Wisdom and Fluidity */ [
-        /* +Wood: Healing and Exchange */ [
-            "High-end planning breaking walls for global cultural exchange",
-            "Healing leadership that raises the will to live through empathy",
-            "Insight that proposes new philosophies by weaving disparate ideas",
-            "Precise execution bridging meanings by translating cultural nuances",
-            "Magical guide leading people through unpredictable field situations",
-            "Spiritual communication interpreting destiny in a soft language",
-            "Administration backing knowledge capacity via data management",
-            "Operation planning extensive exchange projects with broad standards",
-            "Management protecting the marginalized via institutional systems",
-            "Humanities research exploring the abyss to prove fundamental value",
-            "Editing Great ideologies from literature into accessible texts",
-            "Silent support to lay foundations so new academics can sprout"
-        ],
-        /* +Fire: Global Ripple Effect */ [
-            "Impactful planning that dominates markets via mesmerizing visuals",
-            "Direction forging complex human emotions into unconventional art",
-            "Business pioneer who recognizes true value in a vast flow of info",
-            "Killer instinct negotiation that disarms minds via showmanship",
-            "Field execution controlling sudden situations in chaotic fields",
-            "Performance-like communication exhibiting unwavering presence",
-            "Macro-administration tuning interests behind the curtains of diplomacy",
-            "Control that pierces public sentiment to invisibly turn 여론 opinion",
-            "Public security maintaining order while showing situational flexibility",
-            "Analysis ruthlessly dissecting how the subconscious is moved by media",
-            "Research pinpointing humanity's desires within the era's context",
-            "Support monitoring situations with zero error in control centers"
-        ],
-        /* +Earth: Data Assetization */ [
-            "Insight that settles intangible capital into stable profit models",
-            "Absolute mediation giving birth to peace by absorbing dissatisfaction",
-            "Heavy gravity to firmly build and roll giant e-commerce ecosystems",
-            "Communication finding objective compromise between psychology and data",
-            "Tenacity maintaining order with zero error via database cross-checks",
-            "Execution controlling nature's whims to connect with robust infra",
-            "Macro-administration permanently preserving infinitely expanding records",
-            "Management sharply exploiting tax loopholes within legal boundaries",
-            "Public policy-making acting as a breakwater for financial crises",
-            "Clinical analysis finding healing answers from subconscious wounds",
-            "Macro-academic study observing economic flows for future shifts",
-            "Silent support steadily fortifying servers in giant data centers"
-        ],
-        /* +Metal: Ironclad Security Strategy */ [
-            "Core planning extracting extreme truth by slicing away data noise",
-            "Cold-blooded game-changer maximizing profit via resource valuation",
-            "Innovative leadership enforcing the most rational rules on the field",
-            "Advanced target sales exploiting loopholes for maximum margins",
-            "Perfectionist ironclad security handling complex codes without error",
-            "Focus controlling machines strictly by manuals, excluding emotion",
-            "Ruthless public security control blocking crimes via legal standards",
-            "Management building perfect defense walls via risk probabilities",
-            "Diplomatic administration defending national interests via logic",
-            "Technology salvaging truth by dissecting traces of cybercrime",
-            "Precision research proving the essence of nature via engineering",
-            "Absolute support maintaining balance in control centers via numbers"
-        ],
-        /* +Water: Borderless Insight */ [
-            "Borderless insight that creates new-dimensional knowledge without bias",
-            "High-level tactics invisibly and perfectly dominating the board",
-            "Ultimate adaptability that carves survival paths as flexibly as water",
-            "Magical communication that breaks mental walls to draw out secrets",
-            "Overwhelming mental management that maintains pace without stress",
-            "Seasoned negotiation satisfying both sides in complex disputes",
-            "Administration that macroscopically manipulates public subconsciousness",
-            "Management accumulating resource patterns to prepare for chaos",
-            "Macro-welfare guiding the marginalized from blind spots to the system",
-            "Philosophy delving into the abyss to find answers for the world",
-            "Research reading secret changes in mass psychology from big data",
-            "Lonely devotion to drawing knowledge springs from lightless archives"
-        ]
-    ]
-];
-      
-
-        // 💡 [2단계: 직무 4분면 강제 타겟팅 & 십성(10-Gods) 무대 매칭]
-      
-
-
-// 기존 맵은 유지하되, 음양에 따라 인덱스 범위를 조정합니다.
-const jobTargetMap = {
-    0: isYangMaster ? [0, 1, 2] : [1, 2, 3],   // 목 무기: 개척/지휘 vs 교육/육성
-    1: isYangMaster ? [3, 4, 5] : [4, 5, 6],   // 화 무기: 퍼포먼스/전달 vs 소통/조율
-    2: isYangMaster ? [0, 1, 2] : [9, 10, 11], // 토 무기: 설계/장악(Yang) vs 보존/지원(Yin) <- 1992년생 해결 포인트!
-    3: isYangMaster ? [6, 7, 8] : [7, 8, 9],   // 금 무기: 통제/심판 vs 품질/기준
-    4: isYangMaster ? [9, 10, 11] : [10, 11, 0] // 수 무기: 전략/분석 vs 연구/백업
-};
-const targetedJobIndices = jobTargetMap[weaponElIdx];
-       
-        
-     // 2. 십성(10-Gods) x 오행 무기(5-Elements) = 25종 초정밀 무대 서사
+        const jobTargetMap = {
+            0: isYangMaster ? [0, 1, 2] : [1, 2, 3],  
+            1: isYangMaster ? [3, 4, 5] : [4, 5, 6],  
+            2: isYangMaster ? [0, 1, 2] : [9, 10, 11], 
+            3: isYangMaster ? [6, 7, 8] : [7, 8, 9],   
+            4: isYangMaster ? [9, 10, 11] : [10, 11, 0] 
+        };
+        const targetedJobIndices = jobTargetMap[weaponElIdx];
         const relationDiff = (top1Idx_C - dmIdx_C + 5) % 5;
         
-     
-     const stageDescKo = [
-            /* 0: 비겁(독립) */ ["누구의 터치도 없는 1인 창업 무대에서", "자신만의 팬덤을 거느린 독립 스튜디오에서", "외부 간섭 없이 주관을 지키는 1인 오피스에서", "타협 없는 실력으로 승부하는 전문 자문직에서", "고정관념을 깨고 본질을 증명하는 독립 컨설팅에서"],
-            /* 1: 식상(표현) */ ["아이디어를 바로 제품화하는 스타트업 무대에서", "퍼포먼스로 대중을 홀리는 콘텐츠 제작 무대에서", "사람들에게 즐거움을 주는 라이프스타일 무대에서", "날카로운 분석과 결과물로 설득하는 비평 무대에서", "심리를 읽고 유연하게 소통하는 크리에이티브 무대에서"],
-            /* 2: 재성(자본) */ ["기회를 선점해 수익을 뽑아내는 신규 사업에서", "트렌드가 곧 돈이 되는 커머스 시장 중심에서", "실물 자산과 현금 흐름을 통제하는 투자 시장에서", "치밀한 데이터로 수익을 내는 금융 현장에서", "거시적 흐름을 읽고 자본을 굴리는 글로벌 유통에서"],
-            /* 3: 관성(조직) */ ["성장하는 조직의 기강과 체계를 잡는 본사에서", "대중의 감시와 시선이 집중되는 공적 조직에서", "전통 있는 체제를 지키는 관리 업무에서", "엄격한 규율로 움직이는 대형 권력 기관에서", "정보의 흐름을 장악하고 판을 짜는 핵심 전략실에서"],
-            /* 4: 인성(기획) */ ["지식을 연구하고 인재를 기르는 교육 현장에서", "핵심 인사이트를 뽑아내는 기획 컨설팅 무대에서", "방대한 데이터를 전략으로 빚어내는 연구소에서", "현상의 본질을 숫자로 증명하는 전문 분석실에서", "트렌드를 분석하고 미래 전략을 짜는 기획실에서"]
+        const stageDescKo = [
+            ["누구의 터치도 없는 1인 창업 무대에서", "자신만의 팬덤을 거느린 독립 스튜디오에서", "외부 간섭 없이 주관을 지키는 1인 오피스에서", "타협 없는 실력으로 승부하는 전문 자문직에서", "고정관념을 깨고 본질을 증명하는 독립 컨설팅에서"],
+            ["아이디어를 바로 제품화하는 스타트업 무대에서", "퍼포먼스로 대중을 홀리는 콘텐츠 제작 무대에서", "사람들에게 즐거움을 주는 라이프스타일 무대에서", "날카로운 분석과 결과물로 설득하는 비평 무대에서", "심리를 읽고 유연하게 소통하는 크리에이티브 무대에서"],
+            ["기회를 선점해 수익을 뽑아내는 신규 사업에서", "트렌드가 곧 돈이 되는 커머스 시장 중심에서", "실물 자산과 현금 흐름을 통제하는 투자 시장에서", "치밀한 데이터로 수익을 내는 금융 현장에서", "거시적 흐름을 읽고 자본을 굴리는 글로벌 유통에서"],
+            ["성장하는 조직의 기강과 체계를 잡는 본사에서", "대중의 감시와 시선이 집중되는 공적 조직에서", "전통 있는 체제를 지키는 관리 업무에서", "엄격한 규율로 움직이는 대형 권력 기관에서", "정보의 흐름을 장악하고 판을 짜는 핵심 전략실에서"],
+            ["지식을 연구하고 인재를 기르는 교육 현장에서", "핵심 인사이트를 뽑아내는 기획 컨설팅 무대에서", "방대한 데이터를 전략으로 빚어내는 연구소에서", "현상의 본질을 숫자로 증명하는 전문 분석실에서", "트렌드를 분석하고 미래 전략을 짜는 기획실에서"]
         ];
         
         const stageDescEn = [
-            /* 0: Self */ ["In a solo startup stage with no interference,", "In an independent studio with your own fandom,", "In a solo office protecting your own values,", "In a professional consulting role driven by skill,", "In independent consulting proving the essence,"],
-            /* 1: Expr */ ["In a startup stage materializing ideas,", "In content production captivating the public,", "In a lifestyle stage providing joy to people,", "In a critique stage persuading with sharp analysis,", "In a creative stage communicating via psychology,"],
-            /* 2: Wlth */ ["In new business generating rapid profits,", "In a commerce market where trends become money,", "In an investment market controlling cash flow,", "In a financial field maximizing profit via data,", "In global distribution dominating massive capital,"],
-            /* 3: Powr */ ["At a headquarters establishing org systems,", "In a public organization under scrutiny,", "In a management part guarding solid systems,", "In a large power institution run by strict rules,", "In a core strategy room planning the board,"],
-            /* 4: Know */ ["In educational fields researching knowledge,", "In a planning stage extracting core insights,", "In a lab forging vast data into strategies,", "In a professional analysis room proving the essence,", "In a planning office analyzing trends and strategies,"]
+            ["In a solo startup stage with no interference,", "In an independent studio with your own fandom,", "In a solo office protecting your own values,", "In a professional consulting role driven by skill,", "In independent consulting proving the essence,"],
+            ["In a startup stage materializing ideas,", "In content production captivating the public,", "In a lifestyle stage providing joy to people,", "In a critique stage persuading with sharp analysis,", "In a creative stage communicating via psychology,"],
+            ["In new business generating rapid profits,", "In a commerce market where trends become money,", "In an investment market controlling cash flow,", "In a financial field maximizing profit via data,", "In global distribution dominating massive capital,"],
+            ["At a headquarters establishing org systems,", "In a public organization under scrutiny,", "In a management part guarding solid systems,", "In a large power institution run by strict rules,", "In a core strategy room planning the board,"],
+            ["In educational fields researching knowledge,", "In a planning stage extracting core insights,", "In a lab forging vast data into strategies,", "In a professional analysis room proving the essence,", "In a planning office analyzing trends and strategies,"]
         ];
-        // 3. 직업 리스트 최종 조립 (디자인 싹 빼고 자연스러운 문장으로 연결)
+
         let jobsListKo = `<div style="margin-bottom:8px; font-weight:600;">${stageDescKo[relationDiff][weaponElIdx]} 가장 빛나는 당신입니다.</div><div style="margin: 2px 0 18px 0; line-height: 1.6;">`;
         let jobsListEn = `<div style="margin-bottom:8px; font-weight:600;">The most brilliant roles for you ${stageDescEn[relationDiff][weaponElIdx]} are as follows:</div><div style="margin: 2px 0 18px 0; line-height: 1.6;">`;
 
@@ -1851,98 +842,85 @@ const targetedJobIndices = jobTargetMap[weaponElIdx];
         jobsListKo += `</div>`;
         jobsListEn += `</div>`;
 
-        // 💡 4-5. 최종 조립 완성용 변수 (🚨문장 조립을 위해 무조건 살려둬야 할 필수 부품들)
         const weaponKo = jobMod1Ko[mod1Idx];
         const weaponEn = jobMod1En[mod1Idx];
         const elNamesKo_C = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
         const elNamesEn_C = ["Wood", "Fire", "Earth", "Metal", "Water"];
 
- 
-      const blockCKo = `${jobsListKo}<b style="color: var(--primary);">[성명 시너지]</b><br>이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운이 기폭제가 됩니다. 성명 속 <b>'${weaponKo}'</b> 역량과, 선천적 <b>${elNamesKo_C[top2Idx_C]}</b>-<b>'${top2SkillKo[top2Idx_C][top5Idx_C]}'</b> 기질이 결합되어 당신을 특별하게 만듭니다.`;
+        const blockCKo = `${jobsListKo}<b style="color: var(--primary);">[성명 시너지]</b><br>이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운이 기폭제가 됩니다. 성명 속 <b>'${weaponKo}'</b> 역량과, 선천적 <b>${elNamesKo_C[top2Idx_C]}</b>-<b>'${top2SkillKo[top2Idx_C][top5Idx_C]}'</b> 기질이 결합되어 당신을 특별하게 만듭니다.`;
         const blockCEn = `${jobsListEn}<b style="color: var(--primary);">[Name Synergy]</b><br>The <b>${elNamesEn_C[weaponElIdx]}</b> energy acts as a catalyst. Your name's <b>'${weaponEn}'</b> capacity seamlessly combines with the innate <b>'${top2SkillEn[top2Idx_C][top5Idx_C]}'</b> disposition of <b>${elNamesEn_C[top2Idx_C]}</b> to make you truly unique.`;
-      let blockC = currentLang === 'ko' ? blockCKo : blockCEn;
-        // 💡 3개의 블록 조립
+        let blockC = currentLang === 'ko' ? blockCKo : blockCEn;
+        
         const analysisText = `${blockA}`;  
         const missionText = `${blockC}`;
-      // 💡 [도슨트 수술] 약점 진단과 상생 처방 원리를 하나의 자연스러운 스토리로 결합합니다.
+        
         const weakKoArr = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
         const motherKoArr = ["수(水)", "목(木)", "화(火)", "토(土)", "금(金)"];
         const weakEnArr = ["Wood", "Fire", "Earth", "Metal", "Water"];
         const motherEnArr = ["Water", "Wood", "Fire", "Earth", "Metal"];
 
-        
-
-     
         const docentDescKo = `<b>${weakElDisplay}</b>의 기운이 약합니다. <b>'${currentRiskKo}'</b>을 경계하세요. <b>${weakElDisplay}</b>의 에너지를 증폭시키는 <b>${motherKoArr[wIdx]}</b> 기운을 처방합니다.`;
-
-   
         const docentDescEn = `You must be vigilant against your weakness caused by lacking <b>${weakElEnA}</b> energy: <b>'${currentRiskEn}'</b>. To overcome this, instead of directly forcing the missing energy, we prescribe <b>${motherEnArr[wIdx]}</b> energy to naturally nurture and revive it.`;
-
-        
         const docentDesc = currentLang === 'ko' ? docentDescKo : docentDescEn;
 
         body.innerHTML = `
-          <div class="tab-content">
-            <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; border-left:none; box-shadow:0 4px 12px rgba(0,0,0,0.05);">
-              <div id="radarChart" style="margin:10px auto; width:100%; height:auto; min-height:260px;"></div>
-        <div style="line-height:1.75; color:#444; font-size:0.93rem; text-align:justify; word-break:break-all; margin-top:20px; white-space:pre-wrap;">${analysisText}</div>
-        
-              
-              <div style="padding:20px; background:#F9F8F6; border-radius:12px; border:1px solid #F0EAE3; margin-top:25px;">
-                <b style="color:var(--accent); font-size:0.95rem; display:block; margin-bottom:2px;">${currentLang === 'ko' ? '📜 현생의 과업' : '📜 Core Competencies'}</b>
-                <div style="line-height:1.75; color:#444; font-size:0.93rem; text-align:justify; word-break:break-all; white-space:pre-wrap; margin:0;">${missionText}</div>
-              </div>
-            </div>
-           <span class="section-title" style="margin-top:30px;">${t.sec2}</span>
-            
-            <div style="margin-bottom:25px; font-size:0.93rem; line-height:1.7; color:#444;">
-              
-              <span>${docentDesc}</span>
-            </div>
+            <div class="tab-content">
+                <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; border-left:none; box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+                    <div id="radarChart" style="margin:10px auto; width:100%; height:auto; min-height:260px;"></div>
+                    <div style="line-height:1.75; color:#444; font-size:0.93rem; text-align:justify; word-break:break-all; margin-top:20px; white-space:pre-wrap;">${analysisText}</div>
+                    
+                    <div style="padding:20px; background:#F9F8F6; border-radius:12px; border:1px solid #F0EAE3; margin-top:25px;">
+                        <b style="color:var(--accent); font-size:0.95rem; display:block; margin-bottom:2px;">${currentLang === 'ko' ? '📜 현생의 과업' : '📜 Core Competencies'}</b>
+                        <div style="line-height:1.75; color:#444; font-size:0.93rem; text-align:justify; word-break:break-all; white-space:pre-wrap; margin:0;">${missionText}</div>
+                    </div>
+                </div>
+                <span class="section-title" style="margin-top:30px;">${t.sec2}</span>
+                
+                <div style="margin-bottom:25px; font-size:0.93rem; line-height:1.7; color:#444;">
+                    <span>${docentDesc}</span>
+                </div>
 
-<div class="info-box" style="background:#fff; border-left:none; padding: 20px 5px;">
-              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; text-align: center;">
-                <div style="border-right: 1px dashed #E8E2D9; padding: 0 2px;">
-                  <b style="color:var(--accent); font-size: 0.8rem; letter-spacing: -0.5px;">🎨 컬러</b><br>
-                  <span style="display: block; margin-top: 8px; color:#444; font-size: 0.75rem; word-break: keep-all; line-height: 1.4;">${r.color}</span>
+                <div class="info-box" style="background:#fff; border-left:none; padding: 20px 5px;">
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; text-align: center;">
+                        <div style="border-right: 1px dashed #E8E2D9; padding: 0 2px;">
+                            <b style="color:var(--accent); font-size: 0.8rem; letter-spacing: -0.5px;">🎨 컬러</b><br>
+                            <span style="display: block; margin-top: 8px; color:#444; font-size: 0.75rem; word-break: keep-all; line-height: 1.4;">${r.color}</span>
+                        </div>
+                        <div style="border-right: 1px dashed #E8E2D9; padding: 0 2px;">
+                            <b style="color:var(--accent); font-size: 0.8rem; letter-spacing: -0.5px;">🏃 행동</b><br>
+                            <span style="display: block; margin-top: 8px; color:#444; font-size: 0.75rem; word-break: keep-all; line-height: 1.4;">${r.action}</span>
+                        </div>
+                        <div style="border-right: 1px dashed #E8E2D9; padding: 0 2px;">
+                            <b style="color:var(--accent); font-size: 0.8rem; letter-spacing: -0.5px;">👥 사람</b><br>
+                            <span style="display: block; margin-top: 8px; color:#444; font-size: 0.75rem; word-break: keep-all; line-height: 1.4;">${r.social}</span>
+                        </div>
+                        <div style="padding: 0 2px;">
+                            <b style="color:var(--accent); font-size: 0.8rem; letter-spacing: -0.5px;">🥗 음식</b><br>
+                            <span style="display: block; margin-top: 8px; color:#444; font-size: 0.75rem; word-break: keep-all; line-height: 1.4;">${r.food}</span>
+                        </div>
+                    </div>
                 </div>
-                <div style="border-right: 1px dashed #E8E2D9; padding: 0 2px;">
-                  <b style="color:var(--accent); font-size: 0.8rem; letter-spacing: -0.5px;">🏃 행동</b><br>
-                  <span style="display: block; margin-top: 8px; color:#444; font-size: 0.75rem; word-break: keep-all; line-height: 1.4;">${r.action}</span>
-                </div>
-                <div style="border-right: 1px dashed #E8E2D9; padding: 0 2px;">
-                  <b style="color:var(--accent); font-size: 0.8rem; letter-spacing: -0.5px;">👥 사람</b><br>
-                  <span style="display: block; margin-top: 8px; color:#444; font-size: 0.75rem; word-break: keep-all; line-height: 1.4;">${r.social}</span>
-                </div>
-                <div style="padding: 0 2px;">
-                  <b style="color:var(--accent); font-size: 0.8rem; letter-spacing: -0.5px;">🥗 음식</b><br>
-                  <span style="display: block; margin-top: 8px; color:#444; font-size: 0.75rem; word-break: keep-all; line-height: 1.4;">${r.food}</span>
-                </div>
-              </div>
-            </div>
-          </div>`;
-          
+            </div>`;
+            
         renderChart(session.baseScores, session.elementScores);
     }
-  
     else if (mode === 'past') {
         const p = getPastLifeData(session.num81, finalSignature, currentLang);
         const era = (currentLang === 'ko' ? eraPastKo : eraPastEn)[session.num81 % (currentLang === 'ko' ? eraPastKo.length : eraPastEn.length)];
         const region = (currentLang === 'ko' ? regionPastKo : regionPastEn)[(session.num81 + birthMonth) % (currentLang === 'ko' ? regionPastKo.length : regionPastEn.length)];
 
         body.innerHTML = `
-          <div class="tab-content">
-         
-            <div class="info-box" style="background:#fff; padding:25px;">
-              <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
-                <b style="color:var(--accent); display:block;">${currentLang === 'ko' ? '[식별된 전생 기록]' : '[Identified Past Record]'}</b>
-                <span style="font-weight:800; font-size:1.2rem;">${(currentLang === 'ko' ? makePastNameKo : makePastNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span>
-              </div>
-              <p style="margin-bottom:12px;"><b>📍 ${t.pastDest}:</b> ${era}, ${region}</p>
-              <p style="margin-bottom:12px;"><b>💼 ${t.pastJob}:</b> ${p.job}<br><span style="font-size:0.85rem; color:#666;">${p.desc}</span></p>
-              <p><b>📜 ${t.pastHomework}:</b> ${p.homework}</p>
-            </div>
-          </div>`;
+            <div class="tab-content">
+                <div class="info-box" style="background:#fff; padding:25px;">
+                    <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
+                        <b style="color:var(--accent); display:block;">${currentLang === 'ko' ? '[식별된 전생 기록]' : '[Identified Past Record]'}</b>
+                        <span style="font-weight:800; font-size:1.2rem;">${(currentLang === 'ko' ? makePastNameKo : makePastNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span>
+                    </div>
+                    <p style="margin-bottom:12px;"><b>📍 ${t.pastDest}:</b> ${era}, ${region}</p>
+                    <p style="margin-bottom:12px;"><b>💼 ${t.pastJob}:</b> ${p.job}<br><span style="font-size:0.85rem; color:#666;">${p.desc}</span></p>
+                    <p><b>📜 ${t.pastHomework}:</b> ${p.homework}</p>
+                </div>
+            </div>`;
     } 
     else if (mode === 'next') {
         const r = getNextLifeData(session.num81, finalSignature, currentLang);        
@@ -1950,30 +928,28 @@ const targetedJobIndices = jobTargetMap[weaponElIdx];
         const region = (currentLang === 'ko' ? regionNextKo : regionNextEn)[(session.num81 + birthMonth) % (currentLang === 'ko' ? regionNextKo.length : regionNextEn.length)];
 
         body.innerHTML = `
-          <div class="tab-content">
-           
-            <div class="info-box" style="background:#fff; padding:25px;">
-              <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
-                <b style="color:var(--accent); display:block;">${currentLang === 'ko' ? '[예약된 내세 정보]' : '[Reserved Afterlife Info]'}</b>
-                <span style="font-weight:800; font-size:1.2rem;">${(currentLang === 'ko' ? makeNextLifeNameKo : makeNextLifeNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span>
-              </div>
-              <p style="margin-bottom:12px;"><b>🌌 ${t.nextDest}:</b> ${era}, ${region}</p>
-              <p style="margin-bottom:12px;"><b>💼 ${t.nextObj}:</b> ${r.job}<br><span style="font-size:0.85rem; color:#666;">${r.desc}</span></p>
-              <p><b>📜 ${t.nextMission}:</b> ${r.mission}</p>
-            </div>
-          </div>`;
+            <div class="tab-content">
+                <div class="info-box" style="background:#fff; padding:25px;">
+                    <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
+                        <b style="color:var(--accent); display:block;">${currentLang === 'ko' ? '[예약된 내세 정보]' : '[Reserved Afterlife Info]'}</b>
+                        <span style="font-weight:800; font-size:1.2rem;">${(currentLang === 'ko' ? makeNextLifeNameKo : makeNextLifeNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span>
+                    </div>
+                    <p style="margin-bottom:12px;"><b>🌌 ${t.nextDest}:</b> ${era}, ${region}</p>
+                    <p style="margin-bottom:12px;"><b>💼 ${t.nextObj}:</b> ${r.job}<br><span style="font-size:0.85rem; color:#666;">${r.desc}</span></p>
+                    <p><b>📜 ${t.nextMission}:</b> ${r.mission}</p>
+                </div>
+            </div>`;
     }
 }
-  
-function copyLink() {
-      const url = window.location.href;
-      navigator.clipboard.writeText(url).then(() => {
-        alert(currentLang === 'ko' ? "복사가 완료되었습니다! ✨" : "Link copied! ✨");
-      });
-    }
-    window.onload = () => { if (typeof i18n !== 'undefined') setLang('ko'); };
-</script>
 
+function copyLink() {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+        alert(currentLang === 'ko' ? "복사가 완료되었습니다! ✨" : "Link copied! ✨");
+    });
+}
+window.onload = () => { if (typeof i18n !== 'undefined') setLang('ko'); };
+</script>
 <footer style="margin-top: 30px; padding: 20px 20px; text-align: center; border-top: 1px solid #EEE; background-color: #FAFAFA;">
     <div style="max-width: 600px; margin: 0 auto;">
         <p style="color: #555; font-size: 0.85rem; font-weight: 700; margin: 0; letter-spacing: 0.05em;">
