@@ -301,6 +301,7 @@ if(ilganIdx !== -1) sc[ilganIdx] += 40;
         waveFlowEn.push(elNamesEnMap[el.charAt(0)] || el);
     }
 
+    // 💡 [정통 소리 파동 엔진] 자음 추출부터 오행 맵핑까지 100% 자체 해결하는 무결점 로직
     
     // 1. 내 본질 오행 번호 찾기 (안 잡히면 토(2)로 방어)
     let myElIdx = 2; 
@@ -310,8 +311,10 @@ if(ilganIdx !== -1) sc[ilganIdx] += 40;
         else if (tempElMap[iljuData.el.charAt(0)] !== undefined) myElIdx = tempElMap[iljuData.el.charAt(0)];
     }
 
-    // 2. 이름 두 번째 글자(진짜 이름 첫 자)의 유니코드 초성 완벽 분리
-    const coreSoundChar = name.length > 1 ? name[1] : name[0]; 
+    // 🚨 2. 이름 두 번째 글자(진짜 이름 첫 자)의 유니코드 초성 완벽 분리
+    // [핵심 수술] session에 저장된 진짜 한글 이름을 확실하게 가져옵니다!
+    const realName = session.name || "홍길동"; 
+    const coreSoundChar = realName.length > 1 ? realName[1] : realName[0]; 
     let onset = "";
     const code = coreSoundChar.charCodeAt(0) - 44032;
     
@@ -344,6 +347,7 @@ if(ilganIdx !== -1) sc[ilganIdx] += 40;
     // 5. 화면 출력용 안전한 81수리 가짜 번호 맵핑
     const sipSeongMapToNum81 = [11, 24, 32, 45, 52]; 
     let num81 = sipSeongMapToNum81[waveSipSeongIdx];
+  
 
     const suriToElIdx = [4, 0, 0, 1, 1, 2, 2, 3, 3, 4];
     const suriElIdx = suriToElIdx[num81 % 10];
