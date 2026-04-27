@@ -312,9 +312,8 @@ if(ilganIdx !== -1) sc[ilganIdx] += 40;
     }
 
     // 🚨 2. 이름 두 번째 글자(진짜 이름 첫 자)의 유니코드 초성 완벽 분리
-    // [핵심 수술] session에 저장된 진짜 한글 이름을 확실하게 가져옵니다!
-    const realName = session.name || "홍길동"; 
-    const coreSoundChar = realName.length > 1 ? realName[1] : realName[0]; 
+    // [수술 완료] 아직 완성 안 된 session 대신, 막 입력받은 진짜 이름(name)을 바로 씁니다!
+    const coreSoundChar = name.length > 1 ? name[1] : name[0];
     let onset = "";
     const code = coreSoundChar.charCodeAt(0) - 44032;
     
