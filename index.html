@@ -531,22 +531,81 @@ function renderChart(baseScores, finalScores) {
     <span style="display:inline-block; width:10px; height:10px; background:rgba(154, 132, 103, 0.4); border:1.5px solid #9A8467; margin-left:12px; margin-right:4px; vertical-align:middle; border-radius:2px;"></span> 후천 에너지
   </div>`;
 }
+
+    // 🌍 [중요] 모든 분석 결과 텍스트를 session 객체에 통합 저장합니다.
+    data.termInfo = termInfo;
+    data.analysisText = analysisText;
+    data.missionText = missionText;
+    data.docentDesc = docentDesc;
+    data.pastLifeText = pastLifeText;
+    data.nextLifeText = nextLifeText;
+
+    // 🌍 계산된 데이터를 브라우저 선반(localStorage)에 저장
+    localStorage.setItem('destinySession', JSON.stringify(data));
+
+    // 🌍 상단 요약창은 비우고, 첫 번째 탭을 자동으로 엽니다.
+    document.getElementById('dynamic-summary').innerHTML = "";
+    switchTab('profile', document.getElementById('tab1'));
+
+    
 function switchTab(mode, element) {
-    const body = document.getElementById('reportDetail'); // ✅ 진짜 상자 이름인 reportDetail로 수정
-    const session = JSON.parse(localStorage.getItem('destinySession')); // ✅ 데이터 불러오기 추가
+    const body = document.getElementById('reportDetail');
+    const session = JSON.parse(localStorage.getItem('destinySession'));
     if (!body || !session) return;
 
-    // 3. [탭 버튼 불 켜기] .tab -> .tab-btn (대표님 HTML에 있는 진짜 클래스명)
+    // 1. [버튼 불 켜기]
     const tabs = document.querySelectorAll('.tab-btn');
     tabs.forEach(t => t.classList.remove('active'));
-    
-    // 클릭된 버튼(element)이 있으면 불을 켜고, 없으면 글자로 찾아서 켭니다.
-    if (element) {
-        element.classList.add('active');
-    } else {
-        const targetTab = document.querySelector(`.tab-btn[onclick*="${mode}"]`);
-        if (targetTab) targetTab.classList.add('active');
+    if (element) element.classList.add('active');
+
+    const labelMonth = currentLang === 'ko' ? '🌍 탄생일:' : '🌍 Innate Core Temperament';
+    const labelSuri = currentLang === 'ko' ? '🔮 수리격:' : '🔮 Suri Character';
+    const iljuName = session.iljuData ? session.iljuData.iljuName : "";
+
+    // 2. [내용 출력] - 선반(session)에서 꺼내서 씁니다.
+    if (mode === 'profile') {
+        body.innerHTML = `
+            <div class="tab-content">
+                <div class="info-box" style="background:#F9F8F6; border:1px solid #EEE; border-radius:12px; padding:18px;">
+                    <div style="display:flex; justify-content:space-between; border-bottom:1px solid #000; padding-bottom:8px; margin-bottom:15px;">
+                        <span style="font-weight:800;">DESTINY_LAB_2026</span>
+                        <span style="color:var(--accent); font-weight:800;">CODE: ${String(session.num81).padStart(2, '0')}</span>
+                    </div>
+                    <b>${labelMonth}</b> <span style="color:var(--primary); font-weight:700;">${iljuName}</span>
+                    <p style="margin-top:10px; line-height:1.7; font-size:0.88rem;">${session.termInfo}</p>
+                </div>
+            </div>`;
+    } 
+    else if (mode === 'fortune') {
+        body.innerHTML = `
+            <div class="tab-content">
+                <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; border:1px solid #f4f1ed; box-shadow:0 4px 12px rgba(0,0,0,0.03);">
+                    <div style="margin-bottom: 22px; padding-bottom:18px; border-bottom:1px dashed #DDD;">
+                        <b>🌊 ${currentLang === 'ko' ? '소리 파동:' : 'Sound Wave:'}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? session.waveFlowKo : session.waveFlowEn}</span>
+                        <p style="margin-top:8px; line-height:1.7;">${currentLang === 'ko' ? session.waveDescKo : session.waveDescEn}</p>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <b>${labelSuri}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? luckyTitles81[session.num81] : luckyTitles81En[session.num81]}</span>
+                        <p style="margin-top:8px; line-height:1.7;">${currentLang === 'ko' ? detailedDesc81[session.num81] : detailedDesc81En[session.num81]}</p>
+                    </div>
+                    <div id="radarChart" style="margin:25px auto 10px; width:100%; height:260px;"></div>
+                    <div style="line-height:1.8; color:#444; font-size:0.93rem; margin-top:20px;">${session.analysisText}</div>
+                    <div style="padding:15px; background:#F9F8F6; border-radius:12px; margin-top:20px;">
+                        <b style="color:var(--accent); display:block; margin-bottom:5px;">📜 현생의 과업</b>
+                        <span style="font-size:0.9rem;">${session.missionText}</span>
+                    </div>
+                    <div style="margin-top:20px; padding-top:15px; border-top:1px solid #EEE;"><span>${session.docentDesc}</span></div>
+                </div>
+            </div>`;
+        setTimeout(() => { if(window.renderChart) renderChart(session.baseScores); }, 50);
+    } 
+    else if (mode === 'past') {
+        body.innerHTML = `<div class="tab-content"><div class="info-box" style="padding:20px;">${session.pastLifeText}</div></div>`;
+    } 
+    else if (mode === 'next') {
+        body.innerHTML = `<div class="tab-content"><div class="info-box" style="padding:20px;">${session.nextLifeText}</div></div>`;
     }
+}
 
     
     const t = i18n[currentLang];
