@@ -390,36 +390,31 @@ const weakEl = elements[sIdx[0]];
         if (minIndices.includes(wealth)) finalBottomIdx = wealth;
     }
     
-    // 🚀 [최종 저장] 오답이었던 peakElIdx 대신, 방금 정제한 finalPeakIdx를 저장합니다.
+
+  // 🌍 1. 길바닥에 있던 분석 결과들을 session 객체에 통합합니다.
     const sessionData = { 
-        name, 
-        birth, 
-        num81, 
-        baseScores: baseScores, 
-        elementScores: sc,
-        strongEl, 
-        weakEl, 
-        iljuData, 
-        nameSuriEl, 
-        solarMonth, 
-        hour: hour,
+        name, birth, num81, baseScores, elementScores: sc, iljuData, solarMonth, hour,
+        strongEl, weakEl, nameSuriEl,
         lackEls: [weakEl, elements[sIdx[1]]],
         waveFlowKo: waveFlowKo.join(" ➔ "), 
         waveFlowEn: waveFlowEn.join(" ➔ "),
         waveDescKo: waveDescKo,
         waveDescEn: waveDescEn,
-        peakElIdx: finalPeakIdx,   // 🚨 정답 연결
-        bottomElIdx: finalBottomIdx // 🚨 정답 연결
+        peakElIdx: finalPeakIdx,
+        bottomElIdx: finalBottomIdx,
+        // 💡 대표님의 거대 로직(analysisText, missionText 등) 결과물을 여기에 담으세요
+        analysisText: analysisText, 
+        missionText: missionText,
+        docentDesc: docentDesc
     };
   
     localStorage.setItem('destinySession', JSON.stringify(sessionData));
     
-    // UI 업데이트 트리거
+    // 🌍 2. UI 업데이트 시작
     renderSummary(sessionData);
     document.getElementById('view-home').classList.add('hidden');
     document.getElementById('view-result').classList.remove('hidden');
-    switchTab('fortune');
-}
+} 
   
   function renderSummary(data) {
     // 💡 모든 텍스트가 조립된 후, 이 가방(window.tabStorage)에 미리 담아둡니다.
@@ -455,8 +450,8 @@ const weakEl = elements[sIdx[0]];
                     <div style="margin-top:20px; padding-top:15px; border-top:1px solid #EEE;"><span>${docentDesc}</span></div>
                 </div>
             </div>`,
-        past: `<div class="tab-content"><div class="info-box" style="background:#fff; padding:20px;">${pastLifeText}</div></div>`,
-        next: `<div class="tab-content"><div class="info-box" style="background:#fff; padding:20px;">${nextLifeText}</div></div>`
+ past: `<div class="tab-content"><div class="info-box">${data.pastLifeText || ""}</div></div>`,
+        next: `<div class="tab-content"><div class="info-box">${data.nextLifeText ||
     };
 
     // 상단 요약창은 비우고, 1번 탭을 자동으로 엽니다.
