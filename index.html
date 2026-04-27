@@ -391,6 +391,11 @@ const weakEl = elements[sIdx[0]];
     }
     
 
+
+
+
+
+  
   // 🌍 1. 길바닥에 있던 분석 결과들을 session 객체에 통합합니다.
     const sessionData = { 
         name, birth, num81, baseScores, elementScores: sc, iljuData, solarMonth, hour,
@@ -401,11 +406,8 @@ const weakEl = elements[sIdx[0]];
         waveDescKo: waveDescKo,
         waveDescEn: waveDescEn,
         peakElIdx: finalPeakIdx,
-        bottomElIdx: finalBottomIdx,
-        // 💡 대표님의 거대 로직(analysisText, missionText 등) 결과물을 여기에 담으세요
-        analysisText: analysisText, 
-        missionText: missionText,
-        docentDesc: docentDesc
+        bottomElIdx: finalBottomIdx
+        
     };
   
     localStorage.setItem('destinySession', JSON.stringify(sessionData));
@@ -416,46 +418,26 @@ const weakEl = elements[sIdx[0]];
     document.getElementById('view-result').classList.remove('hidden');
 } 
   
-  function renderSummary(data) {
-    // 💡 모든 텍스트가 조립된 후, 이 가방(window.tabStorage)에 미리 담아둡니다.
-    window.tabStorage = {
-        profile: `
-            <div class="tab-content">
-                <div class="info-box" style="background:#F9F8F6; border:1px solid #EEE; border-radius:12px; padding:18px;">
-                    <div style="display:flex; justify-content:space-between; border-bottom:1px solid #000; padding-bottom:8px; margin-bottom:15px;">
-                        <span style="font-weight:800;">DESTINY_LAB_2026</span>
-                        <span style="color:var(--accent); font-weight:800;">CODE: ${String(data.num81).padStart(2, '0')}</span>
-                    </div>
-                    <b>🌍 탄생일:</b> <span style="color:var(--primary); font-weight:700;">${data.iljuData.iljuName}</span>
-                    <p style="margin-top:10px; margin-bottom:0; line-height:1.7;">${termInfo}</p>
-                </div>
-            </div>`,
-        fortune: `
-            <div class="tab-content">
-                <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; border:1px solid #f4f1ed; box-shadow:0 4px 12px rgba(0,0,0,0.03); border-left:none;">
-                    <div style="margin-bottom: 22px; padding-bottom:18px; border-bottom:1px dashed #DDD;">
-                        <b>🌊 소리 파동:</b> <span style="color:var(--primary); font-weight:700;">${data.waveFlowKo}</span>
-                        <p style="margin-top:8px; margin-bottom:0; line-height:1.7;">${data.waveDescKo}</p>
-                    </div>
-                    <div style="margin-bottom: 10px;">
-                        <b>🔮 수리격:</b> <span style="color:var(--primary); font-weight:700;">${luckyTitles81[data.num81]}</span>
-                        <p style="margin-top:8px; margin-bottom:0; line-height:1.7;">${detailedDesc81[data.num81]}</p>
-                    </div>
-                    <div id="radarChart" style="margin:25px auto 10px; width:100%; height:auto; min-height:260px;"></div>
-                    <div style="line-height:1.8; color:#444; font-size:0.93rem; margin-top:20px; white-space:pre-wrap;">${analysisText}</div>
-                    <div style="padding:15px; background:#F9F8F6; border-radius:12px; margin-top:20px;">
-                        <b style="color:var(--accent); display:block; margin-bottom:5px;">📜 현생의 과업</b>
-                        <span style="font-size:0.9rem;">${missionText}</span>
-                    </div>
-                    <div style="margin-top:20px; padding-top:15px; border-top:1px solid #EEE;"><span>${docentDesc}</span></div>
-                </div>
-            </div>`,
- past: `<div class="tab-content"><div class="info-box">${data.pastLifeText || ""}</div></div>`,
-        next: `<div class="tab-content"><div class="info-box">${data.nextLifeText || ""}</div></div>`
-    };
+ function renderSummary(data) {
+    const currentLang = window.currentLang || 'ko';
+    const stemObj = stemTemplates[data.iljuData.stemId];
+    const branchObj = branchTemplates[data.iljuData.branchId];
+    const descObj = stemDescriptions[data.iljuData.stemId];
+    const jeolgiText = jeolgiNames[data.solarMonth][currentLang];
+    
+    const introKo = `당신은 ${jeolgiText} 데이터를 배경으로, ${branchObj.ko}이자, <b>${stemObj.ko}</b>의 운명을 품고 태어났습니다.`;
+    const introEn = `You were born against the background of ${jeolgiText} data. At the core of your soul is the energy of ${stemObj.en} blooming within an environment of <b>${branchObj.en}</b>.`;
+    const termInfo = `${currentLang === 'ko' ? introKo + " " + descObj.ko : introEn + " " + descObj.en}`;
 
-    // 상단 요약창은 비우고, 1번 탭을 자동으로 엽니다.
-    document.getElementById('dynamic-summary').innerHTML = "";
+    // 💡 1번 탭(성명 정보)을 위해 필요한 데이터를 안전하게 금고에 보관합니다.
+    const session = JSON.parse(localStorage.getItem('destinySession'));
+    session.termInfo = termInfo;
+    session.iljuName = data.iljuData.iljuName;
+    localStorage.setItem('destinySession', JSON.stringify(session));
+
+    document.getElementById('dynamic-summary').innerHTML = ""; 
+    document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `${data.name}님의 분석 리포트` : `${data.name}'s Analysis Report`;
+    
     switchTab('profile', document.querySelectorAll('.tab-btn')[0]);
 }
 
@@ -505,29 +487,39 @@ function renderChart(baseScores, finalScores) {
 }
 
 
-    
+
 function switchTab(mode, element) {
     const body = document.getElementById('reportDetail');
     const session = JSON.parse(localStorage.getItem('destinySession'));
     if (!body || !session) return;
 
-    // 1. 모든 버튼 불 끄고 현재 버튼만 활성화
+    // 1. 버튼 불 켜기
     const tabs = document.querySelectorAll('.tab-btn');
     tabs.forEach(t => t.classList.remove('active'));
-    if (element) element.classList.add('active');
-
-    // 2. 미리 준비된 가방(tabStorage)에서 내용을 꺼내서 보여줌
-    if (window.tabStorage && window.tabStorage[mode]) {
-        body.innerHTML = window.tabStorage[mode];
+    if (element) {
+        element.classList.add('active');
+    } else {
+        const targetTab = document.querySelector(`.tab-btn[onclick*="${mode}"]`);
+        if (targetTab) targetTab.classList.add('active');
     }
 
-    // 3. 현생 분석 탭일 때만 그래프 그리기
-    if (mode === 'fortune') {
-        setTimeout(() => { 
-            if(window.renderChart) renderChart(session.baseScores, session.elementScores); 
-        }, 50);
+    // 2. 성명 정보(profile) 탭 처리
+    if (mode === 'profile') {
+        const labelMonth = currentLang === 'ko' ? '🌍 탄생일:' : '🌍 Innate Core Temperament';
+        body.innerHTML = `
+            <div class="tab-content">
+                <div class="info-box" style="background:#F9F8F6; border:1px solid #EEE; border-radius:12px; padding:18px;">
+                    <div style="display:flex; justify-content:space-between; border-bottom:1px solid #000; padding-bottom:8px; margin-bottom:15px;">
+                        <span style="font-weight:800;">DESTINY_LAB_2026</span>
+                        <span style="color:var(--accent); font-weight:800;">CODE: ${String(session.num81).padStart(2, '0')}</span>
+                    </div>
+                    <b>${labelMonth}</b> <span style="color:var(--primary); font-weight:700;">${session.iljuData ? session.iljuData.iljuName : ""}</span>
+                </div>
+            </div>`;
+        return;
     }
-}
+
+
     
     const t = i18n[currentLang];
     const finalSignature = session.strongEl;
