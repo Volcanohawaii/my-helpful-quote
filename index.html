@@ -779,7 +779,7 @@ const coreDisplay = displayElsKo[dmIdx_A];
             });
 
             if (mechKo.length > 0) {
-                bridgeKo = `성명 속 <b>${boostedTextKo}</b>의 기운이 타고난 <b>${coreDisplay}</b>에 집중적으로 작용합니다. ${mechKo}<br>마침내 <b>${currentTheme}</b>의 운명공학적 테마를 완성합니다.`;
+                bridgeKo = `성명 속 <b>${boostedTextKo}</b>의 기운이 타고난 <b>${coreDisplay}</b>에 집중적으로 작용합니다. ${mechKo}<br>마침내 <b>${currentTheme}</b>라는 운명공학적 테마를 완성합니다.`;
                 bridgeEn = `The vibration of your name is highly equipped with the energies of <b>${boostedTextEn}</b>. Acting directly upon your innate traits (<b>${elNamesEnForA[logicEls.indexOf(coreElChar)]}</b>), these vibrations elevate your strengths: ${mechEn}These precisely forged vibrations fuse with your innate energies to create the completed theme of <b>${currentTheme}</b>.`;
             } else {
                 bridgeKo = `성명의에는 <b>${boostedTextKo}</b>의 기운이 배치되어 당신의 강점을 드러냅니다. 소리의 파동이 탄생 에너지와 융합하여 <b>${currentTheme}</b>의 운명공학적 테마를 완성합니다.`;
@@ -1963,8 +1963,7 @@ const targetedJobIndices = jobTargetMap[weaponElIdx];
 
         // 🚨 조사가 꼬이던 부분 완벽 수술 및 최종 문장 조립
        // 💡 [수술] 중복 출력 방지: 현생의 과업은 '강점과 파동 시너지'까지만 깔끔하게 마무리합니다.
-        const blockCKo = `<b>${elNamesKo_C[top1Idx_C]}</b>를 무기로 삼아, ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘합니다.<br><br><b style="color: var(--primary);">[활동 무대]</b><br>${jobsListKo}<b style="color: var(--primary);">[파동 시너지]</b><br>이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운이 기폭제가 됩니다. 성명 속 <b>'${weaponKo}'</b> 역량과, 선천적 <b>${elNamesKo_C[top2Idx_C]}</b>가 지닌 <b>'${top2SkillKo[top2Idx_C][top5Idx_C]}'</b> 기질이 결합되어 당신을 특별하게 만듭니다.`;
-        
+        const blockCKo = `<b>${elNamesKo_C[top1Idx_C]}</b>의 타고난 에너지를 무기로 삼아, ${top1FeatureKo[top1Idx_C][top2Idx_C]} <b>${top1ScaleKo}</b> 발휘합니다.<br><br><b style="color: var(--primary);">[활동 무대]</b><br>${jobsListKo}<b style="color: var(--primary);">[파동 시너지]</b><br>이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운이 기폭제가 됩니다. 성명 속 <b>'${weaponKo}'</b> 역량과, 선천적 <b>${elNamesKo_C[top2Idx_C]}</b>가 지닌 <b>'${top2SkillKo[top2Idx_C][top5Idx_C]}'</b> 기질이 결합되어 당신을 특별하게 만듭니다.`;
         const blockCEn = `Armed with <b>${elNamesEn_C[top1Idx_C]}</b>, you manifest <b>${top1FeatureEn[top1Idx_C][top2Idx_C]}</b> ${top1ScaleEn}.<br><br><b style="color: var(--primary);">[Optimal Stage]</b><br>${jobsListEn}<b style="color: var(--primary);">[Name Synergy]</b><br>The <b>${elNamesEn_C[weaponElIdx]}</b> energy acts as a catalyst. Your name's <b>'${weaponEn}'</b> capacity seamlessly combines with the innate <b>'${top2SkillEn[top2Idx_C][top5Idx_C]}'</b> disposition of <b>${elNamesEn_C[top2Idx_C]}</b> to make you truly unique.`;
       let blockC = currentLang === 'ko' ? blockCKo : blockCEn;
         // 💡 3개의 블록 조립
@@ -1978,11 +1977,11 @@ const targetedJobIndices = jobTargetMap[weaponElIdx];
 
         const wIdx = session.bottomElIdx;
 
-        const docentTitleKo = `💡 당신을 살리는 상생(相生) 맞춤 처방전`;
-        const docentDescKo = `약한 <b>${weakElDisplay}</b> 기운으로 인해 <b>'${currentRiskKo}'</b>는 약점을 경계하세요.<br>부족한 기운을 억지로 채우기보다, 에너지를 낼 수 있도록 도와주는 <b>${motherKoArr[wIdx]}</b> 기운을 처방합니다.`;
+        const docentTitleKo = `[당신을 살리는 상생(相生) 처방]`;
+        const docentDescKo = `약한 <b>${weakElDisplay}</b> 기운으로 인해 <b>'${currentRiskKo}'</b>의 부분을 경계하세요. 부족함을 억지로 채우기보다, 에너지를 낼 수 있도록 도와주는 <b>${motherKoArr[wIdx]}</b> 기운을 처방합니다.`;
 
-        const docentTitleEn = `💡 Sangsaeng Custom Remedy for Weak Energy`;
-        const docentDescEn = `You must be vigilant against your weakness caused by lacking <b>${weakElEnA}</b> energy: <b>'${currentRiskEn}'</b>.<br>To overcome this, instead of directly forcing the missing energy, we prescribe <b>${motherEnArr[wIdx]}</b> energy to naturally nurture and revive it.`;
+        const docentTitleEn = `[Custom Remedy for Weak Energy]`;
+        const docentDescEn = `You must be vigilant against your weakness caused by lacking <b>${weakElEnA}</b> energy: <b>'${currentRiskEn}'</b>. To overcome this, instead of directly forcing the missing energy, we prescribe <b>${motherEnArr[wIdx]}</b> energy to naturally nurture and revive it.`;
 
         const docentTitle = currentLang === 'ko' ? docentTitleKo : docentTitleEn;
         const docentDesc = currentLang === 'ko' ? docentDescKo : docentDescEn;
