@@ -564,35 +564,10 @@ const r = suriPrescription.getRemedy(session.num81, [logicElsForRemedy[session.b
             ["Chronic Avoidance", "Deep Depression", "Extreme Passivity", "Inner Emptiness", "Anxious Suspicion"]
         ];
 
-     const maxScore = Math.max(...session.baseScores);
 
-// 💡 [수술] 이미 나온 오답(coreEl)이 아니라, 내 진짜 생일(iljuData.el)을 번역해서 물어봅니다.
-const elMapForTie = { "목":0,"화":1,"토":2,"금":3,"수":4,"Wood":0,"Fire":1,"Earth":2,"Metal":3,"Water":4,"甲":0,"乙":0,"丙":1,"丁":1,"戊":2,"己":2,"庚":3,"辛":3,"壬":4,"癸":4 };
-const dmIdxForTie = elMapForTie[session.iljuData.el]; 
-
-let peakElIdx = session.baseScores.indexOf(maxScore);
-if (session.baseScores[dmIdxForTie] === maxScore) {
-    peakElIdx = dmIdxForTie; 
-}
-
-// 💡 [수술 1] 스마트 동점자 판독기 (뱃지와 최종 리스크 모두에 적용됨)
-const minScore = Math.min(...session.baseScores);
-const minIndices = [];
-session.baseScores.forEach((score, idx) => {
-    if (score === minScore) minIndices.push(idx);
-});
-
-let bottomElIdx = minIndices[0]; 
-if (minIndices.length > 1) {
-    const wealthIdx = (peakElIdx + 2) % 5; 
-    const childIdx = (peakElIdx + 1) % 5;  
-    const powerIdx = (peakElIdx + 3) % 5;  
-    
-    if (minIndices.includes(wealthIdx)) bottomElIdx = wealthIdx;
-    else if (minIndices.includes(childIdx)) bottomElIdx = childIdx;
-    else if (minIndices.includes(powerIdx)) bottomElIdx = powerIdx;
-    else bottomElIdx = minIndices[minIndices.length - 1]; 
-}
+// processData에서 완벽하게 계산해서 세션에 담아둔 진짜 1등과 꼴찌 번호를 그대로 꺼내 씁니다.
+const peakElIdx = session.peakElIdx !== undefined ? session.peakElIdx : 2;
+let bottomElIdx = session.bottomElIdx !== undefined ? session.bottomElIdx : 2;
 
         const badgeHTML = `
             <div style="display:flex; gap:8px; margin: 20px 0 10px 0; flex-wrap:wrap; justify-content:center;">
