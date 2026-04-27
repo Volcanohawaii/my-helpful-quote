@@ -429,7 +429,12 @@ const weakEl = elements[sIdx[0]];
         ? `당신은 ${jeolgiText} 데이터를 배경으로, ${branchObj.ko}이자, <b>${stemObj.ko}</b>의 운명을 품고 태어났습니다. ${descObj.ko}`
         : `Born against the background of ${jeolgiText} data. Soul of ${stemObj.en} within <b>${branchObj.en}</b>. ${descObj.en}`;
 
-    // 🚨 1. 탄생일 정보는 탭 밖으로 빼서 맨 위(dynamic-summary)에 영구 고정합니다!
+    // 🚨 [치명적 에러 해결] 처방전 데이터를 빈 상자에서 찾지 않고 여기서 직접 계산해서 가져옵니다!
+    const wIdx = data.bottomElIdx !== undefined ? data.bottomElIdx : 2;
+    const motherKoArr = ["수(水)", "목(木)", "화(火)", "토(土)", "금(金)"];
+    const r = suriPrescription.getRemedy(data.num81, [motherKoArr[wIdx]], currentLang);
+
+    // 1. 탄생일 정보는 탭 밖으로 빼서 맨 위(dynamic-summary)에 영구 고정합니다.
     document.getElementById('dynamic-summary').innerHTML = `
         <div class="info-box" style="background:#F9F8F6; border:1px solid #EEE; border-radius:12px; padding:18px; text-align:left;">
             <div style="display:flex; justify-content:space-between; border-bottom:1px solid #000; padding-bottom:8px; margin-bottom:15px;">
@@ -440,9 +445,9 @@ const weakEl = elements[sIdx[0]];
             <p style="margin-top:10px; margin-bottom:0; line-height:1.7; font-size:0.88rem;">${termInfo}</p>
         </div>`;
 
-    // 🚨 2. 탭 가방(tabStorage)에 대표님 의도대로 재료를 넣습니다.
+    // 2. 탭 가방(tabStorage)에 에러 없이 데이터를 채웁니다.
     window.tabStorage = {
-        // [1번 탭: 성명 정보] 탄생일을 뺐습니다! 소리 파동 + 수리격만 나옵니다!
+        // [1번 탭: 성명 정보] 소리 파동 + 수리격
         profile: `
             <div class="tab-content">
                 <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; border:1px solid #f4f1ed; box-shadow:0 4px 12px rgba(0,0,0,0.03); border-left:none;">
@@ -457,7 +462,7 @@ const weakEl = elements[sIdx[0]];
                 </div>
             </div>`,
         
-        // [2번 탭: 현생 분석] 그래프 + 분석글 + 처방전
+        // [2번 탭: 현생 분석] 그래프 + 분석글 + 처방전 (r.color 로 에러 완전 차단!)
         fortune: `
             <div class="tab-content">
                 <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; border:1px solid #f4f1ed; box-shadow:0 4px 12px rgba(0,0,0,0.03); border-left:none;">
@@ -470,10 +475,10 @@ const weakEl = elements[sIdx[0]];
                     <div style="margin-top:20px; padding-top:15px; border-top:1px solid #EEE;">
                         <span style="display:block; margin-bottom:15px;">${data.docentDesc}</span>
                         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; text-align: center;">
-                            <div><b style="font-size:0.75rem; color:var(--accent);">🎨 컬러</b><br><span style="font-size:0.7rem;">${data.remedy.color}</span></div>
-                            <div><b style="font-size:0.75rem; color:var(--accent);">🏃 행동</b><br><span style="font-size:0.7rem;">${data.remedy.action}</span></div>
-                            <div><b style="font-size:0.75rem; color:var(--accent);">👥 사람</b><br><span style="font-size:0.7rem;">${data.remedy.social}</span></div>
-                            <div><b style="font-size:0.75rem; color:var(--accent);">🥗 음식</b><br><span style="font-size:0.7rem;">${data.remedy.food}</span></div>
+                            <div><b style="font-size:0.75rem; color:var(--accent);">🎨 컬러</b><br><span style="font-size:0.7rem;">${r.color}</span></div>
+                            <div><b style="font-size:0.75rem; color:var(--accent);">🏃 행동</b><br><span style="font-size:0.7rem;">${r.action}</span></div>
+                            <div><b style="font-size:0.75rem; color:var(--accent);">👥 사람</b><br><span style="font-size:0.7rem;">${r.social}</span></div>
+                            <div><b style="font-size:0.75rem; color:var(--accent);">🥗 음식</b><br><span style="font-size:0.7rem;">${r.food}</span></div>
                         </div>
                     </div>
                 </div>
@@ -484,10 +489,9 @@ const weakEl = elements[sIdx[0]];
     };
 
     document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `${data.name}님의 분석 리포트` : `${data.name}'s Analysis Report`;
-    
-    // 💡 첫 화면에서 1번 탭(성명 정보)을 누른 상태로 띄웁니다.
     switchTab('profile', document.querySelectorAll('.tab-btn')[0]);
 }
+  
 
 function renderChart(baseScores, finalScores) {
   const container = document.getElementById('radarChart'); 
