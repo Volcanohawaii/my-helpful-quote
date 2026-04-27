@@ -301,9 +301,15 @@ if(ilganIdx !== -1) sc[ilganIdx] += 40;
         waveFlowEn.push(elNamesEnMap[el.charAt(0)] || el);
     }
 
-    let coreStrokes = charStrokes[0];
-    if (charStrokes.length > 1) { coreStrokes += charStrokes[1]; }
+    // 💡 [정통 성명학 복구] 꼼수를 버리고, 이름 전체 획수를 합산한 '정격(총격)'을 수리격으로 사용합니다.
+    let totalStrokes = 0;
+    for (let i = 0; i < charStrokes.length; i++) {
+        totalStrokes += charStrokes[i];
+    }
     
+    // 순수하게 글자의 모든 획수를 더한 값만이 가장 정확한 이름의 특징(설명)을 끌어냅니다.
+    let coreStrokes = totalStrokes;
+
     let num81 = coreStrokes % 81;
     if (num81 === 0) num81 = 81;
 
