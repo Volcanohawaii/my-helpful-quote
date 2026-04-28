@@ -257,20 +257,49 @@ function processData(name, birth) {
     else if (dateVal < 1222 + offset) solarMonth = 21;
     else solarMonth = 22;
 
-    // [2] 선천운 스코어링
+   // 💡 [2] 🌟 운명공학 심층 명리 엔진 (정통 사주팔자 가중치 알고리즘) 🌟
+    // 기존의 단순 덧셈(꼼수)을 버리고, 0점에서 시작해 사주 8글자의 실제 영향력을 정밀 분배합니다.
     const iljuData = getIlju(year, mm, dd); 
-    let sc = [20, 20, 20, 20, 20]; 
+    let sc = [0, 0, 0, 0, 0]; // 꼼수였던 기본점수(20점)를 없애고 깐깐하게 0점에서 시작
 
-    const elMap = { "목":0, "화":1, "토":2, "금":3, "수":4, "Wood":0, "Fire":1, "Earth":2, "Metal":3, "Water":4, "甲":0, "乙":0, "丙":1, "丁":1, "戊":2, "己":2, "庚":3, "辛":3, "壬":4, "癸":4 };
-    const ilganIdx = elMap[iljuData.el] !== undefined ? elMap[iljuData.el] : elements.indexOf(iljuData.el);
-    if(ilganIdx !== -1) sc[ilganIdx] += 40;
+    const elMap = { "목":0, "화":1, "토":2, "금":3, "수":4, "甲":0, "乙":0, "丙":1, "丁":1, "戊":2, "己":2, "庚":3, "辛":3, "壬":4, "癸":4 };
+    
+    // 1. 일간 (나의 본질 - Day Master): 내 정체성이므로 가장 중요 (기본 +35점)
+    const ilganIdx = elMap[iljuData.el] !== undefined ? elMap[iljuData.el] : 2; // 못 찾으면 토(2)
+    sc[ilganIdx] += 35;
 
+    // 2. 월지 (태어난 계절 - Month Branch): 사주에서 가장 강력한 환경적 지배력 (+45점)
     const termToEl = [4, 4, 0, 0, 0, 0, 2, 1, 1, 1, 1, 1, 2, 3, 3, 3, 3, 3, 2, 4, 4, 4, 4, 2];
-    sc[termToEl[solarMonth]] += 40; 
+    const monthElIdx = termToEl[solarMonth];
+    sc[monthElIdx] += 45; 
 
+    // 3. 년주 (태어난 해 - Year Pillar): 조상과 국가적 환경, 띠의 기운 (천간+지지 합산 +25점)
+    // 3-1. 년간 (수학적 역산: 태어난 해의 끝자리로 천간 오행 도출)
+    const yearStemIdx = [3, 3, 4, 4, 0, 0, 1, 1, 2, 2][year % 10]; // 예: 4년(갑목), 5년(을목)
+    sc[yearStemIdx] += 10;
+    
+    // 3-2. 년지 (수학적 역산: 태어난 해의 띠로 지지 오행 도출)
+    // 자(수), 축(토), 인(목), 묘(목), 진(토), 사(화), 오(화), 미(토), 신(금), 유(금), 술(토), 해(수)
+    const ybElMap = {0:3, 1:3, 2:2, 3:4, 4:4, 5:2, 6:0, 7:0, 8:2, 9:1, 10:1, 11:2}; 
+    const yearBranchIdx = ybElMap[year % 12];
+    sc[yearBranchIdx] += 15;
+
+    // 4. 시주 (태어난 시간 - Hour Pillar): 나의 말년과 행동력 (+20점)
     const hourEls = [4, 2, 0, 0, 2, 1, 1, 2, 3, 3, 2, 4]; 
-    sc[hourEls[Math.floor(hour / 2)]] += 20; 
+    const hourIdx = hourEls[Math.floor(hour / 2) % 12];
+    sc[hourIdx] += 20;
 
+    // 5. [명리학 심화] 조후 및 득령/실령 보정 (최대 +15점 추가)
+    // 태어난 계절(월지)이 내 일간(본질)을 어떻게 대하는가에 따른 미세 에너지 조정
+    if (monthElIdx === ilganIdx) {
+        sc[ilganIdx] += 15; // 득령(비견): 계절이 나와 같아 에너지가 극대화됨
+    } else if (monthElIdx === (ilganIdx + 4) % 5) {
+        sc[ilganIdx] += 10; // 득령(인성): 계절이 나를 생(生)해줌
+    } else if (monthElIdx === (ilganIdx + 3) % 5) {
+        sc[monthElIdx] += 10; // 실령(관성): 계절이 나를 극(剋)함 -> 억압하는 환경 에너지 상승
+    }
+
+    // 🚨 꼼수 없는 진짜 선천 사주명리 점수 확정 (총 125~140점 만점 스케일)
     const baseScores = [...sc];
 
     // [3] 후천운 파동 및 수리격
@@ -371,51 +400,57 @@ function processData(name, birth) {
     const elNamesEnForA = ["Wood", "Fire", "Earth", "Metal", "Water"];
     const dmIdx_A = ilganIdx !== -1 ? ilganIdx : 2;
 
-    const stemIdMap = { "gap":"갑", "eul":"을", "byeong":"병", "jeong":"정", "mu":"무", "gi":"기", "gyeong":"경", "sin":"신", "im":"임", "gye":"계" };
-    const dayMaster = (iljuData && iljuData.stemId && stemIdMap[iljuData.stemId]) ? stemIdMap[iljuData.stemId] : logicEls[dmIdx_A];
-    const themeIdx = num81 % 9;
+  const stemIdMap = { "gap":"갑", "eul":"을", "byeong":"병", "jeong":"정", "mu":"무", "gi":"기", "gyeong":"경", "sin":"신", "im":"임", "gye":"계" };
+const dayMaster = (iljuData && iljuData.stemId && stemIdMap[iljuData.stemId]) ? stemIdMap[iljuData.stemId] : logicEls[dmIdx_A];
 
-    const themeModifiers10Ko = {
-        "갑": "거침없는 추진력으로 가장 먼저 새로운 길을 여는", "을": "어떠한 환경에서도 유연하게 뻗어 나가 사람과 기회를 엮는",
-        "병": "스스로 눈부신 빛을 발하며 판 전체를 주도하는", "정": "한 곳에 집요하게 몰입하여 가장 뜨거운 결과물을 만드는",
-        "무": "어떠한 풍파에도 흔들리지 않고 안정감을 지탱하는", "기": "척박한 환경조차 실속 있고 풍요로운 결과물로 길러내는",
-        "경": "불필요한 관습을 베어내고 룰을 재정의하는", "신": "한 치의 오차도 허용하지 않고 정교하고 날카롭게 다듬는",
-        "임": "깊은 지혜로 모든 것을 흡수하고 거시적으로 통제하는", "계": "보이지 않는 틈새까지 부드럽게 스며들어 판도를 뒤집는"
-    };
-    const themeModifiers10En = {
-        "갑": "opening new paths first with unstoppable drive as a <b>Vanguard</b>", "을": "flexibly expanding to connect people and opportunities as a <b>Networker</b>",
-        "병": "leading the entire board while radiating your own dazzling light as a <b>Spotlight</b>", "정": "tenaciously immersing into one spot to forge the hottest results as an <b>Artisan</b>",
-        "무": "supporting massive stability unshakeable by any storm as a <b>Pillar</b>", "기": "nurturing even barren environments into wealthy outcomes as a <b>Nurturer</b>",
-        "경": "redefining rules by slicing away unnecessary customs as a <b>Reformer</b>", "신": "exquisitely refining without allowing an inch of error as a <b>Perfectionist</b>",
-        "임": "macro-controlling and absorbing everything with deep wisdom as a <b>Mastermind</b>", "계": "flipping the board by smoothly seeping into invisible gaps as a <b>Strategist</b>"
-    };
+// 💡 1. 일간(10간) 본질: 지루한 수식어를 걷어내고 가장 임팩트 있는 핵심 행동만 남김 (10종)
+const themeModifiers10Ko = {
+    "갑": "선두에서 돌파하는", "을": "유연하게 판을 키우는",
+    "병": "시선을 압도하는", "정": "집요하게 파고드는",
+    "무": "흔들림 없이 지탱하는", "기": "실속 있게 챙기는",
+    "경": "단호하게 룰을 바꾸는", "신": "오차 없이 벼려내는",
+    "임": "거시적으로 통제하는", "계": "틈새를 장악하는"
+};
+const themeModifiers10En = {
+    "갑": "Pioneering", "을": "Expanding", "병": "Commanding", "정": "Tenacious", "무": "Unshakable",
+    "기": "Pragmatic", "경": "Resolute", "신": "Flawless", "임": "Macro-controlling", "계": "Infiltrating"
+};
 
-    const themeBasesKo = ["절대적 완성", "선구자적 개척", "이타적 헌신", "폭발적 돌파", "견고한 신뢰", "제왕적 리더십", "완벽한 융화", "혁신적 결단", "무결점의 처세"];
-    const themeBasesEn = ["Absolute Completion", "Pioneering Exploration", "Altruistic Devotion", "Explosive Breakthrough", "Unshakable Trust", "Sovereign Leadership", "Perfect Harmony", "Innovative Decisiveness", "Flawless Tact"];
+// 💡 2. 이름의 무기: 81수리의 끝자리(오행)를 기반으로 한 직관적인 페르소나 (10종)
+const weaponIdx = num81 % 10;
+const nameWeaponKo = ["심판자", "설계자", "개척자", "점화자", "선동가", "수호자", "중재자", "혁신가", "완벽주의자", "지략가"];
+const nameWeaponEn = ["Arbiter", "Architect", "Trailblazer", "Igniter", "Instigator", "Guardian", "Mediator", "Innovator", "Perfectionist", "Strategist"];
 
-    const fallback10Map = { "목":"갑", "화":"병", "토":"무", "금":"경", "수":"임" };
-    const finalCoreChar = themeModifiers10Ko[dayMaster] ? dayMaster : fallback10Map[logicEls[dmIdx_A]] || "무";
+// 💡 3. 최종 운명 테마: 81수리 압축 테마 (9종)
+const themeIdx = num81 % 9;
+const themeBasesKo = ["절대적 완성", "새로운 질서", "이타적 헌신", "폭발적 돌파", "견고한 신뢰", "제왕적 권력", "완벽한 융화", "냉철한 결단", "무결점의 처세"];
+const themeBasesEn = ["Absolute Completion", "New Order", "Altruistic Devotion", "Explosive Breakthrough", "Solid Trust", "Sovereign Power", "Perfect Harmony", "Cold Decisiveness", "Flawless Tact"];
 
-    const currentThemeKo = `${themeModifiers10Ko[finalCoreChar]} ${themeBasesKo[themeIdx]}`;
-    const currentThemeEn = `${themeBasesEn[themeIdx]} ${themeModifiers10En[finalCoreChar]}`; 
-    const currentTheme = currentLang === 'ko' ? currentThemeKo : currentThemeEn;
+// 비상구(Fallback) 처리
+const fallback10Map = { "목":"갑", "화":"병", "토":"무", "금":"경", "수":"임" };
+const finalCoreChar = themeModifiers10Ko[dayMaster] ? dayMaster : fallback10Map[logicEls[dmIdx_A]] || "무";
 
-    const trueWeakIdx = finalBottomIdx; 
-    const weakElDisplay = displayElsKo[trueWeakIdx];
-    const weakElEnA = elNamesEnForA[trueWeakIdx];
+// 💡 4. 최종 조립: 10 × 10 × 9 = 무려 900가지의 유니크하고 강렬한 테마가 생성됩니다!
+const currentThemeKo = `${themeModifiers10Ko[finalCoreChar]} <span style="color:var(--primary); font-weight:800;">${nameWeaponKo[weaponIdx]}</span>의 <span style="color:var(--accent); font-weight:800;">[${themeBasesKo[themeIdx]}]</span>`;
+const currentThemeEn = `<span style="color:var(--accent); font-weight:800;">[${themeBasesEn[themeIdx]}]</span> of the <span style="color:var(--primary); font-weight:800;">${nameWeaponEn[weaponIdx]}</span> (${themeModifiers10En[finalCoreChar]})`; 
+const currentTheme = currentLang === 'ko' ? currentThemeKo : currentThemeEn;
 
-    const diffScoresA = sc.map((score, i) => score - baseScores[i]);
-    const boostedLogicKo = []; 
-    const boostedDisplayKo = []; 
-    const boostedElsEn = [];
-    
-    diffScoresA.forEach((diff, i) => {
-        if (diff > 0) {
-            boostedLogicKo.push(logicEls[i]);
-            boostedDisplayKo.push(displayElsKo[i]);
-            boostedElsEn.push(elNamesEnForA[i]);
-        }
-    });
+const trueWeakIdx = finalBottomIdx; 
+const weakElDisplay = displayElsKo[trueWeakIdx];
+const weakElEnA = elNamesEnForA[trueWeakIdx];
+
+const diffScoresA = sc.map((score, i) => score - baseScores[i]);
+const boostedLogicKo = []; 
+const boostedDisplayKo = []; 
+const boostedElsEn = [];
+
+diffScoresA.forEach((diff, i) => {
+    if (diff > 0) {
+        boostedLogicKo.push(logicEls[i]);
+        boostedDisplayKo.push(displayElsKo[i]);
+        boostedElsEn.push(elNamesEnForA[i]);
+    }
+});
     
     const boostedTextKo = boostedDisplayKo.join(", "); 
     const boostedTextEn = boostedElsEn.join(", ");
