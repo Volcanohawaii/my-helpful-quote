@@ -1133,6 +1133,7 @@ function getNextLifeData(num, signature, lang) {
     }
 }
 
+
 /* [6. 정밀 처방전 & 헬퍼 함수] */
 const suriPrescription = {
     getRemedy: (num, lackEls, lang) => {
@@ -1218,7 +1219,7 @@ const suriPrescription = {
             social: [d.socials[idx1], d.socials[idx2]],
             food: [d.foods[idx1], d.foods[idx2]]
         };
-    } // 🚨 이 괄호가 함수가 닫히는 정상적인 부분입니다.
+    }
 };
 
 function generateSuriName(num, s1, s2) {
