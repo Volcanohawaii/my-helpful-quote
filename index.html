@@ -789,7 +789,7 @@ diffScoresA.forEach((diff, i) => {
     const missionTextEn = `${jobsListEn}`;
     const missionText = currentLang === 'ko' ? missionTextKo : missionTextEn;
 
-    const synergyTextKo = `이름의 <b>${elNamesKo_C[weaponElIdx]}</b>-<b>'${weaponKo}'</b> 역량과, 선천적 <b>${elNamesKo_C[top2Idx_C]}</b>-<b>'${top2SkillKo[top2Idx_C][top5Idx_C]}'</b> 기질이 결합되었습니다.`;
+    const synergyTextKo = `이름의 <${elNamesKo_C[weaponElIdx]}-<b>'${weaponKo}'</b> 역량과, 선천적 ${elNamesKo_C[top2Idx_C]}-<b>'${top2SkillKo[top2Idx_C][top5Idx_C]}'</b> 기질이 결합되었습니다.`;
     const synergyTextEn = `The name's <b>${elNamesEn_C[weaponElIdx]}</b>-<b>'${weaponEn}'</b> capacity and the innate <b>${elNamesEn_C[top2Idx_C]}</b>-<b>'${top2SkillEn[top2Idx_C][top5Idx_C]}'</b> disposition have been combined.`;
     const synergyText = currentLang === 'ko' ? synergyTextKo : synergyTextEn;
   
