@@ -5,7 +5,8 @@ const i18n = {
         title: "수리성명학 데이터 분석", desc: "81수리 체계 성명의 파동과 탄생 시계열 지표를 바탕으로 당신의 시그니처 에너지 구조가 도출됩니다.",
         nameLabel: "성명", birthLabel: "양력 8자리(19901208)", hourLabel: "생시(시간) 선택", btn: "리포트 생성하기",
         loadSeal: "분석중", loadTitle: "당신의 운명 에너지를 조합 중...", loadDesc: "잠시 기다려 주세요.",
-        tab1Btn: "현생 분석", tab2Btn: "전생 기록", tab3Btn: "내세 예약",
+        // 🚨 탭 버튼 4개 체제로 확장 및 명칭 통일
+        tab1Btn: "성명 정보", tab2Btn: "현생 분석", tab3Btn: "전생 기록", tab4Btn: "내세 예약", 
         sec1: "📊 운명 시그니처 분석", sec2: "💊 에너지 균형 처방",
         pastDest: "전생 활동 중심지", pastJob: "전생의 직업", pastHomework: "전생의 과업",
         nextDest: "내세 활동 중심지", nextObj: "내세의 직업", nextMission: "내세의 임무",
@@ -18,10 +19,11 @@ const i18n = {
         l3Desc: "선천적 기운과 후천적 성명 에너지의 조합 알고리즘으로 현생-전생-내세의 데이터를 연산합니다."
     },
     en: {
-        title: "Suri Numerology Analysis", desc: "Analyzes the 81-numerology system based on name vibrations and birth indicators.",
+        title: "Destiny Numerology Analysis", desc: "Analyzes the 81-numerology system based on name vibrations and birth indicators to derive your signature energy structure.",
         nameLabel: "Name", birthLabel: "Birthdate (YYYYMMDD)", hourLabel: "Select Birth Hour", btn: "Generate Report",
         loadSeal: "Analyzing", loadTitle: "Combining your destiny energy...", loadDesc: "Please wait a moment.",
-        tab1Btn: "Current Life", tab2Btn: "Past Life", tab3Btn: "Afterlife",
+        // 🚨 영문 탭도 4개로 확장 (통일감 부여)
+        tab1Btn: "Name Info", tab2Btn: "Current Life", tab3Btn: "Past Life", tab4Btn: "Afterlife", 
         sec1: "📊 Destiny Signature", sec2: "💊 Balance Remedy",
         pastDest: "Past Activity Center", pastJob: "Past Occupation", pastHomework: "Past Mission",
         nextDest: "Future Domain", nextObj: "Future Occupation", nextMission: "Future Assignment",
@@ -29,9 +31,9 @@ const i18n = {
         l1Title: "〰️ Name Vibrations",
         l1Desc: "Converts names into energy with unique frequencies. We quantify how phonetic elements interfere with an individual's aura.",
         l2Title: "🗓️ Solar Term Time-series",
-        l2Desc: "Sets the seasonal background at birth as an 'innate variable.' We derive your primal environment by analyzing 24 solar terms.",
+        l2Desc: "Sets the seasonal background at birth as an 'innate variable.' We derive your primal environment by analyzing the energy density of your birth moment.",
         l3Title: "🧬 81-Suri Interaction Engine",
-        l3Desc: "Calculates past and future scenarios using algorithms derived from the 'Harmony & Conflict' of innate and acquired energies."
+        l3Desc: "Calculates current, past, and future scenarios using algorithms derived from the combination of innate and acquired energies."
     }
 };
 
