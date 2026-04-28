@@ -1137,32 +1137,86 @@ function getNextLifeData(num, signature, lang) {
 const suriPrescription = {
     getRemedy: (num, lackEls, lang) => {
         const safeLang = lang || 'ko';
-        
-        // [수정] 배열이 들어오면 첫 번째 오행만 딱 하나만 처리합니다. (그래야 4개가 안 나옵니다)
         const el = Array.isArray(lackEls) ? lackEls[0] : lackEls;
-        const elIdx = { "목(木)": 0, "화(火)": 3, "토(土)": 6, "금(金)": 9, "수(水)": 12, "수(水)": 12 };
+        
+        // 오행별 시작 인덱스 (총 30개, 오행당 6개씩 2배 확장!)
+        const elIdx = { "목(木)": 0, "화(火)": 6, "토(土)": 12, "금(金)": 18, "수(水)": 24 };
+        
         const data = {
             ko: {
-                actions: ["과감한 실행(木)", "추진력 강화(木)", "새로운 도전(木)", "창의적 발상(火)", "에너지 발산(火)", "소통 확대(火)", "중재와 화합(土)", "기반 축적(土)", "공간 정돈(土)", "독립적 결단(金)", "예리한 분석(金)", "원칙 준수(金)", "유연한 사고(水)", "지혜 습득(水)", "심연의 명상(水)"],
-                socials: ["기본격(木)", "도약격(木)", "발전격(木)", "복덕격(火)", "공명격(火)", "성공격(火)", "계승격(土)", "통솔격(土)", "덕망격(土)", "강건격(金)", "수전격(金)", "건창격(金)", "신성격(水)", "지혜격(水)", "순풍격(水)"],
-                foods: ["녹색 채소(木)", "키위(木)", "매실차(木)", "붉은 과일(火)", "고추(火)", "토마토(火)", "뿌리 채소(土)", "단호박(土)", "감자(土)", "견과류(金)", "양파(金)", "마늘(金)", "블랙푸드(水)", "미역(水)", "해조류(水)"],
-                colors: ["그린(木)", "민트(木)", "라임(木)", "레드(火)", "오렌지(火)", "핑크(火)", "옐로우(土)", "베이지(土)", "브라운(土)", "화이트(金)", "실버(金)", "그레이(金)", "네이비(水)", "블랙(水)", "블루(水)"]
+                actions: [
+                    /* 목 */ "과감한 실행", "추진력 강화", "새로운 도전", "아침 산책", "식물 가꾸기", "단기 목표 세우기",
+                    /* 화 */ "창의적 발상", "에너지 발산", "소통 확대", "가벼운 일광욕", "강도 높은 운동", "열정적 토론",
+                    /* 토 */ "중재와 화합", "기반 축적", "공간 정돈", "맨발 걷기", "명상과 다도", "느긋한 휴식",
+                    /* 금 */ "독립적 결단", "예리한 분석", "원칙 준수", "근력 운동", "미니멀 라이프", "호흡 훈련",
+                    /* 수 */ "유연한 사고", "지혜 습득", "심연의 사색", "수영/반신욕", "수분 섭취", "충분한 수면"
+                ],
+                socials: [
+                    /* 목 */ "도약하는 사람", "발전적인 그룹", "새로운 모임", "활동적인 동호회", "멘토와의 만남", "동기부여가",
+                    /* 화 */ "명성을 얻은 사람", "성공한 리더", "창의적 모임", "스피치 모임", "열정적인 동료", "예술적 교류",
+                    /* 토 */ "통솔력 있는 자", "덕망 높은 어른", "안정된 커뮤니티", "가족 모임", "신뢰받는 친구", "전통을 잇는 사람",
+                    /* 금 */ "자수성가한 사람", "건실한 사업가", "전문가 그룹", "단호한 조언자", "소수 정예 모임", "원칙주의자",
+                    /* 수 */ "지혜로운 스승", "순탄한 운의 소유자", "지적인 토론 모임", "조용한 조력자", "철학적 교류", "비밀을 지키는 자"
+                ],
+                foods: [
+                    /* 목 */ "녹색 채소", "신선한 샐러드", "매실차", "청사과", "키위", "신맛 과일",
+                    /* 화 */ "붉은 과일", "토마토", "다크 초콜릿", "자몽", "구기자차", "약간 매운 음식",
+                    /* 토 */ "뿌리 채소", "단호박", "감자", "고구마", "통곡물", "천연 꿀",
+                    /* 금 */ "견과류", "양파", "마늘", "배", "도라지", "생강차",
+                    /* 수 */ "블랙푸드", "미역", "해조류", "검은콩", "맑은 생수", "해산물"
+                ],
+                colors: [
+                    /* 목 */ "그린", "민트", "라임", "올리브", "카키", "청록",
+                    /* 화 */ "레드", "오렌지", "핑크", "마젠타", "버건디", "다홍",
+                    /* 토 */ "옐로우", "베이지", "브라운", "황토", "샌드", "카멜",
+                    /* 금 */ "화이트", "실버", "그레이", "플래티넘", "아이보리", "크롬",
+                    /* 수 */ "네이비", "블랙", "블루", "스카이블루", "퍼플", "차콜"
+                ]
             },
             en: {
-                actions: ["Bold Action", "Drive", "Challenge", "Creativity", "Expression", "Social", "Harmony", "Base", "Organizing", "Decision", "Analysis", "Rules", "Flexibility", "Wisdom", "Meditation"],
-                socials: ["Origin", "Ascent", "Growth", "Prosperity", "Honor", "Success", "Heritage", "Command", "Prestige", "Fortitude", "Resilience", "Integrity", "Revival", "Brilliance", "Breeze"],
-                foods: ["Green Veggies", "Kiwi", "Plum Tea", "Red Fruits", "Chili", "Tomato", "Root Veggies", "Pumpkin", "Potato", "Nuts", "Onion", "Garlic", "Black Food", "Seaweed", "Kelp"],
-                colors: ["Green", "Mint", "Lime", "Red", "Orange", "Pink", "Yellow", "Beige", "Brown", "White", "Silver", "Gray", "Navy", "Black", "Blue"]
+                actions: [
+                    "Bold Action", "Drive", "Challenge", "Morning Walk", "Gardening", "Micro-goals",
+                    "Creativity", "Expression", "Socializing", "Sunbathing", "Intense Workout", "Heated Debate",
+                    "Harmony", "Base Building", "Organizing", "Earthing", "Meditation", "Relaxation",
+                    "Decision", "Analysis", "Rule Keeping", "Strength Training", "Minimalism", "Breathing",
+                    "Flexibility", "Wisdom", "Deep Thought", "Swimming", "Hydration", "Deep Sleep"
+                ],
+                socials: [
+                    "Rising Stars", "Growth Groups", "New Meetups", "Active Clubs", "Mentors", "Motivators",
+                    "Famed People", "Leaders", "Creative Circles", "Speech Clubs", "Passionate Peers", "Artistic Groups",
+                    "Commanders", "Virtuous Elders", "Stable Communities", "Family Gatherings", "Trusted Friends", "Traditionalists",
+                    "Self-made Execs", "Sound Biz Owners", "Expert Networks", "Firm Advisors", "Elite Few", "Principled Peers",
+                    "Wise Teachers", "Lucky People", "Intellectual Clubs", "Quiet Helpers", "Philosophers", "Secret Keepers"
+                ],
+                foods: [
+                    "Green Veggies", "Fresh Salad", "Plum Tea", "Green Apple", "Kiwi", "Sour Fruits",
+                    "Red Fruits", "Tomato", "Dark Choco", "Grapefruit", "Goji Tea", "Spicy Food",
+                    "Root Veggies", "Pumpkin", "Potato", "Sweet Potato", "Whole Grains", "Natural Honey",
+                    "Nuts", "Onion", "Garlic", "Pear", "Bellflower", "Ginger Tea",
+                    "Black Food", "Seaweed", "Kelp", "Black Beans", "Mineral Water", "Seafood"
+                ],
+                colors: [
+                    "Green", "Mint", "Lime", "Olive", "Khaki", "Teal",
+                    "Red", "Orange", "Pink", "Magenta", "Burgundy", "Crimson",
+                    "Yellow", "Beige", "Brown", "Ochre", "Sand", "Camel",
+                    "White", "Silver", "Gray", "Platinum", "Ivory", "Chrome",
+                    "Navy", "Black", "Blue", "Sky Blue", "Purple", "Charcoal"
+                ]
             }
         };
-const d = (data[safeLang] || data['ko']);
+
+        const d = (data[safeLang] || data['ko']);
         const base = elIdx[el] !== undefined ? elIdx[el] : 0;
-        const idx = base + (num % 3);
+        
+        // 💡 6개의 아이템 중 수리격(num)을 이용해 '서로 다른 2개'를 뽑아 배열로 담습니다.
+        const idx1 = base + (num % 6);
+        const idx2 = base + ((num + 3) % 6); 
+
         return {
-            color: d.colors[idx],
-            action: d.actions[idx],
-            social: d.socials[idx],
-            food: d.foods[idx]
+            color: [d.colors[idx1], d.colors[idx2]],
+            action: [d.actions[idx1], d.actions[idx2]],
+            social: [d.socials[idx1], d.socials[idx2]],
+            food: [d.foods[idx1], d.foods[idx2]]
         };
     }
 };
