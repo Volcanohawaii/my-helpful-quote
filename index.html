@@ -753,13 +753,17 @@ diffScoresA.forEach((diff, i) => {
     const elNamesKo_C = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
     const elNamesEn_C = ["Wood", "Fire", "Earth", "Metal", "Water"];
 
-    const blockCKo = `${jobsListKo}<b style="color: var(--primary);">[성명 시너지]</b><br>이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운이 기폭제가 됩니다. 성명 속 <b>'${weaponKo}'</b> 역량과, 선천적 <b>${elNamesKo_C[top2Idx_C]}</b>-<b>'${top2SkillKo[top2Idx_C][top5Idx_C]}'</b> 기질이 결합되어 당신을 특별하게 만듭니다.`;
-    const blockCEn = `${jobsListEn}<b style="color: var(--primary);">[Name Synergy]</b><br>The <b>${elNamesEn_C[weaponElIdx]}</b> energy acts as a catalyst. Your name's <b>'${weaponEn}'</b> capacity seamlessly combines with the innate <b>'${top2SkillEn[top2Idx_C][top5Idx_C]}'</b> disposition of <b>${elNamesEn_C[top2Idx_C]}</b> to make you truly unique.`;
-    
-    let blockC = currentLang === 'ko' ? blockCKo : blockCEn;
+   
+  // 🚨 1. 과업(직무 리스트)과 시너지 문장을 완벽히 분리하고 [성명 시너지] 제목을 지웁니다.
+    const missionTextKo = `${jobsListKo}`;
+    const missionTextEn = `${jobsListEn}`;
+    const missionText = currentLang === 'ko' ? missionTextKo : missionTextEn;
+
+    const synergyTextKo = `이름의 <b>${elNamesKo_C[weaponElIdx]}</b> 기운이 기폭제가 됩니다. 성명 속 <b>'${weaponKo}'</b> 역량과, 선천적 <b>${elNamesKo_C[top2Idx_C]}</b>-<b>'${top2SkillKo[top2Idx_C][top5Idx_C]}'</b> 기질이 결합되어 당신을 특별하게 만듭니다.`;
+    const synergyTextEn = `The <b>${elNamesEn_C[weaponElIdx]}</b> energy acts as a catalyst. Your name's <b>'${weaponEn}'</b> capacity seamlessly combines with the innate <b>'${top2SkillEn[top2Idx_C][top5Idx_C]}'</b> disposition of <b>${elNamesEn_C[top2Idx_C]}</b> to make you truly unique.`;
+    const synergyText = currentLang === 'ko' ? synergyTextKo : synergyTextEn;
     
     const analysisText = `${blockA}`;  
-    const missionText = `${blockC}`;
     
     const motherKoArr = ["수(水)", "목(木)", "화(火)", "토(土)", "금(金)"];
     const motherEnArr = ["Water", "Wood", "Fire", "Earth", "Metal"];
@@ -768,31 +772,28 @@ diffScoresA.forEach((diff, i) => {
     const docentDescEn = `You must be vigilant against your weakness caused by lacking <b>${weakElEnA}</b> energy: <b>'${currentRiskEn}'</b>. To overcome this, instead of directly forcing the missing energy, we prescribe <b>${motherEnArr[trueWeakIdx]}</b> energy to naturally nurture and revive it.`;
     const docentDesc = currentLang === 'ko' ? docentDescKo : docentDescEn;
 
-    const r = suriPrescription.getRemedy(num81, [motherKoArr[trueWeakIdx]], currentLang);
+    const remedy = suriPrescription.getRemedy(num81, [motherKoArr[trueWeakIdx]], currentLang);
 
-    // 🌍 1. 드디어 모든 텍스트가 조립되었습니다. session 객체에 꽉 채워 통합합니다!
+    // 🚨 2. 분리해낸 synergyText를 가방(sessionData)에 정확히 담아줍니다.
     const sessionData = { 
         name, birth, num81, baseScores, elementScores: sc, iljuData, solarMonth, hour,
-        strongEl, weakEl, nameSuriEl,
-        lackEls: [weakEl, elements[sIdx[1]]],
         waveFlowKo: waveFlowKo.join(" ➔ "), 
-        waveFlowEn: waveFlowEn.join(" ➔ "),
-        waveDescKo: waveDescKo,
-        waveDescEn: waveDescEn,
-        peakElIdx: finalPeakIdx,
-        bottomElIdx: finalBottomIdx,
+        waveDescKo: waveDescMap[waveFlowKo[waveFlowKo.length-1].charAt(0)] || "",
+        peakElIdx: finalPeakIdx, bottomElIdx: finalBottomIdx,
+        strongEl: elements[finalPeakIdx],
+        lackEls: [elements[finalBottomIdx]],
         analysisText: analysisText,
-        missionText: missionText,
+        missionText: missionText, // 직무 리스트만 깔끔하게 들어감
+        synergyText: synergyText, // 제목 지워진 시너지 문구 추가!
         docentDesc: docentDesc,
-        remedy: r
+        remedy: remedy
     };
 
     localStorage.setItem('destinySession', JSON.stringify(sessionData));
-// 🌍 2. UI 업데이트 시작
     renderSummary(sessionData);
     document.getElementById('view-home').classList.add('hidden');
     document.getElementById('view-result').classList.remove('hidden');
-} 
+} // <-- processData 함수 끝나는 괄호
 
 // 🌍 3. 리포트 출력 (디자인 완벽 통일)
 function renderSummary(data) {
@@ -834,19 +835,22 @@ function renderSummary(data) {
                 </div>
             </div>`,
         
+        // [2번 탭: 현생 분석]
         fortune: `
             <div class="tab-content">
                 <div class="info-box" style="background:#fff; padding:25px; border-left:none;">
                     <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
                         <b style="color:var(--accent); display:block; margin-bottom:5px;">${currentLang === 'ko' ? '[전개중인 에너지 흐름]' : '[Unfolding Energy Flow]'}</b>
                         <span style="font-weight:800; font-size:1.3rem; color:#000;">${data.name}</span>
-                        <p style="margin-top:15px; margin-bottom:0; font-size:0.85rem; color:#666; line-height:1.6; word-break:keep-all;">
+                        
+                        <p style="margin-top:15px; margin-bottom:0; font-size:0.88rem; color:#666; line-height:1.7; word-break:keep-all;">
                             ${data.synergyText}
                         </p>
                     </div>
                     
-                    <div style="margin-bottom:30px; text-align:center; padding: 10px 0;">
-                        <div style="font-size:1.05rem; line-height:1.8; color:#333; word-break:keep-all;">
+                    <div style="margin-bottom:30px;">
+                        <b style="color:var(--accent); display:block; margin-bottom:12px;">📜 ${currentLang === 'ko' ? '현생의 과업' : 'Core Competencies'}</b>
+                        <div style="font-size:0.95rem; line-height:1.8; color:#333; word-break:keep-all;">
                             ${data.missionText}
                         </div>
                     </div>
