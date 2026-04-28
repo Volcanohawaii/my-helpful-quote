@@ -753,8 +753,7 @@ function processData(name, birth) {
     };
 
     localStorage.setItem('destinySession', JSON.stringify(sessionData));
-    
-    // 🌍 2. UI 업데이트 시작
+// 🌍 2. UI 업데이트 시작
     renderSummary(sessionData);
     document.getElementById('view-home').classList.add('hidden');
     document.getElementById('view-result').classList.remove('hidden');
@@ -772,7 +771,7 @@ function renderSummary(data) {
         ? `당신은 ${jeolgiText} 데이터를 배경으로, ${branchObj.ko}이자, <b>${stemObj.ko}</b>의 운명을 품고 태어났습니다. ${descObj.ko}`
         : `Born against the background of ${jeolgiText} data. Soul of ${stemObj.en} within <b>${branchObj.en}</b>. ${descObj.en}`;
 
-    // 🚨 [대표님 기획 완벽 구현] 탄생일 정보를 탭 밖으로 빼서 맨 위(dynamic-summary)에 영구 고정!
+    // 🚨 1. 탄생일 정보를 탭 밖으로 빼서 맨 위(dynamic-summary)에 영구 고정!
     document.getElementById('dynamic-summary').innerHTML = `
         <div class="info-box" style="background:#F9F8F6; border:1px solid #EEE; border-radius:12px; padding:18px; text-align:left; color:#000;">
             <div style="display:flex; justify-content:space-between; border-bottom:1px solid #000; padding-bottom:8px; margin-bottom:15px;">
@@ -787,30 +786,31 @@ function renderSummary(data) {
 
     const r = data.remedy;
 
-    // 🚨 탭 가방(tabStorage)에 데이터를 대표님 의도대로 정확히 배분합니다.
+    // 🚨 2. 탭 가방(tabStorage)에 데이터를 대표님 의도대로 정확히 배분합니다.
     window.tabStorage = {
-        // [1번 탭: 성명 정보] -> 소리 파동 + 수리격
+        // [1번 탭: 성명 정보] -> 점선 삭제, 소리 파동 + 수리격 + 그래프 + 분석글(해석) 모두 통합!
         profile: `
             <div class="tab-content">
                 <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; border:1px solid #f4f1ed; box-shadow:0 4px 12px rgba(0,0,0,0.03); border-left:none;">
-                    <div style="margin-bottom: 22px; padding-bottom:18px; border-bottom:1px dashed #DDD;">
+                    <div style="margin-bottom: 22px;">
                         <b>🌊 ${currentLang === 'ko' ? '소리 파동:' : 'Sound Wave:'}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? data.waveFlowKo : data.waveFlowEn}</span>
                         <p style="margin-top:8px; margin-bottom:0; line-height:1.7;">${currentLang === 'ko' ? data.waveDescKo : data.waveDescEn}</p>
                     </div>
-                    <div style="margin-bottom: 10px;">
+                    <div style="margin-bottom: 25px;">
                         <b>🔮 ${currentLang === 'ko' ? '수리격:' : 'Suri:'}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? luckyTitles81[data.num81] : luckyTitles81En[data.num81]}</span>
                         <p style="margin-top:8px; margin-bottom:0; line-height:1.7;">${currentLang === 'ko' ? detailedDesc81[data.num81] : detailedDesc81En[data.num81]}</p>
                     </div>
+                    
+                    <div id="radarChart" style="margin:10px auto 20px; width:100%; height:260px;"></div>
+                    <div style="line-height:1.8; color:#444; font-size:0.93rem; margin-top:20px; white-space:pre-wrap;">${data.analysisText}</div>
                 </div>
             </div>`,
         
-        // [2번 탭: 현생 분석] -> 그래프 + 분석글 + 과업 + 처방전
+        // [2번 탭: 현생 분석] -> 300종 현생의 과업 + 처방전만 깔끔하게 남김
         fortune: `
             <div class="tab-content">
                 <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; border:1px solid #f4f1ed; box-shadow:0 4px 12px rgba(0,0,0,0.03); border-left:none;">
-                    <div id="radarChart" style="margin:10px auto 20px; width:100%; height:260px;"></div>
-                    <div style="line-height:1.8; color:#444; font-size:0.93rem; margin-top:20px; white-space:pre-wrap;">${data.analysisText}</div>
-                    <div style="padding:15px; background:#F9F8F6; border-radius:12px; margin-top:20px;">
+                    <div style="padding:15px; background:#F9F8F6; border-radius:12px;">
                         <b style="color:var(--accent); display:block; margin-bottom:5px;">📜 ${currentLang === 'ko' ? '현생의 과업' : 'Core Competencies'}</b>
                         <span style="font-size:0.9rem;">${data.missionText}</span>
                     </div>
@@ -837,6 +837,7 @@ function renderSummary(data) {
 function renderChart(baseScores, finalScores) {
   const container = document.getElementById('radarChart'); 
   if (!container) return;
+  const currentLang = window.currentLang || 'ko';
   const labels = currentLang === 'ko' ? ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"] : ["Wood", "Fire", "Earth", "Metal", "Water"];
   const cx = 110, cy = 110, r = 70;
   
@@ -890,7 +891,10 @@ function switchTab(mode, element) {
         body.innerHTML = window.tabStorage[mode];
     }
 
-    if (mode === 'fortune') {
+    const currentLang = window.currentLang || 'ko';
+
+    // 🚨 그래프가 1번 탭으로 이사왔으므로, 'profile' 탭이 열릴 때 차트를 그립니다!
+    if (mode === 'profile') {
         setTimeout(() => {
             if (window.renderChart) renderChart(session.baseScores, session.elementScores);
         }, 50);
@@ -914,7 +918,7 @@ function switchTab(mode, element) {
             </div>`;
     } else if (mode === 'next') {
         const birthMonth = parseInt(session.birth.substring(4, 6));
-        const r = getNextLifeData(session.num81, session.strongEl, currentLang);        
+        const rData = getNextLifeData(session.num81, session.strongEl, currentLang);        
         const era = (currentLang === 'ko' ? eraNextKo : eraNextEn)[session.num81 % (currentLang === 'ko' ? eraNextKo.length : eraNextEn.length)];
         const region = (currentLang === 'ko' ? regionNextKo : regionNextEn)[(session.num81 + birthMonth) % (currentLang === 'ko' ? regionNextKo.length : regionNextEn.length)];
 
@@ -926,13 +930,12 @@ function switchTab(mode, element) {
                         <span style="font-weight:800; font-size:1.2rem;">${(currentLang === 'ko' ? makeNextLifeNameKo : makeNextLifeNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span>
                     </div>
                     <p style="margin-bottom:12px;"><b>🌌 ${i18n[currentLang].nextDest}:</b> ${era}, ${region}</p>
-                    <p style="margin-bottom:12px;"><b>💼 ${i18n[currentLang].nextObj}:</b> ${r.job}<br><span style="font-size:0.85rem; color:#666;">${r.desc}</span></p>
-                    <p><b>📜 ${i18n[currentLang].nextMission}:</b> ${r.mission}</p>
+                    <p style="margin-bottom:12px;"><b>💼 ${i18n[currentLang].nextObj}:</b> ${rData.job}<br><span style="font-size:0.85rem; color:#666;">${rData.desc}</span></p>
+                    <p><b>📜 ${i18n[currentLang].nextMission}:</b> ${rData.mission}</p>
                 </div>
             </div>`;
     }
 }
-
 function copyLink() {
     const url = window.location.href;
     navigator.clipboard.writeText(url).then(() => {
