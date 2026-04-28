@@ -819,34 +819,32 @@ function renderSummary(data) {
 
     const r = data.remedy;
 
-    window.tabStorage = {
-       // [1번 탭: 해독된 성명 정보] - 이름 대신 소리 파동(한자) 배치, 제목 제거
+ window.tabStorage = {
+        // [1번 탭: 해독된 성명 정보] - 폰트 통일 및 수리격 줄바꿈 원상 복구
         profile: `
             <div class="tab-content">
                 <div class="info-box" style="background:#fff; padding:25px; border-left:none;">
                     <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
                         <b style="color:var(--accent); display:block; margin-bottom:5px;">${currentLang === 'ko' ? '[해독된 성명 정보]' : '[Decoded Name Intelligence]'}</b>
-                        <span style="font-weight:800; font-size:1.5rem; color:var(--primary); letter-spacing:2px;">${currentLang === 'ko' ? data.waveFlowKo : data.waveFlowEn}</span>
+                        
+                        <span style="font-weight:800; font-size:1.3rem; color:#000;">${currentLang === 'ko' ? data.waveFlowKo : data.waveFlowEn}</span>
                         
                         <p style="margin-top:15px; margin-bottom:0; font-size:0.88rem; color:#666; line-height:1.7; word-break:keep-all;">
                             ${currentLang === 'ko' ? data.waveDescKo : data.waveDescEn}
                         </p>
                     </div>
                     
-                    <div style="margin-bottom:25px;">
-                        <b style="color:var(--accent); display:block; margin-bottom:10px;">🔮 ${currentLang === 'ko' ? '수리격:' : 'Suri:'}</b>
-                        <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? luckyTitles81[data.num81] : luckyTitles81En[data.num81]}</span>
-                        <p style="margin-top:8px; line-height:1.6; font-size:0.85rem; color:#666;">
-                            ${currentLang === 'ko' ? detailedDesc81[data.num81] : detailedDesc81En[data.num81]}
-                        </p>
-                    </div>
+                    <p style="margin-bottom:20px;">
+                        <b>🔮 ${currentLang === 'ko' ? '수리격:' : 'Suri:'}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? luckyTitles81[data.num81] : luckyTitles81En[data.num81]}</span><br>
+                        <span style="font-size:0.85rem; color:#666; line-height:1.6; display:block; margin-top:5px;">${currentLang === 'ko' ? detailedDesc81[data.num81] : detailedDesc81En[data.num81]}</span>
+                    </p>
                     
                     <div id="radarChart" style="margin:20px auto; width:100%; height:260px;"></div>
                     <div style="line-height:1.8; color:#444; font-size:0.93rem; margin-top:20px; white-space:pre-wrap; text-align:center;">${data.analysisText}</div>
                 </div>
             </div>`,
         
-        // [2번 탭: 현생 분석]
+        // [2번 탭: 현생 분석] - 유지
         fortune: `
             <div class="tab-content">
                 <div class="info-box" style="background:#fff; padding:25px; border-left:none;">
