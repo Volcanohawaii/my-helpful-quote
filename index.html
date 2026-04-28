@@ -971,16 +971,35 @@ function switchTab(mode, element) {
         const era = (currentLang === 'ko' ? eraPastKo : eraPastEn)[session.num81 % (currentLang === 'ko' ? eraPastKo.length : eraPastEn.length)];
         const region = (currentLang === 'ko' ? regionPastKo : regionPastEn)[(session.num81 + birthMonth) % (currentLang === 'ko' ? regionPastKo.length : regionPastEn.length)];
 
-        body.innerHTML = `
+body.innerHTML = `
             <div class="tab-content">
                 <div class="info-box" style="background:#fff; padding:25px; border-left:none;">
                     <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
                         <b style="color:var(--accent); display:block; margin-bottom:5px;">${currentLang === 'ko' ? '[식별된 전생 기록]' : '[Identified Past Record]'}</b>
                         <span style="font-weight:800; font-size:1.3rem;">${(currentLang === 'ko' ? makePastNameKo : makePastNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span>
                     </div>
-                    <p style="margin-bottom:12px;"><b>📍 ${i18n[currentLang].pastDest}:</b> ${era}, ${region}</p>
-                    <p style="margin-bottom:12px;"><b>💼 ${i18n[currentLang].pastJob}:</b> ${p.job}<br><span style="font-size:0.85rem; color:#666;">${p.desc}</span></p>
-                    <p><b>📜 ${i18n[currentLang].pastHomework}:</b> ${p.homework}</p>
+                    
+                    <div style="margin-bottom:25px;">
+                        <b style="color:var(--accent); display:block; margin-bottom:8px;">📍 ${i18n[currentLang].pastDest}</b>
+                        <div style="font-size:0.9rem; color:#333; line-height:1.7; text-align: justify; word-break: break-all;">
+                            ${era}, ${region}
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom:25px;">
+                        <b style="color:var(--accent); display:block; margin-bottom:8px;">💼 ${i18n[currentLang].pastJob}</b>
+                        <div style="font-size:0.9rem; color:#333; line-height:1.7; text-align: justify; word-break: break-all;">
+                            ${p.job}<br>
+                            <span style="font-size:0.85rem; color:#666; display:block; margin-top:6px;">${p.desc}</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <b style="color:var(--accent); display:block; margin-bottom:8px;">📜 ${i18n[currentLang].pastHomework}</b>
+                        <div style="font-size:0.9rem; color:#333; line-height:1.7; text-align: justify; word-break: break-all;">
+                            ${p.homework}
+                        </div>
+                    </div>
                 </div>
             </div>`;
     } else if (mode === 'next') {
@@ -996,9 +1015,28 @@ function switchTab(mode, element) {
                         <b style="color:var(--accent); display:block; margin-bottom:5px;">${currentLang === 'ko' ? '[예약된 내세 정보]' : '[Reserved Afterlife Info]'}</b>
                         <span style="font-weight:800; font-size:1.3rem;">${(currentLang === 'ko' ? makeNextLifeNameKo : makeNextLifeNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span>
                     </div>
-                    <p style="margin-bottom:12px;"><b>🌌 ${i18n[currentLang].nextDest}:</b> ${era}, ${region}</p>
-                    <p style="margin-bottom:12px;"><b>💼 ${i18n[currentLang].nextObj}:</b> ${rData.job}<br><span style="font-size:0.85rem; color:#666;">${rData.desc}</span></p>
-                    <p><b>📜 ${i18n[currentLang].nextMission}:</b> ${rData.mission}</p>
+                    
+                    <div style="margin-bottom:25px;">
+                        <b style="color:var(--accent); display:block; margin-bottom:8px;">🌌 ${i18n[currentLang].nextDest}</b>
+                        <div style="font-size:0.9rem; color:#333; line-height:1.7; text-align: justify; word-break: break-all;">
+                            ${era}, ${region}
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom:25px;">
+                        <b style="color:var(--accent); display:block; margin-bottom:8px;">💼 ${i18n[currentLang].nextObj}</b>
+                        <div style="font-size:0.9rem; color:#333; line-height:1.7; text-align: justify; word-break: break-all;">
+                            ${rData.job}<br>
+                            <span style="font-size:0.85rem; color:#666; display:block; margin-top:6px;">${rData.desc}</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <b style="color:var(--accent); display:block; margin-bottom:8px;">📜 ${i18n[currentLang].nextMission}</b>
+                        <div style="font-size:0.9rem; color:#333; line-height:1.7; text-align: justify; word-break: break-all;">
+                            ${rData.mission}
+                        </div>
+                    </div>
                 </div>
             </div>`;
     }
