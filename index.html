@@ -829,18 +829,18 @@ function renderSummary(data) {
                         
                         <span style="font-weight:800; font-size:1rem; color:#000;">${currentLang === 'ko' ? data.waveFlowKo : data.waveFlowEn}</span>
                         
-                        <p style="margin-top:15px; margin-bottom:0; font-size:0.88rem; color:#666; line-height:1.7; word-break:keep-all;">
+                        <p style="margin-top:15px; margin-bottom:0; font-size:0.88rem; color:#666; line-height:1.7; text-align: justify; word-break: break-all;">
                             ${currentLang === 'ko' ? data.waveDescKo : data.waveDescEn}
                         </p>
                     </div>
                     
                     <p style="margin-bottom:20px;">
                         <b>🔮 ${currentLang === 'ko' ? '수리격:' : 'Suri:'}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? luckyTitles81[data.num81] : luckyTitles81En[data.num81]}</span><br>
-                        <span style="font-size:0.85rem; color:#666; line-height:1.6; display:block; margin-top:5px;">${currentLang === 'ko' ? detailedDesc81[data.num81] : detailedDesc81En[data.num81]}</span>
+                        <span style="font-size:0.85rem; color:#666; line-height:1.6; display:block; margin-top:5px; text-align: justify; word-break: break-all;">${currentLang === 'ko' ? detailedDesc81[data.num81] : detailedDesc81En[data.num81]}</span>
                     </p>
                     
                     <div id="radarChart" style="margin:20px auto; width:100%; height:260px;"></div>
-                    <div style="line-height:1.8; color:#444; font-size:0.93rem; margin-top:20px; white-space:pre-wrap; text-align:center;">${data.analysisText}</div>
+                    <div style="line-height:1.8; color:#444; font-size:0.93rem; margin-top:20px; white-space:pre-wrap; text-align: justify; word-break: break-all;">${data.analysisText}</div>
                 </div>
             </div>`,
         
@@ -865,7 +865,7 @@ function renderSummary(data) {
                     </div>
                     
                     <div style="padding-top:20px; border-top:1px solid #F0F0F0;">
-                        <p style="margin-bottom:15px; font-size:0.9rem; color:#444; text-align:center; word-break:keep-all;">${data.docentDesc}</p>
+                        <p style="margin-bottom:15px; font-size:0.9rem; color:#444; text-align: justify; word-break: break-all;;">${data.docentDesc}</p>
                         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; text-align: center;">
                             <div><b style="font-size:0.75rem; color:var(--accent);">🎨 컬러</b><br><span style="font-size:0.7rem; display:block; margin-top:5px; line-height:1.5;">${r && r.color ? r.color[0] : ""}<br><span style="color:#888;">${r && r.color ? r.color[1] : ""}</span></span></div>
                             <div><b style="font-size:0.75rem; color:var(--accent);">🏃 행동</b><br><span style="font-size:0.7rem; display:block; margin-top:5px; line-height:1.5;">${r && r.action ? r.action[0] : ""}<br><span style="color:#888;">${r && r.action ? r.action[1] : ""}</span></span></div>
