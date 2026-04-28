@@ -74,12 +74,12 @@
     word-break: break-all !important; /* 단어 끊김 방지 강제 */
 }
 
-/* 4. 부가 설명글 및 4칸 처방전 박스 안의 글자 모두 통일 (0.7rem 찌꺼기 청소) */
+/* 4. 부가 설명글 및 4칸 처방전 박스 안의 글자 (글자 크기를 살짝 줄여서 넘침 방지) */
 .info-box .sub-desc,
 .info-box div[style*="grid"] span {
-    font-size: 0.85rem !important;
+    font-size: 0.8rem !important; /* 0.85에서 0.8로 줄여서 칸 안으로 쏙 넣었습니다! */
     color: #555 !important;
-    line-height: 1.6 !important;
+    line-height: 1.4 !important; /* 줄 간격도 살짝 좁혀서 위아래로 너무 늘어지지 않게 했어요. */
 }
 
 /* 5. 4칸 처방전 박스 안의 미니 제목 (🎨 컬러 등) 강제 통일 */
@@ -886,8 +886,7 @@ window.tabStorage = {
                 </div>
             </div>`,
         
-        // [2번 탭: 현생 분석]
-        fortune: `
+   fortune: `
             <div class="tab-content">
                 <div class="info-box" style="background:#fff; padding:25px; border-left:none;">
                     <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
@@ -907,14 +906,16 @@ window.tabStorage = {
                     
                     <div>
                         <b style="color:var(--accent); display:block; margin-bottom:12px;">💊 ${currentLang === 'ko' ? '에너지 처방' : 'Energy Prescription'}</b>
-                        <div class="main-desc" style="color:#666;">
+                        
+                        <div class="main-desc">
                             ${data.docentDesc}
                         </div>
-                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; text-align: center;">
-                            <div><b style="font-size:0.75rem; color:var(--accent);">🎨 컬러</b><br><span style="font-size:0.7rem; display:block; margin-top:5px; line-height:1.5;">${r && r.color ? r.color[0] : ""}<br><span style="color:#888;">${r && r.color ? r.color[1] : ""}</span></span></div>
-                            <div><b style="font-size:0.75rem; color:var(--accent);">🏃 행동</b><br><span style="font-size:0.7rem; display:block; margin-top:5px; line-height:1.5;">${r && r.action ? r.action[0] : ""}<br><span style="color:#888;">${r && r.action ? r.action[1] : ""}</span></span></div>
-                            <div><b style="font-size:0.75rem; color:var(--accent);">👥 사람</b><br><span style="font-size:0.7rem; display:block; margin-top:5px; line-height:1.5;">${r && r.social ? r.social[0] : ""}<br><span style="color:#888;">${r && r.social ? r.social[1] : ""}</span></span></div>
-                            <div><b style="font-size:0.75rem; color:var(--accent);">🥗 음식</b><br><span style="font-size:0.7rem; display:block; margin-top:5px; line-height:1.5;">${r && r.food ? r.food[0] : ""}<br><span style="color:#888;">${r && r.food ? r.food[1] : ""}</span></span></div>
+
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; text-align: center; align-items: start;">
+                            <div><b style="color:var(--accent);">🎨 컬러</b><br><span>${r && r.color ? r.color[0] : ""}<br><small style="color:#999; font-size:0.75rem;">${r && r.color ? r.color[1] : ""}</small></span></div>
+                            <div><b style="color:var(--accent);">🏃 행동</b><br><span>${r && r.action ? r.action[0] : ""}<br><small style="color:#999; font-size:0.75rem;">${r && r.action ? r.action[1] : ""}</small></span></div>
+                            <div><b style="color:var(--accent);">👥 사람</b><br><span>${r && r.social ? r.social[0] : ""}<br><small style="color:#999; font-size:0.75rem;">${r && r.social ? r.social[1] : ""}</small></span></div>
+                            <div><b style="color:var(--accent);">🥗 음식</b><br><span>${r && r.food ? r.food[0] : ""}<br><small style="color:#999; font-size:0.75rem;">${r && r.food ? r.food[1] : ""}</small></span></div>
                         </div>
                     </div>
                 </div>
