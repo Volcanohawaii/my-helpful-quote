@@ -771,7 +771,7 @@ function renderSummary(data) {
         ? `당신은 ${jeolgiText} 데이터를 배경으로, ${branchObj.ko}이자, <b>${stemObj.ko}</b>의 운명을 품고 태어났습니다. ${descObj.ko}`
         : `Born against the background of ${jeolgiText} data. Soul of ${stemObj.en} within <b>${branchObj.en}</b>. ${descObj.en}`;
 
-    // 🚨 1. 탄생일 정보를 탭 밖으로 빼서 맨 위(dynamic-summary)에 영구 고정!
+    // 1. 탄생일 정보 영구 고정
     document.getElementById('dynamic-summary').innerHTML = `
         <div class="info-box" style="background:#F9F8F6; border:1px solid #EEE; border-radius:12px; padding:18px; text-align:left; color:#000;">
             <div style="display:flex; justify-content:space-between; border-bottom:1px solid #000; padding-bottom:8px; margin-bottom:15px;">
@@ -786,9 +786,9 @@ function renderSummary(data) {
 
     const r = data.remedy;
 
-    // 🚨 2. 탭 가방(tabStorage)에 데이터를 대표님 의도대로 정확히 배분합니다.
+    // 2. 탭 가방(tabStorage)에 데이터 배분
     window.tabStorage = {
-        // [1번 탭: 성명 정보] -> 점선 삭제, 소리 파동 + 수리격 + 그래프 + 분석글(해석) 모두 통합!
+        
         profile: `
             <div class="tab-content">
                 <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; border:1px solid #f4f1ed; box-shadow:0 4px 12px rgba(0,0,0,0.03); border-left:none;">
@@ -800,13 +800,12 @@ function renderSummary(data) {
                         <b>🔮 ${currentLang === 'ko' ? '수리격:' : 'Suri:'}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? luckyTitles81[data.num81] : luckyTitles81En[data.num81]}</span>
                         <p style="margin-top:8px; margin-bottom:0; line-height:1.7;">${currentLang === 'ko' ? detailedDesc81[data.num81] : detailedDesc81En[data.num81]}</p>
                     </div>
-                    
                     <div id="radarChart" style="margin:10px auto 20px; width:100%; height:260px;"></div>
                     <div style="line-height:1.8; color:#444; font-size:0.93rem; margin-top:20px; white-space:pre-wrap;">${data.analysisText}</div>
                 </div>
             </div>`,
         
-        // [2번 탭: 현생 분석] -> 300종 현생의 과업 + 처방전만 깔끔하게 남김
+        // [2번 탭: 현생 분석] 🚨 처방전 출력을 배열[0], [1]을 이용하여 두 줄로 완벽히 나눕니다!
         fortune: `
             <div class="tab-content">
                 <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; border:1px solid #f4f1ed; box-shadow:0 4px 12px rgba(0,0,0,0.03); border-left:none;">
@@ -817,10 +816,10 @@ function renderSummary(data) {
                     <div style="margin-top:20px; padding-top:15px; border-top:1px solid #EEE;">
                         <span style="display:block; margin-bottom:15px;">${data.docentDesc}</span>
                         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; text-align: center;">
-                            <div><b style="font-size:0.75rem; color:var(--accent);">🎨 컬러</b><br><span style="font-size:0.7rem;">${r ? r.color : ""}</span></div>
-                            <div><b style="font-size:0.75rem; color:var(--accent);">🏃 행동</b><br><span style="font-size:0.7rem;">${r ? r.action : ""}</span></div>
-                            <div><b style="font-size:0.75rem; color:var(--accent);">👥 사람</b><br><span style="font-size:0.7rem;">${r ? r.social : ""}</span></div>
-                            <div><b style="font-size:0.75rem; color:var(--accent);">🥗 음식</b><br><span style="font-size:0.7rem;">${r ? r.food : ""}</span></div>
+                            <div><b style="font-size:0.75rem; color:var(--accent);">🎨 컬러</b><br><span style="font-size:0.7rem; display:block; margin-top:5px; line-height:1.5;">${r ? r.color[0] : ""}<br><span style="color:#888;">${r ? r.color[1] : ""}</span></span></div>
+                            <div><b style="font-size:0.75rem; color:var(--accent);">🏃 행동</b><br><span style="font-size:0.7rem; display:block; margin-top:5px; line-height:1.5;">${r ? r.action[0] : ""}<br><span style="color:#888;">${r ? r.action[1] : ""}</span></span></div>
+                            <div><b style="font-size:0.75rem; color:var(--accent);">👥 사람</b><br><span style="font-size:0.7rem; display:block; margin-top:5px; line-height:1.5;">${r ? r.social[0] : ""}<br><span style="color:#888;">${r ? r.social[1] : ""}</span></span></div>
+                            <div><b style="font-size:0.75rem; color:var(--accent);">🥗 음식</b><br><span style="font-size:0.7rem; display:block; margin-top:5px; line-height:1.5;">${r ? r.food[0] : ""}<br><span style="color:#888;">${r ? r.food[1] : ""}</span></span></div>
                         </div>
                     </div>
                 </div>
@@ -830,7 +829,6 @@ function renderSummary(data) {
         next: `<div class="tab-content"><div class="info-box" style="padding:20px; background:#fff; border-left:none;">${currentLang === 'ko' ? '내세 데이터를 연산 중입니다...' : 'Loading Next Life...'}</div></div>`
     };
 
-    // 💡 1번 탭(profile)을 기본으로 강제 오픈합니다.
     switchTab('profile', document.querySelectorAll('.tab-btn')[0]);
 }
 
