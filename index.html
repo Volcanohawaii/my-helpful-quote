@@ -794,9 +794,9 @@ diffScoresA.forEach((diff, i) => {
     document.getElementById('view-result').classList.remove('hidden');
 } 
 
+// 🌍 3. 리포트 출력 (디자인 완벽 통일)
 function renderSummary(data) {
     const currentLang = window.currentLang || 'ko';
-    
     const jeolgiText = jeolgiNames[data.solarMonth] ? jeolgiNames[data.solarMonth][currentLang] : "";
     const stemObj = stemTemplates[data.iljuData.stemId];
     const branchObj = branchTemplates[data.iljuData.branchId];
@@ -806,9 +806,8 @@ function renderSummary(data) {
         ? `당신은 ${jeolgiText} 데이터를 배경으로, ${branchObj.ko}이자, <b>${stemObj.ko}</b>의 운명을 품고 태어났습니다. ${descObj.ko}`
         : `Born against the background of ${jeolgiText} data. Soul of ${stemObj.en} within <b>${branchObj.en}</b>. ${descObj.en}`;
 
-    // 1. 탄생일 정보 영구 고정
     document.getElementById('dynamic-summary').innerHTML = `
-        <div class="info-box" style="background:#F9F8F6; border:1px solid #EEE; border-radius:12px; padding:18px; text-align:left; color:#000;">
+        <div class="info-box" style="background:#F9F8F6; border:1px solid #EEE; border-radius:12px; padding:18px; text-align:left; color:#000; margin-bottom:20px;">
             <div style="display:flex; justify-content:space-between; border-bottom:1px solid #000; padding-bottom:8px; margin-bottom:15px;">
                 <span style="font-weight:800;">DESTINY_LAB_2026</span>
                 <span style="color:var(--accent); font-weight:800;">CODE: ${String(data.num81).padStart(2, '0')}</span>
@@ -816,102 +815,102 @@ function renderSummary(data) {
             <b>${currentLang === 'ko' ? '🌍 탄생일:' : '🌍 Birth:'}</b> <span style="color:var(--primary); font-weight:700;">${data.iljuData.iljuName}</span>
             <p style="margin-top:10px; margin-bottom:0; line-height:1.7; font-size:0.88rem;">${termInfo}</p>
         </div>`;
-    
-    document.getElementById('dynamic-title').innerText = currentLang === 'ko' ? `${data.name}님의 분석 리포트` : `${data.name}'s Analysis Report`;
 
     const r = data.remedy;
 
-    // 2. 탭 가방(tabStorage)에 데이터 배분
     window.tabStorage = {
-        
         profile: `
             <div class="tab-content">
-                <div class="info-box" style="background:#fff; border-radius:15px; padding:20px; border:1px solid #f4f1ed; box-shadow:0 4px 12px rgba(0,0,0,0.03); border-left:none;">
-                    <div style="margin-bottom: 22px;">
-                        <b>🌊 ${currentLang === 'ko' ? '소리 파동:' : 'Sound Wave:'}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? data.waveFlowKo : data.waveFlowEn}</span>
-                        <p style="margin-top:8px; margin-bottom:0; line-height:1.7;">${currentLang === 'ko' ? data.waveDescKo : data.waveDescEn}</p>
+                <div class="info-box" style="background:#fff; padding:25px; border-left:none;">
+                    <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
+                        <b style="color:var(--accent); display:block; margin-bottom:5px;">${currentLang === 'ko' ? '[성명 파동 및 수리격]' : '[Name Wave & Suri]'}</b>
+                        <span style="font-weight:800; font-size:1.3rem;">${data.name}</span>
                     </div>
-                    <div style="margin-bottom: 25px;">
-                        <b>🔮 ${currentLang === 'ko' ? '수리격:' : 'Suri:'}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? luckyTitles81[data.num81] : luckyTitles81En[data.num81]}</span>
-                        <p style="margin-top:8px; margin-bottom:0; line-height:1.7;">${currentLang === 'ko' ? detailedDesc81[data.num81] : detailedDesc81En[data.num81]}</p>
-                    </div>
+                    <p style="margin-bottom:15px;"><b>🌊 ${currentLang === 'ko' ? '소리 파동:' : 'Sound Wave:'}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? data.waveFlowKo : data.waveFlowEn}</span><br><span style="font-size:0.85rem; color:#666; line-height:1.6; display:block; margin-top:5px;">${currentLang === 'ko' ? data.waveDescKo : data.waveDescEn}</span></p>
+                    <p style="margin-bottom:20px;"><b>🔮 ${currentLang === 'ko' ? '수리격:' : 'Suri:'}</b> <span style="color:var(--primary); font-weight:700;">${currentLang === 'ko' ? luckyTitles81[data.num81] : luckyTitles81En[data.num81]}</span><br><span style="font-size:0.85rem; color:#666; line-height:1.6; display:block; margin-top:5px;">${currentLang === 'ko' ? detailedDesc81[data.num81] : detailedDesc81En[data.num81]}</span></p>
+                    
                     <div id="radarChart" style="margin:20px auto; width:100%; height:260px;"></div>
-                <div style="line-height:1.8; color:#444; font-size:0.93rem; margin-top:20px; white-space:pre-wrap;">${data.analysisText}</div>
-            </div>
-        </div>`,
-    
-    // [2번 탭: 현생 분석]
-    fortune: `
-        <div class="tab-content">
-            <div class="info-box" style="background:#fff; padding:25px; border-left:none;">
-                <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
-                    <b style="color:var(--accent); display:block;">${currentLang === 'ko' ? '[현생의 과업 및 처방]' : '[Current Life Mission]'}</b>
-                    <span style="font-weight:800; font-size:1.2rem;">DESTINY THEME</span>
+                    <div style="line-height:1.8; color:#444; font-size:0.93rem; margin-top:20px; white-space:pre-wrap; text-align:center;">${data.analysisText}</div>
                 </div>
-                <div style="margin-bottom:25px; font-size:0.9rem;">
-                    ${data.missionText}
-                </div>
-                <div style="padding-top:20px; border-top:1px solid #F0F0F0;">
-                    <p style="margin-bottom:15px; font-size:0.9rem; color:#444;">${data.docentDesc}</p>
-                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; text-align: center;">
-                        <div><b style="font-size:0.75rem; color:var(--accent);">🎨 컬러</b><br><span style="font-size:0.7rem; display:block; margin-top:5px; line-height:1.5;">${r && r.color ? r.color[0] : ""}<br><span style="color:#888;">${r && r.color ? r.color[1] : ""}</span></span></div>
-                        <div><b style="font-size:0.75rem; color:var(--accent);">🏃 행동</b><br><span style="font-size:0.7rem; display:block; margin-top:5px; line-height:1.5;">${r && r.action ? r.action[0] : ""}<br><span style="color:#888;">${r && r.action ? r.action[1] : ""}</span></span></div>
-                        <div><b style="font-size:0.75rem; color:var(--accent);">👥 사람</b><br><span style="font-size:0.7rem; display:block; margin-top:5px; line-height:1.5;">${r && r.social ? r.social[0] : ""}<br><span style="color:#888;">${r && r.social ? r.social[1] : ""}</span></span></div>
-                        <div><b style="font-size:0.75rem; color:var(--accent);">🥗 음식</b><br><span style="font-size:0.7rem; display:block; margin-top:5px; line-height:1.5;">${r && r.food ? r.food[0] : ""}<br><span style="color:#888;">${r && r.food ? r.food[1] : ""}</span></span></div>
+            </div>`,
+        
+        fortune: `
+            <div class="tab-content">
+                <div class="info-box" style="background:#fff; padding:25px; border-left:none;">
+                    <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
+                        <b style="color:var(--accent); display:block; margin-bottom:5px;">${currentLang === 'ko' ? '[전개중인 에너지 흐름]' : '[Unfolding Energy Flow]'}</b>
+                        <span style="font-weight:800; font-size:1.3rem; color:#000;">${data.name}</span>
+                        <p style="margin-top:15px; margin-bottom:0; font-size:0.85rem; color:#666; line-height:1.6; word-break:keep-all;">
+                            ${data.synergyText}
+                        </p>
+                    </div>
+                    
+                    <div style="margin-bottom:30px; text-align:center; padding: 10px 0;">
+                        <div style="font-size:1.05rem; line-height:1.8; color:#333; word-break:keep-all;">
+                            ${data.missionText}
+                        </div>
+                    </div>
+                    
+                    <div style="padding-top:20px; border-top:1px solid #F0F0F0;">
+                        <p style="margin-bottom:15px; font-size:0.9rem; color:#444; text-align:center; word-break:keep-all;">${data.docentDesc}</p>
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; text-align: center;">
+                            <div><b style="font-size:0.75rem; color:var(--accent);">🎨 컬러</b><br><span style="font-size:0.7rem; display:block; margin-top:5px; line-height:1.5;">${r && r.color ? r.color[0] : ""}<br><span style="color:#888;">${r && r.color ? r.color[1] : ""}</span></span></div>
+                            <div><b style="font-size:0.75rem; color:var(--accent);">🏃 행동</b><br><span style="font-size:0.7rem; display:block; margin-top:5px; line-height:1.5;">${r && r.action ? r.action[0] : ""}<br><span style="color:#888;">${r && r.action ? r.action[1] : ""}</span></span></div>
+                            <div><b style="font-size:0.75rem; color:var(--accent);">👥 사람</b><br><span style="font-size:0.7rem; display:block; margin-top:5px; line-height:1.5;">${r && r.social ? r.social[0] : ""}<br><span style="color:#888;">${r && r.social ? r.social[1] : ""}</span></span></div>
+                            <div><b style="font-size:0.75rem; color:var(--accent);">🥗 음식</b><br><span style="font-size:0.7rem; display:block; margin-top:5px; line-height:1.5;">${r && r.food ? r.food[0] : ""}<br><span style="color:#888;">${r && r.food ? r.food[1] : ""}</span></span></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>`,
-    
-    // [3번 탭: 전생 기록]
-    past: `<div class="tab-content"><div class="info-box" style="padding:20px; background:#fff; border-left:none;">${currentLang === 'ko' ? '전생 데이터를 로딩 중입니다...' : 'Loading Past Life...'}</div></div>`,
-    
-    // [4번 탭: 내세 예약]
-    next: `<div class="tab-content"><div class="info-box" style="padding:20px; background:#fff; border-left:none;">${currentLang === 'ko' ? '내세 데이터를 연산 중입니다...' : 'Loading Next Life...'}</div></div>`
-};
+            </div>`,
+        
+        past: `<div class="tab-content"><div class="info-box" style="padding:20px; background:#fff; border-left:none;">${currentLang === 'ko' ? '전생 데이터를 로딩 중입니다...' : 'Loading Past Life...'}</div></div>`,
+        next: `<div class="tab-content"><div class="info-box" style="padding:20px; background:#fff; border-left:none;">${currentLang === 'ko' ? '내세 데이터를 연산 중입니다...' : 'Loading Next Life...'}</div></div>`
+    };
 
     switchTab('profile', document.querySelectorAll('.tab-btn')[0]);
 }
 
+// 🌍 4. 그래프 출력
 function renderChart(baseScores, finalScores) {
-  const container = document.getElementById('radarChart'); 
-  if (!container) return;
-  const currentLang = window.currentLang || 'ko';
-  const labels = currentLang === 'ko' ? ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"] : ["Wood", "Fire", "Earth", "Metal", "Water"];
-  const cx = 110, cy = 110, r = 70;
-  
-  let polyBase = ""; 
-  let polyFinal = ""; 
+    const container = document.getElementById('radarChart'); 
+    if (!container) return;
+    const currentLang = window.currentLang || 'ko';
+    const labels = currentLang === 'ko' ? ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"] : ["Wood", "Fire", "Earth", "Metal", "Water"];
+    const cx = 110, cy = 110, r = 70;
+    
+    let polyBase = ""; 
+    let polyFinal = ""; 
 
-  labels.forEach((_, i) => { 
-    const a = (Math.PI * 2 / 5) * i - (Math.PI / 2); 
-    let vBase = (baseScores[i] / 175) * r; 
-    vBase = Math.max(r * 0.2, Math.min(vBase, r * 1.05)); 
-    polyBase += `${cx + vBase * Math.cos(a)},${cy + vBase * Math.sin(a)} `; 
+    labels.forEach((_, i) => { 
+        const a = (Math.PI * 2 / 5) * i - (Math.PI / 2); 
+        let vBase = (baseScores[i] / 175) * r; 
+        vBase = Math.max(r * 0.2, Math.min(vBase, r * 1.05)); 
+        polyBase += `${cx + vBase * Math.cos(a)},${cy + vBase * Math.sin(a)} `; 
 
-    let vFinal = (finalScores[i] / 175) * r; 
-    vFinal = Math.max(r * 0.2, Math.min(vFinal, r * 1.05)); 
-    polyFinal += `${cx + vFinal * Math.cos(a)},${cy + vFinal * Math.sin(a)} `; 
-  });
-  
-  container.innerHTML = `<svg width="220" height="220" style="overflow:visible; display:block; margin:0 auto;">
-    <circle cx="${cx}" cy="${cy}" r="${r * 0.4}" fill="none" stroke="#F0F0F0" stroke-dasharray="2,2"/>
-    <circle cx="${cx}" cy="${cy}" r="${r * 0.7}" fill="none" stroke="#E0E0E0" stroke-width="1"/>
-    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#EEE"/>
-    <polygon points="${polyBase}" fill="rgba(200, 200, 200, 0.15)" stroke="#B0B0B0" stroke-width="1.5" stroke-dasharray="4,4" stroke-linejoin="round"/>
-    <polygon points="${polyFinal}" fill="rgba(154, 132, 103, 0.4)" stroke="#9A8467" stroke-width="2.5" stroke-linejoin="round"/>
-    ${labels.map((l, i) => { 
-      const a = (Math.PI * 2 / 5) * i - (Math.PI / 2); 
-      const tx = cx + (r + 27) * Math.cos(a), ty = cy + (r + 27) * Math.sin(a); 
-      return `<text x="${tx}" y="${ty}" text-anchor="middle" dominant-baseline="middle" fill="#555" font-size="11" font-weight="700">${l}</text>`; 
-    }).join('')}
-  </svg>
-  <div style="text-align:center; margin-top:10px; font-size:0.75rem; color:#888;">
-    <span style="display:inline-block; width:12px; height:2px; border-top:2px dashed #B0B0B0; margin-right:4px; vertical-align:middle;"></span> 선천 에너지
-    <span style="display:inline-block; width:10px; height:10px; background:rgba(154, 132, 103, 0.4); border:1.5px solid #9A8467; margin-left:12px; margin-right:4px; vertical-align:middle; border-radius:2px;"></span> 후천 에너지
-  </div>`;
+        let vFinal = (finalScores[i] / 175) * r; 
+        vFinal = Math.max(r * 0.2, Math.min(vFinal, r * 1.05)); 
+        polyFinal += `${cx + vFinal * Math.cos(a)},${cy + vFinal * Math.sin(a)} `; 
+    });
+    
+    container.innerHTML = `<svg width="220" height="220" style="overflow:visible; display:block; margin:0 auto;">
+        <circle cx="${cx}" cy="${cy}" r="${r * 0.4}" fill="none" stroke="#F0F0F0" stroke-dasharray="2,2"/>
+        <circle cx="${cx}" cy="${cy}" r="${r * 0.7}" fill="none" stroke="#E0E0E0" stroke-width="1"/>
+        <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#EEE"/>
+        <polygon points="${polyBase}" fill="rgba(200, 200, 200, 0.15)" stroke="#B0B0B0" stroke-width="1.5" stroke-dasharray="4,4" stroke-linejoin="round"/>
+        <polygon points="${polyFinal}" fill="rgba(154, 132, 103, 0.4)" stroke="#9A8467" stroke-width="2.5" stroke-linejoin="round"/>
+        ${labels.map((l, i) => { 
+        const a = (Math.PI * 2 / 5) * i - (Math.PI / 2); 
+        const tx = cx + (r + 27) * Math.cos(a), ty = cy + (r + 27) * Math.sin(a); 
+        return `<text x="${tx}" y="${ty}" text-anchor="middle" dominant-baseline="middle" fill="#555" font-size="11" font-weight="700">${l}</text>`; 
+        }).join('')}
+    </svg>
+    <div style="text-align:center; margin-top:10px; font-size:0.75rem; color:#888;">
+        <span style="display:inline-block; width:12px; height:2px; border-top:2px dashed #B0B0B0; margin-right:4px; vertical-align:middle;"></span> 선천 에너지
+        <span style="display:inline-block; width:10px; height:10px; background:rgba(154, 132, 103, 0.4); border:1.5px solid #9A8467; margin-left:12px; margin-right:4px; vertical-align:middle; border-radius:2px;"></span> 후천 에너지
+    </div>`;
 }
 
+// 🌍 5. 탭 전환
 function switchTab(mode, element) {
     const body = document.getElementById('reportDetail');
     const session = JSON.parse(localStorage.getItem('destinySession'));
@@ -932,7 +931,6 @@ function switchTab(mode, element) {
 
     const currentLang = window.currentLang || 'ko';
 
-    // 🚨 그래프가 1번 탭으로 이사왔으므로, 'profile' 탭이 열릴 때 차트를 그립니다!
     if (mode === 'profile') {
         setTimeout(() => {
             if (window.renderChart) renderChart(session.baseScores, session.elementScores);
@@ -945,10 +943,10 @@ function switchTab(mode, element) {
 
         body.innerHTML = `
             <div class="tab-content">
-                <div class="info-box" style="background:#fff; padding:25px;">
+                <div class="info-box" style="background:#fff; padding:25px; border-left:none;">
                     <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
-                        <b style="color:var(--accent); display:block;">${currentLang === 'ko' ? '[식별된 전생 기록]' : '[Identified Past Record]'}</b>
-                        <span style="font-weight:800; font-size:1.2rem;">${(currentLang === 'ko' ? makePastNameKo : makePastNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span>
+                        <b style="color:var(--accent); display:block; margin-bottom:5px;">${currentLang === 'ko' ? '[식별된 전생 기록]' : '[Identified Past Record]'}</b>
+                        <span style="font-weight:800; font-size:1.3rem;">${(currentLang === 'ko' ? makePastNameKo : makePastNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span>
                     </div>
                     <p style="margin-bottom:12px;"><b>📍 ${i18n[currentLang].pastDest}:</b> ${era}, ${region}</p>
                     <p style="margin-bottom:12px;"><b>💼 ${i18n[currentLang].pastJob}:</b> ${p.job}<br><span style="font-size:0.85rem; color:#666;">${p.desc}</span></p>
@@ -963,10 +961,10 @@ function switchTab(mode, element) {
 
         body.innerHTML = `
             <div class="tab-content">
-                <div class="info-box" style="background:#fff; padding:25px;">
+                <div class="info-box" style="background:#fff; padding:25px; border-left:none;">
                     <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
-                        <b style="color:var(--accent); display:block;">${currentLang === 'ko' ? '[예약된 내세 정보]' : '[Reserved Afterlife Info]'}</b>
-                        <span style="font-weight:800; font-size:1.2rem;">${(currentLang === 'ko' ? makeNextLifeNameKo : makeNextLifeNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span>
+                        <b style="color:var(--accent); display:block; margin-bottom:5px;">${currentLang === 'ko' ? '[예약된 내세 정보]' : '[Reserved Afterlife Info]'}</b>
+                        <span style="font-weight:800; font-size:1.3rem;">${(currentLang === 'ko' ? makeNextLifeNameKo : makeNextLifeNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span>
                     </div>
                     <p style="margin-bottom:12px;"><b>🌌 ${i18n[currentLang].nextDest}:</b> ${era}, ${region}</p>
                     <p style="margin-bottom:12px;"><b>💼 ${i18n[currentLang].nextObj}:</b> ${rData.job}<br><span style="font-size:0.85rem; color:#666;">${rData.desc}</span></p>
