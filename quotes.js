@@ -1218,23 +1218,35 @@ const suriPrescription = {
             social: [d.socials[idx1], d.socials[idx2]],
             food: [d.foods[idx1], d.foods[idx2]]
         };
-    }
+    } // 🚨 이 괄호가 함수가 닫히는 정상적인 부분입니다.
 };
-        const d = (data[safeLang] || data['ko']);
-        const base = elIdx[el] !== undefined ? elIdx[el] : 0;
-        
-        // 💡 6개의 아이템 중 수리격(num)을 이용해 '서로 다른 2개'를 뽑아 배열로 담습니다.
-        const idx1 = base + (num % 6);
-        const idx2 = base + ((num + 3) % 6); 
 
-        return {
-            color: [d.colors[idx1], d.colors[idx2]],
-            action: [d.actions[idx1], d.actions[idx2]],
-            social: [d.socials[idx1], d.socials[idx2]],
-            food: [d.foods[idx1], d.foods[idx2]]
-        };
-    }
-};
+function generateSuriName(num, s1, s2) {
+    return s1[num % s1.length] + s2[(num + 7) % s2.length];
+}
+
+/* [더 정밀하게 조합되는 이름 생성 함수] */
+function makePastNameKo(num, strong, lack, month) {
+    const name = syllableKo1[(num + month) % syllableKo1.length] + syllableKo2[(num + 7) % syllableKo2.length];
+    return `${name}`;
+}
+
+function makePastNameEn(num, strong, lack, month) {
+    const name = nameRootEn[(num + month) % nameRootEn.length] + nameTailEn[(num + 5) % nameTailEn.length];
+    return `${name}`; 
+}
+
+function makeNextLifeNameKo(num, strong, lack, month) {
+    const offset = strong.length + month;
+    const name = syllableKo1[(num + offset) % syllableKo1.length] + syllableKo2[(num + 15) % syllableKo2.length];
+    return `${name}`;
+}
+
+function makeNextLifeNameEn(num, strong, lack, month) {
+    const offset = strong.length + month;
+    const name = nameRootEn[(num + offset) % nameRootEn.length] + nameTailEn[(num + 25) % nameTailEn.length];
+    return `${name}`;
+}
 
 function generateSuriName(num, s1, s2) {
     return s1[num % s1.length] + s2[(num + 7) % s2.length];
