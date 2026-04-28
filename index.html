@@ -765,15 +765,29 @@ diffScoresA.forEach((diff, i) => {
   
     const analysisText = `${blockA}`;  
     
+    // 🚨 여기서부터 교체 시작 (기존 motherKoArr 선언부부터 지우세요)
     const motherKoArr = ["수(水)", "목(木)", "화(火)", "토(土)", "금(金)"];
     const motherEnArr = ["Water", "Wood", "Fire", "Earth", "Metal"];
 
-    const docentDescKo = `<b>${weakElDisplay}</b>의 기운이 약합니다. <b>'${currentRiskKo}'</b>을 경계하세요. <b>${weakElDisplay}</b>의 에너지를 증폭시키는 <b>${motherKoArr[trueWeakIdx]}</b> 기운을 처방합니다.`;
-    const docentDescEn = `You must be vigilant against your weakness caused by lacking <b>${weakElEnA}</b> energy: <b>'${currentRiskEn}'</b>. To overcome this, instead of directly forcing the missing energy, we prescribe <b>${motherEnArr[trueWeakIdx]}</b> energy to naturally nurture and revive it.`;
+    // 🌟 [추가된 핵심 로직] 엄마가 너무 많은지(35점 이상) 스캔합니다!
+    const motherIdx = (trueWeakIdx + 4) % 5;
+    let prescriptionElIdx = motherIdx; // 기본 처방은 엄마 오행
+
+    // 엄마 오행이 35점 이상이면(모다멸자 위험) 내 기운(비견)으로 처방 변경
+    if (sc[motherIdx] >= 35) {
+        prescriptionElIdx = trueWeakIdx; 
+    }
+
+    const docentMotherTextKo = sc[motherIdx] >= 35 ? displayElsKo[trueWeakIdx] : motherKoArr[trueWeakIdx];
+    const docentMotherTextEn = sc[motherIdx] >= 35 ? elNamesEnForA[trueWeakIdx] : motherEnArr[trueWeakIdx];
+
+    const docentDescKo = `<b>${weakElDisplay}</b>의 기운이 약합니다. <b>'${currentRiskKo}'</b>을 경계하세요. 에너지를 직접적으로 보충하는 <b>${docentMotherTextKo}</b> 기운을 처방합니다.`;
+    const docentDescEn = `You must be vigilant against your weakness caused by lacking <b>${weakElEnA}</b> energy: <b>'${currentRiskEn}'</b>. We prescribe <b>${docentMotherTextEn}</b> energy to restore balance.`;
     const docentDesc = currentLang === 'ko' ? docentDescKo : docentDescEn;
 
-    const remedy = suriPrescription.getRemedy(num81, [motherKoArr[trueWeakIdx]], currentLang);
-
+    const remedyListKo = ["목(木)", "화(火)", "토(土)", "금(金)", "수(水)"];
+    const remedy = suriPrescription.getRemedy(num81, [remedyListKo[prescriptionElIdx]], currentLang);
+   
     // 🚨 2. 분리해낸 synergyText를 가방(sessionData)에 정확히 담아줍니다.
     const sessionData = { 
         name, birth, num81, baseScores, elementScores: sc, iljuData, solarMonth, hour,
