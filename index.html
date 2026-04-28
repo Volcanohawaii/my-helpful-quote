@@ -55,24 +55,34 @@
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     #loading-overlay { position: fixed; inset: 0; z-index: 9999; background: rgba(240, 237, 233, 0.96); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .15s ease; }
     #loading-overlay.show { opacity: 1; pointer-events: auto; }
-    /* 1. 본문(설명글) 기본 규격 통일 */
-.info-box p, 
-.info-box .main-desc {
-    font-size: 0.9rem;
-    color: #333;
-    line-height: 1.7;
-    text-align: justify;
-    word-break: break-all;
-    margin-bottom: 15px; /* 문단 간격도 여기서 한 번에 통일! */
+
+
+/* 1. 최상단 대제목 (홍길동, 전생 이름 등) : 적당히 크고 묵직하게 */
+.info-box > div:first-child > span {
+    font-size: 1.15rem !important; 
 }
 
-/* 2. 덧붙이는 작은 설명글(서브 텍스트) 규격 통일 */
-.info-box .sub-desc {
-    font-size: 0.85rem;
-    color: #666;
-    line-height: 1.6;
-    display: block;
-    margin-top: 5px;
+/* 2. 각 항목의 소제목 (📜 현생의 과업, 💊 에너지 처방 등) */
+.info-box b {
+    font-size: 0.95rem !important; 
+}
+
+/* 3. 우리가 맞춘 메인 본문 (그대로 유지) */
+.info-box .main-desc {
+    font-size: 0.9rem !important; 
+}
+
+/* 4. 부가 설명글 및 4칸 처방전 박스 안의 글자 모두 통일 (0.7rem 찌꺼기 청소) */
+.info-box .sub-desc,
+.info-box div[style*="grid"] span {
+    font-size: 0.85rem !important;
+    color: #555 !important;
+    line-height: 1.6 !important;
+}
+
+/* 5. 4칸 처방전 박스 안의 미니 제목 (🎨 컬러 등) 강제 통일 */
+.info-box div[style*="grid"] b {
+    font-size: 0.85rem !important; 
 }
   </style>
 </head>
