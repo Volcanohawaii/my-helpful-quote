@@ -39,18 +39,31 @@
     @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
     .official-seal { position: absolute; top: 25px; right: 25px; width: 65px; height: 65px; border: 2px double var(--accent); color: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Gowun Batang'; font-size: 0.7rem; font-weight: 700; opacity: 0.5; transform: rotate(12deg); }
     h1 { font-family: 'Gowun Batang'; font-size: 1.4rem; color: var(--primary); margin-bottom: 10px; }
-    .summary-line { font-family: 'Pretendard', sans-serif; font-size: 0.95rem; color: var(--text); margin-bottom: 30px; line-height: 1.7; text-align: left !important; 
-    word-break: keep-all !important; /* 단어 중간에서 줄바꿈 방지 */
-    line-height: 1.65 !important; /* 줄 간격을 살짝 넉넉하게 */
-    letter-spacing: -0.02em; /* 자간을 살짝 좁혀 쫀쫀하게 만듦 */
-}
-    .tab-content { text-align: left !important; 
-    word-break: keep-all !important; /* 단어 중간에서 줄바꿈 방지 */
-    line-height: 1.65 !important; /* 줄 간격을 살짝 넉넉하게 */
-    letter-spacing: -0.02em; line-height: 1.8; font-size: 0.95rem; }
+    .summary-line { 
+        font-family: 'Pretendard', sans-serif; font-size: 0.95rem; color: var(--text); margin-bottom: 30px; 
+        text-align: justify !important; 
+        text-justify: inter-character !important;
+        word-break: break-all !important; 
+        line-height: 1.65 !important; 
+        letter-spacing: -0.02em; 
+    }
+    .tab-content { 
+        text-align: justify !important; 
+        text-justify: inter-character !important;
+        word-break: break-all !important; 
+        line-height: 1.65 !important; 
+        letter-spacing: -0.02em; font-size: 0.95rem; 
+    }
     .section-wrap { margin-bottom: 30px; }
     .section-title { font-family: 'Gowun Batang'; font-size: 1rem; color: var(--accent); display: block; margin-bottom: 12px; font-weight: 700; border-bottom: 1px solid #F0F0F0; }
-    .info-box { background: #F9F8F6; padding: 18px; border-radius: 8px; border-left: 4px solid var(--accent); margin-bottom: 15px; }
+   .info-box .main-desc { 
+        font-size: 0.9rem !important; 
+        text-align: justify !important; 
+        text-justify: inter-character !important;
+        word-break: break-all !important; 
+        line-height: 1.65 !important; 
+        letter-spacing: -0.02em; 
+    }
     .warning-box { background: #FFF5F5; padding: 15px; border-radius: 8px; font-size: 0.85rem; color: #C0392B; margin-top: 25px; }
     .tabs { 
     display: flex; 
