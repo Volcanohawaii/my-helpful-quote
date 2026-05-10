@@ -969,15 +969,18 @@ diffScoresA.forEach((diff, i) => {
 // 🌍 3. 리포트 출력 (디자인 완벽 통일)
 function renderSummary(data) {
     const currentLang = window.currentLang || 'ko';
-    
-    // 1. 긴 문장 대신 짧고 임팩트 있는 '태그'용 단어만 쏙쏙 뽑아냅니다.
-    // 절기 이름에서 앞의 두 글자(예: '청명')만 가져옵니다.
-    const jeolgiRaw = jeolgiNames[data.solarMonth] ? jeolgiNames[data.solarMonth][currentLang] : "";
-    const cleanJeolgi = currentLang === 'ko' ? jeolgiRaw.split('의')[0] : jeolgiRaw.split(' ')[0];
-    
-    // 파동 이름에서 한 글자(예: '목')만 가져옵니다.
-    const cleanWave = currentLang === 'ko' ? data.waveFlowKo.split(' ')[0].charAt(0) : data.waveFlowEn.split(' ')[0].charAt(0);
 
+   // 1. 긴 문장 대신 짧고 임팩트 있는 '태그'용 단어만 쏙쏙 뽑아냅니다. (오류 방지 안전장치 장착!)
+    const jeolgiRaw = (jeolgiNames[data.solarMonth] && jeolgiNames[data.solarMonth][currentLang]) ? jeolgiNames[data.solarMonth][currentLang] : "";
+    
+    // [수정 이유] 글자가 비어있지 않을 때만(jeolgiRaw가 진짜 있을 때만) 자르도록 안전하게 고쳤습니다.
+    const cleanJeolgi = jeolgiRaw ? (currentLang === 'ko' ? jeolgiRaw.split('의')[0] : jeolgiRaw.split(' ')[0]) : "미상";
+
+    const waveKoStr = data.waveFlowKo ? data.waveFlowKo : "";
+    const waveEnStr = data.waveFlowEn ? data.waveFlowEn : "";
+    
+    // [수정 이유] 파동 글자도 데이터가 비어있지 않을 때만 자르도록 고쳤습니다.
+    const cleanWave = currentLang === 'ko' ? (waveKoStr ? waveKoStr.split(' ')[0].charAt(0) : "?") : (waveEnStr ? waveEnStr.split(' ')[0].charAt(0) : "?");
     // 2. 화면에 ID 카드 형태의 HTML을 그려줍니다.
     document.getElementById('dynamic-summary').innerHTML = `
         <div class="id-card-box">
