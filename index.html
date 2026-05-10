@@ -200,8 +200,23 @@
 .id-name { font-family: 'Gowun Batang'; font-size: 1.6rem; font-weight: 700; color: var(--primary); display: inline-block; margin-right: 5px; }
 .id-sub { font-size: 0.85rem; color: #888; display: inline-block; }
 
-/* 핵심: 해시태그 모양 버튼들 */
-.tag-group { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* 핵심: 해시태그 모양 버튼들 (가로 스크롤 적용) */
+.tag-group { 
+    display: flex; 
+    gap: 8px; 
+    overflow-x: auto; /* 🚨 가로 스크롤 켜기 */
+    white-space: nowrap; /* 🚨 절대 밑으로 줄바꿈 되지 않도록 막기 */
+    padding-bottom: 5px; /* 터치할 때 넉넉하도록 아래 공간 살짝 띄우기 */
+    
+    /* 🚨 지저분한 스크롤바 숨기기 (아이폰/안드로이드 앱처럼 깔끔하게) */
+    -ms-overflow-style: none; /* IE, Edge */
+    scrollbar-width: none; /* Firefox */
+}
+.tag-group::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
 .tag-badge { 
     background: #FFFFFF; 
     border: 1px solid #D1CDC5; 
@@ -211,6 +226,7 @@
     font-size: 0.8rem; 
     font-weight: 700; 
     box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    flex-shrink: 0; /* 🚨 핵심: 공간이 좁아도 태그가 찌그러지지 않고 원래 모양 유지 */
 }
 /* 🚨 여기까지 추가 끝 */   
   </style>
