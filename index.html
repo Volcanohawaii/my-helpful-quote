@@ -1002,17 +1002,32 @@ diffScoresA.forEach((diff, i) => {
 function renderSummary(data) {
     const currentLang = window.currentLang || 'ko';
 
-   // 1. 긴 문장 대신 짧고 임팩트 있는 '태그'용 단어만 쏙쏙 뽑아냅니다. (오류 방지 안전장치 장착!)
+  // 1. 긴 문장 대신 짧고 임팩트 있는 '태그'용 단어만 쏙쏙 뽑아냅니다. (오류 방지 안전장치 장착!)
     const jeolgiRaw = (jeolgiNames[data.solarMonth] && jeolgiNames[data.solarMonth][currentLang]) ? jeolgiNames[data.solarMonth][currentLang] : "";
-    
-    // [수정 이유] 글자가 비어있지 않을 때만(jeolgiRaw가 진짜 있을 때만) 자르도록 안전하게 고쳤습니다.
     const cleanJeolgi = jeolgiRaw ? (currentLang === 'ko' ? jeolgiRaw.split('의')[0] : jeolgiRaw.split(' ')[0]) : "미상";
 
     const waveKoStr = data.waveFlowKo ? data.waveFlowKo : "";
     const waveEnStr = data.waveFlowEn ? data.waveFlowEn : "";
-    
-    // [수정 이유] 파동 글자도 데이터가 비어있지 않을 때만 자르도록 고쳤습니다.
-    const cleanWave = currentLang === 'ko' ? (waveKoStr ? waveKoStr.split(' ')[0].charAt(0) : "?") : (waveEnStr ? waveEnStr.split(' ')[0].charAt(0) : "?");
+    const cleanWave = currentLang === 'ko' ? (waveKoStr ? waveKoStr.split(' ')[0] : "?") : (waveEnStr ? waveEnStr.split(' ')[0] : "?");
+
+    // 🌟 [핵심 업그레이드] 갑자, 계해 같은 어려운 한자를 '아름다운 자연 상징(자아 상징)'으로 자동 번역합니다!
+    const iljuStr = data.iljuData.iljuName || "갑자(甲子)";
+    const stemChar = iljuStr.charAt(0); // 첫 글자 추출 (갑~계: 본질)
+    const branchChar = iljuStr.charAt(1); // 두 번째 글자 추출 (자~해: 계절/환경)
+
+    // 천간(본질) 자연물 10종 매핑
+    const stemSymbolKo = { "갑":"곧게 뻗은 거목", "을":"부드러운 화초", "병":"눈부신 태양", "정":"타오르는 모닥불", "무":"굳건한 태산", "기":"비옥한 대지", "경":"단단한 큰 바위", "신":"빛나는 보석", "임":"깊은 깊은 바다", "계":"맑은 시냇물" };
+    const stemSymbolEn = { "갑":"Upright Tree", "을":"Soft Flower", "병":"Dazzling Sun", "정":"Burning Bonfire", "무":"Firm Mountain", "기":"Fertile Earth", "경":"Solid Rock", "신":"Shining Jewel", "임":"Deep Ocean", "계":"Clear Stream" };
+
+    // 지지(계절/환경) 수식어 12종 매핑
+    const branchSeasonKo = { "인":"생동하는 봄의", "묘":"따뜻한 봄의", "진":"늦봄의", "사":"초여름의", "오":"뜨거운 여름의", "미":"늦여름의", "신":"초가을의", "유":"서늘한 가을의", "술":"늦가을의", "해":"초겨울의", "자":"한겨울의", "축":"늦겨울의" };
+    const branchSeasonEn = { "인":"Vibrant Spring", "묘":"Warm Spring", "진":"Late Spring", "사":"Early Summer", "오":"Hot Summer", "미":"Late Summer", "신":"Early Autumn", "유":"Cool Autumn", "술":"Late Autumn", "해":"Early Winter", "자":"Deep Winter", "축":"Late Winter" };
+
+    // 계절과 자연물을 레고처럼 조립! (예: "한겨울의" + "타오르는 모닥불")
+    const mySymbolKo = (branchSeasonKo[branchChar] && stemSymbolKo[stemChar]) ? `${branchSeasonKo[branchChar]} ${stemSymbolKo[stemChar]}` : "미지의 별";
+    const mySymbolEn = (branchSeasonEn[branchChar] && stemSymbolEn[stemChar]) ? `${branchSeasonEn[branchChar]} ${stemSymbolEn[stemChar]}` : "Unknown Star";
+    const mySymbol = currentLang === 'ko' ? mySymbolKo : mySymbolEn;
+
     // 2. 화면에 ID 카드 형태의 HTML을 그려줍니다.
     document.getElementById('dynamic-summary').innerHTML = `
         <div class="id-card-box">
@@ -1022,16 +1037,17 @@ function renderSummary(data) {
             </div>
             <div class="id-name-area">
                 <div class="id-name">${data.name}</div>
-                <div class="id-sub">${currentLang === 'ko' ? '님의 에너지 요약' : "'s Energy Signature"}</div>
+                <div class="id-sub">${currentLang === 'ko' ? '님의 운명 시그니처' : "'s Destiny Signature"}</div>
             </div>
             
             <div class="tag-group">
                 <span class="tag-badge">🌱 ${currentLang === 'ko' ? '탄생 계절' : 'Season'} : ${cleanJeolgi}</span>
-                <span class="tag-badge">🗓️ ${currentLang === 'ko' ? '고유 일주' : 'Day Master'} : ${data.iljuData.iljuName}</span>
+                <span class="tag-badge">💎 ${currentLang === 'ko' ? '자아 상징' : 'Ego Symbol'} : ${mySymbol}</span>
                 <span class="tag-badge">〰️ ${currentLang === 'ko' ? '소리 파동' : 'Wave'} : ${cleanWave}</span>
             </div>
         </div>
     `;
+   
    
 
     const r = data.remedy;
