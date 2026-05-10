@@ -1035,7 +1035,7 @@ window.tabStorage = {
                 <div class="info-box" style="background:#fff; padding:25px; border-left:none;">
                     <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
                         <b style="color:var(--accent); display:block; margin-bottom:5px;">${currentLang === 'ko' ? '[전개중인 에너지 흐름]' : '[Unfolding Energy Flow]'}</b>
-                        <span style="font-weight:800; font-size:1.3rem; color:#000;">${data.name}</span>
+                        <span style="font-weight:800; font-size:1.3rem; color:#000;">${currentLang === 'ko' ? '성명: ' : 'Name: '}${data.name}</span>
                         <div class="main-desc" style="margin-top:15px;">
                             ${data.synergyText}
                         </div>
@@ -1148,7 +1148,7 @@ function switchTab(mode, element) {
                 <div class="info-box" style="background:#fff; padding:25px; border-left:none;">
                     <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
                         <b style="color:var(--accent); display:block; margin-bottom:5px;">${currentLang === 'ko' ? '[식별된 전생 기록]' : '[Identified Past Record]'}</b>
-                        <span style="font-weight:800; font-size:1.3rem;">${(currentLang === 'ko' ? makePastNameKo : makePastNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span>
+                        <span style="font-weight:800; font-size:1.3rem;">${currentLang === 'ko' ? '성명: ' : 'Name: '}${(currentLang === 'ko' ? makePastNameKo : makePastNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span>
                     </div>
                     
                     <div style="margin-bottom:25px;">
@@ -1185,7 +1185,7 @@ function switchTab(mode, element) {
                 <div class="info-box" style="background:#fff; padding:25px; border-left:none;">
                     <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
                         <b style="color:var(--accent); display:block; margin-bottom:5px;">${currentLang === 'ko' ? '[예약된 내세 정보]' : '[Reserved Afterlife Info]'}</b>
-                        <span style="font-weight:800; font-size:1.3rem;">${(currentLang === 'ko' ? makeNextLifeNameKo : makeNextLifeNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span>
+                        <span style="font-weight:800; font-size:1.3rem;">${currentLang === 'ko' ? '성명: ' : 'Name: '}${(currentLang === 'ko' ? makeNextLifeNameKo : makeNextLifeNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth)}</span>
                     </div>
                     
                     <div style="margin-bottom:25px;">
