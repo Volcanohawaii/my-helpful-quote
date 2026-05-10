@@ -10,13 +10,13 @@ const i18n = {
         sec1: "📊 운명 시그니처 분석", sec2: "💊 에너지 균형 처방",
         pastDest: "전생 활동 중심지", pastJob: "전생의 직업", pastHomework: "전생의 과업",
         nextDest: "내세 활동 중심지", nextObj: "내세의 직업", nextMission: "내세의 임무",
-        logicTitle: "◈ Destiny Lab 분석 방법론",
-        l1Title: "〰️ 소리 주파수 분석 (Name Vibrations)",
-        l1Desc: "성명을 고유 주파수를 가진 에너지로 변환합니다. 발음 오행이 개인의 기운에 간섭하는 데이터를 수치화했습니다.",
-        l2Title: "🗓️ 시계열 지표 대입 (Solar Term Time-series)",
-        l2Desc: "탄생 순간의 배경을 '선천적 변수'로 설정합니다. 탄생 순간의 에너지 밀도를 분석하여 당신의 근원을 도출합니다.",
-        l3Title: "🧬 81수리 상호작용 엔진",
-        l3Desc: "선천적 기운과 후천적 성명 에너지의 조합 알고리즘으로 현생-전생-내세의 데이터를 연산합니다."
+        logicTitle: "◈ Destiny Lab 분석 방법"
+        l1Title: "〰️ 성명 파동 분석 (Name Vibrations)",
+        l1Desc: "이름의 발음을 오행으로 변환하여 후천적 에너지를 분석합니다.",
+        l2Title: "🗓️ 명리 시계열 대입 (Birth Time-series)",
+        l2Desc: "탄생 시점의 절기 데이터를 연산하여 선천적 기질을 도출합니다.",
+        l3Title: "🧬 운명 융합 엔진 (Destiny Algorithm)",
+        l3Desc: "선천적 기질과 성명 에너지를 결합하여 전생·현생·내세의 궤적을 예측합니다."
     },
     en: {
         title: "Destiny Numerology Analysis", desc: "Analyzes the 81-numerology system based on name vibrations and birth indicators to derive your signature energy structure.",
@@ -29,11 +29,11 @@ const i18n = {
         nextDest: "Future Domain", nextObj: "Future Occupation", nextMission: "Future Assignment",
         logicTitle: "◈ Destiny Lab Methodology",
         l1Title: "〰️ Name Vibrations",
-        l1Desc: "Converts names into energy with unique frequencies. We quantify how phonetic elements interfere with an individual's aura.",
-        l2Title: "🗓️ Solar Term Time-series",
-        l2Desc: "Sets the seasonal background at birth as an 'innate variable.' We derive your primal environment by analyzing the energy density of your birth moment.",
-        l3Title: "🧬 81-Suri Interaction Engine",
-        l3Desc: "Calculates current, past, and future scenarios using algorithms derived from the combination of innate and acquired energies."
+        l1Desc: "Analyzes acquired energy by converting name pronunciation into the Five Elements.",
+        l2Title: "🗓️ Birth Time-series",
+        l2Desc: "Derives innate disposition by calculating solar term data at the exact time of birth.",
+        l3Title: "🧬 Destiny Algorithm",
+        l3Desc: "Predicts the trajectory of past, present, and next lives by combining innate disposition with name energy."
     }
 };
 
