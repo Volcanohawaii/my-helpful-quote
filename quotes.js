@@ -10,7 +10,7 @@ const i18n = {
         sec1: "📊 운명 시그니처 분석", sec2: "💊 에너지 균형 처방",
         pastDest: "전생 활동 중심지", pastJob: "전생의 직업", pastHomework: "전생의 과업",
         nextDest: "내세 활동 중심지", nextObj: "내세의 직업", nextMission: "내세의 임무",
-        logicTitle: "◈ Destiny Lab 분석 방법"
+        logicTitle: "◈ Destiny Lab 분석 방법",
         l1Title: "〰️ 성명 파동 분석 (Name Vibrations)",
         l1Desc: "이름의 발음을 오행으로 변환하여 후천적 에너지를 분석합니다.",
         l2Title: "🗓️ 명리 시계열 대입 (Birth Time-series)",
