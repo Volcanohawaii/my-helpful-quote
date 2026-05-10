@@ -39,18 +39,89 @@
     @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
     .official-seal { position: absolute; top: 25px; right: 25px; width: 65px; height: 65px; border: 2px double var(--accent); color: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Gowun Batang'; font-size: 0.7rem; font-weight: 700; opacity: 0.5; transform: rotate(12deg); }
     h1 { font-family: 'Gowun Batang'; font-size: 1.4rem; color: var(--primary); margin-bottom: 10px; }
-    .summary-line { font-family: 'Pretendard', sans-serif; font-size: 0.95rem; color: var(--text); margin-bottom: 30px; line-height: 1.7; text-align: justify; text-justify: inter-character; }
-    .tab-content { text-align: justify; text-justify: inter-character; line-height: 1.8; font-size: 0.95rem; }
+    .summary-line { font-family: 'Pretendard', sans-serif; font-size: 0.95rem; color: var(--text); margin-bottom: 30px; line-height: 1.7; text-align: left !important; 
+    word-break: keep-all !important; /* 단어 중간에서 줄바꿈 방지 */
+    line-height: 1.65 !important; /* 줄 간격을 살짝 넉넉하게 */
+    letter-spacing: -0.02em; /* 자간을 살짝 좁혀 쫀쫀하게 만듦 */
+}
+    .tab-content { text-align: left !important; 
+    word-break: keep-all !important; /* 단어 중간에서 줄바꿈 방지 */
+    line-height: 1.65 !important; /* 줄 간격을 살짝 넉넉하게 */
+    letter-spacing: -0.02em; line-height: 1.8; font-size: 0.95rem; }
     .section-wrap { margin-bottom: 30px; }
     .section-title { font-family: 'Gowun Batang'; font-size: 1rem; color: var(--accent); display: block; margin-bottom: 12px; font-weight: 700; border-bottom: 1px solid #F0F0F0; }
     .info-box { background: #F9F8F6; padding: 18px; border-radius: 8px; border-left: 4px solid var(--accent); margin-bottom: 15px; }
     .warning-box { background: #FFF5F5; padding: 15px; border-radius: 8px; font-size: 0.85rem; color: #C0392B; margin-top: 25px; }
-    .tabs { display: flex; border-bottom: 1px solid #EEE; margin: 25px 0; }
-    .tab-btn { flex: 1; padding: 12px 0; border: none; background: none; cursor: pointer; font-size: 0.85rem; color: #BBB; font-family: 'Gowun Batang'; }
-    .tab-btn.active { color: var(--primary); font-weight: 700; border-bottom: 2px solid var(--primary); }
-    .btn-action { width: 100%; background: var(--primary); color: white; border: none; padding: 18px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 1rem; }
+    .tabs { 
+    display: flex; 
+    background: #F4F2EE; /* 연한 배경 깔기 */
+    padding: 6px; 
+    border-radius: 12px; 
+    margin: 25px 0; 
+    gap: 4px;
+    border-bottom: none; /* 기존 밑줄 제거 */
+}
+.tab-btn { 
+    flex: 1; 
+    padding: 12px 0; 
+    border: none; 
+    background: transparent; 
+    cursor: pointer; 
+    font-size: 0.85rem; 
+    color: #999; 
+    font-family: 'Gowun Batang'; 
+    border-radius: 8px; /* 버튼 둥글게 */
+    transition: all 0.3s ease; 
+}
+.tab-btn.active { 
+    background: #FFFFFF; /* 선택된 탭은 하얗게 튀어나옴 */
+    color: var(--primary); 
+    font-weight: 800; 
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); /* 살짝 그림자 */
+    border-bottom: none; 
+}
+    .btn-action { 
+    width: 100%; 
+    background: var(--primary); 
+    color: white; 
+    border: none; 
+    padding: 18px; 
+    border-radius: 12px; /* 살짝 더 둥글게 */
+    cursor: pointer; 
+    font-weight: 700; 
+    font-size: 1.05rem; 
+    box-shadow: 0 6px 16px rgba(36, 52, 71, 0.2); /* 고급스러운 그림자 */
+    transition: transform 0.15s ease, box-shadow 0.15s ease; 
+}
+/* 마우스 올렸을 때 (PC) */
+.btn-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(36, 52, 71, 0.3);
+}
+/* 클릭/터치할 때 눌리는 효과 */
+.btn-action:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 8px rgba(36, 52, 71, 0.2);
+}
     .hidden { display: none; }
-    input { width: 100%; padding: 15px; margin-bottom: 15px; border: none; border-bottom: 1px solid #DDD; font-size: 1.1rem; outline: none; background: transparent; }
+    input { 
+    width: 100%; 
+    padding: 16px; 
+    margin-bottom: 15px; 
+    border: 1px solid #EAE8E3 !important; /* 연한 테두리 박스 생성 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    font-size: 1.05rem; 
+    outline: none; 
+    background: #FCFBF9; 
+    color: var(--text);
+    transition: all 0.2s ease;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); /* 안쪽으로 살짝 파인 느낌 */
+}
+input:focus {
+    border-color: var(--accent) !important; /* 터치 시 테두리 색 변경 */
+    background: #FFFFFF;
+    box-shadow: 0 0 0 3px rgba(154, 132, 103, 0.1); /* 터치 시 은은한 빛 퍼짐 */
+}
     .visitor-counter { margin-top: 25px; font-size: 0.75rem; color: #AAA; font-family: 'Gowun Batang'; border-top: 1px solid #F5F5F5; padding-top: 15px; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     #loading-overlay { position: fixed; inset: 0; z-index: 9999; background: rgba(240, 237, 233, 0.96); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .15s ease; }
@@ -70,10 +141,11 @@
 /* 3. 우리가 맞춘 메인 본문 (그대로 유지) */
 .info-box .main-desc {
     font-size: 0.9rem !important; 
-    text-align: justify !important; /* 부모 상자의 가운데 정렬을 무시하고 양쪽 정렬 강제 */
-    word-break: break-all !important; /* 단어 끊김 방지 강제 */
+    text-align: left !important; 
+    word-break: keep-all !important; /* 단어 중간에서 줄바꿈 방지 */
+    line-height: 1.65 !important; /* 줄 간격을 살짝 넉넉하게 */
+    letter-spacing: -0.02em; /* 자간을 살짝 좁혀 쫀쫀하게 만듦 */
 }
-
 /* 4. 부가 설명글 및 4칸 처방전 박스 안의 글자 (글자 크기를 살짝 줄여서 넘침 방지) */
 .info-box .sub-desc,
 .info-box div[style*="grid"] span {
@@ -86,6 +158,56 @@
 .info-box div[style*="grid"] b {
     font-size: 0.85rem !important; 
 }
+ /* 🚨 여기서부터 추가: 운명 ID 카드 디자인 */
+.id-card-box {
+    background: #F9F8F6;
+    border: 1px solid #EAE8E3;
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.04); /* 고급스러운 그림자 */
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+}
+/* 카드 오른쪽 위 희미한 워터마크 효과 */
+.id-card-box::after {
+    content: "DESTINY";
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 4rem;
+    font-weight: 900;
+    color: rgba(154, 132, 103, 0.05); /* 아주 연한 포인트 컬러 */
+    pointer-events: none;
+}
+.id-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed #D1CDC5; /* 점선으로 영역 분리 */
+    padding-bottom: 12px;
+    margin-bottom: 15px;
+}
+.id-logo { font-weight: 900; font-size: 0.8rem; color: #777; letter-spacing: 1px; }
+.id-code { color: var(--accent); font-weight: 900; font-size: 0.95rem; }
+.id-name-area { margin-bottom: 18px; }
+.id-name { font-family: 'Gowun Batang'; font-size: 1.6rem; font-weight: 700; color: var(--primary); display: inline-block; margin-right: 5px; }
+.id-sub { font-size: 0.85rem; color: #888; display: inline-block; }
+
+/* 핵심: 해시태그 모양 버튼들 */
+.tag-group { display: flex; gap: 8px; flex-wrap: wrap; }
+.tag-badge { 
+    background: #FFFFFF; 
+    border: 1px solid #D1CDC5; 
+    color: var(--primary); 
+    padding: 6px 14px; 
+    border-radius: 20px; /* 둥근 캡슐 모양 */
+    font-size: 0.8rem; 
+    font-weight: 700; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+/* 🚨 여기까지 추가 끝 */   
   </style>
 </head>
 <body oncontextmenu="return false" onselectstart="return false">
@@ -842,24 +964,35 @@ diffScoresA.forEach((diff, i) => {
 // 🌍 3. 리포트 출력 (디자인 완벽 통일)
 function renderSummary(data) {
     const currentLang = window.currentLang || 'ko';
-    const jeolgiText = jeolgiNames[data.solarMonth] ? jeolgiNames[data.solarMonth][currentLang] : "";
-    const stemObj = stemTemplates[data.iljuData.stemId];
-    const branchObj = branchTemplates[data.iljuData.branchId];
-    const descObj = stemDescriptions[data.iljuData.stemId];
     
-    const termInfo = currentLang === 'ko' 
-        ? `당신은 ${jeolgiText} 데이터를 배경으로, ${branchObj.ko}이자, <b>${stemObj.ko}</b>의 운명을 품고 태어났습니다. ${descObj.ko}`
-        : `Born against the background of ${jeolgiText} data. Soul of ${stemObj.en} within <b>${branchObj.en}</b>. ${descObj.en}`;
+    // 1. 긴 문장 대신 짧고 임팩트 있는 '태그'용 단어만 쏙쏙 뽑아냅니다.
+    // 절기 이름에서 앞의 두 글자(예: '청명')만 가져옵니다.
+    const jeolgiRaw = jeolgiNames[data.solarMonth] ? jeolgiNames[data.solarMonth][currentLang] : "";
+    const cleanJeolgi = currentLang === 'ko' ? jeolgiRaw.split('의')[0] : jeolgiRaw.split(' ')[0];
+    
+    // 파동 이름에서 한 글자(예: '목')만 가져옵니다.
+    const cleanWave = currentLang === 'ko' ? data.waveFlowKo.split(' ')[0].charAt(0) : data.waveFlowEn.split(' ')[0].charAt(0);
 
+    // 2. 화면에 ID 카드 형태의 HTML을 그려줍니다.
     document.getElementById('dynamic-summary').innerHTML = `
-        <div class="info-box" style="background:#F9F8F6; border:1px solid #EEE; border-radius:12px; padding:18px; text-align:left; color:#000; margin-bottom:20px;">
-            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #000; padding-bottom:8px; margin-bottom:15px;">
-                <span style="font-weight:800;">DESTINY_LAB_2026</span>
-                <span style="color:var(--accent); font-weight:800;">CODE: ${String(data.num81).padStart(2, '0')}</span>
+        <div class="id-card-box">
+            <div class="id-header">
+                <span class="id-logo">DESTINY LAB</span>
+                <span class="id-code">CODE: ${String(data.num81).padStart(2, '0')}</span>
             </div>
-            <b>${currentLang === 'ko' ? '🌍 탄생일:' : '🌍 Birth:'}</b> <span style="color:var(--primary); font-weight:700;">${data.iljuData.iljuName}</span>
-            <p style="margin-top:10px; margin-bottom:0; line-height:1.7; font-size:0.88rem;">${termInfo}</p>
-        </div>`;
+            <div class="id-name-area">
+                <div class="id-name">${data.name}</div>
+                <div class="id-sub">${currentLang === 'ko' ? '님의 운명 시그니처' : "'s Destiny Signature"}</div>
+            </div>
+            
+            <div class="tag-group">
+                <span class="tag-badge">🌱 ${currentLang === 'ko' ? '탄생 계절' : 'Season'} : ${cleanJeolgi}</span>
+                <span class="tag-badge">🗓️ ${currentLang === 'ko' ? '고유 일주' : 'Day Master'} : ${data.iljuData.iljuName}</span>
+                <span class="tag-badge">〰️ ${currentLang === 'ko' ? '소리 파동' : 'Wave'} : ${cleanWave}</span>
+            </div>
+        </div>
+    `;
+   
 
     const r = data.remedy;
 
