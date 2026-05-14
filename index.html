@@ -145,7 +145,25 @@
     #loading-overlay { position: fixed; inset: 0; z-index: 9999; background: rgba(240, 237, 233, 0.96); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .15s ease; }
     #loading-overlay.show { opacity: 1; pointer-events: auto; }
 
+/* 자아 상세 분석 박스 디자인 */
+.symbol-detail-wrap { margin-top: 15px; border-radius: 8px; overflow: hidden; border: 1px solid #eee; }
 
+/* 누르는 버튼 디자인 */
+.symbol-btn { 
+    width: 100%; padding: 10px 15px; background: #fff; border: none;
+    display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer; font-size: 0.85rem; color: var(--primary); font-weight: 700;
+}
+
+/* 눌렀을 때 나오는 긴 글 박스 (처음엔 숨겨둠) */
+.symbol-content { 
+    display: none; padding: 15px; background: #fcfbf9; border-top: 1px solid #eee;
+    font-size: 0.85rem; line-height: 1.7; color: #555; text-align: justify; 
+    text-justify: inter-character; word-break: break-all;
+}
+/* 버튼 옆에 작은 화살표 표시 */
+.symbol-btn::after { content: '▼'; font-size: 0.6rem; color: #ccc; }
+    
 /* 1. 최상단 대제목 (홍길동, 전생 이름 등) : 적당히 크고 묵직하게 */
 .info-box > div:first-child > span {
     font-size: 1.15rem !important; 
@@ -241,7 +259,7 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.02);
     flex-shrink: 0; /* 🚨 핵심: 공간이 좁아도 태그가 찌그러지지 않고 원래 모양 유지 */
 }
-/* 🚨 여기까지 추가 끝 */   
+ 
   </style>
 </head>
 <body oncontextmenu="return false" onselectstart="return false">
@@ -1028,7 +1046,9 @@ function renderSummary(data) {
     const mySymbolEn = (branchSeasonEn[branchChar] && stemSymbolEn[stemChar]) ? `${branchSeasonEn[branchChar]} ${stemSymbolEn[stemChar]}` : "Unknown Star";
     const mySymbol = currentLang === 'ko' ? mySymbolKo : mySymbolEn;
 
-    // 2. 화면에 ID 카드 형태의 HTML을 그려줍니다.
+  // 상세 분석 글 가져오기
+    const detailDesc = currentLang === 'ko' ? data.iljuData.descKo : data.iljuData.descEn;
+
     document.getElementById('dynamic-summary').innerHTML = `
         <div class="id-card-box">
             <div class="id-header">
@@ -1044,6 +1064,15 @@ function renderSummary(data) {
                 <span class="tag-badge">🌱 ${currentLang === 'ko' ? '탄생 계절' : 'Season'} : ${cleanJeolgi}</span>
                 <span class="tag-badge">💎 ${currentLang === 'ko' ? '자아 상징' : 'Ego Symbol'} : ${mySymbol}</span>
                 <span class="tag-badge">〰️ ${currentLang === 'ko' ? '소리 파동' : 'Wave'} : ${cleanWave}</span>
+            </div>
+
+            <div class="symbol-detail-wrap">
+                <button class="symbol-btn" onclick="toggleSymbolDetail(this)">
+                    ✨ ${currentLang === 'ko' ? '자아 상세 분석 보기' : 'Ego Detail Analysis'}
+                </button>
+                <div class="symbol-content">
+                    ${detailDesc}
+                </div>
             </div>
         </div>
     `;
@@ -1119,7 +1148,16 @@ window.tabStorage = {
 
     switchTab('profile', document.querySelectorAll('.tab-btn')[0]);
 }
-
+// 버튼을 누르면 숨겨진 글을 보여줬다 가렸다 하는 함수
+function toggleSymbolDetail(btn) {
+    const content = btn.nextElementSibling; // 버튼 바로 밑에 있는 글 박스를 찾아서
+    
+    if (content.style.display === "block") {
+        content.style.display = "none"; // 보이고 있으면 가리고
+    } else {
+        content.style.display = "block"; // 가려져 있으면 보여줘라
+    }
+}
 // 🌍 4. 그래프 출력 (유지)
 function renderChart(baseScores, finalScores) {
     const container = document.getElementById('radarChart'); 
