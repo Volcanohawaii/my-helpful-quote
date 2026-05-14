@@ -1232,68 +1232,36 @@ function switchTab(mode, element) {
         const region = (currentLang === 'ko' ? regionPastKo : regionPastEn)[(session.num81 + birthMonth) % (currentLang === 'ko' ? regionPastKo.length : regionPastEn.length)];
         const pastName = (currentLang === 'ko' ? makePastNameKo : makePastNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth);
 
-        // 🚨 [전생 매트릭스 엔진] 10(본질) × 수백(직업) × 10(연결) × 10(결론) = 수십만 가지 조합
+        // 🚨 [전생 재능 매트릭스] 직업 반복을 없애고 영혼에 새겨진 '카르마적 특수 능력'을 도출합니다.
         const stemIdMap = { "gap":"갑", "eul":"을", "byeong":"병", "jeong":"정", "mu":"무", "gi":"기", "gyeong":"경", "sin":"신", "im":"임", "gye":"계" };
         const dmChar = (session.iljuData && session.iljuData.stemId && stemIdMap[session.iljuData.stemId]) ? stemIdMap[session.iljuData.stemId] : "무";
         
-        // 1. 머리 블록 (10종)
-        const stemPastPrefixKo = {
-            "갑": "강직하게 뻗어나가는 선천적 목(木)의 기운과", "을": "유연하게 얽혀드는 선천적 목(木)의 기운과",
-            "병": "세상을 밝히는 선천적 화(火)의 기운과", "정": "집요하게 타오르는 선천적 화(火)의 기운과",
-            "무": "모든 것을 품는 선천적 토(土)의 기운과", "기": "만물을 길러내는 선천적 토(土)의 기운과",
-            "경": "단단하게 벼려진 선천적 금(金)의 기운과", "신": "예리하게 다듬어진 선천적 금(金)의 기운과",
-            "임": "거침없이 흐르는 선천적 수(水)의 기운과", "계": "치밀하게 스며드는 선천적 수(水)의 기운과"
-        };
-        const stemPastPrefixEn = {
-            "갑": "innate upright Wood energy and", "을": "innate flexible Wood energy and",
-            "병": "innate illuminating Fire energy and", "정": "innate fiercely burning Fire energy and",
-            "무": "innate all-embracing Earth energy and", "기": "innate nurturing Earth energy and",
-            "경": "innate solidly forged Metal energy and", "신": "innate sharply refined Metal energy and",
-            "임": "innate endlessly flowing Water energy and", "계": "innate densely permeating Water energy and"
-        };
+        const elMapChar = {"갑":0,"을":0,"병":1,"정":1,"무":2,"기":2,"경":3,"신":3,"임":4,"계":4};
+        const coreElIdx = elMapChar[dmChar] !== undefined ? elMapChar[dmChar] : 2;
+        const waveIdx = session.num81 % 5;
 
-        // 2. 연결 블록 (10종)
-        const pastBridgeKo = [
-            "시공간의 결을 따라 깊게 각인된", "영혼의 궤적 속에 단단히 뿌리내린", "세월의 흐름 속에서도 순수하게 정제된", "운명의 법칙에 따라 필연적으로 연결된", "무의식의 심연에서 고요하게 진동하는",
-            "우주의 질서 속에서 정교하게 빚어진", "잊혀진 기억을 품고 조용히 박동하는", "시간의 강물을 거슬러 선명하게 빛나는", "카르마의 수레바퀴 속에서 강력하게 융합된", "영혼의 주파수 대역에 가장 깊이 공명하는"
-        ];
-        const pastBridgeEn = [
-            "deeply engraved along the grain of spacetime.", "firmly rooted in the trajectory of the soul.", "purely refined even through the flow of time.", "inevitably connected according to the laws of destiny.", "silently vibrating in the abyss of the unconscious.",
-            "exquisitely forged within the order of the universe.", "quietly beating with forgotten memories.", "shining clearly against the river of time.", "powerfully fused within the wheel of karma.", "resonating most deeply with the soul's frequency band."
+        const pastTalentKo = [
+            /* 0:목 */ ["거친 환경에서도 스스로 돌파구를 찾아내는 직관적 생존 감각", "타인의 잠재력을 발견하고 성장을 촉진시키는 멘토링 기질", "척박한 상황에 뿌리를 내리고 굳건한 기반을 다지는 인내력", "얽힌 문제를 단숨에 잘라내고 핵심만 남기는 결단력", "낯선 지식과 경험을 스펀지처럼 흡수하여 응용하는 학습 능력"],
+            /* 1:화 */ ["대중의 이목을 집중시키고 분위기를 주도하는 선동적 카리스마", "꺼져가는 열정에 불씨를 지피는 강력한 동기부여 능력", "화려한 겉모습 이면의 현실적 이익을 챙기는 실리적 감각", "폭발적인 에너지를 한 곳에 집중시켜 단기간에 성과를 내는 돌파력", "차가운 이성과 뜨거운 감성을 넘나드는 심리 조율 능력"],
+            /* 2:토 */ ["서로 다른 성향의 사람들을 하나로 묶어내는 탁월한 포용력", "갈등의 한가운데서 가장 합리적인 타협점을 찾아내는 중재 감각", "어떤 외부의 충격에도 흔들리지 않고 중심을 지키는 평정심", "보이지 않는 무형의 가치를 현실의 단단한 자산으로 치환하는 설계 능력", "모든 변화를 수용하면서도 자신의 본질을 잃지 않는 유연한 생존력"],
+            /* 3:금 */ ["불필요한 감정을 배제하고 오직 팩트로만 승부하는 냉철한 분석력", "원석 같은 아이디어를 가장 날카롭고 세련된 형태로 가공하는 제련 능력", "한 번 정한 원칙을 어떤 타협 없이 끝까지 밀어붙이는 철혈의 실행력", "미세한 오차조차 허용하지 않고 완벽을 기하는 극도의 집중력", "복잡한 규정이나 시스템의 맹점을 예리하게 파고드는 전략적 통찰력"],
+            /* 4:수 */ ["형태를 규정짓지 않고 어떤 환경에든 매끄럽게 스며드는 궁극의 적응력", "타인의 숨겨진 심연을 꿰뚫어 보고 마음을 여는 공감의 언어", "거센 저항을 정면으로 받지 않고 우회하여 목적을 달성하는 지략", "방대한 데이터 속에서 가장 맑고 순수한 진실만을 걸러내는 분별력", "모든 정보와 경험을 융합하여 새로운 차원의 지혜를 창출하는 직관력"]
         ];
 
-        // 3. 꼬리 블록 (10종) - 태어난 달(birthMonth)을 수식에 섞어 배열을 비틀어줍니다! (중복 방지)
-        const pastSuffixKo = [
-            "이 에너지는 소멸하지 않고 현생의 이름에 각인되어, 현재 삶의 무의식적 기반으로 작용하고 있습니다.",
-            "이 주파수는 시공간을 넘어 현생에 조용히 스며들었으며, 당신이 발휘하는 잠재력의 단단한 근원이 되었습니다.",
-            "전생에서 못다 이룬 파동의 잔여물은 현생으로 이월되어, 나아가야 할 방향성을 암묵적으로 지시합니다.",
-            "과거의 시공간에 새겨졌던 에너지가 현재의 이름과 공명하며, 결정적인 순간마다 직관적인 해답을 줍니다.",
-            "이 묵직한 카르마의 주파수는 당신의 이름 속에 은밀히 저장되어, 삶의 위기마다 본능적인 생존력을 부여합니다.",
-            "수백 번의 생을 거치며 단련된 이 파동은 현생의 기질과 결합하여, 남들이 갖지 못한 독보적인 직관으로 발현됩니다.",
-            "시간을 뛰어넘어 전달된 이 운명의 조각은 당신의 무의식을 일깨우며, 타고난 재능을 가장 날카롭게 다듬어줍니다.",
-            "전생의 궤적에서 추출된 가장 순수한 에너지가 현생의 이름표에 스며들어, 보이지 않는 든든한 방패 역할을 합니다.",
-            "영혼의 깊은 곳에 잠들어 있던 이 파동은 당신이 삶의 중대한 기로에 섰을 때 가장 확실한 나침반이 되어줍니다.",
-            "시대를 초월해 보존된 이 고유의 주파수는 현재의 당신에게 거부할 수 없는 강렬한 운명적 이끌림을 선사합니다."
-        ];
-        const pastSuffixEn = [
-            "This energy does not perish but is imprinted in your current name, acting as the unconscious foundation of your present life.",
-            "This frequency quietly permeated your current life across spacetime, becoming the solid root of your potential.",
-            "The remnants of this uncompleted wave are carried over to implicitly dictate your current direction.",
-            "Engraved in past spacetime, this energy resonates with your current name to provide intuitive answers at crucial moments.",
-            "This heavy karmic frequency is secretly stored in your name, granting instinctive survival power during crises.",
-            "Tempered through hundreds of lifetimes, this wave combines with your current traits to manifest as unrivaled intuition.",
-            "Delivered across time, this piece of destiny awakens your unconsciousness and sharply refines your innate talents.",
-            "The purest energy extracted from your past trajectory permeates your current name, acting as an invisible, reliable shield.",
-            "Sleeping deep within your soul, this wave becomes the most certain compass when you stand at major crossroads in life.",
-            "Preserved across eras, this unique frequency grants you an irresistible, intense karmic pull in the present."
+        const pastTalentEn = [
+            /* 0:Wood */ ["an intuitive survival sense to find breakthroughs even in harsh environments", "a mentoring temperament to discover others' potential and promote growth", "endurance to take root and build a solid foundation in barren situations", "decisiveness to cut through tangled problems and leave only the core", "a learning ability to absorb and apply unfamiliar knowledge like a sponge"],
+            /* 1:Fire */ ["instigative charisma that captures public attention and leads the atmosphere", "powerful motivational ability to reignite fading passion", "a practical sense that secures realistic benefits behind flashy exteriors", "breakthrough power to concentrate explosive energy and yield quick results", "psychological tuning ability crossing between cold reason and hot emotion"],
+            /* 2:Earth */ ["excellent embracing power to unite people of different temperaments", "a mediating sense to find the most rational compromise in the midst of conflict", "composure to maintain the center unshaken by any external shock", "design ability to convert invisible, intangible values into solid real assets", "flexible survivability that accepts all changes without losing its essence"],
+            /* 3:Metal */ ["cool-headed analytical power that competes only with facts, excluding unnecessary emotions", "smelting ability to process raw ideas into the sharpest, most refined forms", "iron-blooded execution that pushes chosen principles to the end without compromise", "extreme concentration that strives for perfection without allowing a single micro-error", "strategic insight that sharply penetrates the blind spots of complex regulations or systems"],
+            /* 4:Water */ ["ultimate adaptability that smoothly permeates any environment without defining its form", "the language of empathy that pierces others' hidden abyss and opens their hearts", "tactics to achieve goals by bypassing fierce resistance rather than taking it head-on", "discernment to filter out only the clearest, purest truth from vast amounts of data", "intuition to create a new dimension of wisdom by fusing all information and experiences"]
         ];
 
-        const pastBridgeIdx = session.num81 % 10;
-        const pastSuffixIdx = (session.num81 + birthMonth) % 10; // 생월을 더해서 꼬리말 패턴을 완전히 섞음!
+        const pTalentKo = pastTalentKo[coreElIdx][waveIdx];
+        const pTalentEn = pastTalentEn[coreElIdx][waveIdx];
 
         const pastWaveDesc = currentLang === 'ko' 
-            ? `${stemPastPrefixKo[dmChar]} 전생의 업인 [${p.job}]의 궤적이 ${pastBridgeKo[pastBridgeIdx]} 고유 파동입니다. ${pastSuffixKo[pastSuffixIdx]}`
-            : `It is a unique wave with the trajectory of your past karma as a [${p.job}] ${pastBridgeEn[pastBridgeIdx]} Combined with your ${stemPastPrefixEn[dmChar]} ${pastSuffixEn[pastSuffixIdx]}`;
+            ? `이 이름의 주파수는 전생의 활동을 거치며 <b>'${pTalentKo}'</b>을(를) 당신의 영혼 깊은 곳에 각인시켰습니다.<br><br>이 특수 파동은 소멸하지 않고 현생의 무의식에 스며들어, 현재 당신이 낯선 상황에서 발휘하는 본능적인 감각과 결정력의 단단한 근원이 되었습니다.`
+            : `Through the activities of your past life, the frequency of this name engraved <b>'${pTalentEn}'</b> deep into your soul.<br><br>This special wave did not perish but permeated your current unconsciousness, becoming the solid root of the instinctive sense and decisiveness you display in unfamiliar situations today.`;
 
         body.innerHTML = `
             <div class="tab-content">
@@ -1301,6 +1269,7 @@ function switchTab(mode, element) {
                     <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
                         <b style="color:var(--accent); display:block; margin-bottom:5px;">${currentLang === 'ko' ? '[식별된 전생 기록]' : '[Identified Past Record]'}</b>
                         <span style="font-weight:800; font-size:1.3rem; color:#000;">${currentLang === 'ko' ? '이름: ' : 'Name: '}${pastName}</span>
+                        <!-- 🚨 전생 직업 중복을 피한 카르마 잔존 재능 분석 -->
                         <div class="main-desc" style="margin-top:15px; color:#555;">
                             ${pastWaveDesc}
                         </div>
@@ -1330,65 +1299,36 @@ function switchTab(mode, element) {
         const region = (currentLang === 'ko' ? regionNextKo : regionNextEn)[(session.num81 + birthMonth) % (currentLang === 'ko' ? regionNextKo.length : regionNextEn.length)];
         const nextName = (currentLang === 'ko' ? makeNextLifeNameKo : makeNextLifeNameEn)(session.num81, session.strongEl, session.lackEls[0], birthMonth);
 
-        // 🚨 [내세 매트릭스 엔진]
+        // 🚨 [내세 진화 매트릭스] 현생의 경험이 궁극적으로 어떤 '진화된 능력'으로 완성되는지 도출합니다.
         const stemIdMap = { "gap":"갑", "eul":"을", "byeong":"병", "jeong":"정", "mu":"무", "gi":"기", "gyeong":"경", "sin":"신", "im":"임", "gye":"계" };
         const dmChar = (session.iljuData && session.iljuData.stemId && stemIdMap[session.iljuData.stemId]) ? stemIdMap[session.iljuData.stemId] : "무";
+        
+        const elMapChar = {"갑":0,"을":0,"병":1,"정":1,"무":2,"기":2,"경":3,"신":3,"임":4,"계":4};
+        const coreElIdx = elMapChar[dmChar] !== undefined ? elMapChar[dmChar] : 2;
+        const waveIdx = session.num81 % 5;
 
-        const stemNextPrefixKo = {
-            "갑": "현생을 통해 곧고 단단하게 다듬어질 목(木)의 기운과", "을": "현생의 비바람을 견디며 한층 질겨질 목(木)의 기운과",
-            "병": "현생의 경험을 태워 눈부시게 빛날 화(火)의 기운과", "정": "현생의 시련 속에서 가장 뜨겁게 응축될 화(火)의 기운과",
-            "무": "현생의 모든 풍파를 흡수하여 거대해질 토(土)의 기운과", "기": "현생의 양분을 머금고 더욱 비옥해질 토(土)의 기운과",
-            "경": "현생의 제련 과정을 거쳐 절대 부러지지 않을 금(金)의 기운과", "신": "현생의 마찰을 통해 예리하고 정교해질 금(金)의 기운과",
-            "임": "현생의 장애물을 집어삼키며 거대하게 확장될 수(水)의 기운과", "계": "현생의 탁함을 걸러내고 가장 투명해질 수(水)의 기운과"
-        };
-        const stemNextPrefixEn = {
-            "갑": "Wood energy to be refined upright through this life and", "을": "Wood energy to become resilient by enduring this life and",
-            "병": "Fire energy to shine brightly by burning this life's experiences and", "정": "Fire energy to condense fiercely through current trials and",
-            "무": "Earth energy to grow massive by absorbing all waves and", "기": "Earth energy to become fertile with this life's nourishment and",
-            "경": "Metal energy to become unbreakable through this life's forging and", "신": "Metal energy to become exquisitely sharp through current friction and",
-            "임": "Water energy to expand by swallowing current obstacles and", "계": "Water energy to become perfectly transparent by filtering impurities and"
-        };
-
-        const nextBridgeKo = [
-            "완벽한 비율로 융합된", "운명의 설계도에 따라 정밀하게 조율된", "시공간의 경계를 넘어 강력하게 예고된", "당신의 영혼을 다음 차원으로 이끌어갈", "현생의 모든 에너지가 한곳으로 수렴된",
-            "카르마의 완성을 향해 거침없이 나아가는", "우주의 흐름 속에서 가장 밝게 빛날", "남은 생의 궤적을 완벽하게 재구성할", "당신의 궁극적인 존재 이유를 증명할", "다음 생의 무대를 화려하게 장식할"
-        ];
-        const nextBridgeEn = [
-            "fused in perfect proportions.", "precisely tuned according to the blueprint of destiny.", "powerfully forecasted beyond the boundaries of spacetime.", "that will lead your soul to the next dimension.", "where all energies of this life converge into one place.",
-            "advancing relentlessly toward the completion of karma.", "that will shine the brightest in the flow of the universe.", "that will perfectly reconstruct the trajectory of your remaining life.", "that will prove your ultimate reason for existence.", "that will gorgeously decorate the stage of your next life."
+        const nextSkillKo = [
+            /* 0:목 */ ["성장의 에너지를 타인을 위한 거대한 숲의 그늘로 승화시키는 통찰력", "자신의 한계를 부수고 무에서 유를 창조하는 궁극의 개척 능력", "흔들리는 군중 속에서 변치 않는 이정표가 되어주는 절대적인 신뢰감", "불필요한 욕망을 스스로 쳐내고 가장 가치 있는 본질만 남기는 정신적 결백성", "시대의 흐름을 먼저 읽고 다음 세대의 사상을 싹틔우는 선구자적 지혜"],
+            /* 1:화 */ ["열정을 태워 세상의 어두운 곳을 남김없이 밝히는 완전한 이타심", "폭발적인 에너지를 통제하여 파괴가 아닌 창조의 동력으로 쓰는 권위", "타오르는 이상을 현실의 가장 단단한 시스템으로 정착시키는 구현 능력", "차갑고 굳어진 타인의 마음을 단숨에 녹여버리는 압도적인 매력 파동", "감정의 폭주를 다스려 완벽한 온도의 균형을 유지하는 내면의 평화"],
+            /* 2:토 */ ["모든 생명이 기대고 자랄 수 있는 우주적 스케일의 포용력과 관대함", "척박한 환경조차 비옥한 기회의 땅으로 뒤바꾸는 궁극의 연금술", "어떠한 외부의 칭찬이나 비난에도 흔들림 없는 절대적인 자아 정체성", "묻혀 있던 타인의 진정한 가치를 발굴하여 세상에 빛을 보게 하는 안목", "서로 대립하는 극단의 사상조차 하나로 융화시키는 완성된 중재 에너지"],
+            /* 3:금 */ ["감정에 휩쓸리지 않고 우주의 섭리와 팩트만을 관조하는 완벽한 냉철함", "거친 불순물들을 모두 걸러내고 가장 순수한 진리만 남기는 분별력", "한 치의 흔들림 없이 절대적 규범을 지켜내는 수호자의 굳건함", "강인함 속에 깃든 유연함으로 싸우지 않고도 승리하는 절대 권위", "가장 날카로운 통찰력으로 시대의 모순을 단칼에 베어내는 철학적 예리함"],
+            /* 4:수 */ ["형태에 얽매이지 않고 모든 차원의 지식과 경험을 넘나드는 초월성", "타인의 깊은 상처와 묵은 카르마까지 씻어내는 영혼의 정화 능력", "거센 운명의 파도를 거스르지 않고 올라타 목적지에 도달하는 궁극의 지혜", "끝없는 사색을 통해 우주의 근원적인 진리를 깨닫는 마르지 않는 샘물", "거대한 바다처럼 세상의 모든 선악을 품고 진정한 합일을 이루는 완전한 포용"]
         ];
 
-        const nextSuffixKo = [
-            "현재 겪는 모든 과정은 이 완전한 주파수에 도달하기 위한 정교한 진화 단계입니다.",
-            "현생에서 마주하는 수많은 선택은 결국 내세의 파동을 선명하게 조율하기 위한 필연적 과정입니다.",
-            "지금 발생하는 모든 마찰 에너지는 내세의 이 압도적 주파수를 가동하기 위한 예열 작업입니다.",
-            "현생에 부여받은 시련과 성취는 모두 이 미래의 파동 에너지를 결점 없이 완성하기 위한 설계도입니다.",
-            "당신은 현재의 이름을 징검다리 삼아 삶을 건너며, 마침내 이 주파수 대역에 완벽히 안착하게 될 것입니다.",
-            "지금 흘리는 땀과 노력은 모두 내세의 이 거대한 파동을 가동하기 위한 가장 귀중한 연료로 사용됩니다.",
-            "현생에서 맺는 모든 인연과 경험은 내세의 이 고유한 임무를 완수하기 위한 치밀한 사전 준비입니다.",
-            "당신의 영혼은 현재의 삶을 통해 모난 곳을 깎아내며, 내세의 이 완벽한 형태를 향해 조용히 나아가고 있습니다.",
-            "지금 삶에서 느껴지는 알 수 없는 갈증은 바로 이 내세의 궁극적인 파동이 당신을 끌어당기고 있기 때문입니다.",
-            "당신이 현생에서 이루어낸 모든 성취들은 내세의 이 거대한 운명적 파동을 증폭시키는 울림이 됩니다."
-        ];
-        const nextSuffixEn = [
-            "Every process experienced now is a precise evolutionary step to reach this perfect frequency.",
-            "The numerous choices made in this life are inevitable processes to tune this afterlife wave clearly.",
-            "All friction occurring now acts as preheating to activate this overwhelming frequency of the next life.",
-            "Trials and achievements given in this life are blueprints to flawlessly complete this future wave.",
-            "You use your current name as a stepping stone, eventually settling perfectly into this frequency band.",
-            "The sweat and effort you shed now serve as the most precious fuel to activate this massive afterlife wave.",
-            "All connections and experiences in this life are meticulous preparations to fulfill this unique mission.",
-            "Your soul chisels away rough edges through current life, quietly advancing toward this perfect afterlife form.",
-            "The unknown thirst felt in current life is precisely because this ultimate afterlife wave is pulling you.",
-            "All the achievements you make in this life become an echo that amplifies this massive destined wave."
+        const nextSkillEn = [
+            /* 0:Wood */ ["insight that sublimates the energy of growth into a shade of a giant forest for others", "ultimate pioneering ability to break limits and create from nothing", "absolute trustworthiness acting as an unchanging milestone among a swaying crowd", "mental innocence that cuts away unnecessary desires, leaving only valuable essence", "pioneering wisdom that reads the flow of the era and sprouts ideologies for the next generation"],
+            /* 1:Fire */ ["perfect altruism that burns passion to light up the dark places of the world without reserve", "authority that controls explosive energy, using it as a driving force for creation, not destruction", "implementation ability that settles burning ideals into the most solid realistic systems", "an overwhelming charm wave that instantly melts the cold and hardened hearts of others", "inner peace that manages emotional runaways, maintaining perfect temperature balance"],
+            /* 2:Earth */ ["cosmic-scale embrace and generosity where all life can lean on and grow", "ultimate alchemy that transforms even barren environments into fertile lands of opportunity", "absolute self-identity unshaken by any external praise or criticism", "an eye that excavates the buried true value of others and brings it to light", "completed mediating energy that harmonizes even extreme opposing ideologies into one"],
+            /* 3:Metal */ ["perfect cool-headedness that contemplates only the providence of the universe and facts, unswayed by emotions", "discernment that filters out all rough impurities, leaving only the purest truth", "firmness of a guardian who upholds absolute norms without an inch of wavering", "absolute authority that wins without fighting, through flexibility nestled within strength", "philosophical sharpness that cuts through the contradictions of the era with the sharpest insight"],
+            /* 4:Water */ ["transcendence crossing all dimensions of knowledge and experience without being bound by form", "soul-purifying ability that washes away the deep wounds and old karma of others", "ultimate wisdom that reaches the destination by riding, not resisting, the fierce waves of destiny", "an inexhaustible spring that realizes the fundamental truth of the universe through endless contemplation", "perfect embrace achieving true unity by holding all good and evil in the world like a giant ocean"]
         ];
 
-        const nextBridgeIdx = session.num81 % 10;
-        const nextSuffixIdx = (session.num81 + birthMonth) % 10; // 여기도 섞어줍니다!
+        const nSkillKo = nextSkillKo[coreElIdx][waveIdx];
+        const nSkillEn = nextSkillEn[coreElIdx][waveIdx];
 
         const nextWaveDesc = currentLang === 'ko'
-            ? `${stemNextPrefixKo[dmChar]} 내세에 예약된 [${rData.job}]의 임무가 ${nextBridgeKo[nextBridgeIdx]} 미래 파동입니다. ${nextSuffixKo[nextSuffixIdx]}`
-            : `It is a future wave with the reserved mission of [${rData.job}] ${nextBridgeEn[nextBridgeIdx]} Combined with your ${stemNextPrefixEn[dmChar]} ${nextSuffixEn[nextSuffixIdx]}`;
+            ? `내세의 이름 파동은 현생의 한계를 뛰어넘어 <b>'${nSkillKo}'</b>을(를) 완성하기 위한 영혼 진화의 목적지입니다.<br><br>현재 당신의 이름이 겪어내는 모든 갈등과 성취는 이 궁극의 주파수를 가동하기 위한 정밀한 튜닝 과정이며, 미래에 맞이할 가장 완벽한 형태를 예고합니다.`
+            : `The wave of your afterlife name is the destination of your soul's evolution, meant to transcend the limits of your current life and complete <b>'${nSkillEn}'</b>.<br><br>All the conflicts and achievements your current name experiences are a precise tuning process to activate this ultimate frequency, foretelling the most perfect form you will encounter in the future.`;
 
         body.innerHTML = `
             <div class="tab-content">
@@ -1396,6 +1336,7 @@ function switchTab(mode, element) {
                     <div style="text-align:center; margin-bottom:25px; border-bottom:1px solid #F0F0F0; padding-bottom:20px;">
                         <b style="color:var(--accent); display:block; margin-bottom:5px;">${currentLang === 'ko' ? '[예약된 내세 정보]' : '[Reserved Afterlife Info]'}</b>
                         <span style="font-weight:800; font-size:1.3rem; color:#000;">${currentLang === 'ko' ? '이름: ' : 'Name: '}${nextName}</span>
+                        <!-- 🚨 내세 직업 중복을 피한 진화 변곡점 분석 -->
                         <div class="main-desc" style="margin-top:15px; color:#555;">
                             ${nextWaveDesc}
                         </div>
