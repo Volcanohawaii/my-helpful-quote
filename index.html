@@ -811,10 +811,12 @@ const blockA = currentLang === 'ko' ? bridgeKo : bridgeEn + "\n";
         ["A tendency to avoid attempts by predicting negative outcomes for every situation, where deep reflection becomes a shackle to action", "Risk of losing social self-sufficiency by hiding in solitary spaces and submerging into depressive emotions and disconnection", "Prioritizing others' moods over establishing personal subjectivity, taking full responsibility for poor outcomes onto oneself", "Disregarding realistic economic activities due to an oversized internal mental world, risking the stability of life's foundation", "Using invisible tactics to manipulate others behind a soft exterior, which eventually leads to the loss of sincere friendships"]
     ];
 
-    const currentRiskKo = isYangMaster ? fusionRiskYang[finalPeakIdx][top5Idx_C] : fusionRiskYin[finalPeakIdx][top5Idx_C];
-    const currentRiskEn = isYangMaster ? fusionRiskYangEn[finalPeakIdx][top5Idx_C] : fusionRiskYinEn[finalPeakIdx][top5Idx_C];
+    // 🚨 1. 엉뚱한 결핍 인덱스를 버리고, 사주의 서브 특징과 결합하여 정확한 부작용(Risk) 도출
+    const currentRiskKo = isYangMaster ? fusionRiskYang[finalPeakIdx][top2Idx_C] : fusionRiskYin[finalPeakIdx][top2Idx_C];
+    const currentRiskEn = isYangMaster ? fusionRiskYangEn[finalPeakIdx][top2Idx_C] : fusionRiskYinEn[finalPeakIdx][top2Idx_C];
     
-    const varIdx5 = num81 % 5; 
+    // 🚨 2. 생월(mm)과 생일(dd)을 섞어, 고유한 수식어(무기) 인덱스를 만듭니다
+    const varIdx5 = (num81 + mm + dd) % 5; 
     const diffScores = sc.map((score, i) => score - baseScores[i]);
 
     const maxBoost = Math.max(...diffScores);
@@ -835,6 +837,7 @@ const blockA = currentLang === 'ko' ? bridgeKo : bridgeEn + "\n";
         const suriToElIdx = [4, 0, 0, 1, 1, 2, 2, 3, 3, 4];
         weaponElIdx = suriToElIdx[num81 % 10];
     }
+    
     const mod1Idx = (weaponElIdx * 5) + varIdx5;
 
     const jobMod1Ko = [
@@ -928,14 +931,13 @@ const blockA = currentLang === 'ko' ? bridgeKo : bridgeEn + "\n";
         ]
     ];
 
-    const jobTargetMap = {
-        0: isYangMaster ? [0, 1, 2] : [1, 2, 3],  
-        1: isYangMaster ? [3, 4, 5] : [4, 5, 6],  
-        2: isYangMaster ? [0, 1, 2] : [9, 10, 11], 
-        3: isYangMaster ? [6, 7, 8] : [7, 8, 9],   
-        4: isYangMaster ? [9, 10, 11] : [10, 11, 0] 
-    };
-    const targetedJobIndices = jobTargetMap[weaponElIdx] || [0,1,2];
+// 🚨 3. 양음(Yang/Yin)에만 의존하던 꽉 막힌 맵을 버리고, 사주와 이름 수리로 12개 직무 중 3개를 무한 회전하며 뽑습니다.
+    const jobOffset = (num81 + mm + dd + top1Idx_C) % 12;
+    const targetedJobIndices = [
+        jobOffset % 12, 
+        (jobOffset + 1) % 12, 
+        (jobOffset + 2) % 12
+    ];
     const relationDiff = (top1Idx_C - dmIdx_C + 5) % 5;
     
     const stageDescKo = [
