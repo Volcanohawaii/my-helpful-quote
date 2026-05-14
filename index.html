@@ -1046,10 +1046,13 @@ function renderSummary(data) {
     const mySymbolEn = (branchSeasonEn[branchChar] && stemSymbolEn[stemChar]) ? `${branchSeasonEn[branchChar]} ${stemSymbolEn[stemChar]}` : "Unknown Star";
     const mySymbol = currentLang === 'ko' ? mySymbolKo : mySymbolEn;
 
-  // descKo, desc, description 등 예전에 쓰셨던 이름표를 자동으로 다 뒤져서 찾아오는 코드
+// 🚨 [진짜 상세 분석 엔진] 대표님이 만드신 birthCoreKo/En 데이터 창고에서 정확히 글을 빼옵니다!
+const coreElement = data.iljuData.el; // 당신의 타고난 본질 (예: "목(木)")
+const descIndex = data.num81 % 30; // 30개의 문장 중 당신의 81수리에 맞는 딱 하나를 고유하게 선택
+
 const detailDesc = currentLang === 'ko' 
-    ? (data.iljuData.descKo || data.iljuData.desc || data.iljuData.description || "상세 분석 데이터가 연결되지 않았습니다.") 
-    : (data.iljuData.descEn || data.iljuData.desc || data.iljuData.description || "Detail analysis not available.");
+    ? (typeof birthCoreKo !== 'undefined' && birthCoreKo[coreElement] ? birthCoreKo[coreElement][descIndex] : "상세 분석 데이터를 불러올 수 없습니다.") 
+    : (typeof birthCoreEn !== 'undefined' && birthCoreEn[coreElement] ? birthCoreEn[coreElement][descIndex] : "Detail analysis not available.");
   
     document.getElementById('dynamic-summary').innerHTML = `
         <div class="id-card-box">
@@ -1260,8 +1263,8 @@ function switchTab(mode, element) {
         const pTalentEn = pastTalentEn[coreElIdx][waveIdx];
 
         const pastWaveDesc = currentLang === 'ko' 
-            ? `이 이름의 주파수는 전생의 활동을 거치며 <b>'${pTalentKo}'</b>을(를) 당신의 영혼 깊은 곳에 각인시켰습니다.<br><br>이 특수 파동은 소멸하지 않고 현생의 무의식에 스며들어, 현재 당신이 낯선 상황에서 발휘하는 본능적인 감각과 결정력의 단단한 근원이 되었습니다.`
-            : `Through the activities of your past life, the frequency of this name engraved <b>'${pTalentEn}'</b> deep into your soul.<br><br>This special wave did not perish but permeated your current unconsciousness, becoming the solid root of the instinctive sense and decisiveness you display in unfamiliar situations today.`;
+            ? `이 이름은 전생의 활동을 거치며 당신의 영혼 깊은 곳에 <b>'${pTalentKo}'</b>을(를) 각인시켰습니다.`
+            : `Through the activities of your past life, the frequency of this name engraved <b>'${pTalentEn}'</b> deep into your soul.`;
 
         body.innerHTML = `
             <div class="tab-content">
@@ -1327,8 +1330,8 @@ function switchTab(mode, element) {
         const nSkillEn = nextSkillEn[coreElIdx][waveIdx];
 
         const nextWaveDesc = currentLang === 'ko'
-            ? `내세의 이름 파동은 현생의 한계를 뛰어넘어 <b>'${nSkillKo}'</b>을(를) 완성하기 위한 영혼 진화의 목적지입니다.<br><br>현재 당신의 이름이 겪어내는 모든 갈등과 성취는 이 궁극의 주파수를 가동하기 위한 정밀한 튜닝 과정이며, 미래에 맞이할 가장 완벽한 형태를 예고합니다.`
-            : `The wave of your afterlife name is the destination of your soul's evolution, meant to transcend the limits of your current life and complete <b>'${nSkillEn}'</b>.<br><br>All the conflicts and achievements your current name experiences are a precise tuning process to activate this ultimate frequency, foretelling the most perfect form you will encounter in the future.`;
+            ? `내세의 이름 파동은 <b>'${nSkillKo}'</b>을(를) 완성하기 위한 영혼의 목적지입니다. 현재 당신이 겪는 갈등과 성취는 이 궁극의 주파수를 가동하기 위한 정밀한 튜닝 과정이며, 미래에 맞이할 가장 완벽한 형태를 예고합니다.`
+            : `The wave of your afterlife name is the destination of your soul's evolution, meant to transcend the limits of your current life and complete <b>'${nSkillEn}'</b>. All the conflicts and achievements your current name experiences are a precise tuning process to activate this ultimate frequency, foretelling the most perfect form you will encounter in the future.`;
 
         body.innerHTML = `
             <div class="tab-content">
