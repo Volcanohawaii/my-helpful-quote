@@ -665,14 +665,6 @@ let bridgeEn = "";
 const coreElChar = logicEls[dmIdx_A]; 
 const coreDisplay = displayElsKo[dmIdx_A];
 
-const corePoeticKo = {
-    "목": "곧게 뻗어 나가는 생명의 기운",
-    "화": "찬란하게 타오르는 열정의 불꽃",
-    "토": "만물을 품어 안는 평온한 대지",
-    "금": "서늘하고 예리하게 벼려진 결기",
-    "수": "고요하고 깊게 흐르는 지혜의 심연"
-};
-
 const synergyVariationsKo = {
     "목": {
         "목": ["거대한 숲을 이루듯 스케일을 끝없이 확장시키는", "깊은 뿌리가 얽히며 태풍에도 무너지지 않는 연대를 구축하는", "메마른 가지에 새싹을 틔워 폭발적인 성장을 이끄는"],
@@ -711,6 +703,7 @@ const synergyVariationsKo = {
     }
 };
 
+
 const uniqueBoosted = [...new Set(boostedLogicKo)];
 
 if (uniqueBoosted.length > 0) {
@@ -718,15 +711,15 @@ if (uniqueBoosted.length > 0) {
     const varNum = num81 % 3; 
     const synergyStoryKo = synergyVariationsKo[coreElChar][mainBoost][varNum];
 
-    bridgeKo = `당신이 타고난 <b>${corePoeticKo[coreElChar]}</b> 위로 성명 속 <b>${boostedTextKo}</b> 기운이 스며듭니다. 이는 ${synergyStoryKo} 강력한 시너지로 발현되어, <b>${currentTheme}</b>의 삶을 이끄는 당신만의 절대적 주파수가 됩니다.`;
+    // corePoeticKo 대신 coreDisplay(예: 화(火))를 바로 넣어서 군더더기 없이 바꿨습니다.
+    bridgeKo = `당신의 본질인 <b>${coreDisplay}</b> 위로 성명 속 <b>${boostedTextKo}</b> 기운이 조화롭게 스며듭니다. 이는 ${synergyStoryKo} 강력한 시너지로 발현되어, <b>${currentTheme}</b>의 삶을 이끄는 주파수가 됩니다.`;
     bridgeEn = `The energies of <b>${boostedTextEn}</b> from your name gracefully settle upon your innate <b>${elNamesEnForA[dmIdx_A]}</b> essence. This profound synergy ultimately becomes your absolute frequency, leading a life of <b>${currentTheme}</b>.`;
 } else {
-    bridgeKo = `당신이 타고난 <b>${corePoeticKo[coreElChar]}</b>의 파동이 성명 에너지와 깊게 공명합니다. 본질을 굳건히 지키고 확장하는 힘이 응축되어, <b>${currentTheme}</b>의 삶을 향해 흔들림 없이 나아가는 고유의 시그니처로 발현됩니다.`;
+    bridgeKo = `당신이 타고난 <b>${coreDisplay}</b> 파동이 성명 에너지와 깊게 공명합니다. 본질을 지키고 확장하는 힘이 응축되어, <b>${currentTheme}</b>의 삶을 향해 나아가는 고유의 시그니처로 발현됩니다.`;
     bridgeEn = `Your innate <b>${elNamesEnForA[dmIdx_A]}</b> essence resonates deeply with your name's vibration. This strengthened internal force manifests as your unique signature, advancing steadily toward a life of <b>${currentTheme}</b>.`;
 }
 
-const blockA = currentLang === 'ko' ? bridgeKo : bridgeEn;
-
+const blockA = currentLang === 'ko' ? bridgeKo : bridgeEn + "\n";
     let top5Idx_C = finalBottomIdx;
     const yangStems = ["gap", "byeong", "mu", "gyeong", "im"]; 
     const isYangMaster = iljuData && iljuData.stemId ? yangStems.includes(iljuData.stemId) : true;
