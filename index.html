@@ -628,7 +628,7 @@ const nameWeaponEn = ["Arbiter", "Architect", "Trailblazer", "Igniter", "Instiga
 
 // 💡 3. 최종 운명 테마: 81수리 압축 테마 (9종)
 const themeIdx = num81 % 9;
-const themeBasesKo = ["절대적 완성", "새로운 질서", "이타적 헌신", "폭발적 돌파", "견고한 신뢰", "제왕적 권력", "완벽한 융화", "냉철한 결단", "무결점의 처세"];
+const themeBasesKo = ["절대적 완성", "새로운 질서확립", "이타적 헌신", "폭발적 돌파력", "견고한 신뢰로움", "제왕적 권력", "완벽한 융합", "냉철한 결단", "무결점의 처세술"];
 const themeBasesEn = ["Absolute Completion", "New Order", "Altruistic Devotion", "Explosive Breakthrough", "Solid Trust", "Sovereign Power", "Perfect Harmony", "Cold Decisiveness", "Flawless Tact"];
 
 // 비상구(Fallback) 처리
@@ -711,11 +711,11 @@ if (uniqueBoosted.length > 0) {
     const varNum = num81 % 3; 
     const synergyStoryKo = synergyVariationsKo[coreElChar][mainBoost][varNum];
 
-    // corePoeticKo 대신 coreDisplay(예: 화(火))를 바로 넣어서 군더더기 없이 바꿨습니다.
-    bridgeKo = `당신의 본질인 <b>${coreDisplay}</b> 위로 성명 속 <b>${boostedTextKo}</b> 기운이 조화롭게 스며듭니다. 이는 ${synergyStoryKo} 강력한 시너지로 발현되어, <b>${currentTheme}</b>의 삶을 이끄는 주파수가 됩니다.`;
+ 
+    bridgeKo = `당신의 본질인 <b>${coreDisplay}</b> 위로 성명 속 <b>${boostedTextKo}</b> 기운이 조화롭게 스며듭니다. 이는 ${synergyStoryKo} 시너지를 생성합니다. 마침내 <b>${currentTheme}</b>이라는 운명공학 시그니처로 발현됩니다.`;
     bridgeEn = `The energies of <b>${boostedTextEn}</b> from your name gracefully settle upon your innate <b>${elNamesEnForA[dmIdx_A]}</b> essence. This profound synergy ultimately becomes your absolute frequency, leading a life of <b>${currentTheme}</b>.`;
 } else {
-    bridgeKo = `당신이 타고난 <b>${coreDisplay}</b> 파동이 성명 에너지와 깊게 공명합니다. 본질을 지키고 확장하는 힘이 응축되어, <b>${currentTheme}</b>의 삶을 향해 나아가는 고유의 시그니처로 발현됩니다.`;
+    bridgeKo = `당신이 타고난 <b>${coreDisplay}</b> 파동이 성명 에너지와 깊게 공명합니다. 본질을 지키고 확장하는 힘이 응축되어, 마침내 <b>${currentTheme}</b>이라는 운명공학 시그니처로 발현됩니다.`;
     bridgeEn = `Your innate <b>${elNamesEnForA[dmIdx_A]}</b> essence resonates deeply with your name's vibration. This strengthened internal force manifests as your unique signature, advancing steadily toward a life of <b>${currentTheme}</b>.`;
 }
 
