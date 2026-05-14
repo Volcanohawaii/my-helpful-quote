@@ -1046,9 +1046,11 @@ function renderSummary(data) {
     const mySymbolEn = (branchSeasonEn[branchChar] && stemSymbolEn[stemChar]) ? `${branchSeasonEn[branchChar]} ${stemSymbolEn[stemChar]}` : "Unknown Star";
     const mySymbol = currentLang === 'ko' ? mySymbolKo : mySymbolEn;
 
-  // 상세 분석 글 가져오기
-    const detailDesc = currentLang === 'ko' ? data.iljuData.descKo : data.iljuData.descEn;
-
+  // descKo, desc, description 등 예전에 쓰셨던 이름표를 자동으로 다 뒤져서 찾아오는 코드
+const detailDesc = currentLang === 'ko' 
+    ? (data.iljuData.descKo || data.iljuData.desc || data.iljuData.description || "상세 분석 데이터가 연결되지 않았습니다.") 
+    : (data.iljuData.descEn || data.iljuData.desc || data.iljuData.description || "Detail analysis not available.");
+  
     document.getElementById('dynamic-summary').innerHTML = `
         <div class="id-card-box">
             <div class="id-header">
