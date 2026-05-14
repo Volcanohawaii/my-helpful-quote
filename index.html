@@ -1044,10 +1044,19 @@ function renderSummary(data) {
     const stemSymbolKo = { "갑":"곧게 뻗은 거목", "을":"부드러운 화초", "병":"눈부신 태양", "정":"타오르는 모닥불", "무":"굳건한 태산", "기":"비옥한 대지", "경":"단단한 큰 바위", "신":"빛나는 보석", "임":"깊은 깊은 바다", "계":"맑은 시냇물" };
     const stemSymbolEn = { "갑":"Upright Tree", "을":"Soft Flower", "병":"Dazzling Sun", "정":"Burning Bonfire", "무":"Firm Mountain", "기":"Fertile Earth", "경":"Solid Rock", "신":"Shining Jewel", "임":"Deep Ocean", "계":"Clear Stream" };
 
-    // 지지(계절/환경) 수식어 12종 매핑
-    const branchSeasonKo = { "인":"생동하는 봄의", "묘":"따뜻한 봄의", "진":"늦봄의", "사":"초여름의", "오":"뜨거운 여름의", "미":"늦여름의", "신":"초가을의", "유":"서늘한 가을의", "술":"늦가을의", "해":"초겨울의", "자":"한겨울의", "축":"늦겨울의" };
-    const branchSeasonEn = { "인":"Vibrant Spring", "묘":"Warm Spring", "진":"Late Spring", "사":"Early Summer", "오":"Hot Summer", "미":"Late Summer", "신":"Early Autumn", "유":"Cool Autumn", "술":"Late Autumn", "해":"Early Winter", "자":"Deep Winter", "축":"Late Winter" };
 
+    const branchSeasonKo = { 
+        "인":"여명을 깨우는", "묘":"만물이 생동하는", "진":"풍요로움을 품은", 
+        "사":"뜨거운 열기를 뿜어내는", "오":"눈부시게 타오르는", "미":"단단하게 여무는", 
+        "신":"서늘하고 예리한", "유":"투명하고 고결한", "술":"깊은 사색에 잠긴", 
+        "해":"모든 것을 포용하는", "자":"비밀을 간직한", "축":"묵묵히 인내하는" 
+    };
+    const branchSeasonEn = { 
+        "인":"Dawn-awakening", "묘":"Vibrant", "진":"Abundant", 
+        "사":"Heat-radiating", "오":"Dazzlingly burning", "미":"Firmly ripening", 
+        "신":"Cool and sharp", "유":"Transparent and noble", "술":"Deeply contemplative", 
+        "해":"All-embracing", "자":"Secretive", "축":"Silently enduring" 
+    };
     // 계절과 자연물을 레고처럼 조립! (예: "한겨울의" + "타오르는 모닥불")
     const mySymbolKo = (branchSeasonKo[branchChar] && stemSymbolKo[stemChar]) ? `${branchSeasonKo[branchChar]} ${stemSymbolKo[stemChar]}` : "미지의 별";
     const mySymbolEn = (branchSeasonEn[branchChar] && stemSymbolEn[stemChar]) ? `${branchSeasonEn[branchChar]} ${stemSymbolEn[stemChar]}` : "Unknown Star";
