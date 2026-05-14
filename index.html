@@ -636,8 +636,9 @@ const fallback10Map = { "목":"갑", "화":"병", "토":"무", "금":"경", "수
 const finalCoreChar = themeModifiers10Ko[dayMaster] ? dayMaster : fallback10Map[logicEls[dmIdx_A]] || "무";
 
 // 💡 4. 최종 조립: 10 × 10 × 9 = 무려 900가지의 유니크하고 강렬한 테마가 생성됩니다!
-const currentThemeKo = `${themeModifiers10Ko[finalCoreChar]} <span style="color:var(--primary); font-weight:800;">${nameWeaponKo[weaponIdx]}</span>의 <span style="color:var(--accent); font-weight:800;">[${themeBasesKo[themeIdx]}]</span>`;
-const currentThemeEn = `<span style="color:var(--accent); font-weight:800;">[${themeBasesEn[themeIdx]}]</span> of the <span style="color:var(--primary); font-weight:800;">${nameWeaponEn[weaponIdx]}</span> (${themeModifiers10En[finalCoreChar]})`; 
+// 🚨 대괄호 [ ] 삭제 및 강조 색상 완벽 적용
+const currentThemeKo = `${themeModifiers10Ko[finalCoreChar]} <span style="color:var(--primary); font-weight:800;">${nameWeaponKo[weaponIdx]}</span>의 <span style="color:var(--accent); font-weight:800;">${themeBasesKo[themeIdx]}</span>`;
+const currentThemeEn = `<span style="color:var(--accent); font-weight:800;">${themeBasesEn[themeIdx]}</span> of the <span style="color:var(--primary); font-weight:800;">${nameWeaponEn[weaponIdx]}</span> (${themeModifiers10En[finalCoreChar]})`; 
 const currentTheme = currentLang === 'ko' ? currentThemeKo : currentThemeEn;
 
 const trueWeakIdx = finalBottomIdx; 
@@ -657,61 +658,82 @@ diffScoresA.forEach((diff, i) => {
     }
 });
     
-    const boostedTextKo = boostedDisplayKo.join(", "); 
-    const boostedTextEn = boostedElsEn.join(", ");
-    const isWeakBoosted = diffScoresA[trueWeakIdx] > 0;
+const boostedTextKo = boostedDisplayKo.join(", "); 
+const boostedTextEn = boostedElsEn.join(", ");
 
-    let bridgeKo = "";
-    let bridgeEn = "";
-    const coreElChar = logicEls[dmIdx_A]; 
-    const coreDisplay = displayElsKo[dmIdx_A];
+let bridgeKo = "";
+let bridgeEn = "";
+const coreElChar = logicEls[dmIdx_A]; 
+const coreDisplay = displayElsKo[dmIdx_A];
 
-   if (isWeakBoosted) {
-        // 🚨 [아이디어 1 적용] 부족함을 채워 완성하다 (논리 모순 해결 및 매끄러운 문맥)
-        bridgeKo = `당신의 성명 파동에는 <b>${boostedTextKo}</b>의 기운이 풍부하게 담겨 있습니다. 이 파동이 선천적으로 결핍되었던 <b>${weakElDisplay}</b>의 빈틈을 정교하게 메우면서, 마침내 <b>${currentTheme}</b>이라는 당신만의 특별한 운명이 비로소 완성되었습니다.`;
-        bridgeEn = `The vibration of your name is abundantly equipped with the energies of <b>${boostedTextEn}</b>. This energy precisely fills the void of your innate deficiency in <b>${weakElEnA}</b>, ultimately completing your unique destiny as <b>${currentTheme}</b>.`;
-    } else {
-        const relationKo = {
-            "목": { "목":"뿌리를 깊게 내려 규모를 확장시킵니다.", "화":"폭발적인 열정으로 잠재력을 뿜어내게 합니다.", "토":"드넓은 대지 위에 확고한 영역을 구축하게 만듭니다.", "금":"불필요한 가지를 쳐내어 가장 단단하고 예리한 형태로 다듬어냅니다.", "수":"마르지 않는 지혜의 자양분을 공급하여 지치지 않게 뒷받침합니다." },
-            "화": { "목":"마르지 않는 연료를 공급하여 불꽃을 꺼지지 않게 만듭니다.", "화":"빛과 열기를 끝없이 증폭시켜 압도적 규모로 키워냅니다.", "토":"폭발하는 열기를 단단한 대지 위에 정착시켜 현실적인 결과물로 구워냅니다.", "금":"거친 열기로 단단한 원석을 녹여내어 가장 가치 있는 결과물로 제련합니다.", "수":"지나친 폭주를 냉철하게 제어하여 완벽하고 아름다운 온도로 조율합니다." },
-            "토": { "목":"척박한 땅에 생명력을 심어 만물을 길러내는 비옥한 기반으로 변화시킵니다.", "화":"차갑고 굳어진 땅에 온기를 불어넣어 생기가 돌게 만듭니다.", "토":"대지와 대지를 결합하여 모진 풍파에도 흔들리지 않는 철옹성을 구축합니다.", "금":"대지 속에 숨겨진 광물을 캐내어 당신의 진정한 가치를 세상에 드러냅니다.", "수":"메마른 땅을 유연하게 적셔 어떤 상황에도 부드럽게 스며드는 포용력을 부여합니다." },
-            "금": { "목":"예리한 칼날로 숲을 개척하듯 목표를 향해 거침없이 나아가는 실행력을 부여합니다.", "화":"차가운 강철을 뜨겁게 달구어 당신을 정교한 명검으로 벼려냅니다.", "토":"끊임없이 광물을 생성하는 대지처럼 당신의 가치가 마르지 않도록 지탱합니다.", "금":"강철과 강철이 융합하여 누구도 부러뜨릴 수 없는 절대적인 권위와 견고함을 완성합니다.", "수":"날카로운 칼날을 매끄럽게 씻어내어 찌르지 않고도 세상을 베어내는 유연한 카리스마로 승화시킵니다." },
-            "수": { "목":"깊은 물길을 나무의 생명력으로 끌어올려 세상을 윤택하게 적시는 창조력으로 승화시킵니다.", "화":"차가운 심연에 빛과 온기를 비추어 겉과 속이 완벽하게 조화된 매력으로 끓어오르게 합니다.", "토":"범람하려는 거센 물결을 정교한 제방으로 제어하여 가장 이로운 방향으로 흐르도록 통제합니다.", "금":"끝없이 맑은 물이 솟아나도록 수원을 공급하여 당신의 지혜가 결코 마르지 않게 합니다.", "수":"강물이 모여 바다를 이루듯 압도적인 스케일로 모든 것을 집어삼키는 포용력을 완성합니다." }
-        };
-        const relationEn = {
-            "목": { "목":"deepens your roots to massively expand your scale. ", "화":"lets you unleash your potential with explosive passion. ", "토":"helps you build a firm territory on a vast land. ", "금":"prunes unnecessary branches to refine you into the sharpest form. ", "수":"supports you tirelessly by supplying an endless nourishment of wisdom. " },
-            "화": { "목":"makes your flame eternal by supplying unceasing fuel. ", "화":"endlessly amplifies your light and heat to an overwhelming scale. ", "토":"settles your uncontrollable heat onto solid ground to bake realistic results. ", "금":"smelts hard raw stones with wild heat to forge the most valuable outcome. ", "수":"cool-headedly controls excessive runaway to tune you to the perfect temperature. " },
-            "토": { "목":"plants vitality in barren land to transform it into a fertile base. ", "화":"breathes warmth into cold, hardened ground to bring it to life. ", "토":"combines lands to build an absolute fortress unshakeable by any storm. ", "금":"mines hidden minerals to reveal your true value to the world. ", "수":"flexibly moistens dry land to grant an embrace that smoothly adapts to any situation. " },
-            "금": { "목":"grants the drive to relentlessly advance toward goals like clearing a forest with a sharp blade. ", "화":"hotly forges cold steel to temper you into the most useful and exquisite sword. ", "토":"sustains your value unceasingly like land constantly producing minerals. ", "금":"fuses steel with steel to complete an absolute authority that no one can break. ", "수":"smoothly washes the sharp blade to sublimate it into a flexible charisma that cuts without piercing. " },
-            "수": { "목":"draws up deep waterways with wood's vitality to sublimate into creativity that enriches the world. ", "화":"shines light into the cold abyss to boil it with a perfectly harmonized charm. ", "토":"controls fierce overflowing waves with precise levees to flow in the most beneficial direction. ", "금":"supplies a source so clear water flows endlessly, keeping your wisdom from drying up. ", "수":"completes an overwhelming embrace that swallows everything, like rivers gathering to form an ocean. " }
-        };
+// 🚨 [초정밀 서사 매트릭스 확장] 5(본질) × 5(보완) × 3(수리변수) = 75가지 고유 브릿지 생성!
+const corePoeticKo = {
+    "목": "곧게 뻗어 나가는 생명의 기운",
+    "화": "찬란하게 타오르는 열정의 불꽃",
+    "토": "만물을 품어 안는 평온한 대지",
+    "금": "서늘하고 예리하게 벼려진 결기",
+    "수": "고요하고 깊게 흐르는 지혜의 심연"
+};
 
-        let mechKo = "";
-        let mechEn = "";
-        const uniqueBoosted = [...new Set(boostedLogicKo)];
-        
-        uniqueBoosted.forEach(elChar => {
-            if(relationKo[coreElChar] && relationKo[coreElChar][elChar]) {
-                const elSymbolDisplay = displayElsKo[logicEls.indexOf(elChar)];
-                const elSymbolEn = elChar === '목' ? 'Wood' : elChar === '화' ? 'Fire' : elChar === '토' ? 'Earth' : elChar === '금' ? 'Metal' : 'Water';
-                
-                mechKo += `<b>${elSymbolDisplay}</b>는 ${relationKo[coreElChar][elChar]} `;
-                mechEn += `<b>${elSymbolEn}</b> ${relationEn[coreElChar][elChar]}`;
-            }
-        });
-
-        if (mechKo.length > 0) {
-            // 🚨 [어색한 '~의' 제거] ~이라는 운명공학적 테마가 완성되었습니다.
-            bridgeKo = `성명 속 <b>${boostedTextKo}</b>의 기운이 타고난 <b>${coreDisplay}</b>에 집중적으로 작용합니다. ${mechKo}<br>마침내 <b>${currentTheme}</b>이라는 운명공학적 테마를 완성합니다.`;
-            bridgeEn = `The vibration of your name is highly equipped with the energies of <b>${boostedTextEn}</b>. Acting directly upon your innate traits (<b>${elNamesEnForA[logicEls.indexOf(coreElChar)]}</b>), these vibrations elevate your strengths: ${mechEn}These precisely forged vibrations fuse with your innate energies to create the completed theme of <b>${currentTheme}</b>.`;
-        } else {
-            // 🚨 [어색한 '~의' 제거] ~이라는 운명공학적 테마를 완성합니다.
-            bridgeKo = `성명에는 <b>${boostedTextKo}</b>의 기운이 배치되어 강점을 드러냅니다. 소리의 파동이 탄생 에너지와 융합하여 <b>${currentTheme}</b>이라는 운명공학적 테마를 완성합니다.`;
-            bridgeEn = `The vibration of your name is equipped with the energies of <b>${boostedTextEn}</b>, refining your strengths. These vibrations fuse with your innate energies to create the completed theme of <b>${currentTheme}</b>.`;
-        }
+const synergyVariationsKo = {
+    "목": {
+        "목": ["거대한 숲을 이루듯 스케일을 끝없이 확장시키고,", "깊은 뿌리가 얽히며 태풍에도 무너지지 않는 연대를 완성하며,", "메마른 가지에 새싹을 틔워 폭발적인 성장의 기운을 불어넣고,"],
+        "화": ["잠재된 에너지를 태워 세상을 비추는 불꽃으로 뻗어 나가며,", "꽃을 활짝 피워내듯 내면에 갇힌 매력을 찬란하게 발산하고,", "폭발적인 열정을 땔감 삼아 한계 없는 도전을 이어가며,"],
+        "토": ["척박한 땅에 단단히 뿌리를 내려 흔들림 없는 제국을 건설하고,", "드넓은 영토를 장악하며 흔들리지 않는 삶의 기반을 완성하며,", "바람에 흔들리던 중심을 비옥한 대지 위에 무겁게 안착시키고,"],
+        "금": ["불필요한 잔가지를 예리하게 쳐내어 가장 완벽한 형태로 거듭나며,", "거친 야생성을 정교하게 다듬어 대체 불가능한 전문성을 완성하고,", "성장에만 쏠려있던 에너지를 날카롭게 통제하여 확실한 결실을 맺으며,"],
+        "수": ["메마른 영혼에 마르지 않는 지혜의 샘을 공급받아 생명력을 폭발시키니,", "정체된 생각의 흐름을 맑은 물결로 씻어내어 탁월한 유연성을 얻으며,", "시대의 가뭄 속에서도 결코 마르지 않는 통찰력의 수원을 확보하니,"]
+    },
+    "화": {
+        "목": ["꺼져가던 불씨에 무한한 연료를 공급받아 영원한 열정으로 타오르고,", "창조적인 아이디어의 땔감을 얻어 세상을 매료시킬 불꽃을 피워내며,", "목표를 향해 치솟는 불길이 되어 어떤 장애물도 거침없이 태워버리고,"],
+        "화": ["빛과 빛이 융합하여 누구도 감히 쳐다볼 수 없는 압도적인 스케일로 팽창하며,", "세상의 모든 어둠을 몰아내는 거대한 태양의 위엄을 갖추고,", "제어할 수 없는 열기들이 서로 뭉쳐 폭발적인 카리스마로 진화하며,"],
+        "토": ["통제 불능의 열기를 단단한 화덕에 가두어 현실적인 결과물로 구워내고,", "공허하게 흩어지던 에너지를 대지 위에 정착시켜 확실한 자산을 만들며,", "불안정하게 타오르던 감정을 묵직한 평정심으로 차분하게 덮어주니,"],
+        "금": ["거친 불길로 단단한 원석을 녹여 세상에서 가장 가치 있는 보석으로 제련하며,", "순간의 열정을 날카로운 집중력으로 응축시켜 완벽한 성과를 베어내고,", "뜨거운 감성과 서늘한 이성이 완벽한 온도를 이루어 절대적인 권위를 완성하니,"],
+        "수": ["통제 없이 폭주하던 화염을 냉철한 지혜로 제어하여 완벽한 조화를 이루고,", "뜨거운 열정과 차가운 이성이 태극처럼 맞물려 신비로운 매력을 발산하며,", "끓어오르는 욕망을 투명한 통찰력으로 식혀내어 치밀한 전략으로 승화시키니,"]
+    },
+    "토": {
+        "목": ["황량하던 대지 위에 무성한 생명력을 심어 만물을 길러내는 요람이 되고,", "잠들어 있던 땅의 잠재력이 깨어나 척박한 환경을 비옥한 기회의 땅으로 뒤바꾸며,", "굳어진 현실에 뚫고 올라오는 강한 의지를 부여하여 거대한 성장을 이루고,"],
+        "화": ["얼어붙은 차가운 땅에 따스한 온기를 불어넣어 만물이 소생하는 생기를 띠며,", "어두웠던 현실의 기반 위에 눈부신 조명이 켜져 세상의 주목을 한 몸에 받고,", "정체되어 있던 묵직한 에너지가 폭발적인 열정과 만나 활화산처럼 끓어오르니,"],
+        "토": ["대지와 대지가 만나 어떠한 지진에도 무너지지 않는 절대적인 철옹성을 구축하고,", "수많은 사람을 품어 안을 수 있는 우주적 스케일의 포용력을 완성하며,", "세상의 모든 풍파를 잠재우고 모든 것이 수렴되는 완벽한 평화를 이루니,"],
+        "금": ["평범한 흙 속에 감춰져 있던 빛나는 광맥을 캐내어 진정한 가치를 증명하고,", "무른 성정에 강철 같은 뼈대를 세워 흔들림 없는 단호한 원칙을 완성하며,", "넓기만 하던 시야에 날카로운 분석력을 더해 팩트로 세상을 제패하니,"],
+        "수": ["바싹 마른 흙을 부드럽게 적셔 어떠한 환경에도 유연하게 스며드는 처세술을 얻고,", "답답하게 막혀있던 고집이 지혜의 강물을 만나 매끄러운 소통의 흐름을 되찾으며,", "메마른 원칙주의에 촉촉한 공감 능력이 스며들어 만인의 마음을 사로잡으니,"]
+    },
+    "금": {
+        "목": ["차가운 칼날에 숲을 개척하는 거침없는 진취력이 더해져 목표를 단숨에 베어내고,", "예리한 이성에 생동감 넘치는 창의력이 깃들어 세상에 없던 혁신을 설계하며,", "얼어붙은 규율에 따뜻한 생명력이 스며들어 사람을 살리는 부드러운 권위로 거듭나니,"],
+        "화": ["차가운 강철이 뜨거운 열정을 만나 세상을 이롭게 할 정교한 명검으로 벼려지고,", "딱딱하게 굳어있던 매력에 불꽃이 튀어 누구도 거부할 수 없는 카리스마로 끓어오르며,", "잔혹한 원칙주의에 따스한 온기가 스며들어 대중을 이끄는 화려한 리더십으로 승화되니,"],
+        "토": ["흔들리던 칼날이 무거운 대지에 꽂히며 어떠한 시련에도 굴하지 않는 안정감을 얻고,", "날카로운 예민함을 묵직한 포용력으로 감싸 안아 흔들림 없는 신뢰의 탑을 쌓으며,", "가볍게 흩어지려던 결기가 단단한 기반을 만나 영원히 녹슬지 않는 제국을 건설하니,"],
+        "금": ["강철과 강철이 하나로 융합되어 누구의 공격도 허용하지 않는 절대적인 방어력을 완성하고,", "오차를 허용하지 않는 완벽주의가 극대화되어 시대를 초월하는 무결점의 성과를 이루며,", "세상의 모든 불순물을 쳐내고 가장 순수하고 단단한 진리만을 남기게 되니,"],
+        "수": ["찌르기만 하던 날카로운 칼날을 유연하게 씻어내어 베지 않고도 제압하는 지략을 얻고,", "차가운 금속의 성질이 맑은 통찰력을 만나 세상을 꿰뚫어 보는 혜안으로 빛나며,", "날 선 긴장감이 지혜의 심연 속으로 녹아들어 모든 것을 포용하는 여유로움을 완성하니,"]
+    },
+    "수": {
+        "목": ["고여 있던 깊은 물결이 나무의 뿌리를 타고 솟구쳐 세상을 윤택하게 적시는 창조력을 얻고,", "어두운 심연에 머물던 지혜가 세상 밖으로 뻗어 나가 만물을 기르는 생명수로 진화하며,", "방황하던 생각의 흐름이 단단한 나무라는 목표를 만나 폭발적인 성장 궤도에 진입하니,"],
+        "화": ["빛이 들지 않던 차가운 바다에 태양이 비추어 겉과 속이 완벽하게 조화된 매력으로 빛나고,", "차가운 이성과 뜨거운 감정이 태극처럼 맞물려 누구도 흉내 낼 수 없는 마력을 발산하며,", "냉소적이던 심연에 열정의 불씨가 떨어져 세상을 뒤흔들 거대한 수증기의 폭발을 일으키니,"],
+        "토": ["범람하여 흩어지려던 생각의 파도를 정교한 제방으로 제어하여 가장 이로운 방향으로 통제하고,", "목적 없이 흐르던 지혜가 단단한 현실의 기반을 만나 막대한 부를 창출하는 자산으로 굳어지며,", "끝없이 흔들리던 유연함에 묵직한 무게감이 더해져 어떠한 위기에도 동요하지 않는 평정심을 얻으니,"],
+        "금": ["수원이 말라가던 지혜의 샘에 영원히 맑은 물을 뿜어내는 단단한 암반을 얻게 되고,", "흐려졌던 직관에 날카로운 논리의 필터가 더해져 세상의 불순물을 완벽하게 걸러내며,", "끝없는 사색에 결단력이라는 칼날이 장착되어 망설임 없이 정답을 베어내는 천재성을 완성하니,"],
+        "수": ["강물과 강물이 모여 바다를 이루듯 압도적인 스케일로 세상의 모든 지식을 집어삼키고,", "한계를 알 수 없는 깊은 심연이 형성되어 타인의 속마음을 완벽하게 꿰뚫어 보는 통찰을 얻으며,", "어떠한 틀에도 갇히지 않는 궁극의 유연성으로 시대의 모든 흐름을 자신의 것으로 융화시키니,"]
     }
+};
 
-    const blockA = currentLang === 'ko' ? bridgeKo : bridgeEn + "\n";
+const varNum = num81 % 3; // 3가지 서사 패턴 중 하나를 사용자의 이름 수리에 따라 다르게 선택
+const uniqueBoosted = [...new Set(boostedLogicKo)];
+let synergyStoryKo = "";
+
+// 사용자의 이름에 여러 기운이 보충되었다면, 75개의 블록 중 고유한 서사들을 꺼내 자연스럽게 연결합니다.
+uniqueBoosted.forEach((el) => {
+    if(synergyVariationsKo[coreElChar] && synergyVariationsKo[coreElChar][el]) {
+        synergyStoryKo += synergyVariationsKo[coreElChar][el][varNum] + " ";
+    }
+});
+
+// 자연스러운 문맥을 위한 최종 어법 정리 (isWeakBoosted 여부 무관)
+if (uniqueBoosted.length > 0) {
+    bridgeKo = `당신이 타고난 <b>${corePoeticKo[coreElChar]}</b> 위로 성명 속 <b>${boostedTextKo}</b> 기운이 스며듭니다. ${synergyStoryKo}이 순환의 에너지가 마침내 <b>${currentTheme}</b>이라는 당신만의 운명을 찬란하게 꽃피웁니다.`;
+    bridgeEn = `The energies of <b>${boostedTextEn}</b> from your name gracefully settle upon your innate <b>${elNamesEnForA[dmIdx_A]}</b> essence. This harmonious cycle activates your inner potential, ultimately blooming your unique destiny as <b>${currentTheme}</b>.`;
+} else {
+    bridgeKo = `당신이 타고난 <b>${corePoeticKo[coreElChar]}</b>의 파동이 성명 에너지와 깊게 공명합니다. 본질을 지키며 운명을 개척하는 힘이 응축되어, 마침내 <b>${currentTheme}</b>이라는 독보적인 정체성을 완성합니다.`;
+    bridgeEn = `Your innate <b>${elNamesEnForA[dmIdx_A]}</b> essence resonates deeply with your name's vibration. This strengthened internal force completes your unique identity as <b>${currentTheme}</b>.`;
+}
+
+const blockA = currentLang === 'ko' ? bridgeKo : bridgeEn + "\n";
 
     let top5Idx_C = finalBottomIdx;
     const yangStems = ["gap", "byeong", "mu", "gyeong", "im"]; 
